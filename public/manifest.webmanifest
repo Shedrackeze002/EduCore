@@ -1,0 +1,10 @@
+{
+  "name": "EduCore",
+  "short_name": "EduCore",
+  "description": "Mastery-based mathematics for teachers and students.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#6a43e3",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

@@ -1,0 +1,281 @@
+@import 'katex/dist/katex.min.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Every color is a semantic role; dark mode redefines the roles.
+   Mastery ramp (m1–m4) is a validated single-hue ordinal ramp (light→dark in
+   light mode, dark→light in dark mode); m0 is the neutral "not started" state.
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --canvas: 246 247 251;
+  --surface: 255 255 255;
+  --surface-2: 243 244 249;
+  --surface-3: 233 235 243;
+  --line: 226 229 238;
+  --line-strong: 204 209 223;
+  --ink: 17 22 38;
+  --ink-2: 70 79 102;
+  --ink-3: 113 122 145;
+
+  --brand: 106 67 227;
+  --brand-50: 245 243 255;
+  --brand-100: 236 232 255;
+  --brand-200: 218 210 255;
+  --brand-300: 188 173 255;
+  --brand-400: 155 128 251;
+  --brand-500: 124 92 242;
+  --brand-600: 106 67 227;
+  --brand-700: 89 51 196;
+  --brand-800: 74 43 160;
+  --brand-900: 61 39 128;
+  --brand-ink: 255 255 255;
+
+  --good: 12 140 74;
+  --good-soft: 222 247 232;
+  --good-ink: 10 98 54;
+  --warn: 214 138 0;
+  --warn-soft: 255 244 214;
+  --warn-ink: 133 77 0;
+  --bad: 208 59 59;
+  --bad-soft: 254 230 230;
+  --bad-ink: 150 30 30;
+  --info: 42 120 214;
+  --info-soft: 226 238 252;
+  --info-ink: 22 76 145;
+
+  --accent: 235 104 52;
+  --series-1: 106 67 227;
+  --m0: 229 231 238;
+  --m1: 134 182 239;
+  --m2: 57 135 229;
+  --m3: 28 92 171;
+  --m4: 13 54 107;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --canvas: 11 13 22;
+    --surface: 19 22 35;
+    --surface-2: 26 30 47;
+    --surface-3: 36 41 61;
+    --line: 42 48 70;
+    --line-strong: 62 70 98;
+    --ink: 236 238 247;
+    --ink-2: 178 185 205;
+    --ink-3: 130 139 163;
+    --brand: 155 128 251;
+    --brand-50: 28 24 52;
+    --brand-100: 37 31 70;
+    --brand-200: 52 43 100;
+    --brand-300: 79 62 150;
+    --brand-400: 112 88 210;
+    --brand-500: 138 112 245;
+    --brand-600: 155 128 251;
+    --brand-700: 188 173 255;
+    --brand-800: 218 210 255;
+    --brand-900: 236 232 255;
+    --brand-ink: 16 12 40;
+    --good: 52 199 120;
+    --good-soft: 16 48 33;
+    --good-ink: 134 230 172;
+    --warn: 250 178 25;
+    --warn-soft: 56 42 10;
+    --warn-ink: 255 214 120;
+    --bad: 240 98 98;
+    --bad-soft: 60 22 26;
+    --bad-ink: 255 170 170;
+    --info: 85 152 231;
+    --info-soft: 20 38 66;
+    --info-ink: 158 197 244;
+    --accent: 217 89 38;
+    --series-1: 138 112 245;
+    --m0: 40 46 68;
+    --m1: 24 79 149;
+    --m2: 42 120 214;
+    --m3: 85 152 231;
+    --m4: 158 197 244;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: 11 13 22;
+  --surface: 19 22 35;
+  --surface-2: 26 30 47;
+  --surface-3: 36 41 61;
+  --line: 42 48 70;
+  --line-strong: 62 70 98;
+  --ink: 236 238 247;
+  --ink-2: 178 185 205;
+  --ink-3: 130 139 163;
+  --brand: 155 128 251;
+  --brand-50: 28 24 52;
+  --brand-100: 37 31 70;
+  --brand-200: 52 43 100;
+  --brand-300: 79 62 150;
+  --brand-400: 112 88 210;
+  --brand-500: 138 112 245;
+  --brand-600: 155 128 251;
+  --brand-700: 188 173 255;
+  --brand-800: 218 210 255;
+  --brand-900: 236 232 255;
+  --brand-ink: 16 12 40;
+  --good: 52 199 120;
+  --good-soft: 16 48 33;
+  --good-ink: 134 230 172;
+  --warn: 250 178 25;
+  --warn-soft: 56 42 10;
+  --warn-ink: 255 214 120;
+  --bad: 240 98 98;
+  --bad-soft: 60 22 26;
+  --bad-ink: 255 170 170;
+  --info: 85 152 231;
+  --info-soft: 20 38 66;
+  --info-ink: 158 197 244;
+  --accent: 217 89 38;
+  --series-1: 138 112 245;
+  --m0: 40 46 68;
+  --m1: 24 79 149;
+  --m2: 42 120 214;
+  --m3: 85 152 231;
+  --m4: 158 197 244;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+  ::selection {
+    background: rgb(var(--brand-200));
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand-500));
+    outline-offset: 2px;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-card;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[15px] text-ink placeholder:text-ink-3 transition focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15 disabled:bg-surface-2 disabled:text-ink-3;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink-2;
+  }
+  .kbd {
+    @apply rounded-md border border-line-strong bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] text-ink-2;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Rich text (lesson prose, prompts, solutions)
+--------------------------------------------------------------------------- */
+.prose-edu {
+  @apply text-[16px] leading-[1.7] text-ink;
+}
+.prose-edu > * + * {
+  margin-top: 0.85em;
+}
+.prose-edu p {
+  margin: 0;
+}
+.prose-edu p + p {
+  margin-top: 0.85em;
+}
+.prose-edu strong {
+  @apply font-semibold text-ink;
+}
+.prose-edu a {
+  @apply font-medium text-brand underline decoration-brand/40 underline-offset-2 hover:decoration-brand;
+}
+.prose-edu ul {
+  @apply list-disc space-y-1 pl-5;
+}
+.prose-edu ol {
+  @apply list-decimal space-y-1 pl-5;
+}
+.prose-edu li::marker {
+  color: rgb(var(--ink-3));
+}
+.prose-edu h3 {
+  @apply mt-6 text-lg font-semibold;
+}
+.prose-edu h4 {
+  @apply mt-4 font-semibold;
+}
+.prose-edu code {
+  @apply rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[0.88em] text-brand-700;
+}
+.prose-edu table {
+  @apply my-2 w-full border-separate border-spacing-0 overflow-hidden rounded-xl border border-line text-[15px];
+}
+.prose-edu th {
+  @apply bg-surface-2 px-3 py-2 text-left font-semibold text-ink-2;
+}
+.prose-edu td {
+  @apply border-t border-line px-3 py-2 align-top;
+}
+.prose-edu .katex-display {
+  @apply my-3 overflow-x-auto overflow-y-hidden py-1;
+}
+.prose-edu .katex {
+  font-size: 1.07em;
+}
+.prose-inline p {
+  display: inline;
+}
+.table-wrap {
+  @apply -mx-1 overflow-x-auto px-1;
+}
+
+/* Figures */
+.figure-svg text {
+  font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+  fill: rgb(var(--ink));
+}
+.figure-svg .fig-muted {
+  fill: rgb(var(--ink-3));
+}
+
+/* Print: login cards and reports */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

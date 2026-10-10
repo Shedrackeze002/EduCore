@@ -204,7 +204,7 @@ export function analyzeClass(ctx: ClassContext): InsightData {
         studentIds: s.struggling,
         questionCount: 8,
         dueInDays: 3,
-        rationale: `${s.struggling.length} students are struggling with this skill. Targeted practice with hints and worked solutions.`,
+        rationale: `${s.struggling.length} ${s.struggling.length === 1 ? 'student is' : 'students are'} struggling with this skill. Targeted practice with hints and worked solutions.`,
       }),
     );
   }
@@ -217,7 +217,7 @@ export function analyzeClass(ctx: ClassContext): InsightData {
         studentIds: flyers.map((f) => f.id),
         questionCount: 6,
         dueInDays: 5,
-        rationale: `${flyers.length} students are secure on all practised skills and ready for harder, mixed problems.`,
+        rationale: `${flyers.length === 1 ? 'One student is' : `${flyers.length} students are`} secure on all practised skills and ready for harder, mixed problems.`,
       }),
     );
   }
@@ -241,9 +241,9 @@ export function analyzeClass(ctx: ClassContext): InsightData {
   const avg = Math.round(ctx.students.reduce((sum, s) => sum + s.coursePercent, 0) / Math.max(1, ctx.students.length));
   const riskLevel: InsightData['riskLevel'] = reteach.length >= 2 || atRisk.length / Math.max(1, ctx.studentCount) > 0.3 ? 'at_risk' : reteach.length || atRisk.length ? 'watch' : 'on_track';
   const headline = reteach.length
-    ? `${reteach[0].name} is the class’s biggest gap — ${reteach[0].struggling.length} students are struggling.`
+    ? `${reteach[0].name} is the class’s biggest gap — ${reteach[0].struggling.length} ${reteach[0].struggling.length === 1 ? 'student is' : 'students are'} struggling.`
     : atRisk.length
-      ? `Most students are progressing; ${atRisk.length} need a check-in.`
+      ? `Most students are progressing; ${atRisk.length} ${atRisk.length === 1 ? 'needs' : 'need'} a check-in.`
       : `The class is on track with an average of ${avg}% course mastery.`;
   const summary = [
     `${active} of ${ctx.studentCount} students have practised recently; average course mastery is ${avg}%.`,

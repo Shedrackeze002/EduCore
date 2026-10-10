@@ -1,0 +1,228 @@
+import { useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import { ChevronLeft, ChevronRight, Clock, Eye, Lightbulb, Send } from 'lucide-react';
+import { isQuestionType, itemFromRef } from '@engine/assemble.ts';
+import { api } from '@/data/index.ts';
+import { qk, useAssignment, useProfile, useRoster, useSubmission, useSubmissions } from '@/data/hooks.ts';
+import type { Assignment, Submission } from '@/data/types.ts';
+import { Avatar, Badge, Button, Card, CardBody, EmptyState, PageHeader, PageSpinner, Textarea, useToast } from '@/components/ui/index.ts';
+import { ReviewList } from '@/components/question/ReviewList.tsx';
+import { fmtDateTime } from '@/lib/dates.ts';
+import { cn } from '@/lib/cn.ts';
+import { scoreCell, useClassId } from './shared.tsx';
+
+export default function SubmissionReview() {
+  const classId = useClassId();
+  const { submissionId = '' } = useParams();
+  const sub = useSubmission(submissionId);
+  const a = useAssignment(sub.data?.assignmentId ?? undefined);
+  const student = useProfile(sub.data?.studentId);
+  const siblings = useSubmissions({ assignmentId: sub.data?.assignmentId ?? undefined }, !!sub.data?.assignmentId);
+  const roster = useRoster(classId);
+  const navigate = useNavigate();
+
+  const order = useMemo(() => {
+    const names = new Map((roster.data ?? []).map((p) => [p.id, p.fullName]));
+    return (siblings.data ?? [])
+      .filter((s) => s.status !== 'in_progress')
+      .sort((x, y) => (y.pendingManual > 0 ? 1 : 0) - (x.pendingManual > 0 ? 1 : 0) || (names.get(x.studentId) ?? '').localeCompare(names.get(y.studentId) ?? '') || x.attempt - y.attempt);
+  }, [siblings.data, roster.data]);
+
+  if (sub.isLoading || (sub.data?.assignmentId && a.isLoading)) return <PageSpinner />;
+  if (!sub.data) return <EmptyState title="Submission not found" />;
+  const s = sub.data;
+  const idx = order.findIndex((x) => x.id === s.id);
+  const prev = idx > 0 ? order[idx - 1] : null;
+  const next = idx >= 0 && idx < order.length - 1 ? order[idx + 1] : null;
+  const timeMs = Object.values(s.responses).reduce((t, r) => t + (r.timeMs ?? 0), 0);
+  const hints = Object.values(s.responses).reduce((t, r) => t + (r.hintsUsed ?? 0), 0);
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        back={a.data ? { to: `/t/c/${classId}/assignments/${a.data.id}`, label: a.data.title } : { to: `/t/c/${classId}`, label: 'Overview' }}
+        title={
+          <span className="flex items-center gap-3">
+            <Avatar name={student.data?.fullName ?? '?'} color={student.data?.avatarColor} size={40} />
+            {student.data?.fullName ?? 'Student'}
+          </span>
+        }
+        subtitle={
+          <span className="flex flex-wrap items-center gap-2">
+            <span>Attempt {s.attempt}</span>
+            <span>·</span>
+            <span>{s.submittedAt ? `Submitted ${fmtDateTime(s.submittedAt)}` : 'In progress'}</span>
+            {s.late && <Badge tone="warn">Late</Badge>}
+            {s.status === 'returned' && <Badge tone="good">Returned</Badge>}
+          </span>
+        }
+        actions={
+          order.length > 1 && (
+            <div className="flex items-center gap-1">
+              <Button variant="secondary" size="sm" disabled={!prev} onClick={() => prev && navigate(`/t/c/${classId}/submissions/${prev.id}`)} icon={<ChevronLeft className="h-4 w-4" />}>
+                Previous
+              </Button>
+              <span className="px-2 text-sm text-ink-3">
+                {idx + 1} of {order.length}
+              </span>
+              <Button variant="secondary" size="sm" disabled={!next} onClick={() => next && navigate(`/t/c/${classId}/submissions/${next.id}`)}>
+                Next <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )
+        }
+      />
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+        <div className="min-w-0 space-y-4">
+          {s.items.length === 0 ? (
+            <Card>
+              <CardBody className="text-ink-2">{a.data && !isQuestionType(a.data.type) ? 'The student marked this as complete.' : 'No questions in this submission.'}</CardBody>
+            </Card>
+          ) : (
+            <ReviewList
+              key={s.id}
+              items={s.items}
+              responses={s.responses}
+              content={a.data?.content ?? { sections: [], custom: [] }}
+              assignmentId={a.data?.id ?? 'practice'}
+              renderExtra={(i) => (a.data ? <ManualGrader key={`${s.id}-${i}`} s={s} a={a.data} index={i} /> : null)}
+            />
+          )}
+        </div>
+        <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          <Card className="p-5">
+            <div className="flex items-end justify-between">
+              <div>
+                <div className="text-sm text-ink-3">Score</div>
+                <div className="mt-1 font-display text-4xl font-semibold">{s.percent !== null ? `${Math.round(s.percent)}%` : '—'}</div>
+              </div>
+              {s.maxScore ? (
+                <div className={cn('rounded-lg px-2.5 py-1 text-sm font-semibold', scoreCell(s.percent))}>
+                  {Math.round((s.score ?? 0) * 10) / 10} / {s.maxScore}
+                </div>
+              ) : null}
+            </div>
+            {s.pendingManual > 0 && <p className="mt-3 rounded-lg bg-warn-soft px-3 py-2 text-sm text-warn-ink">{s.pendingManual} written response{s.pendingManual === 1 ? '' : 's'} to grade.</p>}
+            <dl className="mt-4 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <dt className="flex items-center gap-1.5 text-ink-3">
+                  <Clock className="h-4 w-4" /> Time on task
+                </dt>
+                <dd className="font-medium">{timeMs ? `${Math.max(1, Math.round(timeMs / 60000))} min` : '—'}</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="flex items-center gap-1.5 text-ink-3">
+                  <Lightbulb className="h-4 w-4" /> Hints used
+                </dt>
+                <dd className="font-medium">{hints}</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="flex items-center gap-1.5 text-ink-3">
+                  <Eye className="h-4 w-4" /> Left the tab
+                </dt>
+                <dd className="font-medium">{s.integrity?.blurCount ?? 0}×</dd>
+              </div>
+            </dl>
+          </Card>
+          {s.status !== 'in_progress' && <FeedbackCard key={s.id} s={s} />}
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+function ManualGrader({ s, a, index }: { s: Submission; a: Assignment; index: number }) {
+  const item = itemFromRef(s.items[index], a.content, a.id);
+  const resp = s.responses[index];
+  const [score, setScore] = useState<number | null>(resp?.manualScore ?? null);
+  const [comment, setComment] = useState(resp?.comment ?? '');
+  const [busy, setBusy] = useState(false);
+  const qc = useQueryClient();
+  const toast = useToast();
+  if (!item || !item.parts.some((p) => p.answer.kind === 'manual')) return null;
+  const pts = item.points ?? 1;
+  const steps = pts <= 4 ? Array.from({ length: pts * 2 + 1 }, (_, i) => i / 2) : Array.from({ length: pts + 1 }, (_, i) => i);
+  return (
+    <div className="space-y-3 rounded-xl border border-brand-200 bg-brand-50/40 p-4">
+      <div className="text-sm font-semibold">Your grade</div>
+      <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Points">
+        {steps.map((p) => (
+          <button
+            key={p}
+            type="button"
+            role="radio"
+            aria-checked={score !== null && Math.abs(score * pts - p) < 1e-6}
+            onClick={() => setScore(p / pts)}
+            className={cn('h-9 min-w-[2.75rem] rounded-lg border px-2 text-sm font-semibold transition', score !== null && Math.abs(score * pts - p) < 1e-6 ? 'border-brand bg-brand text-brand-ink' : 'border-line bg-surface hover:border-line-strong')}
+          >
+            {p}
+          </button>
+        ))}
+        <span className="self-center pl-1 text-sm text-ink-3">/ {pts}</span>
+      </div>
+      <Textarea rows={2} placeholder="Comment for the student (optional)" value={comment} onChange={(e) => setComment(e.target.value)} />
+      <div className="flex justify-end">
+        <Button
+          size="sm"
+          disabled={score === null}
+          loading={busy}
+          onClick={async () => {
+            if (score === null) return;
+            setBusy(true);
+            try {
+              const updated = await api().gradeManual(s.id, index, score, comment.trim() || undefined);
+              qc.setQueryData(qk.submission(s.id), updated);
+              await qc.invalidateQueries({ queryKey: ['submissions'] });
+              toast({ kind: 'success', title: 'Grade saved' });
+            } catch (e) {
+              toast({ kind: 'error', title: 'Could not save', body: (e as Error).message });
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          Save grade
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function FeedbackCard({ s }: { s: Submission }) {
+  const [text, setText] = useState(s.feedback ?? '');
+  const [busy, setBusy] = useState(false);
+  const qc = useQueryClient();
+  const toast = useToast();
+  return (
+    <Card className="p-5">
+      <div className="text-sm font-semibold">Feedback</div>
+      <p className="mt-0.5 text-xs text-ink-3">Returning the work notifies the student with your message.</p>
+      <Textarea className="mt-3" rows={4} placeholder="What went well, and one thing to work on…" value={text} onChange={(e) => setText(e.target.value)} />
+      <Button
+        className="mt-3 w-full"
+        icon={<Send className="h-4 w-4" />}
+        loading={busy}
+        disabled={s.pendingManual > 0}
+        title={s.pendingManual > 0 ? 'Grade the written responses first' : undefined}
+        onClick={async () => {
+          setBusy(true);
+          try {
+            const updated = await api().returnSubmission(s.id, text.trim());
+            qc.setQueryData(qk.submission(s.id), updated);
+            await qc.invalidateQueries({ queryKey: ['submissions'] });
+            toast({ kind: 'success', title: 'Returned to the student' });
+          } catch (e) {
+            toast({ kind: 'error', title: 'Could not return', body: (e as Error).message });
+          } finally {
+            setBusy(false);
+          }
+        }}
+      >
+        {s.status === 'returned' ? 'Update and return again' : 'Return to student'}
+      </Button>
+    </Card>
+  );
+}
+

@@ -166,6 +166,12 @@ export interface StoredResponse {
   at?: string;
   /** Manual (teacher) score for 'manual' items, 0..1 */
   manualScore?: number | null;
+  /** Teacher comment on this item. */
+  comment?: string | null;
+  /** The student checked this answer (instant-feedback mode); it is locked. */
+  checked?: boolean;
+  /** Earlier tries on this slot when the student asked for a similar question. */
+  history?: Array<{ ref: ItemRef; answers: string[]; hintsUsed: number }>;
 }
 
 export interface GradedItem {

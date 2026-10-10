@@ -1,0 +1,83 @@
+import { useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { GraduationCap, Presentation } from 'lucide-react';
+import { api } from '@/data/index.ts';
+import type { Role } from '@/data/types.ts';
+import { useAuth } from './AuthProvider.tsx';
+import { Button, Input } from '@/components/ui/index.ts';
+import { AuthLayout } from './AuthLayout.tsx';
+import { cn } from '@/lib/cn.ts';
+
+export default function SignupPage() {
+  const [params] = useSearchParams();
+  const [role, setRole] = useState<Role>(params.get('role') === 'teacher' ? 'teacher' : 'student');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [joinCode, setJoinCode] = useState((params.get('code') ?? '').toUpperCase().slice(0, 8));
+  const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+
+  const submit = async () => {
+    setBusy(true);
+    setError(null);
+    setInfo(null);
+    try {
+      const u = await api().signUp({ fullName, email, password, role, joinCode: role === 'student' ? joinCode : undefined });
+      setUser(u);
+      navigate(u.role === 'teacher' ? '/t' : '/s', { replace: true });
+    } catch (e) {
+      const msg = (e as Error).message;
+      if (msg.startsWith('Account created')) setInfo(msg);
+      else setError(msg);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <AuthLayout title="Create your account" subtitle="Teachers set up classes; students join with a class code.">
+      <div className="mb-5 grid grid-cols-2 gap-2 rounded-2xl bg-surface-2 p-1.5">
+        {(
+          [
+            ['student', 'I’m a student', GraduationCap],
+            ['teacher', 'I’m a teacher', Presentation],
+          ] as const
+        ).map(([r, label, Icon]) => (
+          <button key={r} type="button" onClick={() => setRole(r)} className={cn('flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition', role === r ? 'bg-surface text-ink shadow-card' : 'text-ink-3 hover:text-ink')}>
+            <Icon className="h-4 w-4" />
+            {label}
+          </button>
+        ))}
+      </div>
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void submit();
+        }}
+      >
+        <Input label="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} required autoComplete="name" />
+        <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
+        <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} autoComplete="new-password" hint="At least 6 characters." />
+        {role === 'student' && (
+          <Input label="Class code" value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="e.g. MATH10" hint="Ask your teacher for the 6-character code. You can also join later." className="[&_input]:font-mono [&_input]:uppercase [&_input]:tracking-widest" />
+        )}
+        {error && <p className="rounded-xl bg-bad-soft px-3 py-2 text-sm text-bad-ink">{error}</p>}
+        {info && <p className="rounded-xl bg-good-soft px-3 py-2 text-sm text-good-ink">{info}</p>}
+        <Button type="submit" className="w-full" size="lg" loading={busy}>
+          Create account
+        </Button>
+      </form>
+      <p className="mt-6 text-center text-sm text-ink-3">
+        Already have an account?{' '}
+        <Link to="/login" className="font-semibold text-brand hover:underline">
+          Sign in
+        </Link>
+      </p>
+    </AuthLayout>
+  );
+}
