@@ -169,7 +169,7 @@ export async function buildSeed(): Promise<DemoDB> {
         section: 'Block A',
         courseId: 'math-10c',
         joinCode: 'MATH10',
-        settings: { reminderHours: [24, 2], aiAutopilot: false, emailReminders: false },
+        settings: { reminderHours: [24, 2], aiAutopilot: false, emailReminders: false, timezone: 'America/Edmonton' },
         createdAt: iso(-40),
         archived: false,
       },

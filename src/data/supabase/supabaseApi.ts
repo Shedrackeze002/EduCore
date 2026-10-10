@@ -7,7 +7,7 @@
  */
 import { createClient, type SupabaseClient, type RealtimeChannel } from '@supabase/supabase-js';
 import { freshSeed } from '@engine/rng.ts';
-import { buildItemRefs, isQuestionType, type StoredResponse } from '@engine/assemble.ts';
+import { isQuestionType, type StoredResponse } from '@engine/assemble.ts';
 import type { AiConfigStatus, DataApi, SignUpInput } from '../api.ts';
 import type { AppNotification, Assignment, ClassSettings, Insight, ItemRef, NewStudentCredential, Profile, ProposedAction, Resource, Submission } from '../types.ts';
 import {
@@ -25,6 +25,14 @@ import {
   toSubmission,
 } from './mappers.ts';
 import { STUDENT_EMAIL_DOMAIN } from '@/config.ts';
+
+function browserTimeZone(): string {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Edmonton';
+  } catch {
+    return 'America/Edmonton';
+  }
+}
 
 function fail(error: { message: string } | null): void {
   if (error) throw new Error(error.message);
@@ -166,7 +174,11 @@ export class SupabaseApi implements DataApi {
 
   async createClass(input: { name: string; section?: string | null; courseId: string }) {
     const id = await this.uid();
-    const { data, error } = await this.client.from('classes').insert({ teacher_id: id, name: input.name.trim(), section: input.section?.trim() || null, course_id: input.courseId }).select().single();
+    const { data, error } = await this.client
+      .from('classes')
+      .insert({ teacher_id: id, name: input.name.trim(), section: input.section?.trim() || null, course_id: input.courseId, settings: { timezone: browserTimeZone() } })
+      .select()
+      .single();
     fail(error);
     return toClass(data);
   }
@@ -322,26 +334,9 @@ export class SupabaseApi implements DataApi {
   }
 
   async startSubmission(assignmentId: string) {
-    const me = await this.uid();
-    const a = await this.getAssignment(assignmentId);
-    if (!a) throw new Error('Assignment not found.');
-    const { data: existing, error: e1 } = await this.client.from('submissions').select('*').eq('assignment_id', assignmentId).eq('student_id', me);
-    fail(e1);
-    const subs = (existing ?? []).map(toSubmission);
-    const open = subs.find((s) => s.status === 'in_progress');
-    if (open) return open;
-    const done = subs.length;
-    if (a.settings.attempts && done >= a.settings.attempts) throw new Error('You have used all of your attempts.');
-    if (a.dueAt && new Date(a.dueAt) < new Date() && !a.allowLate) throw new Error('This assignment is closed.');
-    const seed = freshSeed();
-    const items = isQuestionType(a.type) ? buildItemRefs(a.content, seed) : [];
-    const { data, error } = await this.client
-      .from('submissions')
-      .insert({ assignment_id: a.id, class_id: a.classId, student_id: me, attempt: done + 1, status: 'in_progress', seed, items, responses: {} })
-      .select()
-      .single();
-    fail(error);
-    return toSubmission(data);
+    // The server picks the questions so attempts cannot be tailored by the browser.
+    const res = await this.invoke<{ submission: Record<string, unknown> }>('grade-submission', { action: 'start', assignmentId });
+    return toSubmission(res.submission);
   }
 
   async startPractice(classId: string, skillIds: string[]): Promise<Submission> {
@@ -459,7 +454,7 @@ export class SupabaseApi implements DataApi {
     let q = this.client.from('insights').select('*').eq('class_id', classId);
     if (studentId === null) q = q.is('student_id', null);
     else if (studentId) q = q.eq('student_id', studentId);
-    const { data, error } = await q.order('created_at', { ascending: false }).limit(30);
+    const { data, error } = await q.order('created_at', { ascending: false }).limit(studentId === undefined ? 300 : 30);
     fail(error);
     return (data ?? []).map(toInsight);
   }

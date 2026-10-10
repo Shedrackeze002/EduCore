@@ -23,6 +23,8 @@ export interface ClassSettings {
   aiAutopilot: boolean;
   /** Also send reminders by email (production only, requires an email provider). */
   emailReminders: boolean;
+  /** IANA time zone used for due times in notifications and emails. */
+  timezone?: string;
 }
 
 export interface ClassRoom {

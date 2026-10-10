@@ -1,0 +1,34 @@
+# Supabase CLI configuration for EduCore. See docs/SETUP.md.
+project_id = "educore"
+
+[api]
+port = 54321
+schemas = ["public"]
+max_rows = 5000
+
+[db]
+port = 54322
+major_version = 15
+
+[auth]
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173/**"]
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+
+# Every function authenticates the caller itself (or, for send-emails, checks the
+# cron secret), so the gateway JWT check is not needed.
+[functions.grade-submission]
+verify_jwt = false
+
+[functions.ai-agent]
+verify_jwt = false
+
+[functions.create-students]
+verify_jwt = false
+
+[functions.send-emails]
+verify_jwt = false

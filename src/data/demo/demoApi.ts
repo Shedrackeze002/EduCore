@@ -249,7 +249,7 @@ export class DemoApi implements DataApi {
       section: input.section?.trim() || null,
       courseId: input.courseId,
       joinCode: makeJoinCode(),
-      settings: { reminderHours: [24, 2], aiAutopilot: false, emailReminders: false },
+      settings: { reminderHours: [24, 2], aiAutopilot: false, emailReminders: false, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
       createdAt: nowIso(),
       archived: false,
     };
@@ -610,10 +610,12 @@ export class DemoApi implements DataApi {
     return { ...s };
   }
 
+  /** Tell the teacher about work that needs them: written answers to grade, or late work. */
   private afterSubmit(s: Submission, a: Assignment) {
+    if (!s.pendingManual && !s.late) return;
     const c = this.db.classes.find((x) => x.id === a.classId)!;
     const student = this.db.users.find((u) => u.id === s.studentId)!;
-    this.notify(c.teacherId, 'submission', `${student.fullName} submitted ${a.title}${s.late ? ' (late)' : ''}`, s.percent !== null && isQuestionType(a.type) ? `Score: ${Math.round(s.percent)}%${s.pendingManual ? ` · ${s.pendingManual} to grade` : ''}` : 'Completed.', `/t/c/${c.id}/assignments/${a.id}`, a.id);
+    this.notify(c.teacherId, 'submission', `${student.fullName} submitted ${a.title}${s.late ? ' (late)' : ''}`, s.percent !== null && isQuestionType(a.type) ? `Score: ${Math.round(s.percent)}%${s.pendingManual ? ` · ${s.pendingManual} to grade` : ''}` : 'Completed.', s.pendingManual ? `/t/c/${c.id}/submissions/${s.id}` : `/t/c/${c.id}/assignments/${a.id}`, a.id);
   }
 
   /** If autopilot is on, let the AI assistant assign targeted practice for a weak skill. */

@@ -5,12 +5,25 @@ import { Archive, Bell, Copy, KeyRound, RefreshCw, Settings2, Sparkles } from 'l
 import { DEFAULT_MODEL } from '@engine/ai/minimax.ts';
 import { api, demoApi } from '@/data/index.ts';
 import { qk, useAiStatus, useClass, useUpdateClass } from '@/data/hooks.ts';
-import { Button, Card, CardBody, CardHeader, Input, PageHeader, PageSpinner, Switch, useToast } from '@/components/ui/index.ts';
+import { Button, Card, CardBody, CardHeader, Input, PageHeader, PageSpinner, Select, Switch, useToast } from '@/components/ui/index.ts';
 import { cn } from '@/lib/cn.ts';
 import { joinLink } from './StudentsPage.tsx';
 import { useClassId } from './shared.tsx';
 
 const REMINDER_OPTIONS = [72, 48, 24, 12, 6, 2, 1];
+const COMMON_ZONES = ['America/St_Johns', 'America/Halifax', 'America/Toronto', 'America/Winnipeg', 'America/Regina', 'America/Edmonton', 'America/Vancouver', 'America/Whitehorse', 'UTC'];
+
+function timeZones(current?: string): string[] {
+  let all: string[] = [];
+  try {
+    all = (Intl as unknown as { supportedValuesOf?: (k: string) => string[] }).supportedValuesOf?.('timeZone') ?? [];
+  } catch {
+    all = [];
+  }
+  const local = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return [...new Set([...(current ? [current] : []), local, ...COMMON_ZONES, ...all])];
+}
+
 const hoursLabel = (h: number) => (h >= 24 ? `${h / 24} day${h === 24 ? '' : 's'}` : `${h} h`);
 
 export default function ClassSettingsPage() {
@@ -114,6 +127,19 @@ export default function ClassSettingsPage() {
               );
             })}
           </div>
+          <Select
+            label="Time zone"
+            hint="Used for due times in notifications and emails."
+            value={c.settings.timezone ?? 'America/Edmonton'}
+            onChange={(e) => update.mutate({ settings: { timezone: e.target.value } })}
+            className="max-w-sm"
+          >
+            {timeZones(c.settings.timezone).map((z) => (
+              <option key={z} value={z}>
+                {z.replace(/_/g, ' ')}
+              </option>
+            ))}
+          </Select>
           <Switch
             checked={c.settings.emailReminders}
             onChange={(emailReminders) => update.mutate({ settings: { emailReminders } })}
