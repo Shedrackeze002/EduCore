@@ -70,6 +70,10 @@ In GitHub, open **Settings → Secrets and variables → Actions → Variables**
 Re-run **Deploy to GitHub Pages** (Actions tab → Run workflow). The site now uses real accounts.
 Visitors can still open the demo from the sign-in page.
 
+This repository already contains `.env.production` with the values for its own Supabase
+project; repository variables with the same names take precedence, so a fork can point at its
+own project without editing files.
+
 ### 2.5 Turn on the AI assistant (MiniMax)
 
 The assistant works without a key using EduCore's offline analyst. For live analysis with
