@@ -1,0 +1,49 @@
+{
+  "name": "educore",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "EduCore — a mastery-based, AI-assisted mathematics learning platform for teachers and students.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build && node scripts/spa-fallback.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "sync:engine": "node scripts/sync-engine.mjs",
+    "functions:deploy": "node scripts/sync-engine.mjs && supabase functions deploy"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource-variable/lexend": "^5.2.5",
+    "@supabase/supabase-js": "^2.49.4",
+    "@tanstack/react-query": "^5.74.4",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "dompurify": "^3.2.5",
+    "katex": "^0.16.22",
+    "lucide-react": "^0.503.0",
+    "marked": "^15.0.11",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.5.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/dompurify": "^3.0.5",
+    "@types/katex": "^0.16.7",
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.23.15",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.4",
+    "vitest": "^3.1.2"
+  }
+}

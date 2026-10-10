@@ -1,0 +1,335 @@
+/**
+ * Core content types. Everything here is plain data so items can be generated,
+ * stored, regenerated on the server and rendered by the browser.
+ *
+ * Text fields are Markdown with inline LaTeX ($...$) and display LaTeX ($$...$$).
+ */
+
+export type Difficulty = 1 | 2 | 3;
+
+export interface Choice {
+  id: string;
+  /** Markdown + LaTeX */
+  md: string;
+  figure?: Figure;
+}
+
+export type LineForm = 'any' | 'slope-intercept' | 'slope-point' | 'general';
+
+export type ExprForm =
+  | 'any'
+  | 'expanded' // sum of simplified monomials, like terms combined
+  | 'factored' // fully factored over the integers
+  | 'gcf' // greatest common factor removed (inner polynomial primitive)
+  | 'simplified-radical' // a√b with b free of square (or cube) factors
+  | 'entire-radical' // √n
+  | 'positive-exponents' // simplified, no negative or zero exponents, each base once
+  | 'prime-factorization' // product of primes (powers allowed)
+  | 'radical-form' // written with a radical sign, no fractional exponents
+  | 'exponent-form'; // written with rational exponents, no radical sign
+
+export interface Line {
+  /** Ax + By + C = 0 */
+  A: number;
+  B: number;
+  C: number;
+}
+
+export type AnswerSpec =
+  | { kind: 'mc'; choices: Choice[]; correct: string; layout?: 'list' | 'grid' }
+  | { kind: 'multi'; choices: Choice[]; correct: string[]; layout?: 'list' | 'grid' }
+  | {
+      kind: 'numeric';
+      value: number;
+      /** Accept |answer - value| <= tolerance. Defaults are derived from `decimals`. */
+      tolerance?: number;
+      /** If set, the question asks for rounding to this many decimal places. */
+      decimals?: number;
+      /** Accept exact forms like 2sqrt(5), 3pi, 7/3. Default true when decimals is undefined. */
+      allowExpression?: boolean;
+      /** "undefined" is the correct answer (e.g. slope of a vertical line). */
+      undefinedValue?: boolean;
+      /** Unit label shown after the input box. */
+      unit?: string;
+    }
+  | { kind: 'expression'; expected: string; form?: ExprForm; positiveVars?: boolean; radicalIndex?: number }
+  | { kind: 'line'; line: Line; form: LineForm }
+  | { kind: 'equation-fn'; expected: string; variable: string; fnName: string }
+  | { kind: 'point'; x: number; y: number; tolerance?: number }
+  | { kind: 'graph-line'; line: Line; grid: GridSpec }
+  | { kind: 'graph-points'; points: Array<[number, number]>; grid: GridSpec }
+  | { kind: 'order'; items: Choice[]; correctOrder: string[] }
+  | { kind: 'text'; accepted: string[]; caseSensitive?: boolean }
+  | { kind: 'manual'; rubric?: string; maxPoints?: number };
+
+export interface Part {
+  /** Label shown before the input, e.g. "Slope", "x =" (Markdown + LaTeX). */
+  label?: string;
+  /** Short unit or text after the input, e.g. "cm²". */
+  suffix?: string;
+  answer: AnswerSpec;
+  /** Placeholder text inside the box. */
+  placeholder?: string;
+}
+
+export interface Item {
+  /** skillId:seed:difficulty, or custom:<assignmentId>:<index> */
+  id: string;
+  skillId: string;
+  difficulty: Difficulty;
+  prompt: string;
+  figure?: Figure;
+  parts: Part[];
+  hints: string[];
+  /** Worked solution, one step per entry. */
+  solution: string[];
+  /** Whether a calculator is reasonable for this item. */
+  calculator?: boolean;
+  /** Optional plain-language reference answer shown in review (Markdown + LaTeX). */
+  answerDisplay?: string;
+  points?: number;
+}
+
+/** A reference sufficient to regenerate an item exactly. */
+export type ItemRef =
+  | { skillId: string; seed: number; difficulty: Difficulty }
+  | { custom: number; seed?: number };
+
+export interface GridSpec {
+  xMin: number;
+  xMax: number;
+  yMin: number;
+  yMax: number;
+  step?: number;
+  xLabel?: string;
+  yLabel?: string;
+  /** Scale per grid line on each axis (for context graphs). */
+  xStep?: number;
+  yStep?: number;
+}
+
+// ---------------------------------------------------------------------------
+// Figures (rendered as SVG by the client)
+// ---------------------------------------------------------------------------
+
+export type Figure =
+  | RightTriangleFigure
+  | TwoTriangleFigure
+  | SolidFigure
+  | PlaneFigure
+  | NumberLineFigure
+  | RulerFigure
+  | CaliperFigure
+  | AreaModelFigure
+  | ArrowDiagramFigure
+  | TableFigure;
+
+export interface RightTriangleFigure {
+  type: 'rightTriangle';
+  /** Vertex names, right angle is at `right`. */
+  vertices: { right: string; a: string; b: string };
+  /** Leg lengths used for the drawn proportions (not necessarily labelled). */
+  legA: number; // leg from right-angle vertex to vertex a (drawn horizontal before rotation)
+  legB: number; // leg from right-angle vertex to vertex b (drawn vertical before rotation)
+  /** Labels on sides: 'ra' = side right→a, 'rb' = right→b, 'ab' = hypotenuse. */
+  sideLabels?: Partial<Record<'ra' | 'rb' | 'ab', string>>;
+  /** Angle labels at vertices a or b, e.g. { a: '35°' } or { b: 'θ' }. */
+  angleLabels?: Partial<Record<'a' | 'b', string>>;
+  /** 0-3 quarter turns and optional mirror so students cannot rely on orientation. */
+  rotate?: 0 | 1 | 2 | 3;
+  mirror?: boolean;
+  /** Optional scene decoration for applications. */
+  scene?: 'none' | 'ladder' | 'tree' | 'building' | 'ramp' | 'kite' | 'cliff';
+}
+
+export interface TwoTriangleFigure {
+  type: 'twoTriangles';
+  /** Shared vertical side (a tower/cliff) with observers on the same or opposite sides. */
+  arrangement: 'opposite' | 'same' | 'stacked';
+  labels: Partial<Record<string, string>>;
+}
+
+export type SolidShape =
+  | 'rectPrism'
+  | 'cube'
+  | 'triPrism'
+  | 'cylinder'
+  | 'cone'
+  | 'sphere'
+  | 'hemisphere'
+  | 'squarePyramid'
+  | 'rectPyramid'
+  | 'cylinderCone'
+  | 'cylinderHemisphere'
+  | 'capsule'
+  | 'cubePyramid'
+  | 'coneHemisphere'
+  | 'prismCylinderHole';
+
+export interface SolidFigure {
+  type: 'solid';
+  shape: SolidShape;
+  /** Free-form labels keyed by dimension name: r, d, h, s, l, w, b, hTri, h2 ... */
+  labels: Partial<Record<string, string>>;
+  /** Show the slant height / height lines. */
+  show?: Array<'h' | 's' | 'r' | 'd'>;
+}
+
+export interface PlanePoint {
+  x: number;
+  y: number;
+  label?: string;
+  color?: 'brand' | 'accent' | 'muted';
+  open?: boolean;
+}
+
+export interface PlaneLine {
+  /** Either a line through two points or Ax+By+C=0. */
+  through?: [[number, number], [number, number]];
+  line?: Line;
+  label?: string;
+  color?: 'brand' | 'accent' | 'muted';
+  dashed?: boolean;
+}
+
+export interface PlaneSegment {
+  from: [number, number];
+  to: [number, number];
+  color?: 'brand' | 'accent' | 'muted';
+  dashed?: boolean;
+  /** Arrowheads at the ends (for continuing graphs). */
+  arrowEnd?: boolean;
+  arrowStart?: boolean;
+  closedStart?: boolean;
+  closedEnd?: boolean;
+  openStart?: boolean;
+  openEnd?: boolean;
+}
+
+export interface PlaneFigure {
+  type: 'plane';
+  grid: GridSpec;
+  points?: PlanePoint[];
+  lines?: PlaneLine[];
+  segments?: PlaneSegment[];
+  /** Polyline graphs (e.g. distance-time). */
+  polylines?: Array<{ points: Array<[number, number]>; color?: 'brand' | 'accent' | 'muted'; label?: string }>;
+  /** Show rise/run triangle between two points. */
+  riseRun?: { from: [number, number]; to: [number, number] };
+  /** Hide numeric tick labels (for "describe the graph" questions). */
+  hideTickLabels?: boolean;
+  /** Label segments A, B, C ... at their midpoints. */
+  segmentLabels?: string[];
+  caption?: string;
+}
+
+export interface NumberLineFigure {
+  type: 'numberLine';
+  min: number;
+  max: number;
+  step?: number;
+  points?: Array<{ value: number; label: string }>;
+  ticksLabelled?: boolean;
+}
+
+export interface RulerFigure {
+  type: 'ruler';
+  system: 'metric' | 'imperial';
+  /** Ruler length in cm (metric) or inches (imperial). */
+  length: number;
+  /** Object start and end in the same units. */
+  start: number;
+  end: number;
+  /** Imperial division (8 or 16). */
+  division?: 8 | 16;
+}
+
+export interface CaliperFigure {
+  type: 'caliper';
+  /** Reading in mm, to 0.1 mm. */
+  reading: number;
+}
+
+export interface AreaModelFigure {
+  type: 'areaModel';
+  /** Terms along the top and side (LaTeX). */
+  top: string[];
+  side: string[];
+  /** Cell contents (LaTeX), row-major; use '?' to hide. */
+  cells?: string[][];
+}
+
+export interface ArrowDiagramFigure {
+  type: 'arrowDiagram';
+  leftTitle?: string;
+  rightTitle?: string;
+  left: string[];
+  right: string[];
+  arrows: Array<[number, number]>;
+}
+
+export interface TableFigure {
+  type: 'table';
+  headers: string[];
+  rows: string[][];
+  /** Render horizontally (x row, y row). */
+  horizontal?: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Curriculum structure
+// ---------------------------------------------------------------------------
+
+export interface Outcome {
+  code: string; // e.g. "M1"
+  strand: string; // e.g. "Measurement"
+  text: string;
+}
+
+export interface SkillDef {
+  id: string;
+  name: string;
+  /** One-sentence description of what mastery looks like. */
+  description: string;
+  outcomes: string[];
+  lessonId: string;
+  /** Typical question format, used for BKT guess parameter. */
+  format: 'mc' | 'free';
+  generate: (seed: number, difficulty: Difficulty) => Item;
+  /** Calculator expected. */
+  calculator?: boolean;
+}
+
+export interface LessonMeta {
+  id: string;
+  unitId: string;
+  number: string; // "1.3"
+  title: string;
+  outcomes: string[];
+  skills: string[];
+  objectives: string[];
+  minutes: number;
+  vocabulary?: string[];
+}
+
+export interface UnitMeta {
+  id: string;
+  number: number;
+  title: string;
+  description: string;
+  outcomes: string[];
+  lessons: string[];
+  color: string; // tailwind hue name for decoration
+}
+
+export interface CourseMeta {
+  id: string;
+  title: string;
+  shortTitle: string;
+  grade: number;
+  subject: string;
+  description: string;
+  outcomes: Outcome[];
+  units: UnitMeta[];
+  lessons: LessonMeta[];
+}
