@@ -4,6 +4,12 @@
  *  - SupabaseApi: real multi-user backend (Postgres + Auth + Edge Functions + cron).
  */
 import type {
+  AdminAuditEntry,
+  AdminClassRow,
+  AdminOverview,
+  AdminUserFilter,
+  AdminUserRow,
+  PlatformSettings,
   Announcement,
   AppNotification,
   Assignment,
@@ -106,4 +112,18 @@ export interface DataApi {
 
   /** Demo only: run the scheduler (deadline reminders). Supabase runs this on a cron. */
   runScheduledJobs(): Promise<void>;
+
+  // Platform administration (platform administrators only; every change is audited)
+  signupConfig(): Promise<PlatformSettings>;
+  adminOverview(): Promise<AdminOverview>;
+  adminListUsers(filter: AdminUserFilter): Promise<{ rows: AdminUserRow[]; total: number }>;
+  adminListClasses(filter: { search?: string; limit?: number; offset?: number }): Promise<{ rows: AdminClassRow[]; total: number }>;
+  adminSetTeacherStatus(userId: string, status: 'approved' | 'rejected' | 'pending'): Promise<void>;
+  adminSetPlatformAdmin(userId: string, on: boolean): Promise<void>;
+  adminSetUserDisabled(userId: string, disabled: boolean): Promise<void>;
+  /** Sets a new temporary password and returns it (shown once). */
+  adminResetPassword(userId: string): Promise<string>;
+  adminGetSettings(): Promise<PlatformSettings>;
+  adminSetSettings(patch: Partial<PlatformSettings>): Promise<PlatformSettings>;
+  adminAuditLog(limit?: number): Promise<AdminAuditEntry[]>;
 }

@@ -9,6 +9,7 @@ export interface Caller {
   role: 'teacher' | 'student';
   full_name: string;
   email: string;
+  platform_admin: boolean;
 }
 
 export function adminClient(): Db {
@@ -24,9 +25,11 @@ export async function getCaller(req: Request, db: Db): Promise<Caller> {
   if (!token) throw new HttpError(401, 'Please sign in.');
   const { data, error } = await db.auth.getUser(token);
   if (error || !data.user) throw new HttpError(401, 'Your session has expired. Please sign in again.');
-  const { data: profile } = await db.from('profiles').select('id, role, full_name, email').eq('id', data.user.id).maybeSingle();
+  const { data: profile } = await db.from('profiles').select('id, role, full_name, email, platform_admin, disabled_at').eq('id', data.user.id).maybeSingle();
   if (!profile) throw new HttpError(403, 'Your profile was not found.');
-  return profile as Caller;
+  if (profile.disabled_at) throw new HttpError(403, 'This account has been disabled.');
+  const { disabled_at: _disabled, ...caller } = profile;
+  return caller as Caller;
 }
 
 export async function requireTeacherOf(db: Db, classId: string, me: Caller) {

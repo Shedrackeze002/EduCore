@@ -12,3 +12,13 @@ export function RequireRole({ role, children }: { role?: Role; children: ReactNo
   if (role && user.role !== role) return <Navigate to={user.role === 'teacher' ? '/t' : '/s'} replace />;
   return <>{children}</>;
 }
+
+/** Only platform administrators may open /admin. The database checks again on every call. */
+export function RequireAdmin({ children }: { children: ReactNode }) {
+  const { user, loading } = useAuth();
+  const loc = useLocation();
+  if (loading) return <PageSpinner />;
+  if (!user) return <Navigate to={`/login?next=${encodeURIComponent(loc.pathname + loc.search)}`} replace />;
+  if (!user.platformAdmin || user.disabled) return <Navigate to={user.role === 'teacher' ? '/t' : '/s'} replace />;
+  return <>{children}</>;
+}

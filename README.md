@@ -69,7 +69,7 @@ src/
   data/            Data API with a browser demo backend and a Supabase backend
 supabase/
   migrations/      Schema, row-level security, triggers, RPCs and scheduled reminders
-  functions/       grade-submission, ai-agent, create-students, send-emails
+  functions/       grade-submission, ai-agent, create-students, send-emails, admin-users
   tests/           Database behaviour tests
 tests/e2e/         Playwright tests
 ```

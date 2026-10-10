@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { GraduationCap, Presentation } from 'lucide-react';
+import { GraduationCap, Info, Presentation } from 'lucide-react';
 import { api } from '@/data/index.ts';
+import { useSignupConfig } from '@/data/hooks.ts';
 import type { Role } from '@/data/types.ts';
 import { useAuth } from './AuthProvider.tsx';
 import { Button, Input } from '@/components/ui/index.ts';
@@ -20,6 +21,7 @@ export default function SignupPage() {
   const [busy, setBusy] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const config = useSignupConfig();
 
   const submit = async () => {
     setBusy(true);
@@ -63,6 +65,12 @@ export default function SignupPage() {
         <Input label="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} required autoComplete="name" />
         <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
         <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} autoComplete="new-password" hint="At least 6 characters." />
+        {role === 'teacher' && config.data?.teacherSignup === 'approval' && (
+          <p className="flex gap-2 rounded-xl bg-info-soft px-3 py-2.5 text-sm text-info-ink">
+            <Info className="mt-0.5 h-4 w-4 shrink-0" />
+            New teacher accounts are reviewed by an administrator before they can create classes. You will be notified when yours is approved.
+          </p>
+        )}
         {role === 'student' && (
           <Input label="Class code" value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="e.g. MATH10" hint="Ask your teacher for the 6-character code. You can also join later." className="[&_input]:font-mono [&_input]:uppercase [&_input]:tracking-widest" />
         )}

@@ -1,5 +1,8 @@
 /** Row ↔ domain mapping for the Supabase backend (snake_case ↔ camelCase). */
 import type {
+  AdminAuditEntry,
+  AdminClassRow,
+  AdminUserRow,
   Announcement,
   AppNotification,
   Assignment,
@@ -24,6 +27,9 @@ export const toProfile = (r: Row): Profile => ({
   username: r.username,
   avatarColor: r.avatar_color,
   createdAt: r.created_at,
+  platformAdmin: !!r.platform_admin,
+  teacherStatus: r.teacher_status ?? null,
+  disabled: !!r.disabled_at,
 });
 
 export const toClass = (r: Row): ClassRoom => ({
@@ -171,4 +177,42 @@ export const toAnnouncement = (r: Row): Announcement => ({
   title: r.title,
   body: r.body,
   createdAt: r.created_at,
+});
+
+export const toAdminUser = (r: Row): AdminUserRow => ({
+  id: r.id,
+  role: r.role,
+  fullName: r.full_name,
+  email: r.email,
+  username: r.username,
+  avatarColor: r.avatar_color,
+  createdAt: r.created_at,
+  lastSignInAt: r.last_sign_in_at,
+  platformAdmin: !!r.platform_admin,
+  teacherStatus: r.teacher_status ?? null,
+  disabled: !!r.disabled_at,
+  classes: Number(r.classes ?? 0),
+});
+
+export const toAdminClass = (r: Row): AdminClassRow => ({
+  id: r.id,
+  name: r.name,
+  section: r.section,
+  courseId: r.course_id,
+  teacherId: r.teacher_id,
+  teacherName: r.teacher_name,
+  students: Number(r.students ?? 0),
+  assignments: Number(r.assignments ?? 0),
+  lastActivity: r.last_activity,
+  createdAt: r.created_at,
+  archived: r.archived,
+});
+
+export const toAuditEntry = (r: Row): AdminAuditEntry => ({
+  id: String(r.id),
+  createdAt: r.created_at,
+  action: r.action,
+  actorName: r.actor_name,
+  targetName: r.target_name,
+  details: r.details ?? {},
 });

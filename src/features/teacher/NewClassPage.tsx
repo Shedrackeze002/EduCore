@@ -6,6 +6,8 @@ import { api } from '@/data/index.ts';
 import { useCreateClass } from '@/data/hooks.ts';
 import { Button, Card, CardBody, Checkbox, Input, PageHeader, useToast } from '@/components/ui/index.ts';
 import { cn } from '@/lib/cn.ts';
+import { useMe } from '@/features/auth/AuthProvider.tsx';
+import { ApprovalNotice, needsApproval } from './ApprovalNotice.tsx';
 
 const UPCOMING = ['Grade 5 Mathematics', 'Grade 6 Mathematics', 'Grade 7 Mathematics', 'Grade 8 Mathematics', 'Grade 9 Mathematics', 'Math 20-1', 'Math 30-1'];
 
@@ -17,6 +19,7 @@ export default function NewClassPage() {
   const create = useCreateClass();
   const navigate = useNavigate();
   const toast = useToast();
+  const me = useMe();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,6 +35,8 @@ export default function NewClassPage() {
       toast({ kind: 'error', title: 'Could not create the class', body: (err as Error).message });
     }
   }
+
+  if (needsApproval(me)) return <ApprovalNotice me={me} />;
 
   return (
     <div className="mx-auto max-w-3xl">

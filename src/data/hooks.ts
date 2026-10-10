@@ -1,7 +1,7 @@
 /** React Query hooks over the data API. Query keys are centralised in `qk`. */
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api } from './index.ts';
-import type { Assignment, ClassSettings, ItemRef, ProposedAction, Resource, StoredResponse } from './types.ts';
+import type { AdminUserFilter, Assignment, ClassSettings, ItemRef, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
 
 export const qk = {
   me: ['me'] as const,
@@ -21,6 +21,13 @@ export const qk = {
   announcements: (classId: string) => ['announcements', classId] as const,
   insights: (classId: string, studentId?: string | null) => ['insights', classId, studentId === undefined ? '*' : studentId ?? 'class'] as const,
   aiStatus: ['aiStatus'] as const,
+  signupConfig: ['signupConfig'] as const,
+  admin: ['admin'] as const,
+  adminOverview: ['admin', 'overview'] as const,
+  adminUsers: (f: AdminUserFilter) => ['admin', 'users', f.search ?? '', f.role ?? '', f.status ?? '', f.limit ?? 50, f.offset ?? 0] as const,
+  adminClasses: (f: { search?: string; offset?: number }) => ['admin', 'classes', f.search ?? '', f.offset ?? 0] as const,
+  adminSettings: ['admin', 'settings'] as const,
+  adminAudit: (limit: number) => ['admin', 'audit', limit] as const,
 };
 
 export function invalidateAll(qc: QueryClient) {
@@ -142,5 +149,36 @@ export function useSetActionStatus(classId: string) {
   return useMutation({
     mutationFn: (v: { insightId: string; actionId: string; status: ProposedAction['status'] }) => api().setActionStatus(v.insightId, v.actionId, v.status),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['insights', classId] }),
+  });
+}
+
+// ---------------------------------------------------------------- platform administration
+
+export const useSignupConfig = () => useQuery({ queryKey: qk.signupConfig, queryFn: () => api().signupConfig(), staleTime: 5 * 60_000 });
+export const useAdminOverview = () => useQuery({ queryKey: qk.adminOverview, queryFn: () => api().adminOverview() });
+export const useAdminUsers = (f: AdminUserFilter) => useQuery({ queryKey: qk.adminUsers(f), queryFn: () => api().adminListUsers(f), placeholderData: (prev) => prev });
+export const useAdminClasses = (f: { search?: string; offset?: number }) =>
+  useQuery({ queryKey: qk.adminClasses(f), queryFn: () => api().adminListClasses({ ...f, limit: 50 }), placeholderData: (prev) => prev });
+export const useAdminSettings = () => useQuery({ queryKey: qk.adminSettings, queryFn: () => api().adminGetSettings() });
+export const useAdminAudit = (limit = 100) => useQuery({ queryKey: qk.adminAudit(limit), queryFn: () => api().adminAuditLog(limit) });
+
+/** Any admin change refreshes every admin view (counts, lists and the audit log move together). */
+function useAdminMutation<V, R>(fn: (v: V) => Promise<R>) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: fn, onSuccess: () => qc.invalidateQueries({ queryKey: qk.admin }) });
+}
+
+export const useSetTeacherStatus = () => useAdminMutation((v: { userId: string; status: 'approved' | 'rejected' | 'pending' }) => api().adminSetTeacherStatus(v.userId, v.status));
+export const useSetPlatformAdmin = () => useAdminMutation((v: { userId: string; on: boolean }) => api().adminSetPlatformAdmin(v.userId, v.on));
+export const useSetUserDisabled = () => useAdminMutation((v: { userId: string; disabled: boolean }) => api().adminSetUserDisabled(v.userId, v.disabled));
+export const useResetPassword = () => useAdminMutation((userId: string) => api().adminResetPassword(userId));
+export function useSaveAdminSettings() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (patch: Partial<PlatformSettings>) => api().adminSetSettings(patch),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: qk.admin });
+      void qc.invalidateQueries({ queryKey: qk.signupConfig });
+    },
   });
 }

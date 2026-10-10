@@ -15,7 +15,10 @@ import {
   Moon,
   Plus,
   RefreshCcw,
+  School,
+  ScrollText,
   Settings,
+  ShieldCheck,
   Sparkles,
   Sun,
   Table2,
@@ -59,6 +62,18 @@ function teacherNav(classId: string | undefined): NavItem[] {
   ];
 }
 
+const ADMIN_NAV: NavItem[] = [
+  { to: '/admin', label: 'Overview', icon: LayoutDashboard, end: true },
+  { to: '/admin/users', label: 'Users', icon: Users },
+  { to: '/admin/classes', label: 'Classes', icon: School },
+  { to: '/admin/settings', label: 'Settings', icon: Settings },
+  { to: '/admin/audit', label: 'Audit log', icon: ScrollText },
+];
+
+type ShellRole = 'teacher' | 'student' | 'admin';
+
+const homeFor = (role: ShellRole) => (role === 'student' ? '/s' : role === 'admin' ? '/admin' : '/t');
+
 const STUDENT_NAV: NavItem[] = [
   { to: '/s', label: 'Home', icon: Home, end: true },
   { to: '/s/learn', label: 'Learn', icon: BookOpen },
@@ -66,11 +81,12 @@ const STUDENT_NAV: NavItem[] = [
   { to: '/s/progress', label: 'Progress', icon: Target },
 ];
 
-export function AppShell({ role }: { role: 'teacher' | 'student' }) {
+export function AppShell({ role }: { role: ShellRole }) {
   const { user, signOut } = useAuth();
   const match = useMatch('/t/c/:classId/*');
   const classId = role === 'teacher' ? match?.params.classId : undefined;
-  const nav = role === 'teacher' ? teacherNav(classId) : STUDENT_NAV;
+  const nav = role === 'teacher' ? teacherNav(classId) : role === 'admin' ? ADMIN_NAV : STUDENT_NAV;
+  const isAdmin = !!user?.platformAdmin && !user.disabled;
   const [drawer, setDrawer] = useState(false);
   const loc = useLocation();
   useEffect(() => setDrawer(false), [loc.pathname]);
@@ -83,7 +99,7 @@ export function AppShell({ role }: { role: 'teacher' | 'student' }) {
       <NotificationsBridge />
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-surface lg:flex">
-        <Sidebar role={role} classId={classId} nav={nav} />
+        <Sidebar role={role} classId={classId} nav={nav} isAdmin={isAdmin} />
       </aside>
       {/* Mobile drawer */}
       {drawer && (
@@ -93,25 +109,25 @@ export function AppShell({ role }: { role: 'teacher' | 'student' }) {
             <button type="button" className="absolute right-3 top-3 rounded-lg p-1.5 text-ink-3 hover:bg-surface-2" onClick={() => setDrawer(false)} aria-label="Close menu">
               <X className="h-5 w-5" />
             </button>
-            <Sidebar role={role} classId={classId} nav={nav} />
+            <Sidebar role={role} classId={classId} nav={nav} isAdmin={isAdmin} />
           </aside>
         </div>
       )}
       <div className="lg:pl-64">
         <header className="sticky top-0 z-20 border-b border-line bg-canvas/85 backdrop-blur">
           <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 sm:px-6">
-            {role === 'teacher' && (
+            {role !== 'student' && (
               <button type="button" className="rounded-xl p-2 text-ink-2 hover:bg-surface-2 lg:hidden" onClick={() => setDrawer(true)} aria-label="Open menu">
                 <MenuIcon className="h-5 w-5" />
               </button>
             )}
-            <Link to={role === 'teacher' ? '/t' : '/s'} className="lg:hidden">
+            <Link to={homeFor(role)} className="lg:hidden">
               <Logo compact />
             </Link>
             <div className="flex-1" />
             {demoApi() && <Badge tone="warn" className="hidden sm:inline-flex">Demo mode</Badge>}
             <NotificationBell />
-            <UserMenu name={user?.fullName ?? ''} color={user?.avatarColor} email={user?.email ?? ''} onSignOut={signOut} />
+            <UserMenu name={user?.fullName ?? ''} color={user?.avatarColor} email={user?.email ?? ''} onSignOut={signOut} role={role} isAdmin={isAdmin} />
           </div>
         </header>
         <main className={cn('mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8', role === 'student' && 'pb-28 lg:pb-8')}>
@@ -135,16 +151,17 @@ export function AppShell({ role }: { role: 'teacher' | 'student' }) {
   );
 }
 
-function Sidebar({ role, classId, nav }: { role: 'teacher' | 'student'; classId?: string; nav: NavItem[] }) {
+function Sidebar({ role, classId, nav, isAdmin }: { role: ShellRole; classId?: string; nav: NavItem[]; isAdmin: boolean }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center px-5">
-        <Link to={role === 'teacher' ? '/t' : '/s'}>
+        <Link to={homeFor(role)}>
           <Logo />
         </Link>
       </div>
       {role === 'teacher' && <ClassSwitcher classId={classId} />}
       {role === 'student' && <StudentClassBadge />}
+      {role === 'admin' && <AdminBadge />}
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-3" aria-label="Main">
         {nav.map((n) => (
           <NavLink
@@ -164,10 +181,18 @@ function Sidebar({ role, classId, nav }: { role: 'teacher' | 'student'; classId?
           </NavLink>
         ))}
       </nav>
+      {role === 'teacher' && isAdmin && (
+        <div className="px-3 pb-3">
+          <Link to="/admin" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium text-ink-2 transition hover:bg-surface-2 hover:text-ink">
+            <ShieldCheck className="h-[18px] w-[18px] text-ink-3" />
+            Admin console
+          </Link>
+        </div>
+      )}
       <div className="border-t border-line p-4 text-xs text-ink-3">
         <div className="flex items-center gap-2">
-          <GraduationCap className="h-4 w-4" />
-          Grade 10 Mathematics · Math 10C
+          {role === 'admin' ? <ShieldCheck className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
+          {role === 'admin' ? 'EduCore platform administration' : 'Grade 10 Mathematics · Math 10C'}
         </div>
       </div>
     </div>
@@ -234,6 +259,24 @@ function ClassSwitcher({ classId }: { classId?: string }) {
   );
 }
 
+function AdminBadge() {
+  return (
+    <div className="px-3">
+      <div className="flex items-center gap-3 rounded-xl border border-line bg-surface-2/60 px-3 py-2.5">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-brand-ink">
+          <ShieldCheck className="h-5 w-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-sm font-semibold text-ink">Admin console</span>
+          <Link to="/t?all" className="block truncate text-xs text-ink-3 hover:text-brand">
+            Back to my classes
+          </Link>
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function StudentClassBadge() {
   const { data: classes = [] } = useClasses();
   if (!classes.length)
@@ -257,7 +300,7 @@ function StudentClassBadge() {
   );
 }
 
-function UserMenu({ name, color, email, onSignOut }: { name: string; color?: string; email: string; onSignOut: () => Promise<void> }) {
+function UserMenu({ name, color, email, onSignOut, role, isAdmin }: { name: string; color?: string; email: string; onSignOut: () => Promise<void>; role: ShellRole; isAdmin: boolean }) {
   const [theme, setTheme] = useTheme();
   const navigate = useNavigate();
   const demo = demoApi();
@@ -286,6 +329,17 @@ function UserMenu({ name, color, email, onSignOut }: { name: string; color?: str
           >
             Profile & settings
           </MenuItem>
+          {isAdmin && (
+            <MenuItem
+              icon={role === 'admin' ? <LayoutDashboard className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
+              onClick={() => {
+                close();
+                navigate(role === 'admin' ? '/t?all' : '/admin');
+              }}
+            >
+              {role === 'admin' ? 'My classes' : 'Admin console'}
+            </MenuItem>
+          )}
           <div className="flex items-center gap-1 px-2.5 py-2">
             {(
               [

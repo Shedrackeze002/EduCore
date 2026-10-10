@@ -41,7 +41,7 @@ Install the [Supabase CLI](https://supabase.com/docs/guides/local-development/cl
 supabase login
 supabase link --project-ref <project-ref>      # the "abcd…" in https://abcd….supabase.co
 npm run db:push                                 # tables, security policies, reminder schedule
-npm run functions:deploy                        # grade-submission, ai-agent, create-students, send-emails
+npm run functions:deploy                        # grade-submission, ai-agent, create-students, send-emails, admin-users
 ```
 
 The migration turns on `pg_cron` and schedules `send_due_reminders()` every 5 minutes.

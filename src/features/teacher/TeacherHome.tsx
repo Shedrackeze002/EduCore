@@ -8,6 +8,7 @@ import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { Badge, Button, EmptyState, PageHeader, PageSpinner } from '@/components/ui/index.ts';
 import { getItem } from '@/lib/storage.ts';
 import { greeting } from '@/lib/dates.ts';
+import { ApprovalNotice, needsApproval } from './ApprovalNotice.tsx';
 
 const LAST_CLASS_KEY = 'educore-last-class';
 
@@ -18,6 +19,7 @@ export default function TeacherHome() {
   const list = classes.data ?? [];
   const rosters = useQueries({ queries: list.map((c) => ({ queryKey: qk.roster(c.id), queryFn: () => api().listRoster(c.id) })) });
 
+  if (needsApproval(me)) return <ApprovalNotice me={me} />;
   if (classes.isLoading) return <PageSpinner />;
   const active = list.filter((c) => !c.archived);
   // Teachers usually work in one class: open the last one they used unless they asked for the list.

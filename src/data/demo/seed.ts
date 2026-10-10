@@ -144,6 +144,8 @@ export async function buildSeed(): Promise<DemoDB> {
     avatarColor: '#6a43e3',
     createdAt: iso(-40),
     password: DEMO_PASSWORD,
+    platformAdmin: true,
+    teacherStatus: 'approved',
   };
   const students: DemoUser[] = STUDENTS.map((s, i) => ({
     id: `u_s${i + 1}`,

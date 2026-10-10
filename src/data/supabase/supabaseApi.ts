@@ -9,11 +9,28 @@ import { createClient, type SupabaseClient, type RealtimeChannel } from '@supaba
 import { freshSeed } from '@engine/rng.ts';
 import { isQuestionType, type StoredResponse } from '@engine/assemble.ts';
 import type { AiConfigStatus, DataApi, SignUpInput } from '../api.ts';
-import type { AppNotification, Assignment, ClassSettings, Insight, ItemRef, NewStudentCredential, Profile, ProposedAction, Resource, Submission } from '../types.ts';
+import type {
+  AdminOverview,
+  AdminUserFilter,
+  AppNotification,
+  Assignment,
+  ClassSettings,
+  Insight,
+  ItemRef,
+  NewStudentCredential,
+  PlatformSettings,
+  Profile,
+  ProposedAction,
+  Resource,
+  Submission,
+} from '../types.ts';
 import {
   fromAssignment,
+  toAdminClass,
+  toAdminUser,
   toAnnouncement,
   toAssignment,
+  toAuditEntry,
   toClass,
   toEvent,
   toInsight,
@@ -37,6 +54,8 @@ function browserTimeZone(): string {
 function fail(error: { message: string } | null): void {
   if (error) throw new Error(error.message);
 }
+
+const DISABLED_MESSAGE = 'This account has been disabled. Please contact your school administrator.';
 
 export class SupabaseApi implements DataApi {
   readonly mode = 'supabase' as const;
@@ -88,7 +107,12 @@ export class SupabaseApi implements DataApi {
   async getCurrentUser() {
     const { data } = await this.client.auth.getSession();
     if (!data.session) return null;
-    return this.profile?.id === data.session.user.id ? this.profile : this.loadProfile(data.session.user.id);
+    const p = this.profile?.id === data.session.user.id ? this.profile : await this.loadProfile(data.session.user.id);
+    if (p?.disabled) {
+      await this.signOut();
+      return null;
+    }
+    return p;
   }
 
   onAuthChange(cb: (u: Profile | null) => void) {
@@ -109,9 +133,17 @@ export class SupabaseApi implements DataApi {
     const id = identifier.trim();
     const email = id.includes('@') ? id : `${id.toLowerCase()}@${STUDENT_EMAIL_DOMAIN}`;
     const { data, error } = await this.client.auth.signInWithPassword({ email, password });
-    if (error) throw new Error(error.message === 'Invalid login credentials' ? 'That email/username and password do not match.' : error.message);
+    if (error) {
+      if (error.message === 'Invalid login credentials') throw new Error('That email/username and password do not match.');
+      if (/banned/i.test(error.message)) throw new Error(DISABLED_MESSAGE);
+      throw new Error(error.message);
+    }
     const p = await this.loadProfile(data.user.id);
     if (!p) throw new Error('Your profile is missing. Please contact your teacher.');
+    if (p.disabled) {
+      await this.signOut();
+      throw new Error(DISABLED_MESSAGE);
+    }
     return p;
   }
 
@@ -174,6 +206,8 @@ export class SupabaseApi implements DataApi {
 
   async createClass(input: { name: string; section?: string | null; courseId: string }) {
     const id = await this.uid();
+    const me = await this.getCurrentUser();
+    if (me?.role === 'teacher' && me.teacherStatus !== 'approved') throw new Error('Your teacher account is waiting for approval.');
     const { data, error } = await this.client
       .from('classes')
       .insert({ teacher_id: id, name: input.name.trim(), section: input.section?.trim() || null, course_id: input.courseId, settings: { timezone: browserTimeZone() } })
@@ -218,7 +252,10 @@ export class SupabaseApi implements DataApi {
   async getProfile(id: string) {
     const { data, error } = await this.client.from('profiles').select('*').eq('id', id).maybeSingle();
     fail(error);
-    return data ? toProfile(data) : null;
+    const p = data ? toProfile(data) : null;
+    // Keep the signed-in profile fresh (an administrator may have approved this teacher).
+    if (p && p.id === this.profile?.id) this.profile = p;
+    return p;
   }
 
   async removeStudent(classId: string, studentId: string) {
@@ -471,5 +508,80 @@ export class SupabaseApi implements DataApi {
 
   async runScheduledJobs() {
     // Reminders run server-side on a pg_cron schedule.
+  }
+
+  // ------------------------------------------------------------------ platform administration
+  // Every function below checks is_platform_admin() in the database (or the admin-users
+  // Edge Function) and writes to admin_audit_log, so the browser is never trusted.
+
+  async signupConfig(): Promise<PlatformSettings> {
+    const { data, error } = await this.client.rpc('signup_config');
+    if (error) return { teacherSignup: 'approval' };
+    return { teacherSignup: data?.teacherSignup === 'open' ? 'open' : 'approval' };
+  }
+
+  async adminOverview(): Promise<AdminOverview> {
+    const { data, error } = await this.client.rpc('admin_overview');
+    fail(error);
+    return data as AdminOverview;
+  }
+
+  async adminListUsers(f: AdminUserFilter) {
+    const { data, error } = await this.client.rpc('admin_users', {
+      p_search: f.search?.trim() || null,
+      p_role: f.role || null,
+      p_status: f.status || null,
+      p_limit: f.limit ?? 50,
+      p_offset: f.offset ?? 0,
+    });
+    fail(error);
+    const rows = (data ?? []) as Array<Record<string, unknown>>;
+    return { rows: rows.map(toAdminUser), total: Number(rows[0]?.total ?? 0) };
+  }
+
+  async adminListClasses(f: { search?: string; limit?: number; offset?: number }) {
+    const { data, error } = await this.client.rpc('admin_classes', { p_search: f.search?.trim() || null, p_limit: f.limit ?? 50, p_offset: f.offset ?? 0 });
+    fail(error);
+    const rows = (data ?? []) as Array<Record<string, unknown>>;
+    return { rows: rows.map(toAdminClass), total: Number(rows[0]?.total ?? 0) };
+  }
+
+  async adminSetTeacherStatus(userId: string, status: 'approved' | 'rejected' | 'pending') {
+    const { error } = await this.client.rpc('admin_set_teacher_status', { p_user: userId, p_status: status });
+    fail(error);
+  }
+
+  async adminSetPlatformAdmin(userId: string, on: boolean) {
+    const { error } = await this.client.rpc('admin_set_platform_admin', { p_user: userId, p_on: on });
+    fail(error);
+  }
+
+  async adminSetUserDisabled(userId: string, disabled: boolean) {
+    await this.invoke('admin-users', { action: disabled ? 'disable' : 'enable', userId });
+  }
+
+  async adminResetPassword(userId: string) {
+    const res = await this.invoke<{ password: string }>('admin-users', { action: 'reset_password', userId });
+    return res.password;
+  }
+
+  async adminGetSettings(): Promise<PlatformSettings> {
+    const { data, error } = await this.client.rpc('admin_get_settings');
+    fail(error);
+    return { teacherSignup: data?.teacher_signup === 'open' ? 'open' : 'approval' };
+  }
+
+  async adminSetSettings(patch: Partial<PlatformSettings>): Promise<PlatformSettings> {
+    if (patch.teacherSignup) {
+      const { error } = await this.client.rpc('admin_set_setting', { p_key: 'teacher_signup', p_value: patch.teacherSignup });
+      fail(error);
+    }
+    return this.adminGetSettings();
+  }
+
+  async adminAuditLog(limit = 100) {
+    const { data, error } = await this.client.rpc('admin_audit', { p_limit: limit });
+    fail(error);
+    return ((data ?? []) as Array<Record<string, unknown>>).map(toAuditEntry);
   }
 }

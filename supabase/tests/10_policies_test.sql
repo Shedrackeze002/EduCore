@@ -41,6 +41,23 @@ select _assert((select role from profiles where id = '00000000-0000-0000-0000-00
 select _assert((select role from profiles where id = '00000000-0000-0000-0000-0000000000b1') = 'student', 'student profile created');
 select _assert((select username from profiles where id = '00000000-0000-0000-0000-0000000000b2') = 'lee.k', 'generated student gets username');
 select _assert((select username from profiles where id = '00000000-0000-0000-0000-0000000000b9') is null, 'self-chosen username ignored');
+select _assert((select teacher_status from profiles where id = '00000000-0000-0000-0000-0000000000a1') = 'pending', 'self-registered teachers wait for approval');
+select _assert((select teacher_status from profiles where id = '00000000-0000-0000-0000-0000000000b1') is null, 'students have no teacher status');
+
+-- Bootstrap the first administrator (done once with SQL), who approves the other teacher.
+update profiles set platform_admin = true, teacher_status = 'approved' where id = '00000000-0000-0000-0000-0000000000a1';
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$insert into classes (teacher_id, name) values ('00000000-0000-0000-0000-0000000000a2', 'Too early')$$, 'pending teachers cannot create classes');
+select _fails($$update profiles set teacher_status = 'approved', platform_admin = true where id = '00000000-0000-0000-0000-0000000000a2'$$, 'users cannot approve or promote themselves');
+select _fails($$select admin_set_teacher_status('00000000-0000-0000-0000-0000000000a2', 'approved')$$, 'non-admins cannot approve teachers');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select admin_set_teacher_status('00000000-0000-0000-0000-0000000000a2', 'approved');
+reset role;
+select _assert((select teacher_status from profiles where id = '00000000-0000-0000-0000-0000000000a2') = 'approved', 'admin approved the teacher');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a2' and kind = 'admin') = 1, 'teacher told about approval');
 
 -- ---------------------------------------------------------------- teacher creates a class
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
@@ -260,6 +277,68 @@ select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000
 set role authenticated;
 select _fails($$select set_insight_action_status((select id from insights limit 1), 'x1', 'done')$$, 'other teacher cannot touch insights');
 select _assert((select count(*) from skill_mastery) = 0, 'other teacher cannot see mastery');
+reset role;
+
+-- ---------------------------------------------------------------- platform administration
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-0000000000a3', 'newteacher@school.ca', '{"full_name":"New Teacher","role":"teacher"}');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a1' and kind = 'admin' and title like '%waiting for approval%') = 1, 'admins told about a pending teacher');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select admin_overview()$$, 'non-admins cannot see the overview');
+select _fails($$select * from admin_users()$$, 'non-admins cannot list users');
+select _fails($$select * from admin_classes()$$, 'non-admins cannot list classes');
+select _fails($$select admin_set_setting('teacher_signup', '"open"')$$, 'non-admins cannot change settings');
+select _fails($$select * from admin_audit()$$, 'non-admins cannot read the audit log');
+select _fails($$select admin_set_platform_admin('00000000-0000-0000-0000-0000000000a2', true)$$, 'non-admins cannot promote');
+select _fails($$select count(*) from platform_settings$$, 'settings table is not readable directly');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((admin_overview() ->> 'pendingTeachers')::int = 1, 'overview counts pending teachers');
+select _assert((admin_overview() ->> 'teachers')::int = 2, 'overview counts approved teachers');
+select _assert((admin_overview() ->> 'classes')::int = 1, 'overview counts classes');
+select _assert(jsonb_array_length(admin_overview() -> 'signupsByWeek') = 12, 'twelve weeks of sign-ups');
+select _assert((select count(*) from admin_users(null, 'teacher', 'pending')) = 1, 'list pending teachers');
+select _assert((select total from admin_users('lee', null, null) limit 1) = 1, 'search users by username');
+select _assert((select students from admin_classes() limit 1) = 3, 'class list counts students');
+select admin_set_teacher_status('00000000-0000-0000-0000-0000000000a3', 'rejected');
+select _assert((select count(*) from admin_users(null, null, 'pending')) = 0, 'no pending teachers left');
+select _fails($$select admin_set_platform_admin('00000000-0000-0000-0000-0000000000a1', false)$$, 'the last administrator cannot be removed');
+select _fails($$select admin_set_platform_admin('00000000-0000-0000-0000-0000000000b1', true)$$, 'students cannot become administrators');
+select admin_set_platform_admin('00000000-0000-0000-0000-0000000000a2', true);
+select _assert((select count(*) from admin_users(null, null, 'admin')) = 2, 'second administrator added');
+select admin_set_platform_admin('00000000-0000-0000-0000-0000000000a2', false);
+select _fails($$select admin_set_setting('teacher_signup', '"anyone"')$$, 'invalid setting value rejected');
+select _fails($$select admin_set_setting('free_money', 'true')$$, 'unknown setting rejected');
+select admin_set_setting('teacher_signup', '"open"');
+reset role;
+
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-0000000000a4', 'open@school.ca', '{"full_name":"Open Teacher","role":"teacher"}');
+select _assert((select teacher_status from profiles where id = '00000000-0000-0000-0000-0000000000a4') = 'approved', 'open sign-up approves teachers immediately');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from admin_audit()) = 5, 'every successful administrative action is audited (failed ones are not)');
+select _assert(exists (select 1 from admin_audit() where action = 'teacher_rejected' and target_name = 'New Teacher' and actor_name = 'Ms T. Teacher'), 'audit names actor and target');
+reset role;
+
+-- Disabled accounts lose administrator and teaching rights immediately.
+update profiles set disabled_at = now() where id = '00000000-0000-0000-0000-0000000000a1';
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert(not is_platform_admin(), 'disabled administrator is not an administrator');
+select _assert(not can_teach(), 'disabled teacher cannot teach');
+reset role;
+update profiles set disabled_at = null where id = '00000000-0000-0000-0000-0000000000a1';
+
+select set_config('request.jwt.claims', '{"role":"anon"}', false);
+set role anon;
+select _assert(signup_config() ->> 'teacherSignup' = 'open', 'sign-up page can read the sign-up mode');
+select _fails($$select admin_overview()$$, 'anonymous visitors cannot see the overview');
 reset role;
 
 -- ---------------------------------------------------------------- anon
