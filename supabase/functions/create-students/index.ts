@@ -22,7 +22,7 @@ function password(): string {
 function baseUsername(fullName: string): string {
   const parts = fullName
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^a-z\s-]/g, '')
     .trim()

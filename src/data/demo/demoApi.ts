@@ -313,7 +313,7 @@ export class DemoApi implements DataApi {
       if (!fullName) continue;
       const base = fullName
         .normalize('NFD')
-        .replace(/[̀-ͯ]/g, '')
+        .replace(/[\u0300-\u036f]/g, '')
         .toLowerCase()
         .replace(/[^a-z\s]/g, '')
         .trim()
