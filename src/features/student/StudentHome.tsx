@@ -103,7 +103,7 @@ export default function StudentHome() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader title="To do" subtitle={`${upcoming.length} upcoming${missing.length ? ` · ${missing.length} missing` : ''}`} icon={<CalendarClock className="h-5 w-5" />} action={<Button variant="ghost" size="sm" to="/s/work">View all</Button>} />
             <CardBody className="space-y-2 pt-4">
@@ -134,7 +134,7 @@ export default function StudentHome() {
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           {coach?.studentNote && (
             <Card className="border-brand-200 bg-gradient-to-br from-brand-50 to-surface">
               <CardBody>

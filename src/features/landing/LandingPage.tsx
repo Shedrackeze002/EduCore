@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
@@ -17,12 +17,14 @@ import {
 } from 'lucide-react';
 import { MATH10C } from '@engine/curriculum/math10c/course.ts';
 import { allSkills } from '@engine/curriculum/index.ts';
-import { api, demoApi } from '@/data/index.ts';
+import { api, demoApi, setDemoBackend } from '@/data/index.ts';
 import { useAuth } from '@/features/auth/AuthProvider.tsx';
 import { Button } from '@/components/ui/index.ts';
 import { Logo } from '@/components/layout/Logo.tsx';
 import { DEMO_PASSWORD, DEMO_STUDENT_EMAIL, DEMO_TEACHER_EMAIL } from '@/data/demo/constants.ts';
 import { Tex } from '@/components/math/Markdown.tsx';
+
+const DEMO_START_KEY = 'educore-demo-start';
 
 const FEATURES = [
   { icon: BookOpenCheck, title: 'Complete, detailed lessons', body: '42 Math 10C lessons covering all 19 outcomes, each with definitions, worked examples, common mistakes and interactive checks.' },
@@ -42,7 +44,13 @@ export default function LandingPage() {
   const [busy, setBusy] = useState<string | null>(null);
   const tryDemo = async (who: 'teacher' | 'student') => {
     if (!demo) {
-      navigate('/login');
+      // On a live site the demo runs in this browser only; switch over and sign in after the reload.
+      try {
+        sessionStorage.setItem(DEMO_START_KEY, who);
+      } catch {
+        /* storage unavailable */
+      }
+      setDemoBackend(true);
       return;
     }
     setBusy(who);
@@ -54,6 +62,18 @@ export default function LandingPage() {
       setBusy(null);
     }
   };
+
+  useEffect(() => {
+    let who: string | null = null;
+    try {
+      who = sessionStorage.getItem(DEMO_START_KEY);
+      sessionStorage.removeItem(DEMO_START_KEY);
+    } catch {
+      who = null;
+    }
+    if (demo && (who === 'teacher' || who === 'student')) void tryDemo(who);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const skillCount = allSkills().length;
 
   return (

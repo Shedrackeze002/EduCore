@@ -100,12 +100,12 @@ export default function ClassOverview() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <TeachNext classId={classId} courseId={c.courseId} published={published} />
           <AssignmentsCard classId={classId} assignments={assignments.data ?? []} roster={roster.data ?? []} subs={subs.data ?? []} />
           <AttentionCard classId={classId} perStudent={perStudent} assignments={assignments.data ?? []} subs={subs.data ?? []} />
         </div>
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <InsightCompact insight={insights.data?.[0]} classId={classId} link={`/t/c/${classId}/insights`} />
           <AnnouncementsCard classId={classId} />
           <ActivityCard classId={classId} subs={subs.data ?? []} roster={roster.data ?? []} assignments={assignments.data ?? []} />

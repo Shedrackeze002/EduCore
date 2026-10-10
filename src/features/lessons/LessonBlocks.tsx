@@ -29,7 +29,7 @@ export function BlockView({ block, large }: { block: Block; large?: boolean }) {
         <div className={cn('rounded-2xl border p-4 sm:p-5', c.cls)}>
           <div className="mb-1.5 flex items-center gap-2 text-sm font-semibold">
             <c.icon className={cn('h-4 w-4', c.iconCls)} />
-            <span className="text-ink">{block.title ?? c.label}</span>
+            <span className="text-ink">{block.title ? <Markdown md={block.title} inline /> : c.label}</span>
           </div>
           <Markdown md={block.md} className={large ? 'text-[19px]' : undefined} />
         </div>
@@ -54,7 +54,7 @@ export function ExampleBlock({ block, large, presenter }: { block: Extract<Block
       <div className="flex items-center justify-between gap-3 border-b border-line bg-surface-2/60 px-4 py-2.5">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <Sparkles className="h-4 w-4 text-brand" />
-          Worked example: <span className="font-medium text-ink-2">{block.title}</span>
+          Worked example: <span className="font-medium text-ink-2">{block.title && <Markdown md={block.title} inline />}</span>
         </div>
       </div>
       <div className="space-y-4 p-4 sm:p-5">

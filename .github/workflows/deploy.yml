@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+# Builds the app and publishes it to GitHub Pages.
+#
+# Repository settings (Settings → Secrets and variables → Actions):
+#   Variables (optional)
+#     VITE_SUPABASE_URL       your Supabase project URL (leave unset to ship the demo only)
+#     VITE_SUPABASE_ANON_KEY  the project's anon / publishable key (safe to expose)
+#     CUSTOM_DOMAIN           e.g. learn.yourschool.ca, once you have a domain
+#     BASE_PATH               override the base path (defaults to /<repo>/, or / with a custom domain)
+#
+# Then set Settings → Pages → Source to "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Build
+        run: npm run build
+        env:
+          BASE_PATH: ${{ vars.BASE_PATH || (vars.CUSTOM_DOMAIN && '/') || format('/{0}/', github.event.repository.name) }}
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

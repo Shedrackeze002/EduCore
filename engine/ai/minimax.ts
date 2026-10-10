@@ -9,7 +9,7 @@ export interface MiniMaxConfig {
   apiKey: string;
   /** Default: MiniMax-M3.1-Flash-Preview */
   model?: string;
-  /** Default: https://api.minimax.io (international). Mainland China: https://api.minimaxi.com */
+  /** Default: https://api.minimax.io (international). Mainland China: https://api.minimax.cn */
   baseUrl?: string;
   /** low | medium | high | xhigh | max — lower is faster and cheaper. */
   reasoningEffort?: 'low' | 'medium' | 'high' | 'xhigh' | 'max';
@@ -45,7 +45,7 @@ export async function minimaxChat(cfg: MiniMaxConfig, messages: ChatMessage[]): 
         model,
         messages,
         temperature: cfg.temperature ?? 0.4,
-        max_completion_tokens: cfg.maxTokens ?? 2500,
+        max_completion_tokens: cfg.maxTokens ?? 4000,
         reasoning_effort: cfg.reasoningEffort ?? 'low',
         // Keep the model's reasoning out of `content` (required for M3.1-Flash-Preview).
         reasoning_split: true,

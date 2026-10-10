@@ -30,6 +30,13 @@ function known(input: AnalystInput, defaultStudentId?: string) {
   };
 }
 
+/** "Amara Okafor" → "Amara O." */
+export function shortName(full: string): string {
+  const parts = full.trim().split(/\s+/).filter(Boolean);
+  if (parts.length <= 1) return parts[0] ?? 'Student';
+  return `${parts[0]} ${parts[parts.length - 1][0].toUpperCase()}.`;
+}
+
 /**
  * Generate an insight. If `ai` is provided, MiniMax is used; any failure falls back to
  * the offline analyst so teachers always get a useful answer.
@@ -43,7 +50,9 @@ export async function generateInsight(
     target.scope === 'student' ? analyzeStudent(buildStudentContext(input, target.studentId)) : analyzeClass(buildClassContext(input));
   if (!ai?.apiKey) return { data: offline(), source: 'offline', model: null };
   try {
-    const p = target.scope === 'student' ? studentPrompt(buildStudentContext(input, target.studentId)) : classPrompt(buildClassContext(input));
+    // Data minimisation: the external model sees first names and last initials only.
+    const shared: AnalystInput = { ...input, students: input.students.map((s) => ({ ...s, name: shortName(s.name) })) };
+    const p = target.scope === 'student' ? studentPrompt(buildStudentContext(shared, target.studentId)) : classPrompt(buildClassContext(shared));
     const res = await minimaxChat(ai, [
       { role: 'system', content: p.system },
       { role: 'user', content: p.user },

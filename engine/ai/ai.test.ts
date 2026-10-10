@@ -43,3 +43,36 @@ describe('offline analyst', () => {
     expect(c.data.headline).toBeTruthy();
   });
 });
+
+describe('MiniMax request', () => {
+  it('sends only first names and last initials, and falls back offline on errors', async () => {
+    const now = new Date();
+    const input: AnalystInput = {
+      courseId: 'math-10c',
+      className: 'Math 10C',
+      students: [{ id: 's1', name: 'Ava Chen' }, { id: 's2', name: 'Ben Okafor' }],
+      taughtLessonIds: ['m10c-3-1'],
+      mastery: [{ ...emptySkillState('a1-gcf'), attempts: 4, correct: 1, pKnown: 0.2, level: 'attempted', lastPracticedAt: now.toISOString(), studentId: 's1' }],
+      events: [],
+      assignments: [],
+      submissions: [],
+    };
+    const bodies: string[] = [];
+    const realFetch = globalThis.fetch;
+    globalThis.fetch = (async (_url: unknown, init?: { body?: unknown }) => {
+      bodies.push(String(init?.body ?? ''));
+      return new Response('{"error":"unavailable"}', { status: 503 });
+    }) as typeof fetch;
+    try {
+      const res = await generateInsight(input, { scope: 'class' }, { apiKey: 'test-key' });
+      expect(bodies).toHaveLength(1);
+      expect(bodies[0]).toContain('Ava C.');
+      expect(bodies[0]).not.toContain('Chen');
+      expect(bodies[0]).not.toContain('Okafor');
+      expect(res.source).toBe('offline');
+      expect(res.error).toMatch(/503/);
+    } finally {
+      globalThis.fetch = realFetch;
+    }
+  });
+});
