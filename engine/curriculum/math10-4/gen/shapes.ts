@@ -211,8 +211,10 @@ class Sketch {
       text,
       cands: (ppu) => {
         const res: P[] = [];
+        // Sideways labels need extra room for half their width.
+        const extra = Math.abs(Math.cos(rad(out))) * (textWidth(text) / 2);
         for (const dpx of [11, 14, 18, 23, 29, 36])
-          for (const t of [0, 0.12, -0.12, 0.24, -0.24, 0.34, -0.34]) res.push(at(at(m, d, t * len), out, dpx / ppu));
+          for (const t of [0, 0.12, -0.12, 0.24, -0.24, 0.34, -0.34]) res.push(at(at(m, d, t * len), out, (dpx + extra) / ppu));
         return res;
       },
     });
@@ -408,7 +410,7 @@ function polygonFigure(pts: P[], o: { sides?: Array<string | null>; right?: numb
     const lab = o.sides?.[i];
     if (lab) s.sideLabel(v, pts[(i + 1) % pts.length], lab, c);
   });
-  return s.build({ margin: 0.8 });
+  return s.build({ margin: o.sides?.some(Boolean) ? 1.2 : 0.8 });
 }
 
 // ---------------------------------------------------------------------------
@@ -712,23 +714,21 @@ function triFromAngles(A: number, B: number): P[] {
 }
 
 /** Vertices of a quadrilateral of the given kind, plus its labelled sides and right angles. */
-function quadShape(rng: Rng, q: Quad, unit: string): { pts: P[]; sides: string[]; right: number[]; text: string } {
+function quadShape(rng: Rng, q: Quad, unit: string, k: number): { pts: P[]; sides: string[]; right: number[]; text: string } {
   const L = (x: number) => `${fmt(x)} ${unit}`;
   if (q === 'square') {
-    const s = rng.int(3, 9) * (unit === 'cm' ? 5 : 1);
+    const s = rng.int(3, 9) * k;
     return { pts: [[0, 0], [s, 0], [s, s], [0, s]], sides: [L(s), L(s), L(s), L(s)], right: [0, 1, 2, 3], text: `4 sides of ${L(s)} and 4 square corners` };
   }
   if (q === 'rectangle') {
     const w = rng.int(2, 5);
     const l = w + rng.int(2, 4);
-    const k = unit === 'cm' ? 10 : 1;
     return { pts: [[0, 0], [l * k, 0], [l * k, w * k], [0, w * k]], sides: [L(l * k), L(w * k), L(l * k), L(w * k)], right: [0, 1, 2, 3], text: `sides of ${L(l * k)}, ${L(w * k)}, ${L(l * k)} and ${L(w * k)}, and 4 square corners` };
   }
   if (q === 'rhombus' || q === 'parallelogram') {
     const a = rng.int(4, 8);
     const b = q === 'rhombus' ? a : a + rng.pick([-2, 2, 3]);
     const ang = rng.int(11, 14) * 5;
-    const k = unit === 'cm' ? 10 : 1;
     const dx = b * Math.cos(rad(ang));
     const dy = b * Math.sin(rad(ang));
     return {
@@ -740,7 +740,6 @@ function quadShape(rng: Rng, q: Quad, unit: string): { pts: P[]; sides: string[]
   }
   // Trapezoid: isosceles (legs 5 from a 3-4-5 triangle) or right (legs 4 and 5).
   const top = rng.int(3, 7);
-  const k = unit === 'cm' ? 10 : 1;
   if (rng.chance(0.5)) {
     const bot = top + 6;
     return { pts: [[0, 0], [bot, 0], [bot - 3, 4], [3, 4]], sides: [L(bot * k), L(5 * k), L(top * k), L(5 * k)], right: [], text: `only one pair of parallel sides: a bottom of ${L(bot * k)} and a top of ${L(top * k)}` };
@@ -805,8 +804,25 @@ function sideTypeOf(s: number[]): SideType {
   return 'scalene';
 }
 
-const SHAPE_CTX_TRI = ['a triangular flag', 'a corner shelf', 'a roof truss', 'a garden bed', 'a sail', 'a warning sign', 'a piece of plywood'];
-const SHAPE_CTX_QUAD = ['A floor tile', 'A window', 'A garden bed', 'A sign', 'A table top', 'A piece of fabric', 'A patio stone', 'A parking stall'];
+const SHAPE_CTX_TRI = [
+  { name: 'a triangular flag', unit: 'cm', k: 10 },
+  { name: 'a corner shelf', unit: 'cm', k: 5 },
+  { name: 'a roof truss', unit: 'm', k: 1 },
+  { name: 'a garden bed', unit: 'm', k: 1 },
+  { name: 'a sail', unit: 'm', k: 1 },
+  { name: 'a warning sign', unit: 'cm', k: 10 },
+  { name: 'a piece of plywood', unit: 'cm', k: 10 },
+];
+const SHAPE_CTX_QUAD = [
+  { name: 'A floor tile', unit: 'cm', k: 5 },
+  { name: 'A window', unit: 'cm', k: 10 },
+  { name: 'A garden bed', unit: 'm', k: 1 },
+  { name: 'A sign', unit: 'cm', k: 10 },
+  { name: 'A table top', unit: 'cm', k: 10 },
+  { name: 'A piece of fabric', unit: 'cm', k: 10 },
+  { name: 'A patio stone', unit: 'cm', k: 5 },
+  { name: 'A parking lot', unit: 'm', k: 5 },
+];
 
 const classifyShape = skill({
   id: 'm104-classify-shape',
@@ -816,17 +832,17 @@ const classifyShape = skill({
   lessonId: 'm104-8-1',
   format: 'mc',
   gen(rng, d) {
-    const unit = rng.pick(['cm', 'cm', 'm']);
     const sideNames: SideType[] = ['equilateral', 'isosceles', 'scalene'];
     const angNames: AngType[] = ['acute', 'right', 'obtuse'];
     const triBySides = (picture: boolean) => {
       const t = rng.pick(sideNames);
-      const sides = triSides(rng, t);
-      const lab = sides.map((x) => `${x} ${unit}`);
       const ctx = rng.pick(SHAPE_CTX_TRI);
+      const unit = ctx.unit;
+      const sides = triSides(rng, t).map((x) => x * ctx.k) as [number, number, number];
+      const lab = sides.map((x) => `${x} ${unit}`);
       const listed = `$${sides[0]}\\ \\text{${unit}}$, $${sides[1]}\\ \\text{${unit}}$ and $${sides[2]}\\ \\text{${unit}}$`;
       return {
-        prompt: picture ? `The picture shows ${ctx}. Name the triangle by its sides.` : `${cap(ctx)} is a triangle with sides of ${listed}. Name the triangle by its sides.`,
+        prompt: picture ? `The picture shows ${ctx.name}. Name the triangle by its sides.` : `${cap(ctx.name)} is a triangle with sides of ${listed}. Name the triangle by its sides.`,
         ...(picture ? { figure: polygonFigure(place(triFromSides(...sides), rng.pick([0, 0, 0, 90, 180, 270, 30, -30]), rng.chance(0.5)), { sides: lab }) } : {}),
         parts: [{ answer: fixedChoice(sideNames.map((x) => `${cap(x)} triangle`), sideNames.indexOf(t)) }],
         hints: ['Compare the three side lengths. How many of them are equal?', 'Equilateral: 3 equal sides. Isosceles: 2 equal sides. Scalene: no equal sides.'],
@@ -842,7 +858,7 @@ const classifyShape = skill({
       const big = Math.max(...angs);
       const pts = triFromAngles(angs[0], angs[1]);
       return {
-        prompt: picture ? `The picture shows ${ctx}. Name the triangle by its angles.` : `${cap(ctx)} is a triangle with angles of ${listed}. Name the triangle by its angles.`,
+        prompt: picture ? `The picture shows ${ctx.name}. Name the triangle by its angles.` : `${cap(ctx.name)} is a triangle with angles of ${listed}. Name the triangle by its angles.`,
         ...(picture
           ? {
               figure: polygonFigure(place(pts, rng.pick([0, 0, 0, 90, 180, 270]), rng.chance(0.5)), {
@@ -859,13 +875,13 @@ const classifyShape = skill({
     };
     const quad = (picture: boolean) => {
       const q = rng.pick(QUADS);
-      const sh = quadShape(rng, q, unit);
       const ctx = rng.pick(SHAPE_CTX_QUAD);
+      const sh = quadShape(rng, q, ctx.unit, ctx.k);
       const names = [q, ...QUAD_WRONG[q]];
       return {
         prompt: picture
-          ? `${ctx} has the shape shown. Small squares mark the right angles. What is the **most exact** name for the shape?`
-          : `${ctx} has ${sh.text}. What is the **most exact** name for its shape?`,
+          ? `${ctx.name} has the shape shown. Small squares mark the right angles. What is the **most exact** name for the shape?`
+          : `${ctx.name} has ${sh.text}. What is the **most exact** name for its shape?`,
         ...(picture ? { figure: polygonFigure(place(sh.pts, rng.pick([0, 0, 90, 180, 270]), rng.chance(0.5)), { sides: sh.sides, right: sh.right }) } : {}),
         parts: [{ answer: mc(rng, cap(q), names.slice(1).map(cap)) }],
         hints: [
@@ -899,7 +915,7 @@ const classifyShape = skill({
       const [A, B, C] = angs;
       const ctx = rng.pick(SHAPE_CTX_TRI);
       return {
-        prompt: `Two angles of ${ctx} are $${deg(A)}$ and $${deg(B)}$. The three angles of any triangle add to $180^\\circ$. Find the third angle. Then name the triangle by its angles.`,
+        prompt: `Two angles of ${ctx.name} are $${deg(A)}$ and $${deg(B)}$. The three angles of any triangle add to $180^\\circ$. Find the third angle. Then name the triangle by its angles.`,
         parts: [part({ kind: 'numeric', value: C }, { label: 'Third angle $=$', suffix: '°' }), part(fixedChoice(angNames.map((x) => `${cap(x)} triangle`), angNames.indexOf(t)), { label: 'Name' })],
         hints: ['Add the two angles you know, then subtract the total from $180^\\circ$.', 'Then look at the largest of the three angles and compare it with $90^\\circ$.'],
         solution: [`$${A} + ${B} = ${A + B}$`, `$180 - ${A + B} = ${C}$, so the third angle is $${deg(C)}$.`, `The angles are $${deg(A)}$, $${deg(B)}$ and $${deg(C)}$.`, ANG_RULE[t], `The third angle is $${deg(C)}$, and it is ${an(t)} **${t}** triangle.`],
@@ -917,14 +933,14 @@ const classifyShape = skill({
     ];
     const [at3, st3] = rng.pick(combos);
     const tri = makeTriangle(rng, at3, st3);
-    const lab = tri.sides.map((x) => `${fmt(x)} ${unit}`);
+    const ctx3 = rng.pick(SHAPE_CTX_TRI);
+    const lab = tri.sides.map((x) => `${fmt(x * ctx3.k)} ${ctx3.unit}`);
     const name = (a: AngType, s: SideType) => `${cap(a)} ${s} triangle`;
     const otherA = rng.pick(angNames.filter((x) => x !== at3));
     const otherS: SideType = st3 === 'isosceles' ? 'scalene' : 'isosceles';
-    const ctx = rng.pick(SHAPE_CTX_TRI);
     const big = Math.max(...tri.angles);
     return {
-      prompt: `The picture shows ${ctx} with all its sides and angles measured. Name the triangle by its angles **and** by its sides.`,
+      prompt: `The picture shows ${ctx3.name} with all its sides and angles measured. Name the triangle by its angles **and** by its sides.`,
       figure: polygonFigure(place(tri.pts, rng.pick([0, 0, 90, 180, 270]), rng.chance(0.5)), {
         sides: lab,
         angles: tri.angles.map((x) => `${x}°`),

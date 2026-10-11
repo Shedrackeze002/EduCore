@@ -76,7 +76,16 @@ export function canonicalResponses(item: Item): string[] {
 }
 
 /** Human-readable correct answer (Markdown + LaTeX) for review screens. */
-export function answerMarkdown(spec: AnswerSpec): string {
+/** True when a fraction with this denominator is a terminating decimal. */
+function terminates(d: number): boolean {
+  let x = d;
+  while (x % 2 === 0) x /= 2;
+  while (x % 5 === 0) x /= 5;
+  return x === 1;
+}
+
+/** The correct answer as Markdown. Pass the part so a unit shown after the box is included. */
+export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): string {
   switch (spec.kind) {
     case 'mc':
       return spec.choices.find((c) => c.id === spec.correct)?.md ?? '';
@@ -91,10 +100,17 @@ export function answerMarkdown(spec: AnswerSpec): string {
       return spec.accepted[0];
     case 'numeric': {
       if (spec.undefinedValue) return 'undefined';
-      const unit = spec.unit ? ` ${spec.unit}` : '';
+      const unit = spec.unit ? ` ${spec.unit}` : part?.suffix ? ` ${part.suffix}` : '';
       if (spec.decimals !== undefined) return `$${fmtFixed(spec.value, spec.decimals)}$${unit}`;
       const f = toFrac(spec.value, 1000);
-      if (f && f.d !== 1) return `$${f.n < 0 ? '-' : ''}\\frac{${Math.abs(f.n)}}{${f.d}}$${unit}`;
+      if (f && f.d !== 1) {
+        // 621/50 reads better as 12.42; halves, quarters and sixteenths stay as fractions.
+        if (f.d > 16 && terminates(f.d)) return `$${fmt(spec.value, 6)}$${unit}`;
+        const n = Math.abs(f.n);
+        // A measured amount (it has a unit) is written as a mixed number: 5 2/3 cups, not 17/3.
+        if (part?.suffix && n > f.d) return `$${f.n < 0 ? '-' : ''}${Math.floor(n / f.d)}\\tfrac{${n % f.d}}{${f.d}}$${unit}`;
+        return `$${f.n < 0 ? '-' : ''}\\frac{${n}}{${f.d}}$${unit}`;
+      }
       if (f) return `$${f.n}$${unit}`;
       return `$${fmt(spec.value, 6)}$${unit}`;
     }
