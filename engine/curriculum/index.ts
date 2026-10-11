@@ -2,11 +2,13 @@
 import type { CourseMeta, SkillDef } from '../types.ts';
 import { MATH10C } from './math10c/course.ts';
 import { MATH10C_SKILLS } from './math10c/skills.ts';
+import { MATH10_3 } from './math10-3/course.ts';
+import { MATH10_3_SKILLS } from './math10-3/skills.ts';
 
-export const COURSES: CourseMeta[] = [MATH10C];
+export const COURSES: CourseMeta[] = [MATH10C, MATH10_3];
 
 const SKILLS = new Map<string, SkillDef>();
-for (const s of MATH10C_SKILLS) {
+for (const s of [...MATH10C_SKILLS, ...MATH10_3_SKILLS]) {
   if (SKILLS.has(s.id)) throw new Error(`Duplicate skill id ${s.id}`);
   SKILLS.set(s.id, s);
 }
@@ -21,6 +23,11 @@ export function allSkills(): SkillDef[] {
 
 export function getCourse(id: string): CourseMeta | undefined {
   return COURSES.find((c) => c.id === id);
+}
+
+/** The course a lesson belongs to. */
+export function courseOfLesson(lessonId: string): CourseMeta | undefined {
+  return COURSES.find((c) => c.lessons.some((l) => l.id === lessonId));
 }
 
 export function lessonById(id: string) {

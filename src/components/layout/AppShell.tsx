@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/features/auth/AuthProvider.tsx';
 import { useClasses } from '@/data/hooks.ts';
+import { getCourse } from '@engine/curriculum/index.ts';
 import { demoApi, setDemoBackend } from '@/data/index.ts';
 import { SUPABASE_CONFIGURED } from '@/config.ts';
 import { Avatar, Badge, Menu, MenuItem } from '@/components/ui/index.ts';
@@ -192,7 +193,7 @@ function Sidebar({ role, classId, nav, isAdmin }: { role: ShellRole; classId?: s
       <div className="border-t border-line p-4 text-xs text-ink-3">
         <div className="flex items-center gap-2">
           {role === 'admin' ? <ShieldCheck className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
-          {role === 'admin' ? 'EduCore platform administration' : 'Grade 10 Mathematics · Math 10C'}
+          {role === 'admin' ? 'EduCore platform administration' : <CourseLabel classId={classId} />}
         </div>
       </div>
     </div>
@@ -257,6 +258,13 @@ function ClassSwitcher({ classId }: { classId?: string }) {
       </Menu>
     </div>
   );
+}
+
+/** The current class's course (teachers) or the student's class course. */
+function CourseLabel({ classId }: { classId?: string }) {
+  const { data: classes = [] } = useClasses();
+  const cls = classes.find((c) => c.id === classId) ?? (classes.length === 1 ? classes[0] : undefined);
+  return <>{(cls && getCourse(cls.courseId)?.title) ?? 'EduCore Mathematics'}</>;
 }
 
 function AdminBadge() {

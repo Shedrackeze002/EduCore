@@ -9,10 +9,11 @@ import { cn } from '@/lib/cn.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { ApprovalNotice, needsApproval } from './ApprovalNotice.tsx';
 
-const UPCOMING = ['Grade 5 Mathematics', 'Grade 6 Mathematics', 'Grade 7 Mathematics', 'Grade 8 Mathematics', 'Grade 9 Mathematics', 'Math 20-1', 'Math 30-1'];
+const UPCOMING = ['Math 20-1', 'Math 20-2', 'Math 20-3', 'Math 30-1', 'Math 30-2', 'Math 30-3', 'Math 31', 'Math 10-4 and 20-4 (K&E)', 'Grades 5 to 9'];
 
 export default function NewClassPage() {
-  const [name, setName] = useState('Math 10C');
+  const [name, setName] = useState(COURSES[0].shortTitle);
+  const [nameEdited, setNameEdited] = useState(false);
   const [section, setSection] = useState('');
   const [courseId, setCourseId] = useState(COURSES[0].id);
   const [publishFirst, setPublishFirst] = useState(true);
@@ -44,7 +45,7 @@ export default function NewClassPage() {
       <form onSubmit={onSubmit} className="space-y-6">
         <Card>
           <CardBody className="grid gap-4 sm:grid-cols-2">
-            <Input label="Class name" value={name} onChange={(e) => setName(e.target.value)} required maxLength={60} />
+            <Input label="Class name" value={name} onChange={(e) => { setName(e.target.value); setNameEdited(true); }} required maxLength={60} />
             <Input label="Section or period" placeholder="e.g. Block A, Period 3" value={section} onChange={(e) => setSection(e.target.value)} maxLength={40} />
           </CardBody>
         </Card>
@@ -55,7 +56,10 @@ export default function NewClassPage() {
               <button
                 key={c.id}
                 type="button"
-                onClick={() => setCourseId(c.id)}
+                onClick={() => {
+                  setCourseId(c.id);
+                  if (!nameEdited) setName(c.shortTitle);
+                }}
                 className={cn('card flex items-start gap-3 p-4 text-left transition', courseId === c.id ? 'border-brand ring-2 ring-brand/20' : 'hover:border-line-strong')}
               >
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700">

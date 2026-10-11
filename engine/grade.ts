@@ -116,6 +116,7 @@ const GROUPED = /^-?\d{1,3}(,\d{3})+(\.\d+)?$/;
 function stripUnits(s: string): string {
   return s
     .replace(/\s*(cm|mm|km|m|in|inches|inch|ft|feet|foot|yd|yards|yard|mi|miles|mile|degrees|deg|°|units?)(\^?[23²³])?\s*$/i, '')
+    .replace(/\s*(kg|mg|g|ml|l|litres?|liters?|lbs?|pounds?|oz|fl\.?\s*oz|gal|gallons?|qt|quarts?|pt|pints?|cups?|tons?|tonnes?|°\s*[cf]|percent|%|h|hrs?|hours?|mins?|minutes?|dollars?)\s*$/i, '')
     .replace(/°$/, '')
     .trim();
 }
