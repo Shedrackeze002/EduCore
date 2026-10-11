@@ -34,10 +34,27 @@ existing platforms shaped the design, and where the current version still has li
 
 ## The curriculum
 
-Lessons and skills follow the Alberta *Mathematics Grades 10–12 Program of Studies* for
-Mathematics 10C [11], using the outcome codes in the course syllabus (M1–M4, A1–A5, R1–R10).
-Each outcome is broken into specific skills; each skill has a generator with three difficulty
-levels, hints and worked solutions, and appears in at least one lesson check.
+Lessons and skills follow the Alberta *Mathematics Grades 10–12 Program of Studies* [11]. Each
+outcome is broken into specific skills; each skill has a generator with three difficulty levels,
+hints and worked solutions, and appears in at least one lesson check.
+
+| Course | Stream | Outcomes |
+|---|---|---|
+| Mathematics 10C | -1 and -2 (pre-calculus and foundations) | Measurement M1–M4, Algebra and Number A1–A5, Relations and Functions R1–R10, using the codes in the course syllabus. |
+| Mathematics 10-3 | -3 (workplace and apprenticeship) | Measurement M1–M4, Geometry G1–G6, Number N1–N2, Algebra A1. |
+
+Alberta's Grade 10–12 courses are built on the WNCP *Common Curriculum Framework for Grades 10–12
+Mathematics* (2008), so Mathematics 10-3 corresponds to its *Apprenticeship and Workplace
+Mathematics, Grade 10* [14] and to Saskatchewan's *Workplace and Apprenticeship Mathematics 10*
+[15]. The Mathematics 10-3 outcome codes and the wording of M1–M4, G1, G2, G4 and N1 were
+confirmed against Alberta-labelled sources [16], [17]; the wording of G3, G5, G6, N2 and A1
+follows the WNCP framework and the matching Saskatchewan outcomes. Alberta's own *Outcomes with
+Assessment Standards for Mathematics 10-3* [18] should be used for a final word-for-word check,
+which this build could not do because the document host was unreachable from the build
+environment.
+
+Workplace contexts state every rate in the question itself (GST, exchange rates, simplified
+payroll deduction rates, overtime rules), so questions stay correct when official rates change.
 
 ## AI teaching assistant
 
@@ -95,3 +112,13 @@ and hover details, and every level is also named in text, so colour is never the
 [12] MiniMax, "OpenAI SDK," MiniMax API Docs. [platform.minimax.io](https://platform.minimax.io/docs/api-reference/text-openai-api)
 
 [13] W3C, *Web Content Accessibility Guidelines (WCAG) 2.2*, 2023. [w3.org/TR/WCAG22](https://www.w3.org/TR/WCAG22/)
+
+[14] Western and Northern Canadian Protocol, *The Common Curriculum Framework for Grades 10–12 Mathematics: Apprenticeship and Workplace Mathematics, Grade 10*, 2008. [bced.gov.bc.ca](https://www.bced.gov.bc.ca/irp/pdfs/mathematics/WNCPmath1012/2008math_app_work10.pdf)
+
+[15] Saskatchewan Ministry of Education, *Workplace and Apprenticeship Mathematics 10*, 2010. [curriculum.gov.sk.ca](https://curriculum.gov.sk.ca/CurriculumOutcomeContent?id=160)
+
+[16] "Math 10-3 Measurement" and "Math 10-3 Trigonometry," *WNCP Orchestrated Experiences for High School Math*. [wncpactivemath.wordpress.com](https://wncpactivemath.wordpress.com/math-10-3/math-10-3-measurement/)
+
+[17] Calgary Board of Education, *Alberta Mathematics Kindergarten to Grade 12 Scope and Sequence*, 2017. [cbe.ab.ca](https://joanecardinalschubert.cbe.ab.ca/documents/3b6ad6a1-0128-554f-a162-22e16a145d51/00-alberta_math_k-12_scope_sequence-2017.pdf)
+
+[18] Alberta Education, *Outcomes with Assessment Standards for Mathematics 10-3*, 2012. [open.alberta.ca](https://open.alberta.ca/publications/9780778598855)

@@ -1,28 +1,40 @@
 import { describe, expect, it } from 'vitest';
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { parseLesson, referencedSkills } from './lessonParser.ts';
+import { checkLessonFile } from './testing.ts';
 import { getSkill, COURSES } from '@engine/curriculum/index.ts';
 
-const dir = join(__dirname, 'math10c', 'lessons');
+// Each course keeps its lessons in src/content/<folder>/lessons/<lesson-id>.md.
+const files = readdirSync(__dirname, { withFileTypes: true })
+  .filter((d) => d.isDirectory())
+  .flatMap((d) => {
+    const dir = join(__dirname, d.name, 'lessons');
+    try {
+      return readdirSync(dir)
+        .filter((f) => f.endsWith('.md'))
+        .map((f) => ({ id: f.replace('.md', ''), path: join(dir, f), label: `${d.name}/${f}` }));
+    } catch {
+      return [];
+    }
+  });
+
+const lessonMeta = new Map(COURSES.flatMap((c) => c.lessons.map((l) => [l.id, l] as const)));
 
 describe('lesson content', () => {
-  const files = readdirSync(dir).filter((f) => f.endsWith('.md'));
-  it('has a lesson file for every lesson in the course', () => {
-    const ids = new Set(files.map((f) => f.replace('.md', '')));
-    for (const l of COURSES[0].lessons) expect(ids.has(l.id), l.id).toBe(true);
+  for (const course of COURSES) {
+    it(`${course.id} has a lesson file for every lesson`, () => {
+      const ids = new Set(files.map((f) => f.id));
+      for (const l of course.lessons) expect(ids.has(l.id), l.id).toBe(true);
+    });
+  }
+  it('every lesson file belongs to a course', () => {
+    for (const f of files) expect(lessonMeta.has(f.id), f.label).toBe(true);
   });
   for (const f of files) {
-    it(`${f} parses, references real skills, and practises every lesson skill`, () => {
-      const content = parseLesson(readFileSync(join(dir, f), 'utf8'));
-      expect(content.sections.length).toBeGreaterThan(1);
-      const refs = referencedSkills(content);
-      for (const r of refs) expect(getSkill(r), `${f}: unknown skill ${r}`).toBeTruthy();
-      const meta = COURSES[0].lessons.find((l) => l.id === f.replace('.md', ''))!;
-      for (const s of meta.skills) expect(refs, `${f} never checks ${s}`).toContain(s);
-      const all = [...content.intro, ...content.sections.flatMap((s) => s.blocks)];
-      expect(all.some((b) => b.type === 'example'), `${f} has no worked example`).toBe(true);
-      expect(all.some((b) => b.type === 'callout' && b.variant === 'summary'), `${f} has no summary`).toBe(true);
+    it(`${f.label} parses, references real skills, and practises every lesson skill`, () => {
+      const meta = lessonMeta.get(f.id);
+      expect(meta, `${f.label} is not in any course`).toBeTruthy();
+      checkLessonFile(f.path, meta!, (id) => !!getSkill(id), f.label);
     });
   }
 });

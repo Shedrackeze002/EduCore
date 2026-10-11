@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { BookOpen, Clock, ExternalLink, FileText, Target, Video } from 'lucide-react';
-import { lessonById, unitById, getCourse } from '@engine/curriculum/index.ts';
+import { courseOfLesson, lessonById, unitById } from '@engine/curriculum/index.ts';
 import { loadLesson } from '@/content/index.ts';
 import type { LessonContent } from '@/content/lessonParser.ts';
 import type { Resource } from '@/data/types.ts';
@@ -29,7 +29,7 @@ export function useLessonContent(lessonId: string | undefined) {
 export function LessonHeader({ lessonId, actions }: { lessonId: string; actions?: ReactNode }) {
   const meta = lessonById(lessonId);
   const unit = meta ? unitById(meta.unitId) : undefined;
-  const course = getCourse('math-10c');
+  const course = courseOfLesson(lessonId);
   if (!meta) return null;
   return (
     <div className="card overflow-hidden">

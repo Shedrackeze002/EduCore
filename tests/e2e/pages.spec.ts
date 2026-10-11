@@ -72,3 +72,21 @@ test('students practise a skill with instant feedback', async ({ page }) => {
   await expect(page.getByText(/Correct|Not quite|Incorrect/).first()).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('a teacher creates a Math 10-3 class and teaches from its curriculum', async ({ page }) => {
+  const errors = trackErrors(page);
+  await signInDemo(page, 'Teacher');
+  await page.goto('/t/new-class');
+  await page.getByRole('button', { name: /Math 10-3/ }).click();
+  await expect(page.getByLabel('Class name')).toHaveValue('Math 10-3');
+  await page.getByRole('button', { name: 'Create class' }).click();
+  await page.waitForURL(/\/t\/c\/c_/);
+  await expect(page.getByText('Grade 10 Mathematics (Math 10-3)').first()).toBeVisible();
+  await page.goto(`${page.url().replace(/\/$/, '')}/curriculum`);
+  await expect(page.getByText('Unit Pricing and Currency Exchange').first()).toBeVisible();
+  await page.goto(`${page.url().replace(/\/curriculum$/, '')}/lessons/m103-6-3`);
+  await expect(page.getByText('Parallel Lines and Transversals').first()).toBeVisible();
+  await expect(page.getByText(/Check your understanding/i).first()).toBeVisible();
+  expect(await page.locator('.katex-error').count()).toBe(0);
+  expect(errors).toEqual([]);
+});

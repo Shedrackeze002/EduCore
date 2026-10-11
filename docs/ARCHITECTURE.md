@@ -120,10 +120,11 @@ implementations exist:
 
 ## Adding Grades 5–12
 
-The platform is course-agnostic. To add a course, for example Math 20-1:
+The platform is course-agnostic: Math 10C and Math 10-3 already run side by side. To add a
+course, for example Math 20-1:
 
 1. Create `engine/curriculum/math20-1/course.ts` with outcomes, units and lessons (ids such as
-   `m201-1-1`), following `math10c/course.ts`.
+   `m201-1-1`), following `math10c/course.ts` or `math10-3/course.ts`.
 2. Write skill generators in `engine/curriculum/math20-1/gen/*.ts` using the `skill()` helper:
    each skill returns a prompt, answer parts, hints and a worked solution for difficulty 1–3.
 3. Export the skills and register the course in `engine/curriculum/index.ts` (`COURSES` and the
@@ -132,7 +133,11 @@ The platform is course-agnostic. To add a course, for example Math 20-1:
    (`:::definition`, `:::example` with `@step`/`@answer`, `:::check <skill-id> <difficulty>`,
    `:::mistake`, `:::summary`).
 5. Run `npm test`: the generator and lesson tests automatically cover the new course, and the new
-   course appears in *New class*.
+   course appears in *New class*. Money answers must be graded to the cent (`tolerance: 0.011`, or
+   up to 0.03 where several amounts are each rounded before adding); a test fails any "nearest cent" question that is graded more loosely.
+6. Redeploy the Edge Functions (`npm run functions:deploy`, or the *Deploy Supabase backend*
+   workflow). The server re-grades every submission with the shared engine, so until the
+   functions carry the new course, its assignments cannot be started or graded.
 
 ## Lesson format
 

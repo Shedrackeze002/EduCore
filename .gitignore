@@ -10,3 +10,7 @@ supabase/.temp
 supabase/.branches
 supabase/functions/_shared/engine
 .DS_Store
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+scripts/.tmp/

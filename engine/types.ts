@@ -218,6 +218,8 @@ export interface PlaneFigure {
   riseRun?: { from: [number, number]; to: [number, number] };
   /** Hide numeric tick labels (for "describe the graph" questions). */
   hideTickLabels?: boolean;
+  /** Hide the axes (diagrams drawn on the plane). Planes without grid lines and tick labels hide them automatically. */
+  hideAxes?: boolean;
   /** Label segments A, B, C ... at their midpoints. */
   segmentLabels?: string[];
   caption?: string;

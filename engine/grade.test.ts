@@ -34,6 +34,19 @@ describe('numeric', () => {
     expect(gradePart({ kind: 'numeric', value: 1234 }, '1,234').correct).toBe(true);
     expect(gradePart({ kind: 'numeric', value: 0, undefinedValue: true }, 'undefined').correct).toBe(true);
   });
+  it('accepts money, mass, capacity, temperature, percent and time units', () => {
+    const money = { kind: 'numeric' as const, value: 1250.5, decimals: 2 };
+    expect(gradePart(money, '$1,250.50').correct).toBe(true);
+    expect(gradePart(money, '1250.50 dollars').correct).toBe(true);
+    for (const [value, typed] of [[12, '12 kg'], [250, '250 mL'], [3.5, '3.5 L'], [16, '16 oz'], [2, '2 lb'], [98.6, '98.6 °F'], [37, '37°C'], [15, '15%'], [7.5, '7.5 h'], [4, '4 gal']] as const) {
+      expect(gradePart({ kind: 'numeric', value }, typed).correct, typed).toBe(true);
+    }
+    expect(gradePart({ kind: 'numeric', value: 12 }, '13 kg').correct).toBe(false);
+    expect(gradePart({ kind: 'numeric', value: 48 }, '48 tiles').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 3 }, '3 cans of paint').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 3 * Math.PI }, '3 pi').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 2 * Math.sqrt(5) }, '2 sqrt(5)').correct).toBe(true);
+  });
 });
 
 describe('expression forms', () => {
