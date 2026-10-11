@@ -17,6 +17,7 @@ It starts with **Grade 10 Mathematics (Alberta Math 10C)** and is built to grow 
 | **Mastery** | Bayesian Knowledge Tracing per student and skill with five levels: Not started, Attempted, Familiar, Proficient, Mastered. Spaced review is suggested when a skill may be fading. |
 | **Reminders** | Students are notified when work is assigned. Before the deadline, only students who have **not** submitted are reminded (24 h and 2 h by default, configurable). |
 | **AI assistant** | Powered by MiniMax (`MiniMax-M3.1-Flash-Preview`) with an offline analyst as a fallback. It reports strengths, gaps, likely misconceptions, areas of growth and suggested groups, and proposes actions the teacher approves with one click. An optional autopilot assigns targeted practice after graded work. |
+| **Admin console** | For running EduCore across a school or district: platform overview, every user and class, teacher approval, admin roles, password resets, disabling accounts, sign-up settings and an audit log. |
 | **Teacher tools** | Class overview, curriculum publishing, present mode, assignment builder with student preview, per-question analysis with sample wrong answers, grading of written responses, gradebook with optional category weights, mastery heatmap, roster with generated logins and printable cards, announcements, CSV export. |
 
 ## Try it
