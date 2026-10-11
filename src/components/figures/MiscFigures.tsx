@@ -70,7 +70,9 @@ export function Ruler({ fig }: { fig: RulerFigure }) {
     marks.push({ x: toX(v), h, label: i % sub === 0 ? String(i / sub) : undefined });
   }
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="figure-svg mx-auto h-auto w-full" role="img" aria-label={`${metric ? 'Metric' : 'Imperial'} ruler measuring a bar`}>
+    // Fine marks (millimetres, sixteenths) need the drawing near full size: on a phone it scrolls sideways instead of shrinking.
+    <div className="overflow-x-auto">
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ minWidth: Math.min(W, 640) }} className="figure-svg mx-auto h-auto w-full" role="img" aria-label={`${metric ? 'Metric' : 'Imperial'} ruler measuring a bar`}>
       <rect x={toX(fig.start)} y={20} width={toX(fig.end) - toX(fig.start)} height={34} rx={3} fill="rgb(var(--series-1) / 0.22)" stroke={SERIES} strokeWidth={1.5} />
       <line x1={toX(fig.start)} x2={toX(fig.start)} y1={14} y2={top} stroke={SERIES} strokeDasharray="3 3" />
       <line x1={toX(fig.end)} x2={toX(fig.end)} y1={14} y2={top} stroke={SERIES} strokeDasharray="3 3" />
@@ -88,7 +90,8 @@ export function Ruler({ fig }: { fig: RulerFigure }) {
       <text x={W - pad} y={top + 62} fontSize={11} textAnchor="end" className="fig-muted">
         {metric ? 'cm' : 'inches'}
       </text>
-    </svg>
+      </svg>
+    </div>
   );
 }
 
