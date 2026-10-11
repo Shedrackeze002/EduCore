@@ -32,7 +32,7 @@ work authoritatively. This keeps the server and the student's screen in exact ag
 | `rng.ts` | Seeded random numbers (mulberry32). An item is fully described by `{skillId, seed, difficulty}`. |
 | `math/` | A forgiving expression parser (implicit multiplication, `sqrt`, roots, unicode), polynomial normalisation, linear-relation helpers. |
 | `curriculum/` | Course metadata (units, lessons, outcomes) and one generator per skill. |
-| `grade.ts` | Grades every answer type: numbers, expressions in a required form (expanded, factored, simplified radical, exponent form…), lines in a required form, points, graphs, choices, ordering. Gives specific messages such as "Factor completely". |
+| `grade.ts` | Grades every answer type: numbers, lists of numbers (roots and solutions in any order), expressions in a required form (expanded, factored, simplified radical, exponent form…), lines in a required form, points, graphs, choices, ordering. Gives specific messages such as "Factor completely". |
 | `mastery.ts` | Bayesian Knowledge Tracing and mastery levels. |
 | `assemble.ts` | Builds an attempt from an assignment, regenerates items from references, grades a submission. |
 | `submit.ts` | `validateRefs` and `processSubmission`: the single code path used by the demo and the server. |
@@ -120,12 +120,13 @@ implementations exist:
 
 ## Adding Grades 5–12
 
-The platform is course-agnostic: Math 10C, Math 10-3 and the Knowledge and Employability courses
-Math 10-4 and 20-4 already run side by side. To add a course, for example Math 20-1:
+The platform is course-agnostic: the Grade 10 courses (Math 10C, 10-3, 10-4) and the Grade 11
+courses (Math 20-1, 20-2, 20-3, 20-4) already run side by side. To add a course, for example
+Math 30-1:
 
-1. Create `engine/curriculum/math20-1/course.ts` with outcomes, units and lessons (ids such as
-   `m201-1-1`), following `math10c/course.ts` or `math10-3/course.ts`.
-2. Write skill generators in `engine/curriculum/math20-1/gen/*.ts` using the `skill()` helper:
+1. Create `engine/curriculum/math30-1/course.ts` with outcomes, units and lessons (ids such as
+   `m301-1-1`), following `math20-1/course.ts` or `math20-3/course.ts`.
+2. Write skill generators in `engine/curriculum/math30-1/gen/*.ts` using the `skill()` helper:
    each skill returns a prompt, answer parts, hints and a worked solution for difficulty 1–3.
 3. Export the skills and register the course in `engine/curriculum/index.ts` (`COURSES` and
    `LOADERS`) and in `engine/curriculum/all.ts`, then run `npm run catalog` to regenerate the skill
@@ -133,7 +134,7 @@ Math 10-4 and 20-4 already run side by side. To add a course, for example Math 2
    loads only the catalogue up front and downloads a course's generators the first time a page
    needs them (`useSkillsReady` / `SkillsGate`); the server and the tests register every
    generator through `all.ts`.
-4. Add lesson text in `src/content/math20-1/lessons/<lesson-id>.md` using the same directives
+4. Add lesson text in `src/content/math30-1/lessons/<lesson-id>.md` using the same directives
    (`:::definition`, `:::example` with `@step`/`@answer`, `:::check <skill-id> <difficulty>`,
    `:::mistake`, `:::summary`).
 5. Run `npm test`: the generator and lesson tests automatically cover the new course, and the new

@@ -4,8 +4,8 @@ import { fmt, fmtFixed, toFrac, fracText } from './math/numbers.ts';
 import { lineText, generalText, lineSlope, lineYIntercept, slopePointText, evalLineY } from './math/linear.ts';
 import { frac } from './math/numbers.ts';
 
-/** A response string that the grader will accept for the spec (used for tests and "show answer"). */
-export function canonicalResponse(spec: AnswerSpec): string {
+/** A response string that the grader will accept for the spec (used for tests and "show answer"). Pass the part so a unit after the box is known. */
+export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }): string {
   switch (spec.kind) {
     case 'mc':
       return spec.correct;
@@ -19,11 +19,12 @@ export function canonicalResponse(spec: AnswerSpec): string {
       if (spec.undefinedValue) return 'undefined';
       if (spec.decimals !== undefined) return fmtFixed(spec.value, spec.decimals);
       const f = toFrac(spec.value, 1000);
+      if (f && showDecimal(spec, f.d, unitOf(spec, part))) return fmt(spec.value, 6);
       if (f) return fracText(f);
       return fmt(spec.value, 10);
     }
     case 'numbers':
-      return spec.values.length ? spec.values.map((value) => canonicalResponse({ kind: 'numeric', value, decimals: spec.decimals })).join(', ') : 'no solution';
+      return spec.values.length ? spec.values.map((value) => canonicalResponse({ kind: 'numeric', value, decimals: spec.decimals })).join(', ') : 'none';
     case 'expression':
       return spec.expected;
     case 'line': {
@@ -74,7 +75,7 @@ export function canonicalResponse(spec: AnswerSpec): string {
 }
 
 export function canonicalResponses(item: Item): string[] {
-  return item.parts.map((p) => canonicalResponse(p.answer));
+  return item.parts.map((p) => canonicalResponse(p.answer, p));
 }
 
 /** True when a fraction with this denominator is a terminating decimal. */
@@ -83,6 +84,27 @@ function terminates(d: number): boolean {
   while (x % 2 === 0) x /= 2;
   while (x % 5 === 0) x /= 5;
   return x === 1;
+}
+
+/** Imperial and kitchen measures, which are written with halves, quarters and eighths (5 1/2 in, 3/4 cup). */
+const FRACTION_UNITS = /^(cups?|in|inch(es)?|ft|feet|foot|yd|yards?|mi|miles?|lb|pounds?|oz|ounces?|tsp|teaspoons?|tbsp|tablespoons?|pints?|quarts?|gallons?)$/i;
+
+function unitOf(spec: { unit?: string }, part?: { suffix?: string }): string {
+  return (spec.unit ?? part?.suffix ?? '').trim();
+}
+
+/**
+ * Whether an exact non-integer answer is shown as a decimal: 621/50 as 12.42, and 8.4 cm, 3.5 cm or
+ * 55.7% rather than 8 2/5 cm or 557/10%. Values without a unit (ratios, slopes, probabilities) and
+ * imperial halves, quarters and eighths stay as fractions unless the spec says otherwise.
+ */
+function showDecimal(spec: { display?: 'fraction' | 'decimal' }, d: number, unit: string): boolean {
+  if (!terminates(d)) return false;
+  if (spec.display) return spec.display === 'decimal';
+  if (d > 16) return true;
+  if (!unit) return false;
+  const powerOfTwo = (d & (d - 1)) === 0;
+  return !(powerOfTwo && FRACTION_UNITS.test(unit));
 }
 
 /** The correct answer as Markdown (with LaTeX) for review screens. Pass the part so a unit shown after the box is included. */
@@ -105,8 +127,7 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
       if (spec.decimals !== undefined) return `$${fmtFixed(spec.value, spec.decimals)}$${unit}`;
       const f = toFrac(spec.value, 1000);
       if (f && f.d !== 1) {
-        // 621/50 reads better as 12.42; halves, quarters and sixteenths stay as fractions.
-        if (f.d > 16 && terminates(f.d)) return `$${fmt(spec.value, 6)}$${unit}`;
+        if (showDecimal(spec, f.d, unitOf(spec, part))) return `$${fmt(spec.value, 6)}$${unit}`;
         const n = Math.abs(f.n);
         // A measured amount (it has a unit) is written as a mixed number: 5 2/3 cups, not 17/3.
         if (part?.suffix && n > f.d) return `$${f.n < 0 ? '-' : ''}${Math.floor(n / f.d)}\\tfrac{${n % f.d}}{${f.d}}$${unit}`;
@@ -116,7 +137,7 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
       return `$${fmt(spec.value, 6)}$${unit}`;
     }
     case 'numbers':
-      return spec.values.length ? spec.values.map((value) => answerMarkdown({ kind: 'numeric', value, decimals: spec.decimals })).join(' and ') : 'no solution';
+      return spec.values.length ? spec.values.map((value) => answerMarkdown({ kind: 'numeric', value, decimals: spec.decimals })).join(' and ') : 'none';
     case 'expression':
       return '`' + spec.expected + '`';
     case 'line':

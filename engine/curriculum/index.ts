@@ -11,15 +11,21 @@ import { SKILL_CATALOG } from './catalog.ts';
 import { MATH10C } from './math10c/course.ts';
 import { MATH10_3 } from './math10-3/course.ts';
 import { MATH10_4 } from './math10-4/course.ts';
+import { MATH20_1 } from './math20-1/course.ts';
+import { MATH20_2 } from './math20-2/course.ts';
+import { MATH20_3 } from './math20-3/course.ts';
 import { MATH20_4 } from './math20-4/course.ts';
 
-export const COURSES: CourseMeta[] = [MATH10C, MATH10_3, MATH10_4, MATH20_4];
+export const COURSES: CourseMeta[] = [MATH10C, MATH10_3, MATH10_4, MATH20_1, MATH20_2, MATH20_3, MATH20_4];
 
 /** Each course's generators, loaded on demand (a separate download per course in the browser). */
 const LOADERS: Record<string, () => Promise<SkillDef[]>> = {
   'math-10c': () => import('./math10c/skills.ts').then((m) => m.MATH10C_SKILLS),
   'math-10-3': () => import('./math10-3/skills.ts').then((m) => m.MATH10_3_SKILLS),
   'math-10-4': () => import('./math10-4/skills.ts').then((m) => m.MATH10_4_SKILLS),
+  'math-20-1': () => import('./math20-1/skills.ts').then((m) => m.MATH20_1_SKILLS),
+  'math-20-2': () => import('./math20-2/skills.ts').then((m) => m.MATH20_2_SKILLS),
+  'math-20-3': () => import('./math20-3/skills.ts').then((m) => m.MATH20_3_SKILLS),
   'math-20-4': () => import('./math20-4/skills.ts').then((m) => m.MATH20_4_SKILLS),
 };
 

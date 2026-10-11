@@ -113,6 +113,8 @@ export function gradePart(spec: AnswerSpec, raw: string): PartResult {
 
 const MIXED = /^(-?)\s*(\d+)\s+(\d+)\s*\/\s*(\d+)$/;
 const GROUPED = /^-?\d{1,3}(,\d{3})+(\.\d+)?$/;
+/** Digits grouped by spaces, the SI and Canadian style: 250 000 or 1 250 000.5. */
+const SPACED = /^-?\d{1,3}([ \u00a0\u2009\u202f]\d{3})+(\.\d+)?$/;
 
 /** Strip a trailing unit the student typed ("12.5 cm" -> "12.5"). */
 function stripUnits(s: string): string {
@@ -133,6 +135,7 @@ export function parseNumber(raw: string, allowExpression: boolean): { value: num
   let s = stripUnits(raw.replace(/\$/g, '').trim());
   if (!s) return null;
   if (GROUPED.test(s)) s = s.replace(/,/g, '');
+  else if (SPACED.test(s)) s = s.replace(/[ \u00a0\u2009\u202f]/g, '');
   const mixed = MIXED.exec(s);
   if (mixed) {
     const sign = mixed[1] ? -1 : 1;
@@ -200,7 +203,7 @@ function gradeNumbers(spec: Extract<AnswerSpec, { kind: 'numbers' }>, response: 
   if (NO_SOLUTION.test(response.trim())) return spec.values.length === 0 ? ok() : no();
   const pieces = response
     .split(/[,;]|\bor\b|\band\b/i)
-    .map((p) => p.trim().replace(/^[a-z]\s*=\s*/i, ''))
+    .map((p) => p.trim().replace(/^(?:[a-zθ]|theta)\s*=\s*/i, ''))
     .filter(Boolean);
   if (!pieces.length) return invalid('Enter an answer.');
   if (spec.values.length === 0) return no('Check whether any value works.');
@@ -210,6 +213,8 @@ function gradeNumbers(spec: Extract<AnswerSpec, { kind: 'numbers' }>, response: 
   for (const piece of pieces) {
     const at = unmatched.findIndex((v) => gradeNumeric(one(v), piece).correct);
     if (at >= 0) unmatched.splice(at, 1);
+    // A repeated root ("3, 3" for a double root) is not a wrong answer.
+    else if (spec.values.some((v) => !unmatched.includes(v) && gradeNumeric(one(v), piece).correct)) continue;
     else {
       const r = gradeNumeric(one(spec.values[0]), piece);
       if (r.invalid) return invalid(`We could not read "${piece}". Separate answers with commas.`);

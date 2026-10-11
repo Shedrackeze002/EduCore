@@ -91,6 +91,23 @@ test('a teacher creates a Math 10-3 class and teaches from its curriculum', asyn
   expect(errors).toEqual([]);
 });
 
+test('a Grade 11 lesson check takes a list of roots', async ({ page }) => {
+  const errors = trackErrors(page);
+  await signInDemo(page, 'Teacher');
+  await page.goto('/t/new-class');
+  await page.getByRole('button', { name: /Math 20-1/ }).click();
+  await page.getByRole('button', { name: 'Create class' }).click();
+  await page.waitForURL(/\/t\/c\/c_/);
+  await page.goto(`${page.url().replace(/\/$/, '')}/lessons/m201-4-2`);
+  await expect(page.getByText('Solving Quadratic Equations by Graphing and Factoring').first()).toBeVisible();
+  const check = page.locator('div.border-dashed', { hasText: 'Check your understanding · Roots from a graph' }).first();
+  await check.getByRole('textbox', { name: 'Answer' }).first().fill('100, -100');
+  await check.getByRole('button', { name: 'Check' }).click();
+  await expect(check.getByText(/Not quite|Close/).first()).toBeVisible();
+  expect(await page.locator('.katex-error').count()).toBe(0);
+  expect(errors).toEqual([]);
+});
+
 test('a teacher creates a Knowledge and Employability class and sees its graphs', async ({ page }) => {
   const errors = trackErrors(page);
   await signInDemo(page, 'Teacher');
