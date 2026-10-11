@@ -84,6 +84,8 @@ export function gradePart(spec: AnswerSpec, raw: string): PartResult {
       }
       case 'numeric':
         return gradeNumeric(spec, response);
+      case 'numbers':
+        return gradeNumbers(spec, response);
       case 'expression':
         return gradeExpression(spec, response);
       case 'line':
@@ -188,6 +190,36 @@ function gradeNumeric(spec: Extract<AnswerSpec, { kind: 'numeric' }>, response: 
     return no();
   }
   return approxEqual(v, spec.value, 1e-6, 1e-7) ? ok() : no();
+}
+
+const NO_SOLUTION = /^(none|no solutions?|no real (roots?|solutions?|zeros?)|no answer|dne|∅|\{\s*\})$/i;
+
+/** A list of numbers in any order, such as "2, -3", "x = 2 or x = -3" or "no solution". */
+function gradeNumbers(spec: Extract<AnswerSpec, { kind: 'numbers' }>, response: string): PartResult {
+  if (!response) return invalid('Enter an answer.');
+  if (NO_SOLUTION.test(response.trim())) return spec.values.length === 0 ? ok() : no();
+  const pieces = response
+    .split(/[,;]|\bor\b|\band\b/i)
+    .map((p) => p.trim().replace(/^[a-z]\s*=\s*/i, ''))
+    .filter(Boolean);
+  if (!pieces.length) return invalid('Enter an answer.');
+  if (spec.values.length === 0) return no('Check whether any value works.');
+  const one = (value: number): Extract<AnswerSpec, { kind: 'numeric' }> => ({ kind: 'numeric', value, decimals: spec.decimals, tolerance: spec.tolerance });
+  const unmatched = [...spec.values];
+  let wrong = 0;
+  for (const piece of pieces) {
+    const at = unmatched.findIndex((v) => gradeNumeric(one(v), piece).correct);
+    if (at >= 0) unmatched.splice(at, 1);
+    else {
+      const r = gradeNumeric(one(spec.values[0]), piece);
+      if (r.invalid) return invalid(`We could not read "${piece}". Separate answers with commas.`);
+      wrong++;
+    }
+  }
+  if (!wrong && !unmatched.length) return ok();
+  if (!wrong) return no(unmatched.length === 1 ? 'Close — there is one more answer.' : `Close — there are ${unmatched.length} more answers.`);
+  if (!unmatched.length) return no('One of your answers does not work. Check each one.');
+  return no();
 }
 
 // ---------------------------------------------------------------------------

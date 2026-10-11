@@ -9,6 +9,8 @@
 import { freshSeed } from '@engine/rng.ts';
 import { buildItemRefs, DEFAULT_SETTINGS, isQuestionType, TYPE_LABEL, type StoredResponse } from '@engine/assemble.ts';
 import { processSubmission, validateRefs } from '@engine/submit.ts';
+import { loadSkills } from '@engine/curriculum/index.ts';
+import { refSkillIds } from '@/lib/useSkills.ts';
 import { dueReminders } from '@engine/reminders.ts';
 import { draftFromAction } from '@engine/actions.ts';
 import { generateInsight, DEFAULT_MODEL } from '@engine/ai/index.ts';
@@ -608,6 +610,9 @@ export class DemoApi implements DataApi {
       return { ...s };
     }
     const content = a?.content ?? { sections: [], custom: [] };
+    const tried = Object.values(patch.responses).flatMap((r) => r.history?.map((h) => h.ref) ?? []);
+    await loadSkills(refSkillIds(content, [...patch.items, ...tried]));
+    if (s.status !== 'in_progress') return s;
     const err = validateRefs(patch.items, content, s.practiceSkillIds ?? undefined);
     if (err) throw new Error(err);
     const states = new Map<string, SkillState>(this.db.mastery.filter((m) => m.studentId === me.id).map((m) => [m.skillId, m]));
@@ -672,6 +677,7 @@ export class DemoApi implements DataApi {
     s.responses[itemIndex] = { ...(s.responses[itemIndex] ?? { answers: [], hintsUsed: 0 }), manualScore: Math.max(0, Math.min(1, score01)), comment: comment ?? null };
     // Recompute totals with the engine (manual scores included).
     const { gradeSubmission } = await import('@engine/assemble.ts');
+    await loadSkills(refSkillIds(a?.content, s.items));
     const g = gradeSubmission(s.items, s.responses, a?.content ?? { sections: [], custom: [] }, a?.id ?? 'practice');
     s.score = g.score;
     s.maxScore = g.maxScore;

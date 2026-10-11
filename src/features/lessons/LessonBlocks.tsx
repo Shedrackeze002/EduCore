@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { AlertTriangle, BookMarked, ExternalLink, Eye, Info, Lightbulb, ListChecks, RefreshCw, Sparkles } from 'lucide-react';
 import type { Block } from '@/content/lessonParser.ts';
-import { getSkill } from '@engine/curriculum/index.ts';
+import { getSkill, skillInfo } from '@engine/curriculum/index.ts';
+import { useSkillsReady } from '@/lib/useSkills.ts';
 import { gradeItem, type ItemResult } from '@engine/grade.ts';
 import { freshSeed } from '@engine/rng.ts';
 import type { Difficulty } from '@engine/types.ts';
@@ -98,14 +99,15 @@ export function ExampleBlock({ block, large, presenter }: { block: Extract<Block
 
 /** An embedded, ungraded practice question generated fresh from a skill. */
 export function CheckBlock({ skillId, difficulty }: { skillId: string; difficulty: Difficulty }) {
-  const skill = getSkill(skillId);
+  const loaded = useSkillsReady([skillId]);
+  const skill = loaded === 'ready' ? getSkill(skillId) : undefined;
   const [seed, setSeed] = useState(() => freshSeed());
   const item = useMemo(() => skill?.generate(seed, difficulty), [skill, seed, difficulty]);
   const [responses, setResponses] = useState<string[]>([]);
   const [result, setResult] = useState<ItemResult | null>(null);
   const [hints, setHints] = useState(0);
   const [showSolution, setShowSolution] = useState(false);
-  if (!skill || !item) return null;
+  if (!skill || !item) return loaded === 'loading' && skillInfo(skillId) ? <div className="card h-40 animate-pulse bg-surface-2" aria-label="Loading question" /> : null;
   const check = () => {
     const r = gradeItem(item, responses);
     if (r.parts.every((p) => p.invalid)) {

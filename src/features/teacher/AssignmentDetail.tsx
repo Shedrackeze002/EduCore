@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowUpDown, BellRing, CalendarPlus, ChevronRight, Download, Eye, Lightbulb, MoreHorizontal, Pencil, Send, Sparkles, Trash2, Wand2 } from 'lucide-react';
 import { TYPE_LABEL, gradeSubmission, isQuestionType } from '@engine/assemble.ts';
+import { SkillsGate } from '@/components/SkillsGate.tsx';
+import { refSkillIds } from '@/lib/useSkills.ts';
 import { api } from '@/data/index.ts';
 import { useAssignment, useDeleteAssignment, useEvents, usePublishAssignment, useRoster, useSaveAssignment, useSubmissions } from '@/data/hooks.ts';
 import type { Assignment, Profile, SkillEvent, Submission } from '@/data/types.ts';
@@ -92,7 +94,13 @@ export default function AssignmentDetail() {
               ]}
             />
           )}
-          {tab === 'students' || !questions ? <StudentTable rows={rows} a={as} classId={classId} /> : <SkillBreakdown a={as} rows={rows} classId={classId} />}
+          {tab === 'students' || !questions ? (
+            <StudentTable rows={rows} a={as} classId={classId} />
+          ) : (
+            <SkillsGate skillIds={refSkillIds(as.content)}>
+              <SkillBreakdown a={as} rows={rows} classId={classId} />
+            </SkillsGate>
+          )}
         </>
       )}
     </div>

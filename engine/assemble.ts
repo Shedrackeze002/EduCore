@@ -3,7 +3,7 @@
  * and regenerates items from stored references (used by the server-side grader).
  */
 import { Rng, mixSeed } from './rng.ts';
-import { getSkill } from './curriculum/index.ts';
+import { getSkill, skillInfo } from './curriculum/index.ts';
 import type { AnswerSpec, Choice, Difficulty, Item, ItemRef } from './types.ts';
 import { gradeItem, type ItemResult } from './grade.ts';
 import { applyObservation, DEFAULT_BKT, emptySkillState, type SkillState } from './mastery.ts';
@@ -242,8 +242,9 @@ export function applyToMastery(
 ): Map<string, SkillState> {
   const next = new Map(states);
   for (const g of graded) {
-    if (g.manual || !getSkill(g.skillId)) continue;
-    const params = DEFAULT_BKT[getSkill(g.skillId)!.format];
+    const info = g.manual ? undefined : skillInfo(g.skillId);
+    if (!info) continue;
+    const params = DEFAULT_BKT[info.format];
     const prev = next.get(g.skillId) ?? emptySkillState(g.skillId, params);
     next.set(g.skillId, applyObservation(prev, { correct: g.result.correct, assisted: g.assisted, sessionId, at }, params));
   }

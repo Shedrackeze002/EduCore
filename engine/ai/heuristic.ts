@@ -3,7 +3,7 @@
  * Used in demo mode, when no MiniMax key is configured, or as a fallback if the API fails.
  * It produces the same InsightData shape so the UI is identical.
  */
-import { getSkill } from '../curriculum/index.ts';
+import { skillName } from '../curriculum/index.ts';
 import { actionId } from './parse.ts';
 import type { ClassContext, InsightData, InsightGroup, ProposedAction, StudentContext } from './types.ts';
 
@@ -49,7 +49,7 @@ function pct(n: number | null): string {
 }
 
 function name(id: string): string {
-  return getSkill(id)?.name ?? id;
+  return skillName(id);
 }
 
 function action(partial: Omit<ProposedAction, 'id' | 'status'>): ProposedAction {

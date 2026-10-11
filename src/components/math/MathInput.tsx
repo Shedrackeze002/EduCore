@@ -7,7 +7,7 @@ import { previewLatex } from '@engine/math/expr.ts';
 import { renderMath } from '@/lib/markdown.ts';
 import { cn } from '@/lib/cn.ts';
 
-export type MathMode = 'expr' | 'equation' | 'point' | 'number';
+export type MathMode = 'expr' | 'equation' | 'point' | 'number' | 'list';
 
 const KEYS: Array<{ label: string; insert: string; title: string; cursorBack?: number }> = [
   { label: 'x²', insert: '^2', title: 'Squared' },
@@ -51,6 +51,14 @@ export function MathInput({
   const [focused, setFocused] = useState(false);
   const preview = useMemo(() => {
     if (!value.trim()) return { latex: null, error: null };
+    if (mode === 'list') {
+      // Several answers separated by commas: preview only the parts that need maths typesetting.
+      if (/^[\s\d.,;\-−]*$/.test(value) || /^\s*(none|no\b)/i.test(value)) return { latex: null, error: null };
+      const parts = value.split(/[,;]|\bor\b|\band\b/i).map((p) => p.trim().replace(/^[a-z]\s*=\s*/i, '')).filter(Boolean);
+      const shown = parts.map((p) => previewLatex(p, 'expr'));
+      const bad = shown.find((x) => x.error);
+      return bad ? bad : { latex: shown.map((x) => x.latex ?? '').join(',\\ '), error: null };
+    }
     if (mode === 'number') {
       if (/^\s*-?\d+(\.\d+)?\s*$/.test(value)) return { latex: null, error: null };
       if (/^\s*-?\d+\s+\d+\s*\/\s*\d+\s*$/.test(value)) return { latex: null, error: null };
@@ -74,7 +82,7 @@ export function MathInput({
     });
   };
 
-  const keys = KEYS.filter((k) => (mode === 'equation' ? true : k.insert !== '=')).filter((k) => (mode === 'number' ? ['a/b', '√', 'π', '−', '( )'].includes(k.label) : true));
+  const keys = KEYS.filter((k) => (mode === 'equation' ? true : k.insert !== '=')).filter((k) => (mode === 'number' || mode === 'list' ? ['a/b', '√', 'π', '−', '( )'].includes(k.label) : true));
 
   return (
     <div className="w-full">
@@ -95,7 +103,7 @@ export function MathInput({
                 onEnter?.();
               }
             }}
-            placeholder={placeholder ?? (mode === 'point' ? '(x, y)' : mode === 'equation' ? 'y = ...' : mode === 'number' ? 'Your answer' : 'Type your answer')}
+            placeholder={placeholder ?? (mode === 'point' ? '(x, y)' : mode === 'equation' ? 'y = ...' : mode === 'number' ? 'Your answer' : mode === 'list' ? 'For example: 2, −3' : 'Type your answer')}
             aria-label={ariaLabel ?? 'Answer'}
             autoComplete="off"
             autoCapitalize="off"

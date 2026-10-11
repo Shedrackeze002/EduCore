@@ -52,6 +52,14 @@ export type AnswerSpec =
       /** Unit label shown after the input box. */
       unit?: string;
     }
+  | {
+      kind: 'numbers';
+      /** Every answer, in any order (the roots of an equation, say). An empty list means "no solution". */
+      values: number[];
+      /** Rounding and tolerance apply to each value, as for a numeric answer. */
+      decimals?: number;
+      tolerance?: number;
+    }
   | { kind: 'expression'; expected: string; form?: ExprForm; positiveVars?: boolean; radicalIndex?: number }
   | { kind: 'line'; line: Line; form: LineForm }
   | { kind: 'equation-fn'; expected: string; variable: string; fnName: string }
@@ -334,6 +342,9 @@ export interface SkillDef {
   /** Calculator expected. */
   calculator?: boolean;
 }
+
+/** A skill without its question generator: what the app needs before the course's generators load. */
+export type SkillInfo = Omit<SkillDef, 'generate'>;
 
 export interface LessonMeta {
   id: string;

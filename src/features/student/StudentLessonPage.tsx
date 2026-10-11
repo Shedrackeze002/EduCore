@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { PlayCircle } from 'lucide-react';
-import { getSkill, lessonById } from '@engine/curriculum/index.ts';
+import { skillInfo, lessonById } from '@engine/curriculum/index.ts';
 import { useMastery, usePublications, useResources } from '@/data/hooks.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { Button, Card, CardBody, EmptyState, PageSpinner } from '@/components/ui/index.ts';
@@ -59,5 +59,5 @@ export default function StudentLessonPage() {
 }
 
 function lessonSkillName(id: string) {
-  return getSkill(id)?.name ?? id;
+  return skillInfo(id)?.name ?? id;
 }

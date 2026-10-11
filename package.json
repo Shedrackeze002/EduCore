@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig.json --noEmit && vite build && node scripts/spa-fallback.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "catalog": "UPDATE_CATALOG=1 vitest run engine/curriculum/catalog.test.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

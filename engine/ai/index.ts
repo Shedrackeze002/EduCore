@@ -4,7 +4,7 @@ import { extractJson, validateInsight } from './parse.ts';
 import { minimaxChat, type MiniMaxConfig } from './minimax.ts';
 import { analyzeClass, analyzeStudent } from './heuristic.ts';
 import { buildClassContext, buildStudentContext, type AnalystInput } from './context.ts';
-import { allSkills, COURSES } from '../curriculum/index.ts';
+import { allSkillInfos, COURSES } from '../curriculum/index.ts';
 import type { InsightData } from './types.ts';
 
 export * from './types.ts';
@@ -23,7 +23,7 @@ export interface InsightResult {
 
 function known(input: AnalystInput, defaultStudentId?: string) {
   return {
-    skillIds: new Set(allSkills().map((s) => s.id)),
+    skillIds: new Set(allSkillInfos().map((s) => s.id)),
     studentIds: new Set(input.students.map((s) => s.id)),
     lessonIds: new Set(COURSES.flatMap((c) => c.lessons.map((l) => l.id))),
     defaultStudentId,

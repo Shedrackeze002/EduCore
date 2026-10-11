@@ -67,6 +67,8 @@ function modeFor(spec: AnswerSpec): MathMode {
       return 'equation';
     case 'point':
       return 'point';
+    case 'numbers':
+      return 'list';
     default:
       return 'expr';
   }

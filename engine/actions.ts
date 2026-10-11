@@ -1,7 +1,7 @@
 /** Turn an AI-proposed action into a concrete assignment draft. */
 import type { ProposedAction } from './ai/types.ts';
 import { DEFAULT_SETTINGS, type AssignmentContent, type AssignmentSettings, type AssignmentType } from './assemble.ts';
-import { getSkill } from './curriculum/index.ts';
+import { skillInfo } from './curriculum/index.ts';
 
 export interface AssignmentDraft {
   title: string;
@@ -20,9 +20,9 @@ export function draftFromAction(action: ProposedAction, now = new Date()): Assig
   const due = new Date(now);
   due.setDate(due.getDate() + (action.dueInDays ?? 3));
   due.setHours(21, 0, 0, 0);
-  const skills = action.skillIds.filter((s) => getSkill(s));
+  const skills = action.skillIds.filter((s) => skillInfo(s));
   if (action.type === 'reteach_lesson') {
-    const lessonId = action.lessonId ?? (skills[0] ? getSkill(skills[0])!.lessonId : undefined);
+    const lessonId = action.lessonId ?? (skills[0] ? skillInfo(skills[0])!.lessonId : undefined);
     if (!lessonId) return null;
     return {
       title: action.title,

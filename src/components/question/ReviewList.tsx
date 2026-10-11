@@ -3,25 +3,31 @@ import { CheckCircle2, ChevronDown, CircleDashed, Lightbulb, XCircle } from 'luc
 import { itemFromRef, type AssignmentContent, type StoredResponse } from '@engine/assemble.ts';
 import { gradeItem } from '@engine/grade.ts';
 import type { ItemRef } from '@engine/types.ts';
-import { getSkill } from '@engine/curriculum/index.ts';
+import { skillInfo } from '@engine/curriculum/index.ts';
 import { QuestionView, SolutionPanel } from './QuestionView.tsx';
 import { cn } from '@/lib/cn.ts';
+import { SkillsGate } from '@/components/SkillsGate.tsx';
+import { refSkillIds } from '@/lib/useSkills.ts';
 
-export function ReviewList({
-  items,
-  responses,
-  content,
-  assignmentId,
-  showSolutions = true,
-  renderExtra,
-}: {
+type ReviewListProps = {
   items: ItemRef[];
   responses: Record<number, StoredResponse>;
   content: AssignmentContent;
   assignmentId: string;
   showSolutions?: boolean;
   renderExtra?: (index: number) => ReactNode;
-}) {
+};
+
+/** Every question of an attempt with the student's answers, once the questions' generators have loaded. */
+export function ReviewList(props: ReviewListProps) {
+  return (
+    <SkillsGate skillIds={refSkillIds(props.content, props.items)}>
+      <Rows {...props} />
+    </SkillsGate>
+  );
+}
+
+function Rows({ items, responses, content, assignmentId, showSolutions = true, renderExtra }: ReviewListProps) {
   const rows = useMemo(
     () =>
       items.map((ref, i) => {
@@ -49,7 +55,7 @@ export function ReviewList({
             <button type="button" onClick={() => setOpen(isOpen ? null : i)} className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-surface-2/60">
               {status === 'right' ? <CheckCircle2 className="h-5 w-5 shrink-0 text-good" /> : status === 'pending' ? <CircleDashed className="h-5 w-5 shrink-0 text-ink-3" /> : <XCircle className={cn('h-5 w-5 shrink-0', status === 'partial' ? 'text-warn' : 'text-bad')} />}
               <span className="w-8 text-sm font-semibold text-ink-3">Q{i + 1}</span>
-              <span className="min-w-0 flex-1 truncate text-sm font-medium">{manual ? 'Written response' : getSkill(item.skillId)?.name ?? 'Question'}</span>
+              <span className="min-w-0 flex-1 truncate text-sm font-medium">{manual ? 'Written response' : skillInfo(item.skillId)?.name ?? 'Question'}</span>
               {resp.hintsUsed > 0 && (
                 <span className="hidden items-center gap-1 text-xs text-warn-ink sm:inline-flex">
                   <Lightbulb className="h-3.5 w-3.5" /> {resp.hintsUsed} hint{resp.hintsUsed > 1 ? 's' : ''}

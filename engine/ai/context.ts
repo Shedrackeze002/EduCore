@@ -1,5 +1,5 @@
 /** Turns raw platform data into compact, factual analysis contexts for the AI (and the offline analyst). */
-import { getCourse, getSkill, lessonById } from '../curriculum/index.ts';
+import { getCourse, lessonById, skillInfo } from '../curriculum/index.ts';
 import { LEVEL_POINTS, type MasteryLevel, type SkillState } from '../mastery.ts';
 import type { AssignmentSnapshot, ClassContext, ClassStudentSummary, ErrorSample, SkillSnapshot, StudentContext } from './types.ts';
 
@@ -93,7 +93,7 @@ export function buildStudentContext(input: AnalystInput, studentId: string): Stu
   const byId = new Map(states.map((s) => [s.skillId, s]));
   const skills: SkillSnapshot[] = [...relevant]
     .map((id): SkillSnapshot | null => {
-      const def = getSkill(id);
+      const def = skillInfo(id);
       const st = byId.get(id);
       if (!def) return null;
       return {
@@ -156,7 +156,7 @@ export function buildClassContext(input: AnalystInput): ClassContext {
   const skillIds = [...new Set([...taught, ...attempted])];
   const skills = skillIds
     .map((id) => {
-      const def = getSkill(id);
+      const def = skillInfo(id);
       if (!def) return null;
       const rows = input.mastery.filter((m) => m.skillId === id && m.attempts > 0);
       const struggling = rows.filter((r) => r.pKnown < 0.45 && r.attempts >= 2).map((r) => r.studentId);

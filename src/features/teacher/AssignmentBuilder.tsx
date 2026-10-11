@@ -13,7 +13,8 @@ import {
   type CustomQuestion,
   type SkillSection,
 } from '@engine/assemble.ts';
-import { getCourse, getSkill, lessonById, unitById } from '@engine/curriculum/index.ts';
+import { getCourse, skillInfo, lessonById, unitById } from '@engine/curriculum/index.ts';
+import { refSkillIds, useSkillsReady } from '@/lib/useSkills.ts';
 import { canonicalResponses } from '@engine/answers.ts';
 import { freshSeed } from '@engine/rng.ts';
 import type { Difficulty, Item } from '@engine/types.ts';
@@ -85,7 +86,7 @@ function draftFromParams(params: URLSearchParams, cls: ClassRoom): Draft {
   const type = (params.get('type') as AssignmentType) || 'homework';
   const lessonId = params.get('lesson') ?? undefined;
   const unitId = params.get('unit');
-  const skills = (params.get('skills') ?? '').split(',').filter((s) => getSkill(s));
+  const skills = (params.get('skills') ?? '').split(',').filter((s) => skillInfo(s));
   const students = (params.get('students') ?? '').split(',').filter(Boolean);
   let sections: SkillSection[] = [];
   if (isQuestionType(type)) {
@@ -136,7 +137,7 @@ function autoTitle(d: Draft): string {
     if (l) return `${d.type === 'video' ? 'Watch' : 'Read'}: ${l.number} ${l.title}`;
     return label;
   }
-  const lessons = [...new Set(d.content.sections.map((s) => getSkill(s.skillId)?.lessonId).filter(Boolean) as string[])];
+  const lessons = [...new Set(d.content.sections.map((s) => skillInfo(s.skillId)?.lessonId).filter(Boolean) as string[])];
   const units = [...new Set(lessons.map((l) => lessonById(l)?.unitId))];
   if (lessons.length === 1) {
     const l = lessonById(lessons[0])!;
@@ -569,7 +570,7 @@ function SectionsEditor({ d, setContent, onAdd, mastery, published, courseId }: 
       </div>
       {sections.length === 0 && <div className="rounded-xl border border-dashed border-line-strong p-5 text-center text-sm text-ink-3">Pick skills from any lesson. Each skill generates fresh questions with hints and worked solutions.</div>}
       {sections.map((s, i) => {
-        const skill = getSkill(s.skillId);
+        const skill = skillInfo(s.skillId);
         const lesson = skill ? lessonById(skill.lessonId) : undefined;
         return (
           <div key={s.skillId} className="flex flex-wrap items-center gap-3 rounded-xl border border-line px-3 py-2.5">
@@ -618,7 +619,7 @@ function SectionsEditor({ d, setContent, onAdd, mastery, published, courseId }: 
 
 function SkillPicker({ courseId, d, setContent, published, onClose }: { courseId: string; d: Draft; setContent: (p: Partial<AssignmentContent>) => void; published: Set<string>; onClose: () => void }) {
   const course = getCourse(courseId)!;
-  const firstSkillUnit = d.content.sections[0] ? lessonById(getSkill(d.content.sections[0].skillId)?.lessonId ?? '')?.unitId : undefined;
+  const firstSkillUnit = d.content.sections[0] ? lessonById(skillInfo(d.content.sections[0].skillId)?.lessonId ?? '')?.unitId : undefined;
   const lastPublishedUnit = [...course.lessons].reverse().find((l) => published.has(l.id))?.unitId;
   const [unitId, setUnitId] = useState(firstSkillUnit ?? lastPublishedUnit ?? course.units[0].id);
   const selected = new Set(d.content.sections.map((s) => s.skillId));
@@ -653,7 +654,7 @@ function SkillPicker({ courseId, d, setContent, published, onClose }: { courseId
               </div>
               <div className="divide-y divide-line">
                 {l.skills.map((sid) => {
-                  const s = getSkill(sid)!;
+                  const s = skillInfo(sid)!;
                   return (
                     <label key={sid} className="flex cursor-pointer items-start gap-3 px-3 py-2.5 hover:bg-surface-2/40">
                       <input type="checkbox" className="mt-1 h-[18px] w-[18px] accent-[rgb(var(--brand))]" checked={selected.has(sid)} onChange={(e) => toggle([sid], e.target.checked)} />
@@ -874,7 +875,8 @@ function PreviewModal({ content, title, onClose }: { content: AssignmentContent;
   const [seed, setSeed] = useState(() => freshSeed());
   const [show, setShow] = useState(false);
   const [resp, setResp] = useState<Record<number, string[]>>({});
-  const items = useMemo(() => buildItemRefs(content, seed).map((ref) => itemFromRef(ref, content, 'preview')).filter((x): x is Item => !!x), [content, seed]);
+  const loaded = useSkillsReady(refSkillIds(content));
+  const items = useMemo(() => (loaded === 'ready' ? buildItemRefs(content, seed).map((ref) => itemFromRef(ref, content, 'preview')).filter((x): x is Item => !!x) : []), [content, seed, loaded]);
   return (
     <Modal
       open

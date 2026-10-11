@@ -10,6 +10,8 @@ import { HttpError, readJson, serve } from '../_shared/http.ts';
 import { adminClient, getCaller, requireTeacherOf, str } from '../_shared/db.ts';
 import { aiConfig, loadAnalystInput } from '../_shared/analyst.ts';
 import { DEFAULT_MODEL, generateInsight } from '../_shared/engine/ai/index.ts';
+// Every course's question generators, for grading any class on the server.
+import '../_shared/engine/curriculum/all.ts';
 
 const PER_HOUR = Number(Deno.env.get('AI_INSIGHTS_PER_HOUR') ?? 60);
 
