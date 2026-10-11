@@ -861,7 +861,7 @@ const expLog = skill({
           const m = rng.int(2, 4);
           return {
             prompt: askPrompt(rng, n, `x^{${m}}\\ln x`),
-            parts: [derivPart(n, `${m}x^${m - 1}ln(x) + x^${m - 1}`)],
+            parts: [derivPart(n, `${m}x^${m - 1} ln(x) + x^${m - 1}`)],
             hints: [`Product rule with $u = x^{${m}}$ and $v = \\ln x$.`, '$v\' = \\dfrac{1}{x}$, and $x^n\\cdot\\dfrac{1}{x} = x^{n-1}$.'],
             solution: [`Let $u = x^{${m}}$ and $v = \\ln x$, so $u' = ${m}${monoTex(1, m - 1)}$ and $v' = \\dfrac{1}{x}$.`, `Product rule: $${dOf(n)} = ${m}${monoTex(1, m - 1)}\\ln x + x^{${m}}\\cdot\\dfrac{1}{x} = ${m}${monoTex(1, m - 1)}\\ln x + ${monoTex(1, m - 1)}$.`, `So $${dOf(n)} = ${monoTex(1, m - 1)}(${m}\\ln x + 1)$.`],
           };
@@ -996,7 +996,7 @@ function expValue(rng: Rng): GenOutput {
       prompt: `Given $${fnOf(n)} = xe^{${kx}}$, find the exact value of $${dAt(n, `${x0}`)}$.`,
       parts: [numPart(val, { label: `$${dAt(n, `${x0}`)} =$` })],
       hints: ['Product rule with $u = x$ and $v = e^{' + kx + '}$.', 'Simplify the derivative before substituting.'],
-      solution: [`Product rule: $${n.f}'(x) = e^{${kx}} + ${k === -1 ? '-' : k}xe^{${kx}} = e^{${kx}}(1 ${k < 0 ? '-' : '+'} ${Math.abs(k) === 1 ? '' : Math.abs(k)}x)$.`, `Substitute $x = ${x0}$: $${dAt(n, `${x0}`)} = e^{${k * x0}}(${1 + k * x0}) = ${exact}$.`, `So $${dAt(n, `${x0}`)} = ${exact}$${x0 === 0 ? '' : ` (about $${fmt(val, 3)}$)`}.`],
+      solution: [`Product rule: $${n.f}'(x) = ${joinTerms([`e^{${kx}}`, `${cf(k)}xe^{${kx}}`])} = e^{${kx}}(1 ${k < 0 ? '-' : '+'} ${Math.abs(k) === 1 ? '' : Math.abs(k)}x)$.`, `Substitute $x = ${x0}$: $${dAt(n, `${x0}`)} = e^{${k * x0}}(${1 + k * x0}) = ${exact}$.`, `So $${dAt(n, `${x0}`)} = ${exact}$${x0 === 0 ? '' : ` (about $${fmt(val, 3)}$)`}.`],
       answerDisplay: `$${dAt(n, `${x0}`)} = ${exact}$`,
     };
   }
@@ -1047,11 +1047,13 @@ function expCombo(rng: Rng): GenOutput {
   if (form === 'x2emx') {
     const m = rng.int(1, 3);
     const mx = m === 1 ? '-x' : `-${m}x`;
+    // f' = xe^{-mx}(2 - mx), or 2xe^{-2x}(1 - x) when m = 2.
+    const fac = m === 2 ? ['2xe^{-2x}(1 - x)', '2x e^(-2x)(1 - x)'] : [`xe^{${mx}}(2 - ${m === 1 ? '' : m}x)`, `x e^(${mx})(2 - ${m === 1 ? '' : m}x)`];
     return {
       prompt: askPrompt(rng, n, `x^{2}e^{${mx}}`),
-      parts: [derivPart(n, `xe^(${mx})(2 - ${m === 1 ? '' : m}x)`)],
+      parts: [derivPart(n, fac[1])],
       hints: ['Product rule with $u = x^2$ and $v = e^{' + mx + '}$ (chain rule for $v\'$).', 'Factor out $xe^{' + mx + '}$ at the end.'],
-      solution: [`Let $u = x^{2}$ and $v = e^{${mx}}$, so $u' = 2x$ and $v' = ${m === 1 ? '-' : `-${m}`}e^{${mx}}$.`, `Product rule: $${dOf(n)} = 2xe^{${mx}} - ${m === 1 ? '' : m}x^{2}e^{${mx}}$.`, `Factor: $${dOf(n)} = xe^{${mx}}(2 - ${m === 1 ? '' : m}x)$.`],
+      solution: [`Let $u = x^{2}$ and $v = e^{${mx}}$, so $u' = 2x$ and $v' = ${m === 1 ? '-' : `-${m}`}e^{${mx}}$.`, `Product rule: $${dOf(n)} = 2xe^{${mx}} - ${m === 1 ? '' : m}x^{2}e^{${mx}}$.`, `Factor: $${dOf(n)} = ${fac[0]}$.`],
     };
   }
   if (form === 'lnTrig') {

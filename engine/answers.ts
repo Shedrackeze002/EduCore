@@ -1,6 +1,6 @@
 /** Canonical answers: what a correct response looks like for each answer spec. */
 import type { AnswerSpec, Item } from './types.ts';
-import { fmt, fmtFixed, toFrac, fracText } from './math/numbers.ts';
+import { fmt, fmtFixed, toFrac, fracText, fracLatex } from './math/numbers.ts';
 import { lineText, generalText, lineSlope, lineYIntercept, slopePointText, evalLineY } from './math/linear.ts';
 import { frac } from './math/numbers.ts';
 
@@ -45,7 +45,7 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
     case 'equation-fn':
       return `${spec.fnName}(${spec.variable}) = ${spec.expected}`;
     case 'point':
-      return `(${fmt(spec.x, 6)}, ${fmt(spec.y, 6)})`;
+      return `(${coord(spec.x, fracText)}, ${coord(spec.y, fracText)})`;
     case 'graph-line': {
       const l = spec.line;
       if (l.B === 0) {
@@ -76,6 +76,13 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
 
 export function canonicalResponses(item: Item): string[] {
   return item.parts.map((p) => canonicalResponse(p.answer, p));
+}
+
+/** A coordinate: a short decimal (2.5, -0.25), or an exact fraction (5/11, 1/3) when the decimal would be long. */
+function coord(v: number, write: (f: NonNullable<ReturnType<typeof toFrac>>) => string): string {
+  const f = toFrac(v, 1000);
+  if (!f || f.d === 1 || (terminates(f.d) && Math.abs(v * 100 - Math.round(v * 100)) < 1e-9)) return fmt(v, 6);
+  return write(f);
 }
 
 /** True when a fraction with this denominator is a terminating decimal. */
@@ -145,7 +152,7 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
     case 'equation-fn':
       return '`' + canonicalResponse(spec) + '`';
     case 'point':
-      return `$(${fmt(spec.x, 4)},\\ ${fmt(spec.y, 4)})$`;
+      return `$(${coord(spec.x, fracLatex)},\\ ${coord(spec.y, fracLatex)})$`;
     case 'graph-line':
       return 'the line through ' + JSON.parse(canonicalResponse(spec)).map((p: number[]) => `$(${fmt(p[0], 3)}, ${fmt(p[1], 3)})$`).join(' and ');
     case 'graph-points':

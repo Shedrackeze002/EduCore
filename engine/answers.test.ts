@@ -23,6 +23,11 @@ describe('answerMarkdown', () => {
     expect(canonicalResponse(num(8.4), { suffix: 'cm' })).toBe('8.4');
     expect(canonicalResponse(num(8.4))).toBe('42/5');
   });
+  it('writes point coordinates as short decimals or exact fractions', () => {
+    expect(answerMarkdown({ kind: 'point', x: 3, y: 5 / 11 })).toBe('$(3,\\ \\frac{5}{11})$');
+    expect(answerMarkdown({ kind: 'point', x: -2.5, y: 0.25 })).toBe('$(-2.5,\\ 0.25)$');
+    expect(canonicalResponse({ kind: 'point', x: -1 / 3, y: 4 })).toBe('(-1/3, 4)');
+  });
   it('follows the display a generator asks for', () => {
     expect(answerMarkdown({ ...num(1.2), display: 'fraction' }, { suffix: 'km' })).toBe('$1\\tfrac{1}{5}$ km');
     expect(answerMarkdown({ ...num(0.6), display: 'decimal' })).toBe('$0.6$');

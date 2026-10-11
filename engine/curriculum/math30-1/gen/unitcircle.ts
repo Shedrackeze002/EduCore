@@ -575,11 +575,12 @@ export function unitCircleFigure(o: { theta: number; label?: string; arc?: boole
   if (o.arc !== false && t !== 0) turnArc(s, t, 0.2);
   s.dot(P0, 'brand');
   s.endLabel(P0, t, o.label ?? 'P', 13);
+  // Label each axis point on the side away from P.
   const axisPts: Array<[P, number, string]> = [
-    [[1, 0], -45, '(1, 0)'],
-    [[0, 1], 45, '(0, 1)'],
-    [[-1, 0], -135, '(−1, 0)'],
-    [[0, -1], -45, '(0, −1)'],
+    [[1, 0], P0[1] > 0 ? -45 : 45, '(1, 0)'],
+    [[0, 1], P0[0] > 0 ? 135 : 45, '(0, 1)'],
+    [[-1, 0], P0[1] > 0 ? -135 : 135, '(−1, 0)'],
+    [[0, -1], P0[0] > 0 ? -135 : -45, '(0, −1)'],
   ];
   for (const [p, a, text] of axisPts) if (Math.hypot(p[0] - P0[0], p[1] - P0[1]) > 0.2) s.endLabel(p, a, text, 12);
   return s.build({ margin: 0.3, caption: o.caption });

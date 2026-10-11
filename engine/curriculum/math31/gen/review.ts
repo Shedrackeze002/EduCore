@@ -611,7 +611,7 @@ const trigLog = skill({
 
     if (kind === 'logLaws') {
       const p = rng.pick([1.5, 2, 2.5, 3, 0.5, 1.2, 0.8, 4]);
-      const q = rng.pick([1, 0.5, 1.5, 2, 3, 0.3, 0.7]);
+      const q = retry(() => rng.pick([1, 0.5, 1.5, 2, 3, 0.3, 0.7]), (v) => v !== p);
       const t = rng.int(0, 4);
       const m = rng.int(2, 4);
       const n = rng.int(2, 3);

@@ -330,7 +330,10 @@ function cpD2(rng: Rng): GenOutput {
         ? `A computer password has ${k} characters. The first character must be an uppercase letter (A to Z). Each other character can be an uppercase letter or a digit (0 to 9). Characters may repeat. How many passwords are possible?`
         : `A computer password has ${k} characters. The last character must be a digit (0 to 9), and each other character must be an uppercase letter (A to Z). Characters may repeat. How many passwords are possible?`,
     parts: [numPart(N, { label: 'Passwords:' })],
-    hints: ['Write the number of options for each of the character positions.', 'A position that can be a letter or a digit has $26 + 10 = 36$ options.'],
+    hints: [
+      'Write the number of options for each of the character positions.',
+      mode === 'letterFirst' ? 'A position that can be a letter or a digit has $26 + 10 = 36$ options.' : 'Each letter position has 26 options and the digit position has 10.',
+    ],
     solution: [
       mode === 'letterFirst' ? `First character: $26$ choices. Each of the other ${k - 1}: $26 + 10 = 36$ choices.` : `Each of the first ${k - 1} characters: $26$ choices. Last character: $10$ choices.`,
       `$${times(boxes)} = ${nx(N)}$`,
