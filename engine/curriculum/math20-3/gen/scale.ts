@@ -30,6 +30,8 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const sq = (u: string) => `${tx(u)}^2`;
 const cu = (u: string) => `${tx(u)}^3`;
 const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
+/** "a, b and c" */
+const andList = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
 /** An exact answer (graded by value; metric decimals and imperial fractions display naturally). */
 const ans = (v: number, suffix?: string, label?: string): Part => numPart(clean(v), { suffix, label });
@@ -1082,8 +1084,6 @@ const listTable = (ps: LinePart[], prices: boolean): TableFigure => ({
 });
 
 const LIST_INTRO = (kit: Kit) => `The instructions for ${kit.kit} have an exploded view with each part labelled by a letter. The parts list is shown.`;
-/** "a, b and c" */
-const andList = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
 /** Exploded front view of a bookshelf: two side panels (A), n shelves (B) and a top (C). */
 function shelfExploded(n: number): PlaneFigure {

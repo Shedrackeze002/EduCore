@@ -9,12 +9,14 @@ items ship or decisions change.
   mastery tracking, assignments, reminders and the AI teaching assistant.
 - Knowledge and Employability Math 10-4 and 20-4 (all four strands of each), with bar and circle
   graphs for data questions.
+- Grade 11: Math 20-1, 20-2 and 20-3 (every outcome of each), with list answers for equations
+  with several solutions.
 - Platform administration: admin console, teacher approval, account controls, audit log.
 
 ## Next, in order
 
-1. **Finish Alberta mathematics, every stream.** Math 20-1, 20-2, 20-3, 30-1, 30-2, 30-3 and
-   Math 31, then Grades 5 to 9. No student is left without a course.
+1. **Finish Alberta mathematics, every stream.** Math 30-1, 30-2, 30-3 and Math 31, then
+   Grades 5 to 9. No student is left without a course.
 2. **Whiteboard and a dynamic present mode.**
    - A whiteboard opened from present mode and closed back to the slide; pressure-sensitive pen
      (Apple Pencil, styluses), mouse and touch, with palm rejection; boards can be saved to the
@@ -54,5 +56,6 @@ items ship or decisions change.
 
 ## Technical follow-ups
 
-- Check the K&E outcome wording word for word against the program of studies once its host
-  (education.alberta.ca) is reachable from the build environment.
+- Check the K&E, Math 10-3 and Grade 11 outcome wording word for word against Alberta's program
+  of studies and *Outcomes with Assessment Standards* once their hosts (education.alberta.ca,
+  open.alberta.ca, curriculum.learnalberta.ca) are reachable from the build environment.
