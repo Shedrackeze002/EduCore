@@ -1065,11 +1065,11 @@ const volume = skill({
       };
     }
     if (mode === 'pack') {
-      let [a, b, c] = [rng.pick([10, 15, 20]), rng.pick([10, 12, 20, 25]), rng.pick([5, 8, 10, 15])];
-      let [na, nb, nc] = [rng.int(2, 5), rng.int(2, 4), rng.int(2, 4)];
+      let [a, na] = [rng.pick([10, 15, 20]), rng.int(2, 5)];
+      let [b, nb] = [rng.pick([10, 12, 20, 25]), rng.int(2, 4)];
+      const [c, nc] = [rng.pick([5, 8, 10, 15]), rng.int(2, 4)];
       if (b * nb > a * na) [a, na, b, nb] = [b, nb, a, na];
       const [L, W, H] = [a * na, b * nb, c * nc];
-      void c;
       const n = na * nb * nc;
       const item = rng.pick(['boxes of granola bars', 'boxes of light bulbs', 'boxes of tea', 'small boxes of screws']);
       return {
