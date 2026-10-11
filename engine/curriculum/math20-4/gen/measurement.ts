@@ -166,7 +166,7 @@ const PAIRS: Pair[] = [
     d2Big: (r) => nonWhole(() => (r.chance(0.6) ? r.int(11, 49) / 10 : quarter(r, 1, 3))),
     d2Small: (r) => r.int(3, 19) * 50,
     ctx: [
-      (q) => `A jug of juice holds ${q}.`,
+      (q) => `A bottle of juice holds ${q}.`,
       (q, n) => `${n} pours ${q} of water into a pot.`,
       (q) => `A bottle of window cleaner holds ${q}.`,
       (q, n) => `${n} adds ${q} of oil to a car engine.`,
@@ -254,13 +254,13 @@ function withinMixed(rng: Rng, n: string) {
   const mode = rng.pick(['ftin-in', 'lboz-oz', 'in-ftin', 'oz-lboz', 'si-total', 'si-left'] as const);
   if (mode === 'ftin-in') {
     const c = rng.pick([
-      { t: `${n} is`, dim: 'tall', lo: 4, hi: 6, why: 'A form at a walk-in clinic asks for height in inches.' },
+      { t: `${n} is`, dim: 'tall', lo: 4, hi: 6, person: true, why: 'A form at a walk-in clinic asks for height in inches.' },
       { t: 'A fridge is', dim: 'tall', lo: 5, hi: 6, why: 'The space for it in the kitchen is measured in inches.' },
       { t: 'A sofa is', dim: 'long', lo: 6, hi: 7, why: 'The moving company wants the length in inches.' },
       { t: 'The box of a pickup truck is', dim: 'long', lo: 5, hi: 8, why: 'A truck-box liner is sold by length in inches.' },
     ]);
-    const ft = rng.int(c.lo, c.hi);
-    const inch = rng.int(1, 11);
+    // People are kept between 4 ft 10 in and 6 ft 4 in tall.
+    const [ft, inch] = retry(() => [rng.int(c.lo, c.hi), rng.int(1, 11)], ([f, i]) => !c.person || (f * 12 + i >= 58 && f * 12 + i <= 76));
     const total = ft * 12 + inch;
     return {
       prompt: `${c.t} $${ftin(ft, inch)}$ ${c.dim}. ${c.why} What is this length in **inches**?\n\nUse $1\\ \\text{ft} = 12\\ \\text{in}$.`,
@@ -582,7 +582,7 @@ const convertBetween = skill({
 function betweenTwoStep(rng: Rng, n: string) {
   const mode = rng.pick(['height', 'parcel', 'fuel', 'baggage', 'speed', 'recipe'] as const);
   if (mode === 'height') {
-    const made = retry(() => ({ ft: rng.int(4, 6), inch: rng.int(1, 11) }), (x) => clearOf((x.ft * 12 + x.inch) * 2.54, 1));
+    const made = retry(() => ({ ft: rng.int(4, 6), inch: rng.int(1, 11) }), (x) => x.ft * 12 + x.inch >= 58 && x.ft * 12 + x.inch <= 78 && clearOf((x.ft * 12 + x.inch) * 2.54, 1));
     const total = made.ft * 12 + made.inch;
     const cm = total * 2.54;
     const who = rng.pick([`${n}’s cousin from Ohio is`, 'A basketball player on a US team is', `A US hockey card says a player is`, `${n}’s pen pal in Texas is`]);
@@ -614,7 +614,7 @@ function betweenTwoStep(rng: Rng, n: string) {
     const cost = L * made.price;
     const veh = rng.pick(['pickup truck', 'camper van', 'SUV', 'work truck']);
     return {
-      prompt: `${n} bought a ${veh} in Montana. Its gas tank holds ${qty(made.gal, 'gal')}. Gas in ${rng.pick(TOWNS)} costs ${cash(made.price)} per litre. How much will it cost to fill the empty tank, to the nearest cent?\n\nUse ${F_GAL}.`,
+      prompt: `${n} bought ${veh === 'SUV' ? 'an' : 'a'} ${veh} in Montana. Its gas tank holds ${qty(made.gal, 'gal')}. Gas in ${rng.pick(TOWNS)} costs ${cash(made.price)} per litre. How much will it cost to fill the empty tank, to the nearest cent?\n\nUse ${F_GAL}.`,
       parts: [numPart(cost, { decimals: 2, tolerance: 0.011, label: 'Cost: \\$' })],
       hints: ['First change the US gallons to litres: multiply by 3.79.', 'Then multiply the litres by the price for one litre.'],
       solution: [`Litres: $${made.gal} \\times 3.79 = ${nm(L)}\\ \\text{L}$`, `Cost: $${nm(L)} \\times ${fmtFixed(made.price, 2)} \\approx ${nm(cost, 4)}$`, `It will cost about ${cash(cost)} to fill the tank.`],

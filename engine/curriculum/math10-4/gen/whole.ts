@@ -1116,7 +1116,7 @@ function probD1(rng: Rng, name: string, town: string): Prob {
       label: '\\$',
       steps: [`Money is spent, so **subtract**: $${raised} - ${spent} = ${share * k}$ dollars are left.`, `The rest is shared equally, so **divide**: $${share * k} ${D} ${k} = ${share}$.`],
       estimate: `$${est(raised)} - ${est(spent)} = ${est(raised) - est(spent)}$ and $${est(raised) - est(spent)} ${D} ${k} \\approx ${Math.round((est(raised) - est(spent)) / k)}$`,
-      estValue: (est(raised) - est(spent)) / k,
+      estValue: Math.round((est(raised) - est(spent)) / k),
       final: `Each charity gets ${money(share)}.`,
       hint: 'First find the money left after the supplies. Then share it equally.',
     };
@@ -1131,7 +1131,7 @@ function probD1(rng: Rng, name: string, town: string): Prob {
     suffix: 'trays',
     steps: [`Put the two amounts together, so **add**: $${a} + ${b} = ${a + b}$ muffins.`, `Split into equal trays, so **divide**: $${a + b} ${D} ${tray} = ${trays}$.`],
     estimate: `$${est(a)} + ${est(b)} = ${est(a) + est(b)}$ and $${est(a) + est(b)} ${D} ${tray} \\approx ${Math.round((est(a) + est(b)) / tray)}$`,
-    estValue: (est(a) + est(b)) / tray,
+    estValue: Math.round((est(a) + est(b)) / tray),
     final: `The café sold $${trays}$ trays of muffins.`,
     hint: 'First find the total number of muffins. Then find how many groups of that tray size there are.',
   };
@@ -1200,7 +1200,7 @@ function probD2(rng: Rng, name: string, town: string): Prob {
       suffix: 'pencils',
       steps: [`Equal boxes, so **multiply**: $${boxes} ${T} ${box} = ${N(box * boxes)}$ pencils.`, `Shared equally, so **divide**: $${N(box * boxes)} ${D} ${rooms} = ${each}$.`],
       estimate: `$${boxes} ${T} ${est(box)} = ${N(boxes * est(box))}$ and $${N(boxes * est(box))} ${D} ${est(rooms)} \\approx ${Math.round((boxes * est(box)) / est(rooms))}$`,
-      estValue: (boxes * est(box)) / est(rooms),
+      estValue: Math.round((boxes * est(box)) / est(rooms)),
       final: `Each classroom gets $${each}$ pencils.`,
       hint: 'First find the total number of pencils. Then share them equally.',
     };
@@ -1215,7 +1215,7 @@ function probD2(rng: Rng, name: string, town: string): Prob {
     label: '\\$',
     steps: [`The supplies are paid first, so **subtract**: $${N(earned)} - ${sup} = ${N(share * k)}$ dollars.`, `The rest is split equally, so **divide**: $${N(share * k)} ${D} ${k} = ${share}$.`],
     estimate: `$${N(est(earned))} - ${est(sup)} = ${N(est(earned) - est(sup))}$ and $${N(est(earned) - est(sup))} ${D} ${k} \\approx ${Math.round((est(earned) - est(sup)) / k)}$`,
-    estValue: (est(earned) - est(sup)) / k,
+    estValue: Math.round((est(earned) - est(sup)) / k),
     final: `Each person gets ${money(share)}.`,
     hint: 'First take away the cost of supplies. Then split what is left.',
   };
@@ -1256,7 +1256,7 @@ function probD3(rng: Rng, name: string, town: string): Prob {
       steps: [`Equal batches, so **multiply**: $${nb} ${T} ${batch} = ${tot}$ cookies.`, `Pack into boxes, so **divide**: $${tot} ${D} ${box} = ${full}$ remainder $${tot % box}$.`],
       extra: `The $${tot % box}$ leftover cookies cannot fill a box, so round **down** to $${full}$.`,
       estimate: `$${nb} ${T} ${est(batch)} = ${nb * est(batch)}$ and $${nb * est(batch)} ${D} ${box} \\approx ${Math.round((nb * est(batch)) / box)}$`,
-      estValue: (nb * est(batch)) / box,
+      estValue: Math.round((nb * est(batch)) / box),
       final: `${name} can pack $${full}$ full boxes.`,
       hint: 'Find the total number of cookies first. A box only counts if it is full.',
     };
@@ -1268,14 +1268,15 @@ function probD3(rng: Rng, name: string, town: string): Prob {
     const rest = money0 - fee;
     if (rest % pass === 0 || rest < pass * 4) return probD3(rng, name, town);
     const nPass = Math.floor(rest / pass);
+    const pr = Math.round(pass / 5) * 5;
     return {
       prompt: `${name} has ${money(money0)} to spend at a recreation centre in ${town}. A yearly membership costs ${money(fee)}. After paying for the membership, ${name} buys swim passes for ${money(pass)} each. How many passes can ${name} buy?`,
       answer: nPass,
       suffix: 'passes',
       steps: [`The membership is paid first, so **subtract**: $${money0} - ${fee} = ${rest}$ dollars left.`, `Find how many passes fit, so **divide**: $${rest} ${D} ${pass} = ${nPass}$ remainder $${rest % pass}$.`],
       extra: `There is not enough money left for another pass, so round **down** to $${nPass}$.`,
-      estimate: `$${est(money0)} - ${est(fee)} = ${est(money0) - est(fee)}$ and $${est(money0) - est(fee)} ${D} ${est(pass)} \\approx ${Math.round((est(money0) - est(fee)) / est(pass))}$`,
-      estValue: (est(money0) - est(fee)) / est(pass),
+      estimate: `$${money0} - ${fee} = ${rest}$ is easy to do in your head, and $${rest} ${D} ${pr} \\approx ${Math.round(rest / pr)}$`,
+      estValue: Math.round(rest / pr),
       final: `${name} can buy $${nPass}$ passes.`,
       hint: 'Take away the membership first. Then see how many passes the rest of the money buys.',
     };
@@ -1293,7 +1294,7 @@ function probD3(rng: Rng, name: string, town: string): Prob {
     steps: [`Put the two jobs together, so **add**: $${a} + ${b} = ${tot}$ kg.`, `Split into bags, so **divide**: $${tot} ${D} ${bag} = ${Math.floor(tot / bag)}$ remainder $${tot % bag}$.`],
     extra: `${name} still needs the extra $${tot % bag}\\ ${tx('kg')}$, so round **up** to $${bags}$ bags.`,
     estimate: `$${est(a)} + ${est(b)} = ${est(a) + est(b)}$ and $${est(a) + est(b)} ${D} ${bag} \\approx ${Math.round((est(a) + est(b)) / bag)}$`,
-    estValue: (est(a) + est(b)) / bag,
+    estValue: Math.round((est(a) + est(b)) / bag),
     final: `${name} must buy $${bags}$ bags.`,
     hint: 'Find the total gravel first. A part bag is not sold, so think about whether to round up or down.',
   };
@@ -1313,7 +1314,7 @@ const wholeProblem = skill({
       const name = rng.pick(NAMES);
       const town = rng.pick(TOWNS);
       p = d === 1 ? probD1(rng, name, town) : d === 2 ? probD2(rng, name, town) : probD3(rng, name, town);
-    } while (!near(p.answer, p.estValue, 0.7, 1.4) && ++guard < 60);
+    } while (!near(p.answer, p.estValue, 0.8, 1.25) && ++guard < 100);
     return {
       prompt: p.prompt,
       parts: [whole(p.answer, p.suffix, p.label)],

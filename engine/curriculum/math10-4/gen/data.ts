@@ -371,7 +371,7 @@ function barItem(rng: Rng, d: Lvl): Out {
         `${DAYS[cats[i]] ?? cats[i]}: $${values[i]}$. ${DAYS[cats[j]] ?? cats[j]}: $${values[j]}$.`,
         `Add: $${values[i]} + ${values[j]} = ${both}$ ${ctx.noun}`,
         `Multiply by the price: $${both} \\times ${p} = ${num(amt)}$`,
-        `The shop took in ${tag(amt)}.`,
+        `The total is ${tag(amt)}.`,
       ],
     };
   }

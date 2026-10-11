@@ -632,7 +632,7 @@ const OUTLIERS: OutlierCtx[] = [
   {
     intro: (name, n) => `${name} is a server at a restaurant in Lethbridge. On one of the last $${n}$ shifts, ${name} served a big wedding party. Here are ${name}’s tips for those shifts:`,
     typ: 'a typical shift’s tips',
-    r: [38, 72], out: [210, 260], money: true, unit: '', noun: 'tips per shift', why: 'the wedding-party shift',
+    r: [38, 72], out: [210, 260], money: true, unit: '', noun: 'amount of tips per shift', why: 'the wedding-party shift',
   },
   {
     intro: (_name, n) => `A small landscaping company has $${n}$ people, and one of them is the owner. Here are their hourly wages:`,

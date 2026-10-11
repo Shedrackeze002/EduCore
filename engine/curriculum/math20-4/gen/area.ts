@@ -588,8 +588,10 @@ function perimCost(rng: Rng, name: string): GenOutput {
     const cost = F * pr;
     const where = rng.pick(['a backyard', 'a dog park', 'a community garden', 'a horse paddock']);
     const gx = l * 0.4;
+    // The gap is drawn at least 8% of the side so the gate is easy to see.
+    const gv = Math.max(g, 0.08 * l);
     const outline: P[] = [
-      [gx + g, w],
+      [gx + gv, w],
       [l, w],
       [l, 0],
       [0, 0],
@@ -600,8 +602,8 @@ function perimCost(rng: Rng, name: string): GenOutput {
       prompt: `${name} is building a fence around ${where}. The rectangle is ${len(l, 'm')} long and ${len(w, 'm')} wide. A gate ${len(g, 'm')} wide goes in the back side, so that part needs no fencing. Fencing costs ${cash(pr)} per metre.\n\n(a) How many metres of fencing are needed?\n\n(b) What will the fencing cost, to the nearest cent?`,
       figure: drawPlan({
         shapes: [{ pts: outline, open: true }],
-        dashed: [[[gx, w], [gx + g, w]]],
-        labels: [below(lab(l, 'm'), l / 2, 0), leftOf(lab(w, 'm'), 0, w / 2), above(`gate ${lab(g, 'm')}`, gx + g / 2, w)],
+        dashed: [[[gx, w], [gx + gv, w]]],
+        labels: [below(lab(l, 'm'), l / 2, 0), leftOf(lab(w, 'm'), 0, w / 2), above(`gate ${lab(g, 'm')}`, gx + gv / 2, w)],
         caption: `fenced yard with a gate`,
       }),
       parts: [{ ...exact(F, 'm'), label: '(a)' }, moneyPart(cost, '(b) \\$')],
