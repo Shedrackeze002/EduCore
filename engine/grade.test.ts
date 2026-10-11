@@ -42,6 +42,10 @@ describe('numeric', () => {
       expect(gradePart({ kind: 'numeric', value }, typed).correct, typed).toBe(true);
     }
     expect(gradePart({ kind: 'numeric', value: 12 }, '13 kg').correct).toBe(false);
+    expect(gradePart({ kind: 'numeric', value: 48 }, '48 tiles').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 3 }, '3 cans of paint').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 3 * Math.PI }, '3 pi').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 2 * Math.sqrt(5) }, '2 sqrt(5)').correct).toBe(true);
   });
 });
 
