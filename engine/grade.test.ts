@@ -20,6 +20,33 @@ describe('parser', () => {
     expect(() => parseExpr('2 3')).toThrow();
     expect(() => parseExpr('(x+1')).toThrow();
     expect(() => parseExpr('x+')).toThrow();
+    expect(() => parseExpr('sin')).toThrow();
+    expect(() => parseExpr('ln(2, 3)')).toThrow();
+  });
+  it('reads trigonometric, log and exponential functions and the constant e', () => {
+    const at = (src: string, x: number) => evaluate(parseExpr(src), { x });
+    expect(at('sin^2 x + cos^2 x', 0.7)).toBeCloseTo(1);
+    expect(at('sin 2x', 0.3)).toBeCloseTo(Math.sin(0.6));
+    expect(at('2sinx cosx', 0.3)).toBeCloseTo(Math.sin(0.6));
+    expect(at('sin x^2', 1.2)).toBeCloseTo(Math.sin(1.44));
+    expect(at('tan(x)sec^2(x)', 0.4)).toBeCloseTo(Math.tan(0.4) / Math.cos(0.4) ** 2);
+    expect(at('3e^(2x)', 0.5)).toBeCloseTo(3 * Math.E);
+    expect(at('2e', 0)).toBeCloseTo(2 * Math.E);
+    expect(at('xe^x', 1)).toBeCloseTo(Math.E);
+    expect(at('exp(x)ln x', 2)).toBeCloseTo(Math.exp(2) * Math.log(2));
+    expect(evaluate(parseExpr('log(1000)'))).toBeCloseTo(3);
+    expect(evaluate(parseExpr('ln(e^2)'))).toBeCloseTo(2);
+    expect(Number.isNaN(at('ln x', -1))).toBe(true);
+    expect(toLatex(parseExpr('sin(x)'))).toBe('\\sin\\left(x\\right)');
+    expect(toLatex(parseExpr('e^x'))).toBe('{e}^{x}');
+  });
+  it('grades calculus-style answers by equivalence', () => {
+    const d = (expected: string) => ({ kind: 'expression' as const, expected });
+    expect(gradePart(d('2sin(x)cos(x)'), 'sin(2x)').correct).toBe(true);
+    expect(gradePart(d('e^x(x + 1)'), 'xe^x + e^x').correct).toBe(true);
+    expect(gradePart(d('1/x'), 'x^-1').correct).toBe(true);
+    expect(gradePart(d('sec^2(x)'), '1 + tan^2 x').correct).toBe(true);
+    expect(gradePart(d('cos(x)'), 'sin(x)').correct).toBe(false);
   });
 });
 

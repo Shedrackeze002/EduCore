@@ -10,7 +10,11 @@ import { MATH20_1_SKILLS } from './math20-1/skills.ts';
 import { MATH20_2_SKILLS } from './math20-2/skills.ts';
 import { MATH20_3_SKILLS } from './math20-3/skills.ts';
 import { MATH20_4_SKILLS } from './math20-4/skills.ts';
+import { MATH30_1_SKILLS } from './math30-1/skills.ts';
+import { MATH30_2_SKILLS } from './math30-2/skills.ts';
+import { MATH30_3_SKILLS } from './math30-3/skills.ts';
+import { MATH31_SKILLS } from './math31/skills.ts';
 
-export const ALL_SKILLS = [...MATH10C_SKILLS, ...MATH10_3_SKILLS, ...MATH10_4_SKILLS, ...MATH20_1_SKILLS, ...MATH20_2_SKILLS, ...MATH20_3_SKILLS, ...MATH20_4_SKILLS];
+export const ALL_SKILLS = [...MATH10C_SKILLS, ...MATH10_3_SKILLS, ...MATH10_4_SKILLS, ...MATH20_1_SKILLS, ...MATH20_2_SKILLS, ...MATH20_3_SKILLS, ...MATH20_4_SKILLS, ...MATH30_1_SKILLS, ...MATH30_2_SKILLS, ...MATH30_3_SKILLS, ...MATH31_SKILLS];
 
 registerSkills(ALL_SKILLS);

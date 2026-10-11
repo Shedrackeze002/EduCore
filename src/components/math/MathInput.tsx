@@ -22,6 +22,16 @@ const KEYS: Array<{ label: string; insert: string; title: string; cursorBack?: n
   { label: '=', insert: '=', title: 'Equals' },
 ];
 
+/** Function keys for the Grade 12 courses (trigonometry, logarithms and calculus). */
+const FUNCTION_KEYS: typeof KEYS = [
+  { label: 'sin', insert: 'sin()', title: 'Sine (radians)', cursorBack: 1 },
+  { label: 'cos', insert: 'cos()', title: 'Cosine (radians)', cursorBack: 1 },
+  { label: 'tan', insert: 'tan()', title: 'Tangent (radians)', cursorBack: 1 },
+  { label: 'ln', insert: 'ln()', title: 'Natural logarithm', cursorBack: 1 },
+  { label: 'log', insert: 'log()', title: 'Logarithm, base 10', cursorBack: 1 },
+  { label: 'eˣ', insert: 'e^()', title: 'e to a power', cursorBack: 1 },
+];
+
 export function MathInput({
   value,
   onChange,
@@ -34,6 +44,7 @@ export function MathInput({
   onEnter,
   autoFocus,
   ariaLabel,
+  functions,
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -46,6 +57,8 @@ export function MathInput({
   onEnter?: () => void;
   autoFocus?: boolean;
   ariaLabel?: string;
+  /** Show sin, cos, tan, ln, log and e keys (expression and equation answers only). */
+  functions?: boolean;
 }) {
   const ref = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
@@ -54,7 +67,7 @@ export function MathInput({
     if (mode === 'list') {
       // Several answers separated by commas: preview only the parts that need maths typesetting.
       if (/^[\s\d.,;\-−]*$/.test(value) || /^\s*(none|no\b)/i.test(value)) return { latex: null, error: null };
-      const parts = value.split(/[,;]|\bor\b|\band\b/i).map((p) => p.trim().replace(/^[a-z]\s*=\s*/i, '')).filter(Boolean);
+      const parts = value.split(/[,;]|\bor\b|\band\b/i).map((p) => p.trim().replace(/^(?:[a-zθ]|theta)\s*=\s*/i, '')).filter(Boolean);
       const shown = parts.map((p) => previewLatex(p, 'expr'));
       const bad = shown.find((x) => x.error);
       return bad ? bad : { latex: shown.map((x) => x.latex ?? '').join(',\\ '), error: null };
@@ -82,7 +95,7 @@ export function MathInput({
     });
   };
 
-  const keys = KEYS.filter((k) => (mode === 'equation' ? true : k.insert !== '=')).filter((k) => (mode === 'number' || mode === 'list' ? ['a/b', '√', 'π', '−', '( )'].includes(k.label) : true));
+  const keys = (functions && (mode === 'expr' || mode === 'equation') ? [...KEYS, ...FUNCTION_KEYS] : KEYS).filter((k) => (mode === 'equation' ? true : k.insert !== '=')).filter((k) => (mode === 'number' || mode === 'list' ? ['a/b', '√', 'π', '−', '( )'].includes(k.label) : true));
 
   return (
     <div className="w-full">
