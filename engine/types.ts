@@ -62,6 +62,14 @@ export type AnswerSpec =
       decimals?: number;
       tolerance?: number;
     }
+  | {
+      kind: 'numbers';
+      /** Every answer, in any order (the roots of an equation, say). An empty list means "no solution". */
+      values: number[];
+      /** Rounding and tolerance apply to each value, as for a numeric answer. */
+      decimals?: number;
+      tolerance?: number;
+    }
   | { kind: 'expression'; expected: string; form?: ExprForm; positiveVars?: boolean; radicalIndex?: number }
   | { kind: 'line'; line: Line; form: LineForm }
   | { kind: 'equation-fn'; expected: string; variable: string; fnName: string }
