@@ -19,7 +19,6 @@ const CITIES = ['Edmonton', 'Calgary', 'Red Deer', 'Lethbridge', 'Grande Prairie
 type Out = { prompt: string; parts: Part[]; hints: string[]; solution: string[]; figure?: Figure; answerDisplay?: string };
 type Lvl = Difficulty;
 
-const tx = (u: string) => `\\text{${u}}`;
 /** A number inside maths (thousands grouped). */
 const num = (x: number, dp = 4) => fmtGroupTex(x, dp);
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -97,10 +96,15 @@ interface CatCtx {
   total: string;
   /** Survey contexts: "What fraction of the students chose cheese?" */
   frac?: (c: string) => string;
+  /** Survey contexts: percent questions for circle graphs. */
+  pctNot?: (c: string) => string;
+  pctOr?: (a: string, b: string) => string;
   /** Count contexts: money for two bars. */
   price?: { each: number[]; text: (p: number, a: string, b: string) => string; per: string };
   /** Count contexts: a goal for the total. */
   goal?: (g: number) => string;
+  /** Largest realistic bar. */
+  cap?: number;
 }
 
 function surveyCtx(o: {
@@ -108,6 +112,7 @@ function surveyCtx(o: {
   cats: string[];
   noun: string;
   verb: string;
+  neg: string;
   w: (c: string) => string;
   valueLabel: string;
   categoryLabel: string;
@@ -123,6 +128,8 @@ function surveyCtx(o: {
     more: (a, b) => `How many more ${o.noun} ${o.verb} ${o.w(a)} than ${o.w(b)}?`,
     total: `How many ${o.noun} answered the survey in all?`,
     frac: (c) => `What fraction of the ${o.noun} ${o.verb} ${o.w(c)}?`,
+    pctNot: (c) => `What percent of the ${o.noun} ${o.neg} ${o.w(c)}?`,
+    pctOr: (a, b) => `What percent of the ${o.noun} ${o.verb} ${o.w(a)} or ${o.w(b)}?`,
   };
 }
 
@@ -130,40 +137,40 @@ const lower = (c: string) => c.toLowerCase();
 
 const SURVEYS: CatCtx[] = [
   surveyCtx({
-    who: 'Kiara asked each student in her Grade 10 class to name a favourite pizza topping.',
+    who: 'Kiara asked students at her high school in Calgary to name their favourite pizza topping.',
     cats: ['Cheese', 'Pepperoni', 'Hawaiian', 'Veggie', 'Sausage', 'Mushroom'],
-    noun: 'students', verb: 'chose', w: (c) => (c === 'Hawaiian' ? 'Hawaiian' : lower(c)),
+    noun: 'students', verb: 'chose', neg: 'did **not** choose', w: (c) => (c === 'Hawaiian' ? 'Hawaiian' : lower(c)),
     valueLabel: 'Number of students', categoryLabel: 'Topping',
   }),
   surveyCtx({
     who: 'A community centre in Red Deer asked people which sport they most like to watch.',
     cats: ['Hockey', 'Soccer', 'Basketball', 'Football', 'Baseball', 'Curling'],
-    noun: 'people', verb: 'chose', w: lower,
+    noun: 'people', verb: 'chose', neg: 'did **not** choose', w: lower,
     valueLabel: 'Number of people', categoryLabel: 'Sport',
   }),
   surveyCtx({
     who: 'An ice cream shop in Medicine Hat asked customers to vote for their favourite flavour.',
     cats: ['Vanilla', 'Chocolate', 'Strawberry', 'Mint', 'Maple'],
-    noun: 'customers', verb: 'voted for', w: lower,
+    noun: 'customers', verb: 'voted for', neg: 'did **not** vote for', w: lower,
     valueLabel: 'Number of votes', categoryLabel: 'Flavour',
   }),
   surveyCtx({
     who: 'Darnell asked each student in his school’s Grade 10 classes what kind of pet they have. Each student named one pet.',
     cats: ['Dog', 'Cat', 'Fish', 'Bird', 'Hamster'],
-    noun: 'students', verb: 'have', w: (c) => `a ${lower(c)}`,
+    noun: 'students', verb: 'have', neg: 'do **not** have', w: (c) => `a ${lower(c)}`,
     valueLabel: 'Number of students', categoryLabel: 'Pet',
   }),
   surveyCtx({
     who: 'A warehouse in Edmonton asked its workers how they get to work.',
     cats: ['Car', 'Bus', 'LRT', 'Bike', 'Walk', 'Carpool'],
-    noun: 'workers', verb: 'get to work',
+    noun: 'workers', verb: 'get to work', neg: 'do **not** get to work',
     w: (c) => ({ Car: 'by car', Bus: 'by bus', LRT: 'by LRT', Bike: 'by bike', Walk: 'on foot', Carpool: 'in a carpool' })[c] ?? lower(c),
     valueLabel: 'Number of workers', categoryLabel: 'How they travel',
   }),
   surveyCtx({
     who: 'A radio station in Grande Prairie asked listeners what kind of music they like best.',
     cats: ['Country', 'Pop', 'Rock', 'Hip hop', 'Classical'],
-    noun: 'listeners', verb: 'chose', w: lower,
+    noun: 'listeners', verb: 'chose', neg: 'did **not** choose', w: lower,
     valueLabel: 'Number of listeners', categoryLabel: 'Music',
   }),
 ];
@@ -182,6 +189,7 @@ const COUNTS: CatCtx[] = [
     total: 'How many cars did the shop wash in all last week?',
     price: { each: [12, 15, 20, 25], per: 'wash', text: (p, a, b) => `Each wash costs ${tag(p)}. How much money did the shop take in for washes on ${DAYS[a]} and ${DAYS[b]} together?` },
     goal: (g) => `The shop’s goal was to wash $${g}$ cars last week. How many more cars did it need to wash to meet the goal?`,
+    cap: 100,
   },
   {
     kind: 'count',
@@ -196,6 +204,7 @@ const COUNTS: CatCtx[] = [
     total: 'How many haircuts did the salon do in all last week?',
     price: { each: [20, 25, 30, 35], per: 'haircut', text: (p, a, b) => `Each haircut costs ${tag(p)}. How much money did the salon take in for haircuts on ${DAYS[a]} and ${DAYS[b]} together?` },
     goal: (g) => `The salon’s goal was $${g}$ haircuts for the week. How many more haircuts did it need to meet the goal?`,
+    cap: 40,
   },
   {
     kind: 'count',
@@ -222,6 +231,7 @@ const COUNTS: CatCtx[] = [
     more: (a, b) => `How many more rooms did ${a} clean than ${b}?`,
     total: 'How many rooms did the housekeepers clean in all?',
     goal: (g) => `The hotel had $${g}$ rooms to clean on Saturday. How many rooms were still not cleaned?`,
+    cap: 20,
   },
   {
     kind: 'count',
@@ -241,10 +251,11 @@ const COUNTS: CatCtx[] = [
 ];
 
 /** Bar values: d1 on grid lines, d2/d3 on a grid line or halfway between two. */
-function barData(rng: Rng, d: Lvl, n: number, ok: (vs: number[]) => boolean = () => true): { values: number[]; step: number; max: number } {
-  const cfg = d === 1
-    ? rng.pick([{ step: 2, unit: 2, lo: 2, hi: 16 }, { step: 5, unit: 5, lo: 5, hi: 40 }])
-    : rng.pick([{ step: 2, unit: 1, lo: 3, hi: 19 }, { step: 10, unit: 5, lo: 10, hi: 95 }, { step: 20, unit: 10, lo: 20, hi: 150 }]);
+function barData(rng: Rng, d: Lvl, n: number, ok: (vs: number[]) => boolean = () => true, cap = Infinity): { values: number[]; step: number; max: number } {
+  const all = d === 1
+    ? [{ step: 2, unit: 2, lo: 2, hi: 16 }, { step: 5, unit: 5, lo: 5, hi: 40 }]
+    : [{ step: 2, unit: 1, lo: 3, hi: 19 }, { step: 10, unit: 5, lo: 10, hi: 95 }, { step: 20, unit: 10, lo: 20, hi: 150 }];
+  const cfg = rng.pick(all.filter((c) => c.hi <= cap).length ? all.filter((c) => c.hi <= cap) : all.slice(0, 1));
   const pool: number[] = [];
   for (let v = cfg.lo; v <= cfg.hi; v += cfg.unit) pool.push(v);
   const values = retry(
@@ -258,6 +269,8 @@ function barData(rng: Rng, d: Lvl, n: number, ok: (vs: number[]) => boolean = ()
   return { values, step: cfg.step, max };
 }
 
+/** Indices whose fraction of the total simplifies to a denominator of 12 or less. */
+const niceIdx = (vs: number[]) => vs.map((v, k) => k).filter((k) => sum(vs) / gcd(vs[k], sum(vs)) <= 12 && vs[k] < sum(vs));
 const display = (ctx: CatCtx, what: string) => ctx.intro.replace('{display}', what);
 const BAR_HINT = 'Find the top of the bar. Look straight across to the numbers on the left side of the graph.';
 const HALF_HINT = 'If the top of a bar is halfway between two grid lines, its value is halfway between the two numbers.';
@@ -271,7 +284,7 @@ function barItem(rng: Rng, d: Lvl): Out {
   const cats = ctx.ordered ? ctx.cats : rng.sample(ctx.cats, n);
   const modes: BarMode[] = d === 1 ? ['one', 'more'] : d === 2 ? ['total', 'mostLeast', 'more'] : ctx.kind === 'survey' ? ['frac'] : ctx.price ? ['price', 'goal'] : ['goal'];
   const mode = rng.pick(modes);
-  const { values, step, max } = barData(rng, d, n, mode === 'mostLeast' ? uniqueEnds : undefined);
+  const { values, step, max } = barData(rng, d, n, mode === 'mostLeast' ? uniqueEnds : mode === 'frac' ? (vs) => niceIdx(vs).length > 0 : undefined, ctx.cap);
   const figure: Figure = { type: 'barChart', categories: cats, values, valueLabel: ctx.valueLabel, categoryLabel: ctx.categoryLabel, max, step };
   const intro = display(ctx, 'bar graph');
   const hints = [BAR_HINT, ...(d === 1 ? [] : [HALF_HINT])];
@@ -330,7 +343,7 @@ function barItem(rng: Rng, d: Lvl): Out {
     };
   }
   if (mode === 'frac') {
-    const i = rng.int(0, n - 1);
+    const i = rng.pick(niceIdx(values));
     return {
       prompt: `${intro} ${ctx.frac!(cats[i])} Write the answer as a fraction.`,
       figure,
@@ -382,7 +395,7 @@ function tallyItem(rng: Rng, d: Lvl): Out {
   const ctx = rng.pick(SURVEYS);
   const n = d === 1 ? 3 : rng.int(4, Math.min(5, ctx.cats.length));
   const cats = rng.sample(ctx.cats, n);
-  const values = retry(() => cats.map(() => (d === 1 ? rng.int(3, 14) : rng.int(4, 19))), (vs) => new Set(vs).size === vs.length);
+  const values = retry(() => cats.map(() => (d === 1 ? rng.int(3, 14) : rng.int(4, 19))), (vs) => new Set(vs).size === vs.length && (d < 3 || niceIdx(vs).length > 0), 500);
   const figure: Figure = { type: 'table', headers: [ctx.categoryLabel, 'Tally'], rows: cats.map((c, k) => [c, tally(values[k])]) };
   const intro = display(ctx, 'tally chart');
   const TALLY = 'Each group of $5$ marks counts as $5$. Count by fives, then count the extra marks.';
@@ -390,7 +403,9 @@ function tallyItem(rng: Rng, d: Lvl): Out {
   const how = (k: number) => {
     const fives = Math.floor(values[k] / 5);
     const extra = values[k] % 5;
-    return fives === 0 ? `${cats[k]}: $${extra}$ single marks, so $${values[k]}$` : `${cats[k]}: $${fives}$ group${fives > 1 ? 's' : ''} of $5$ and $${extra}$ more, so $${fives * 5} + ${extra} = ${values[k]}$`;
+    if (fives === 0) return `${cats[k]}: $${extra}$ single marks, so $${values[k]}$`;
+    if (extra === 0) return `${cats[k]}: $${fives}$ group${fives > 1 ? 's' : ''} of $5$, so $${values[k]}$`;
+    return `${cats[k]}: $${fives}$ group${fives > 1 ? 's' : ''} of $5$ and $${extra}$ more, so $${fives * 5} + ${extra} = ${values[k]}$`;
   };
   if (d === 1) {
     const i = rng.int(0, n - 1);
@@ -421,7 +436,7 @@ function tallyItem(rng: Rng, d: Lvl): Out {
       solution: [`${how(i)}.`, `${how(j)}.`, `Subtract: $${values[i]} - ${values[j]} = ${values[i] - values[j]}$`, `The answer is $${values[i] - values[j]}$ more ${ctx.noun}.`],
     };
   }
-  const i = rng.int(0, n - 1);
+  const i = rng.pick(niceIdx(values));
   return {
     prompt: `${intro} ${ctx.frac!(cats[i])} Write the answer as a fraction.`,
     figure,
@@ -450,24 +465,24 @@ function circleItem(rng: Rng, d: Lvl): Out {
     if (d === 1) {
       const i = rng.int(0, cats.length - 1);
       return {
-        prompt: `${intro} What percent of the ${ctx.noun} did **not** choose ${cats[i]}?`,
+        prompt: `${intro} ${ctx.pctNot!(cats[i])}`,
         figure,
         parts: [numPart(100 - pcts[i], { suffix: '%' })],
         hints: ['The whole circle is $100\\%$.', `Subtract the ${cats[i]} percent from $100\\%$.`],
-        solution: [`The whole circle is $100\\%$. ${cats[i]} is $${pcts[i]}\\%$.`, `$100\\% - ${pcts[i]}\\% = ${100 - pcts[i]}\\%$`, `$${100 - pcts[i]}\\%$ did not choose ${cats[i]}.`],
+        solution: [`The whole circle is $100\\%$. ${cats[i]} is $${pcts[i]}\\%$.`, `$100\\% - ${pcts[i]}\\% = ${100 - pcts[i]}\\%$`, `The answer is $${100 - pcts[i]}\\%$.`],
       };
     }
     const [i, j] = rng.sample([...Array(cats.length).keys()], 2);
     return {
-      prompt: `${intro} What percent of the ${ctx.noun} chose ${cats[i]} or ${cats[j]}?`,
+      prompt: `${intro} ${ctx.pctOr!(cats[i], cats[j])}`,
       figure,
       parts: [numPart(pcts[i] + pcts[j], { suffix: '%' })],
       hints: ['Find the two slices in the legend.', 'Add their percents.'],
-      solution: [`${cats[i]}: $${pcts[i]}\\%$. ${cats[j]}: $${pcts[j]}\\%$.`, `$${pcts[i]}\\% + ${pcts[j]}\\% = ${pcts[i] + pcts[j]}\\%$`, `$${pcts[i] + pcts[j]}\\%$ chose ${cats[i]} or ${cats[j]}.`],
+      solution: [`${cats[i]}: $${pcts[i]}\\%$. ${cats[j]}: $${pcts[j]}\\%$.`, `$${pcts[i]}\\% + ${pcts[j]}\\% = ${pcts[i] + pcts[j]}\\%$`, `The answer is $${pcts[i] + pcts[j]}\\%$.`],
     };
   }
   // Counts shown in the legend.
-  const values = retry(() => cats.map(() => rng.int(3, 24)), (vs) => new Set(vs).size === vs.length);
+  const values = retry(() => cats.map(() => rng.int(3, 24)), (vs) => new Set(vs).size === vs.length && (d < 3 || niceIdx(vs).length > 0), 500);
   const figure: Figure = { type: 'circleGraph', slices: cats.map((c, k) => ({ label: c, value: values[k] })), show: 'value' };
   const total = sum(values);
   if (d === 2) {
@@ -479,7 +494,7 @@ function circleItem(rng: Rng, d: Lvl): Out {
       solution: [`Add the numbers for all the slices: $${plus(values)} = ${total}$`, `In all, $${total}$ ${ctx.noun} answered.`],
     };
   }
-  const i = rng.int(0, cats.length - 1);
+  const i = rng.pick(niceIdx(values));
   return {
     prompt: `${intro} The number beside each answer in the legend is how many ${ctx.noun} chose it. ${ctx.frac!(cats[i])} Write the answer as a fraction.`,
     figure,
@@ -626,7 +641,7 @@ const SAMPLES: Array<{ goal: string; fair: string; biased: Array<[string, string
 
 function graphChoice(rng: Rng, d: Lvl, name: string): Out {
   const sit = rng.pick(GRAPH_SITUATIONS.filter((s) => d > 1 || s.easy));
-  const text = sit.text.replace('{name}', name);
+  const text = sit.text.replace('{name}', rng.pick(NAMES.filter((x) => x !== name)));
   const order: GraphKind[] = ['bar', 'line', 'circle'];
   if (d < 3) {
     return {
@@ -785,7 +800,7 @@ const MEASURE_DEF: Record<Measure, string> = {
   range: 'The **range** is the highest value minus the lowest value.',
 };
 
-const fmtVal = (ctx: StatCtx, v: number) => (ctx.money ? tag(v) : `$${num(v)}${ctx.tex}$`);
+const fmtVal = (ctx: StatCtx, v: number) => (ctx.money ? tag(v) : ctx.tex ? `$${num(v)}${ctx.tex}$` : `$${num(v)}$ ${ctx.unit}`);
 const showList = (ctx: StatCtx, vs: number[]) => (ctx.money ? listMoney(vs) : listTex(vs));
 const valuePart = (ctx: StatCtx, v: number, dp?: number): Part =>
   ctx.money ? (dp === 2 ? moneyPart(v) : numPart(v, { label: '\\$' })) : numPart(v, { decimals: dp, suffix: ctx.unit || undefined });
@@ -811,7 +826,7 @@ function meanSteps(ctx: StatCtx, vs: number[], dp?: number): string[] {
   return [
     `Add all the values: $${plus(vs)} = ${num(t)}$`,
     `Divide by the number of values, $${vs.length}$: $${num(t)} \\div ${vs.length} ${eq(m)}$`,
-    `The mean is ${dp === undefined || isWhole(m * 10 ** dp) ? '' : 'about '}${ctx.money ? `\\$${shown}` : `$${shown}${ctx.tex}$`}.`,
+    `The mean is ${dp === undefined || isWhole(m * 10 ** dp) ? '' : 'about '}${ctx.money ? `\\$${shown}` : ctx.tex ? `$${shown}${ctx.tex}$` : `$${shown}$ ${ctx.unit}`}.`,
   ];
 }
 
@@ -1039,7 +1054,10 @@ function likelihoodItem(rng: Rng, name: string): Out {
       prompt = `${bagText(thing!, name, bagDesc(cols, counts))} How likely is it that ${name} gets ${an(a)} ${thing!.thing}?`;
       why = na === 0 ? `There are no ${a} ${thing!.thing}s at all.` : nb === 0 ? `Every ${thing!.thing} is ${a}.` : `$${na}$ out of $${na + nb}$ are ${a}. ${2 * na === na + nb ? 'That is exactly half.' : 2 * na < na + nb ? 'That is less than half.' : 'That is more than half.'}`;
     } else {
-      const secs = na + nb;
+      const secs = rng.pick([4, 6, 8, 10, 12]);
+      const q = rng.int(1, Math.floor(secs / 4));
+      na = { Impossible: 0, Certain: secs, 'Equally likely': secs / 2, Unlikely: q, Likely: secs - q }[target];
+      nb = secs - na;
       prompt = na === 0
         ? `A spinner has $${secs}$ equal sections. All of them are ${b}. How likely is it that the spinner lands on ${a}?`
         : nb === 0
@@ -1179,6 +1197,7 @@ function probTwoStep(rng: Rng, name: string): Out {
   const mode = rng.pick(['not', 'either', 'added', 'compare', 'raffle'] as const);
   const thing = rng.pick(BAGS);
   if (mode === 'compare') {
+    const thing = rng.pick([BAGS[0], BAGS[4]]);
     const col = rng.pick(COLOURS);
     const [ta, tb] = rng.sample([10, 20, 25, 50], 2);
     const fa = rng.int(2, Math.floor(ta * 0.6));

@@ -1,6 +1,5 @@
 /** Math 10-4 Unit 1 — Whole Numbers (N1, N2). */
 import { fixedChoice, mc, numPart, retry, skill } from '../../helpers.ts';
-import { fmtGroupTex } from '../../../math/numbers.ts';
 import type { Rng } from '../../../rng.ts';
 import type { AnswerSpec, Choice, Difficulty, Figure, Part, SkillDef } from '../../../types.ts';
 
@@ -8,6 +7,7 @@ import type { AnswerSpec, Choice, Difficulty, Figure, Part, SkillDef } from '../
 // Shared helpers
 // ---------------------------------------------------------------------------
 
+type Ctx = (x: string, name: string, town: string) => string;
 type Out = { prompt: string; parts: Part[]; hints: string[]; solution: string[]; figure?: Figure };
 
 const NAMES = [
@@ -18,21 +18,23 @@ const NAMES = [
 ];
 const TOWNS = ['Edmonton', 'Calgary', 'Red Deer', 'Lethbridge', 'Grande Prairie', 'Fort McMurray', 'Medicine Hat'];
 
-/** A number inside maths, with commas for 5 or more digits: 45{,}302. */
-const N = (x: number) => fmtGroupTex(x, 0);
+/** Plain text with commas for 4 or more digits, like a cheque: 9,020 (also used in table cells). */
+const plain = (x: number) => {
+  const s = String(Math.round(x));
+  return s.length > 3 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : s;
+};
+/** A number inside maths, with commas: 45{,}302. */
+const N = (x: number) => plain(x).replace(/,/g, '{,}');
 /** A number as inline maths. */
 const n$ = (x: number) => `$${N(x)}$`;
 const tx = (u: string) => `\\text{${u}}`;
 /** A quantity with a unit as inline maths: $250\ \text{km}$. */
 const q = (x: number, u: string) => `$${N(x)}\\ ${tx(u)}$`;
-/** Plain text with commas (table cells, which are not Markdown). */
-const plain = (x: number) => {
-  const s = String(Math.round(x));
-  return s.length > 4 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : s;
-};
 /** Whole dollars in prose (never inside $...$). */
 const money = (x: number) => `\\$${plain(x)}`;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** "a, b and c" */
+const list = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 /** A whole-number answer: the student types the number itself, not an expression to be worked out. */
 const whole = (v: number, suffix?: string, label?: string): Part => numPart(v, { suffix, label, exact: false });
 const T = '\\times';
@@ -70,7 +72,6 @@ function words(x: number): string {
 }
 
 const PLACES = ['ones', 'tens', 'hundreds', 'thousands', 'ten thousands', 'hundred thousands', 'millions'];
-const PLACE_ONE = ['one', 'ten', 'hundred', 'thousand', 'ten thousand', 'hundred thousand', 'million'];
 
 /** Digits of x from the left. */
 const digitsOf = (x: number) => String(x).split('').map(Number);
@@ -87,7 +88,7 @@ function distinctNumber(rng: Rng, len: number): number {
 
 const PV_HINT = 'Count the places from the right: ones, tens, hundreds, thousands, ten thousands, hundred thousands.';
 
-const SMALL_CTX: Array<(x: string, name: string, town: string) => string> = [
+const SMALL_CTX: Ctx[] = [
   (x) => `A bakery made ${x} buns this month.`,
   (x, name) => `${name}’s phone has ${x} photos on it.`,
   (x, _n, town) => `A hotel in ${town} washed ${x} towels last month.`,
@@ -95,7 +96,7 @@ const SMALL_CTX: Array<(x: string, name: string, town: string) => string> = [
   (x, name) => `${name}’s car needs an oil change in ${x} km.`,
   (x, _n, town) => `A coffee shop in ${town} sold ${x} cups of coffee last week.`,
 ];
-const BIG_CTX: Array<(x: string, name: string, town: string) => string> = [
+const BIG_CTX: Ctx[] = [
   (x, _n, town) => `A used truck for sale in ${town} has ${x} km on its odometer.`,
   (x, _n, town) => `The crowd at a summer fair in ${town} was ${x} people.`,
   (x) => `A farm near Lethbridge harvested ${x} kg of potatoes.`,
@@ -316,13 +317,19 @@ function roundSteps(x: number, place: number): string[] {
   ];
 }
 
-const ROUND_CTX: Array<(x: string, name: string, town: string) => string> = [
+const ROUND_SMALL: Ctx[] = [
   (x, _n, town) => `There are ${x} students at a high school in ${town}.`,
-  (x, name) => `${name}’s truck has ${x} km on the odometer.`,
   (x, _n, town) => `${x} people came to a concert in ${town}.`,
   (x) => `A warehouse has ${x} boxes of paper towels.`,
-  (x, name) => `${name}’s family drove ${x} km on a summer road trip.`,
-  (x) => `A grain bin holds ${x} bushels of wheat.`,
+  (x, name) => `${name}’s family drove ${x} km on a weekend trip.`,
+  (x) => `A farmer stacked ${x} bales of hay.`,
+];
+const ROUND_BIG: Ctx[] = [
+  (x, name) => `${name}’s truck has ${x} km on the odometer.`,
+  (x, _n, town) => `A warehouse in ${town} shipped ${x} boxes this year.`,
+  (x, name) => `${name} walked ${x} steps in two weeks.`,
+  (x, _n, town) => `${x} visitors came to a summer festival in ${town}.`,
+  (x, _n, town) => `A grocery store in ${town} sold ${x} litres of milk this month.`,
 ];
 
 function roundBasic(rng: Rng, d: Difficulty): Out {
@@ -347,7 +354,7 @@ function roundBasic(rng: Rng, d: Difficulty): Out {
     }
   }
   const useCtx = d === 2 || rng.chance(0.5);
-  const ctx = useCtx ? `${rng.pick(ROUND_CTX)(n$(x), rng.pick(NAMES), rng.pick(TOWNS))} ` : '';
+  const ctx = useCtx ? `${rng.pick(d === 1 ? ROUND_SMALL : ROUND_BIG)(n$(x), rng.pick(NAMES), rng.pick(TOWNS))} ` : '';
   const figure: Figure | undefined =
     d === 1
       ? {
@@ -462,9 +469,9 @@ function opsBasic(rng: Rng, d: Difficulty): Out {
     const vals = [rng.int(1100, 1900), rng.int(1100, 1900), rng.int(1100, 1900)];
     const sum = vals[0] + vals[1] + vals[2];
     const ctx = rng.pick([
-      { s: `A delivery driver in ${town} drove ${vals.map((v) => q(v, 'km')).join(', ')} in three weeks. How many kilometres is that in all?`, u: 'km' },
-      { s: `A coffee shop sold ${vals.map(n$).join(', ')} cups of coffee in three weeks. How many cups did it sell in all?`, u: 'cups' },
-      { s: `A hotel in ${town} washed ${vals.map(n$).join(', ')} towels in three months. How many towels is that?`, u: 'towels' },
+      { s: `A delivery driver in ${town} drove ${list(vals.map((v) => q(v, 'km')))} in three weeks. How many kilometres is that in all?`, u: 'km' },
+      { s: `A coffee shop sold ${list(vals.map(n$))} cups of coffee in three weeks. How many cups did it sell in all?`, u: 'cups' },
+      { s: `A hotel in ${town} washed ${list(vals.map(n$))} towels in three months. How many towels is that?`, u: 'towels' },
     ]);
     return {
       prompt: ctx.s,
@@ -571,7 +578,7 @@ function opsRemainder(rng: Rng): Out {
       { seats: 8, thing: 'table', things: 'tables', who: 'guests are coming to a wedding supper', town: false },
       { seats: 6, thing: 'car', things: 'cars', who: 'players are driving to a soccer game', town: true },
     ]);
-    const total = retry(() => rng.int(c.seats * 3 + 1, c.seats * 14), (v) => v % c.seats !== 0);
+    const total = retry(() => rng.int(c.seats * 3 + 1, c.seats * 14), (v) => v % c.seats >= 2);
     const full = Math.floor(total / c.seats);
     const rem = total - full * c.seats;
     const town = rng.pick(TOWNS);
@@ -588,32 +595,33 @@ function opsRemainder(rng: Rng): Out {
     };
   }
   const c = rng.pick([
-    { per: 12, item: 'eggs', box: 'carton', boxes: 'cartons', job: `${name} works on a farm and packs` },
-    { per: 24, item: 'bottles of water', box: 'case', boxes: 'cases', job: `${name} works at a warehouse and packs` },
-    { per: 8, item: 'cookies', box: 'box', boxes: 'boxes', job: `${name} works at a bakery and packs` },
-    { per: 6, item: 'cans of pop', box: 'six-pack', boxes: 'six-packs', job: `${name} works at a store and packs` },
-    { per: 15, item: 'tomato plants', box: 'tray', boxes: 'trays', job: `${name} works at a greenhouse and puts` },
+    { per: 12, item: 'eggs', box: 'carton', boxes: 'cartons', job: 'works on an egg farm' },
+    { per: 24, item: 'bottles of water', box: 'case', boxes: 'cases', job: 'works at a warehouse' },
+    { per: 8, item: 'cookies', box: 'box', boxes: 'boxes', job: 'works at a bakery' },
+    { per: 6, item: 'cans of pop', box: 'six-pack', boxes: 'six-packs', job: 'works at a grocery store' },
+    { per: 15, item: 'tomato plants', box: 'tray', boxes: 'trays', job: 'works at a greenhouse' },
   ]);
-  const total = retry(() => rng.int(c.per * 8 + 1, c.per * 30), (v) => v % c.per !== 0);
+  const total = retry(() => rng.int(c.per * 8 + 1, c.per * 30), (v) => v % c.per >= 2);
   const full = Math.floor(total / c.per);
   const rem = total - full * c.per;
+  const setup = `${name} ${c.job}. ${name} puts ${n$(total)} ${c.item} into ${c.boxes}, with ${n$(c.per)} in each ${c.box}.`;
   const steps = [
     `Divide: $${total} ${D} ${c.per} = ${full}$ remainder $${rem}$ (a calculator shows about $${(total / c.per).toFixed(2)}$).`,
     `$${full}$ ${c.boxes} hold $${full} ${T} ${c.per} = ${full * c.per}$ ${c.item}.`,
   ];
   if (kind === 'down') {
     return {
-      prompt: `${c.job} ${n$(total)} ${c.item}, ${n$(c.per)} in each ${c.box}. How many **full** ${c.boxes} can ${name} make?`,
+      prompt: `${setup} How many **full** ${c.boxes} can ${name} fill?`,
       parts: [whole(full, c.boxes)],
       hints: [`Divide $${total}$ by $${c.per}$.`, 'The remainder is not enough to fill another one. Round **down**.'],
-      solution: [...steps, `The $${rem}$ left over cannot fill a ${c.box}, so round down.`, `${name} can make $${full}$ full ${c.boxes}.`],
+      solution: [...steps, `The $${rem}$ left over cannot fill a ${c.box}, so round down.`, `${name} can fill $${full}$ ${c.boxes}.`],
     };
   }
   return {
-    prompt: `${c.job} ${n$(total)} ${c.item}, ${n$(c.per)} in each ${c.box}. How many **full** ${c.boxes} can ${name} make, and how many ${c.item} are left over?`,
+    prompt: `${setup} How many **full** ${c.boxes} can ${name} fill, and how many ${c.item} are left over?`,
     parts: [whole(full, c.boxes, 'Full'), whole(rem, c.item, 'Left over')],
     hints: [`Divide $${total}$ by $${c.per}$. The whole-number part is the number of full ${c.boxes}.`, `To find what is left over, multiply the full ${c.boxes} by $${c.per}$ and subtract from $${total}$.`],
-    solution: [...steps, `Left over: $${total} - ${full * c.per} = ${rem}$.`, `${name} makes $${full}$ full ${c.boxes} with $${rem}$ ${c.item} left over.`],
+    solution: [...steps, `Left over: $${total} - ${full * c.per} = ${rem}$.`, `${name} fills $${full}$ ${c.boxes}, with $${rem}$ ${c.item} left over.`],
   };
 }
 
@@ -751,13 +759,14 @@ function exD2(rng: Rng): Ex {
   };
 }
 
-const SHOPS = [
+type Shop = { place: string; a: Array<[string, number[]]>; b: Array<[string, number[]]> };
+const SHOPS: Shop[] = [
   { place: 'a coffee shop in Calgary', a: [['coffees', [2, 3, 4]], ['lattes', [4, 5, 6]], ['hot chocolates', [2, 3, 4]]], b: [['muffins', [2, 3]], ['cookies', [1, 2]], ['bagels', [2, 3]]] },
   { place: 'a hardware store in Red Deer', a: [['boxes of screws', [4, 5, 6, 7]], ['paint brushes', [6, 8, 9]], ['rolls of tape', [3, 4, 5]]], b: [['pairs of work gloves', [8, 9, 12]], ['packs of sandpaper', [5, 6, 7]]] },
   { place: 'a burger place in Lethbridge', a: [['burgers', [6, 7, 8, 9]], ['wraps', [7, 8, 9]]], b: [['drinks', [2, 3]], ['orders of fries', [3, 4]]] },
   { place: 'the snack bar at a hockey arena', a: [['hot dogs', [3, 4, 5]], ['slices of pizza', [3, 4, 5]]], b: [['bottles of water', [2, 3]], ['bags of popcorn', [3, 4]]] },
-  { place: 'a farmers’ market in Grande Prairie', a: [['jars of honey', [8, 9, 10, 12]], ['loaves of bread', [5, 6, 7]]], b: [['bunches of carrots', [3, 4]], ['dozen eggs', [5, 6, 7]]] },
-] as const;
+  { place: 'a farmers’ market in Grande Prairie', a: [['jars of honey', [8, 9, 10, 12]], ['loaves of bread', [5, 6, 7]]], b: [['bunches of carrots', [3, 4]], ['cartons of eggs', [5, 6, 7]]] },
+];
 
 function receipt(rng: Rng): Out {
   const shop = rng.pick(SHOPS);
@@ -769,8 +778,8 @@ function receipt(rng: Rng): Out {
   do {
     a = rng.int(2, 6);
     b = rng.int(2, 6);
-    p = rng.pick(ap as readonly number[]);
-    q2 = rng.pick(bp as readonly number[]);
+    p = rng.pick(ap);
+    q2 = rng.pick(bp);
     k = rng.int(2, 4);
     c = rng.pick([2, 3, 5]);
   } while (a === b || p === q2 || (kind === 'split' && (a * p + b * q2) % k !== 0) || (kind === 'coupon' && a * p + b * q2 <= c + 5));
@@ -864,10 +873,11 @@ function estimateAddSub(rng: Rng): Out {
     const fmtv = (v: number) => (isMoney ? `about ${money(v)}` : `about $${N(v)}$`);
     const spec = estimateChoices(rng, exact, E, [E * 10, wrongOp, E + 2 * unit, E / 10], fmtv);
     if (!spec) continue;
+    const [thingA, thingB, spend] = big ? rng.pick([['a couch', 'a table', 'a new phone'], ['a used bike', 'a winter coat', 'car repairs'], ['a fridge', 'a stove', 'a used laptop']]) : rng.pick([['a jacket', 'boots', 'groceries'], ['a hoodie', 'running shoes', 'a phone bill'], ['a pizza', 'a movie ticket', 'gas']]);
     const prompt = isMoney
       ? add
-        ? `${name} buys a jacket for ${money(a)} and boots for ${money(b)}. Which is the best estimate of the total cost?`
-        : `${name} has ${money(a)} in the bank and spends ${money(b)} on a new phone. Which is the best estimate of the money left?`
+        ? `${name} buys ${thingA} for ${money(a)} and ${thingB} for ${money(b)}. Which is the best estimate of the total cost?`
+        : `${name} has ${money(a)} and spends ${money(b)} on ${spend}. Which is the best estimate of the money left?`
       : add
         ? `Which is the best estimate of $${a} + ${b}$?`
         : `Which is the best estimate of $${a} - ${b}$?`;
@@ -995,16 +1005,16 @@ function reasonable(rng: Rng): Out {
   const exact = vals[0] + vals[1] + vals[2];
   const shown = mode === 'ok' ? exact : mode === 'big' ? exact + 9 * vals[0] : exact - vals[2];
   const c = rng.pick([
-    { s: `${name} drove ${vals.map((v) => q(v, 'km')).join(', ')} on three days of a road trip from ${rng.pick(TOWNS)}. ${name} adds them on a calculator and gets ${q(shown, 'km')}.` },
-    { s: `A food bank in ${rng.pick(TOWNS)} got ${vals.map(n$).join(', ')} cans in three weeks. A volunteer adds them on a calculator and gets ${n$(shown)} cans.` },
-    { s: `A kitchen used ${vals.map((v) => q(v, 'kg')).join(', ')} of potatoes in three months. ${name} adds them on a calculator and gets ${q(shown, 'kg')}.` },
+    { s: `${name} drove ${list(vals.map((v) => q(v, 'km')))} on three days of a road trip from ${rng.pick(TOWNS)}. ${name} adds them on a calculator and gets ${q(shown, 'km')}.` },
+    { s: `A food bank in ${rng.pick(TOWNS)} got ${list(vals.map(n$))} cans in three weeks. A volunteer adds them on a calculator and gets ${n$(shown)} cans.` },
+    { s: `A kitchen used ${list(vals.map((v) => q(v, 'kg')))} of potatoes in three months. ${name} adds them on a calculator and gets ${q(shown, 'kg')}.` },
   ]);
   const ex = `$${rs.join(' + ')} = ${N(E)}$`;
   const correct = mode === 'ok' ? `Yes. The estimate is ${ex}, and $${N(shown)}$ is close to it.` : `No. The estimate is ${ex}, so the total should be close to $${N(E)}$, not $${N(shown)}$.`;
   const lowAll = vals.map((v) => Math.floor(v / 100) * 100);
   const wrong =
     mode === 'ok'
-      ? [`No. The estimate is $${rs[0]} + ${rs[1]} = ${rs[0] + rs[1]}$, so $${N(shown)}$ is too big.`, `No. The answer should be a round number like $${N(E)}$.`, `No. The estimate is $${lowAll.join(' + ')} = ${N(lowAll[0] + lowAll[1] + lowAll[2])}$, so $${N(shown)}$ is too big.`]
+      ? [`No. The estimate is $${rs[0]} + ${rs[1]} = ${N(rs[0] + rs[1])}$, so $${N(shown)}$ is too big.`, `No. The answer should be a round number like $${N(E)}$.`, `No. The estimate is $${lowAll.join(' + ')} = ${N(lowAll[0] + lowAll[1] + lowAll[2])}$, so $${N(shown)}$ is too big.`]
       : [`Yes. $${N(shown)}$ is bigger than each of the three amounts, so it makes sense.`, 'Yes. A calculator answer is always right.', `No. The answer should be a round number like $${N(E)}$.`];
   return {
     prompt: `${c.s} Is this total reasonable?`,
@@ -1058,15 +1068,14 @@ function probD1(rng: Rng, name: string, town: string): Prob {
     const p = rng.int(3, 6);
     const u = retry(() => rng.int(Math.ceil((s * p) / 3), Math.floor(s * p * 0.75)), (v) => v % 10 !== 0 && v % 10 !== 5);
     const left = s * p - u;
-    const es = est(s);
     const eu = est(u);
     return {
       prompt: `${name} buys ${n$(p)} cases of water for a soccer tournament in ${town}. Each case has ${n$(s)} bottles. The players drink ${n$(u)} bottles. How many bottles are left?`,
       answer: left,
       suffix: 'bottles',
       steps: [`There are $${p}$ equal cases, so **multiply**: $${p} ${T} ${s} = ${s * p}$ bottles.`, `Some bottles are used up, so **subtract**: $${s * p} - ${u} = ${left}$.`],
-      estimate: `$${p} ${T} ${es} = ${p * es}$ and $${p * es} - ${eu} = ${p * es - eu}$`,
-      estValue: p * es - eu,
+      estimate: `$${p} ${T} ${s} = ${s * p}$ is easy to do in your head, and $${s * p} - ${eu} = ${s * p - eu}$`,
+      estValue: s * p - eu,
       final: `There are $${left}$ bottles left.`,
       hint: 'First find how many bottles there were in all. Then take away the ones that were used.',
     };
@@ -1218,7 +1227,7 @@ function probD3(rng: Rng, name: string, town: string): Prob {
       suffix: 'buses',
       steps: [`Equal classes, so **multiply**: $${cls} ${T} ${per} = ${tot}$ students.`, `Split into busloads, so **divide**: $${tot} ${D} ${seats} = ${Math.floor(tot / seats)}$ remainder $${tot % seats}$.`],
       extra: `The $${tot % seats}$ extra students still need a seat, so round **up** to $${buses}$ buses.`,
-      estimate: `$${cls} ${T} ${est(per)} = ${cls * est(per)}$ and $${cls * est(per)} ${D} ${est(seats)} \\approx ${(cls * est(per) / est(seats)).toFixed(1)}$, so about $${Math.ceil((cls * est(per)) / est(seats))}$ buses`,
+      estimate: `$${cls} ${T} ${est(per)} = ${cls * est(per)}$ and $${cls * est(per)} ${D} ${est(seats)} \\approx ${+((cls * est(per)) / est(seats)).toFixed(1)}$, so about $${Math.ceil((cls * est(per)) / est(seats))}$ buses`,
       estValue: Math.ceil((cls * est(per)) / est(seats)),
       final: `$${buses}$ buses are needed.`,
       hint: 'Find the number of students first. If they do not fit exactly, you need one more bus.',

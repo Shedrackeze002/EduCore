@@ -21,15 +21,15 @@ const tx = (u: string) => `\\text{${u}}`;
 const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
 const isCents = (x: number) => Math.abs(x * 100 - Math.round(x * 100)) < 1e-6;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-const poss = (n: string) => `${n}’s`;
 /** "a" or "an" before a number that is read aloud (8 -> "an eight", 11 -> "an eleven"). */
 const art = (x: number) => (/^(8|11|18)(\D|$)|^8/.test(String(x)) ? 'an' : 'a');
 
-function group(s: string, sep = ','): string {
+/** Thousands separators: money from 1,000 up; measurements (minDigits 5) from 10 000 up. */
+function group(s: string, sep = ',', minDigits = 4): string {
   const neg = s.startsWith('-');
   const body = neg ? s.slice(1) : s;
   const [i, f] = body.split('.');
-  const g = i.length > 3 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, sep) : i;
+  const g = i.length >= minDigits ? i.replace(/\B(?=(\d{3})+(?!\d))/g, sep) : i;
   return `${neg ? '-' : ''}${g}${f !== undefined ? `.${f}` : ''}`;
 }
 /** Money in prose (never inside $...$), always with cents: \$1,234.50 */
@@ -38,8 +38,8 @@ const money = (x: number) => `\\$${group(fmtFixed(x, 2))}`;
 const tag = (x: number) => (isWhole(x) ? `\\$${group(String(Math.round(x)))}` : money(x));
 /** Money inside maths with two decimals, no dollar sign: 1{,}234.50 */
 const m2 = (x: number) => group(fmtFixed(x, 2), '{,}');
-/** A plain number inside maths. */
-const mn = (x: number, dp = 4) => group(fmt(x, dp), '{,}');
+/** A plain number or measurement inside maths (1500, not 1,500). */
+const mn = (x: number, dp = 4) => group(fmt(x, dp), '{,}', 5);
 /** Money in a table cell (cells are plain text, not Markdown). */
 const cell = (x: number) => `$${group(fmtFixed(x, 2))}`;
 /** "= 0.75" when exact to the cent, otherwise "= 0.732 \approx 0.73" (inside maths). */
@@ -258,7 +258,7 @@ const BB: BBProduct[] = [
 ];
 
 const sizeMd = (p: BBProduct, s: number) => (p.metric ? `the $${mn(s)}\\ ${tx(p.unit)}$ ${p.container}` : `the ${p.container} of $${s}$ ${p.unit}`);
-const sizeCell = (p: BBProduct, s: number) => `${mn(s).replace('{,}', ',')} ${p.unit}`;
+const sizeCell = (p: BBProduct, s: number) => `${fmt(s)} ${p.unit}`;
 const PAIRED = BB.filter((x) => x.pairs.length > 0);
 
 function bestBuyTwo(rng: Rng, name: string): Out {
@@ -375,7 +375,7 @@ function bestBuyDeal(rng: Rng, name: string): Out {
   }
   // A multi-buy deal on the small size.
   const bogo = rng.chance(0.4);
-  const dealWins = rng.chance(0.5);
+  const dealWins = rng.chance(bogo ? 0.7 : 0.5);
   const { P1, T, P2 } = retry(
     () => {
       const u = rng.float(p.lo, p.hi, 3);
@@ -388,7 +388,8 @@ function bestBuyDeal(rng: Rng, name: string): Out {
     (o) => {
       const a = o.T / ((3 * s1) / p.base);
       const b = per(o.P2, s2);
-      return o.T < 3 * o.P1 && Math.max(a, b) / Math.min(a, b) >= 1.03;
+      // Keep the big size realistic: at most about 40% cheaper per unit than the regular small price.
+      return o.T < 3 * o.P1 && Math.max(a, b) / Math.min(a, b) >= 1.03 && b >= 0.6 * per(o.P1, s1);
     },
   );
   const ua = T / ((3 * s1) / p.base);
@@ -512,7 +513,7 @@ const salePrice = skill({
         parts: [moneyPart(save, 'Amount saved: \\$'), moneyPart(total, 'Total price: \\$')],
         hints: [samePrice ? 'Only the second item is half price.' : `Only the cheaper item (${money(B)}) is half price.`, '50% off means you save half of that price. Then add the two prices and subtract the amount saved.'],
         solution: [
-          `The second item is ${money(B)}. Half of it is $${m2(B)} \\div 2 = ${m2(save)}$, so ${name} saves ${money(save)}.`,
+          `${samePrice ? "The second item" : "The cheaper item"} is ${money(B)}. Half of it is $${m2(B)} \\div 2 = ${m2(save)}$, so ${name} saves ${money(save)}.`,
           `Without the sale, the two cost $${m2(A)} + ${m2(B)} = ${m2(A + B)}$.`,
           `With the sale: $${m2(A + B)} - ${m2(save)} = ${m2(total)}$`,
           `${name} saves ${money(save)} and pays ${money(total)} before tax.`,
@@ -618,7 +619,7 @@ const totalCost = skill({
         () => {
           const picks = rng.sample(shop.items, 3);
           const a = picks.map(([, lo, hi]) => realPrice(rng, lo, hi));
-          const b = a.map((x) => roundTo(Math.max(0.99, x + rng.pick([-2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2]) + rng.pick([0, 0.2, -0.2])), 2));
+          const b = picks.map(([, lo, hi]) => realPrice(rng, lo, hi));
           const sa = a.reduce((s, x) => s + toC(x), 0);
           const sb = b.reduce((s, x) => s + toC(x), 0);
           return { picks, a, b, sa, sb };
@@ -764,9 +765,9 @@ const instalment = skill({
       const { down, n, pay, total, cash } = made;
       const extra = fromC(toC(total) - toC(cash));
       const plan = weekly ? `no money down, then $${n}$ weekly payments of ${tag(pay)}` : planText(down, n, pay);
-      const where = weekly ? 'A rent-to-own store' : 'A store';
+      const where = weekly ? `A rent-to-own store lets ${name} pay over time instead` : `The store also lets ${name} pay over time`;
       return {
-        prompt: `${name} wants ${a} ${it.what}. ${where} sells it for ${tag(cash)} cash. ${name} can also pay over time: ${plan}. Find the total cost of the payment plan and the extra cost compared with paying cash. Give each answer ${CENT}.`,
+        prompt: `${name} wants ${a} ${it.what}. The cash price is ${tag(cash)}. ${where}: ${plan}. Find the total cost of the payment plan and the extra cost compared with paying cash. Give each answer ${CENT}.`,
         parts: [moneyPart(total, 'Total cost of the plan: \\$'), moneyPart(extra, 'Extra cost: \\$')],
         hints: ['Total cost $=$ down payment $+$ (number of payments $\\times$ each payment).', 'Extra cost (the finance charge) $=$ total cost of the plan $-$ cash price.'],
         solution: [

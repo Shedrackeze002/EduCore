@@ -1,6 +1,7 @@
 import type { ArrowDiagramFigure, AreaModelFigure, CaliperFigure, NumberLineFigure, RulerFigure, TableFigure } from '@engine/types.ts';
 import { texToText } from '@/lib/texText.ts';
 import { Markdown, Tex } from '@/components/math/Markdown.tsx';
+import { cn } from '@/lib/cn.ts';
 
 const INK = 'rgb(var(--ink))';
 const SERIES = 'rgb(var(--series-1))';
@@ -255,7 +256,8 @@ export function TableFig({ fig }: { fig: TableFigure }) {
           {fig.rows.map((row, r) => (
             <tr key={r}>
               {row.map((cell, c) => (
-                <td key={c} className="border-t border-line px-4 py-1.5 font-mono">
+                // Words (an item on a receipt, a day on a timecard) read better in the text font.
+                <td key={c} className={cn('border-t border-line px-4 py-1.5', /[A-Za-z]{3,}/.test(cell) ? 'text-left' : 'font-mono tabular-nums')}>
                   {cell.replace(/^-/, '−')}
                 </td>
               ))}

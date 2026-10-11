@@ -483,18 +483,18 @@ const PICTURE_CTX: Array<{ text: (who: string) => string; types: AngleType[] }> 
 ];
 
 const STRAIGHT_CTX = [
-  { text: (a: string) => `A gravel road leaves a straight highway at an angle of $${a}$.`, lo: 30, hi: 75 },
-  { text: (a: string) => `A ladder leans against a wall. It makes an angle of $${a}$ with the flat ground.`, lo: 60, hi: 80 },
-  { text: (a: string) => `A playground slide makes an angle of $${a}$ with the flat ground.`, lo: 25, hi: 45 },
-  { text: (a: string) => `A conveyor belt in a warehouse rises from the flat floor at an angle of $${a}$.`, lo: 20, hi: 40 },
-  { text: (a: string) => `After a windstorm, a sign post leans. It makes an angle of $${a}$ with the flat ground.`, lo: 65, hi: 85 },
+  { text: (a: string) => `A gravel road leaves a straight highway at an angle of $${a}$.`, line: 'The highway is a straight line', lo: 30, hi: 75 },
+  { text: (a: string) => `A ladder leans against a wall. It makes an angle of $${a}$ with the flat ground.`, line: 'The ground is a straight line', lo: 60, hi: 80 },
+  { text: (a: string) => `A playground slide makes an angle of $${a}$ with the flat ground.`, line: 'The ground is a straight line', lo: 25, hi: 45 },
+  { text: (a: string) => `A conveyor belt in a warehouse rises from the flat floor at an angle of $${a}$.`, line: 'The floor is a straight line', lo: 20, hi: 40 },
+  { text: (a: string) => `After a windstorm, a sign post leans. It makes an angle of $${a}$ with the flat ground.`, line: 'The ground is a straight line', lo: 65, hi: 85 },
 ];
 
 const RIGHT_CTX = [
-  { text: (a: string) => `A gate frame has a square corner ($90^\\circ$). A brace starts at the corner and makes an angle of $${a}$ with the bottom of the gate.`, lo: 25, hi: 65 },
-  { text: (a: string) => `A tile setter cuts a square tile. The cut starts at a square corner ($90^\\circ$) and makes an angle of $${a}$ with one edge.`, lo: 20, hi: 70 },
-  { text: (a: string) => `Two hallways in a hotel meet at a right angle ($90^\\circ$). A third hallway leaves the same corner at an angle of $${a}$ to one of them.`, lo: 25, hi: 65 },
-  { text: (a: string) => `A corner shelf fits into a square corner ($90^\\circ$) of a room. A support bar leaves the corner at an angle of $${a}$ to one wall.`, lo: 30, hi: 60 },
+  { text: (a: string) => `A gate frame has a square corner ($90^\\circ$). A brace starts at the corner and makes an angle of $${a}$ with one side of the frame.`, line: '', lo: 25, hi: 65 },
+  { text: (a: string) => `A tile setter cuts a square tile. The cut starts at a square corner ($90^\\circ$) and makes an angle of $${a}$ with one edge.`, line: '', lo: 20, hi: 70 },
+  { text: (a: string) => `Two hallways in a hotel meet at a right angle ($90^\\circ$). A third hallway leaves the same corner at an angle of $${a}$ to one of them.`, line: '', lo: 25, hi: 65 },
+  { text: (a: string) => `A corner shelf fits into a square corner ($90^\\circ$) of a room. A support bar leaves the corner at an angle of $${a}$ to one wall.`, line: '', lo: 30, hi: 60 },
 ];
 
 /** A straight line (or square corner) through V with one ray from V splitting it into two marked angles. */
@@ -635,7 +635,7 @@ const classifyAngle = skill({
     const theta = knownFirst ? known : missing;
     const t = typeOf(missing);
     return {
-      prompt: `${ctx.text(deg(known))} ${kind === 'straight' ? 'The ground (or road) is a straight line, so the two angles together make $180^\\circ$.' : 'The two angles together make the square corner.'} Find the angle marked **?** and name its type.`,
+      prompt: `${ctx.text(deg(known))} ${kind === 'straight' ? `${ctx.line}, so the two angles together make $180^\\circ$.` : 'The two angles together make the square corner.'} Find the angle marked **?** and name its type.`,
       figure: splitFigure(kind, theta, knownFirst, kind === 'right' ? rng.int(0, 3) * 90 : rng.pick([0, 0, 0, 180]), rng.chance(0.5)),
       parts: [
         part({ kind: 'numeric', value: missing }, { label: 'Angle **?** $=$', suffix: '°' }),
@@ -990,15 +990,977 @@ function makeTriangle(rng: Rng, at3: AngType, st3: SideType): { pts: P[]; sides:
     const big = Math.max(...angles);
     const actualA: AngType = big === 90 ? 'right' : big > 90 ? 'obtuse' : 'acute';
     if (actualA !== at3) continue;
-    if (at3 !== 'right' && Math.abs(big - 90) < 8) continue;
+    if (at3 !== 'right' && Math.abs(big - 90) < 6) continue;
     const st = sideTypeOf(s);
     if (st !== st3) continue;
     if (st3 === 'scalene') {
       const sorted = [...s].sort((x, y) => x - y);
-      if (sorted[1] - sorted[0] < 1.5 || sorted[2] - sorted[1] < 1.5) continue;
+      if (sorted[1] - sorted[0] < 1 || sorted[2] - sorted[1] < 1) continue;
       if (new Set(angles).size < 3) continue;
     }
     return { pts: triFromSides(a, b, c), sides: s, angles };
   }
-  throw new Error('triangle');
+  throw new Error(`triangle ${at3} ${st3}`);
 }
+
+// ---------------------------------------------------------------------------
+// Lesson 8.2 — 3-D objects, nets and views
+// ---------------------------------------------------------------------------
+
+interface SolidInfo {
+  shape: SolidShape;
+  name: string;
+  faces: number;
+  edges: number;
+  vertices: number;
+  faceText: string;
+  things: string[];
+}
+
+const SOLIDS: SolidInfo[] = [
+  { shape: 'cube', name: 'cube', faces: 6, edges: 12, vertices: 8, faceText: '6 square faces', things: ['a toy block', 'an ice cube', 'a box for a coffee mug', 'a storage cube'] },
+  { shape: 'rectPrism', name: 'rectangular prism', faces: 6, edges: 12, vertices: 8, faceText: '6 rectangle faces', things: ['a cereal box', 'a shipping box', 'a brick', 'a pizza box'] },
+  { shape: 'triPrism', name: 'triangular prism', faces: 5, edges: 9, vertices: 6, faceText: '2 triangle faces and 3 rectangle faces', things: ['a camping tent', 'a doorstop wedge', 'a box for a chocolate bar', 'a roof section'] },
+  { shape: 'squarePyramid', name: 'square pyramid', faces: 5, edges: 8, vertices: 5, faceText: '1 square base and 4 triangle faces', things: ['a gazebo roof', 'a glass paperweight', 'a tent with a square floor'] },
+  { shape: 'rectPyramid', name: 'rectangular pyramid', faces: 5, edges: 8, vertices: 5, faceText: '1 rectangle base and 4 triangle faces', things: ['a shed roof', 'a decoration on a fence post'] },
+];
+
+/** The 11 nets of a cube as [column, row] cells. */
+const CUBE_NETS: Array<Array<[number, number]>> = [
+  [[0, 2], [0, 1], [1, 1], [2, 1], [3, 1], [0, 0]],
+  [[0, 2], [0, 1], [1, 1], [2, 1], [3, 1], [1, 0]],
+  [[0, 2], [0, 1], [1, 1], [2, 1], [3, 1], [2, 0]],
+  [[0, 2], [0, 1], [1, 1], [2, 1], [3, 1], [3, 0]],
+  [[1, 2], [0, 1], [1, 1], [2, 1], [3, 1], [1, 0]],
+  [[1, 2], [0, 1], [1, 1], [2, 1], [3, 1], [2, 0]],
+  [[0, 2], [1, 2], [1, 1], [2, 1], [3, 1], [1, 0]],
+  [[0, 2], [1, 2], [1, 1], [2, 1], [3, 1], [2, 0]],
+  [[0, 2], [1, 2], [1, 1], [2, 1], [3, 1], [3, 0]],
+  [[0, 2], [1, 2], [1, 1], [2, 1], [2, 0], [3, 0]],
+  [[0, 1], [1, 1], [2, 1], [2, 0], [3, 0], [4, 0]],
+];
+
+type Cells = Array<[number, number]>;
+
+/** Roll a cube across the cells; a set of 6 squares is a cube net when every square lands on a different face. */
+function foldsToCube(cells: Cells): boolean {
+  const faces = new Array<number>(cells.length).fill(-1);
+  const idx = (x: number, y: number) => cells.findIndex((c) => c[0] === x && c[1] === y);
+  const visit = (i: number, st: { B: number; T: number; N: number; S: number; E: number; W: number }) => {
+    faces[i] = st.B;
+    const [x, y] = cells[i];
+    const moves: Array<[number, number, typeof st]> = [
+      [1, 0, { ...st, B: st.E, E: st.T, T: st.W, W: st.B }],
+      [-1, 0, { ...st, B: st.W, W: st.T, T: st.E, E: st.B }],
+      [0, 1, { ...st, B: st.N, N: st.T, T: st.S, S: st.B }],
+      [0, -1, { ...st, B: st.S, S: st.T, T: st.N, N: st.B }],
+    ];
+    for (const [dx, dy, next] of moves) {
+      const j = idx(x + dx, y + dy);
+      if (j >= 0 && faces[j] < 0) visit(j, next);
+    }
+  };
+  visit(0, { B: 0, T: 1, N: 2, S: 3, E: 4, W: 5 });
+  return new Set(faces).size === 6 && !faces.includes(-1);
+}
+
+function normCells(cells: Cells): Cells {
+  const mx = Math.min(...cells.map((c) => c[0]));
+  const my = Math.min(...cells.map((c) => c[1]));
+  return cells.map(([x, y]) => [x - mx, y - my] as [number, number]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+}
+
+/** All 8 rotations and reflections of a polyomino, normalised. */
+function variants(cells: Cells): Cells[] {
+  const out: Cells[] = [];
+  let cur = cells;
+  for (let r = 0; r < 4; r++) {
+    cur = cur.map(([x, y]) => [-y, x] as [number, number]);
+    out.push(normCells(cur), normCells(cur.map(([x, y]) => [-x, y] as [number, number])));
+  }
+  return out;
+}
+
+const cellsKey = (cells: Cells) => normCells(cells).map((c) => c.join(',')).join(';');
+const shapeKey = (cells: Cells) => variants(cells).map(cellsKey).sort()[0];
+
+/** All free hexominoes (35 shapes), split into cube nets and non-nets. */
+const HEXOMINOES: { nets: Cells[]; nonNets: Cells[] } = (() => {
+  let level = new Map<string, Cells>([['0,0', [[0, 0]]]]);
+  for (let n = 1; n < 6; n++) {
+    const next = new Map<string, Cells>();
+    for (const cells of level.values()) {
+      for (const [x, y] of cells) {
+        for (const [dx, dy] of [
+          [1, 0],
+          [-1, 0],
+          [0, 1],
+          [0, -1],
+        ]) {
+          if (cells.some((c) => c[0] === x + dx && c[1] === y + dy)) continue;
+          const grown = normCells([...cells, [x + dx, y + dy]]);
+          const k = shapeKey(grown);
+          if (!next.has(k)) next.set(k, grown);
+        }
+      }
+    }
+    level = next;
+  }
+  const nets: Cells[] = [];
+  const nonNets: Cells[] = [];
+  for (const cells of level.values()) (foldsToCube(cells) ? nets : nonNets).push(cells);
+  return { nets, nonNets };
+})();
+
+function randomOrient(rng: Rng, cells: Cells): Cells {
+  return rng.pick(variants(cells));
+}
+
+/** Unit squares drawn once each edge. */
+function squaresFigure(cells: Cells, opts: { numbers?: string[]; include?: P[]; margin?: number; caption?: string; below?: string } = {}): PlaneFigure {
+  const s = new Sketch();
+  const edges = new Set<string>();
+  const add = (a: P, b: P) => {
+    const k = [a, b].map((p) => p.join(',')).sort().join('|');
+    if (edges.has(k)) return;
+    edges.add(k);
+    s.seg(a, b);
+  };
+  for (const [x, y] of cells) {
+    add([x, y], [x + 1, y]);
+    add([x, y + 1], [x + 1, y + 1]);
+    add([x, y], [x, y + 1]);
+    add([x + 1, y], [x + 1, y + 1]);
+  }
+  cells.forEach(([x, y], i) => {
+    if (opts.numbers?.[i]) s.textAt([x + 0.5, y + 0.5], opts.numbers[i]);
+  });
+  for (const p of opts.include ?? []) s.include(p);
+  if (opts.below) {
+    const maxX = Math.max(...cells.map((c) => c[0])) + 1;
+    s.textAt([maxX / 2, -0.55], opts.below);
+    s.include([maxX / 2, -0.9]);
+  }
+  return s.build({ margin: opts.margin ?? 0.4, caption: opts.caption });
+}
+
+/** Outline drawings of the nets of common solids. */
+function solidNet(kind: 'cube' | 'rectangular prism' | 'triangular prism' | 'square pyramid' | 'triangular pyramid', rng: Rng): PlaneFigure {
+  const s = new Sketch();
+  const rect = (x: number, y: number, w: number, h: number) =>
+    s.polyline([
+      [x, y],
+      [x + w, y],
+      [x + w, y + h],
+      [x, y + h],
+      [x, y],
+    ]);
+  if (kind === 'cube') return squaresFigure(randomOrient(rng, rng.pick(CUBE_NETS)));
+  if (kind === 'rectangular prism') {
+    const l = 2.4;
+    const w = 1.2;
+    const h = 1.8;
+    rect(0, w, w, h);
+    rect(w, w, l, h);
+    rect(w + l, w, w, h);
+    rect(2 * w + l, w, l, h);
+    rect(w, 0, l, w);
+    rect(w, w + h, l, w);
+  } else if (kind === 'triangular prism') {
+    const a = 1.6;
+    const L = 3;
+    const t = (a * Math.sqrt(3)) / 2;
+    rect(0, t, a, L);
+    rect(a, t, a, L);
+    rect(2 * a, t, a, L);
+    s.polyline([
+      [a, t],
+      [1.5 * a, 0],
+      [2 * a, t],
+    ]);
+    s.polyline([
+      [a, t + L],
+      [1.5 * a, 2 * t + L],
+      [2 * a, t + L],
+    ]);
+  } else if (kind === 'square pyramid') {
+    const a = 2;
+    const t = 1.8;
+    rect(0, 0, a, a);
+    s.polyline([[0, 0], [a / 2, -t], [a, 0]]);
+    s.polyline([[0, a], [a / 2, a + t], [a, a]]);
+    s.polyline([[0, 0], [-t, a / 2], [0, a]]);
+    s.polyline([[a, 0], [a + t, a / 2], [a, a]]);
+  } else {
+    const a = 5;
+    const t = (a * Math.sqrt(3)) / 2;
+    s.polyline([[0, 0], [a, 0], [a / 2, t], [0, 0]]);
+    s.polyline([[a / 4, t / 2], [(3 * a) / 4, t / 2], [a / 2, 0], [a / 4, t / 2]]);
+  }
+  return s.build({ margin: 0.4 });
+}
+
+/** Heights of each column in a view: front (max down each column), right side (max along each row, front row first). */
+function frontView(plan: number[][]): number[] {
+  return plan[0].map((_, c) => Math.max(...plan.map((row) => row[c])));
+}
+function sideView(plan: number[][]): number[] {
+  return plan.map((row) => Math.max(...row));
+}
+
+function viewFigure(h: number[], maxCols: number, maxH: number): PlaneFigure {
+  const cells: Cells = [];
+  h.forEach((n, x) => {
+    for (let y = 0; y < n; y++) cells.push([x, y]);
+  });
+  return squaresFigure(cells, { include: [[0, 0], [maxCols, maxH]], margin: 0.3 });
+}
+
+const netsViews = skill({
+  id: 'm104-nets-views',
+  name: '3-D objects, nets and views',
+  description: 'Count the faces, edges and vertices of prisms and pyramids, match a net with its 3-D object, and choose the front view of a stack of cubes.',
+  outcomes: ['SS3'],
+  lessonId: 'm104-8-2',
+  format: 'mc',
+  gen(rng, d) {
+    const who = rng.pick(NAMES);
+    if (d === 1) {
+      const so = rng.pick(SOLIDS);
+      const thing = rng.pick(so.things);
+      if (rng.chance(0.3)) {
+        const alike = (a: SolidShape, b: SolidShape) => ['cube|rectPrism', 'rectPrism|cube', 'squarePyramid|rectPyramid', 'rectPyramid|squarePyramid'].includes(`${a}|${b}`);
+        const others = SOLIDS.filter((x) => x.name !== so.name && !alike(so.shape, x.shape));
+        return {
+          prompt: `${who} is packing ${thing}. It has the shape shown. What is the name of this 3-D object?`,
+          figure: { type: 'solid', shape: so.shape, labels: {} },
+          parts: [{ answer: mc(rng, cap(so.name), rng.shuffle(others).map((x) => cap(x.name))) }],
+          hints: ['Is it a prism (two matching ends joined by rectangles) or a pyramid (one base, with triangles meeting at a point)?', 'Then look at the shape of the base: triangle, square or rectangle.'],
+          solution: [`The object has ${so.faceText}.`, so.shape.includes('Pyramid') ? 'The triangle faces meet at one point, so it is a pyramid.' : 'It has two matching ends joined by rectangles, so it is a prism.', `It is a **${so.name}**.`],
+          answerDisplay: cap(so.name),
+        };
+      }
+      const what = rng.pick(['faces', 'edges', 'vertices'] as const);
+      const v = so[what];
+      const how: Record<typeof what, string> = {
+        faces: `Count the flat surfaces: ${so.faceText}.`,
+        edges: so.shape.includes('Pyramid') ? `The base has ${so.edges / 2} edges, and ${so.edges / 2} more edges go up to the top point: $${so.edges / 2} + ${so.edges / 2} = ${so.edges}$.` : `Each end has ${so.edges / 3} edges, and ${so.edges / 3} more edges join the two ends: $${so.edges / 3} + ${so.edges / 3} + ${so.edges / 3} = ${so.edges}$.`,
+        vertices: so.shape.includes('Pyramid') ? `The base has ${so.vertices - 1} corners, plus 1 at the top: $${so.vertices - 1} + 1 = ${so.vertices}$.` : `Each end has ${so.vertices / 2} corners: $${so.vertices / 2} + ${so.vertices / 2} = ${so.vertices}$.`,
+      };
+      const meaning: Record<typeof what, string> = {
+        faces: 'A **face** is a flat surface.',
+        edges: 'An **edge** is a line where two faces meet.',
+        vertices: 'A **vertex** is a corner where edges meet.',
+      };
+      return {
+        prompt: `${cap(thing)} has the shape of a ${so.name}, as shown. How many **${what}** does it have?`,
+        figure: { type: 'solid', shape: so.shape, labels: {} },
+        parts: [numPart(v, { suffix: what })],
+        hints: [meaning[what] + ' Dashed lines show the parts you cannot see from the front.', 'Count in groups so you do not miss any or count any twice.'],
+        solution: [meaning[what], how[what], `A ${so.name} has $${v}$ ${what}.`],
+      };
+    }
+    if (d === 2) {
+      if (rng.chance(0.5)) {
+        // Which net folds into a cube?
+        const good = randomOrient(rng, rng.pick(HEXOMINOES.nets));
+        const bad = rng.sample(HEXOMINOES.nonNets, 3).map((c) => randomOrient(rng, c));
+        const answer = mcFigures(rng, [{ md: '', figure: squaresFigure(good), correct: true }, ...bad.map((c) => ({ md: '', figure: squaresFigure(c) as Figure }))]);
+        const letter = answer.kind === 'mc' ? String.fromCharCode(65 + answer.choices.findIndex((c) => c.id === answer.correct)) : 'A';
+        const ctx = rng.pick([
+          `${who} is cutting cardboard to make a cube-shaped gift box.`,
+          'A worker at a packaging plant needs a pattern for a cube-shaped box.',
+          `${who} wants to make a cube-shaped storage box for a child-care centre.`,
+        ]);
+        return {
+          prompt: `${ctx} Which net folds into a **cube**?`,
+          parts: [{ answer }],
+          hints: ['A net of a cube has 6 squares. When you fold it, no two squares can land on the same face.', 'Picture folding each net. Four squares in a row wrap around the cube. The other two squares must go on opposite ends: one on each side of the row.'],
+          solution: ['Every choice has 6 squares, so look at how they fold.', 'In the wrong nets, two squares end up on the same face, so one face of the cube is left open. Squares in a 2 by 2 block or 5 in a row can never fold into a cube.', `Net ${letter} folds into a cube with no gaps and no overlaps.`],
+          answerDisplay: `Net ${letter}`,
+        };
+      }
+      const kinds = ['cube', 'rectangular prism', 'triangular prism', 'square pyramid', 'triangular pyramid'] as const;
+      const k = rng.pick(kinds);
+      const near: Record<(typeof kinds)[number], string[]> = {
+        cube: ['rectangular prism', 'square pyramid', 'triangular prism'],
+        'rectangular prism': ['cube', 'triangular prism', 'square pyramid'],
+        'triangular prism': ['triangular pyramid', 'rectangular prism', 'square pyramid'],
+        'square pyramid': ['triangular pyramid', 'cube', 'triangular prism'],
+        'triangular pyramid': ['square pyramid', 'triangular prism', 'cube'],
+      };
+      const why: Record<(typeof kinds)[number], string> = {
+        cube: 'The net has 6 equal squares.',
+        'rectangular prism': 'The net has 6 rectangles, in 3 matching pairs.',
+        'triangular prism': 'The net has 2 triangles (the ends) and 3 rectangles that wrap around.',
+        'square pyramid': 'The net has 1 square (the base) and 4 triangles that fold up to meet at a point.',
+        'triangular pyramid': 'The net has 4 triangles. One is the base and the other 3 fold up to meet at a point.',
+      };
+      return {
+        prompt: `${who} cuts out this net and folds it up. Which 3-D object does it make?`,
+        figure: solidNet(k, rng),
+        parts: [{ answer: mc(rng, cap(k), near[k].map(cap)) }],
+        hints: ['Count the faces in the net and name their shapes.', 'Prisms have two matching ends joined by rectangles. Pyramids have one base and triangles that meet at a point.'],
+        solution: [why[k], `It folds into a **${k}**.`],
+        answerDisplay: cap(k),
+      };
+    }
+    // d3: a stack of boxes shown as a top view with heights; total boxes and the front view.
+    for (let tries = 0; tries < 200; tries++) {
+      const rows = rng.int(2, 3);
+      const cols = 3;
+      const plan = Array.from({ length: rows }, () => Array.from({ length: cols }, () => rng.weighted([
+        [0, 1],
+        [1, 3],
+        [2, 3],
+        [3, 2],
+      ])));
+      if (plan.some((r) => r.every((x) => x === 0))) continue;
+      if (plan[0].some((_, c) => plan.every((r) => r[c] === 0))) continue;
+      const front = frontView(plan);
+      const side = sideView(plan);
+      const sums = plan[0].map((_, c) => plan.reduce((s, r) => s + r[c], 0));
+      const back = [...front].reverse();
+      const frontRow = plan[0];
+      const key = (h: number[]) => h.join(',');
+      const wrong: number[][] = [];
+      for (const w of rng.shuffle([side, sums, back, frontRow])) {
+        if (w.some((x) => x === 0) || Math.max(...w) > 6) continue;
+        if ([front, ...wrong].some((x) => key(x) === key(w))) continue;
+        wrong.push(w);
+      }
+      if (wrong.length < 3) continue;
+      const total = plan.flat().reduce((s, x) => s + x, 0);
+      const maxH = Math.max(front.length, ...wrong.map((w) => Math.max(...w)), ...front);
+      const maxCols = Math.max(cols, rows);
+      const cells: Cells = [];
+      const numbers: string[] = [];
+      plan.forEach((r, ri) =>
+        r.forEach((hgt, c) => {
+          if (hgt > 0) {
+            cells.push([c, ri]);
+            numbers.push(String(hgt));
+          }
+        }),
+      );
+      const answer = mcFigures(rng, [{ md: '', figure: viewFigure(front, maxCols, maxH), correct: true }, ...wrong.slice(0, 3).map((w) => ({ md: '', figure: viewFigure(w, maxCols, maxH) as Figure }))]);
+      const letter = answer.kind === 'mc' ? String.fromCharCode(65 + answer.choices.findIndex((c) => c.id === answer.correct)) : 'A';
+      const ctx = rng.pick([`${who} stacks boxes of paper towels in a warehouse.`, `${who} stacks cases of pop in the back room of a grocery store.`, 'A landscaper stacks bags of soil on a pallet.', `${who} builds a display of soup cans at a store.`]);
+      const thing = ctx.includes('boxes') ? 'boxes' : ctx.includes('cases') ? 'cases' : ctx.includes('bags') ? 'bags' : 'cans';
+      return {
+        prompt: `${ctx} The picture is the **top view** of the stack, as seen from above. Each number tells how many ${thing} are stacked on that square. You look at the stack from the **front**. How many ${thing} are in the stack, and which picture shows the **front view**?`,
+        figure: squaresFigure(cells, { numbers, below: 'FRONT' }),
+        parts: [numPart(total, { label: 'Total', suffix: thing }), part(answer, { label: 'Front view' })],
+        hints: ['Add all the numbers to get the total.', 'From the front, you see each column of squares (left to right). The height you see in each column is the **tallest** stack in that column.'],
+        solution: [
+          `Total: $${plan.flat().filter((x) => x > 0).join(' + ')} = ${total}$`,
+          `Front view, left to right: the tallest stack in each column is ${front.join(', ')}.`,
+          `There are $${total}$ ${thing}. Picture ${letter} shows the front view.`,
+        ],
+        answerDisplay: `${total} ${thing}; Picture ${letter}`,
+      };
+    }
+    throw new Error('views');
+  },
+});
+
+// ---------------------------------------------------------------------------
+// Lesson 8.3 — Symmetry
+// ---------------------------------------------------------------------------
+
+type Seg = [P, P];
+
+interface Design {
+  name: string;
+  segs: Seg[];
+}
+
+function polySegs(pts: P[], closed = true): Seg[] {
+  const out: Seg[] = [];
+  for (let i = 0; i + 1 < pts.length; i++) out.push([pts[i], pts[i + 1]]);
+  if (closed) out.push([pts[pts.length - 1], pts[0]]);
+  return out;
+}
+
+function regular(n: number, r = 3, start = 90): P[] {
+  return Array.from({ length: n }, (_, k) => at([0, 0], start + (360 * k) / n, r));
+}
+
+const mid = (a: P, b: P): P => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+
+/** Shapes and letters drawn as line segments. Letters are block letters made of straight strokes. */
+const DESIGNS: Record<string, () => Design> = {
+  square: () => ({ name: 'square', segs: polySegs([[-2, -2], [2, -2], [2, 2], [-2, 2]]) }),
+  rectangle: () => ({ name: 'rectangle', segs: polySegs([[-3, -1.75], [3, -1.75], [3, 1.75], [-3, 1.75]]) }),
+  equilateral: () => ({ name: 'equilateral triangle', segs: polySegs(regular(3)) }),
+  isosceles: () => ({ name: 'isosceles triangle', segs: polySegs([[-2, -2], [2, -2], [0, 2.8]]) }),
+  scalene: () => ({ name: 'scalene triangle', segs: polySegs([[-2.6, -1.6], [2.2, -1.6], [1, 2]]) }),
+  rightTri: () => ({ name: 'right triangle', segs: polySegs([[-2, -1.6], [2.5, -1.6], [-2, 1.8]]) }),
+  rhombus: () => ({ name: 'rhombus', segs: polySegs([[0, -2.8], [1.8, 0], [0, 2.8], [-1.8, 0]]) }),
+  parallelogram: () => ({ name: 'parallelogram', segs: polySegs([[-3, -1.5], [1.5, -1.5], [3, 1.5], [-1.5, 1.5]]) }),
+  kite: () => ({ name: 'kite', segs: polySegs([[0, -3], [1.7, 0.8], [0, 2], [-1.7, 0.8]]) }),
+  trapezoid: () => ({ name: 'trapezoid', segs: polySegs([[-3, -1.5], [3, -1.5], [1.5, 1.5], [-1.5, 1.5]]) }),
+  rightTrap: () => ({ name: 'trapezoid', segs: polySegs([[-2.5, -1.5], [2.5, -1.5], [0.5, 1.5], [-2.5, 1.5]]) }),
+  pentagon: () => ({ name: 'regular pentagon', segs: polySegs(regular(5)) }),
+  hexagon: () => ({ name: 'regular hexagon', segs: polySegs(regular(6, 3, 0)) }),
+  octagon: () => ({ name: 'stop sign (regular octagon)', segs: polySegs(regular(8, 3, 22.5)) }),
+  house: () => ({ name: 'house shape', segs: polySegs([[-2, -2], [2, -2], [2, 0.6], [0, 2.6], [-2, 0.6]]) }),
+  arrow: () => ({ name: 'arrow sign', segs: polySegs([[-3, -0.8], [0.6, -0.8], [0.6, -1.9], [3, 0], [0.6, 1.9], [0.6, 0.8], [-3, 0.8]]) }),
+  plus: () => ({ name: 'plus sign', segs: polySegs([[-1, -3], [1, -3], [1, -1], [3, -1], [3, 1], [1, 1], [1, 3], [-1, 3], [-1, 1], [-3, 1], [-3, -1], [-1, -1]]) }),
+  lShape: () => ({ name: 'L shape', segs: polySegs([[-2, -2], [2, -2], [2, -0.6], [-0.6, -0.6], [-0.6, 2], [-2, 2]]) }),
+  tShape: () => ({ name: 'T shape', segs: polySegs([[-3, 2.5], [3, 2.5], [3, 1], [0.9, 1], [0.9, -2.5], [-0.9, -2.5], [-0.9, 1], [-3, 1]]) }),
+  letterA: () => ({ name: 'letter A', segs: [...polySegs([[-2, -2.5], [0, 2.5], [2, -2.5]], false), [[-1, 0], [1, 0]]] }),
+  letterH: () => ({ name: 'letter H', segs: [[[-1.75, -2.5], [-1.75, 2.5]], [[1.75, -2.5], [1.75, 2.5]], [[-1.75, 0], [1.75, 0]]] }),
+  letterI: () => ({ name: 'letter I', segs: [[[0, -2.5], [0, 2.5]], [[-1.3, 2.5], [1.3, 2.5]], [[-1.3, -2.5], [1.3, -2.5]]] }),
+  letterX: () => ({ name: 'letter X', segs: [[[-1.6, -2.5], [1.6, 2.5]], [[-1.6, 2.5], [1.6, -2.5]]] }),
+  letterT: () => ({ name: 'letter T', segs: [[[-2, 2.5], [2, 2.5]], [[0, 2.5], [0, -2.5]]] }),
+  letterE: () => ({ name: 'letter E', segs: [[[-1.5, -2.5], [-1.5, 2.5]], [[-1.5, 2.5], [1.6, 2.5]], [[-1.5, 0], [1, 0]], [[-1.5, -2.5], [1.6, -2.5]]] }),
+  letterM: () => ({ name: 'letter M', segs: polySegs([[-2, -2.5], [-2, 2.5], [0, 0], [2, 2.5], [2, -2.5]], false) }),
+  letterU: () => ({ name: 'letter U', segs: polySegs([[-1.75, 2.5], [-1.75, -2.5], [1.75, -2.5], [1.75, 2.5]], false) }),
+  letterV: () => ({ name: 'letter V', segs: polySegs([[-2, 2.5], [0, -2.5], [2, 2.5]], false) }),
+  letterY: () => ({ name: 'letter Y', segs: [[[-2, 2.5], [0, 0]], [[2, 2.5], [0, 0]], [[0, 0], [0, -2.5]]] }),
+  letterC: () => ({ name: 'letter C', segs: polySegs([[1.75, 2.5], [-1.75, 2.5], [-1.75, -2.5], [1.75, -2.5]], false) }),
+  letterK: () => ({ name: 'letter K', segs: [[[-1.5, -2.5], [-1.5, 2.5]], [[-1.5, 0], [1.6, 2.5]], [[-1.5, 0], [1.6, -2.5]]] }),
+  letterF: () => ({ name: 'letter F', segs: [[[-1.5, -2.5], [-1.5, 2.5]], [[-1.5, 2.5], [1.6, 2.5]], [[-1.5, 0.2], [1, 0.2]]] }),
+  letterL: () => ({ name: 'letter L', segs: polySegs([[-1.5, 2.5], [-1.5, -2.5], [1.6, -2.5]], false) }),
+  letterN: () => ({ name: 'letter N', segs: polySegs([[-1.75, -2.5], [-1.75, 2.5], [1.75, -2.5], [1.75, 2.5]], false) }),
+  letterZ: () => ({ name: 'letter Z', segs: polySegs([[-1.75, 2.5], [1.75, 2.5], [-1.75, -2.5], [1.75, -2.5]], false) }),
+  letterS: () => ({ name: 'letter S', segs: polySegs([[1.75, 2.5], [-1.75, 2.5], [-1.75, 0], [1.75, 0], [1.75, -2.5], [-1.75, -2.5]], false) }),
+  letterP: () => ({ name: 'letter P', segs: [...polySegs([[-1.5, -2.5], [-1.5, 2.5], [1.5, 2.5], [1.5, 0], [-1.5, 0]], false)] }),
+};
+
+/** Designs made of an outer shape with lines or a shape inside (signs, tiles, quilt blocks, logos). */
+const COMPOSITES: Array<{ thing: string; make: () => Seg[] }> = [
+  {
+    thing: 'a floor tile with a diamond inside a square',
+    make: () => {
+      const sq: P[] = [[-2.5, -2.5], [2.5, -2.5], [2.5, 2.5], [-2.5, 2.5]];
+      return [...polySegs(sq), ...polySegs(sq.map((p, i) => mid(p, sq[(i + 1) % 4])))];
+    },
+  },
+  {
+    thing: 'a window frame shaped like a rectangle with a diamond inside',
+    make: () => {
+      const r: P[] = [[-3, -2], [3, -2], [3, 2], [-3, 2]];
+      return [...polySegs(r), ...polySegs(r.map((p, i) => mid(p, r[(i + 1) % 4])))];
+    },
+  },
+  {
+    thing: 'a logo made of a regular hexagon with a triangle inside',
+    make: () => {
+      const h = regular(6, 3, 90);
+      return [...polySegs(h), ...polySegs([h[0], h[2], h[4]])];
+    },
+  },
+  {
+    thing: 'a warning sign: a triangle with an upside-down triangle inside',
+    make: () => {
+      const t = regular(3, 3, 90);
+      return [...polySegs(t), ...polySegs(t.map((p, i) => mid(p, t[(i + 1) % 3])))];
+    },
+  },
+  {
+    thing: 'a quilt block: a square with both diagonals',
+    make: () => {
+      const sq: P[] = [[-2.5, -2.5], [2.5, -2.5], [2.5, 2.5], [-2.5, 2.5]];
+      return [...polySegs(sq), [sq[0], sq[2]], [sq[1], sq[3]]];
+    },
+  },
+  {
+    thing: 'a quilt block: a rectangle cut by one diagonal',
+    make: () => {
+      const r: P[] = [[-3, -2], [3, -2], [3, 2], [-3, 2]];
+      return [...polySegs(r), [r[0], r[2]]];
+    },
+  },
+  {
+    thing: 'a quilt block: a square cut by one diagonal',
+    make: () => {
+      const sq: P[] = [[-2.5, -2.5], [2.5, -2.5], [2.5, 2.5], [-2.5, 2.5]];
+      return [...polySegs(sq), [sq[0], sq[2]]];
+    },
+  },
+  {
+    thing: 'a window with 4 square panes',
+    make: () => {
+      const sq: P[] = [[-2.5, -2.5], [2.5, -2.5], [2.5, 2.5], [-2.5, 2.5]];
+      return [...polySegs(sq), [[0, -2.5], [0, 2.5]], [[-2.5, 0], [2.5, 0]]];
+    },
+  },
+  {
+    thing: 'a window with 2 tall panes',
+    make: () => {
+      const r: P[] = [[-3, -2], [3, -2], [3, 2], [-3, 2]];
+      return [...polySegs(r), [[0, -2], [0, 2]]];
+    },
+  },
+  {
+    thing: 'a stop sign (a regular octagon)',
+    make: () => polySegs(regular(8, 3, 22.5)),
+  },
+  {
+    thing: 'a logo made of a star inside a regular pentagon',
+    make: () => {
+      const p = regular(5);
+      return [...polySegs(p), ...polySegs([p[0], p[2], p[4], p[1], p[3]])];
+    },
+  },
+  {
+    thing: 'a road sign shaped like an arrow',
+    make: () => DESIGNS.arrow().segs,
+  },
+  {
+    thing: 'a kite with two cross sticks',
+    make: () => {
+      const k: P[] = [[0, -3], [1.7, 0.8], [0, 2], [-1.7, 0.8]];
+      return [...polySegs(k), [k[0], k[2]], [k[1], k[3]]];
+    },
+  },
+  {
+    thing: 'a sign shaped like a parallelogram',
+    make: () => DESIGNS.parallelogram().segs,
+  },
+];
+
+function rotSegs(segs: Seg[], rot: number): Seg[] {
+  const c = Math.cos(rad(rot));
+  const s = Math.sin(rad(rot));
+  const f = ([x, y]: P): P => [x * c - y * s, x * s + y * c];
+  return segs.map(([a, b]) => [f(a), f(b)] as Seg);
+}
+
+/** Lines of symmetry (directions in degrees, 0 to 179.5) found by reflecting the drawing about lines through its centre. */
+function symmetryAxes(segs: Seg[]): number[] {
+  const pts: P[] = [];
+  for (const sg of segs) for (const p of sg) if (!pts.some((q) => Math.hypot(q[0] - p[0], q[1] - p[1]) < 1e-6)) pts.push(p);
+  const c = centroid(pts);
+  const same = (p: P, q: P) => Math.hypot(p[0] - q[0], p[1] - q[1]) < 1e-6;
+  const out: number[] = [];
+  for (let k = 0; k < 360; k++) {
+    const th = k / 2;
+    const u: P = [Math.cos(rad(th)), Math.sin(rad(th))];
+    const refl = (p: P): P => {
+      const v: P = [p[0] - c[0], p[1] - c[1]];
+      const d = v[0] * u[0] + v[1] * u[1];
+      return [c[0] + 2 * d * u[0] - v[0], c[1] + 2 * d * u[1] - v[1]];
+    };
+    const ok = segs.every(([a, b]) => {
+      const ra = refl(a);
+      const rb = refl(b);
+      return segs.some(([p, q]) => (same(ra, p) && same(rb, q)) || (same(ra, q) && same(rb, p)));
+    });
+    if (ok) out.push(th);
+  }
+  return out;
+}
+
+function axesText(axes: number[]): string {
+  if (!axes.length) return 'There is no fold line that makes the two halves match, so there are no lines of symmetry.';
+  const v = axes.filter((a) => a === 90).length;
+  const h = axes.filter((a) => a === 0).length;
+  const sl = axes.length - v - h;
+  const bits = [v ? '1 vertical line' : '', h ? '1 horizontal line' : '', sl ? `${sl} slanted line${sl === 1 ? '' : 's'}` : ''].filter(Boolean);
+  const list = bits.length === 1 ? bits[0] : `${bits.slice(0, -1).join(', ')} and ${bits[bits.length - 1]}`;
+  return `The design folds onto itself along ${list}. That is $${axes.length}$ line${axes.length === 1 ? '' : 's'} of symmetry.`;
+}
+
+function designFigure(segs: Seg[], extra?: (s: Sketch) => void): PlaneFigure {
+  const s = new Sketch();
+  for (const [a, b] of segs) s.seg(a, b);
+  extra?.(s);
+  return s.build({ margin: 0.6 });
+}
+
+const EASY_DESIGNS = ['square', 'rectangle', 'isosceles', 'equilateral', 'kite', 'rhombus', 'house', 'arrow', 'scalene', 'letterT', 'letterA', 'letterH', 'letterE', 'letterM', 'letterU', 'letterV', 'letterL', 'letterF'];
+const HARD_DESIGNS = ['pentagon', 'hexagon', 'octagon', 'parallelogram', 'lShape', 'plus', 'tShape', 'letterX', 'letterI', 'letterN', 'letterZ', 'letterK', 'letterC', 'letterP', 'letterY', 'rightTrap', 'rightTri', 'trapezoid'];
+
+const symmetry = skill({
+  id: 'm104-symmetry',
+  name: 'Lines of symmetry',
+  description: 'Find the number of lines of symmetry of shapes, letters and designs, and pick out a line of symmetry.',
+  outcomes: ['SS4'],
+  lessonId: 'm104-8-3',
+  format: 'mc',
+  gen(rng, d) {
+    const who = rng.pick(NAMES);
+    const hints = [
+      'A **line of symmetry** is a fold line. When you fold along it, the two halves match exactly.',
+      'Try a vertical fold, a horizontal fold and the slanted folds. Count every fold that works.',
+    ];
+    const countItem = (key: string, rot: number) => {
+      const dz = DESIGNS[key]();
+      const segs = rotSegs(dz.segs, rot);
+      const axes = symmetryAxes(segs);
+      const isLetter = key.startsWith('letter');
+      const ctx = isLetter
+        ? rng.pick([`${who} is cutting out the ${dz.name} for a store sign.`, `A sign painter paints the ${dz.name} on a window.`, `${who} cuts the ${dz.name} out of wood for a craft fair.`])
+        : rng.pick([`The picture shows ${an(dz.name)} ${dz.name}.`, `${who} cuts ${an(dz.name)} ${dz.name} out of paper.`, `A sign maker cuts ${an(dz.name)} ${dz.name} out of metal.`]);
+      return {
+        prompt: `${ctx} How many lines of symmetry does it have?`,
+        figure: designFigure(segs),
+        parts: [numPart(axes.length, { suffix: axes.length === 1 ? 'line' : 'lines' })],
+        hints,
+        solution: [hints[0], axesText(axes), `The ${dz.name} has $${axes.length}$ line${axes.length === 1 ? '' : 's'} of symmetry.`],
+      };
+    };
+    if (d === 1) return countItem(rng.pick(EASY_DESIGNS), 0);
+    if (d === 2) {
+      if (rng.chance(0.4)) {
+        const key = rng.pick(HARD_DESIGNS);
+        return countItem(key, key.startsWith('letter') ? 0 : rng.pick([0, 0, 90]));
+      }
+      // Which dashed line is a line of symmetry?
+      for (let tries = 0; tries < 100; tries++) {
+        const key = rng.pick(['rectangle', 'isosceles', 'kite', 'trapezoid', 'house', 'arrow', 'lShape', 'tShape', 'letterA', 'letterT', 'letterE', 'letterM', 'letterK', 'letterC', 'letterV', 'letterY', 'rhombus']);
+        const dz = DESIGNS[key]();
+        const segs = rotSegs(dz.segs, key.startsWith('letter') ? 0 : rng.pick([0, 90, 180, 270]));
+        const axes = symmetryAxes(segs);
+        if (!axes.length) continue;
+        const good = rng.pick(axes);
+        const pts = segs.flat();
+        const c = centroid(pts.filter((p, i) => pts.findIndex((q) => Math.hypot(q[0] - p[0], q[1] - p[1]) < 1e-6) === i));
+        const diag = segs.flatMap(([p1, p2]) => [dirOf(c, p1) % 180, dirOf(c, p2) % 180]);
+        const cands = [0, 45, 90, 135, 30, 60, 120, 150, ...diag].map((x) => Math.round(norm360(x) % 180));
+        const sep = (x: number, y: number) => Math.min(Math.abs(x - y), 180 - Math.abs(x - y));
+        const wrong: number[] = [];
+        for (const w of rng.shuffle(cands)) {
+          if (axes.some((a) => sep(a, w) < 25)) continue;
+          if ([good, ...wrong].some((x) => sep(x, w) < 30)) continue;
+          wrong.push(w);
+          if (wrong.length === 2) break;
+        }
+        if (wrong.length < 2) continue;
+        const lines = rng.shuffle([good, ...wrong]);
+        const R = Math.max(...pts.map((p) => Math.hypot(p[0] - c[0], p[1] - c[1]))) + 0.9;
+        const fig = designFigure(segs, (s) => {
+          lines.forEach((a, i) => {
+            const e1 = at(c, a, R);
+            const e2 = at(c, a + 180, R);
+            s.seg(e2, e1, { dashed: true, color: 'accent' });
+            s.endLabel(e1, a, LETTERS[i]);
+          });
+        });
+        const idx = lines.indexOf(good);
+        const ctx = key.startsWith('letter') ? `${who} is making a sign with the ${dz.name}.` : `${who} drew three dashed lines on a ${dz.name}.`;
+        return {
+          prompt: `${ctx} Which dashed line is a **line of symmetry**?`,
+          figure: fig,
+          parts: [{ answer: fixedChoice(['Line A', 'Line B', 'Line C'], idx) }],
+          hints: [hints[0], 'Imagine folding the picture along each dashed line. Do the two halves land exactly on top of each other?'],
+          solution: [
+            `If you fold along line ${LETTERS[idx]}, the two halves of the ${dz.name} match exactly.`,
+            'Folding along either of the other lines leaves parts that do not match.',
+            `Line ${LETTERS[idx]} is a line of symmetry.`,
+          ],
+          answerDisplay: `Line ${LETTERS[idx]}`,
+        };
+      }
+      throw new Error('symmetry lines');
+    }
+    // d3
+    if (rng.chance(0.5)) {
+      const comp = rng.pick(COMPOSITES);
+      const segs = rotSegs(comp.make(), rng.pick([0, 0, 90]));
+      const axes = symmetryAxes(segs);
+      const ctx = rng.pick([`${who} is designing ${comp.thing}.`, `A community centre wants ${comp.thing}.`, `${who} sketches ${comp.thing}.`]);
+      return {
+        prompt: `${ctx} How many lines of symmetry does the whole design have? A fold line must make **every** part of the design match.`,
+        figure: designFigure(segs),
+        parts: [numPart(axes.length, { suffix: axes.length === 1 ? 'line' : 'lines' })],
+        hints: ['First find the lines of symmetry of the outside shape.', 'Then check each of those lines with the lines inside. Keep only the fold lines that work for the whole design.'],
+        solution: ['A line of symmetry must work for the outside shape **and** for everything drawn inside it.', axesText(axes), `The design has $${axes.length}$ line${axes.length === 1 ? '' : 's'} of symmetry.`],
+      };
+    }
+    for (let tries = 0; tries < 100; tries++) {
+      const target = rng.pick([0, 1, 2, 3, 4]);
+      const keys = rng.shuffle([...EASY_DESIGNS, ...HARD_DESIGNS]);
+      const chosen: Array<{ key: string; n: number }> = [];
+      for (const key of keys) {
+        const n = symmetryAxes(DESIGNS[key]().segs).length;
+        if (chosen.some((c) => c.n === n)) continue;
+        if (n !== target && chosen.length === 3 && !chosen.some((c) => c.n === target)) continue;
+        chosen.push({ key, n });
+        if (chosen.length === 4) break;
+      }
+      if (chosen.length < 4 || !chosen.some((c) => c.n === target)) continue;
+      const answer = mcFigures(
+        rng,
+        chosen.map((c) => ({ md: '', figure: designFigure(DESIGNS[c.key]().segs) as Figure, correct: c.n === target })),
+      );
+      const order = answer.kind === 'mc' ? answer.choices.map((ch) => chosen.find((c) => JSON.stringify(designFigure(DESIGNS[c.key]().segs)) === JSON.stringify(ch.figure))!) : chosen;
+      const letter = answer.kind === 'mc' ? String.fromCharCode(65 + answer.choices.findIndex((c) => c.id === answer.correct)) : 'A';
+      return {
+        prompt: `${who} is choosing a design for a club logo. The logo must have ${target === 0 ? '**no** lines' : `**exactly ${target}** line${target === 1 ? '' : 's'}`} of symmetry. Which design should ${who} choose?`,
+        parts: [{ answer }],
+        hints,
+        solution: [
+          ...order.map((c, i) => `Design ${String.fromCharCode(65 + i)} (${DESIGNS[c.key]().name}) has $${c.n}$ line${c.n === 1 ? '' : 's'} of symmetry.`),
+          target === 0 ? `Design ${letter} has no lines of symmetry.` : `Design ${letter} has exactly $${target}$ line${target === 1 ? '' : 's'} of symmetry.`,
+        ],
+        answerDisplay: `Design ${letter}`,
+      };
+    }
+    throw new Error('symmetry choice');
+  },
+});
+
+// ---------------------------------------------------------------------------
+// Lesson 8.3 — Translations, reflections and rotations on a grid
+// ---------------------------------------------------------------------------
+
+const Q1: GridSpec = { xMin: 0, xMax: 10, yMin: 0, yMax: 10, step: 1 };
+const Q4: GridSpec = { xMin: -5, xMax: 5, yMin: -5, yMax: 5, step: 1 };
+
+const units = (n: number) => `${Math.abs(n)} unit${Math.abs(n) === 1 ? '' : 's'}`;
+function slideText(a: number, b: number): string {
+  const bits: string[] = [];
+  if (a) bits.push(`${units(a)} ${a > 0 ? 'right' : 'left'}`);
+  if (b) bits.push(`${units(b)} ${b > 0 ? 'up' : 'down'}`);
+  return bits.join(' and ');
+}
+const ptx = (x: number, y: number) => `(${fmt(x)},\\ ${fmt(y)})`;
+const inGrid = (g: GridSpec, [x, y]: P) => x >= g.xMin && x <= g.xMax && y >= g.yMin && y <= g.yMax;
+
+const TRI_TEMPLATES: P[][] = [
+  [[0, 0], [3, 0], [0, 2]],
+  [[0, 0], [4, 0], [0, 2]],
+  [[0, 0], [3, 0], [0, 4]],
+  [[0, 0], [4, 0], [1, 3]],
+  [[0, 0], [2, 0], [0, 3]],
+];
+
+/** A random asymmetric triangle with whole-number vertices, its lowest-left corner at (x0, y0). */
+function makeTri(rng: Rng, x0: number, y0: number): P[] {
+  const t = rng.pick(TRI_TEMPLATES);
+  const rot = rng.int(0, 3);
+  const flip = rng.chance(0.5);
+  let q = t.map(([x, y]) => [flip ? -x : x, y] as P);
+  for (let i = 0; i < rot; i++) q = q.map(([x, y]) => [-y, x] as P);
+  const mx = Math.min(...q.map((p) => p[0]));
+  const my = Math.min(...q.map((p) => p[1]));
+  return q.map(([x, y]) => [x - mx + x0, y - my + y0] as P);
+}
+
+/** Draws shapes and points on a coordinate grid with clear vertex labels. */
+function gridFigure(g: GridSpec, o: { shapes?: Array<{ pts: P[]; color: Color; labels?: string[] }>; points?: Array<{ p: P; label: string; color?: Color }>; mirror?: { vertical: boolean; at: number } }): PlaneFigure {
+  const s = new Sketch();
+  if (o.mirror) {
+    if (o.mirror.vertical) s.seg([o.mirror.at, g.yMin], [o.mirror.at, g.yMax], { dashed: true, color: 'accent' });
+    else s.seg([g.xMin, o.mirror.at], [g.xMax, o.mirror.at], { dashed: true, color: 'accent' });
+  }
+  for (const sh of o.shapes ?? []) s.polyline([...sh.pts, sh.pts[0]], sh.color);
+  for (const pt of o.points ?? []) s.dot(pt.p, pt.color ?? 'brand');
+  for (const sh of o.shapes ?? []) {
+    const c = centroid(sh.pts);
+    sh.labels?.forEach((lab, i) => s.endLabel(sh.pts[i], dirOf(c, sh.pts[i]), lab));
+  }
+  for (const pt of o.points ?? []) s.endLabel(pt.p, 45, pt.label);
+  return s.buildGrid(g);
+}
+
+const POINT_CTX = [
+  (who: string) => `On a game board, ${who}'s game piece is at point $P$.`,
+  () => 'On the floor plan of a warehouse, a forklift is parked at point $P$.',
+  (who: string) => `On a map of a campground, ${who}'s tent is at point $P$.`,
+  () => 'On a plan of a parking lot, a snowplow starts at point $P$.',
+  (who: string) => `${who} is placing a tile on a grid pattern. One corner of the tile is at point $P$.`,
+];
+
+const transformation = skill({
+  id: 'm104-transformation',
+  name: 'Translations, reflections and rotations',
+  description: 'Find the image of a point or shape after a translation or a reflection on a grid, and identify a translation, reflection or rotation from a picture.',
+  outcomes: ['SS4'],
+  lessonId: 'm104-8-3',
+  calculator: false,
+  gen(rng, d) {
+    const who = rng.pick(NAMES);
+    const pointAns = (x: number, y: number, label: string) => part({ kind: 'point', x, y }, { label, placeholder: '(x, y)' });
+    if (d === 1) {
+      for (;;) {
+        const x = rng.int(1, 9);
+        const y = rng.int(1, 9);
+        const a = rng.chance(0.15) ? 0 : rng.nonZero(-5, 5);
+        const b = a !== 0 && rng.chance(0.15) ? 0 : rng.nonZero(-5, 5);
+        const img: P = [x + a, y + b];
+        if (!inGrid(Q1, img) || Math.abs(a) + Math.abs(b) < 2) continue;
+        const ctx = rng.pick(POINT_CTX)(who);
+        return {
+          prompt: `${ctx} It moves **${slideText(a, b)}**. What are the coordinates of its new position, the image $P'$?`,
+          figure: gridFigure(Q1, { points: [{ p: [x, y], label: 'P' }] }),
+          parts: [pointAns(img[0], img[1], "$P'$ =")],
+          hints: ['First read the coordinates of $P$: go across to find $x$, then up to find $y$.', 'Moving right adds to $x$, left subtracts from $x$. Moving up adds to $y$, down subtracts from $y$.'],
+          solution: [
+            `$P$ is at $${ptx(x, y)}$.`,
+            a ? `${cap(a > 0 ? 'right' : 'left')} ${units(a)}: $x = ${x} ${a > 0 ? '+' : '-'} ${Math.abs(a)} = ${img[0]}$` : `It does not move left or right, so $x$ stays $${x}$.`,
+            b ? `${cap(b > 0 ? 'up' : 'down')} ${units(b)}: $y = ${y} ${b > 0 ? '+' : '-'} ${Math.abs(b)} = ${img[1]}$` : `It does not move up or down, so $y$ stays $${y}$.`,
+            `The image is $P'${ptx(img[0], img[1])}$.`,
+          ],
+          answerDisplay: `$${ptx(img[0], img[1])}$`,
+        };
+      }
+    }
+    if (d === 2) {
+      const mode = rng.pick(['triangle', 'mirror', 'axis'] as const);
+      if (mode === 'triangle') {
+        for (;;) {
+          const tri = makeTri(rng, rng.int(0, 6), rng.int(0, 6));
+          const a = rng.nonZero(-5, 5);
+          const b = rng.nonZero(-5, 5);
+          const img = tri.map(([x, y]) => [x + a, y + b] as P);
+          if (!tri.every((p) => inGrid(Q1, p)) || !img.every((p) => inGrid(Q1, p))) continue;
+          const i = rng.int(0, 2);
+          const L = 'ABC'[i];
+          const [x, y] = tri[i];
+          return {
+            prompt: `${who} is moving a triangle-shaped flower bed on a garden plan. Translate triangle $ABC$ **${slideText(a, b)}**. What are the coordinates of $${L}'$, the image of vertex $${L}$?`,
+            figure: gridFigure(Q1, { shapes: [{ pts: tri, color: 'brand', labels: ['A', 'B', 'C'] }] }),
+            parts: [pointAns(img[i][0], img[i][1], `$${L}'$ =`)],
+            hints: ['In a translation, every vertex slides the same distance in the same direction.', `Read the coordinates of $${L}$, then add or subtract: right/left changes $x$, up/down changes $y$.`],
+            solution: [
+              `$${L}$ is at $${ptx(x, y)}$.`,
+              `$x$: $${x} ${a > 0 ? '+' : '-'} ${Math.abs(a)} = ${x + a}$`,
+              `$y$: $${y} ${b > 0 ? '+' : '-'} ${Math.abs(b)} = ${y + b}$`,
+              `The image is $${L}'${ptx(x + a, y + b)}$.`,
+            ],
+            answerDisplay: `$${ptx(x + a, y + b)}$`,
+          };
+        }
+      }
+      if (mode === 'mirror') {
+        for (;;) {
+          const vertical = rng.chance(0.5);
+          const m = rng.int(3, 7);
+          const dist = rng.nonZero(-4, 4);
+          const other = rng.int(1, 9);
+          const p: P = vertical ? [m - dist, other] : [other, m - dist];
+          const img: P = vertical ? [m + dist, other] : [other, m + dist];
+          if (!inGrid(Q1, p) || !inGrid(Q1, img)) continue;
+          return {
+            prompt: `${who} is drawing a design that is the same on both sides of the dashed mirror line. Reflect point $P$ in the dashed line. What are the coordinates of the image $P'$?`,
+            figure: gridFigure(Q1, { points: [{ p, label: 'P' }], mirror: { vertical, at: m } }),
+            parts: [pointAns(img[0], img[1], "$P'$ =")],
+            hints: ['The image is the same distance from the mirror line as $P$, but on the other side.', `Count how many units $P$ is from the dashed line. Then count the same number of units past the line.`],
+            solution: [
+              `The mirror line is the ${vertical ? 'vertical' : 'horizontal'} line at ${vertical ? '$x' : '$y'} = ${m}$. $P$ is at $${ptx(p[0], p[1])}$.`,
+              `$P$ is ${units(dist)} ${vertical ? (dist > 0 ? 'left of' : 'right of') : dist > 0 ? 'below' : 'above'} the line, so $P'$ is ${units(dist)} ${vertical ? (dist > 0 ? 'right of' : 'left of') : dist > 0 ? 'above' : 'below'} it.`,
+              vertical ? `$x = ${m} ${dist > 0 ? '+' : '-'} ${Math.abs(dist)} = ${img[0]}$, and $y$ stays $${other}$.` : `$y = ${m} ${dist > 0 ? '+' : '-'} ${Math.abs(dist)} = ${img[1]}$, and $x$ stays $${other}$.`,
+              `The image is $P'${ptx(img[0], img[1])}$.`,
+            ],
+            answerDisplay: `$${ptx(img[0], img[1])}$`,
+          };
+        }
+      }
+      const x = rng.nonZero(-5, 5);
+      const y = rng.nonZero(-5, 5);
+      const inX = rng.chance(0.5);
+      const img: P = inX ? [x, -y] : [-x, y];
+      return {
+        prompt: `Reflect point $P${ptx(x, y)}$ in the **${inX ? 'x' : 'y'}-axis**. What are the coordinates of the image $P'$?`,
+        figure: gridFigure(Q4, { points: [{ p: [x, y], label: 'P' }] }),
+        parts: [pointAns(img[0], img[1], "$P'$ =")],
+        hints: [`The ${inX ? '$x$-axis is the horizontal' : '$y$-axis is the vertical'} number line. It acts as the mirror.`, inX ? 'Reflecting in the $x$-axis keeps $x$ the same and changes the sign of $y$.' : 'Reflecting in the $y$-axis keeps $y$ the same and changes the sign of $x$.'],
+        solution: [
+          `$P$ is ${units(inX ? y : x)} ${inX ? (y > 0 ? 'above' : 'below') : x > 0 ? 'right of' : 'left of'} the ${inX ? '$x$' : '$y$'}-axis.`,
+          `Its image is the same distance on the other side: ${units(inX ? y : x)} ${inX ? (y > 0 ? 'below' : 'above') : x > 0 ? 'left of' : 'right of'} the axis.`,
+          inX ? `$x$ stays $${x}$ and $y$ becomes $${-y}$.` : `$y$ stays $${y}$ and $x$ becomes $${-x}$.`,
+          `The image is $P'${ptx(img[0], img[1])}$.`,
+        ],
+        answerDisplay: `$${ptx(img[0], img[1])}$`,
+      };
+    }
+    // d3
+    const mode = rng.pick(['identify', 'describe', 'twostep'] as const);
+    if (mode === 'twostep') {
+      for (;;) {
+        const vertical = rng.chance(0.5);
+        const m = rng.int(3, 7);
+        const x = rng.int(1, 9);
+        const y = rng.int(1, 9);
+        const a = vertical ? rng.nonZero(-4, 4) : 0;
+        const b = vertical ? 0 : rng.nonZero(-4, 4);
+        const mid1: P = [x + a, y + b];
+        const fin: P = vertical ? [2 * m - mid1[0], mid1[1]] : [mid1[0], 2 * m - mid1[1]];
+        if (!inGrid(Q1, mid1) || !inGrid(Q1, fin) || (vertical ? mid1[0] === m || x === m : mid1[1] === m || y === m)) continue;
+        if (fin[0] === x && fin[1] === y) continue;
+        const ctx = rng.pick([`${who} is planning moves for a board game.`, 'A robot vacuum follows two moves on a grid.', `${who} is moving a decoration on a bulletin board plan.`]);
+        return {
+          prompt: `${ctx} First, translate point $P$ **${slideText(a, b)}**. Then reflect that image in the dashed line. What are the coordinates of the final image?`,
+          figure: gridFigure(Q1, { points: [{ p: [x, y], label: 'P' }], mirror: { vertical, at: m } }),
+          parts: [pointAns(fin[0], fin[1], 'Final image =')],
+          hints: ['Do one move at a time. Write down the coordinates after the slide.', 'For the reflection, count how far the new point is from the dashed line, then go the same distance on the other side.'],
+          solution: [
+            `$P$ is at $${ptx(x, y)}$. After the slide it is at $${ptx(mid1[0], mid1[1])}$.`,
+            `The dashed line is at ${vertical ? '$x' : '$y'} = ${m}$. The point is ${units(vertical ? mid1[0] - m : mid1[1] - m)} from the line.`,
+            vertical ? `Reflect: $x = ${m} ${mid1[0] > m ? '-' : '+'} ${Math.abs(mid1[0] - m)} = ${fin[0]}$, and $y$ stays $${fin[1]}$.` : `Reflect: $y = ${m} ${mid1[1] > m ? '-' : '+'} ${Math.abs(mid1[1] - m)} = ${fin[1]}$, and $x$ stays $${fin[0]}$.`,
+            `The final image is at $${ptx(fin[0], fin[1])}$.`,
+          ],
+          answerDisplay: `$${ptx(fin[0], fin[1])}$`,
+        };
+      }
+    }
+    for (;;) {
+      const tri = makeTri(rng, rng.int(0, 7), rng.int(0, 7));
+      if (!tri.every((p) => inGrid(Q1, p))) continue;
+      const kind = mode === 'describe' ? 'translation' : rng.pick(['translation', 'reflection', 'rotation'] as const);
+      let img: P[] = [];
+      let detail = '';
+      let a = 0;
+      let b = 0;
+      if (kind === 'translation') {
+        a = rng.nonZero(-6, 6);
+        b = rng.nonZero(-6, 6);
+        img = tri.map(([x, y]) => [x + a, y + b] as P);
+        detail = `Each vertex moved ${slideText(a, b)}.`;
+      } else if (kind === 'reflection') {
+        const vertical = rng.chance(0.5);
+        const lo = Math.min(...tri.map((p) => (vertical ? p[0] : p[1])));
+        const hi = Math.max(...tri.map((p) => (vertical ? p[0] : p[1])));
+        const m = rng.chance(0.5) ? hi + rng.int(1, 2) : lo - rng.int(1, 2);
+        img = tri.map(([x, y]) => (vertical ? [2 * m - x, y] : [x, 2 * m - y]) as P);
+        detail = `The triangle was flipped over a ${vertical ? 'vertical' : 'horizontal'} line at ${vertical ? '$x' : '$y'} = ${m}$. The flipped triangle faces the opposite way, like a mirror image.`;
+      } else {
+        const cx = Math.max(...tri.map((p) => p[0])) + rng.int(0, 2);
+        const cy = rng.pick([Math.min(...tri.map((p) => p[1])), Math.max(...tri.map((p) => p[1]))]);
+        const half = rng.chance(0.5);
+        img = tri.map(([x, y]) => (half ? [2 * cx - x, 2 * cy - y] : [cx - (y - cy), cy + (x - cx)]) as P);
+        detail = `The triangle was turned ${half ? 'a half turn' : 'a quarter turn counterclockwise'} about the point $${ptx(cx, cy)}$. It is not flipped: the vertices $A$, $B$, $C$ go around in the same direction as before.`;
+      }
+      if (!img.every((p) => inGrid(Q1, p))) continue;
+      const bx = (pts: P[]) => [Math.min(...pts.map((p) => p[0])), Math.max(...pts.map((p) => p[0])), Math.min(...pts.map((p) => p[1])), Math.max(...pts.map((p) => p[1]))];
+      const [a0, a1, a2, a3] = bx(tri);
+      const [b0, b1, b2, b3] = bx(img);
+      if (!(a1 < b0 || b1 < a0 || a3 < b2 || b3 < a2)) continue;
+      const figure = gridFigure(Q1, {
+        shapes: [
+          { pts: tri, color: 'brand', labels: ['A', 'B', 'C'] },
+          { pts: img, color: 'accent', labels: ["A′", "B′", "C′"] },
+        ],
+      });
+      if (mode === 'describe') {
+        const opts = [slideText(a, b), slideText(b, a), slideText(-a, -b), slideText(a, -b), slideText(-a, b)];
+        const correct = `A translation ${opts[0]}`;
+        return {
+          prompt: `${who} slides a triangle-shaped sign on a grid plan. Triangle $ABC$ moves to triangle $A'B'C'$. Which describes the translation?`,
+          figure,
+          parts: [{ answer: mc(rng, correct, opts.slice(1).map((o) => `A translation ${o}`)) }],
+          hints: ['Pick one vertex, such as $A$, and find its image $A\'$.', 'Count the units across (right or left) from $A$ to $A\'$, then the units up or down.'],
+          solution: [`$A$ is at $${ptx(tri[0][0], tri[0][1])}$ and $A'$ is at $${ptx(img[0][0], img[0][1])}$.`, `Across: $${img[0][0]} - ${tri[0][0]} = ${a}$, so ${units(a)} ${a > 0 ? 'right' : 'left'}. Up or down: $${img[0][1]} - ${tri[0][1]} = ${b}$, so ${units(b)} ${b > 0 ? 'up' : 'down'}.`, `The translation is ${opts[0]}.`],
+          answerDisplay: correct,
+        };
+      }
+      const names = ['Translation (slide)', 'Reflection (flip)', 'Rotation (turn)'];
+      const idx = ['translation', 'reflection', 'rotation'].indexOf(kind);
+      return {
+        prompt: `Triangle $ABC$ was moved to triangle $A'B'C'$. Which transformation was used?`,
+        figure,
+        parts: [{ answer: fixedChoice(names, idx) }],
+        hints: ['A translation slides a shape: it still faces the same way. A reflection flips it, like a mirror. A rotation turns it.', 'Trace $A \\to B \\to C$ and $A\' \\to B\' \\to C\'$. If one goes clockwise and the other counterclockwise, the shape was flipped.'],
+        solution: [detail, `This is a **${kind}**.`],
+        answerDisplay: names[idx],
+      };
+    }
+  },
+});
+
+export const SHAPE_SKILLS: SkillDef[] = [classifyAngle, classifyShape, netsViews, symmetry, transformation];

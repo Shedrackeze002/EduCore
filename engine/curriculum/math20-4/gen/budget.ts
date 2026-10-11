@@ -198,7 +198,7 @@ function budgetClassify(rng: Rng): Out {
       askFixed ? 'Look for the bill that has a set price each month.' : 'Look for the cost that goes up or down with how much you buy or use.',
     ],
     solution: [
-      `${correct} ${askFixed ? 'costs the same amount every month' : 'changes from month to month, depending on how much you buy or use'}.`,
+      `${correct} ${askFixed ? 'costs the same amount every month' : `${/s$/.test(correct) ? 'change' : 'changes'} from month to month, depending on how much you buy or use`}.`,
       `${list(others.map((o, i) => (i === 0 ? o : o.toLowerCase())))} ${askFixed ? 'can change from month to month, so they are variable' : 'cost the same every month, so they are fixed'}.`,
       `The ${kind} expense is ${correct.toLowerCase()}.`,
     ],
@@ -242,12 +242,12 @@ function budgetCircle(rng: Rng, d: Lvl): Out {
   };
 }
 
-const PCT_ITEMS: Array<{ what: string; make: (rng: Rng) => number }> = [
-  { what: 'rent', make: (r) => r.int(32, 56) * 25 },
-  { what: 'groceries', make: (r) => r.int(26000, 52000) / 100 },
-  { what: 'car costs', make: (r) => r.int(25000, 62000) / 100 },
-  { what: 'eating out', make: (r) => r.int(6000, 22000) / 100 },
-  { what: 'a phone plan', make: (r) => r.int(45, 95) - 0.01 },
+const PCT_ITEMS: Array<{ what: string; goes: string; make: (rng: Rng) => number }> = [
+  { what: 'rent', goes: 'rent', make: (r) => r.int(32, 56) * 25 },
+  { what: 'groceries', goes: 'groceries', make: (r) => r.int(26000, 52000) / 100 },
+  { what: 'car costs', goes: 'car costs', make: (r) => r.int(25000, 62000) / 100 },
+  { what: 'eating out', goes: 'eating out', make: (r) => r.int(6000, 22000) / 100 },
+  { what: 'a phone plan', goes: 'the phone plan', make: (r) => r.int(45, 95) - 0.01 },
 ];
 
 function budgetPercent(rng: Rng): Out {
@@ -259,13 +259,13 @@ function budgetPercent(rng: Rng): Out {
   );
   const p = (E / I) * 100;
   return {
-    prompt: `${name} takes home ${money(I)} each month and spends ${tag(E)} a month on ${it.what}. What percent of ${name}’s take-home pay goes to ${it.what}? Round to the nearest tenth of a percent.`,
+    prompt: `${name} takes home ${money(I)} each month and spends ${tag(E)} a month on ${it.what}. What percent of ${name}’s take-home pay goes to ${it.goes}? Round to the nearest tenth of a percent.`,
     parts: [numPart(p, { decimals: 1, suffix: '%' })],
     hints: ['Percent of income = the expense ÷ the income × 100.', `Work out $${mv(E)} \\div ${mv(I)} \\times 100$, then round to one decimal place.`],
     solution: [
       'Divide the expense by the income, then multiply by $100$ to get a percent.',
       `$${mv(E)} \\div ${mv(I)} \\times 100 ${eq(p, 3)}$`,
-      `About ${fmtFixed(p, 1)}% of ${name}’s take-home pay goes to ${it.what}.`,
+      `About ${fmtFixed(p, 1)}% of ${name}’s take-home pay goes to ${it.goes}.`,
     ],
   };
 }
@@ -280,7 +280,7 @@ const GOALS = [
   { what: 'steel-toed boots and tools for a new job', lo: 400, hi: 800 },
   { what: 'a concert weekend in Calgary', lo: 500, hi: 900 },
 ];
-const CUTS = ['eating out', 'entertainment', 'clothing', 'take-out coffee', 'streaming services'];
+const CUTS = ['eating out', 'entertainment', 'clothing', 'take-out food'];
 
 /** Monthly savings S (a multiple of 5) and months m so that S × m lands in the goal's range. */
 function goalPlan(rng: Rng) {
@@ -482,8 +482,8 @@ function siFind(rng: Rng): Out {
   if (mode === 'rate') {
     return {
       prompt: saving
-        ? `${name} put ${tag(P)} into a savings account that pays simple interest. After ${t} years, the account had earned ${money(I)} in interest. What is the interest rate per year?`
-        : `${name} borrowed ${tag(P)} for ${t} years to buy ${loan.what}. The simple interest on the loan was ${money(I)}. What was the interest rate per year?`,
+        ? `${name} put ${tag(P)} into a savings account that pays simple interest. After ${t} years, the account had earned ${tag(I)} in interest. What is the interest rate per year?`
+        : `${name} borrowed ${tag(P)} for ${t} years to buy ${loan.what}. The simple interest on the loan was ${tag(I)}. What was the interest rate per year?`,
       parts: [exactPart(r, '%')],
       hints: ['Put the numbers you know into $I = Prt$. The rate $r$ is the unknown.', `Divide the interest by $P \\times t$, then multiply by $100$ to get a percent.`],
       solution: [...solveRate, `The interest rate is ${pc(r)} per year.`],
@@ -491,8 +491,8 @@ function siFind(rng: Rng): Out {
   }
   return {
     prompt: saving
-      ? `${name} put ${tag(P)} into a savings account that pays simple interest. After ${t} years, the account holds ${money(A)}. How much interest did the account earn? What is the interest rate per year?`
-      : `${name} borrowed ${tag(P)} for ${t} years to buy ${loan.what}, and paid back ${money(A)} in total. The loan charged simple interest. How much interest did ${name} pay? What was the interest rate per year?`,
+      ? `${name} put ${tag(P)} into a savings account that pays simple interest. After ${t} years, the account holds ${tag(A)}. How much interest did the account earn? What is the interest rate per year?`
+      : `${name} borrowed ${tag(P)} for ${t} years to buy ${loan.what}, and paid back ${tag(A)} in total. The loan charged simple interest. How much interest did ${name} pay? What was the interest rate per year?`,
     parts: [moneyPart(I, 'Interest: \\$'), exactPart(r, '%', 'Rate:')],
     hints: ['The interest is the total minus the principal: $I = A - P$.', 'Then put the numbers into $I = Prt$ and divide to find $r$.'],
     solution: [`Interest: $I = A - P = ${mv(A)} - ${mv(P)} = ${mv(I)}$`, ...solveRate, `The interest was ${money(I)}, and the rate is ${pc(r)} per year.`],
@@ -530,7 +530,7 @@ function cardRate(rng: Rng, yearly: boolean, friendly = false): CardRate {
       step: (B) => `$${mv(B)} \\times ${dec(r)} \\div 12 ${eq((B * r) / 1200)}$`,
     };
   }
-  const r = friendly ? rng.pick([1, 1.5, 2]) : rng.pick([1.5, 1.75, 2, 2.5]);
+  const r = friendly ? rng.pick([1.5, 2]) : rng.pick([1.5, 1.75, 2, 2.5]);
   return {
     text: `The card charges interest of ${pc(r)} per month on the unpaid balance.`,
     hint: `Use $\\text{balance} \\times ${dec(r)}$ (because $${pcm(r)} = ${dec(r)}$).`,
@@ -737,11 +737,11 @@ const creditCost = skill({
 // ---------------------------------------------------------------------------
 
 const VEHICLES = [
-  { name: 'small car', lo: 5.8, hi: 8.2 },
-  { name: 'hybrid car', lo: 4.2, hi: 5.6 },
-  { name: 'minivan', lo: 9.0, hi: 11.0 },
-  { name: 'SUV', lo: 9.5, hi: 12.0 },
-  { name: 'pickup truck', lo: 11.5, hi: 15.5 },
+  { name: 'small car', lo: 5.8, hi: 8.2, tank: [30, 35, 40, 45] },
+  { name: 'hybrid car', lo: 4.2, hi: 5.6, tank: [30, 35, 40] },
+  { name: 'minivan', lo: 9.0, hi: 11.0, tank: [40, 50, 60] },
+  { name: 'SUV', lo: 9.5, hi: 12.0, tank: [40, 50, 60, 70] },
+  { name: 'pickup truck', lo: 11.5, hi: 15.5, tank: [60, 70, 80, 90] },
 ];
 const FUEL_HINT = 'Litres used = distance ÷ 100 × litres per 100 km.';
 
@@ -772,13 +772,17 @@ function vehicle1(rng: Rng): Out {
         : `${name} expects to spend about ${tag(Y)} per year on maintenance for a ${veh}, like oil changes and new wiper blades. ${name} wants to set aside the same amount each month. How much is that per month?`,
       parts: [moneyPart(M)],
       hints: ['There are 12 months in a year.', `Divide the yearly cost by 12: $${mv(Y)} \\div 12$.`],
-      solution: ['To change a yearly cost to a monthly cost, divide by 12.', `$${mv(Y)} \\div 12 = ${mv(M)}$`, `${name} should set aside ${money(M)} per month.`],
+      solution: [
+        'To change a yearly cost to a monthly cost, divide by 12.',
+        `$${mv(Y)} \\div 12 = ${mv(M)}$`,
+        ins ? `${name} pays ${money(M)} per month for insurance.` : `${name} should set aside ${money(M)} per month for maintenance.`,
+      ],
     };
   }
   if (kind === 'fill') {
-    const L = rng.pick([30, 40, 50, 60, 70, 80]);
-    const price = rng.pick([1.2, 1.3, 1.4, 1.5, 1.6]);
     const veh = rng.pick(VEHICLES);
+    const L = rng.pick(veh.tank);
+    const price = rng.pick([1.2, 1.3, 1.4, 1.5, 1.6]);
     const cost = roundTo(L * price, 2);
     return {
       prompt: `${name} fills up ${an(veh.name)} with ${L} L of gas. Gas costs ${money(price)} per litre. How much does the fill-up cost?`,
@@ -809,7 +813,7 @@ function vehicle2(rng: Rng): Out {
   const veh = rng.pick(VEHICLES);
   if (rng.chance(0.5)) {
     const { km, c, price } = retry(
-      () => ({ km: rng.int(8, 30) * 100, c: rng.float(veh.lo, veh.hi, 1), price: rng.int(129, 169) / 100 }),
+      () => ({ km: rng.int(8, 25) * 100, c: rng.float(veh.lo, veh.hi, 1), price: rng.int(129, 169) / 100 }),
       (o) => !onEdge(fuelCost(o.km, o.c, o.price).cost, 2),
     );
     const { L, cost } = fuelCost(km, c, price);
@@ -849,7 +853,7 @@ function vehicle3(rng: Rng): Out {
     const A = rng.pick(VEHICLES.slice(0, 2));
     const B = rng.pick(VEHICLES.slice(2));
     const o = retry(
-      () => ({ km: rng.int(10, 30) * 100, cA: rng.float(A.lo, A.hi, 1), cB: rng.float(B.lo, B.hi, 1), price: rng.int(129, 169) / 100 }),
+      () => ({ km: rng.int(10, 25) * 100, cA: rng.float(A.lo, A.hi, 1), cB: rng.float(B.lo, B.hi, 1), price: rng.int(129, 169) / 100 }),
       (x) => {
         const a = fuelCost(x.km, x.cA, x.price).cost;
         const b = fuelCost(x.km, x.cB, x.price).cost;
@@ -877,7 +881,7 @@ function vehicle3(rng: Rng): Out {
   const insY = insM * 12;
   const maint = rng.pick([40, 50, 60, 75]);
   const { km, c, price } = retry(
-    () => ({ km: rng.int(8, 30) * 100, c: rng.float(veh.lo, veh.hi, 1), price: rng.int(129, 169) / 100 }),
+    () => ({ km: rng.int(8, 25) * 100, c: rng.float(veh.lo, veh.hi, 1), price: rng.int(129, 169) / 100 }),
     (o) => !onEdge(fuelCost(o.km, o.c, o.price).cost, 2) && !onEdge(fuelCost(o.km, o.c, o.price).cost + pay + insM + maint, 2),
   );
   const { cost: fuel } = fuelCost(km, c, price);
@@ -913,6 +917,7 @@ const vehicleCost = skill({
 
 const HOMES = ['apartment', 'basement suite', 'townhouse', 'house'];
 const RULE = 'A common rule of thumb says to spend no more than about 30% of your income on rent.';
+const mates = (k: number) => (k === 2 ? 'a roommate' : `${k - 1} roommates`);
 
 function housing1(rng: Rng): Out {
   const name = rng.pick(NAMES);
@@ -923,10 +928,10 @@ function housing1(rng: Rng): Out {
     const share = rng.pick([400, 450, 500, 550, 600, 650, 700]);
     const R = share * k;
     return {
-      prompt: `Rent for a ${k}-bedroom ${rng.pick(HOMES.slice(1))} in ${city} is ${tag(R)} per month. ${name} and ${k - 1} roommate${k > 2 ? 's' : ''} split the rent equally. How much does each person pay per month?`,
+      prompt: `Rent for a ${k}-bedroom ${rng.pick(HOMES.slice(1))} in ${city} is ${tag(R)} per month. ${name} and ${mates(k)} split the rent equally. How much does each person pay per month?`,
       parts: [moneyPart(share)],
       hints: [`There are ${k} people sharing, counting ${name}.`, `Divide the rent by ${k}: $${mv(R)} \\div ${k}$.`],
-      solution: [`${name} plus ${k - 1} roommate${k > 2 ? 's' : ''} makes ${k} people.`, `$${mv(R)} \\div ${k} = ${mv(share)}$`, `Each person pays ${money(share)} per month.`],
+      solution: [`${name} and ${mates(k)} make ${k} people.`, `$${mv(R)} \\div ${k} = ${mv(share)}$`, `Each person pays ${money(share)} per month.`],
     };
   }
   if (kind === 'movein') {
@@ -974,7 +979,7 @@ function housing2(rng: Rng): Out {
     const T = sumOf([R, U, N]);
     const share = T / k;
     return {
-      prompt: `${name} and ${k - 1} roommate${k > 2 ? 's' : ''} rent ${an(rng.pick(HOMES.slice(1)))} in ${city}. Each month the rent is ${tag(R)}, utilities are ${money(U)}, and internet is ${money(N)}. They split all three costs equally. What is the total each month? What is each person’s share, to the nearest cent?`,
+      prompt: `${name} and ${mates(k)} rent ${an(rng.pick(HOMES.slice(1)))} in ${city}. Each month the rent is ${tag(R)}, utilities are ${money(U)}, and internet is ${money(N)}. They split all three costs equally. What is the total each month? What is each person’s share, to the nearest cent?`,
       parts: [moneyPart(T, 'Total per month: \\$'), moneyPart(share, 'Each share: \\$')],
       hints: ['First add the three monthly costs.', `Then divide the total by the number of people: ${k}.`],
       solution: [
@@ -1049,12 +1054,13 @@ function housing3(rng: Rng): Out {
   const split = rng.chance(0.5);
   const o = retry(
     () => {
-      const I = rng.int(200000, 420000) / 100;
+      const R = split ? rng.int(48, 88) * 25 : rng.int(30, 60) * 25;
+      const share = split ? R / 2 : R;
       const target = rng.chance(0.5) ? rng.int(18, 28) : rng.int(32, 45);
-      const share = Math.round((I * target) / 100 / 25) * 25;
-      return { I, share, R: split ? share * 2 : share };
+      const I = Math.round((share / target) * 100 * 100 + rng.int(-5000, 5000)) / 100;
+      return { I, share, R };
     },
-    (x) => Math.abs((x.share / x.I) * 100 - 30) >= 1 && !onEdge((x.share / x.I) * 100, 1),
+    (x) => x.I >= 1800 && x.I <= 4500 && Math.abs((x.share / x.I) * 100 - 30) >= 1 && !onEdge((x.share / x.I) * 100, 1),
   );
   const p = (o.share / o.I) * 100;
   const ok = p <= 30;

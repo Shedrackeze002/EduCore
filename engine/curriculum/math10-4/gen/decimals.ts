@@ -25,21 +25,23 @@ const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
 /** Remove floating-point noise from an exact decimal result. */
 const clean = (x: number) => roundTo(x, 9);
 
-function group(s: string): string {
+function group(s: string, min = 5): string {
   const [i, f] = s.split('.');
-  const g = i.length > 4 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : i;
+  const g = i.length >= min ? i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : i;
   return f === undefined ? g : `${g}.${f}`;
 }
+/** "a" or "an" before a number read aloud: an 8, an 11, an 18, an 80. */
+const art = (x: number) => (/^8|^1[18](\D|$)/.test(String(x)) ? 'an' : 'a');
 /** A number inside maths, without trailing zeros. */
 const num = (x: number, dp = 4) => group(fmt(x, dp)).replace(/,/g, '{,}');
 /** A measurement as inline maths: $2.4\ \text{m}$. */
 const q = (x: number, u: string) => `$${num(x)}\\ ${tx(u)}$`;
 /** Canadian money in prose, always with cents: \$12.50. Never put this inside $...$. */
-const money = (x: number) => `\\$${group(fmtFixed(x, 2))}`;
+const money = (x: number) => `\\$${group(fmtFixed(x, 2), 4)}`;
 /** A price per litre with three decimals: \$1.459. */
 const money3 = (x: number) => `\\$${fmtFixed(x, 3)}`;
 /** A price tag: whole dollars print without cents (\$60), otherwise \$59.99. */
-const tag = (x: number) => (isWhole(x) ? `\\$${group(String(Math.round(x)))}` : money(x));
+const tag = (x: number) => (isWhole(x) ? `\\$${group(String(Math.round(x)), 4)}` : money(x));
 /** A money amount inside maths, without a dollar sign: 12.50. */
 const mv = (x: number) => group(fmtFixed(x, 2)).replace(/,/g, '{,}');
 /** Plain-text money for table cells (cells are not Markdown). */
@@ -71,6 +73,8 @@ function onEdge(v: number, dp: number): boolean {
 }
 /** "= 12.5" when exact to `dp` places, otherwise "\approx 12.4567". */
 const eq = (v: number, dp = 4) => (Math.abs(roundTo(v, dp) - v) < 1e-9 ? `= ${num(v, dp)}` : `\\approx ${num(v, dp)}`);
+/** ", which rounds to \$4.90" after a money product, or nothing when it is already exact to the cent. */
+const roundsTo = (v: number) => (Math.abs(roundTo(v, 2) - v) < 1e-9 ? '' : `, which rounds to ${money(v)}`);
 const fr = (n: number | string, d: number | string) => `\\dfrac{${n}}{${d}}`;
 const friends = (n: number) => (n === 2 ? 'a friend' : `$${n - 1}$ friends`);
 
@@ -281,19 +285,19 @@ const OPS_D3: Ctx[] = [
       solution: [
         `Length of the pieces: $${k} \\times ${m(L)} = ${m(used)}$`,
         `Length left: $${P} - ${m(used)} = ${m(left)}$`,
-        `${q(left / 100, 'm')} is left.`,
+        `There is ${q(left / 100, 'm')} left.`,
       ],
     };
   },
   // Bill plus tip, split equally
   (rng, name) => {
-    const n = rng.int(2, 5);
+    const n = rng.int(3, 5);
     const tip = rng.int(5, 18);
     const bill = retry(() => rng.int(3500, 12000), (c) => (c + tip * 100) % n !== 0 && !onEdge((c / 100 + tip) / n, 2));
     const total = bill / 100 + tip;
     const per = total / n;
     return {
-      prompt: `${name} and ${friends(n)} eat at a restaurant in ${rng.pick(TOWNS)}. The bill is ${money(bill / 100)}. They leave a ${tag(tip)} tip. They split the bill and the tip equally. How much does each person pay, ${CENT}?`,
+      prompt: `${name} and ${friends(n)} eat at a restaurant in ${rng.pick(TOWNS)}. The bill is ${money(bill / 100)}. They leave ${art(tip)} ${tag(tip)} tip. They split the bill and the tip equally. How much does each person pay, ${CENT}?`,
       parts: [moneyPart(per)],
       hints: ['First add the tip to the bill. Then share the total equally.', `Find $${mv(bill / 100)} + ${mv(tip)}$, then divide by $${n}$.`],
       solution: [
@@ -343,7 +347,7 @@ const OPS_D3: Ctx[] = [
       parts: [moneyPart(total)],
       hints: ['Find the cost of the gas and the cost of the other items. Then add.', `Gas: multiply $${num(L)} \\times ${num(price)}$ and round to the nearest cent.`],
       solution: [
-        `Gas: $${num(L)} \\times ${num(price)} ${eq(gas)}$, which rounds to ${money(gas)}.`,
+        `Gas: $${num(L)} \\times ${num(price)} ${eq(gas)}$${roundsTo(gas)}.`,
         `${cap(it.thing)}: $${k} \\times ${mv(p)} = ${mv(extra)}$`,
         `Total: $${mv(gasR)} + ${mv(extra)} = ${mv(total)}$`,
         `The total cost is ${money(total)}.`,
@@ -405,7 +409,7 @@ function makingChange(rng: Rng, d: Difficulty): Out {
     const prices = picked.map(([, lo, hi]) => {
       if (d === 1) return 25 * rng.int(Math.ceil(lo / 25), Math.floor(hi / 25));
       const c = rng.int(lo, hi);
-      return rng.chance(0.6) ? Math.floor(c / 10) * 10 + 9 : c;
+      return Math.floor(c / 10) * 10 + rng.pick([9, 9, 9, 9, 5, 0, 7, 3]);
     });
     const total = prices.reduce((s, x) => s + x, 0);
     const last = total % 10;
@@ -426,8 +430,8 @@ function makingChange(rng: Rng, d: Difficulty): Out {
     }
     const roundStep =
       last === 0 || last === 5
-        ? `The total already ends in $${last}$ cents, so the cash total is the same: ${money(cash / 100)}.`
-        : `The total ends in $${last}$ cents, and ${roundWord(last)}. The cash total is ${money(cash / 100)}.`;
+        ? `The last digit of the total is $${last}$, so it does not change. The cash total is ${money(cash / 100)}.`
+        : `The last digit of the total is $${last}$, and ${roundWord(last)}. The cash total is ${money(cash / 100)}.`;
     return {
       prompt: `${name} buys three things at ${store.where} and pays with cash. ${ROUND_RULE} ${name} pays with a \\$${bill} bill. Find the total on the receipt, the cash total and the change.`,
       figure,
@@ -513,9 +517,10 @@ function convertFdp(rng: Rng, d: Difficulty): Out {
     if (kind === 'f2p') return fracToPercentEasy(n, dd);
     const p = (100 * n) / dd;
     const m = 100 / dd;
+    const wrong = [`${fmt(n / dd)}%`, `${100 - p}%`, ...(Number(`${n}${dd}`) < 100 ? [`${n}${dd}%`] : []), `${fmt(p / 10)}%`, `${dd}%`];
     return {
       prompt: `Which percent is equal to $${fr(n, dd)}$?`,
-      parts: [{ answer: mc(rng, `${p}%`, [`${fmt(p / 10)}%`, `${100 - p}%`, `${n}${dd}%`, `${dd}%`, `${n}%`]) }],
+      parts: [{ answer: mc(rng, `${p}%`, wrong) }],
       hints: [PERCENT_MEANS, `Find an equal fraction with $100$ on the bottom. Multiply the top and the bottom by $${m}$.`],
       solution: [`Multiply the top and the bottom by $${m}$: $${fr(n, dd)} = ${fr(p, 100)}$`, `$${p}$ out of $100$ is $${pc(p)}$.`, `So $${fr(n, dd)} = ${pc(p)}$.`],
     };
@@ -613,10 +618,10 @@ function convertFdp(rng: Rng, d: Difficulty): Out {
   return {
     prompt: `${c} What percent is that? How many is that?`,
     parts: [exact(p, '%', 'Percent'), numPart(count, { label: 'How many' })],
-    hints: ['Change the fraction to a percent: divide the top by the bottom, then multiply by $100$.', `To find how many, find $${fr(n, dd)}$ of $${N}$: divide by $${dd}$, then multiply by $${n}$.`],
+    hints: ['Change the fraction to a percent: divide the top by the bottom, then multiply by $100$.', `To find how many, find $${fr(n, dd)}$ of $${N}$: divide by $${dd}$${n === 1 ? '' : `, then multiply by $${n}$`}.`],
     solution: [
       `Percent: $${n} \\div ${dd} = ${num(n / dd)}$, and $${num(n / dd)} \\times 100 = ${num(p)}$, so $${pc(p)}$.`,
-      `How many: $${N} \\div ${dd} = ${N / dd}$, and $${N / dd} \\times ${n} = ${count}$.`,
+      n === 1 ? `How many: $${N} \\div ${dd} = ${count}$.` : `How many: $${N} \\div ${dd} = ${N / dd}$, and $${N / dd} \\times ${n} = ${count}$.`,
       `It is $${pc(p)}$, or $${count}$ out of $${N}$.`,
     ],
     calculator: true,
@@ -681,7 +686,7 @@ const PO_D1: Ctx[] = [
     const bill = 5 * rng.int(4, 18);
     const tip = (bill * p) / 100;
     return {
-      prompt: `${name}’s lunch bill at a café in ${rng.pick(TOWNS)} is ${tag(bill)}. ${name} wants to leave a ${p}% tip. How much is the tip?`,
+      prompt: `${name}’s lunch bill at a café in ${rng.pick(TOWNS)} is ${tag(bill)}. ${name} wants to leave ${art(p)} ${p}% tip. How much is the tip?`,
       parts: [cashPart(tip)],
       hints: [PCT_METHOD, SHORTCUT[p]],
       solution: [...pctSteps(p, String(bill), tip, mv(tip)), `The tip is ${money(tip)}.`],
@@ -694,7 +699,7 @@ const PO_D1: Ctx[] = [
     const ans = (L * p) / 100;
     const [tank, short] = rng.pick([['water tank on a farm', 'tank'], ['fuel tank on a tractor', 'tank'], ['water trough for cattle', 'trough'], ['rain barrel', 'barrel']]);
     return {
-      prompt: `A ${q(L, 'L')} ${tank} is ${p}% full. How many litres are in it?`,
+      prompt: `${cap(art(L))} ${q(L, 'L')} ${tank} is ${p}% full. How many litres are in it?`,
       parts: [exact(ans, 'L')],
       hints: [PCT_METHOD, SHORTCUT[p]],
       solution: [...pctSteps(p, String(L), ans), `There are ${q(ans, 'L')} in the ${short}.`],
@@ -721,7 +726,7 @@ const PO_D2: Ctx[] = [
     const bill = retry(() => rng.int(2340, 9875), (c) => !onEdge((c * p) / 10000, 2) && (c * p) % 100 !== 0);
     const tip = (bill * p) / 10000;
     return {
-      prompt: `${name}’s family eats dinner at a restaurant in ${rng.pick(TOWNS)}. The bill is ${money(bill / 100)}. They leave a ${p}% tip. How much is the tip, ${CENT}?`,
+      prompt: `${name}’s family eats dinner at a restaurant in ${rng.pick(TOWNS)}. The bill is ${money(bill / 100)}. They leave ${art(p)} ${p}% tip. How much is the tip, ${CENT}?`,
       parts: [moneyPart(tip)],
       hints: [PCT_METHOD, `Find $${num(p / 100)} \\times ${mv(bill / 100)}$, then round to $2$ decimal places.`],
       solution: [...pctSteps(p, mv(bill / 100), tip), `Round to the nearest cent: the tip is ${money(tip)}.`],
@@ -753,7 +758,7 @@ const PO_D2: Ctx[] = [
     const ans = (sales * p) / 100;
     const what = rng.pick(['furniture', 'cell phones', 'used cars', 'shoes', 'appliances']);
     return {
-      prompt: `${name} sells ${what} and earns a ${p}% commission on sales. (A commission is a part of the sales that the worker gets as pay.) This week ${name} sold ${tag(sales)} worth of ${what}. How much commission did ${name} earn?`,
+      prompt: `${name} sells ${what} and earns ${art(p)} ${p}% commission on sales. (A commission is a part of the sales that the worker gets as pay.) This week ${name} sold ${tag(sales)} worth of ${what}. How much commission did ${name} earn?`,
       parts: [cashPart(ans)],
       hints: [PCT_METHOD, `Find $${num(p / 100)} \\times ${num(sales)}$.`],
       solution: [...pctSteps(p, num(sales), ans, mv(ans)), `${name} earned ${money(ans)} in commission.`],
@@ -766,7 +771,7 @@ const PO_D2: Ctx[] = [
     const kg = rng.pick([20, 25, 40]);
     const ans = clean((kg * p) / 100);
     return {
-      prompt: `${name} works on a farm. A ${q(kg, 'kg')} bag of fertilizer is ${p}% nitrogen. How many kilograms of nitrogen are in the bag?`,
+      prompt: `${name} works on a farm. ${cap(art(kg))} ${q(kg, 'kg')} bag of fertilizer is ${p}% nitrogen. How many kilograms of nitrogen are in the bag?`,
       parts: [exact(ans, 'kg')],
       hints: [PCT_METHOD, `Find $${num(p / 100)} \\times ${kg}$.`],
       solution: [...pctSteps(p, String(kg), ans), `The bag has ${q(ans, 'kg')} of nitrogen.`],
@@ -784,7 +789,7 @@ const PO_D3: Ctx[] = [
     const tipR = roundTo(tip, 2);
     const total = clean(bill / 100 + tipR);
     return {
-      prompt: `${name} takes a group from work out for lunch in ${rng.pick(TOWNS)}. The bill is ${money(bill / 100)}. ${name} wants to leave a ${p}% tip. How much is the tip, and what is the total with the tip? Round each answer ${CENT}.`,
+      prompt: `${name} takes a group from work out for lunch in ${rng.pick(TOWNS)}. The bill is ${money(bill / 100)}. ${name} wants to leave ${art(p)} ${p}% tip. How much is the tip, and what is the total with the tip? Round each answer ${CENT}.`,
       parts: [moneyPart(tip, 'Tip (\\$)'), moneyPart(total, 'Total (\\$)')],
       hints: ['First find the tip: change the percent to a decimal and multiply by the bill.', 'Then add the tip to the bill.'],
       solution: [...pctSteps(p, mv(bill / 100), tip), `Round to the nearest cent: the tip is ${money(tip)}.`, `Total: $${mv(bill / 100)} + ${mv(tipR)} = ${mv(total)}$`, `The tip is ${money(tip)} and the total is ${money(total)}.`],
@@ -817,7 +822,7 @@ const PO_D3: Ctx[] = [
     const more = clean(L - have);
     const tank = rng.pick(['water tank on a farm truck', 'fuel tank on a tractor', 'water tank for a pressure washer', 'stock-watering trough']);
     return {
-      prompt: `${name} checks a ${q(L, 'L')} ${tank}. It is ${p}% full. How many litres are in it now? How many more litres will fill it?`,
+      prompt: `${name} checks ${art(L)} ${q(L, 'L')} ${tank}. It is ${p}% full. How many litres are in it now? How many more litres will fill it?`,
       parts: [exact(have, 'L', 'In it now'), exact(more, 'L', 'More to fill')],
       hints: [`First find $${pc(p)}$ of $${L}$.`, `Then subtract from $${L}$ to find how much more fits.`],
       solution: [...pctSteps(p, String(L), have), `More to fill: $${L} - ${num(have)} = ${num(more)}$`, `There are ${q(have, 'L')} in it now. It needs ${q(more, 'L')} more.`],
@@ -879,7 +884,7 @@ const shelf = (rng: Rng, lo: number, hi: number) => rng.int(lo, hi) - 1 + rng.pi
 function discountTax(rng: Rng, d: Difficulty): Out {
   const name = rng.pick(NAMES);
   const g = rng.pick(GOODS);
-  const store = rng.pick(['a store in', 'a shop in', 'a sporting goods store in', 'a department store in']) + ' ' + rng.pick(TOWNS);
+  const store = rng.pick(['a store in', 'a shop in']) + ' ' + rng.pick(TOWNS);
   if (d === 1) {
     if (rng.chance(0.5)) {
       const p = rng.pick([10, 20, 25, 50]);
@@ -914,7 +919,7 @@ function discountTax(rng: Rng, d: Difficulty): Out {
         prompt: `${cap(g.item)} costs ${money(price)}. This week it is ${p}% off. What is the sale price, ${CENT}?`,
         parts: [moneyPart(sale)],
         hints: [DISC_HINT, `Or use a shortcut: with ${p}% off, you pay ${100 - p}% of the price. Multiply by $${num((100 - p) / 100)}$.`],
-        solution: [`Discount: $${num(p / 100)} \\times ${mv(price)} ${eq(disc)}$, which rounds to ${money(disc)}.`, `Sale price: $${mv(price)} - ${mv(discR)} = ${mv(sale)}$`, `The sale price is ${money(sale)}.`],
+        solution: [`Discount: $${num(p / 100)} \\times ${mv(price)} ${eq(disc)}$${roundsTo(disc)}.`, `Sale price: $${mv(price)} - ${mv(discR)} = ${mv(sale)}$`, `The sale price is ${money(sale)}.`],
       };
     }
     const price = retry(() => shelf(rng, g.lo, g.hi), (x) => !onEdge(x * 0.05, 2));
@@ -925,7 +930,7 @@ function discountTax(rng: Rng, d: Difficulty): Out {
       prompt: `${name} buys ${g.item} for ${money(price)}. ${GST} What is the total cost, ${CENT}?`,
       parts: [moneyPart(total)],
       hints: ['GST is $5\\%$ of the price: multiply the price by $0.05$.', 'Add the GST to the price. Or multiply the price by $1.05$ in one step.'],
-      solution: [`GST: $0.05 \\times ${mv(price)} ${eq(gst)}$, which rounds to ${money(gst)}.`, `Total: $${mv(price)} + ${mv(gstR)} = ${mv(total)}$`, `The total cost is ${money(total)}.`],
+      solution: [`GST: $0.05 \\times ${mv(price)} ${eq(gst)}$${roundsTo(gst)}.`, `Total: $${mv(price)} + ${mv(gstR)} = ${mv(total)}$`, `The total cost is ${money(total)}.`],
     };
   }
   // d === 3: discount first, then GST
@@ -947,9 +952,9 @@ function discountTax(rng: Rng, d: Difficulty): Out {
     parts: [moneyPart(sale, 'Sale price (\\$)'), moneyPart(total, 'Total with GST (\\$)')],
     hints: ['Step 1: find the discount and subtract it from the price.', 'Step 2: find 5% GST on the sale price, not on the original price. Add it on.'],
     solution: [
-      `Discount: $${num(p / 100)} \\times ${mv(price)} ${eq(disc)}$, which rounds to ${money(disc)}.`,
+      `Discount: $${num(p / 100)} \\times ${mv(price)} ${eq(disc)}$${roundsTo(disc)}.`,
       `Sale price: $${mv(price)} - ${mv(discR)} = ${mv(sale)}$`,
-      `GST: $0.05 \\times ${mv(sale)} ${eq(gst)}$, which rounds to ${money(gst)}.`,
+      `GST: $0.05 \\times ${mv(sale)} ${eq(gst)}$${roundsTo(gst)}.`,
       `Total: $${mv(sale)} + ${mv(gstR)} = ${mv(total)}$`,
       `The sale price is ${money(sale)} and the total cost is ${money(total)}.`,
     ],

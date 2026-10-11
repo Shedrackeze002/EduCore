@@ -17,6 +17,7 @@ const NAMES = [
 const CITIES = ['Edmonton', 'Calgary', 'Red Deer', 'Lethbridge', 'Grande Prairie', 'Fort McMurray', 'Medicine Hat'];
 
 const num = (x: number, dp = 4) => fmtGroupTex(x, dp);
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
 function group(s: string): string {
   const [i, f] = s.split('.');
@@ -52,6 +53,8 @@ function exactPart(v: number, suffix?: string, label?: string): Part {
 }
 /** A money answer: say "to the nearest cent" only when the exact value has more than two decimals. */
 const centNote = (v: number) => (isWhole(v * 100) ? '' : `, ${CENT}`);
+/** "about " when a money value had to be rounded to the cent. */
+const abt = (v: number) => (isWhole(v * 100) ? '' : 'about ');
 
 // ---------------------------------------------------------------------------
 // 1.1 Integers and the order of operations
@@ -178,6 +181,7 @@ function intOrderBare(rng: Rng): GenOutput {
   let expr: string;
   let ans: number;
   let steps: string[];
+  let first: string;
   if (form === 1) {
     // a + b × c
     const a = s() * rng.int(1, 20);
@@ -186,6 +190,7 @@ function intOrderBare(rng: Rng): GenOutput {
     ans = a + b * c;
     expr = `${a} + ${b} \\times ${p(c)}`;
     steps = [`Multiply first: $${b} \\times ${p(c)} = ${b * c}$`, `Then add: $${a} + ${p(b * c)} = ${ans}$`];
+    first = `Multiply first: work out $${b} \\times ${p(c)}$. Then add.`;
   } else if (form === 2) {
     // (a ± b) ÷ c
     const [c, q] = retry(() => [s() * rng.int(2, 6), s() * rng.int(2, 9)] as const, ([x, y]) => x < 0 || y < 0);
@@ -196,12 +201,14 @@ function intOrderBare(rng: Rng): GenOutput {
     ans = q;
     expr = `(${inner}) \\div ${p(c)}`;
     steps = [`Brackets first: $${inner} = ${sum}$`, `Then divide: $${sum} \\div ${p(c)} = ${q}$`];
+    first = `Brackets first: work out $${inner}$. Then divide.`;
   } else if (form === 3) {
     // a × b − c
     const [a, b] = retry(() => [s() * rng.int(2, 9), s() * rng.int(2, 9)] as const, ([x, y]) => x < 0 || y < 0);
     const c = s() * rng.int(2, 15);
     ans = a * b - c;
     expr = `${a} \\times ${p(b)} - ${p(c)}`;
+    first = `Multiply first: work out $${a} \\times ${p(b)}$. Then subtract.`;
     steps = [
       `Multiply first: $${a} \\times ${p(b)} = ${a * b}$`,
       c < 0 ? `Then subtract. Subtracting a negative is adding: $${a * b} - ${p(c)} = ${a * b} + ${-c} = ${ans}$` : `Then subtract: $${a * b} - ${c} = ${ans}$`,
@@ -213,6 +220,7 @@ function intOrderBare(rng: Rng): GenOutput {
     const a = s() * rng.int(1, 15);
     ans = a - q;
     expr = `${a} - ${p(b)} \\div ${p(c)}`;
+    first = `Divide first: work out $${p(b)} \\div ${p(c)}$. Then subtract.`;
     steps = [
       `Divide first: $${p(b)} \\div ${p(c)} = ${q}$`,
       q < 0 ? `Then subtract. Subtracting a negative is adding: $${a} - ${p(q)} = ${a} + ${-q} = ${ans}$` : `Then subtract: $${a} - ${q} = ${ans}$`,
@@ -227,11 +235,12 @@ function intOrderBare(rng: Rng): GenOutput {
     ans = a * sum;
     expr = `${a} \\times (${inner})`;
     steps = [`Brackets first: $${inner} = ${sum}$`, `Then multiply: $${a} \\times ${p(sum)} = ${ans}$`];
+    first = `Brackets first: work out $${inner}$. Then multiply.`;
   }
   return {
     prompt: `Use the order of operations to calculate: $${expr}$`,
     parts: [numPart(ans)],
-    hints: [ORDER, steps[0].replace(/:.*$/, '.')],
+    hints: [ORDER, first],
     solution: [...steps, `The answer is $${ans}$.`],
   };
 }
@@ -353,14 +362,20 @@ function intContext3(rng: Rng): GenOutput {
       ],
     };
   }
-  const start = -rng.pick([25, 30, 45, 60, 75, 80]);
+  const start = -rng.pick([25, 30, 45, 60, 75, 80, 120]);
   const nC = rng.int(2, 3);
-  const chq = rng.pick([65, 80, 85, 90, 120, 145]);
-  const bill = retry(() => rng.int(30, 140), (b) => start + nC * chq - b !== 0);
+  const chq = rng.pick([145, 180, 215, 260, 285, 320]);
+  const [what, lo, hi] = rng.pick([
+    ['pays a {} phone bill', 45, 95],
+    ['pays a {} internet bill', 60, 110],
+    ['makes a {} car insurance payment', 120, 190],
+    ['pays {} for groceries', 70, 160],
+    ['buys a {} bus pass', 60, 110],
+  ] as const);
+  const bill = rng.int(lo, hi);
   const end = start + nC * chq - bill;
-  const what = rng.pick(['phone bill', 'internet bill', 'gym membership', 'bus pass']);
   return {
-    prompt: `${name}’s bank account is overdrawn. The balance is $${start}$ dollars. ${name} deposits $${nC}$ pay cheques of ${tag(chq)} each. Then ${name} pays a ${tag(bill)} ${what} from the account. What is the balance now? Write it as an integer in dollars.`,
+    prompt: `${name}’s bank account is overdrawn. The balance is $${start}$ dollars. ${name} deposits $${nC}$ pay cheques of ${tag(chq)} each. Then ${name} ${what.replace('{}', tag(bill))} with a debit card. What is the balance now? Write it as an integer in dollars.`,
     parts: [numPart(end, { suffix: 'dollars' })],
     hints: ['Deposits add to the balance. Paying a bill subtracts from it.', `Calculate $${start} + ${nC} \\times ${chq} - ${bill}$. Multiply first.`],
     solution: [
@@ -419,7 +434,8 @@ function toImproper(f: Frac): string {
 }
 function improperSteps(fs: Frac[]): string[] {
   const parts = fs.map(toImproper).filter((s) => s);
-  return parts.length ? [`Change each mixed number to an improper fraction: ${parts.join('; ')}.`] : [];
+  if (!parts.length) return [];
+  return [parts.length === 1 ? `Change the mixed number to an improper fraction: ${parts[0]}.` : `Change each mixed number to an improper fraction: ${parts.join('; ')}.`];
 }
 /** A random proper or mixed fraction with denominator from `dens`. */
 function randMixed(rng: Rng, dens: number[], wMin: number, wMax: number): Frac {
@@ -466,40 +482,33 @@ function fracLike(rng: Rng): GenOutput {
   const name = rng.pick(NAMES);
   const d = rng.pick([4, 8, 8]);
   const add = rng.chance(0.5);
-  let a: Frac;
-  let b: Frac;
-  const odd = () => retry(() => rng.int(1, d - 1), (x) => x % 2 === 1 || d === 4);
+  const nums = d === 4 ? [1, 3] : [1, 3, 5, 7];
+  let wa: number;
+  let wb: number;
+  let na: number;
+  let nb: number;
   if (add) {
-    a = F(rng.int(1, 4), odd(), d);
-    b = F(rng.int(1, 3), odd(), d);
+    [wa, wb, na, nb] = [rng.int(1, 4), rng.int(1, 3), rng.pick(nums), rng.pick(nums)];
   } else {
-    [a, b] = retry(
-      () => [F(rng.int(3, 7), rng.int(1, d - 1), d), F(rng.int(1, 2), rng.int(1, d - 1), d)] as const,
-      ([x, y]) => x.n % x.d > y.n % y.d || (x.d < d && y.d < d && false),
-    );
+    [wa, wb] = [rng.int(3, 7), rng.int(1, 2)];
+    [na, nb] = retry(() => [rng.pick(nums), rng.pick(nums)] as const, ([x, y]) => x > y);
   }
-  const wa = Math.floor(val(a));
-  const wb = Math.floor(val(b));
-  const na = a.n - wa * a.d;
-  const nb = b.n - wb * b.d;
-  // Numerators over the common denominator d.
-  const ra = (na * d) / a.d;
-  const rb = (nb * d) / b.d;
+  const a = F(wa, na, d);
+  const b = F(wb, nb, d);
   const res = add ? frac(a.n * b.d + b.n * a.d, a.d * b.d) : frac(a.n * b.d - b.n * a.d, a.d * b.d);
   const u = rng.pick([{ u: 'ft', w: 'feet' }, { u: 'in', w: 'inches' }]);
-  const A = `${wa}\\frac{${ra}}{${d}}`;
-  const B = `${wb}\\frac{${rb}}{${d}}`;
+  const A = mx(a);
+  const B = mx(b);
   const W = add ? wa + wb : wa - wb;
-  const R = add ? ra + rb : ra - rb;
+  const R = add ? na + nb : na - nb;
   const steps: string[] = [];
   steps.push(`The denominators are the same, so work with the whole numbers and the fractions separately.`);
   steps.push(`Whole numbers: $${wa} ${add ? '+' : '-'} ${wb} = ${W}$`);
-  steps.push(`Fractions: $\\frac{${ra}}{${d}} ${add ? '+' : '-'} \\frac{${rb}}{${d}} = \\frac{${R}}{${d}}$`);
-  if (R >= d) steps.push(`$\\frac{${R}}{${d}}$ is more than $1$: $\\frac{${R}}{${d}} = 1\\frac{${R - d}}{${d}}$, so the total is $${W} + 1\\frac{${R - d}}{${d}} = ${mx(res)}$`);
-  else if (R === 0) steps.push(`The fractions cancel, so the answer is $${W}$.`);
+  steps.push(`Fractions: $\\frac{${na}}{${d}} ${add ? '+' : '-'} \\frac{${nb}}{${d}} = \\frac{${R}}{${d}}$`);
+  if (R >= d) steps.push(`$\\frac{${R}}{${d}}$ is $1$ whole or more: $\\frac{${R}}{${d}} = ${mx(frac(R, d))}$, so the total is $${W} + ${mx(frac(R, d))} = ${mx(res)}$`);
   else if (gcd(R, d) > 1) steps.push(`Put them together and simplify: $${W}\\frac{${R}}{${d}} = ${mx(res)}$`);
   else steps.push(`Put them together: $${mx(res)}$`);
-  const job = rng.pick(['baseboard', 'trim', 'shelf board', 'pipe', 'copper tubing']);
+  const job = rng.pick(u.u === 'ft' ? ['baseboard', 'door trim', 'shelf board', 'PVC pipe'] : ['copper tubing', 'wooden dowel', 'metal strapping', 'vinyl edging']);
   const prompt = add
     ? `${name} is a carpenter’s helper. ${name} cuts two pieces of ${job}: one is $${A}$ ${u.w} long and the other is $${B}$ ${u.w} long. What is the total length?`
     : `${name} has a piece of ${job} that is $${A}$ ${u.w} long. ${name} cuts off $${B}$ ${u.w}. How much is left? (Ignore the width of the saw cut.)`;
@@ -517,15 +526,14 @@ function fracLike(rng: Rng): GenOutput {
 function fracOfWhole(rng: Rng): GenOutput {
   const name = rng.pick(NAMES);
   const ctx = rng.pick([
-    { d: [2, 3, 4], W: [8, 12], unit: 'h', text: (f: string, W: number) => `${name} works an $${W}$-hour shift at a warehouse. ${name} spends $${f}$ of the shift driving a forklift. How many hours is that?`, end: 'hours driving the forklift' },
-    { d: [3, 4, 5], W: [60, 120], unit: 'kg', text: (f: string, W: number) => `A farm stand has $${W}\\ \\text{kg}$ of potatoes. By noon, $${f}$ of the potatoes are sold. How many kilograms are sold?`, end: 'kilograms sold' },
-    { d: [4, 5, 10], W: [20, 40, 80], unit: 'L', text: (f: string, W: number) => `A $${W}\\ \\text{L}$ fuel tank on a riding mower is $${f}$ full. How many litres of fuel are in it?`, end: 'litres in the tank' },
-    { d: [3, 4, 6], W: [24, 36, 48], unit: 'eggs', text: (f: string, W: number) => `A café kitchen has $${W}$ eggs. The breakfast cook uses $${f}$ of them. How many eggs does the cook use?`, end: 'eggs used' },
+    { d: [2, 3, 4], W: [8, 12], unit: 'h', text: (f: string, W: number) => `${name} works ${W === 8 ? 'an' : 'a'} $${W}$-hour shift at a warehouse. ${name} spends $${f}$ of the shift driving a forklift. How many hours is that?`, end: (x: number) => `${name} drives the forklift for $${x}$ hours.` },
+    { d: [3, 4, 5], W: [60, 120], unit: 'kg', text: (f: string, W: number) => `A farm stand has $${W}\\ \\text{kg}$ of potatoes. By noon, $${f}$ of the potatoes are sold. How many kilograms are sold?`, end: (x: number) => `$${x}\\ \\text{kg}$ of potatoes are sold.` },
+    { d: [4, 5, 10], W: [20, 40, 80], unit: 'L', text: (f: string, W: number) => `${W === 80 ? 'An' : 'A'} $${W}\\ \\text{L}$ fuel tank on a farm truck is $${f}$ full. How many litres of fuel are in it?`, end: (x: number) => `The tank holds $${x}\\ \\text{L}$ of fuel.` },
+    { d: [3, 4, 6], W: [24, 36, 48], unit: 'eggs', text: (f: string, W: number) => `A café kitchen has $${W}$ eggs. The breakfast cook uses $${f}$ of them. How many eggs does the cook use?`, end: (x: number) => `The cook uses $${x}$ eggs.` },
   ]);
-  const d = rng.pick(ctx.d);
+  const Wf = rng.pick(ctx.W);
+  const d = rng.pick(ctx.d.filter((x) => Wf % x === 0));
   const n = retry(() => rng.int(1, d - 1), (x) => gcd(x, d) === 1);
-  const W = retry(() => rng.pick(ctx.W) * rng.int(1, 2), (w) => w % d === 0, 100);
-  const Wf = W % d === 0 ? W : d * Math.max(1, Math.round(W / d));
   const ans = (Wf / d) * n;
   const f = `\\frac{${n}}{${d}}`;
   return {
@@ -535,7 +543,7 @@ function fracOfWhole(rng: Rng): GenOutput {
     solution: [
       `Find $${f}$ of $${Wf}$: divide by the denominator, $${Wf} \\div ${d} = ${Wf / d}$`,
       `Multiply by the numerator: $${Wf / d} \\times ${n} = ${ans}$`,
-      `There are $${ans}$ ${ctx.end}.`,
+      ctx.end(ans),
     ],
   };
 }
@@ -548,7 +556,7 @@ function lcdSteps(a: Frac, b: Frac, L: number): string {
 function fracAddSubUnlike(rng: Rng, add: boolean): GenOutput {
   const name = rng.pick(NAMES);
   const kitchen = rng.chance(0.5);
-  const dens = kitchen ? [[2, 4], [4, 2], [2, 3], [3, 2], [3, 4], [4, 3], [3, 6]] : [[2, 4], [4, 2], [4, 8], [8, 4], [2, 8], [8, 2]];
+  const dens = kitchen ? [[2, 4], [4, 2], [2, 3], [3, 2], [3, 4], [4, 3]] : [[2, 4], [4, 2], [4, 8], [8, 4], [2, 8], [8, 2]];
   const [da, db] = rng.pick(dens);
   const pick = (d: number, lo: number, hi: number) => F(rng.int(lo, hi), retry(() => rng.int(1, d - 1), (x) => gcd(x, d) === 1), d);
   const [a, b] = retry(
@@ -612,14 +620,14 @@ function fracMultiply(rng: Rng): GenOutput {
     b = randMixed(rng, [2, 4], 1, 4);
     const r = rng.pick(RECIPES);
     const size = a.n === 1 && a.d === 2 ? 'half' : a.d === 3 && a.n === 1 ? 'one-third' : 'two-thirds';
-    prompt = `A ${r.dish} recipe uses $${mx(b)}$ cups of ${r.ing}. ${name} makes only ${size} of the recipe, which is $${imp(a)}$ of it. How many cups of ${r.ing} does ${name} need?`;
+    prompt = `A recipe for ${r.dish} uses $${mx(b)}$ cups of ${r.ing}. ${name} makes only ${size} of the recipe, which is $${imp(a)}$ of it. How many cups of ${r.ing} does ${name} need?`;
     unit = 'cups';
     end = (res) => `${name} needs $${mx(res)}$ ${unitWord('cups', res)} of ${r.ing}.`;
   } else {
     a = F(1, 1, 2);
     b = randMixed(rng, [3, 4], 1, 3);
     const r = rng.pick(RECIPES);
-    prompt = `A ${r.dish} recipe uses $${mx(b)}$ cups of ${r.ing}. ${name} makes $${mx(a)}$ batches. How many cups of ${r.ing} does ${name} need?`;
+    prompt = `A recipe for ${r.dish} uses $${mx(b)}$ cups of ${r.ing}. ${name} makes $${mx(a)}$ batches. How many cups of ${r.ing} does ${name} need?`;
     unit = 'cups';
     end = (res) => `${name} needs $${mx(res)}$ ${unitWord('cups', res)} of ${r.ing}.`;
   }
@@ -636,6 +644,15 @@ function fracMultiply(rng: Rng): GenOutput {
   };
 }
 
+/** Steps for "whole number B minus fraction f". */
+function subtractFromWhole(B: number, f: Frac, unit: string): string[] {
+  if (f.d === 1) return [`Subtract: $${B} - ${f.n} = ${B - f.n}$ ${unit}`];
+  return [
+    `Write $${B}$ with the same denominator: $${B} = \\frac{${B * f.d}}{${f.d}}$`,
+    `Subtract: $\\frac{${B * f.d}}{${f.d}} - ${imp(f)} = ${chain(B * f.d - f.n, f.d)}$ ${unit}`,
+  ];
+}
+
 function fracTwoStep(rng: Rng): GenOutput {
   const name = rng.pick(NAMES);
   const kind = rng.pick(['cut', 'leftover', 'two'] as const);
@@ -650,12 +667,11 @@ function fracTwoStep(rng: Rng): GenOutput {
     return {
       prompt: `${name} is building a shed. ${name} has a board that is $${B}$ feet long and cuts $${k}$ ${what} from it, each $${mx(L)}$ feet long. How much of the board is left? (Ignore the width of the saw cuts.)`,
       ...fracAnswer(left, 'ft'),
-      hints: ['First find the total length of the pieces. Then subtract it from the board.', `Total of the pieces: $${k} \\times ${mx(L)}$. Then find $${B} - \\text{(that total)}$.`],
+      hints: ['First find the total length of the pieces. Then subtract it from the board.', `Total of the pieces: $${k} \\times ${mx(L)}$. Then subtract that total from $${B}$.`],
       solution: [
         ...improperSteps([L]),
-        `Length of the ${k} pieces: $${k} \\times ${imp(L)} = ${chain(k * L.n, L.d)}$ feet`,
-        `Write the board length with the same denominator: $${B} = \\frac{${B * used.d}}{${used.d}}$`,
-        `Subtract: $\\frac{${B * used.d}}{${used.d}} - ${imp(used)} = ${chain(B * used.d - used.n, used.d)}$`,
+        `Length of the $${k}$ pieces: $${k} \\times ${imp(L)} = ${chain(k * L.n, L.d)}$ feet`,
+        ...subtractFromWhole(B, used, 'feet'),
         `$${mx(left)}$ feet of the board is left.`,
       ],
     };
@@ -668,16 +684,22 @@ function fracTwoStep(rng: Rng): GenOutput {
     const H = retry(() => F(rng.int(Math.ceil(val(need)), Math.ceil(val(need)) + 3), rng.pick([0, 1, 1, 3]), 4), (h) => val(h) - val(need) >= 0.5);
     const left = frac(H.n * need.d - need.n * H.d, H.d * need.d);
     const L = lcm(H.d, need.d);
+    const batches = k.d === 1 ? `$${k.n}$ batches` : `$${mx(k)}$ batches`;
     return {
-      prompt: `${name} has $${mx(H)}$ cups of ${r.ing}. A ${r.dish} recipe uses $${mx(A)}$ cups of ${r.ing}, and ${name} makes $${mx(k)}$ batches. How much ${r.ing} is left after baking?`.replace('after baking', r.dish === 'chili' || r.dish === 'fried rice' || r.dish === 'smoothies' ? 'over' : 'after baking'),
+      prompt: `${name} has $${mx(H)}$ cups of ${r.ing}. A recipe for ${r.dish} uses $${mx(A)}$ cups of ${r.ing}, and ${name} makes ${batches}. How many cups of ${r.ing} are left over?`,
       ...fracAnswer(left, 'cups'),
-      hints: ['First find how much the batches use. Then subtract from what you have.', `Amount used: $${mx(k)} \\times ${mx(A)}$.`],
+      hints: ['First find how much the batches use. Then subtract that from what you have.', `Amount used: $${mx(k)} \\times ${mx(A)}$.`],
       solution: [
-        ...improperSteps([k, A, H].filter((f, i, all) => all.findIndex((g) => g.n === f.n && g.d === f.d) === i)),
-        `Amount used: $${imp(k)} \\times ${imp(A)} = \\frac{${k.n * A.n}}{${k.d * A.d}}${need.d !== k.d * A.d ? ` = ${imp(need)}` : ''}$ cups`,
-        `${lcdSteps(H, need, L)}`,
-        `Subtract: $\\frac{${(H.n * L) / H.d}}{${L}} - \\frac{${(need.n * L) / need.d}}{${L}} = ${chain((H.n * L) / H.d - (need.n * L) / need.d, L)}$`,
-        `$${mx(left)}$ ${unitWord('cups', left)} of ${r.ing} ${val(left) <= 1 ? 'is' : 'are'} left.`,
+        ...improperSteps([k, A]),
+        `Amount used: $${imp(k)} \\times ${imp(A)} = ${chain(k.n * A.n, k.d * A.d)}$ cups`,
+        ...(H.d === 1
+          ? subtractFromWhole(H.n, need, 'cups')
+          : [
+              ...improperSteps([H]),
+              lcdSteps(H, need, L),
+              `Subtract: $\\frac{${(H.n * L) / H.d}}{${L}} - \\frac{${(need.n * L) / need.d}}{${L}} = ${chain((H.n * L) / H.d - (need.n * L) / need.d, L)}$ cups`,
+            ]),
+        `$${mx(left)}$ ${unitWord('cups', left)} of ${r.ing} ${val(left) <= 1 ? 'is' : 'are'} left over.`,
       ],
     };
   }
@@ -697,7 +719,7 @@ function fracTwoStep(rng: Rng): GenOutput {
       ...improperSteps([a, b]),
       lcdSteps(a, b, L),
       `Add: $\\frac{${(a.n * L) / a.d}}{${L}} + \\frac{${(b.n * L) / b.d}}{${L}} = ${chain((a.n * L) / a.d + (b.n * L) / b.d, L)}$ feet`,
-      `Subtract from $${B} = \\frac{${B * sum.d}}{${sum.d}}$: $\\frac{${B * sum.d}}{${sum.d}} - ${imp(sum)} = ${chain(B * sum.d - sum.n, sum.d)}$`,
+      ...subtractFromWhole(B, sum, 'feet'),
       `$${mx(left)}$ feet of the piece is left.`,
     ],
   };
@@ -747,7 +769,7 @@ function ratioSimplest(rng: Rng): GenOutput {
   const b = g * qq;
   const sub = [2, 3, 4].find((h) => g % h === 0 && h < g);
   const tot = pp + qq;
-  const distract = [colon(qq, pp), colon(pp, tot / gcd(pp, tot) === tot ? tot : tot), sub ? colon(a / sub, b / sub) : colon(a, b), colon(a, b), colon(qq, tot)];
+  const distract = [colon(qq, pp), colon(pp, tot), sub ? colon(a / sub, b / sub) : colon(a, b), colon(a, b), colon(qq, tot)];
   return {
     prompt: `At ${c.place} there are $${a}$ ${c.A} and $${b}$ ${c.B}. What is the ratio of ${c.A} to ${c.B} in simplest form?`,
     parts: [{ answer: mc(rng, colon(pp, qq), distract) }],
@@ -772,14 +794,14 @@ const MIXES = [
 function ratioMissing1(rng: Rng): GenOutput {
   const m = rng.pick(MIXES);
   const k = rng.int(2, 6);
-  const fromA = m.a === 1 || rng.chance(0.5);
+  const fromA = rng.chance(0.6);
   const known = fromA ? m.a * k : m.b * k;
   const ans = fromA ? m.b * k : m.a * k;
   const [Kn, Un] = fromA ? [m.A, m.B] : [m.B, m.A];
   return {
     prompt: `${m.what} in the ratio $${m.a} : ${m.b}$ (${m.A} to ${m.B}). How many ${m.unit} of ${Un} go with $${known}$ ${m.unit} of ${Kn}?`,
     parts: [numPart(ans, { suffix: m.unit })],
-    hints: [`The ratio means $${m.a}$ ${m.unit} of ${m.A} for every $${m.b}$ ${m.unit} of ${m.B}.`, `${cap(Kn)} went from $${fromA ? m.a : m.b}$ to $${known}$. That is $${k}$ times as much. Multiply the ${Un} by $${k}$ too.`],
+    hints: [`The ratio means $${m.a}$ ${m.a === 1 ? m.unit.replace(/s$/, '') : m.unit} of ${m.A} for every $${m.b}$ ${m.unit} of ${m.B}.`, `${cap(Kn)} went from $${fromA ? m.a : m.b}$ to $${known}$. That is $${k}$ times as much. Multiply the ${Un} by $${k}$ too.`],
     solution: [
       `Write equal ratios: $${m.a} : ${m.b} = ${fromA ? `${known} : ?` : `? : ${known}`}$`,
       `$${fromA ? m.a : m.b} \\times ${k} = ${known}$, so multiply the other term by $${k}$ too.`,
@@ -788,8 +810,6 @@ function ratioMissing1(rng: Rng): GenOutput {
     ],
   };
 }
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
 function unitRate1(rng: Rng): GenOutput {
   const name = rng.pick(NAMES);
   const kind = rng.pick(['kg', 'speed', 'wage', 'boxes'] as const);
@@ -806,11 +826,11 @@ function unitRate1(rng: Rng): GenOutput {
     };
   }
   if (kind === 'speed') {
-    const r = rng.pick([60, 70, 80, 90, 100]);
+    const r = rng.pick([60, 70, 75, 80, 85, 90]);
     const t = rng.int(2, 5);
-    const [from, to] = rng.pick([['Edmonton', 'Jasper'], ['Calgary', 'Lethbridge'], ['Red Deer', 'Edmonton'], ['Grande Prairie', 'Edmonton'], ['Medicine Hat', 'Calgary']]);
+    const veh = rng.pick(['A tour bus', 'A school bus on a field trip', 'A moving truck', 'A delivery van']);
     return {
-      prompt: `A bus from ${from} toward ${to} travels $${r * t}\\ \\text{km}$ in $${t}$ hours. What is its average speed in kilometres per hour?`,
+      prompt: `${veh} leaves ${rng.pick(CITIES)} and travels $${r * t}\\ \\text{km}$ in $${t}$ hours. What is its average speed in kilometres per hour?`,
       parts: [numPart(r, { suffix: 'km/h' })],
       hints: ['Kilometres per hour means kilometres in **one** hour.', `Divide the distance by the time: $${r * t} \\div ${t}$.`],
       solution: [`Speed $=$ distance $\\div$ time`, `$${r * t} \\div ${t} = ${r}$`, `The average speed is $${r}\\ \\text{km/h}$.`],
@@ -842,7 +862,7 @@ function ratioProportion2(rng: Rng): GenOutput {
   const kind = rng.pick(['recipe', 'fuel', 'daycare', 'cleaner'] as const);
   if (kind === 'recipe') {
     const s1 = rng.pick([4, 6, 8]);
-    const s2 = rng.pick([10, 12, 15, 20, 30].filter((s) => s !== s1 && s % 2 === 0 || s === 15));
+    const s2 = rng.pick([10, 12, 15, 20, 30]);
     const g = rng.pick([50, 75, 100, 125, 150]);
     const dish = rng.pick([['a pasta dish', 'pasta'], ['a beef stew', 'stewing beef'], ['a rice dish', 'rice'], ['a fruit salad', 'grapes']]);
     const a1 = s1 * g;
@@ -920,7 +940,7 @@ function unitRate2(rng: Rng): GenOutput {
       prompt: `A ${item[1]} of ${item[0]} has a mass of $${num(kg)}\\ \\text{kg}$ and costs ${money(price)}. What is the price per kilogram, ${CENT}?`,
       parts: [moneyPart(r, 'per kg')],
       hints: ['Price per kilogram means the price of **one** kilogram.', `Divide the price by the mass: $${mv(price)} \\div ${num(kg)}$.`],
-      solution: [`Price per kilogram $=$ price $\\div$ kilograms`, `$${mv(price)} \\div ${num(kg)} ${eq(r)}$`, `The ${item[0]} costs about ${money(roundTo(r, 2))} per kilogram.`],
+      solution: [`Price per kilogram $=$ price $\\div$ kilograms`, `$${mv(price)} \\div ${num(kg)} ${eq(r)}$`, `The ${item[0]} costs ${abt(r)}${money(roundTo(r, 2))} per kilogram.`],
     };
   }
   if (kind === 'wage') {
@@ -938,14 +958,14 @@ function unitRate2(rng: Rng): GenOutput {
   const { D, t } = retry(
     () => {
       const t = rng.pick([2.5, 3.5, 4.5, 1.5, 5.5]);
-      return { t, D: Math.round(t * rng.int(70, 105)) + rng.int(-4, 4) };
+      return { t, D: Math.round(t * rng.int(68, 92)) + rng.int(-4, 4) };
     },
     (o) => !onEdge(o.D / o.t, 0),
   );
   const r = D / t;
-  const hrs = `${Math.floor(t)}$ hours $30$ minutes`;
+  const hrs = `$${Math.floor(t)}$ hours $30$ minutes`;
   return {
-    prompt: `A truck driver drives $${D}\\ \\text{km}$ from ${rng.pick(CITIES)} in $${hrs}. What is the average speed in kilometres per hour, ${roundingPhrase(0)}?`,
+    prompt: `A truck driver drives $${D}\\ \\text{km}$ from ${rng.pick(CITIES)} in ${hrs}. What is the average speed in kilometres per hour, ${roundingPhrase(0)}?`,
     parts: [numPart(r, { decimals: 0, suffix: 'km/h' })],
     hints: ['Write the time in hours as a decimal: $30$ minutes is $0.5$ hours.', `Divide the distance by the time: $${D} \\div ${num(t)}$.`],
     solution: [`$${Math.floor(t)}$ hours $30$ minutes $= ${num(t)}$ hours`, `Speed $=$ distance $\\div$ time $= ${D} \\div ${num(t)} ${eq(r)}$`, `The average speed is about $${fmtFixed(r, 0)}\\ \\text{km/h}$.`],
@@ -953,14 +973,14 @@ function unitRate2(rng: Rng): GenOutput {
 }
 
 const PARTS3 = [
-  { what: 'Concrete for a patio is mixed from cement, sand and gravel', names: ['cement', 'sand', 'gravel'], ratio: [1, 2, 3], unit: 'buckets', totals: [12, 18, 24, 30, 36, 42, 48, 60] },
-  { what: 'A trail mix for a school trip is made from peanuts, raisins and chocolate chips', names: ['peanuts', 'raisins', 'chocolate chips'], ratio: [3, 2, 1], unit: 'g', totals: [600, 900, 1200, 1500, 1800] },
-  { what: 'A potting soil is mixed from topsoil, compost and sand', names: ['topsoil', 'compost', 'sand'], ratio: [3, 2, 1], unit: 'L', totals: [30, 48, 60, 72, 90] },
+  { what: 'Concrete for a patio is mixed from cement, sand and gravel', mix: 'concrete mix', names: ['cement', 'sand', 'gravel'], ratio: [1, 2, 3], unit: 'buckets', totals: [12, 18, 24, 30, 36, 42, 48, 60] },
+  { what: 'A trail mix for a school trip is made from peanuts, raisins and chocolate chips', mix: 'trail mix', names: ['peanuts', 'raisins', 'chocolate chips'], ratio: [3, 2, 1], unit: 'g', totals: [600, 900, 1200, 1500, 1800] },
+  { what: 'A potting soil for a greenhouse is mixed from topsoil, compost and sand', mix: 'potting soil', names: ['topsoil', 'compost', 'sand'], ratio: [3, 2, 1], unit: 'L', totals: [30, 48, 60, 72, 90] },
 ];
 const PARTS2 = [
-  { what: 'Orange juice is made from frozen concentrate and water', names: ['concentrate', 'water'], ratio: [1, 3], unit: 'L', totals: [4, 8, 12, 16, 20] },
-  { what: 'Windshield washer fluid is mixed from methanol and water', names: ['methanol', 'water'], ratio: [2, 3], unit: 'L', totals: [10, 15, 20, 25] },
-  { what: 'A lemonade for a community barbecue is made from syrup and water', names: ['syrup', 'water'], ratio: [1, 5], unit: 'L', totals: [6, 12, 18, 24, 30] },
+  { what: 'Orange juice is made from frozen concentrate and water', mix: 'orange juice', names: ['concentrate', 'water'], ratio: [1, 3], unit: 'L', totals: [4, 8, 12, 16, 20] },
+  { what: 'At an auto detailing shop, car wash soap is mixed with water', mix: 'soapy water', names: ['soap', 'water'], ratio: [1, 9], unit: 'L', totals: [10, 20, 30, 40] },
+  { what: 'Lemonade for a community barbecue is made from syrup and water', mix: 'lemonade', names: ['syrup', 'water'], ratio: [1, 5], unit: 'L', totals: [6, 12, 18, 24, 30] },
 ];
 
 function ratioShare3(rng: Rng): GenOutput {
@@ -973,13 +993,13 @@ function ratioShare3(rng: Rng): GenOutput {
   const u = m.unit === 'buckets' ? 'buckets' : m.unit === 'g' ? 'grams' : 'litres';
   const ratioTex = m.ratio.join(' : ');
   return {
-    prompt: `${m.what} in the ratio $${ratioTex}$. ${m.unit === 'buckets' ? 'A crew needs' : 'You want to make'} $${num(T)}$ ${u} of mix in total. How many ${u} of ${m.names[i]} are needed?`,
+    prompt: `${m.what} in the ratio $${ratioTex}$ (${m.names.join(' to ')}). ${m.unit === 'buckets' ? 'A crew needs' : 'You want to make'} $${num(T)}$ ${u} of ${m.mix} in total. How many ${u} of ${m.names[i]} are needed?`,
     parts: [numPart(ans, { suffix: m.unit === 'buckets' ? 'buckets' : m.unit })],
     hints: ['Add the numbers in the ratio to find how many equal parts make the whole mix.', `There are $${m.ratio.join(' + ')} = ${sumParts}$ parts. Find the size of one part: $${num(T)} \\div ${sumParts}$.`],
     solution: [
       `Total number of parts: $${m.ratio.join(' + ')} = ${sumParts}$`,
       `Size of one part: $${num(T)} \\div ${sumParts} = ${num(per)}$ ${u}`,
-      `${cap(m.names[i])} is $${m.ratio[i]}$ ${m.ratio[i] === 1 ? 'part' : 'parts'}: $${m.ratio[i]} \\times ${num(per)} = ${num(ans)}$`,
+      `${cap(m.names[i])}: $${m.ratio[i]}$ ${m.ratio[i] === 1 ? 'part' : 'parts'}, so $${m.ratio[i]} \\times ${num(per)} = ${num(ans)}$`,
       `You need $${num(ans)}$ ${u} of ${m.names[i]}.`,
     ],
   };
@@ -1003,10 +1023,9 @@ function rateScale3(rng: Rng): GenOutput {
   }
   if (kind === 'grocery') {
     const item = rng.pick(['apples', 'bananas', 'carrots', 'tomatoes', 'oranges']);
-    const { u, k1, k2 } = retry(
-      () => ({ u: roundTo(rng.int(149, 449) / 100, 2), k1: rng.pick([2, 3, 4]), k2: rng.pick([5, 6, 7, 10]) }),
-      (o) => isWhole(o.u * o.k1 * 100),
-    );
+    const u = roundTo(rng.int(149, 449) / 100, 2);
+    const k1 = rng.pick([2, 3, 4]);
+    const k2 = rng.pick([5, 6, 7, 10]);
     const p1 = roundTo(u * k1, 2);
     const ans = roundTo(u * k2, 2);
     return {
@@ -1056,6 +1075,8 @@ const ratioRate = skill({
 // ---------------------------------------------------------------------------
 
 const pc = (x: number) => `${num(x)}\\%`;
+/** "a" or "an" before a percent read aloud (an 18% tip, an 8% raise). */
+const anPct = (x: number) => (/^(8|11|18)/.test(String(x)) ? 'an' : 'a');
 const dec = (pct: number) => num(pct / 100);
 
 function percentOf1(rng: Rng): GenOutput {
@@ -1066,7 +1087,7 @@ function percentOf1(rng: Rng): GenOutput {
     const B = rng.pick([20, 30, 40, 50, 60, 80]);
     const t = (B * pct) / 100;
     return {
-      prompt: `${name} and some friends have supper at a restaurant in ${rng.pick(CITIES)}. The bill is ${tag(B)}. They leave a $${pct}\\%$ tip. How much is the tip?`,
+      prompt: `${name} and some friends have supper at a restaurant in ${rng.pick(CITIES)}. The bill is ${tag(B)}. They leave ${anPct(pct)} $${pct}\\%$ tip. How much is the tip?`,
       parts: [moneyPart(t)],
       hints: [`$${pct}\\%$ means $${pct}$ out of $100$. As a decimal it is $${dec(pct)}$.`, `Multiply: $${dec(pct)} \\times ${B}$.`],
       solution: [`Change the percent to a decimal: $${pct}\\% = ${dec(pct)}$`, `Multiply: $${dec(pct)} \\times ${B} = ${mv(t)}$`, `The tip is ${money(t)}.`],
@@ -1114,30 +1135,32 @@ function percentOf1(rng: Rng): GenOutput {
 
 function whatPercent(rng: Rng, d: 1 | 2): GenOutput {
   const name = rng.pick(NAMES);
+  // b1: wholes for difficulty 1; b2: range of wholes for difficulty 2; f: range of part/whole.
   const ctx = rng.pick([
-    { t: (a: number, b: number) => `${name} got $${a}$ out of $${b}$ on a practice test for a driver’s licence. What percent is that?`, end: (x: string) => `${name} scored ${x} on the test.` },
-    { t: (a: number, b: number) => `Of the $${b}$ customers at a coffee shop one morning, $${a}$ paid with a debit card. What percent paid with debit?`, end: (x: string) => `${x} of the customers paid with debit.` },
-    { t: (a: number, b: number) => `A landscaping crew planted $${b}$ trees in the spring. By fall, $${a}$ of them were still alive. What percent of the trees lived?`, end: (x: string) => `${x} of the trees lived.` },
-    { t: (a: number, b: number) => `A bus from Red Deer to Calgary has $${b}$ seats. $${cap(String(a))}$ seats are taken. What percent of the seats are taken?`, end: (x: string) => `${x} of the seats are taken.` },
-    { t: (a: number, b: number) => `A hockey goalie faced $${b}$ shots and stopped $${a}$ of them. What percent of the shots did the goalie stop?`, end: (x: string) => `The goalie stopped ${x} of the shots.` },
+    { b1: [10, 20, 25, 50], b2: [30, 60], f: [0.6, 0.98], t: (a: number, b: number) => `${name} got $${a}$ out of $${b}$ on a practice test for a driver’s licence. What percent is that?`, end: (x: string) => `${name} scored ${x} on the test.` },
+    { b1: [20, 25, 50], b2: [40, 120], f: [0.4, 0.9], t: (a: number, b: number) => `Of the $${b}$ customers at a coffee shop one morning, $${a}$ paid with a debit card. What percent paid with debit?`, end: (x: string) => `${x} of the customers paid with debit.` },
+    { b1: [10, 20, 25, 50], b2: [30, 90], f: [0.7, 0.98], t: (a: number, b: number) => `A landscaping crew planted $${b}$ trees in the spring. By fall, $${a}$ of them were still alive. What percent of the trees lived?`, end: (x: string) => `${x} of the trees lived.` },
+    { b1: [20, 25, 50], b2: [40, 56], f: [0.5, 0.98], t: (a: number, b: number) => `A shuttle bus from Red Deer to Calgary has $${b}$ seats, and $${a}$ of them are taken. What percent of the seats are taken?`, end: (x: string) => `${x} of the seats are taken.` },
+    { b1: [20, 25], b2: [24, 45], f: [0.8, 0.97], t: (a: number, b: number) => `A hockey goalie faced $${b}$ shots in a game and stopped $${a}$ of them. What percent of the shots did the goalie stop?`, end: (x: string) => `The goalie stopped ${x} of the shots.` },
   ]);
+  const partOf = (bb: number) => rng.int(Math.ceil(bb * ctx.f[0]), Math.min(bb - 1, Math.floor(bb * ctx.f[1])));
   let a: number;
   let b: number;
   let rounded = false;
   if (d === 1) {
-    b = rng.pick([10, 20, 25, 50]);
-    a = retry(() => rng.int(1, b - 1), (x) => isWhole((x * 100) / b) && ((x * 100) / b) % 5 === 0);
+    b = rng.pick(ctx.b1);
+    a = retry(() => rng.int(1, b - 1), (x) => ((x * 100) / b) % 5 === 0 && x / b >= ctx.f[0] - 0.2 && x / b <= ctx.f[1]);
   } else if (rng.chance(0.5)) {
     [a, b] = retry(() => {
-      const bb = rng.pick([40, 48, 56, 60, 64, 72, 80, 120, 160]);
-      return [rng.int(Math.ceil(bb * 0.4), bb - 1), bb] as const;
-    }, ([x, y]) => isWhole((x * 100) / y));
+      const bb = rng.int(ctx.b2[0], ctx.b2[1]);
+      return [partOf(bb), bb] as const;
+    }, ([x, y]) => isWhole((x * 100) / y), 200);
   } else {
     rounded = true;
     [a, b] = retry(() => {
-      const bb = rng.int(30, 90);
-      return [rng.int(Math.ceil(bb * 0.4), bb - 1), bb] as const;
-    }, ([x, y]) => !isWhole((x * 1000) / y) && !onEdge((x * 100) / y, 0));
+      const bb = rng.int(ctx.b2[0], ctx.b2[1]);
+      return [partOf(bb), bb] as const;
+    }, ([x, y]) => !isWhole((x * 1000) / y) && !onEdge((x * 100) / y, 0), 200);
   }
   const pct = (a * 100) / b;
   const prompt = ctx.t(a, b) + (rounded ? ` Round to the nearest whole percent.` : '');
@@ -1164,18 +1187,18 @@ function percentOf2(rng: Rng): GenOutput {
       prompt: `${name} buys a ${rng.pick(['set of winter tires', 'microwave', 'pair of steel-toe boots', 'tool set', 'bike helmet'])} for ${money(P)} before tax. In this question, GST is $5\\%$. How much GST is charged, ${CENT}?`,
       parts: [moneyPart(ans)],
       hints: ['$5\\%$ as a decimal is $0.05$.', `Multiply: $0.05 \\times ${mv(P)}$.`],
-      solution: [`Change the percent to a decimal: $5\\% = 0.05$`, `Multiply: $0.05 \\times ${mv(P)} ${eq(ans)}$`, `The GST is about ${money(roundTo(ans, 2))}.`],
+      solution: [`Change the percent to a decimal: $5\\% = 0.05$`, `Multiply: $0.05 \\times ${mv(P)} ${eq(ans)}$`, `The GST is ${abt(ans)}${money(roundTo(ans, 2))}.`],
     };
   }
   if (kind === 'tip') {
     const pct = rng.pick([15, 18, 20]);
-    const B = retry(() => roundTo(rng.int(2400, 12000) / 100, 2), (x) => !onEdge((x * pct) / 100, 2) && !isWhole((x * pct) / 100 * 100));
+    const B = retry(() => roundTo(rng.int(2400, 12000) / 100, 2), (x) => !onEdge((x * pct) / 100, 2));
     const ans = (B * pct) / 100;
     return {
-      prompt: `${name}’s family has supper at a restaurant. The bill is ${money(B)}. They leave a $${pct}\\%$ tip. How much is the tip, ${CENT}?`,
+      prompt: `${name}’s family has supper at a restaurant. The bill is ${money(B)}. They leave ${anPct(pct)} $${pct}\\%$ tip. How much is the tip, ${CENT}?`,
       parts: [moneyPart(ans)],
       hints: [`$${pct}\\%$ as a decimal is $${dec(pct)}$.`, `Multiply: $${dec(pct)} \\times ${mv(B)}$.`],
-      solution: [`Change the percent to a decimal: $${pct}\\% = ${dec(pct)}$`, `Multiply: $${dec(pct)} \\times ${mv(B)} ${eq(ans)}$`, `The tip is about ${money(roundTo(ans, 2))}.`],
+      solution: [`Change the percent to a decimal: $${pct}\\% = ${dec(pct)}$`, `Multiply: $${dec(pct)} \\times ${mv(B)} ${eq(ans)}$`, `The tip is ${abt(ans)}${money(roundTo(ans, 2))}.`],
     };
   }
   const pct = rng.pick([10, 15, 20, 25]);
@@ -1238,7 +1261,7 @@ function newAmount3(rng: Rng): GenOutput {
   } else if (kind === 'raise') {
     [o, pct] = retry(() => [roundTo(rng.int(1550, 2250) / 100, 2), rng.pick([2, 3, 4, 5, 8, 10])] as const, ([x, q]) => !onEdge((x * (100 + q)) / 100, 2));
     up = true;
-    prompt = `${name} earns ${money(o)} per hour at a ${rng.pick(['grocery store', 'lumber yard', 'hotel', 'pet store'])}. ${name} gets a $${pct}\\%$ raise. What is the new hourly wage${centNote((o * (100 + pct)) / 100)}?`;
+    prompt = `${name} earns ${money(o)} per hour at a ${rng.pick(['grocery store', 'lumber yard', 'hotel', 'pet store'])}. ${name} gets ${anPct(pct)} $${pct}\\%$ raise. What is the new hourly wage${centNote((o * (100 + pct)) / 100)}?`;
     endText = (x) => `The new wage is ${x} per hour.`;
   } else {
     [o, pct] = retry(() => [roundTo(rng.int(20, 160) - 0.01, 2), rng.pick([15, 20, 25, 30, 40])] as const, ([x, q]) => !onEdge((x * (100 - q)) / 100, 2));
