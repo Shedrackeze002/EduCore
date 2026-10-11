@@ -6,8 +6,8 @@ import { Logo } from '@/components/layout/Logo.tsx';
 export function AuthLayout({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
   return (
     <div className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
-      <div className="relative hidden overflow-hidden bg-brand-900 p-12 text-white lg:flex lg:flex-col">
-        <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-500/30 blur-3xl" />
+      <div className="relative hidden overflow-hidden bg-spotlight p-12 text-white lg:flex lg:flex-col">
+        <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-spotlight-glow/30 blur-3xl" />
         <div className="absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-[rgb(var(--accent)/0.25)] blur-3xl" />
         <Link to="/" className="relative">
           <span className="inline-flex items-center gap-2.5 font-display text-xl font-semibold">
@@ -25,7 +25,7 @@ export function AuthLayout({ title, subtitle, children }: { title: string; subti
               'An AI teaching assistant that spots gaps and suggests next steps',
             ].map((t) => (
               <li key={t} className="flex items-start gap-3">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-300" />
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-spotlight-accent" />
                 {t}
               </li>
             ))}

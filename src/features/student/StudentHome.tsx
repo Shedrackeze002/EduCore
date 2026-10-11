@@ -186,8 +186,8 @@ export default function StudentHome() {
 function UpNext({ w }: { w: StudentWork }) {
   const due = dueLabel(w.assignment.dueAt);
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-brand-900 p-6 text-white shadow-pop">
-      <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-500/40 blur-2xl" />
+    <div className="relative overflow-hidden rounded-2xl bg-spotlight p-6 text-white shadow-pop">
+      <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-spotlight-glow/40 blur-2xl" />
       <div className="relative">
         <div className="flex items-center gap-2 text-sm text-white/75">
           <Badge tone={due.tone === 'overdue' ? 'bad' : due.tone === 'urgent' ? 'warn' : 'brand'}>{w.status === 'missing' ? 'Missing' : due.text}</Badge>
@@ -195,7 +195,7 @@ function UpNext({ w }: { w: StudentWork }) {
         </div>
         <h2 className="mt-3 font-display text-2xl font-semibold leading-snug">{w.assignment.title}</h2>
         {w.assignment.instructions && <p className="mt-2 line-clamp-2 max-w-xl text-white/80">{w.assignment.instructions}</p>}
-        <Link to={`/s/work/${w.assignment.id}`} className="mt-5 inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 font-semibold text-brand-900 hover:bg-brand-50">
+        <Link to={`/s/work/${w.assignment.id}`} className="mt-5 inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 font-semibold text-spotlight hover:bg-white/90">
           {w.status === 'in_progress' ? 'Continue' : 'Start'} <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

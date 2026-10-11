@@ -204,15 +204,15 @@ export default function LandingPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
-        <div className="relative overflow-hidden rounded-3xl bg-brand-900 px-6 py-12 text-white sm:px-12">
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-500/40 blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl bg-spotlight px-6 py-12 text-white sm:px-12">
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-spotlight-glow/40 blur-3xl" />
           <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="font-display text-3xl font-semibold">See it with a real class</h2>
               <p className="mt-2 max-w-xl text-white/80">The demo includes 16 students, a month of graded work, mastery data and AI insights.</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <button type="button" onClick={() => tryDemo('teacher')} className="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-semibold text-brand-900 hover:bg-brand-50">
+              <button type="button" onClick={() => tryDemo('teacher')} className="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-semibold text-spotlight hover:bg-white/90">
                 Open teacher demo <ArrowRight className="h-4 w-4" />
               </button>
               <Link to="/signup" className="inline-flex h-12 items-center rounded-xl border border-white/30 px-6 font-semibold text-white hover:bg-white/10">

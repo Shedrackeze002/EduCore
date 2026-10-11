@@ -44,7 +44,7 @@ import { buildAnalystInput } from './analyst.ts';
 import { uid, joinCode as makeJoinCode, friendlyPassword } from '@/lib/ids.ts';
 
 const SESSION_KEY = 'educore-demo-session';
-const COLORS = ['#6a43e3', '#2a78d6', '#0c8c4a', '#d68a00', '#d03b3b', '#c2417a', '#0e7c86', '#7a5af8'];
+const COLORS = ['#6a43e3', '#2a78d6', '#0c8c4a', '#b45309', '#d03b3b', '#c2417a', '#0e7c86', '#7a5af8'];
 
 function strip(u: DemoUser): Profile {
   const { password: _pw, ...p } = u;
@@ -100,6 +100,8 @@ export class DemoApi implements DataApi {
       const t = this.db.users.find((u) => u.email === DEMO_TEACHER_EMAIL);
       if (t) Object.assign(t, { platformAdmin: true, teacherStatus: 'approved' });
     }
+    // The old amber avatar was too light for white initials.
+    for (const u of this.db.users) if (u.avatarColor === '#d68a00') u.avatarColor = '#b45309';
     this.db.settings ??= { teacherSignup: 'open' };
     this.db.audit ??= [];
     if (!existing || !existing.audit) saveDb(this.db);

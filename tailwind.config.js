@@ -34,6 +34,7 @@ export default {
         warn: { DEFAULT: v('warn'), soft: v('warn-soft'), ink: v('warn-ink') },
         bad: { DEFAULT: v('bad'), soft: v('bad-soft'), ink: v('bad-ink') },
         info: { DEFAULT: v('info'), soft: v('info-soft'), ink: v('info-ink') },
+        spotlight: { DEFAULT: v('spotlight'), glow: v('spotlight-glow'), accent: v('spotlight-accent') },
         m0: v('m0'),
         m1: v('m1'),
         m2: v('m2'),
