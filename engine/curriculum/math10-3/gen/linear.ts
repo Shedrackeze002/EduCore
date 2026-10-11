@@ -1370,7 +1370,7 @@ const linearCost = skill({
       const cost = L * price;
       return {
         prompt: `${c.what} costs ${money(price)} per ${perUnit(c.u)}. ${name} needs ${Q(L, c.u)}. How much will it cost, to the nearest cent?`,
-        parts: [numPart(cost, { decimals: 2, suffix: 'dollars' })],
+        parts: [numPart(cost, { decimals: 2, tolerance: 0.011, suffix: 'dollars' })],
         hints: [`The price is for each ${perUnit(c.u)}, so multiply.`, 'Cost = length × price per unit of length.'],
         solution: ['Cost = length × price per unit', `$${L} \\times ${fmtFixed(price, 2)} = ${amt(cost)}$`, `The ${c.what.toLowerCase()} costs ${money(cost)}.`],
         answerDisplay: money(cost),
@@ -1395,7 +1395,7 @@ const linearCost = skill({
         const cost = need * price;
         return {
           prompt: `${name} is putting baseboard around a rectangular room that is ${Q(l, 'ft')} by ${Q(w, 'ft')}. The room has ${doors === 1 ? 'one doorway' : 'two doorways'}, each ${Q(3, 'ft')} wide, with no baseboard across ${doors === 1 ? 'it' : 'them'}. Baseboard costs ${money(price)} per linear foot. What is the cost of the baseboard, to the nearest cent?`,
-          parts: [numPart(cost, { decimals: 2, suffix: 'dollars' })],
+          parts: [numPart(cost, { decimals: 2, tolerance: 0.011, suffix: 'dollars' })],
           hints: ['First find the length of baseboard: the perimeter of the room minus the doorways.', 'Then multiply the length by the price per linear foot.'],
           solution: [
             `Perimeter: $2(${l} + ${w}) = ${2 * (l + w)}\\ \\text{ft}$`,
@@ -1422,7 +1422,7 @@ const linearCost = skill({
         const cost = need * price;
         return {
           prompt: `${name} is fencing a rectangular yard on an acreage near Red Deer. The yard is ${Q(l, 'm')} by ${Q(w, 'm')}, and a gate ${Q(gate, 'm')} wide (priced separately) takes the place of some fence. Fencing costs ${money(price)} per metre. What does the fencing cost, to the nearest cent?`,
-          parts: [numPart(cost, { decimals: 2, suffix: 'dollars' })],
+          parts: [numPart(cost, { decimals: 2, tolerance: 0.011, suffix: 'dollars' })],
           hints: ['Find the perimeter of the yard, then subtract the gate.', 'Multiply the length of fencing by the price per metre.'],
           solution: [
             `Perimeter: $2(${l} + ${w}) = ${2 * (l + w)}\\ \\text{m}$`,
@@ -1450,7 +1450,7 @@ const linearCost = skill({
         const cost = totalFt * price;
         return {
           prompt: `${name} is putting trim around $${n}$ windows. Each window is ${Q(a, 'in')} by ${Q(b, 'in')}. Trim costs ${money(price)} per linear foot. What is the cost of the trim, to the nearest cent?`,
-          parts: [numPart(cost, { decimals: 2, suffix: 'dollars' })],
+          parts: [numPart(cost, { decimals: 2, tolerance: 0.011, suffix: 'dollars' })],
           hints: ['Find the perimeter of one window in inches, then the total for all the windows.', 'Change inches to feet (divide by 12) before multiplying by the price per foot.'],
           solution: [
             `One window: $2(${a} + ${b}) = ${perIn}\\ \\text{in}$`,
@@ -1473,7 +1473,7 @@ const linearCost = skill({
       const cost = 3 * yd * price;
       return {
         prompt: `${item} costs ${money(price)} per foot. ${name} needs ${Q(yd, 'yd')}. Using $1\\ \\text{yd} = 3\\ \\text{ft}$, what will it cost, to the nearest cent?`,
-        parts: [numPart(cost, { decimals: 2, suffix: 'dollars' })],
+        parts: [numPart(cost, { decimals: 2, tolerance: 0.011, suffix: 'dollars' })],
         hints: ['The price is per foot, but the length is in yards. Convert first.', 'Multiply the yards by 3 to get feet, then multiply by the price per foot.'],
         solution: [`$${yd}\\ \\text{yd} \\times 3 = ${3 * yd}\\ \\text{ft}$`, `Cost: $${3 * yd} \\times ${fmtFixed(price, 2)} = ${amt(cost)}$`, `It will cost ${money(cost)}.`],
         answerDisplay: money(cost),
@@ -1528,7 +1528,7 @@ const linearCost = skill({
     const total = sub * 1.05;
     return {
       prompt: `${setup} GST of 5% is added to the price. How many ${stockWord} must ${name} buy, and what is the total cost including GST, to the nearest cent?`,
-      parts: [numPart(n, { label: `Number of ${stockWord}`, suffix: stockWord }), numPart(total, { label: 'Total cost', decimals: 2, suffix: 'dollars' })],
+      parts: [numPart(n, { label: `Number of ${stockWord}`, suffix: stockWord }), numPart(total, { label: 'Total cost', decimals: 2, tolerance: 0.011, suffix: 'dollars' })],
       hints: [`Find the total length needed, then divide by the length of one ${stockWord.slice(0, -1)}. Round **up** — you cannot buy part of one.`, 'Cost before tax = number bought × price each. Then add 5% GST: total = subtotal × 1.05.'],
       solution: [
         ...lengthSteps,

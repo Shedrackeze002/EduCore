@@ -1647,7 +1647,7 @@ const areaCost = skill({
         const cost = A * rate;
         return {
           prompt: `${c.item} costs ${cash(rate)} per square ${UNIT[c.u].one}. ${name} needs to ${c.job} with an area of ${ar(A, c.u)}. What will the ${c.item.toLowerCase()} cost before tax, to the nearest cent?`,
-          parts: [numPart(cost, { decimals: 2, label: 'Cost' })],
+          parts: [numPart(cost, { decimals: 2, tolerance: 0.011, label: 'Cost' })],
           hints: ['The price is given per square unit, so you pay that amount for every square unit of area.', 'Cost = area × price per square unit.'],
           solution: [`Cost $= ${A} \\times ${fmtFixed(rate, 2)}$`, `$= ${nf(cost, 2)}$`, `The ${c.item.toLowerCase()} costs ${cash(cost)} before tax.`],
         };
@@ -1686,7 +1686,7 @@ const areaCost = skill({
         const cost = N * P;
         return {
           prompt: `${name} is installing ${c.item} in a rectangular room that is ${len(L, 'ft')} by ${len(W, 'ft')}. Each ${c.box} covers ${ar(cover, 'ft')} and costs ${cash(P)}. How many ${c.boxes} are needed, and what do they cost before tax?`,
-          parts: [numPart(N, { label: `${cap(c.boxes)} needed`, suffix: c.boxes }), numPart(cost, { decimals: 2, label: 'Cost before tax' })],
+          parts: [numPart(N, { label: `${cap(c.boxes)} needed`, suffix: c.boxes }), numPart(cost, { decimals: 2, tolerance: 0.011, label: 'Cost before tax' })],
           hints: ['Find the floor area first, then divide by the area one box covers.', 'Round the number of boxes up, then multiply the number of boxes by the price of one box.'],
           solution: [
             `Area: $${L} \\times ${W} = ${A}\\ ${sq('ft')}$`,
@@ -1709,7 +1709,7 @@ const areaCost = skill({
         const cost = A * rate;
         return {
           prompt: `${c.item} costs ${cash(rate)} per square ${UNIT[c.u].one}. ${name} is covering a rectangular ${c.what} that is ${len(L, c.u)} by ${len(W, c.u)}. What is the cost before tax, to the nearest cent?`,
-          parts: [numPart(cost, { decimals: 2, label: 'Cost' })],
+          parts: [numPart(cost, { decimals: 2, tolerance: 0.011, label: 'Cost' })],
           hints: ['Find the area of the rectangle first.', 'Cost = area × price per square unit.'],
           solution: [`Area: $${L} \\times ${W} = ${A}\\ ${sq(c.u)}$`, `Cost: $${A} \\times ${fmtFixed(rate, 2)} = ${nf(cost, 2)}$`, `The ${c.item.toLowerCase()} costs ${cash(cost)} before tax.`],
         };
@@ -1750,7 +1750,7 @@ const areaCost = skill({
       const total = sub * 1.05;
       return {
         prompt: `${name} is installing hardwood flooring in a room that is ${len(L, 'ft')} by ${len(W, 'ft')}. Installers add ${waste}% extra to allow for cutting waste. Each box covers ${ar(cover, 'ft')} and costs ${cash(P)}. GST of 5% is added to the price. How many boxes are needed, and what is the total cost including GST, to the nearest cent?`,
-        parts: [numPart(N, { label: 'Boxes needed', suffix: 'boxes' }), numPart(total, { decimals: 2, label: 'Total cost with GST' })],
+        parts: [numPart(N, { label: 'Boxes needed', suffix: 'boxes' }), numPart(total, { decimals: 2, tolerance: 0.011, label: 'Total cost with GST' })],
         hints: [`Find the floor area, then add ${waste}% by multiplying by ${fmt(1 + waste / 100)}.`, 'Divide by the coverage of one box and round up. Multiply by the price per box, then multiply by 1.05 to add 5% GST.'],
         solution: [
           `Floor area: $${L} \\times ${W} = ${A}\\ ${sq('ft')}$`,
@@ -1775,7 +1775,7 @@ const areaCost = skill({
       const total = sub * 1.05;
       return {
         prompt: `Carpet costs ${cash(rate)} per square yard, installed. ${name}’s family room is ${len(L, 'ft')} by ${len(W, 'ft')}. GST of 5% is added. What is the total cost of carpeting the room, to the nearest cent?`,
-        parts: [numPart(total, { decimals: 2, label: 'Total cost with GST' })],
+        parts: [numPart(total, { decimals: 2, tolerance: 0.011, label: 'Total cost with GST' })],
         hints: [`The price is per square yard, but the room is measured in feet. $1\\ ${sq('yd')} = 9\\ ${sq('ft')}$.`, 'Find the area in square feet, divide by 9, multiply by the price, then multiply by 1.05 for GST.'],
         solution: [
           `Area: $${L} \\times ${W} = ${ft2}\\ ${sq('ft')}$`,
@@ -1801,7 +1801,7 @@ const areaCost = skill({
     const total = sub * 1.05;
     return {
       prompt: `${name} is laying sod in a backyard that is ${len(L, 'm')} by ${len(W, 'm')}. A ${len(pa, 'm')} by ${len(pb, 'm')} patio will not get sod. ${name} orders 5% extra sod for trimming. Each roll covers ${ar(cover, 'm')} and costs ${cash(P)}. GST of 5% is added. How many rolls are needed, and what is the total cost including GST, to the nearest cent?`,
-      parts: [numPart(N, { label: 'Rolls needed', suffix: 'rolls' }), numPart(total, { decimals: 2, label: 'Total cost with GST' })],
+      parts: [numPart(N, { label: 'Rolls needed', suffix: 'rolls' }), numPart(total, { decimals: 2, tolerance: 0.011, label: 'Total cost with GST' })],
       hints: ['Area of sod = area of the yard − area of the patio. Then add 5% extra by multiplying by 1.05.', 'Divide by 0.8 and round up to get the rolls. Multiply by the price per roll, then by 1.05 for GST.'],
       solution: [
         `Sod area: $${L} \\times ${W} - ${pa} \\times ${pb} = ${L * W} - ${pa * pb} = ${A}\\ ${sq('m')}$`,

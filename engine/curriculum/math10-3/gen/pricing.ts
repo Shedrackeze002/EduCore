@@ -66,7 +66,8 @@ function exactDp(v: number): number {
 const price9 = (raw: number) => roundTo(Math.max(0.59, Math.round(raw * 10) / 10 - 0.01), 2);
 
 const CENT = 'to the nearest cent';
-const moneyPart = (v: number, suffix?: string): Part => numPart(v, { decimals: 2, label: '\\$', suffix });
+// Money is graded to within a cent, not the 0.2% allowance used for measurements.
+const moneyPart = (v: number, suffix?: string): Part => numPart(v, { decimals: 2, tolerance: 0.011, label: '\\$', suffix });
 /** A non-money answer that is exact: integers stay exact, decimals get a matching `decimals` so review shows a decimal. */
 function exactPart(v: number, suffix?: string, label?: string): Part {
   const dp = exactDp(v);
@@ -1369,7 +1370,7 @@ const CURS: Cur[] = [
 
 const rateText = (c: Cur, r: number, dp: number) =>
   c.perCad ? `Suppose the exchange rate is $1$ Canadian dollar $= ${fmtFixed(r, dp)}$ ${c.name}.` : `Suppose the exchange rate is $1$ ${c.one} $= ${fmtFixed(r, dp)}$ Canadian dollars.`;
-const foreignPart = (c: Cur, v: number): Part => numPart(v, { decimals: c.dp, label: c.label, suffix: c.suffix });
+const foreignPart = (c: Cur, v: number): Part => numPart(v, { decimals: c.dp, tolerance: 1.1 * 10 ** -c.dp, label: c.label, suffix: c.suffix });
 
 const currencyConvert = skill({
   id: 'm103-currency-convert',
@@ -1611,7 +1612,7 @@ const exchangeBuySell = skill({
         return {
           prompt: `${TABLE_INTRO} ${name} has ${tag(C)} CAD to exchange for ${c.name} before a trip to ${place}. How many ${c.name} will ${name} get, ${CENT}?`,
           figure,
-          parts: [numPart(F, { decimals: 2, label: c.label })],
+          parts: [numPart(F, { decimals: 2, tolerance: 0.011, label: c.label })],
           hints: [BUY_HINT, `Each ${c.one} costs $${S}$ CAD, so divide the Canadian dollars by $${S}$.`],
           solution: [
             `${name} is buying ${c.name}, so use the bank sells rate: $${S}$ CAD per ${c.one}.`,

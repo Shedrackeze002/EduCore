@@ -6,6 +6,26 @@ describe('every skill generator', () => {
   for (const s of allSkills()) checkSkill(s);
 });
 
+describe('money answers', () => {
+  it('are graded to the cent, not with the relative allowance used for measurements', () => {
+    const loose: string[] = [];
+    for (const s of allSkills()) {
+      for (const d of [1, 2, 3] as const) {
+        for (let seed = 1; seed <= 40; seed++) {
+          const item = s.generate(seed, d);
+          if (!/nearest cent\b/i.test(item.prompt)) continue;
+          for (const p of item.parts) {
+            const a = p.answer;
+            if (a.kind !== 'numeric' || a.decimals !== 2 || /²|\^2/.test(`${p.suffix ?? ''}${p.label ?? ''}`)) continue;
+            if (a.tolerance === undefined || a.tolerance > 0.05) loose.push(`${s.id} seed=${seed} d=${d} value=${a.value} tolerance=${a.tolerance}`);
+          }
+        }
+      }
+    }
+    expect(loose.slice(0, 10)).toEqual([]);
+  });
+});
+
 describe('course structure', () => {
   it('every lesson skill exists and every skill belongs to its lesson', () => {
     const ids = new Set(allSkills().map((s) => s.id));
