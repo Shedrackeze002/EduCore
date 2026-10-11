@@ -35,7 +35,7 @@ const fDeg = (x: number) => `${nm(x)}^\\circ\\text{F}`;
 const clean = (x: number) => roundTo(x, 9);
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 /** "a foot", "an inch". */
-const an = (w: string) => `${/^[aeiou]/i.test(w) ? 'an' : 'a'} ${w}`;
+const an = (w: string) => `${/^(?!US\b)[aeiou]/i.test(w) ? 'an' : 'a'} ${w}`;
 
 /** Money for Markdown text (outside maths): \$1,234.50 */
 function cash(x: number): string {

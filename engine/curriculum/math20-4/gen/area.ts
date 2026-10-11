@@ -31,6 +31,8 @@ const ar = (x: number, u: string) => `$${nm(x)}\\ ${sq(u)}$`;
 /** A label on a figure, e.g. "4.5 m". */
 const lab = (x: number, u: string) => `${fmt(x)} ${u}`;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** "a hexagon", "an octagon". */
+const an = (w: string) => `${/^[aeiou]/i.test(w) ? 'an' : 'a'} ${w}`;
 
 /** Money for Markdown text (outside maths): \$1,234.50 */
 function cash(x: number): string {
@@ -522,8 +524,8 @@ function perimMid(rng: Rng, name: string): GenOutput {
       prompt: `A ${c.thing} is shaped like a regular ${c.shape}. All ${c.n} sides are the same length. One side is ${len(s, c.u)} long. What is the perimeter of the ${c.thing}?`,
       figure: drawPlan({ shapes: [{ pts }], labels: sideLabels(pts, [lab(s, c.u)]), caption: `regular ${c.shape}` }),
       parts: [exact(P, c.u)],
-      hints: [`A ${c.shape} has ${c.n} sides. In a regular ${c.shape}, they are all the same length.`, `Multiply one side by ${c.n}.`],
-      solution: [`A ${c.shape} has $${c.n}$ equal sides.`, `$P = ${c.n} \\times ${nm(s)} = ${nm(P)}$`, `The perimeter is ${len(P, c.u)}.`],
+      hints: [`${cap(an(c.shape))} has ${c.n} sides. In a regular ${c.shape}, they are all the same length.`, `Multiply one side by ${c.n}.`],
+      solution: [`${cap(an(c.shape))} has $${c.n}$ equal sides.`, `$P = ${c.n} \\times ${nm(s)} = ${nm(P)}$`, `The perimeter is ${len(P, c.u)}.`],
     };
   }
   if (mode === 'L') {
@@ -988,11 +990,11 @@ function compositeEasy(rng: Rng): GenOutput {
   const small = iw * ih;
   const inner = rectPts(x0, y0, iw, ih);
   return {
-    prompt: `A rectangular ${c.outer} is ${len(W, c.u)} by ${len(H, c.u)}. A ${c.inner} that is ${len(iw, c.u)} by ${len(ih, c.u)} is inside it. ${c.ask}`,
+    prompt: `A rectangular ${c.outer} is ${len(W, c.u)} by ${len(H, c.u)}. ${cap(an(c.inner))} that is ${len(iw, c.u)} by ${len(ih, c.u)} is inside it. ${c.ask}`,
     figure: drawPlan({
       shapes: [{ pts: rectPts(0, 0, W, H) }, { pts: inner, color: 'accent' }],
       labels: [below(lab(W, c.u), W / 2, 0), leftOf(lab(H, c.u), 0, H / 2), above(lab(iw, c.u), x0 + iw / 2, y0 + ih), leftOf(lab(ih, c.u), x0, y0 + ih / 2)],
-      caption: `${c.outer} with a ${c.inner}`,
+      caption: `${c.outer} with ${an(c.inner)}`,
     }),
     parts: [numPart(big - small, { suffix: `${c.u}²` })],
     hints: [`Find the area of the whole ${c.outer}. Then take away the part covered by the ${c.inner}.`, 'Big area − small area.'],

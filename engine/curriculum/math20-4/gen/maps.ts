@@ -366,7 +366,7 @@ const scaleSkill = skill({
       const k = rng.pick([2, 3, 4, 5]);
       const mode = rng.pick(['actual', 'actual', 'ruler', 'drawing'] as const);
       if (mode === 'drawing') {
-        const cm = rng.int(2, 9);
+        const cm = rng.int(2, Math.min(9, Math.floor(20 / k)));
         const real = cm * k;
         return {
           prompt: `${who} is drawing ${ctx.thing}. On the plan, ${repr(k, 'm')}. A real wall is ${M(real, 'm')} long. How long should ${who} draw it on the plan?`,
@@ -375,7 +375,7 @@ const scaleSkill = skill({
           solution: [`Each $1\\ \\text{cm}$ on the plan is ${M(k, 'm')} in real life.`, `$${real} \\div ${k} = ${cm}$`, `${who} should draw the wall ${M(cm, 'cm')} long.`],
         };
       }
-      const cm = mode === 'ruler' ? rng.int(3, 9) : rng.int(2, 9);
+      const cm = rng.int(mode === 'ruler' ? 3 : 2, Math.min(9, Math.floor(20 / k)));
       const real = cm * k;
       const room = ctx.room;
       return {
@@ -412,7 +412,7 @@ const scaleSkill = skill({
       }
       if (mode === 'decimal') {
         const k = rng.pick([0.5, 1.5, 2.5, 0.25, 4, 3]);
-        const cm = rng.int(21, 98) / 10;
+        const cm = rng.int(21, Math.min(98, Math.floor(200 / k))) / 10;
         const real = clean(cm * k);
         return {
           prompt: `On ${ctx.thing}, ${repr(k, 'm')}. ${who} measures ${ctx.part} on the plan. It is ${M(cm, 'cm')} long. How long is it in real life?`,
@@ -458,7 +458,7 @@ const scaleSkill = skill({
     }
     if (mode === 'findScale') {
       const k = rng.pick([0.5, 1.5, 2, 2.5, 3, 4, 5]);
-      const cm = rng.pick([2, 3, 4, 5, 6, 8]);
+      const cm = rng.pick([2, 3, 4, 5, 6, 8].filter((x) => x * k <= 20));
       const real = clean(cm * k);
       return {
         prompt: `On ${ctx.thing}, a wall that is really ${M(real, 'm')} long is drawn ${M(cm, 'cm')} long. Every wall on the plan uses the same scale. Complete the scale: $1\\ \\text{cm}$ on the plan represents how many metres?`,
@@ -557,17 +557,25 @@ const mapDistance = skill({
       }
       if (mode === 'ratio') {
         const opts = [
-          { n: 50000, k: 0.5, map: 'a hiking map' },
-          { n: 100000, k: 1, map: 'a map of a provincial park' },
-          { n: 250000, k: 2.5, map: 'a county map' },
-          { n: 500000, k: 5, map: 'a regional map' },
-          { n: 1000000, k: 10, map: 'a road map' },
+          { n: 50000, k: 0.5, map: 'a hiking map', places: LOCAL_MAPS[0].places },
+          { n: 100000, k: 1, map: 'a map of a provincial park', places: LOCAL_MAPS[0].places },
+          { n: 250000, k: 2.5, map: 'a county map', places: LOCAL_MAPS[1].places },
+          { n: 1000000, k: 10, map: 'a road map of Alberta', places: [] as string[] },
+          { n: 2000000, k: 20, map: 'a road map of Alberta', places: [] as string[] },
         ];
         const o = rng.pick(opts);
-        const cm = rng.int(12, 98) / 10;
+        let a: string;
+        let b: string;
+        let cm: number;
+        if (o.places.length) {
+          [a, b] = rng.sample(o.places, 2);
+          cm = rng.int(12, 98) / 10;
+        } else {
+          const t = rng.pick(TRIPS.filter(([, , km]) => km / o.k <= 25));
+          [a, b] = [t[0], t[1]];
+          cm = roundTo(t[2] / o.k, 1);
+        }
         const real = clean(cm * o.k);
-        const lm = rng.pick(LOCAL_MAPS);
-        const [a, b] = rng.sample(lm.places, 2);
         return {
           prompt: `The scale of ${o.map} is $1 : ${nm(o.n)}$. On the map, ${a} is ${M(cm, 'cm')} from ${b}. What is the real distance in kilometres? (Use $1\\ \\text{km} = 100\\,000\\ \\text{cm}$.)`,
           parts: [exact(real, 'km')],
@@ -988,7 +996,7 @@ const travelTime = skill({
         const s1 = rng.pick([40, 50, 60]);
         const m1 = rng.pick([10, 12, 15, 18, 20, 24]);
         const s2 = rng.pick([90, 100, 110]);
-        const m2 = rng.pick([45, 60, 75, 90, 120]);
+        const m2 = rng.pick([60, 75, 90, 120]);
         const d1 = clean((s1 * m1) / 60);
         const d2 = clean((s2 * m2) / 60);
         if (!Number.isInteger(d1) || !Number.isInteger(d2)) continue;
