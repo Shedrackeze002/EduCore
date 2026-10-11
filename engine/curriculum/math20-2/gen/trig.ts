@@ -1483,3 +1483,4 @@ const trigApply = skill({
 
 export const TRIG_SKILLS: SkillDef[] = [sineLaw, cosineLaw, chooseLaw, trigApply];
 
+export { triFigure, triPts, sidesFromAngles, anglesFromSides }; // TEMP

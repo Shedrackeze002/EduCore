@@ -194,7 +194,7 @@ function simplifyContext(rng: Rng): GenOutput {
     const b = rng.int(2, 12);
     const n = a * a + b * b;
     const { outside: k, inside: r } = radicalSplit(n);
-    if (k < 2 || r === 1 || a > b) continue;
+    if (k < 2 || r === 1 || a >= b) continue;
     const thing = rng.pick([
       { text: `A rectangular gate is $${a}$ ft wide and $${b}$ ft tall. A diagonal brace runs from one corner to the opposite corner.`, ask: 'the brace', unit: 'ft' },
       { text: `A rectangular raised garden bed is $${a}$ m by $${b}$ m. A drip line runs straight across it from corner to corner.`, ask: 'the drip line', unit: 'm' },
@@ -378,7 +378,7 @@ function addLike(rng: Rng): GenOutput {
         prompt: `Simplify $${expr}$.`,
         parts: [radPart(total, m)],
         hints: [`All the terms are like radicals: they all contain $\\sqrt{${m}}$.`, 'Add and subtract the coefficients; the radical stays the same, just as $4x + 2x = 6x$.'],
-        solution: [`Like radicals combine like like terms: $(${polyString(cs.map((c) => [c, '']))})\\sqrt{${m}}$`, `$= ${rad(total, m)}$`],
+        solution: [`Combine like radicals the same way you combine like terms: $(${polyString(cs.map((c) => [c, '']))})\\sqrt{${m}}$`, `$= ${rad(total, m)}$`],
         answerDisplay: `$${rad(total, m)}$`,
       };
     }
@@ -622,7 +622,7 @@ function mulDistribute(rng: Rng): GenOutput {
 }
 
 function mulArea(rng: Rng): GenOutput {
-  const unit = rng.pick(['m', 'cm', 'ft']);
+  const unit = rng.pick(['m', 'ft']);
   const kind = rng.pick(['rect', 'square', 'triangle'] as const);
   if (kind === 'triangle') {
     for (let t = 0; t < 200; t++) {
@@ -634,11 +634,18 @@ function mulArea(rng: Rng): GenOutput {
         [3, 15],
         [2, 14],
       ]);
-      const a = rng.int(1, 5) * 2;
-      const b = rng.int(1, 5);
+      const a = rng.int(1, 3) * 2;
+      const b = rng.int(1, 4);
       const { outside: k, inside: r } = radicalSplit(m * n);
       const coef = (a * b * k) / 2;
-      const what = rng.pick(['A triangular glass panel', 'A triangular corner shelf', 'A triangular patch of lawn']);
+      const obj = rng.pick([
+        { what: 'A triangular glass panel', unit: 'dm' },
+        { what: 'A triangular corner shelf', unit: 'dm' },
+        { what: 'A triangular patch of lawn', unit: 'm' },
+        { what: 'A triangular sail', unit: 'm' },
+      ]);
+      const what = obj.what;
+      const unit = obj.unit;
       return {
         prompt: `${what} has a base of $${rad(a, m)}$ ${unit} and a height of $${rad(b, n)}$ ${unit}. Determine its exact area, in simplest radical form.`,
         parts: [radPart(coef, r, { suffix: `${unit}²` })],
@@ -676,7 +683,7 @@ function mulArea(rng: Rng): GenOutput {
     const prompt =
       kind === 'square'
         ? `A square ${rng.pick(['tabletop', 'window', 'sandbox', 'rug'])} has side length $\\left(${L}\\right)$ ${unit}. Determine its exact area in the form $a + b\\sqrt{${m}}$ ${unit}².`
-        : `A rectangular ${rng.pick(['garden plot', 'solar panel', 'banner', 'mural'])} measures $\\left(${L}\\right)$ ${unit} by $\\left(${W}\\right)$ ${unit}. Determine its exact area in the form $a + b\\sqrt{${m}}$ ${unit}².`;
+        : `A rectangular ${rng.pick(['garden plot', 'patio', 'banner', 'mural'])} measures $\\left(${L}\\right)$ ${unit} by $\\left(${W}\\right)$ ${unit}. Determine its exact area in the form $a + b\\sqrt{${m}}$ ${unit}².`;
     return {
       prompt,
       parts: coefParts(['a', 'b'], [P, Q]),
@@ -809,7 +816,7 @@ function divBinomialNumerator(rng: Rng): GenOutput {
     return {
       prompt: `Simplify $\\dfrac{${top}}{\\sqrt{${m}}}$ so that there is no radical in the denominator. Write your answer in the form $a\\sqrt{${m}} + b\\sqrt{${i}}$, where $a$ and $b$ are rational numbers.`,
       parts: coefParts(['a', 'b'], [fracValue(P), fracValue(Q)]),
-      hints: [`Multiply the numerator and the denominator by $\\sqrt{${m}}$. Multiply each term of the numerator.`, `Simplify $\\sqrt{${n * m}}$, then divide each term by $${m}$.`],
+      hints: [`Multiply the numerator and the denominator by $\\sqrt{${m}}$. Multiply each term of the numerator.`, `Then divide each term of the numerator by $${m}$${o > 1 ? ` (simplify $\\sqrt{${n * m}}$ first)` : ''}.`],
       solution: [
         `$\\dfrac{${top}}{\\sqrt{${m}}} \\times \\dfrac{\\sqrt{${m}}}{\\sqrt{${m}}} = \\dfrac{${polyString([
           [a, `\\sqrt{${m}}`],
@@ -839,8 +846,13 @@ function divContext(rng: Rng): GenOutput {
     const c = d * rng.int(2, 6);
     const { outside: k, inside: r } = radicalSplit(q);
     const coef = (c / d) * k;
-    const unit = rng.pick(['m', 'cm']);
-    const what = rng.pick(['rectangular solar panel', 'rectangular bulletin board', 'rectangular rug', 'rectangular window']);
+    const { what, unit } = rng.pick([
+      { what: 'rectangular sticker', unit: 'cm' },
+      { what: 'rectangular ceramic tile', unit: 'cm' },
+      { what: 'rectangular garden', unit: 'm' },
+      { what: 'rectangular rug', unit: 'm' },
+      { what: 'rectangular deck', unit: 'm' },
+    ]);
     return {
       prompt: `A ${what} has an area of $${c}\\sqrt{${a}}$ ${unit}² and a width of $${d}\\sqrt{${b}}$ ${unit}. Determine its exact length, in simplest radical form.`,
       parts: [radPart(coef, r, { suffix: unit })],
@@ -1014,16 +1026,17 @@ function eqTwoStep(rng: Rng): GenOutput {
 
 function eqFall(rng: Rng): GenOutput {
   for (let i = 0; i < 100; i++) {
-    const t = rng.int(12, 45) / 10;
+    const name = rng.pick(NAMES);
+    const ctx = rng.pick([
+      { text: `${name} drops a pebble from a footbridge in Edmonton's river valley. It hits the water`, lo: 12, hi: 25 },
+      { text: `${name} drops a tennis ball from the top of a climbing tower. It hits the ground`, lo: 12, hi: 20 },
+      { text: `During a physics lab, ${name} drops a ball from a balcony. It hits the floor below`, lo: 11, hi: 18 },
+      { text: 'A roofer in Okotoks accidentally drops a hammer from a roof. It hits the ground', lo: 11, hi: 16 },
+    ]);
+    const t = rng.int(ctx.lo, ctx.hi) / 10;
     const d = 4.9 * t * t;
     if (!clearOfBoundary(d, 1)) continue;
-    const name = rng.pick(NAMES);
-    const what = rng.pick([
-      `${name} drops a pebble from a footbridge in Edmonton's river valley. It hits the water`,
-      `${name} drops a tennis ball from the top of a climbing tower. It hits the ground`,
-      `During a physics lab, ${name} drops a ball from a balcony. It hits the floor below`,
-      `A roofer in Okotoks accidentally drops a hammer from a roof. It hits the ground`,
-    ]);
+    const what = ctx.text;
     return {
       prompt: `The time $t$, in seconds, that an object takes to fall $d$ metres is modelled by $t = \\sqrt{\\dfrac{d}{4.9}}$ (ignoring air resistance). ${what} $${fmt(t)}$ s later. From what height was it dropped? Answer to the nearest tenth of a metre.`,
       parts: [numPart(d, { decimals: 1, suffix: 'm' })],
@@ -1138,7 +1151,7 @@ function eqTwoRadicals(rng: Rng): GenOutput {
       hints: ['Square both sides to remove both radicals, then solve the linear equation.', 'Check that both radicands are non-negative for your answer.'],
       solution: [
         `Square both sides: $${L} = ${R}$`,
-        `$${co(a - c)}x = ${d - b}$, so $x = ${x}$.`,
+        a - c === 1 ? `$x = ${x}$` : `$${a - c}x = ${d - b}$, so $x = ${x}$.`,
         valid
           ? `Check: $\\sqrt{${a}(${x}) ${plusMinus(b)}} = \\sqrt{${v}}$ and $\\sqrt{${c === 1 ? paren(x) : `${c}(${x})`} ${plusMinus(d)}} = \\sqrt{${v}}$ ✓`
           : `Check: both radicands equal $${v}$ when $x = ${x}$, and $\\sqrt{${v}}$ is not a real number. ✗ — $x = ${x}$ is extraneous.`,

@@ -466,7 +466,7 @@ function axes(s: Sketch, L: number) {
  * An angle in standard position: axes, the terminal arm, and an arc (with an arrowhead) from the
  * initial arm counterclockwise to the terminal arm. Optional point P on the arm and reference angle.
  */
-export function standardFigure(o: { theta: number; label?: string; point?: string; refLabel?: string; arc?: boolean; caption?: string }): PlaneFigure {
+export function standardFigure(o: { theta: number; label?: string; point?: string; refLabel?: string; arc?: boolean; arms?: boolean; caption?: string }): PlaneFigure {
   const s = new Sketch();
   const L = 4.4;
   axes(s, L);
@@ -485,6 +485,10 @@ export function standardFigure(o: { theta: number; label?: string; point?: strin
     if (o.refLabel) s.angleLabel(O, a0, a1, o.refLabel, 52);
   }
   if (o.label && o.arc !== false) s.angleLabel(O, 0, t, o.label, 26);
+  if (o.arms) {
+    s.sideLabel([2.6, 0], -90, 'initial arm');
+    s.sideLabel(at(O, t, 2.4), t + 90, 'terminal arm');
+  }
   if (o.point) {
     s.dot(P0);
     s.endLabel(P0, t + 90, o.point, 12);
@@ -542,10 +546,25 @@ interface TriLabels {
   noNames?: boolean;
 }
 
-export function triangleFigure(t: Tri, lab: TriLabels, opts: { base?: 0 | 1 | 2; mirror?: boolean; caption?: string } = {}): PlaneFigure {
+export function triangleFigure(t: Tri, lab: TriLabels, opts: { base?: 0 | 1 | 2; mirror?: boolean; caption?: string; altitude?: { from: 0 | 1 | 2; label: string; foot?: string } } = {}): PlaneFigure {
   const pts = triPoints(t, opts.base ?? 2, opts.mirror ?? false);
   const s = new Sketch();
   for (let k = 0; k < 3; k++) s.seg(pts[(k + 1) % 3], pts[(k + 2) % 3]);
+  if (opts.altitude) {
+    const v = pts[opts.altitude.from];
+    const a = pts[(opts.altitude.from + 1) % 3];
+    const b = pts[(opts.altitude.from + 2) % 3];
+    const dx = b[0] - a[0];
+    const dy = b[1] - a[1];
+    const u = ((v[0] - a[0]) * dx + (v[1] - a[1]) * dy) / (dx * dx + dy * dy);
+    const foot: P = [a[0] + u * dx, a[1] + u * dy];
+    s.seg(v, foot, { color: 'muted', dashed: true });
+    const d = dirOf(foot, v);
+    const p1 = at(foot, d, 0.3);
+    s.polyline([at(foot, d + 90 * Math.sign(u - 0.5 || 1), 0.3), at(p1, d + 90 * Math.sign(u - 0.5 || 1), 0.3), p1], 'muted');
+    s.sideLabel([(v[0] + foot[0]) / 2, (v[1] + foot[1]) / 2], d + 90 * Math.sign(u - 0.5 || 1), opts.altitude.label);
+    if (opts.altitude.foot) s.endLabel(foot, d + 180, opts.altitude.foot, 13);
+  }
   const wedge = (k: number): [number, number] => {
     const d1 = dirOf(pts[k], pts[(k + 1) % 3]);
     const d2 = dirOf(pts[k], pts[(k + 2) % 3]);
@@ -2135,7 +2154,7 @@ function applyTwoPart(rng: Rng): GenOutput {
   // Cabin: SSA with the known angle opposite the longer side (one triangle), angle then the third side? Ask the angle at the far corner.
   const data = retry(
     () => {
-      const A = rng.int(40, 110);
+      const A = rng.intExcept(40, 110, [88, 89, 90, 91, 92]);
       const a = rng.int(30, 80);
       const b = r1(a * rng.float(0.45, 0.85, 2));
       const B = asinD((b * sinD(A)) / a);

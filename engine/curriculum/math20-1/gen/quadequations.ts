@@ -895,7 +895,7 @@ const rootsGraph = skill({
       a = rng.pick(d === 1 ? [1, -1, 1, 0.5] : [1, -1, 0.5, -0.5, 2]);
       [r, s] = twoRoots(rng, -5, 5);
       const vy = (-a * (s - r) ** 2) / 4;
-      if (Math.abs(vy) <= 6 && (Number.isInteger(a) || ((r + s) % 2 === 0 && (r * s) % 2 === 0))) break;
+      if (s - r >= 2 && Math.abs(vy) <= 6 && (Number.isInteger(a) || ((r + s) % 2 === 0 && (r * s) % 2 === 0))) break;
     }
     if (variant === 'level') return graphRead(rng, a, r, s, d, nz(rng, -4, 4));
     return graphRead(rng, a, r, s, d, 0, variant === 'rearranged');
@@ -1203,7 +1203,7 @@ const discriminant = skill({
           if (((b * b) / (4 * a)) % 1 === 0 || rng.chance(0.3)) break;
         }
         const k = (b * b) / (4 * a);
-        const eq = variant === 'kLead' ? `kx^2 ${b < 0 ? '-' : '+'} ${Math.abs(b)}x + ${a} = 0` : `${a === 1 ? '' : a}x^2 ${b < 0 ? '-' : '+'} ${Math.abs(b)}x + k = 0`;
+        const eq = variant === 'kLead' ? `kx^2 ${sumTex([[b, 'x'], [a, '']]).replace(/^(?!-)/, '+ ').replace(/^-/, '- ')} = 0` : `${sumTex([[a, 'x^2'], [b, 'x']])} + k = 0`;
         const disc = variant === 'kLead' ? `(${b})^2 - 4(k)(${a}) = ${b * b} - ${4 * a}k` : `(${b})^2 - 4(${a})(k) = ${b * b} - ${4 * a}k`;
         return {
           prompt: `For what value of $k$ does $${eq}$ have exactly one real root (two equal real roots)?`,
@@ -1223,7 +1223,7 @@ const discriminant = skill({
       const phrase = want === 'two' ? 'two distinct real roots' : want === 'none' ? 'no real roots' : 'at least one real root';
       const ineq = want === 'two' ? '>' : want === 'none' ? '<' : '\\ge';
       return {
-        prompt: `For which values of $k$ does $${a === 1 ? '' : a}x^2 ${b < 0 ? '-' : '+'} ${Math.abs(b)}x + k = 0$ have ${phrase}?`,
+        prompt: `For which values of $k$ does $${sumTex([[a, 'x^2'], [b, 'x']])} + k = 0$ have ${phrase}?`,
         parts: [{ answer: mc(rng, correct, rng.shuffle(all.filter((x) => x !== correct))) }],
         hints: [`${want === 'two' ? 'Two distinct real roots: $b^2 - 4ac > 0$.' : want === 'none' ? 'No real roots: $b^2 - 4ac < 0$.' : 'At least one real root: $b^2 - 4ac \\ge 0$.'}`, 'Write the discriminant in terms of $k$ and solve the inequality.'],
         solution: [
@@ -1390,7 +1390,7 @@ const quadApply = skill({
         solution: [
           `$x^2 + (x + ${dd})^2 = ${h}^2$`,
           `$2x^2 + ${2 * dd}x + ${dd * dd} = ${h * h}$, so $2x^2 + ${2 * dd}x - ${h * h - dd * dd} = 0$`,
-          `Divide by 2: $x^2 + ${dd}x - ${(h * h - dd * dd) / 2} = 0$`,
+          `Divide by 2: $${sumTex([[1, 'x^2'], [dd, 'x'], [-(h * h - dd * dd) / 2, '']])} = 0$`,
           `$(x - ${p})(x + ${q}) = 0$, so $x = ${p}$ or $x = -${q}$.`,
           `A length cannot be negative, so $x = ${p}$.`,
           `The sides are $${p}$ ${unit} and $${p} + ${dd} = ${q}$ ${unit}.`,

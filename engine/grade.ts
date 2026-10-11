@@ -200,7 +200,7 @@ function gradeNumbers(spec: Extract<AnswerSpec, { kind: 'numbers' }>, response: 
   if (NO_SOLUTION.test(response.trim())) return spec.values.length === 0 ? ok() : no();
   const pieces = response
     .split(/[,;]|\bor\b|\band\b/i)
-    .map((p) => p.trim().replace(/^[a-z]\s*=\s*/i, ''))
+    .map((p) => p.trim().replace(/^(?:[a-zθ]|theta)\s*=\s*/i, ''))
     .filter(Boolean);
   if (!pieces.length) return invalid('Enter an answer.');
   if (spec.values.length === 0) return no('Check whether any value works.');

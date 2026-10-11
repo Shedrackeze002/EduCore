@@ -62,6 +62,7 @@ describe('lists of numbers', () => {
     for (const r of ['2, -3', '-3, 2', 'x = 2 or x = -3', '−3 and 2', '2; -3']) expect(gradePart(roots, r).correct, r).toBe(true);
     expect(gradePart({ kind: 'numbers', values: [0.5, -4 / 3] }, '1/2, -4/3').correct).toBe(true);
     expect(gradePart({ kind: 'numbers', values: [1.4142, -1.4142], decimals: 2 }, '1.41, -1.41').correct).toBe(true);
+    for (const r of ['θ = 30°, θ = 150°', '30°, 150°', 'theta = 30 or theta = 150']) expect(gradePart({ kind: 'numbers', values: [30, 150] }, r).correct, r).toBe(true);
   });
   it('explains a missing or extra answer', () => {
     expect(gradePart(roots, '2').message).toMatch(/one more answer/);

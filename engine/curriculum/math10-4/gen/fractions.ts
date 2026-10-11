@@ -41,7 +41,7 @@ function mixedPlain(w: number, n: number, d: number): string {
 const unitTex = (u?: string) => (u ? `\\ ${tx(u)}` : '');
 /** An exact answer: the student may type 7/4, 1 3/4 or 1.75, but not an expression to work out. */
 function exactPart(f: Frac, suffix?: string, label?: string): Part {
-  return numPart(f.n / f.d, { suffix, label, exact: false });
+  return numPart(f.n / f.d, { suffix, label, exact: false, display: 'fraction' });
 }
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 /** A whole number with commas for 4 or more digits (plain text). */

@@ -880,13 +880,13 @@ const zScore = skill({
     const x = roundTo(mu + z * sd, 4);
     const whole = isWhole(x);
     return {
-      prompt: `${statement(ctx, mu, sd)} ${owner(ctx, name)} ${ctx.noun} has a z-score of $${num(z)}$. What is the ${ctx.noun}?${whole ? '' : ' Round to the nearest tenth.'}`,
+      prompt: `${statement(ctx, mu, sd)} ${owner(ctx, name)} ${ctx.noun} has a z-score of $${num(z)}$. What is the ${ctx.noun}?${whole ? '' : ' Round to the nearest tenth if necessary.'}`,
       parts: [numPart(x, { decimals: whole ? undefined : 1, suffix: ctx.unit || undefined })],
       hints: ['Rearrange $z = \\dfrac{x - \\mu}{\\sigma}$ to solve for $x$.', '$x = \\mu + z\\sigma$. A negative z-score gives a value below the mean.'],
       solution: [
         'Multiply both sides of $z = \\dfrac{x - \\mu}{\\sigma}$ by $\\sigma$, then add $\\mu$: $x = \\mu + z\\sigma$',
         `$x = ${num(mu)} + (${num(z)})(${num(sd)}) ${eq(x, 2)}$`,
-        `The ${ctx.noun} is ${whole ? '' : 'about '}${val(ctx, whole ? x : roundTo(x, 1), 1)}.`,
+        `The ${ctx.noun} is ${exactAt(x, 1) ? '' : 'about '}${val(ctx, whole ? x : roundTo(x, 1), 1)}.`,
       ],
       answerDisplay: val(ctx, whole ? x : roundTo(x, 1), 1),
     };

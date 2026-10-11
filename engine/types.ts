@@ -51,6 +51,8 @@ export type AnswerSpec =
       undefinedValue?: boolean;
       /** Unit label shown after the input box. */
       unit?: string;
+      /** How an exact non-integer answer is shown on review screens. By default metric amounts and percents show as decimals, other values as fractions. */
+      display?: 'fraction' | 'decimal';
     }
   | {
       kind: 'numbers';

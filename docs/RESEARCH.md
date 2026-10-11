@@ -44,6 +44,9 @@ hints and worked solutions, and appears in at least one lesson check.
 | Mathematics 10-3 | -3 (workplace and apprenticeship) | Measurement M1–M4, Geometry G1–G6, Number N1–N2, Algebra A1. |
 | K&E Mathematics 10-4 | -4 (Knowledge and Employability) | Number N1–N2, Patterns and Relations PR1–PR2, Shape and Space SS1–SS4, Statistics and Probability SP1–SP2 (EduCore's grouping of the program's strands). |
 | K&E Mathematics 20-4 | -4 (Knowledge and Employability) | Number N1–N4 (including shopping, income, budgeting and credit), Patterns and Relations PR1, Shape and Space SS1–SS3, Statistics and Probability SP1–SP2 (EduCore's grouping). |
+| Mathematics 20-1 | -1 (pre-calculus) | Algebra and Number AN1–AN6, Trigonometry T1–T3, Relations and Functions RF1–RF11. |
+| Mathematics 20-2 | -2 (foundations) | Measurement M1–M3, Geometry G1–G3, Number and Logic NL1–NL4, Statistics S1–S2, Relations and Functions RF1–RF2, and the Mathematics Research Project. |
+| Mathematics 20-3 | -3 (workplace and apprenticeship) | Measurement M1–M2, Geometry G1–G4, Number N1–N5, Algebra A1–A3, Statistics S1. |
 
 Alberta's Grade 10–12 courses are built on the WNCP *Common Curriculum Framework for Grades 10–12
 Mathematics* (2008), so Mathematics 10-3 corresponds to its *Apprenticeship and Workplace
@@ -70,6 +73,23 @@ they are not quotations, and a word-for-word check against the program of studie
 needed, because its host could not be reached from the build environment. K&E lessons are written
 at about a Grade 5–6 reading level with short sentences, a definition for every new term, and
 many tables, graphs and pictures.
+
+The Grade 11 courses follow the WNCP Grade 11 frameworks: Pre-calculus for Mathematics 20-1,
+Foundations of Mathematics for 20-2, and Apprenticeship and Workplace Mathematics for 20-3. The
+20-1 outcome codes (absolute value, radicals and rational expressions in AN1–AN6; angles in
+standard position and the sine and cosine laws, including the ambiguous case, in T1–T3; factoring,
+quadratic and absolute value functions, systems, inequalities, sequences and series, and
+reciprocal functions in RF1–RF11) were confirmed from a Calgary Board of Education course outline
+[26] and the Alberta scope and sequence [17]. The 20-2 units (rates and scale, proofs about angles
+and triangles, the sine and cosine laws without the ambiguous case, reasoning and puzzles,
+radicals, the normal distribution and confidence intervals, quadratics, and the research project)
+follow a CBE outline [27]; its codes differ slightly between sources, and EduCore uses the
+WNCP-coded list. The 20-3 topics (surface area, volume and capacity, two and three right
+triangles, scale and 3-D views, budgets, banking, interest and credit, slope and rate of change,
+graphs, and puzzles) follow two CBE outlines [28], [29]. Alberta's *Outcomes with Assessment
+Standards* for each course [23]–[25] should be used for a final word-for-word check of the outcome
+wording, which this build could not do because their hosts were unreachable from the build
+environment.
 
 Workplace contexts state every rate in the question itself (GST, exchange rates, simplified
 payroll deduction rates, overtime rules), so questions stay correct when official rates change.
@@ -148,3 +168,17 @@ and hover details, and every level is also named in text, so colour is never the
 [21] Alberta Education, "Senior High School — Mathematics 10-4," LearnAlberta parent guide. [curriculum.learnalberta.ca](https://curriculum.learnalberta.ca/parents/en/grade/hs/mat/kae1782)
 
 [22] Nelson Mandela High School (Calgary Board of Education), *Mathematics 20-4 Course Outline*, September 2023. [nelsonmandela.cbe.ab.ca](https://nelsonmandela.cbe.ab.ca/documents/c45830bc-fdc4-53cd-853d-1520ffc5956e/Math%2020-4%20Course%20Outline%20-%20September%202023.pdf)
+
+[23] Alberta Education, *Mathematics 20-1 Outcomes with Assessment Standards*. [education.alberta.ca](https://education.alberta.ca/media/564034/mathematics-20-1-standards.pdf)
+
+[24] Alberta Education, *Mathematics 20-2 Outcomes with Assessment Standards*. [education.alberta.ca](https://education.alberta.ca/media/564035/mathematics-20-2-standards.pdf)
+
+[25] Alberta Education, *Mathematics 20-3 Outcomes with Assessment Standards*. [education.alberta.ca](https://education.alberta.ca/media/564036/mathematics-20-3-standards.pdf)
+
+[26] Nelson Mandela High School (Calgary Board of Education), *Math 20-1 Course Outline*, 2023–2024. [nelsonmandela.cbe.ab.ca](https://nelsonmandela.cbe.ab.ca/documents/0bad0d92-9d2d-5e94-a852-ac41bfedd7ed/Math%2020-1%20Course%20Outline%202023-2024.pdf)
+
+[27] Nelson Mandela High School (Calgary Board of Education), *Math 20-2 Course Outline*, 2023–24. [nelsonmandela.cbe.ab.ca](https://nelsonmandela.cbe.ab.ca/documents/0a2812b8-fe4e-591b-b3ab-8f9f28d84548/Math_20-2_Course_Outline_2023-24.pdf)
+
+[28] Nelson Mandela High School (Calgary Board of Education), *Math 20-3 Course Outline*, Fall 2023. [nelsonmandela.cbe.ab.ca](https://nelsonmandela.cbe.ab.ca/documents/e080eab8-c565-5da2-8af9-4adbe3cef298/20-3%20Course%20Outline%20Fall%202023.pdf)
+
+[29] Dr. E. P. Scarlett High School (Calgary Board of Education), *Math 20-3 Course Outline*. [drepscarlett.cbe.ab.ca](https://drepscarlett.cbe.ab.ca/documents/05a24089-0e5a-5e21-834f-890fc4ca2463/Math%2020-3%20Course%20Ouline.pdf)
