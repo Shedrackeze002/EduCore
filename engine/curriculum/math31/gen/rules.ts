@@ -827,9 +827,12 @@ const productQuotient = skill({
         const x = n.v;
         const p = rng.chance(0.5) ? [rng.nonZero(-9, 9), rng.nonZero(-5, 5)] : [rng.nonZero(-9, 9), 0, rng.nonZero(-4, 4)];
         // f' = p'√x + p/(2√x) = (2x p' + p) / (2√x)
-        const num = padd(pmul([0, 2], pder(p)), p);
-        const dTex = fracT(ptex(num, x), `2\\sqrt{${x}}`);
-        const dTxt = fracX(ptxt(num, x), `2sqrt(${x})`);
+        const num0 = padd(pmul([0, 2], pder(p)), p);
+        // Divide out a common factor of 2: (10x^2 - 8)/(2√x) = (5x^2 - 4)/√x.
+        const half = pcontent(num0) % 2 === 0;
+        const num = half ? pscale(num0, 1 / 2) : num0;
+        const dTex = fracT(ptex(num, x), half ? `\\sqrt{${x}}` : `2\\sqrt{${x}}`);
+        const dTxt = fracX(ptxt(num, x), half ? `sqrt(${x})` : `2sqrt(${x})`);
         return {
           prompt: `Use the product rule to differentiate $${fnOf(n)} = \\sqrt{${x}}\\,(${ptex(p, x)})$.`,
           parts: [derivPart(n, dTxt)],
@@ -838,7 +841,7 @@ const productQuotient = skill({
             uvLine(`\\sqrt{${x}}`, ptex(p, x), `\\dfrac{1}{2\\sqrt{${x}}}`, ptex(pder(p), x)),
             `Product rule: $${dOf(n)} = u'v + uv' = \\dfrac{${ptex(p, x)}}{2\\sqrt{${x}}} ${pder(p)[pder(p).length - 1] < 0 ? '-' : '+'} ${rootTerm(pscale(pder(p), pder(p)[pder(p).length - 1] < 0 ? -1 : 1), x)}$.`,
             `Write the second term over $2\\sqrt{${x}}$ (multiply by $\\tfrac{2\\sqrt{${x}}}{2\\sqrt{${x}}}$, using $\\sqrt{${x}}\\cdot\\sqrt{${x}} = ${x}$): $${rootTerm(pder(p), x)} = ${fracT(ptex(pmul([0, 2], pder(p)), x), `2\\sqrt{${x}}`)}$.`,
-            `Add: $${dOf(n)} = ${dTex}$.`,
+            `Add: $${dOf(n)} = ${fracT(ptex(num0, x), `2\\sqrt{${x}}`)}${half ? ` = ${dTex}` : ''}$.`,
           ],
         };
       }

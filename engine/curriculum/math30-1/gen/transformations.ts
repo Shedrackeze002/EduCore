@@ -361,6 +361,7 @@ function pwl(rng: Rng, n: number, xr: [number, number], yr: [number, number]): P
     },
     (pts) => {
       for (let i = 1; i < pts.length; i++) if (pts[i][0] - pts[i - 1][0] > 4) return false;
+      if (pts[pts.length - 1][0] - pts[0][0] < Math.min(6, xr[1] - xr[0] - 2)) return false;
       for (let i = 1; i < pts.length - 1; i++) {
         const s1 = (pts[i][1] - pts[i - 1][1]) / (pts[i][0] - pts[i - 1][0]);
         const s2 = (pts[i + 1][1] - pts[i][1]) / (pts[i + 1][0] - pts[i][0]);

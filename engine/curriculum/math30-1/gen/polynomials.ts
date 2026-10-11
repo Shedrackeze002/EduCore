@@ -266,10 +266,12 @@ function groupFacs(fs: Fac[]): Fac[] {
 /** f(0) worked out from the factored form. */
 function factoredAt0(a: number, fs: Fac[], name = 'f'): string {
   const value = facsFn(a, fs)(0);
-  if (fs.some((f) => f.q === 0)) return `$${name}(0) = 0$, because $x$ is a factor.`;
+  const lhs = name === 'y' ? 'y' : `${name}(0)`;
+  const when = name === 'y' ? ' when $x = 0$' : '';
+  if (fs.some((f) => f.q === 0)) return `$${lhs} = 0$${when}, because $x$ is a factor.`;
   const lead = a === 1 ? '' : a === -1 ? '-' : fmt(a);
   const body = fs.map((f) => `(${fmt(z0(-f.q))})${f.m > 1 ? `^{${f.m}}` : ''}`).join('');
-  return `$${name}(0) = ${lead}${body} = ${fmt(value)}$`;
+  return `$${lhs} = ${lead}${body} = ${fmt(value)}$${when}.`;
 }
 
 const pmList = (n: number) =>
@@ -338,7 +340,7 @@ function factorize(p0: P, name = 'P', opts: { given?: number; noList?: boolean }
       }
       if (root === undefined) throw new Error(`no integral zero for ${ptext(R)}`);
       const shown = tried.length > 4 ? ['\\dots', ...tried.slice(-2)] : tried;
-      intro += `${shown.length ? `Testing: $${shown.join(',\\ ')}$, none of them $0$. ` : ''}$${substTex(R, root, nm)}$, so $${divisorTex(root)}$ is a factor.`;
+      intro += `${shown.length ? `Test the candidates: $${shown.join(',\\ ')}$ (not zero), then ` : 'Test: '}$${substTex(R, root, nm)}$, so $${divisorTex(root)}$ is a factor.`;
     }
     const { q } = synth(R, root);
     steps.push(`${intro} Divide by $${divisorTex(root)}$ with synthetic division:\n${synthTex(R, root)}\nThe quotient is $${ptex(q)}$.`);
@@ -471,11 +473,14 @@ function polyWindow(fs: Fn[], zeros: number[], extraYs: number[] = []): GridSpec
   const target = M * 1.15;
   const step = Y_STEPS.find((s) => target / s <= 6) ?? 2000;
   const yMax = Math.ceil(target / step) * step;
+  // Widen until every graph is clearly heading off the grid at both edges, so the end behaviour shows.
+  for (let i = 0; i < 3 && fs.some((f) => Math.abs(f(xMin)) < 0.5 * yMax); i++) xMin--;
+  for (let i = 0; i < 3 && fs.some((f) => Math.abs(f(xMax)) < 0.5 * yMax); i++) xMax++;
   return step === 1 ? { xMin, xMax, yMin: -yMax, yMax } : { xMin, xMax, yMin: -yMax, yMax, xStep: 1, yStep: step };
 }
 
 /** Every turning point is inside the window and not squashed against the x-axis. */
-function turnsVisible(f: Fn, g: GridSpec, minFrac = 0.12): boolean {
+function turnsVisible(f: Fn, g: GridSpec, minFrac = 0.18): boolean {
   for (const x of turningXs(f, g.xMin, g.xMax)) {
     const y = Math.abs(f(x));
     if (y < 1e-6) continue; // touching the axis at a repeated zero
@@ -548,6 +553,7 @@ function distinctInts(rng: Rng, n: number, lo: number, hi: number, exclude: numb
 const orList = (xs: number[]) => (xs.length === 1 ? `only $${xs[0]}$` : `${xs.slice(0, -1).map((x) => `$${x}$`).join(', ')} or $${xs[xs.length - 1]}$`);
 const rangeInts = (a: number, b: number) => Array.from({ length: Math.max(0, b - a + 1) }, (_, i) => a + i);
 const zerosPart = (vals: number[], label = 'Zeros:'): Part => part({ kind: 'numbers', values: vals }, { label, placeholder: 'e.g. -2, 1, 3' });
+const sortedZeros = (fs: Fac[]) => fs.map(zeroOf).sort((u, v) => u - v);
 const xList = (vals: number[]) => vals.map((x) => `$x = ${texNum(x)}$`).join(', ');
 
 /** A random polynomial of degree n with the given leading coefficient. */
@@ -564,7 +570,7 @@ function nicePoly(make: () => { a: number; fs: Fac[] }, extraCheck: (g: GridSpec
     const { a, fs } = make();
     const f = facsFn(a, fs);
     const g = polyWindow([f], fs.map(zeroOf));
-    if (turnsVisible(f, g) && extraCheck(g, f, fs)) return { a, fs, f, g };
+    if (turnsVisible(f, g) && g.yMax <= 120 && extraCheck(g, f, fs)) return { a, fs, f, g };
   }
   const a = 1;
   const fs = [lin(-2), lin(1), lin(3)];
@@ -669,7 +675,7 @@ const polyFeatures = skill({
         hints: ['Look at the two ends of the graph. Opposite directions means odd degree; the same direction means even degree.', 'If the right end rises, the leading coefficient is positive. A turning point is where the graph changes from rising to falling or from falling to rising.'],
         solution: [
           `The graph extends from ${QUAD_TEXT[endKey(n, a)]}. ${n % 2 ? 'The ends point in opposite directions, so the degree is odd' : 'Both ends point the same way, so the degree is even'}; the right end ${a > 0 ? 'rises' : 'falls'}, so the leading coefficient is ${a > 0 ? 'positive' : 'negative'}.`,
-          `The graph crosses the $x$-axis at ${xList(sortFacs(fs).map(zeroOf))}: $${n}$ $x$-intercepts.`,
+          `The graph crosses the $x$-axis at ${xList(sortedZeros(fs))}: $${n}$ $x$-intercepts.`,
           `It changes direction $${n - 1}$ times, so it has $${n - 1}$ turning points.`,
           `${PARITY_SIGN[paritySignIndex(n, a)]}; $${n}$ $x$-intercepts; $${n - 1}$ turning points.`,
         ],
@@ -700,7 +706,7 @@ const polyFeatures = skill({
           'A polynomial function of degree $n$ has at most $n - 1$ turning points, so the degree is at least one more than the number of turning points. The right end shows the sign of the leading coefficient.',
         ],
         solution: [
-          `The graph has $${t}$ turning points (one where it touches the $x$-axis and turns back counts too).`,
+          `The graph has $${t}$ turning points. (A point where the graph touches the $x$-axis and turns back is a turning point too.)`,
           `A function of degree $n$ has at most $n - 1$ turning points, so $n - 1 \\ge ${t}$ and $n \\ge ${t + 1}$.`,
           `Check the ends: the graph extends from ${QUAD_TEXT[endKey(n, a)]}, which ${n % 2 ? 'needs an odd degree' : 'needs an even degree'}, and $${t + 1}$ is ${n % 2 ? 'odd' : 'even'}. It only has $${xs.length}$ $x$-intercepts because the graph touches the axis without crossing.`,
           `The right end ${a > 0 ? 'rises' : 'falls'}, so the leading coefficient is ${a > 0 ? 'positive' : 'negative'}.`,
@@ -1044,7 +1050,7 @@ function systemSolution(e1: { B: number; A: Record<string, number> }, r1: number
   else if (b1 === -b2) [how, A, C] = ['Add (1) and (2)', a1 + a2, c1 + c2];
   else [how, A, C] = [`Multiply (1) by $${fmt(b2)}$ and (2) by $${fmt(b1)}$, then subtract`, a1 * b2 - a2 * b1, c1 * b2 - c2 * b1];
   steps.push(`${how} to eliminate $n$: $${fmt(z0(A))}m = ${fmt(z0(C))}$, so $m = ${m}$.`);
-  steps.push(`Substitute into (1): $${fmt(a1)}(${m}) ${b1 < 0 ? '-' : '+'} ${Math.abs(b1) === 1 ? '' : fmt(Math.abs(b1))}n = ${fmt(c1)}$, so $n = ${n}$.`);
+  steps.push(`Substitute $m = ${m}$ into (1): $${fmt(z0(a1 * m))} ${b1 < 0 ? '-' : '+'} ${Math.abs(b1) === 1 ? '' : fmt(Math.abs(b1))}n = ${fmt(c1)}$, so $n = ${n}$.`);
   return steps;
 }
 
@@ -1325,7 +1331,7 @@ function randFacs(rng: Rng, mults: number[], lo = -4, hi = 4, exclude: number[] 
 
 function zerosWhy(fs: Fac[]): string {
   return sortFacs(fs)
-    .map((f) => `${f.q === 0 ? '$x = 0$' : `$${facBase(f)} = 0$ gives $x = ${texNum(zeroOf(f))}$`}${f.m > 1 ? ` (multiplicity $${f.m}$)` : ''}`)
+    .map((f) => `${f.q === 0 ? '$x = 0$' : `$${facBase(f).slice(1, -1)} = 0$ gives $x = ${texNum(zeroOf(f))}$`}${f.m > 1 ? ` (multiplicity $${f.m}$)` : ''}`)
     .join('; ');
 }
 
@@ -1378,7 +1384,7 @@ const polyGraph = skill({
         const mults = rng.pick([[1, 1, 1], [1, 1, 1], [2, 1], [1, 2], [1, 1]]);
         const fs = sortFacs(randFacs(rng, mults, -5, 5));
         const a = rng.pick([1, -1, 2, -2, 3]);
-        const zs = fs.map(zeroOf);
+        const zs = sortedZeros(fs);
         const y0 = facsFn(a, fs)(0);
         return {
           prompt: `For $${fx} = ${factoredTex(a, fs)}$, state the zeros and the $y$-intercept.`,
@@ -1427,13 +1433,13 @@ const polyGraph = skill({
       const n = mults.reduce((s, m) => s + m, 0);
       return {
         prompt: `For $${fx} = ${factoredTex(a, fs)}$, state the zeros, the degree and the end behaviour.`,
-        parts: [zerosPart(fs.map(zeroOf)), numPart(n, { label: 'Degree:' }), part(endMc(rng, n, a), { label: 'End behaviour:' })],
+        parts: [zerosPart(sortedZeros(fs)), numPart(n, { label: 'Degree:' }), part(endMc(rng, n, a), { label: 'End behaviour:' })],
         hints: ['Set each factor equal to zero for the zeros.', 'The degree is the sum of the exponents on the factors. Every factor here starts with $x$, so the leading coefficient is the number in front, $' + a + '$.'],
         solution: [
           `Zeros: ${zerosWhy(fs)}.`,
           `If you expanded, the highest power would be $x^{${fs.map((f) => f.m).join(' + ')}} = x^{${n}}$, so the degree is $${n}$, and the leading coefficient is $${a}$.`,
           endWhy(n, a),
-          `Zeros ${xList(fs.map(zeroOf))}; degree $${n}$; extends from ${QUAD_TEXT[endKey(n, a)]}.`,
+          `Zeros ${xList(sortedZeros(fs))}; degree $${n}$; extends from ${QUAD_TEXT[endKey(n, a)]}.`,
         ],
       };
     }
@@ -1466,10 +1472,11 @@ const polyGraph = skill({
       const n = fs.reduce((s, f) => s + f.m, 0);
       if (n > 5 || n < 3) continue;
       if (new Set(fs.map(zeroOf)).size < fs.length) continue;
+      fs.splice(0, fs.length, ...sortFacs(fs));
       const a = rng.pick([1, -1, 2]);
       const lead = fs.reduce((s, f) => s * f.p ** f.m, a);
       const y0 = facsFn(a, fs)(0);
-      const zs = sortFacs(fs).map(zeroOf);
+      const zs = sortedZeros(fs);
       const leadWork = `${a === 1 ? '' : `${fmt(a)}`}${fs.map((f) => `(${fmt(f.p)})${f.m > 1 ? `^{${f.m}}` : ''}`).join('')}`;
       return {
         prompt: `For $${fx} = ${factoredTex(a, fs)}$, state the zeros, the $y$-intercept and the end behaviour.`,
@@ -1539,14 +1546,15 @@ const polyEquation = skill({
     };
 
     const fromGraph = (patterns: number[][], aChoices: number[]): GenOutput => {
-      for (let t = 0; t < 80; t++) {
+      for (let t = 0; t < 120; t++) {
         const mults = rng.pick(patterns);
-        const fs = sortFacs(randFacs(rng, mults, -4, 4));
+        const n0 = mults.reduce((s, m) => s + m, 0);
+        const fs = sortFacs(randFacs(rng, mults, n0 > 3 ? -3 : -4, n0 > 3 ? 3 : 4));
         const a = rng.pick(aChoices);
         const f = facsFn(a, fs);
         const zs = fs.map(zeroOf);
         let g = polyWindow([f], zs);
-        if (!turnsVisible(f, g, 0.12)) continue;
+        if (!turnsVisible(f, g, 0.12) || g.yMax > 100) continue;
         // the labelled point: the y-intercept, or another lattice point
         let px = 0;
         if (zs.includes(0)) {
@@ -1587,7 +1595,7 @@ const polyEquation = skill({
         const mults = rng.pick([[1, 1, 1], [2, 1], [1, 1], [1, 1, 2]]);
         const fs = sortFacs(randFacs(rng, mults, -6, 6));
         const a = rng.pick([1, 2, -1, 3]);
-        const zs = fs.map(zeroOf);
+        const zs = sortedZeros(fs);
         return {
           prompt: `Solve $${factoredTex(a, fs)} = 0$.`,
           parts: [zerosPart(zs, 'Solutions:')],
@@ -1666,6 +1674,7 @@ const polyEquation = skill({
           parts: [part(mc(rng, correct, distractors))],
           hints: ['Factor the polynomial completely to find its zeros.', `The zeros split the number line into intervals. Test one value in each interval to find where the polynomial is ${want === 1 ? 'positive' : 'negative'}.${closed ? ' The zeros themselves are included.' : ' The zeros themselves are not included.'}`],
           solution: [
+            `Let $P(x) = ${ptex(p)}$ and factor it.`,
             ...f.steps,
             `So $P(x) = ${f.tex}$, with zeros ${xList(roots)}.`,
             `Signs on each interval: ${intervalNames.map((nm, i) => `${nm}: $P(${texNum(tests[i])}) ${signs[i] > 0 ? '> 0' : '< 0'}$`).join('; ')}.`,
@@ -1705,9 +1714,9 @@ const polyEquation = skill({
             `Set $${ptex(exp)} = ${V0}$ and divide by $4$: $${ptex(cubic)} = 0$.`,
             `Test factors of $${V0 / 4}$: $${substTex(cubic, x0)}$, so $x = ${x0}$ is a solution. Divide by $x - ${x0}$:\n${synthTex(cubic, x0)}`,
             disc >= 0
-              ? `Solve $${ptex(q)} = 0$ with the quadratic formula: $x = \\dfrac{${fmt(-B)} \\pm \\sqrt{${fmt(disc)}}}{2}$, so $x \\approx ${fmtFixed(others[0], 2)}$ or $x \\approx ${fmtFixed(others[1], 2)}$.`
+              ? `Solve $${ptex(q)} = 0$ with the quadratic formula: $x = \\dfrac{${fmt(-B)} \\pm \\sqrt{${fmt(disc)}}}{2}$, so ${others.map((x) => (Number.isInteger(x) ? `$x = ${x}$` : `$x \\approx ${fmtFixed(x, 2)}$`)).join(' or ')}.`
               : `$${ptex(q)} = 0$ has no real solutions (its discriminant is negative).`,
-            `Only values with $0 < x < ${W / 2}$ make sense${others.length && valid.length < others.length ? `, so reject ${others.filter((x) => !valid.includes(x)).map((x) => `$${fmtFixed(x, 2)}$`).join(' and ')}` : ''}.`,
+            `Only values with $0 < x < ${W / 2}$ make sense${others.length && valid.length < others.length ? `, so reject ${others.filter((x) => !valid.includes(x)).map((x) => `$${Number.isInteger(x) ? x : fmtFixed(x, 2)}$`).join(' and ')}` : ''}.`,
             `$x = ${all.map((x) => fmtFixed(x, 1)).join('$ cm or $x = ')}$ cm`,
           ],
           answerDisplay: all.map((x) => `$${fmtFixed(x, 1)}$ cm`).join(' or '),
@@ -1716,8 +1725,8 @@ const polyEquation = skill({
     }
     // a box whose dimensions are x, x + p and x + q
     const x0 = rng.int(2, 9);
-    const pp = rng.int(1, 6);
-    const qq = rng.intExcept(1, 8, [pp]);
+    const pp = rng.int(1, 5);
+    const qq = rng.int(pp + 1, 8);
     const V0 = x0 * (x0 + pp) * (x0 + qq);
     const cubic = [1, pp + qq, pp * qq, -V0];
     const { q } = synth(cubic, x0);
@@ -1726,7 +1735,7 @@ const polyEquation = skill({
     const unit = 'cm';
     const tried = candidates(V0).filter((c) => c > 0 && c < x0).slice(-2);
     return {
-      prompt: `${who} is designing ${what} in the shape of a rectangular prism. Its length is ${pp} ${unit} more than its height, and its width is ${qq} ${unit} more than its height. The volume must be $${V0}$ ${unit}³. Find the height, $x$.`,
+      prompt: `${who} is designing ${what} in the shape of a rectangular prism. Its width is ${pp} ${unit} more than its height, and its length is ${qq} ${unit} more than its height. The volume must be $${V0}$ ${unit}³. Find the height, $x$.`,
       parts: [numPart(x0, { label: 'Height $x =$', suffix: unit })],
       hints: [`Write the volume as $x(x + ${pp})(x + ${qq})$ and set it equal to $${V0}$.`, 'Expand, rearrange to $P(x) = 0$, and use the integral zero theorem to find a positive whole-number solution. Check that the other zeros are not possible heights.'],
       solution: [

@@ -1,8 +1,8 @@
 /** Math 30-1 Unit 8 — Rational Functions and Combining Functions (RF14, RF1). */
 import { mc, mcFigures, niceNum, numPart, part, retry, skill, type GenOutput } from '../../helpers.ts';
-import { fmt, fracText, gcd, isPerfectSquare, roundTo, toFrac } from '../../../math/numbers.ts';
+import { fmt, fracText, gcd, roundTo, toFrac } from '../../../math/numbers.ts';
 import type { Rng } from '../../../rng.ts';
-import type { AnswerSpec, GridSpec, Part, PlaneFigure, PlaneLine, SkillDef, TableFigure } from '../../../types.ts';
+import type { GridSpec, Part, PlaneFigure, PlaneLine, SkillDef, TableFigure } from '../../../types.ts';
 
 // ---------------------------------------------------------------------------
 // Polynomials as ascending coefficient lists [c0, c1, c2, ...]
@@ -106,11 +106,6 @@ function facTex(c: number, roots: number[], v = 'x'): string {
   if (!rs.length) return N(c);
   const lone = rs.length === 1 && c === 1;
   return coefTex(c) + rs.map((r) => (r === 0 ? v : lone ? lin(r, v) : `(${lin(r, v)})`)).join('');
-}
-function facTxt(c: number, roots: number[], v = 'x'): string {
-  const rs = [...roots].sort((p, q) => (p === 0 ? -1 : q === 0 ? 1 : 0));
-  if (!rs.length) return T(c);
-  return coefTxt(c) + rs.map((r) => (r === 0 ? v : `(${linTxt(r, v)})`)).join('');
 }
 
 function uniqSorted(xs: number[]): number[] {
@@ -262,7 +257,8 @@ function ratFig(v: View, opts: { asym?: boolean; grid?: GridSpec } = {}): PlaneF
   const fig: PlaneFigure = { type: 'plane', grid, polylines };
   if (opts.asym ?? true) {
     const lines = v.vas.map(vLine);
-    if (v.ha !== null && v.ha !== 0) lines.push(hLine(v.ha));
+    // A horizontal asymptote is only drawn beside a vertical one (a constant graph with holes has none to show).
+    if (v.ha !== null && v.ha !== 0 && v.vas.length) lines.push(hLine(v.ha));
     if (lines.length) fig.lines = lines;
   }
   if (v.holes.length) fig.points = v.holes.map(([x, y]) => ({ x, y: r3(y), open: true }));
@@ -723,7 +719,10 @@ function holeFamily(rng: Rng) {
       };
       return { a, h, r, k, rfs };
     },
-    (o) => Object.values(o.rfs).every((rf) => holesFit(info(rf), 6.5)),
+    (o) => {
+      const vs = Object.values(o.rfs).map(info);
+      return vs.every((v) => holesFit(v, 6.5)) && vs.every((v, i) => vs.every((w, j) => i === j || !sameView(v, w)));
+    },
   );
 }
 
@@ -1088,7 +1087,7 @@ const rationalEquations = skill({
         prompt: `Solve $\\dfrac{${a}}{x}${plusC(b)} = ${c}$ algebraically.`,
         parts: [solPart([sx])],
         hints: ['Isolate the fraction first.', 'Then multiply both sides by $x$ (which cannot be $0$).'],
-        solution: [`The non-permissible value is $x = 0$.`, `Subtract $${b}$ from both sides: $\\dfrac{${a}}{x} = ${e}$.`, `Multiply by $x$: $${a} = ${e}x$, so $x = ${sx}$.`, `$x = ${sx}$ is permissible, so the solution is $x = ${sx}$.`],
+        solution: [`The non-permissible value is $x = 0$.`, `${b < 0 ? `Add $${-b}$ to` : `Subtract $${b}$ from`} both sides: $\\dfrac{${a}}{x} = ${e}$.`, `Multiply by $x$: $${a} = ${e}x$, so $x = ${sx}$.`, `$x = ${sx}$ is permissible, so the solution is $x = ${sx}$.`],
       };
     }
 
@@ -1106,7 +1105,7 @@ const rationalEquations = skill({
         parts: [solPart([s])],
         hints: ['The related function is the equation rearranged to "$\\ldots = 0$".', 'The solutions are the $x$-intercepts of the related function.'],
         solution: [
-          `Subtracting $${c}$ from both sides gives $\\dfrac{${num}}{${lin(h)}} ${c < 0 ? '+' : '-'} ${Math.abs(c)} = 0$, so the solutions are the $x$-intercepts of the related function.`,
+          `${c < 0 ? `Adding $${-c}$ to` : `Subtracting $${c}$ from`} both sides gives $\\dfrac{${num}}{${lin(h)}} ${c < 0 ? '+' : '-'} ${Math.abs(c)} = 0$, so the solutions are the $x$-intercepts of the related function.`,
           `The graph crosses the $x$-axis once, at $x = ${s}$.`,
           `Check: $\\dfrac{${subTex([p, 1], s)}}{${subLin(s, h)}} = \\dfrac{${s + p}}{${s - h}} = ${c}$. The solution is $x = ${s}$.`,
         ],
@@ -1206,7 +1205,7 @@ const rationalEquations = skill({
       const valid = o.sr.filter((x) => x !== o.a && x !== o.b);
       if (kind === 'twoFrac') {
         return {
-          prompt: `Solve algebraically: $$${twoFracTex(o)}$$ Type *none* if there is no solution.`,
+          prompt: `Solve algebraically.\n\n$$${twoFracTex(o)}$$\n\nType *none* if there is no solution.`,
           parts: [solPart(valid)],
           hints: ['Factor the denominator on the right to find the lowest common denominator and the non-permissible values.', 'Multiply every term by the lowest common denominator, solve the quadratic, and reject any non-permissible roots.'],
           solution: twoFracSteps(o),
@@ -1215,7 +1214,7 @@ const rationalEquations = skill({
       const rel = info({ k: o.n, nr: o.sr, m: 1, dr: [o.a, o.b] });
       const holes = rel.holes;
       return {
-        prompt: `${name} solves the equation below by graphing the related function $y = (\\text{left side}) - (\\text{right side})$, shown with its asymptotes dashed. Open circles mark points of discontinuity.\n\n$$${twoFracTex(o)}$$\n\nUse the graph to find the solution(s). Type *none* if there is no solution.`,
+        prompt: `${name} solves the equation below by graphing the related function $y = (\\text{left side}) - (\\text{right side})$${rel.vas.length ? ', shown with its asymptotes dashed' : ''}.${holes.length ? ' Open circles mark points of discontinuity.' : ''}\n\n$$${twoFracTex(o)}$$\n\nUse the graph to find the solution(s). Type *none* if there is no solution.`,
         figure: ratFig(rel),
         parts: [solPart(valid)],
         hints: ['The solutions are the $x$-intercepts of the related function.', 'A point of discontinuity is not on the graph, so it cannot be a solution.'],
@@ -1243,8 +1242,8 @@ const rationalEquations = skill({
           hints: [`Let $t$ be ${A}'s time in hours. In one hour ${A} does $\\dfrac{1}{t}$ of the job and ${B} does $\\dfrac{1}{t + ${dd}}$.`, `Together they do $\\dfrac{1}{${T}}$ of the job per hour: solve $\\dfrac{1}{t} + \\dfrac{1}{t + ${dd}} = \\dfrac{1}{${T}}$.`],
           solution: [
             `Let $t$ be ${A}'s time. Then $\\dfrac{1}{t} + \\dfrac{1}{t + ${dd}} = \\dfrac{1}{${T}}$, with $t > 0$.`,
-            `Multiply by $${T}t(t + ${dd})$: $${T}(t + ${dd}) + ${T}t = t(t + ${dd})$, so $${ptex(trimP([-dd * T, dd - 2 * T, 1]), 't')} = 0$.`,
-            `With integer coefficients: $${ptex(quad, 't')} = 0$. Factoring (or the quadratic formula) gives $t = ${t1}$ or $t = ${N(t2)}$.`,
+            `Multiply by $${T}t(t + ${dd})$: $${T}(t + ${dd}) + ${T}t = t(t + ${dd})$, so $${ptex(trimP([-dd * T, dd - 2 * T, 1]), 't')} = 0$${Number.isInteger(T) ? '' : `, or $${ptex(quad, 't')} = 0$ with integer coefficients`}.`,
+            `Factoring (or the quadratic formula) gives $t = ${t1}$ or $t = ${N(t2)}$.`,
             `A time cannot be negative, so reject $t = ${N(t2)}$. ${A} takes $${t1}$ h working alone (and ${B} takes $${t1 + dd}$ h).`,
           ],
           calculator: true,
@@ -1257,7 +1256,7 @@ const rationalEquations = skill({
         solution: [
           `Let $R$ be the smaller resistance: $\\dfrac{1}{R} + \\dfrac{1}{R + ${dd}} = \\dfrac{1}{${T}}$, with $R > 0$.`,
           `Multiply by $${T}R(R + ${dd})$: $${T}(R + ${dd}) + ${T}R = R(R + ${dd})$.`,
-          `Rearrange (integer coefficients): $${ptex(quad, 'R')} = 0$, so $R = ${t1}$ or $R = ${N(t2)}$.`,
+          `Rearrange: $${ptex(trimP([-dd * T, dd - 2 * T, 1]), 'R')} = 0$${Number.isInteger(T) ? '' : `, or $${ptex(quad, 'R')} = 0$ with integer coefficients`}. Factoring (or the quadratic formula) gives $R = ${t1}$ or $R = ${N(t2)}$.`,
           `A resistance cannot be negative, so the smaller resistor is $${t1}$ Ω (the other is $${t1 + dd}$ Ω).`,
         ],
         calculator: true,
@@ -1282,4 +1281,752 @@ const rationalEquations = skill({
   },
 });
 
-export const RATIONALFNS_SKILLS: SkillDef[] = [rationalFeatures, rationalGraph, rationalEquations];
+// ---------------------------------------------------------------------------
+// 8.4 — Sums, differences, products and quotients of functions
+// ---------------------------------------------------------------------------
+
+type Op = 'add' | 'sub' | 'mul' | 'div';
+const opTex = (op: Op, arg: string | number = 'x', F = 'f', G = 'g') =>
+  op === 'add' ? `(${F} + ${G})(${arg})` : op === 'sub' ? `(${F} - ${G})(${arg})` : op === 'mul' ? `(${F}${G})(${arg})` : `\\left(\\dfrac{${F}}{${G}}\\right)(${arg})`;
+const opApply = (op: Op, u: number, v: number) => (op === 'add' ? u + v : op === 'sub' ? u - v : op === 'mul' ? u * v : u / v);
+const opSym = (op: Op) => (op === 'add' ? '+' : op === 'sub' ? '-' : op === 'mul' ? '\\times' : '\\div');
+const randLin = (rng: Rng): P => [rng.int(-9, 9), rng.pick([1, 2, 3, 4, 5, -1, -2, -3])];
+const randQuad = (rng: Rng): P => [rng.int(-9, 9), rng.int(-6, 6), rng.pick([1, 1, 2, 3, -1])];
+/** The worked line for combining two known values. */
+const combineLine = (op: Op, arg: number, u: number, v: number, F = 'f', G = 'g') =>
+  `$${opTex(op, arg, F, G)} = ${F}(${arg}) ${opSym(op)} ${G}(${arg}) = ${N(u)} ${opSym(op)} ${par(v)} = ${N(opApply(op, u, v))}$`;
+const valTable = (xs: number[], fv: number[], gv: number[]): TableFigure => ({
+  type: 'table',
+  horizontal: true,
+  headers: ['$x$', '$f(x)$', '$g(x)$'],
+  rows: xs.map((x, i) => [fmt(x), fmt(fv[i]), fmt(gv[i])]),
+});
+/** A safe value to round: not on a rounding boundary. */
+const safeRound = (v: number, dec: number) => Math.abs((((Math.abs(v) * 10 ** dec) % 1) - 0.5)) > 0.03;
+
+type OpKind = 'evalEq' | 'evalTable' | 'writeSumDiff' | 'writeProduct' | 'evalGraph' | 'domainQuotient' | 'writeQuotient' | 'domainSqrt' | 'writeQuotientDomain' | 'context';
+
+const functionOperations = skill({
+  id: 'm301-function-operations',
+  name: 'Combining functions',
+  description: 'Add, subtract, multiply and divide functions given as equations, tables or graphs, and state the domain of the combined function.',
+  outcomes: ['RF1'],
+  lessonId: 'm301-8-4',
+  gen(rng, d): GenOutput {
+    const kind: OpKind =
+      d === 1
+        ? rng.weighted<OpKind>([['evalEq', 3], ['evalTable', 2], ['writeSumDiff', 3]])
+        : d === 2
+          ? rng.weighted<OpKind>([['writeProduct', 2], ['evalGraph', 2], ['evalTable', 1], ['domainQuotient', 2], ['writeQuotient', 2]])
+          : rng.weighted<OpKind>([['domainSqrt', 3], ['writeQuotientDomain', 2], ['context', 2]]);
+
+    if (kind === 'evalEq') {
+      let f = randLin(rng);
+      let g = randQuad(rng);
+      if (rng.chance(0.3)) [f, g] = [g, f];
+      const op = rng.pick(['add', 'sub', 'mul'] as const);
+      const x0 = rng.int(-3, 4);
+      const fv = peval(f, x0);
+      const gv = peval(g, x0);
+      return {
+        prompt: `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, evaluate $${opTex(op, x0)}$.`,
+        parts: [numPart(opApply(op, fv, gv), { label: `$${opTex(op, x0)} =$` })],
+        hints: [`$${opTex(op, x0)}$ means $f(${x0}) ${opSym(op)} g(${x0})$.`, 'Evaluate each function separately, then combine the two values.'],
+        solution: [`$f(${x0}) = ${subTex(f, x0)} = ${fv}$`, `$g(${x0}) = ${subTex(g, x0)} = ${gv}$`, combineLine(op, x0, fv, gv)],
+      };
+    }
+
+    if (kind === 'evalTable') {
+      const start = rng.int(-3, 0);
+      const xs = [0, 1, 2, 3, 4].map((i) => start + i);
+      const fv = xs.map(() => rng.int(-8, 9));
+      const gv = xs.map(() => rng.nonZero(-8, 9));
+      const [i0, i1] = rng.sample([0, 1, 2, 3, 4], 2);
+      const ops: [Op, Op] = d === 1 ? rng.pick([['add', 'sub'], ['sub', 'add'], ['add', 'mul']] as Array<[Op, Op]>) : rng.pick([['mul', 'div'], ['div', 'sub'], ['mul', 'div']] as Array<[Op, Op]>);
+      const items = [
+        { op: ops[0], i: i0 },
+        { op: ops[1], i: i1 },
+      ];
+      return {
+        prompt: 'Use the table of values to evaluate each combined function.',
+        figure: valTable(xs, fv, gv),
+        parts: items.map(({ op, i }) => numPart(opApply(op, fv[i], gv[i]), { label: `$${opTex(op, xs[i])} =$` })),
+        hints: ['Read $f$ and $g$ in the column for the given $x$-value.', 'Combine the two values with the operation shown.'],
+        solution: items.map(({ op, i }) => `From the table, $f(${xs[i]}) = ${fv[i]}$ and $g(${xs[i]}) = ${gv[i]}$, so ${combineLine(op, xs[i], fv[i], gv[i])}.`),
+      };
+    }
+
+    if (kind === 'writeSumDiff') {
+      const { f, g, which, res } = retry(
+        () => {
+          const f = rng.chance(0.5) ? randQuad(rng) : randLin(rng);
+          const g = degP(f) === 2 && rng.chance(0.5) ? randLin(rng) : randQuad(rng);
+          const which = rng.pick(['add', 'sub', 'sub', 'subRev'] as const);
+          const res = which === 'add' ? padd(f, g) : which === 'sub' ? padd(f, g, -1) : padd(g, f, -1);
+          return { f, g, which, res };
+        },
+        (o) => degP(o.res) >= 1,
+      );
+      const [first, second, F, G] = which === 'subRev' ? [g, f, 'g', 'f'] : [f, g, 'f', 'g'];
+      const op: Op = which === 'add' ? 'add' : 'sub';
+      const steps =
+        op === 'add'
+          ? [`$${opTex(op, 'x', F, G)} = (${ptex(first)}) + (${ptex(second)})$`, `Combine like terms: $${opTex(op, 'x', F, G)} = ${ptex(res)}$`]
+          : [
+              `$${opTex(op, 'x', F, G)} = (${ptex(first)}) - (${ptex(second)})$`,
+              `Subtract every term of $${G}(x)$: $= ${ptex(first)}${cont(pscale(second, -1))}$`,
+              `Combine like terms: $${opTex(op, 'x', F, G)} = ${ptex(res)}$`,
+            ];
+      return {
+        prompt: `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, write $${opTex(op, 'x', F, G)}$ in simplest form.`,
+        parts: [exprPart(ptxt(res), `$${opTex(op, 'x', F, G)} =$`, 'expanded')],
+        hints: [op === 'add' ? `Add the two expressions and combine like terms.` : `Put $${G}(x)$ in brackets: the subtraction applies to every one of its terms.`, 'Collect the $x^2$-terms, the $x$-terms and the constants.'],
+        solution: steps,
+      };
+    }
+
+    if (kind === 'writeProduct') {
+      const f = randLin(rng);
+      const g = rng.chance(0.5) ? randLin(rng) : randQuad(rng);
+      const prod = pmul(f, g);
+      const [b, a] = f;
+      return {
+        prompt: `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, write $(fg)(x)$ in expanded form.`,
+        parts: [exprPart(ptxt(prod), '$(fg)(x) =$', 'expanded')],
+        hints: ['$(fg)(x) = f(x) \\cdot g(x)$.', 'Multiply each term of $f(x)$ by each term of $g(x)$, then combine like terms.'],
+        solution: [
+          `$(fg)(x) = (${ptex(f)})(${ptex(g)})$`,
+          ...(b === 0
+            ? [`Distribute: $(fg)(x) = ${ptex(prod)}$`]
+            : [`Distribute: $= ${ptex(pmul([0, a], g))}${cont(pscale(g, b))}$`, `Combine like terms: $(fg)(x) = ${ptex(prod)}$`]),
+        ],
+      };
+    }
+
+    if (kind === 'evalGraph') {
+      const setup = retry(
+        () => {
+          const m = rng.pick([-2, -1, 1, 2]);
+          const b = rng.int(-3, 3);
+          const sgn = rng.pick([1, -1]);
+          const p = rng.int(-2, 2);
+          const q = rng.int(-4, 4);
+          const F: Fn = (x) => m * x + b;
+          const G: Fn = (x) => sgn * (x - p) ** 2 + q;
+          const ok = [-4, -3, -2, -1, 0, 1, 2, 3, 4].filter((x) => Math.abs(F(x)) <= 7 && Math.abs(G(x)) <= 7 && F(x) !== G(x) && G(x) !== 0);
+          return { m, b, sgn, p, q, F, G, ok };
+        },
+        (o) => o.ok.length >= 2,
+      );
+      const [x0, x1] = rng.sample(setup.ok, 2);
+      const ops = rng.sample<Op>(rng.chance(0.3) ? ['add', 'sub', 'div'] : ['add', 'sub', 'mul'], 2);
+      const items = [
+        { op: ops[0], x: x0 },
+        { op: ops[1], x: x1 },
+      ];
+      const fig: PlaneFigure = {
+        type: 'plane',
+        grid: GRID,
+        lines: [{ through: [[0, setup.b], [1, setup.b + setup.m]] }],
+        polylines: curve(setup.G, GRID).map((points) => ({ points, color: 'accent' as const })),
+      };
+      return {
+        prompt: 'The graphs of the linear function $y = f(x)$ (the line) and the quadratic function $y = g(x)$ (the parabola) are shown. Use them to evaluate each combined function.',
+        figure: fig,
+        parts: items.map(({ op, x }) => numPart(opApply(op, setup.F(x), setup.G(x)), { label: `$${opTex(op, x)} =$` })),
+        hints: ['Read each function value from its graph at the given $x$-value.', 'Then combine the two values with the operation shown.'],
+        solution: items.map(({ op, x }) => `From the graphs, $f(${x}) = ${setup.F(x)}$ and $g(${x}) = ${setup.G(x)}$, so ${combineLine(op, x, setup.F(x), setup.G(x))}.`),
+      };
+    }
+
+    if (kind === 'domainQuotient') {
+      const { c, p, q } = retry(
+        () => {
+          const c = rng.nonZero(-6, 6);
+          const [p, q] = rng.chance(0.4) ? (([s]) => [-s, s])(distinctInts(rng, 1, 1, 6)) : distinctInts(rng, 2, -6, 6, [], false).sort((m, n) => m - n);
+          return { c, p, q };
+        },
+        (o) => -o.c !== o.p && -o.c !== o.q,
+      );
+      const f: P = [c, 1];
+      const g = fromRoots(1, [p, q]);
+      const which = rng.weighted([['fg', 3], ['gf', 2], ['sum', 1], ['prod', 1]] as const);
+      const gFac = facTex(1, [p, q]);
+      let correct: string;
+      let ds: string[];
+      let steps: string[];
+      if (which === 'fg') {
+        correct = setX(neq([p, q]));
+        ds = [setX(neq([-c])), setX([]), setX(neq([q])), setX(neq([-p, -q])), setX(neq([p, q, -c]))];
+        steps = ['$f$ and $g$ are polynomials, so both are defined for every real number.', `The quotient is undefined where the denominator $g(x) = ${ptex(g)} = ${gFac}$ is $0$: ${orList([p, q])}.`, `The domain is ${correct}.`];
+      } else if (which === 'gf') {
+        correct = setX(neq([-c]));
+        ds = [setX(neq([p, q])), setX([]), setX(neq([c])), setX(neq([p, q, -c]))];
+        steps = ['$f$ and $g$ are polynomials, so both are defined for every real number.', `The quotient is undefined where the denominator $f(x) = ${ptex(f)}$ is $0$: $x = ${-c}$. (The zeros of $g$ are in the numerator, which may be $0$.)`, `The domain is ${correct}.`];
+      } else {
+        correct = setX([]);
+        ds = [setX(neq([p, q])), setX(neq([-c])), setX(neq([p, q, -c]))];
+        steps = [`$${opTex(which === 'sum' ? 'add' : 'mul')}$ is a polynomial: there is no denominator and no square root.`, `Both $f$ and $g$ are defined for every real number, so the domain is ${correct}.`];
+      }
+      const target = which === 'fg' ? opTex('div') : which === 'gf' ? opTex('div', 'x', 'g', 'f') : opTex(which === 'sum' ? 'add' : 'mul');
+      return {
+        prompt: `Let $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$. What is the domain of $${target}$?`,
+        parts: [part(mc(rng, correct, rng.shuffle(ds)))],
+        hints: ['The domain of a combined function is where both functions are defined.', 'A quotient also excludes every value that makes its denominator $0$.'],
+        solution: steps,
+      };
+    }
+
+    if (kind === 'writeQuotient') {
+      const a = rng.nonZero(-6, 6);
+      const r = rng.intExcept(-6, 6, [a]);
+      const f = fromRoots(1, [a, r]);
+      const g: P = [-a, 1];
+      const correct = setX(neq([a]));
+      return {
+        prompt: `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, write $\\left(\\dfrac{f}{g}\\right)(x)$ in simplest form and state its domain.`,
+        parts: [exprPart(ptxt([-r, 1]), '$\\left(\\dfrac{f}{g}\\right)(x) =$', 'expanded'), part(mc(rng, correct, rng.shuffle([setX([]), setX(neq([r])), setX(neq([-a])), setX(neq([a, r]))])), { label: 'Domain' })],
+        hints: ['Factor $f(x)$ and cancel the common factor.', 'The domain comes from the original quotient: $g(x)$ cannot be $0$, even after cancelling.'],
+        solution: [
+          `$\\left(\\dfrac{f}{g}\\right)(x) = \\dfrac{${ptex(f)}}{${lin(a)}} = \\dfrac{${facTex(1, [a, r])}}{${lin(a)}}$`,
+          `Cancel the common factor: $\\left(\\dfrac{f}{g}\\right)(x) = ${lin(r)}$.`,
+          `The original denominator $${lin(a)}$ is $0$ at $x = ${a}$, so that value is still excluded: the domain is ${correct}.`,
+        ],
+        answerDisplay: `$${lin(r)}$, ${correct}`,
+      };
+    }
+
+    if (kind === 'domainSqrt') {
+      const dir = rng.pick(['ge', 'le'] as const);
+      const a = rng.int(-5, 5);
+      const inDom = (x: number) => (dir === 'ge' ? x >= a : x <= a);
+      const fTex = dir === 'ge' ? `\\sqrt{${lin(a)}}` : `\\sqrt{${a === 0 ? '-x' : `${a} - x`}}`;
+      const quad = rng.chance(0.3);
+      let g: P;
+      let zs: number[];
+      if (quad) {
+        const sq = retry(() => rng.int(1, 5), (sq) => sq !== Math.abs(a));
+        g = [-sq * sq, 0, 1];
+        zs = [-sq, sq];
+      } else {
+        const off = rng.chance(0.8) ? rng.int(1, 4) : -rng.int(1, 3);
+        const b = dir === 'ge' ? a + off : a - off;
+        g = [-b, 1];
+        zs = [b];
+      }
+      const zin = zs.filter(inDom);
+      const zout = zs.filter((z) => !inDom(z));
+      const cond = dir === 'ge' ? `x \\ge ${a}` : `x \\le ${a}`;
+      const strict = dir === 'ge' ? `x > ${a}` : `x < ${a}`;
+      const opp = dir === 'ge' ? `x \\le ${a}` : `x \\ge ${a}`;
+      const op = quad ? 'fg' : rng.pick(['add', 'mul', 'fg', 'fg', 'gf'] as const);
+      let correct: string;
+      let ds: string[];
+      let extra: string;
+      if (op === 'add' || op === 'mul') {
+        correct = setX([cond]);
+        ds = [setX([]), setX([strict]), setX([opp]), setX([cond, ...neq(zs)])];
+        extra = `Nothing else is excluded (there is no denominator), so the domain of $${opTex(op === 'add' ? 'add' : 'mul')}$ is ${correct}.`;
+      } else if (op === 'fg') {
+        correct = setX([cond, ...neq(zin)]);
+        ds = [setX([cond]), setX(neq(zs)), setX([strict, ...neq(zin)]), setX([cond, ...neq(zs)]), setX([opp, ...neq(zs)])];
+        extra = `The denominator $g(x) = ${ptex(g)}$ is $0$ when ${orList(zs)}.${zout.length ? ` ${zout.map((z) => `$x = ${z}$`).join(' and ')} ${zout.length > 1 ? 'are' : 'is'} already outside the domain of $f$.` : ''}${zin.length ? ` Exclude ${zin.map((z) => `$x = ${z}$`).join(' and ')}.` : ''} The domain is ${correct}.`;
+      } else {
+        correct = setX([strict]);
+        ds = [setX([cond]), setX([cond, ...neq(zin)]), setX(neq([a])), setX([strict, ...neq(zin)])];
+        extra = `The denominator $f(x) = ${fTex}$ is $0$ when $x = ${a}$, so exclude it too. The zero of $g$ is in the numerator, which may be $0$. The domain is ${correct}.`;
+      }
+      const target = op === 'fg' ? opTex('div') : op === 'gf' ? opTex('div', 'x', 'g', 'f') : opTex(op);
+      return {
+        prompt: `Let $f(x) = ${fTex}$ and $g(x) = ${ptex(g)}$. What is the domain of $${target}$?`,
+        parts: [part(mc(rng, correct, rng.shuffle(ds)))],
+        hints: ['Start with the values where both $f$ and $g$ are defined: the radicand cannot be negative.', 'For a quotient, also exclude every value that makes the denominator $0$.'],
+        solution: [`$f$ is defined when the radicand is not negative: ${dir === 'ge' ? `$${lin(a)} \\ge 0$` : `$${a === 0 ? '-x' : `${a} - x`} \\ge 0$`}${dir === 'ge' && a === 0 ? '' : `, so $${cond}$`}. $g$ is a polynomial, defined for every real number.`, extra],
+      };
+    }
+
+    if (kind === 'writeQuotientDomain') {
+      const [a, r, q] = distinctInts(rng, 3, -5, 5);
+      const k = rng.pick([1, 1, 2, 3, -1]);
+      const f = fromRoots(k, [a, r]);
+      const g = fromRoots(1, [a, q]);
+      const correct = setX(neq([a, q]));
+      const expected = `${coefTxt(k)}(${linTxt(r)})/(${linTxt(q)})`;
+      return {
+        prompt: `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, write $\\left(\\dfrac{f}{g}\\right)(x)$ in simplest form and state its domain.`,
+        parts: [exprPart(expected, '$\\left(\\dfrac{f}{g}\\right)(x) =$'), part(mc(rng, correct, rng.shuffle([setX(neq([q])), setX([]), setX(neq([a, q, r])), setX(neq([-a, -q]))])), { label: 'Domain' })],
+        hints: ['Factor both polynomials and cancel the common factor.', 'For the domain, use the factored denominator before cancelling.'],
+        solution: [
+          `$\\left(\\dfrac{f}{g}\\right)(x) = \\dfrac{${facTex(k, [a, r])}}{${facTex(1, [a, q])}} = \\dfrac{${facTex(k, [r])}}{${lin(q)}}$`,
+          `The original denominator is $0$ when ${orList([a, q])}. Cancelling $${lin(a)}$ does not put $x = ${a}$ back into the domain.`,
+          `The domain is ${correct}.`,
+        ],
+        answerDisplay: `$\\dfrac{${facTex(k, [r])}}{${lin(q)}}$, ${correct}`,
+      };
+    }
+
+    // context
+    const ctx = rng.pick(['garden', 'drone', 'density'] as const);
+    if (ctx === 'garden') {
+      const L0 = rng.int(10, 20);
+      const W0 = rng.int(6, 12);
+      const al = rng.pick([1, 2, 3]);
+      const be = rng.pick([1, 2]);
+      const t1 = rng.int(2, 6);
+      const A = pmul([L0, al], [W0, be]);
+      const town = rng.pick(['Red Deer', 'Lethbridge', 'Airdrie', 'Grande Prairie', 'St. Albert', 'Medicine Hat']);
+      return {
+        prompt: `A rectangular community garden in ${town} is being enlarged. After $t$ years, its length is $L(t) = ${L0} + ${coefTex(al)}t$ metres and its width is $W(t) = ${W0} + ${coefTex(be)}t$ metres.\n\nWrite the area function $A(t) = (LW)(t)$ in expanded form, and find the area after $${t1}$ years.`,
+        parts: [exprPart(ptxt(A, 't'), '$A(t) =$', 'expanded'), numPart(peval(A, t1), { label: `$A(${t1}) =$`, suffix: 'm²' })],
+        hints: ['$A(t) = L(t) \\cdot W(t)$. Expand the product and combine like terms.', `Substitute $t = ${t1}$ into $A(t)$ (or multiply $L(${t1})$ by $W(${t1})$).`],
+        solution: [
+          `$A(t) = (${L0} + ${coefTex(al)}t)(${W0} + ${coefTex(be)}t) = ${ptex(A, 't')}$`,
+          `$A(${t1}) = L(${t1}) \\cdot W(${t1}) = ${L0 + al * t1} \\times ${W0 + be * t1} = ${peval(A, t1)}$`,
+          `After $${t1}$ years the garden has an area of $${peval(A, t1)}$ m².`,
+        ],
+        calculator: true,
+      };
+    }
+    if (ctx === 'drone') {
+      const { v, h0, c, e, t1 } = retry(
+        () => ({ v: rng.pick([15, 18, 20, 24]), h0: rng.pick([1.5, 2]), c: rng.pick([2, 3, 4, 5]), e: rng.pick([5, 8, 10]), t1: rng.pick([1, 1.5, 2, 2.5]) }),
+        (o) => -4.9 * o.t1 ** 2 + (o.v - o.c) * o.t1 + o.h0 - o.e > 0,
+      );
+      const D = trimP([h0 - e, v - c, -4.9]);
+      const val = clean(peval(D, t1));
+      return {
+        prompt: `A ball is thrown upward. Its height after $t$ seconds is $h(t) = -4.9t^{2} + ${v}t + ${h0}$ metres. At the same moment, a drone rising at a steady rate is at height $k(t) = ${c}t + ${e}$ metres.\n\nWrite $d(t) = (h - k)(t)$, the height of the ball above the drone, in expanded form, and find $d(${t1})$.`,
+        parts: [exprPart(ptxt(D, 't'), '$d(t) =$', 'expanded'), numPart(val, { label: `$d(${t1}) =$`, suffix: 'm', display: 'decimal' })],
+        hints: ['$d(t) = h(t) - k(t)$: subtract every term of $k(t)$.', `Substitute $t = ${t1}$ into $d(t)$.`],
+        solution: [
+          `$d(t) = (-4.9t^{2} + ${v}t + ${h0}) - (${c}t + ${e}) = ${ptex(D, 't')}$`,
+          `$d(${t1}) = ${subTex(D, t1)} = ${fmt(val)}$`,
+          `After $${t1}$ s the ball is $${fmt(val)}$ m above the drone.`,
+        ],
+        calculator: true,
+      };
+    }
+    const town = rng.pick(['Airdrie', 'Okotoks', 'Cochrane', 'Beaumont', 'Leduc', 'Chestermere', 'Sylvan Lake', 'Canmore']);
+    const { P0, gr, A0, ga, t1 } = retry(
+      () => ({ P0: rng.pick([8000, 12000, 15000, 20000, 24000]), gr: rng.pick([400, 600, 750, 900, 1200]), A0: rng.pick([20, 25, 30, 40]), ga: rng.pick([0.5, 1, 1.5, 2]), t1: rng.pick([5, 8, 10, 12, 15]) }),
+      (o) => safeRound((o.P0 + o.gr * o.t1) / (o.A0 + o.ga * o.t1), 1),
+    );
+    const dens = (P0 + gr * t1) / (A0 + ga * t1);
+    return {
+      prompt: `The population of ${town} is modelled by $P(t) = ${P0} + ${gr}t$ people and its area by $A(t) = ${A0} + ${ga}t$ square kilometres, where $t$ is the number of years from now.\n\nThe population density is $D(t) = \\left(\\dfrac{P}{A}\\right)(t)$. Find the density in $${t1}$ years, to the nearest tenth of a person per square kilometre.`,
+      parts: [numPart(dens, { label: `$D(${t1}) =$`, decimals: 1, suffix: 'people/km²' })],
+      hints: ['$D(t) = \\dfrac{P(t)}{A(t)}$.', `Find $P(${t1})$ and $A(${t1})$, then divide.`],
+      solution: [
+        `$D(t) = \\dfrac{${P0} + ${gr}t}{${A0} + ${ga}t}$, defined for $t \\ge 0$ (the denominator is never $0$ there).`,
+        `$P(${t1}) = ${P0} + ${gr}(${t1}) = ${P0 + gr * t1}$ and $A(${t1}) = ${A0} + ${ga}(${t1}) = ${fmt(A0 + ga * t1)}$.`,
+        `$D(${t1}) = \\dfrac{${P0 + gr * t1}}{${fmt(A0 + ga * t1)}} \\approx ${roundTo(dens, 1).toFixed(1)}$ people per square kilometre.`,
+      ],
+      calculator: true,
+    };
+  },
+});
+
+// ---------------------------------------------------------------------------
+// 8.5 — Composite functions
+// ---------------------------------------------------------------------------
+
+/** outer(inner) written out before expanding: 3(2x - 1)^{2} + 4(2x - 1) - 5. */
+function substTex(outer: P, innerTex: string): string {
+  const idx = outer.map((_, i) => i).filter((i) => outer[i] !== 0).reverse();
+  let out = '';
+  for (const i of idx) {
+    const c = outer[i];
+    const a = Math.abs(c);
+    const body = i === 0 ? '' : i === 1 ? `(${innerTex})` : `(${innerTex})^{${i}}`;
+    const coef = body && a === 1 ? '' : fmt(a);
+    out += out === '' ? `${c < 0 ? '-' : ''}${coef}${body}` : ` ${c < 0 ? '-' : '+'} ${coef}${body}`;
+  }
+  return out || '0';
+}
+const linNZ = (rng: Rng): P => [rng.nonZero(-9, 9), rng.pick([2, 3, 4, 5, -1, -2, -3])];
+
+type CompKind = 'evalEq' | 'evalTable' | 'writeLinear' | 'writeQuad' | 'evalGraph' | 'decompose' | 'selfComp' | 'domainComp' | 'solveComp' | 'findInner' | 'context';
+
+const composition = skill({
+  id: 'm301-composition',
+  name: 'Composite functions',
+  description: 'Evaluate and write composite functions from equations, tables and graphs, state the domain of a composite, and decompose a function into a composition.',
+  outcomes: ['RF1'],
+  lessonId: 'm301-8-5',
+  gen(rng, d): GenOutput {
+    const kind: CompKind =
+      d === 1
+        ? rng.weighted<CompKind>([['evalEq', 3], ['evalTable', 2], ['writeLinear', 3]])
+        : d === 2
+          ? rng.weighted<CompKind>([['writeQuad', 3], ['evalGraph', 2], ['evalTable', 1], ['decompose', 2], ['selfComp', 1]])
+          : rng.weighted<CompKind>([['domainComp', 3], ['solveComp', 2], ['findInner', 2], ['context', 2]]);
+
+    if (kind === 'evalEq') {
+      const f = linNZ(rng);
+      const g: P = [rng.int(-6, 6), rng.pick([0, 0, 1, -2]), rng.pick([1, 1, 2, -1])];
+      const fg = rng.chance(0.5);
+      const x0 = rng.int(-3, 3);
+      const [inner, outer, In, Out] = fg ? [g, f, 'g', 'f'] : [f, g, 'f', 'g'];
+      const iv = peval(inner, x0);
+      const ov = peval(outer, iv);
+      return {
+        prompt: `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, evaluate $${Out}(${In}(${x0}))$.`,
+        parts: [numPart(ov, { label: `$${Out}(${In}(${x0})) =$` })],
+        hints: ['Work from the inside out.', `First find $${In}(${x0})$, then substitute that value into $${Out}$.`],
+        solution: [`Inside first: $${In}(${x0}) = ${subTex(inner, x0)} = ${iv}$.`, `Then $${Out}(${iv}) = ${subTex(outer, iv)} = ${ov}$.`, `So $${Out}(${In}(${x0})) = ${ov}$.`],
+      };
+    }
+
+    if (kind === 'evalTable') {
+      const start = rng.int(-3, -1);
+      const xs = [0, 1, 2, 3, 4, 5].map((i) => start + i);
+      const fv = xs.map(() => rng.pick(xs));
+      const gv = xs.map(() => rng.pick(xs));
+      const at = (vals: number[], x: number) => vals[xs.indexOf(x)];
+      const asks: Array<{ out: 'f' | 'g'; inn: 'f' | 'g'; x: number }> =
+        d === 1
+          ? [{ out: rng.pick(['f', 'g'] as const), inn: 'g', x: rng.pick(xs) }].map((o) => ({ ...o, inn: o.out === 'f' ? 'g' : 'f' }))
+          : rng.sample(xs, 3).map((x, i) => (i === 0 ? { out: 'f' as const, inn: 'g' as const, x } : i === 1 ? { out: 'g' as const, inn: 'f' as const, x } : rng.pick([{ out: 'f' as const, inn: 'f' as const, x }, { out: 'g' as const, inn: 'g' as const, x }])));
+      const val = (o: { out: 'f' | 'g'; inn: 'f' | 'g'; x: number }) => {
+        const iv = at(o.inn === 'f' ? fv : gv, o.x);
+        return { iv, ov: at(o.out === 'f' ? fv : gv, iv) };
+      };
+      return {
+        prompt: `Use the table of values to evaluate ${d === 1 ? 'the composite function' : 'each composite function'}.`,
+        figure: valTable(xs, fv, gv),
+        parts: asks.map((o) => numPart(val(o).ov, { label: `$${o.out}(${o.inn}(${o.x})) =$` })),
+        hints: ['Work from the inside out: find the inner value in the table first.', 'Then look up that value in the $x$-row and read the outer function.'],
+        solution: asks.map((o) => {
+          const { iv, ov } = val(o);
+          return `$${o.inn}(${o.x}) = ${iv}$, so $${o.out}(${o.inn}(${o.x})) = ${o.out}(${iv}) = ${ov}$.`;
+        }),
+      };
+    }
+
+    if (kind === 'writeLinear' || kind === 'selfComp') {
+      const f = linNZ(rng);
+      const g = linNZ(rng);
+      const self = kind === 'selfComp';
+      const fg = rng.chance(0.5);
+      const [inner, outer, In, Out] = self ? [f, f, 'f', 'f'] : fg ? [g, f, 'g', 'f'] : [f, g, 'f', 'g'];
+      const res = pcompose(outer, inner);
+      return {
+        prompt: self ? `Given $f(x) = ${ptex(f)}$, write $f(f(x))$ in simplest form.` : `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, write $${Out}(${In}(x))$ in simplest form.`,
+        parts: [exprPart(ptxt(res), `$${Out}(${In}(x)) =$`, 'expanded')],
+        hints: [`Replace every $x$ in $${Out}(x)$ with the expression for $${In}(x)$.`, 'Expand and combine like terms.'],
+        solution: [
+          `$${Out}(${In}(x)) = ${substTex(outer, ptex(inner))}$`,
+          `$= ${ptex(pscale(inner, outer[1]))}${outer[0] === 0 ? '' : plusC(outer[0])}$`,
+          `$${Out}(${In}(x)) = ${ptex(res)}$`,
+        ],
+      };
+    }
+
+    if (kind === 'writeQuad') {
+      const f: P = rng.chance(0.5) ? [rng.int(-9, 9), rng.int(-5, 5), 1] : [rng.int(-9, 9), 0, rng.pick([2, 3, -1])];
+      const g = linNZ(rng);
+      const fg = pcompose(f, g);
+      const gf = pcompose(g, f);
+      const sq = pmul(g, g);
+      return {
+        prompt: `Given $f(x) = ${ptex(f)}$ and $g(x) = ${ptex(g)}$, write $f(g(x))$ and $g(f(x))$ in expanded form.`,
+        parts: [exprPart(ptxt(fg), '$f(g(x)) =$', 'expanded'), exprPart(ptxt(gf), '$g(f(x)) =$', 'expanded')],
+        hints: ['For $f(g(x))$, replace every $x$ in $f(x)$ with $(' + ptex(g) + ')$; for $g(f(x))$, replace every $x$ in $g(x)$ with $(' + ptex(f) + ')$.', `Expand $(${ptex(g)})^{2} = ${ptex(sq)}$ carefully.`],
+        solution: [
+          `$f(g(x)) = ${substTex(f, ptex(g))}$`,
+          `$(${ptex(g)})^{2} = ${ptex(sq)}$, so $f(g(x)) = ${ptex(pscale(sq, f[2]))}${f[1] === 0 ? '' : cont(pscale(g, f[1]))}${plusC(f[0])} = ${ptex(fg)}$`,
+          `$g(f(x)) = ${substTex(g, ptex(f))} = ${ptex(gf)}$`,
+          'The two composites are different: the order of composition matters.',
+        ],
+      };
+    }
+
+    if (kind === 'evalGraph') {
+      const setup = retry(
+        () => {
+          const m = rng.pick([-2, -1, 1, 2]);
+          const b = rng.int(-3, 3);
+          const sgn = rng.pick([1, -1]);
+          const p = rng.int(-2, 2);
+          const q = rng.int(-4, 4);
+          const F: Fn = (x) => m * x + b;
+          const G: Fn = (x) => sgn * (x - p) ** 2 + q;
+          const xs = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+          const okFG = xs.filter((x) => Math.abs(G(x)) <= 7 && Math.abs(F(G(x))) <= 7);
+          const okGF = xs.filter((x) => Math.abs(F(x)) <= 7 && Math.abs(G(F(x))) <= 7);
+          return { m, b, F, G, okFG, okGF };
+        },
+        (o) => o.okFG.length >= 1 && o.okGF.length >= 1,
+      );
+      const x0 = rng.pick(setup.okFG);
+      const x1 = rng.pick(setup.okGF);
+      const { F, G } = setup;
+      const fig: PlaneFigure = {
+        type: 'plane',
+        grid: GRID,
+        lines: [{ through: [[0, setup.b], [1, setup.b + setup.m]] }],
+        polylines: curve(G, GRID).map((points) => ({ points, color: 'accent' as const })),
+      };
+      return {
+        prompt: 'The graphs of the linear function $y = f(x)$ (the line) and the quadratic function $y = g(x)$ (the parabola) are shown. Evaluate each composite.',
+        figure: fig,
+        parts: [numPart(F(G(x0)), { label: `$f(g(${x0})) =$` }), numPart(G(F(x1)), { label: `$g(f(${x1})) =$` })],
+        hints: ['Work from the inside out: read the inner function at the given $x$-value first.', 'Use that output as the input of the outer function, and read its graph there.'],
+        solution: [
+          `From the parabola, $g(${x0}) = ${G(x0)}$. From the line, $f(${G(x0)}) = ${F(G(x0))}$. So $f(g(${x0})) = ${F(G(x0))}$.`,
+          `From the line, $f(${x1}) = ${F(x1)}$. From the parabola, $g(${F(x1)}) = ${G(F(x1))}$. So $g(f(${x1})) = ${G(F(x1))}$.`,
+        ],
+      };
+    }
+
+    if (kind === 'decompose') {
+      const form = rng.pick(['square', 'sqrt', 'recip', 'cube'] as const);
+      const a = rng.pick([2, 3, 4, 5, -2]);
+      const b = rng.nonZero(-7, 7);
+      const c = retry(() => rng.nonZero(-9, 9), (c) => c !== b);
+      type Pair = { f: string; g: string; F: Fn; G: Fn };
+      let h: Fn;
+      let hT: string;
+      let correct: Pair;
+      let cands: Pair[];
+      const lin2 = ptex([b, a]);
+      if (form === 'square') {
+        h = (x) => (a * x + b) ** 2 + c;
+        hT = `(${lin2})^{2}${plusC(c)}`;
+        correct = { f: `x^{2}${plusC(c)}`, g: lin2, F: (x) => x * x + c, G: (x) => a * x + b };
+        cands = [
+          { f: lin2, g: `x^{2}${plusC(c)}`, F: (x) => a * x + b, G: (x) => x * x + c },
+          { f: 'x^{2}', g: ptex([b + c, a]), F: (x) => x * x, G: (x) => a * x + b + c },
+          { f: `(${lin(-c)})^{2}`, g: lin2, F: (x) => (x + c) ** 2, G: (x) => a * x + b },
+          { f: `x^{2}${plusC(c)}`, g: lin(-b), F: (x) => x * x + c, G: (x) => x + b },
+        ];
+      } else if (form === 'sqrt') {
+        h = (x) => Math.sqrt(a * x + b) + c;
+        hT = `\\sqrt{${lin2}}${plusC(c)}`;
+        correct = { f: `\\sqrt{x}${plusC(c)}`, g: lin2, F: (x) => Math.sqrt(x) + c, G: (x) => a * x + b };
+        cands = [
+          { f: lin2, g: `\\sqrt{x}${plusC(c)}`, F: (x) => a * x + b, G: (x) => Math.sqrt(x) + c },
+          { f: '\\sqrt{x}', g: ptex([b + c, a]), F: (x) => Math.sqrt(x), G: (x) => a * x + b + c },
+          { f: `\\sqrt{${lin(-c)}}`, g: lin2, F: (x) => Math.sqrt(x + c), G: (x) => a * x + b },
+          { f: `\\sqrt{x}${plusC(c)}`, g: lin(-b), F: (x) => Math.sqrt(x) + c, G: (x) => x + b },
+        ];
+      } else if (form === 'recip') {
+        const k = Math.abs(a);
+        h = (x) => k / (x * x + b);
+        hT = `\\dfrac{${k}}{x^{2}${plusC(b)}}`;
+        correct = { f: `\\dfrac{${k}}{x}`, g: `x^{2}${plusC(b)}`, F: (x) => k / x, G: (x) => x * x + b };
+        cands = [
+          { f: `x^{2}${plusC(b)}`, g: `\\dfrac{${k}}{x}`, F: (x) => x * x + b, G: (x) => k / x },
+          { f: `\\dfrac{1}{x}`, g: `${k}x^{2}${plusC(b)}`, F: (x) => 1 / x, G: (x) => k * x * x + b },
+          { f: `\\dfrac{${k}}{x}${plusC(b)}`, g: 'x^{2}', F: (x) => k / x + b, G: (x) => x * x },
+          { f: `\\dfrac{${k}}{x^{2}}`, g: lin(-b), F: (x) => k / (x * x), G: (x) => x + b },
+        ];
+      } else {
+        h = (x) => (x * x + b) ** 3;
+        hT = `(x^{2}${plusC(b)})^{3}`;
+        correct = { f: 'x^{3}', g: `x^{2}${plusC(b)}`, F: (x) => x ** 3, G: (x) => x * x + b };
+        cands = [
+          { f: `x^{2}${plusC(b)}`, g: 'x^{3}', F: (x) => x * x + b, G: (x) => x ** 3 },
+          { f: `x^{3}${plusC(b)}`, g: 'x^{2}', F: (x) => x ** 3 + b, G: (x) => x * x },
+          { f: 'x^{2}', g: `(${lin(-b)})^{3}`, F: (x) => x * x, G: (x) => (x + b) ** 3 },
+          { f: `x^{3}${plusC(b ** 3)}`, g: 'x^{2}', F: (x) => x ** 3 + b ** 3, G: (x) => x * x },
+        ];
+      }
+      const XS = [0.7, 1.3, 2.1, 3.4, 4.6];
+      const works = (pr: Pair) => XS.every((x) => Math.abs(pr.F(pr.G(x)) - h(x)) < 1e-9 || (!Number.isFinite(pr.F(pr.G(x))) && !Number.isFinite(h(x))));
+      const txt = (pr: Pair) => `$f(x) = ${pr.f}$ and $g(x) = ${pr.g}$`;
+      const ds = rng.shuffle(cands.filter((pr) => !works(pr))).map(txt);
+      return {
+        prompt: `Let $h(x) = ${hT}$. Which pair of functions satisfies $h(x) = f(g(x))$?`,
+        parts: [part(mc(rng, txt(correct), ds))],
+        hints: ['$g$ is the inner function: what is done to $x$ first?', '$f$ is the outer function: what is done to the result of $g$?'],
+        solution: [
+          `To evaluate $h(x)$, you first calculate $${correct.g}$; that is the inner function $g(x) = ${correct.g}$.`,
+          `Then the result is put into $f(x) = ${correct.f}$.`,
+          `Check: $f(g(x)) = ${correct.f.replace(/x/g, `(${correct.g})`).replace(/\\dfrac\{(\d+)\}\{\((.*)\)\}/, '\\dfrac{$1}{$2}')} = ${hT}$.`,
+        ],
+      };
+    }
+
+    if (kind === 'domainComp') {
+      const variant = rng.pick(['sqrtInner', 'sqrtOuter', 'sqrtRev', 'recipShift', 'recipRecip', 'squareSqrt'] as const);
+      let fT: string;
+      let gT: string;
+      let comp = 'f(g(x))';
+      let expected: string;
+      let compTex: string;
+      let correct: string;
+      let ds: string[];
+      let why: string[];
+      if (variant === 'sqrtInner' || variant === 'sqrtOuter') {
+        const a = rng.pick([-5, -4, -3, -2, -1, 1, 2]);
+        fT = '\\sqrt{x}';
+        gT = lin(a);
+        if (variant === 'sqrtInner') {
+          expected = `sqrt(${linTxt(a)})`;
+          compTex = `\\sqrt{${lin(a)}}`;
+          correct = setX([`x \\ge ${a}`]);
+          ds = [setX(['x \\ge 0']), setX([`x \\ge ${-a}`]), setX([]), setX([`x > ${a}`])];
+          why = [`$f(g(x)) = f(${lin(a)}) = ${compTex}$.`, `$g$ accepts every real number, but $f$ needs a non-negative input: $${lin(a)} \\ge 0$, so $x \\ge ${a}$.`];
+        } else {
+          comp = 'g(f(x))';
+          expected = `sqrt(x)${a < 0 ? ' + ' : ' - '}${Math.abs(a)}`;
+          compTex = `\\sqrt{x}${plusC(-a)}`;
+          correct = setX(['x \\ge 0']);
+          ds = [setX([`x \\ge ${a}`]), setX([]), setX(['x > 0']), setX([`x \\ge ${-a}`])];
+          why = [`$g(f(x)) = g(\\sqrt{x}) = ${compTex}$.`, '$f$ is applied first, and it needs $x \\ge 0$. $g$ accepts every output of $f$, so nothing else is excluded.'];
+        }
+      } else if (variant === 'sqrtRev') {
+        const a = rng.int(2, 6);
+        fT = '\\sqrt{x}';
+        gT = `${a} - x`;
+        expected = `sqrt(${a} - x)`;
+        compTex = `\\sqrt{${a} - x}`;
+        correct = setX([`x \\le ${a}`]);
+        ds = [setX([`x \\ge ${a}`]), setX(['x \\ge 0']), setX([`x < ${a}`]), setX([])];
+        why = [`$f(g(x)) = f(${a} - x) = ${compTex}$.`, `The input of $f$ must not be negative: $${a} - x \\ge 0$, so $x \\le ${a}$.`];
+      } else if (variant === 'recipShift') {
+        const a = rng.nonZero(-5, 5);
+        const b = rng.intExcept(-6, 6, [0, a]);
+        fT = `\\dfrac{1}{${lin(a)}}`;
+        gT = lin(-b);
+        expected = `1/(${linTxt(a - b)})`;
+        compTex = `\\dfrac{1}{${lin(a - b)}}`;
+        correct = setX(neq([a - b]));
+        ds = [setX(neq([a])), setX(neq([-b])), setX([]), setX(neq([b - a]))];
+        why = [`$f(g(x)) = \\dfrac{1}{(${lin(-b)}) ${a < 0 ? '+' : '-'} ${Math.abs(a)}} = ${compTex}$.`, `$f$ cannot accept the input $${a}$: $g(x) = ${a}$ when $x = ${a - b}$. So $x \\ne ${a - b}$.`];
+      } else if (variant === 'recipRecip') {
+        const a = rng.nonZero(-5, 5);
+        fT = '\\dfrac{1}{x}';
+        gT = `\\dfrac{1}{${lin(a)}}`;
+        expected = ptxt([-a, 1]);
+        compTex = lin(a);
+        correct = setX(neq([a]));
+        ds = [setX([]), setX(neq([0])), setX(neq([0, a])), setX(neq([-a]))];
+        why = [`$f(g(x)) = \\dfrac{1}{\\frac{1}{${lin(a)}}} = ${lin(a)}$.`, `The simplified form hides a restriction: $g(x)$ is undefined at $x = ${a}$, so that value is not in the domain of $f(g(x))$. ($g(x)$ is never $0$, so $f$ adds no restriction.)`];
+      } else {
+        const a = rng.int(-4, 3);
+        fT = 'x^{2}';
+        gT = `\\sqrt{${lin(a)}}`;
+        expected = ptxt([-a, 1]);
+        compTex = lin(a);
+        correct = setX([`x \\ge ${a}`]);
+        ds = [setX([]), setX(['x \\ge 0']), setX([`x > ${a}`]), setX([`x \\ge ${-a}`])];
+        why = [`$f(g(x)) = (\\sqrt{${lin(a)}})^{2} = ${lin(a)}$.`, `But $g$ is applied first and needs $${lin(a)} \\ge 0$, so the domain is $x \\ge ${a}$, not all real numbers.`];
+      }
+      return {
+        prompt: `Given $f(x) = ${fT}$ and $g(x) = ${gT}$, write $${comp}$ in simplest form and state its domain.`,
+        parts: [exprPart(expected, `$${comp} =$`), part(mc(rng, correct, rng.shuffle(ds)), { label: 'Domain' })],
+        hints: [`Substitute the inner function into the outer function.`, 'The domain of a composite contains the $x$-values in the domain of the inner function whose outputs are in the domain of the outer function. Check the restrictions before simplifying.'],
+        solution: [...why, `The domain is ${correct}.`],
+        answerDisplay: `$${comp} = ${compTex}$; ${correct}`,
+      };
+    }
+
+    if (kind === 'solveComp') {
+      if (rng.chance(0.5)) {
+        const p = rng.int(-6, 6);
+        const q = rng.nonZero(-5, 5);
+        const s = rng.int(1, 6);
+        const c = p + s * s;
+        return {
+          prompt: `Given $f(x) = x^{2}${plusC(p)}$ and $g(x) = ${lin(q)}$, solve $f(g(x)) = ${c}$.`,
+          parts: [solPart([q - s, q + s])],
+          hints: ['Write $f(g(x))$ first.', `Solve $(${lin(q)})^{2}${plusC(p)} = ${c}$ by isolating the square and taking square roots.`],
+          solution: [`$f(g(x)) = (${lin(q)})^{2}${plusC(p)}$.`, `$(${lin(q)})^{2}${plusC(p)} = ${c}$ gives $(${lin(q)})^{2} = ${s * s}$.`, `$${lin(q)} = \\pm ${s}$, so $x = ${q - s}$ or $x = ${q + s}$.`],
+        };
+      }
+      const a = rng.pick([2, 3, 4, -2]);
+      const b = rng.int(-9, 9);
+      const p = rng.int(-4, 4);
+      const s = rng.int(1, 5);
+      const c = a * (s * s + p) + b;
+      return {
+        prompt: `Given $f(x) = ${ptex([b, a])}$ and $g(x) = x^{2}${plusC(p)}$, solve $f(g(x)) = ${c}$.`,
+        parts: [solPart([-s, s])],
+        hints: ['Write $f(g(x))$ by substituting $g(x)$ into $f$.', 'Solve the resulting equation for $x^2$, then take square roots.'],
+        solution: [`$f(g(x)) = ${a}(x^{2}${plusC(p)})${plusC(b)} = ${ptex([a * p + b, 0, a])}$.`, `$${ptex([a * p + b, 0, a])} = ${c}$ gives $${a}x^{2} = ${c - a * p - b}$, so $x^{2} = ${s * s}$.`, `$x = ${-s}$ or $x = ${s}$.`],
+      };
+    }
+
+    if (kind === 'findInner') {
+      if (rng.chance(0.5)) {
+        const a = rng.pick([2, 3, 4, 5, -2]);
+        const b = rng.nonZero(-9, 9);
+        const g: P = rng.chance(0.5) ? [rng.int(-6, 6), rng.nonZero(-5, 5), rng.pick([1, -1, 2])] : linNZ(rng);
+        const f: P = [b, a];
+        const h = pcompose(f, g);
+        return {
+          prompt: `Let $f(x) = ${ptex(f)}$. Find $g(x)$ if $f(g(x)) = ${ptex(h)}$.`,
+          parts: [exprPart(ptxt(g), '$g(x) =$', 'expanded')],
+          hints: [`$f(g(x)) = ${a}\\,g(x)${plusC(b)}$.`, `Set $${a}\\,g(x)${plusC(b)} = ${ptex(h)}$ and solve for $g(x)$.`],
+          solution: [`$f(g(x)) = ${a}\\,g(x)${plusC(b)}$, so $${a}\\,g(x)${plusC(b)} = ${ptex(h)}$.`, `$${a}\\,g(x) = ${ptex(padd(h, [b], -1))}$`, `$g(x) = ${ptex(g)}$`],
+        };
+      }
+      const c = rng.nonZero(-4, 4);
+      const f: P = [rng.int(-6, 6), rng.int(-4, 4), 1];
+      const g: P = [c, 1];
+      const h = pcompose(f, g);
+      return {
+        prompt: `Let $g(x) = ${ptex(g)}$. Find $f(x)$ if $f(g(x)) = ${ptex(h)}$.`,
+        parts: [exprPart(ptxt(f), '$f(x) =$', 'expanded')],
+        hints: [`Let $u = ${ptex(g)}$, so $x = ${lin(c, 'u')}$.`, `Substitute $x = ${lin(c, 'u')}$ into $${ptex(h)}$ and simplify to get $f(u)$.`],
+        solution: [
+          `Let $u = g(x) = ${ptex(g)}$; then $x = ${lin(c, 'u')}$.`,
+          `$f(u) = ${substTex(h, lin(c, 'u'))}$`,
+          `Expand and simplify: $f(u) = ${ptex(f, 'u')}$, so $f(x) = ${ptex(f)}$.`,
+          `Check: $f(g(x)) = ${substTex(f, ptex(g))} = ${ptex(h)}$.`,
+        ],
+      };
+    }
+
+    // context
+    const ctx = rng.pick(['oil', 'balloon', 'temp'] as const);
+    if (ctx === 'oil') {
+      const { v, r0, t1 } = retry(
+        () => ({ v: rng.pick([2, 3, 4, 5]), r0: rng.pick([0, 1, 2, 5]), t1: rng.pick([2, 3, 4, 5, 6]) }),
+        (o) => safeRound(Math.PI * (o.v * o.t1 + o.r0) ** 2, 0),
+      );
+      const A1 = Math.PI * (v * t1 + r0) ** 2;
+      const rT = ptex([r0, v], 't');
+      return {
+        prompt: `Oil leaking from a tanker spreads in a circle. The radius after $t$ hours is $r(t) = ${rT}$ metres, and the area of a circle of radius $r$ is $A(r) = \\pi r^{2}$.\n\nWrite $A(r(t))$, and find the area of the slick after $${t1}$ h, to the nearest square metre.`,
+        parts: [exprPart(`pi(${ptxt([r0, v], 't')})^2`, '$A(r(t)) =$'), numPart(A1, { label: `$A(r(${t1}))$`, decimals: 0, suffix: 'm²' })],
+        hints: ['$A(r(t))$ means: substitute the expression for $r(t)$ in place of $r$.', `First find $r(${t1})$, then the area.`],
+        solution: [`$A(r(t)) = \\pi(${rT})^{2}$`, `$r(${t1}) = ${v * t1 + r0}$ m, so $A(r(${t1})) = \\pi(${v * t1 + r0})^{2} \\approx ${Math.round(A1)}$ m².`],
+        calculator: true,
+      };
+    }
+    if (ctx === 'balloon') {
+      const { v, r0, t1 } = retry(
+        () => ({ v: rng.pick([0.5, 1, 1.5, 2]), r0: rng.pick([2, 3, 4, 5]), t1: rng.pick([2, 3, 4, 5]) }),
+        (o) => safeRound((4 / 3) * Math.PI * (o.v * o.t1 + o.r0) ** 3, 0),
+      );
+      const R1 = v * t1 + r0;
+      const V1 = (4 / 3) * Math.PI * R1 ** 3;
+      const rT = ptex([r0, v], 't');
+      return {
+        prompt: `A spherical balloon is being inflated. Its radius after $t$ seconds is $r(t) = ${rT}$ centimetres, and the volume of a sphere is $V(r) = \\dfrac{4}{3}\\pi r^{3}$.\n\nWrite $V(r(t))$, and find the volume after $${t1}$ s, to the nearest cubic centimetre.`,
+        parts: [exprPart(`(4/3)pi(${ptxt([r0, v], 't')})^3`, '$V(r(t)) =$'), numPart(V1, { label: `$V(r(${t1}))$`, decimals: 0, suffix: 'cm³' })],
+        hints: ['Substitute the expression for $r(t)$ in place of $r$ in $V(r)$.', `First find $r(${t1})$, then the volume.`],
+        solution: [`$V(r(t)) = \\dfrac{4}{3}\\pi(${rT})^{3}$`, `$r(${t1}) = ${fmt(R1)}$ cm, so $V(r(${t1})) = \\dfrac{4}{3}\\pi(${fmt(R1)})^{3} \\approx ${Math.round(V1)}$ cm³.`],
+        calculator: true,
+      };
+    }
+    const F0 = retry(
+      () => rng.int(-40, 110),
+      (f) => f !== 32 && safeRound((5 / 9) * (f - 32), 1) && safeRound((5 / 9) * (f - 32) + 273.15, 1),
+    );
+    const C0 = (5 / 9) * (F0 - 32);
+    const K0 = C0 + 273.15;
+    return {
+      prompt: `Temperatures convert with $C(F) = \\dfrac{5}{9}(F - 32)$ (Fahrenheit to Celsius) and $K(C) = C + 273.15$ (Celsius to kelvins). A reading is $${F0}$°F.\n\nFind $C(${F0})$ and $K(C(${F0}))$, each to the nearest tenth.`,
+      parts: [numPart(C0, { label: `$C(${F0})$`, decimals: 1, suffix: '°C' }), numPart(K0, { label: `$K(C(${F0}))$`, decimals: 1, suffix: 'K' })],
+      hints: ['Work from the inside out: convert to Celsius first.', 'Then add $273.15$ to convert Celsius to kelvins.'],
+      solution: [`$C(${F0}) = \\dfrac{5}{9}(${F0} - 32) = \\dfrac{5}{9}(${F0 - 32}) \\approx ${roundTo(C0, 1).toFixed(1)}$ °C`, `$K(C(${F0})) = ${roundTo(C0, 4)} + 273.15 \\approx ${roundTo(K0, 1).toFixed(1)}$ K (round only at the end).`],
+      calculator: true,
+    };
+  },
+});
+
+export const RATIONALFNS_SKILLS: SkillDef[] = [rationalFeatures, rationalGraph, rationalEquations, functionOperations, composition];

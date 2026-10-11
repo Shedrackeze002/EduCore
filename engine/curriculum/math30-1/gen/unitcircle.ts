@@ -270,78 +270,336 @@ function pointSteps(deg: number, rad: boolean): string[] {
 type Pt = [number, number];
 const r3 = (x: number) => Math.round(x * 1000) / 1000 + 0;
 
+// Figure layout (copied from math20-1/gen/trig.ts): labels are placed clear of every drawn line.
+type P = Pt;
+type Color = 'brand' | 'accent' | 'muted';
+const rad = (d: number) => (d * Math.PI) / 180;
+const at = (v: P, a: number, r: number): P => [v[0] + r * Math.cos(rad(a)), v[1] + r * Math.sin(rad(a))];
+
+interface Box {
+  x0: number;
+  x1: number;
+  y0: number;
+  y1: number;
+}
+function distPtSeg(p: P, a: P, b: P): number {
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const L2 = dx * dx + dy * dy;
+  let t = L2 ? ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L2 : 0;
+  t = Math.max(0, Math.min(1, t));
+  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
+}
+function distPtBox(p: P, b: Box): number {
+  return Math.hypot(Math.max(b.x0 - p[0], 0, p[0] - b.x1), Math.max(b.y0 - p[1], 0, p[1] - b.y1));
+}
+function segHitsBox(a: P, b: P, box: Box): boolean {
+  let t0 = 0;
+  let t1 = 1;
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const ps = [-dx, dx, -dy, dy];
+  const qs = [a[0] - box.x0, box.x1 - a[0], a[1] - box.y0, box.y1 - a[1]];
+  for (let i = 0; i < 4; i++) {
+    if (ps[i] === 0) {
+      if (qs[i] < 0) return false;
+    } else {
+      const r = qs[i] / ps[i];
+      if (ps[i] < 0) {
+        if (r > t1) return false;
+        if (r > t0) t0 = r;
+      } else {
+        if (r < t0) return false;
+        if (r < t1) t1 = r;
+      }
+    }
+  }
+  return true;
+}
+function distSegBox(a: P, b: P, box: Box): number {
+  if (segHitsBox(a, b, box)) return 0;
+  const corners: P[] = [
+    [box.x0, box.y0],
+    [box.x0, box.y1],
+    [box.x1, box.y0],
+    [box.x1, box.y1],
+  ];
+  return Math.min(...corners.map((c) => distPtSeg(c, a, b)), distPtBox(a, box), distPtBox(b, box));
+}
+function distBoxBox(p: Box, q: Box): number {
+  return Math.hypot(Math.max(q.x0 - p.x1, p.x0 - q.x1, 0), Math.max(q.y0 - p.y1, p.y0 - q.y1, 0));
+}
 /** Approximate rendered width (px) of a 12px bold figure label. */
 function textWidth(t: string): number {
   let w = 0;
-  for (const ch of t) w += ch === '°' ? 5 : ch === ' ' ? 3.5 : '(),.'.includes(ch) ? 4.5 : ch === 'θ' ? 7 : 7.2;
+  for (const ch of t) w += ch === '°' ? 5 : ch === ' ' ? 3.5 : ch === '(' || ch === ')' || ch === ',' || ch === '.' ? 4.5 : ch === '₁' || ch === '₂' ? 5 : 7.2;
   return w;
 }
-/** A label whose text is centred at c on a canvas with `ppu` pixels per unit (points draw their label up and to the right). */
-const labelAt = (c: Pt, text: string, ppu: number): PlanePoint => ({ x: r3(c[0] - (8 + textWidth(text) / 2) / ppu), y: r3(c[1] - 12.3 / ppu), label: text, color: 'muted', open: true });
+
+interface PendingLabel {
+  text: string;
+  cands: (ppu: number) => P[];
+  fixed?: boolean;
+}
+
+class Sketch {
+  private segs: PlaneSegment[] = [];
+  private polys: Array<{ points: P[]; color?: Color }> = [];
+  private dots: Array<{ p: P; color: Color }> = [];
+  private obstacles: Array<[P, P]> = [];
+  private pending: PendingLabel[] = [];
+  private extra: P[] = [];
+
+  seg(from: P, to: P, opts: { color?: Color; dashed?: boolean; arrowEnd?: boolean; arrowStart?: boolean } = {}) {
+    this.segs.push({ from, to, ...opts });
+    this.obstacles.push([from, to]);
+    return this;
+  }
+
+  /** Arc around v from direction a0 counterclockwise to a1, optionally with an arrowhead at a1. */
+  arc(v: P, r: number, a0: number, a1: number, color: Color = 'accent', arrow = false) {
+    const span = norm360(a1 - a0) || 360;
+    const n = Math.max(6, Math.ceil(span / 8));
+    const points: P[] = [];
+    for (let i = 0; i <= n; i++) points.push(at(v, a0 + (span * i) / n, r));
+    if (arrow) {
+      const last = points.pop()!;
+      this.polys.push({ points: [...points], color });
+      this.segs.push({ from: points[points.length - 1], to: last, color, arrowEnd: true });
+      points.push(last);
+    } else this.polys.push({ points, color });
+    for (let i = 0; i + 1 < points.length; i++) this.obstacles.push([points[i], points[i + 1]]);
+    return this;
+  }
+
+  polyline(points: P[], color: Color = 'brand') {
+    this.polys.push({ points, color });
+    for (let i = 0; i + 1 < points.length; i++) this.obstacles.push([points[i], points[i + 1]]);
+    return this;
+  }
+
+  dot(p: P, color: Color = 'brand') {
+    this.dots.push({ p, color });
+    return this;
+  }
+
+  include(p: P) {
+    this.extra.push(p);
+    return this;
+  }
+
+  /** Label inside the angle region from direction a0 counterclockwise to a1, near vertex v. */
+  angleLabel(v: P, a0: number, a1: number, text: string, minPx = 18) {
+    const span = norm360(a1 - a0) || 360;
+    this.pending.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const rpx of [minPx, minPx + 6, minPx + 12, minPx + 19, minPx + 27, minPx + 36, minPx + 48, minPx + 62])
+          for (const t of [0.5, 0.42, 0.58, 0.34, 0.66, 0.26, 0.74, 0.18, 0.82]) out.push(at(v, a0 + t * span, rpx / ppu));
+        return out;
+      },
+    });
+    return this;
+  }
+
+  /** Label near point p, preferring direction a. */
+  endLabel(p: P, a: number, text: string, near = 15) {
+    this.pending.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const dpx of [near, near + 4, near + 9, near + 15, near + 23])
+          for (const off of [0, 30, -30, 60, -60, 90, -90, 125, -125, 180]) out.push(at(p, a + off, dpx / ppu));
+        return out;
+      },
+    });
+    return this;
+  }
+
+  /** Label beside a side, on the side of direction a: tries every outward spot (moving further out) before any other. */
+  sideLabel(mid: P, a: number, text: string) {
+    this.pending.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const dpx of [12, 16, 21, 27, 34, 42, 51])
+          for (const off of [0, 20, -20, 40, -40]) out.push(at(mid, a + off, dpx / ppu));
+        for (const dpx of [14, 20, 28])
+          for (const off of [70, -70, 110, -110, 180]) out.push(at(mid, a + off, dpx / ppu));
+        return out;
+      },
+    });
+    return this;
+  }
+
+  /** Label for a vertex where rays meet: tries the widest gaps between the rays first. */
+  vertexLabel(v: P, rayDirs: number[], text: string) {
+    const dirs = [...rayDirs].map(norm360).sort((a, b) => a - b);
+    const gaps = dirs.map((a, i) => ({ a0: a, span: (i + 1 < dirs.length ? dirs[i + 1] : dirs[0] + 360) - a }));
+    gaps.sort((g, h) => h.span - g.span);
+    this.pending.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const g of gaps)
+          for (const rpx of [14, 18, 23, 29])
+            for (const t of [0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8]) out.push(at(v, g.a0 + t * g.span, rpx / ppu));
+        return out;
+      },
+    });
+    return this;
+  }
+
+  /** Text centred exactly at c. */
+  textAt(c: P, text: string) {
+    this.pending.push({ text, cands: () => [c], fixed: true });
+    return this;
+  }
+
+  build(opts: { margin?: number; caption?: string } = {}): PlaneFigure {
+    const m = opts.margin ?? 0.9;
+    const pts: P[] = [...this.segs.flatMap((s) => [s.from, s.to] as P[]), ...this.polys.flatMap((p) => p.points), ...this.dots.map((d) => d.p), ...this.extra];
+    let minX = Math.min(...pts.map((p) => p[0])) - m;
+    let maxX = Math.max(...pts.map((p) => p[0])) + m;
+    let minY = Math.min(...pts.map((p) => p[1])) - m;
+    let maxY = Math.max(...pts.map((p) => p[1])) + m;
+    let w = maxX - minX;
+    let h = maxY - minY;
+    if (w < h) {
+      minX -= (h - w) / 2;
+      maxX += (h - w) / 2;
+      w = h;
+    }
+    if (w > 2.2 * h) {
+      minY -= (w / 2.2 - h) / 2;
+      maxY += (w / 2.2 - h) / 2;
+      h = w / 2.2;
+    }
+    const xr = Math.ceil(w - 1e-9);
+    const yr = Math.ceil(h - 1e-9);
+    const ox = minX - (xr - w) / 2;
+    const oy = minY - (yr - h) / 2;
+    const bounds: Box = { x0: ox, x1: ox + xr, y0: oy, y1: oy + yr };
+    const ppu = 340 / xr;
+
+    const placed: Box[] = [];
+    const anchors: PlanePoint[] = [];
+    for (const lab of this.pending) {
+      const wpx = textWidth(lab.text);
+      let best: { c: P; score: number } | null = null;
+      for (const c of lab.cands(ppu)) {
+        const hw = (wpx / 2 + 1.5) / ppu;
+        const hh = 6.5 / ppu;
+        const box: Box = { x0: c[0] - hw, x1: c[0] + hw, y0: c[1] - hh, y1: c[1] + hh };
+        const A: P = [c[0] - (8 + wpx / 2) / ppu, c[1] - 12.3 / ppu];
+        let score: number;
+        if (lab.fixed) score = 100;
+        else if (box.x0 < bounds.x0 || box.x1 > bounds.x1 || box.y0 < bounds.y0 || box.y1 > bounds.y1) score = -1000;
+        else {
+          let tc = Infinity;
+          let ac = Infinity;
+          for (const [a, b] of this.obstacles) {
+            tc = Math.min(tc, distSegBox(a, b, box));
+            ac = Math.min(ac, distPtSeg(A, a, b) - 5.5 / ppu);
+          }
+          for (const pb of placed) {
+            tc = Math.min(tc, distBoxBox(pb, box) - 2 / ppu);
+            ac = Math.min(ac, distPtBox(A, pb) - 5.5 / ppu);
+          }
+          for (const d of this.dots) {
+            tc = Math.min(tc, distPtBox(d.p, box) - 6 / ppu);
+            ac = Math.min(ac, Math.hypot(A[0] - d.p[0], A[1] - d.p[1]) - 11 / ppu);
+          }
+          score = Math.min(tc, ac) * ppu;
+        }
+        if (!best || score > best.score) best = { c, score };
+        if (score >= 5) break;
+      }
+      const c = best!.c;
+      const hw = (wpx / 2 + 1.5) / ppu;
+      const hh = 6.5 / ppu;
+      placed.push({ x0: c[0] - hw, x1: c[0] + hw, y0: c[1] - hh, y1: c[1] + hh });
+      anchors.push({ x: c[0] - (8 + wpx / 2) / ppu, y: c[1] - 12.3 / ppu, label: lab.text, color: 'muted', open: true });
+    }
+
+    const T = (p: P): [number, number] => [r3(p[0] - ox), r3(p[1] - oy)];
+    return {
+      type: 'plane',
+      grid: { xMin: 0, xMax: xr, yMin: 0, yMax: yr, step: Math.max(xr, yr) },
+      hideTickLabels: true,
+      segments: this.segs.map((s) => ({ ...s, from: T(s.from), to: T(s.to) })),
+      polylines: this.polys.map((p) => ({ points: p.points.map(T), ...(p.color ? { color: p.color } : {}) })),
+      points: [
+        ...this.dots.map((d) => {
+          const [x, y] = T(d.p);
+          return { x, y, color: d.color } as PlanePoint;
+        }),
+        ...anchors.map((a) => {
+          const [x, y] = T([a.x, a.y]);
+          return { ...a, x, y };
+        }),
+      ],
+      ...(opts.caption ? { caption: opts.caption } : {}),
+    };
+  }
+}
+
+
+/** A spiral arc from 0° to t° (any sign or size) with an arrowhead at t. */
+function turnArc(s: Sketch, t: number, r0: number) {
+  const n = Math.max(8, Math.ceil(Math.abs(t) / 6));
+  const pts: P[] = [];
+  for (let i = 0; i <= n; i++) {
+    const a = (t * i) / n;
+    pts.push(at([0, 0], a, r0 + (0.07 * Math.abs(a)) / 360));
+  }
+  const last = pts.pop()!;
+  s.polyline(pts, 'muted');
+  s.seg(pts[pts.length - 1], last, { color: 'muted', arrowEnd: true });
+}
+
+const circlePts = (): P[] => Array.from({ length: 121 }, (_, i) => [Math.cos((2 * PI * i) / 120), Math.sin((2 * PI * i) / 120)] as P);
 
 /** The unit circle with the terminal arm of θ (degrees) and the point P(θ). */
 export function unitCircleFigure(o: { theta: number; label?: string; arc?: boolean; caption?: string }): PlaneFigure {
-  const circle: Pt[] = [];
-  for (let i = 0; i <= 120; i++) circle.push([r3(Math.cos((2 * PI * i) / 120)), r3(Math.sin((2 * PI * i) / 120))]);
+  const s = new Sketch();
+  const L = 1.45;
+  s.seg([-L, 0], [L, 0], { color: 'muted', arrowStart: true, arrowEnd: true });
+  s.seg([0, -L], [0, L], { color: 'muted', arrowStart: true, arrowEnd: true });
+  s.textAt([L - 0.02, -0.16], 'x').textAt([0.12, L - 0.04], 'y');
+  s.polyline(circlePts(), 'brand');
   const t = o.theta;
-  const P: Pt = [r3(cosD(t)), r3(sinD(t))];
-  const segments: PlaneSegment[] = [{ from: [0, 0], to: P, color: 'accent' }];
-  const polylines: PlaneFigure['polylines'] = [{ points: circle, color: 'brand' }];
-  if (o.arc !== false && t !== 0) {
-    const n = Math.max(8, Math.ceil(Math.abs(t) / 6));
-    const arc: Pt[] = [];
-    for (let i = 0; i <= n; i++) {
-      const a = (t * i) / n;
-      const rr = 0.2 + (0.06 * Math.abs(a)) / 360;
-      arc.push([r3(rr * cosD(a)), r3(rr * sinD(a))]);
-    }
-    const last = arc.pop()!;
-    polylines.push({ points: arc, color: 'muted' });
-    segments.push({ from: arc[arc.length - 1], to: last, color: 'muted', arrowEnd: true });
-  }
-  return {
-    type: 'plane',
-    grid: { xMin: -1.5, xMax: 1.5, yMin: -1.5, yMax: 1.5, step: 0.5 },
-    polylines,
-    segments,
-    points: [{ x: P[0], y: P[1], label: o.label ?? 'P', color: 'brand' }],
-    ...(o.caption ? { caption: o.caption } : {}),
-  };
+  const P0: P = [cosD(t), sinD(t)];
+  s.seg([0, 0], P0, { color: 'accent' });
+  if (o.arc !== false && t !== 0) turnArc(s, t, 0.2);
+  s.dot(P0, 'brand');
+  s.endLabel(P0, t, o.label ?? 'P', 13);
+  const axisPts: Array<[P, number, string]> = [
+    [[1, 0], -45, '(1, 0)'],
+    [[0, 1], 45, '(0, 1)'],
+    [[-1, 0], -135, '(−1, 0)'],
+    [[0, -1], -45, '(0, −1)'],
+  ];
+  for (const [p, a, text] of axisPts) if (Math.hypot(p[0] - P0[0], p[1] - P0[1]) > 0.2) s.endLabel(p, a, text, 12);
+  return s.build({ margin: 0.3, caption: o.caption });
 }
 
 /** A sector of a circle with central angle θ (radians): the radius, angle and arc are labelled. */
 export function sectorFigure(o: { theta: number; r: string; angle: string; arc?: string }): PlaneFigure {
-  const L = 1.7;
-  const ppu = 340 / (2 * L);
-  const circle: Pt[] = [];
-  for (let i = 0; i <= 120; i++) circle.push([r3(Math.cos((2 * PI * i) / 120)), r3(Math.sin((2 * PI * i) / 120))]);
-  const n = Math.max(8, Math.ceil(o.theta / 0.06));
-  const arc: Pt[] = [];
-  for (let i = 0; i <= n; i++) arc.push([r3(Math.cos((o.theta * i) / n)), r3(Math.sin((o.theta * i) / n))]);
-  const end: Pt = [r3(Math.cos(o.theta)), r3(Math.sin(o.theta))];
-  const half = o.theta / 2;
-  const angR = o.theta < 0.7 ? 0.5 : o.theta > 4.5 ? 0.24 : 0.3;
-  const wedge: Pt[] = [];
-  for (let i = 0; i <= 24; i++) wedge.push([r3(0.16 * Math.cos((o.theta * i) / 24)), r3(0.16 * Math.sin((o.theta * i) / 24))]);
-  return {
-    type: 'plane',
-    grid: { xMin: -L, xMax: L, yMin: -L, yMax: L, step: 2 * L },
-    hideTickLabels: true,
-    polylines: [
-      { points: circle, color: 'muted' },
-      { points: arc, color: 'accent' },
-      { points: wedge, color: 'muted' },
-    ],
-    segments: [
-      { from: [0, 0], to: [1, 0], color: 'brand' },
-      { from: [0, 0], to: end, color: 'brand' },
-    ],
-    points: [
-      labelAt([0.5, o.theta > 5.6 ? 0.13 : -0.13], o.r, ppu),
-      labelAt([angR * Math.cos(half) + 0.04, angR * Math.sin(half) + 0.02], o.angle, ppu),
-      ...(o.arc ? [labelAt([1.3 * Math.cos(half), 1.22 * Math.sin(half)], o.arc, ppu)] : []),
-    ],
-  };
+  const s = new Sketch();
+  const deg = (o.theta * 180) / PI;
+  s.polyline(circlePts(), 'muted');
+  const n = Math.max(8, Math.ceil(deg / 4));
+  s.polyline(Array.from({ length: n + 1 }, (_, i) => at([0, 0], (deg * i) / n, 1)), 'accent');
+  s.seg([0, 0], [1, 0], { color: 'brand' });
+  s.seg([0, 0], at([0, 0], deg, 1), { color: 'brand' });
+  s.arc([0, 0], 0.16, 0, deg, 'muted');
+  s.dot([0, 0], 'brand');
+  s.angleLabel([0, 0], 0, deg, o.angle, 24);
+  s.sideLabel([0.5, 0], deg > 300 ? 90 : -90, o.r);
+  if (o.arc) s.endLabel(at([0, 0], deg / 2, 1), deg / 2, o.arc, 12);
+  return s.build({ margin: 0.35 });
 }
 
 // ---------------------------------------------------------------------------
@@ -944,7 +1202,7 @@ const unitCirclePoint = skill({
       const pTex = giveX ? `\\left(${exLatex(X)},\\ y\\right)` : `\\left(x,\\ ${exLatex(Y)}\\right)`;
       return {
         prompt: `The point $P(\\theta) = ${pTex}$ lies on the unit circle, and the terminal arm of $\\theta$ is in quadrant ${ROMAN[q]}. Determine the exact value of $${uName}$. ${SQRT_NOTE}`,
-        parts: [numPart(exValue(uv), { label: `$${uName} =$` })],
+        parts: [numPart(exValue(uv), { display: 'fraction', label: `$${uName} =$` })],
         hints: ['Every point on the unit circle satisfies $x^2 + y^2 = 1$.', `Solve for $${uName}^2$, take the square root, and choose the sign for quadrant ${ROMAN[q]}.`],
         solution: [
           `Substitute into $x^2 + y^2 = 1$: $${giveX ? `${exParen(kv)}^2 + y^2` : `x^2 + ${exParen(kv)}^2`} = 1$`,
@@ -1066,7 +1324,7 @@ const exactTrig = skill({
       return {
         prompt: `Determine the exact value of $${fnAt(f, t, rad)}$. ${SQRT_NOTE}`,
         figure: unitCircleFigure({ theta: t, label: 'P(θ)' }),
-        parts: [numPart(exValue(value!), { label: `$${fnAt(f, t, rad)} =$` })],
+        parts: [numPart(exValue(value!), { display: 'fraction', label: `$${fnAt(f, t, rad)} =$` })],
         hints: [
           'Find the point $P(\\theta) = (x, y)$ on the unit circle.',
           '$\\sin\\theta = y$, $\\cos\\theta = x$, $\\tan\\theta = \\dfrac{y}{x}$, and the reciprocal ratios are $\\csc\\theta = \\dfrac{1}{y}$, $\\sec\\theta = \\dfrac{1}{x}$, $\\cot\\theta = \\dfrac{x}{y}$.',
@@ -1094,7 +1352,7 @@ const exactTrig = skill({
       }
       return {
         prompt: `Determine the exact value of $${lhs}$. ${SQRT_NOTE}`,
-        parts: [numPart(exValue(value), { label: `$${lhs} =$` })],
+        parts: [numPart(exValue(value), { display: 'fraction', label: `$${lhs} =$` })],
         hints: [
           deg < 0 || deg >= 360 ? 'Find a coterminal angle between $0$ and $2\\pi$ first.' : 'Find the quadrant and the reference angle, then the point $P(\\theta) = (x, y)$.',
           'Use $\\csc\\theta = \\dfrac{1}{y}$, $\\sec\\theta = \\dfrac{1}{x}$ and $\\cot\\theta = \\dfrac{x}{y}$ for the reciprocal ratios. Keep the signs of $x$ and $y$.',
@@ -1132,7 +1390,7 @@ const exactTrig = skill({
     const first = (x: Term) => `$\\${x.f} ${ang(x.t, rad, true)} = ${exLatex(x.raw)}$`;
     return {
       prompt: `Determine the exact value of $${expr}$. ${SQRT_NOTE}`,
-      parts: [numPart(exValue(result), { label: 'Value' })],
+      parts: [numPart(exValue(result), { display: 'fraction', label: 'Value' })],
       hints: [
         `Find each ratio separately from the point on the unit circle.${t1.sq || t2.sq ? ` Remember that $\\${(t1.sq ? t1 : t2).f}^2\\theta$ means $(\\${(t1.sq ? t1 : t2).f}\\theta)^2$.` : ''}`,
         'Substitute the exact values, then simplify. Keep radicals exact and rationalize denominators.',
@@ -1205,7 +1463,7 @@ const trigRatioValue = skill({
       const v = ratioXYR(f, ex(x), ex(y), ex(h))!;
       return {
         prompt: `The point $P(${x}, ${y})$ lies on the terminal arm of an angle $\\theta$ in standard position. Determine the exact value of $\\${f}\\theta$.`,
-        parts: [numPart(exValue(v), { label: `$\\${f}\\theta =$` })],
+        parts: [numPart(exValue(v), { display: 'fraction', label: `$\\${f}\\theta =$` })],
         hints: ['Find $r = \\sqrt{x^2 + y^2}$, the distance from the origin to $P$.', `$\\${f}\\theta = ${DEF_XYR[f]}$`],
         solution: [`$r = \\sqrt{(${x})^2 + (${y})^2} = \\sqrt{${h * h}} = ${h}$`, `$\\${f}\\theta = ${DEF_XYR[f]} = \\dfrac{${f === 'cot' ? x : h}}{${f === 'sec' ? x : y}} = ${exLatex(v)}$`],
         answerDisplay: `$\\${f}\\theta = ${exLatex(v)}$`,
@@ -1246,7 +1504,7 @@ const trigRatioValue = skill({
       steps.push(asked.map((g) => `$\\${g}\\theta = ${DEF_XYR[g]} = ${exLatex(vals[g])}$`).join(' and '));
       return {
         prompt: `Given $${givenTex}$ and ${where}, determine the exact values of $\\${asked[0]}\\theta$ and $\\${asked[1]}\\theta$. ${SQRT_NOTE}`,
-        parts: asked.map((g) => numPart(exValue(vals[g]), { label: `$\\${g}\\theta =$` })),
+        parts: asked.map((g) => numPart(exValue(vals[g]), { display: 'fraction', label: `$\\${g}\\theta =$` })),
         hints: [
           `Write $\\${f}\\theta$ in terms of $x$, $y$ and $r$, and read off two of them with the correct signs.`,
           'Use $x^2 + y^2 = r^2$ for the third, then $\\sin\\theta = \\dfrac{y}{r}$, $\\cos\\theta = \\dfrac{x}{r}$, $\\tan\\theta = \\dfrac{y}{x}$ and their reciprocals.',
@@ -1309,7 +1567,7 @@ const trigRatioValue = skill({
         `Use the inverse ${g === 'sin' ? 'sine' : g === 'cos' ? 'cosine' : 'tangent'} key on the positive value to get $\\theta_R$, then place it in quadrant ${ROMAN[q]}.`,
       ],
       solution: [
-        ...(f !== g ? [`$\\${g}\\theta = \\dfrac{1}{\\${f}\\theta} = \\dfrac{1}{${fmt(v)}} \\approx ${fmt(sign * base, 5)}$`] : []),
+        ...(f !== g ? [`$\\${g}\\theta = \\dfrac{1}{\\${f}\\theta} = \\dfrac{1}{${fmt(v)}} ${Number.isInteger(base * 1e5) ? '=' : '\\approx'} ${fmt(sign * base, 5)}$`] : []),
         `Reference angle: $\\theta_R = \\${g}^{-1}(${fmt(base, 5)}) \\approx ${refShow}$${rad ? ' (radian mode)' : ''}`,
         `The terminal arm is in quadrant ${ROMAN[q]}: $${placed}$`,
         `$\\theta \\approx ${rad ? fmtFixed(ans, 2) : `${fmtFixed(ans, 1)}^\\circ`}$`,
