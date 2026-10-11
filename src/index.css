@@ -19,7 +19,7 @@
   --line-strong: 204 209 223;
   --ink: 17 22 38;
   --ink-2: 70 79 102;
-  --ink-3: 113 122 145;
+  --ink-3: 95 103 125;
 
   --brand: 106 67 227;
   --brand-50: 245 243 255;
@@ -48,6 +48,11 @@
   --info-ink: 22 76 145;
 
   --accent: 235 104 52;
+  /* Spotlight: a deep brand panel with white text. It stays dark in both themes
+     (the brand ramp itself flips in dark mode, so brand-900 is not dark there). */
+  --spotlight: 61 39 128;
+  --spotlight-glow: 124 92 242;
+  --spotlight-accent: 188 173 255;
   --series-1: 106 67 227;
   --m0: 229 231 238;
   --m1: 134 182 239;
@@ -93,6 +98,9 @@
     --info-soft: 20 38 66;
     --info-ink: 158 197 244;
     --accent: 217 89 38;
+    --spotlight: 40 29 92;
+    --spotlight-glow: 124 92 242;
+    --spotlight-accent: 188 173 255;
     --series-1: 138 112 245;
     --m0: 40 46 68;
     --m1: 24 79 149;
@@ -138,6 +146,9 @@
   --info-soft: 20 38 66;
   --info-ink: 158 197 244;
   --accent: 217 89 38;
+  --spotlight: 40 29 92;
+  --spotlight-glow: 124 92 242;
+  --spotlight-accent: 188 173 255;
   --series-1: 138 112 245;
   --m0: 40 46 68;
   --m1: 24 79 149;

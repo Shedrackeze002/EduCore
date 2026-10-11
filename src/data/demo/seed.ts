@@ -16,7 +16,7 @@ import type { Assignment, Submission } from '../types.ts';
 import { DB_VERSION, type DemoDB, type DemoUser } from './db.ts';
 import { buildAnalystInput } from './analyst.ts';
 
-const AVATAR_COLORS = ['#6a43e3', '#2a78d6', '#0c8c4a', '#d68a00', '#d03b3b', '#c2417a', '#0e7c86', '#7a5af8'];
+const AVATAR_COLORS = ['#6a43e3', '#2a78d6', '#0c8c4a', '#b45309', '#d03b3b', '#c2417a', '#0e7c86', '#7a5af8'];
 
 import { DEMO_PASSWORD, DEMO_STUDENT_EMAIL, DEMO_TEACHER_EMAIL } from './constants.ts';
 export { DEMO_PASSWORD, DEMO_STUDENT_EMAIL, DEMO_TEACHER_EMAIL };
