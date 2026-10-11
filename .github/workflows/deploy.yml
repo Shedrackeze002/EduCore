@@ -4,7 +4,7 @@ name: Deploy to GitHub Pages
 #
 # Repository settings (Settings → Secrets and variables → Actions):
 #   Variables (optional)
-#     VITE_SUPABASE_URL       your Supabase project URL (leave unset to ship the demo only)
+#     VITE_SUPABASE_URL       Supabase project URL; overrides .env.production when set
 #     VITE_SUPABASE_ANON_KEY  the project's anon / publishable key (safe to expose)
 #     CUSTOM_DOMAIN           e.g. learn.yourschool.ca, once you have a domain
 #     BASE_PATH               override the base path (defaults to /<repo>/, or / with a custom domain)
@@ -36,13 +36,24 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      # Repository variables override .env.production only when they are set. They are
+      # written to .env.production.local rather than passed as environment variables,
+      # because an unset variable arrives as an empty string and would blank the backend.
+      - name: Choose the backend
+        run: |
+          : > .env.production.local
+          if [ -n "$URL" ]; then echo "VITE_SUPABASE_URL=$URL" >> .env.production.local; fi
+          if [ -n "$KEY" ]; then echo "VITE_SUPABASE_ANON_KEY=$KEY" >> .env.production.local; fi
+        env:
+          URL: ${{ vars.VITE_SUPABASE_URL }}
+          KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       - name: Build
         run: npm run build
         env:
           BASE_PATH: ${{ vars.BASE_PATH || (vars.CUSTOM_DOMAIN && '/') || format('/{0}/', github.event.repository.name) }}
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+      - name: Check the site is connected to its backend
+        run: node scripts/check-backend.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
