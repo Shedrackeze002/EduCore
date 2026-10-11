@@ -5,13 +5,13 @@ present them in class, and assign work in one click. Students learn, practise an
 feedback. An AI teaching assistant reads every answer and suggests the next step for each
 student and for the class.
 
-It covers **Grade 10 Mathematics in Alberta's -1/-2 and -3 streams (Math 10C and Math 10-3)** and is built to grow to every stream in Grades 5–12.
+It covers **Alberta's Grade 10 courses in the -1/-2 and -3 streams (Math 10C and Math 10-3) and the Knowledge and Employability courses Math 10-4 and 20-4**, and is built to grow to every stream in Grades 5–12.
 
 ## What is inside
 
 | | |
 |---|---|
-| **Curriculum** | **Math 10C:** 8 units, 42 lessons and 126 skills covering all 19 outcomes (M1–M4, A1–A5, R1–R10). **Math 10-3:** 8 units, 31 lessons and 73 skills covering all 13 outcomes (M1–M4, G1–G6, N1–N2, A1), with workplace contexts such as wages, unit pricing, currency exchange, trades measurement and building plans. Every lesson has explanations, step-by-step worked examples, common mistakes and "check your understanding" questions. |
+| **Curriculum** | **Math 10C:** 8 units, 42 lessons and 126 skills covering all 19 outcomes (M1–M4, A1–A5, R1–R10). **Math 10-3:** 8 units, 31 lessons and 73 skills covering all 13 outcomes (M1–M4, G1–G6, N1–N2, A1), with workplace contexts such as wages, unit pricing, currency exchange, trades measurement and building plans. **Knowledge and Employability Math 10-4** (9 units, 27 lessons, 44 skills) and **Math 20-4** (9 units, 29 lessons, 36 skills): number sense, money, shopping, income, budgeting and credit, measurement, shapes, maps, and data and probability, written at an easier reading level with many tables, graphs and pictures. Every lesson has explanations, step-by-step worked examples, common mistakes and "check your understanding" questions. |
 | **Questions** | Every skill generates unlimited fresh questions at three difficulty levels, with hints, worked solutions and a forgiving math input (fractions, radicals, exponents, equations, points, graphs). Each student gets different numbers, so answers cannot be copied. |
 | **Work types** | Lesson reading, video, reading, practice, classwork, homework, quiz and exam. Instant or delayed feedback, attempts, time limits, hints, "try a similar question", shuffling, open and due dates, late work, and targeting individual students. |
 | **Mastery** | Bayesian Knowledge Tracing per student and skill with five levels: Not started, Attempted, Familiar, Proficient, Mastered. Spaced review is suggested when a skill may be fading. |

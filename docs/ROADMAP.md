@@ -7,13 +7,14 @@ items ship or decisions change.
 
 - Math 10C (all 19 outcomes) and Math 10-3 (all 13 outcomes), with lessons, generators,
   mastery tracking, assignments, reminders and the AI teaching assistant.
+- Knowledge and Employability Math 10-4 and 20-4 (all four strands of each), with bar and circle
+  graphs for data questions.
 - Platform administration: admin console, teacher approval, account controls, audit log.
 
 ## Next, in order
 
-1. **Finish Alberta mathematics, every stream.** Knowledge and Employability Math 10-4 and 20-4,
-   then Math 20-1, 20-2, 20-3, 30-1, 30-2, 30-3 and Math 31, then Grades 5 to 9. No student is
-   left without a course.
+1. **Finish Alberta mathematics, every stream.** Math 20-1, 20-2, 20-3, 30-1, 30-2, 30-3 and
+   Math 31, then Grades 5 to 9. No student is left without a course.
 2. **Whiteboard and a dynamic present mode.**
    - A whiteboard opened from present mode and closed back to the slide; pressure-sensitive pen
      (Apple Pencil, styluses), mouse and touch, with palm rejection; boards can be saved to the
@@ -54,5 +55,7 @@ items ship or decisions change.
 ## Technical follow-ups
 
 - Split each course's question generators into their own bundle so the app loads only the
-  courses a user needs (the main bundle is about 1.2 MB, 370 KB compressed, with two courses).
-- Show terminating decimals as decimals on the review screen (12.42 rather than 621/50).
+  courses a user needs (the main bundle is about 2 MB, 615 KB compressed, with four courses).
+  Do this before adding the Grade 11 courses.
+- Check the K&E outcome wording word for word against the program of studies once its host
+  (education.alberta.ca) is reachable from the build environment.

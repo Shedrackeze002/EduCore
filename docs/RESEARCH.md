@@ -42,6 +42,8 @@ hints and worked solutions, and appears in at least one lesson check.
 |---|---|---|
 | Mathematics 10C | -1 and -2 (pre-calculus and foundations) | Measurement M1–M4, Algebra and Number A1–A5, Relations and Functions R1–R10, using the codes in the course syllabus. |
 | Mathematics 10-3 | -3 (workplace and apprenticeship) | Measurement M1–M4, Geometry G1–G6, Number N1–N2, Algebra A1. |
+| K&E Mathematics 10-4 | -4 (Knowledge and Employability) | Number N1–N2, Patterns and Relations PR1–PR2, Shape and Space SS1–SS4, Statistics and Probability SP1–SP2 (EduCore's grouping of the program's strands). |
+| K&E Mathematics 20-4 | -4 (Knowledge and Employability) | Number N1–N4 (including shopping, income, budgeting and credit), Patterns and Relations PR1, Shape and Space SS1–SS3, Statistics and Probability SP1–SP2 (EduCore's grouping). |
 
 Alberta's Grade 10–12 courses are built on the WNCP *Common Curriculum Framework for Grades 10–12
 Mathematics* (2008), so Mathematics 10-3 corresponds to its *Apprenticeship and Workplace
@@ -52,6 +54,22 @@ follows the WNCP framework and the matching Saskatchewan outcomes. Alberta's own
 Assessment Standards for Mathematics 10-3* [18] should be used for a final word-for-word check,
 which this build could not do because the document host was unreachable from the build
 environment.
+
+Knowledge and Employability (K&E) courses are for students in Grades 8 to 12 who are working two
+to three grade levels below their age-appropriate grade and are preparing for the workplace [19].
+The *Knowledge and Employability Mathematics 10-4, 20-4* program of studies (2006) organizes both
+courses into four strands: Number, Patterns and Relations, Shape and Space, and Statistics and
+Probability [20]. Alberta's parent guide describes Mathematics 10-4 as whole numbers, fractions,
+decimals, percents and integers applied to everyday, community and workplace problems; patterns,
+variables, expressions, equations and graphs; visualization and symmetry with shapes; and a plan
+to collect, display and analyze data [21]. A Calgary Board of Education outline for Mathematics
+20-4 lists its units as a number review, shopping, income, budgeting (interest, vehicles, renting
+and budgets), SI and imperial measurement, perimeter and area, maps and scale, and statistics and
+probability [22]. EduCore's outcome codes for 10-4 and 20-4 summarize these strands in plain words;
+they are not quotations, and a word-for-word check against the program of studies [20] is still
+needed, because its host could not be reached from the build environment. K&E lessons are written
+at about a Grade 5–6 reading level with short sentences, a definition for every new term, and
+many tables, graphs and pictures.
 
 Workplace contexts state every rate in the question itself (GST, exchange rates, simplified
 payroll deduction rates, overtime rules), so questions stay correct when official rates change.
@@ -122,3 +140,11 @@ and hover details, and every level is also named in text, so colour is never the
 [17] Calgary Board of Education, *Alberta Mathematics Kindergarten to Grade 12 Scope and Sequence*, 2017. [cbe.ab.ca](https://joanecardinalschubert.cbe.ab.ca/documents/3b6ad6a1-0128-554f-a162-22e16a145d51/00-alberta_math_k-12_scope_sequence-2017.pdf)
 
 [18] Alberta Education, *Outcomes with Assessment Standards for Mathematics 10-3*, 2012. [open.alberta.ca](https://open.alberta.ca/publications/9780778598855)
+
+[19] Alberta Education, "Knowledge and Employability," LearnAlberta curriculum. [curriculum.learnalberta.ca](https://curriculum.learnalberta.ca/curriculum/en/pos/matkae_hs)
+
+[20] Alberta Education, *Knowledge and Employability Mathematics 10-4, 20-4 Program of Studies*, 2006. [education.alberta.ca](https://education.alberta.ca/media/3653319/kemath1020.pdf)
+
+[21] Alberta Education, "Senior High School — Mathematics 10-4," LearnAlberta parent guide. [curriculum.learnalberta.ca](https://curriculum.learnalberta.ca/parents/en/grade/hs/mat/kae1782)
+
+[22] Nelson Mandela High School (Calgary Board of Education), *Mathematics 20-4 Course Outline*, September 2023. [nelsonmandela.cbe.ab.ca](https://nelsonmandela.cbe.ab.ca/documents/c45830bc-fdc4-53cd-853d-1520ffc5956e/Math%2020-4%20Course%20Outline%20-%20September%202023.pdf)

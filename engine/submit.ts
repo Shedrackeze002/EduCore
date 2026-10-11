@@ -148,7 +148,7 @@ export function processSubmission(input: SubmitInput): SubmitOutput {
         at: input.now,
         prompt: item ? plain(item.prompt) : '',
         answer: readableAnswer(item, resp?.answers ?? []).slice(0, 160),
-        expected: item ? plain(item.parts.map((p) => answerMarkdown(p.answer)).join(' | ')) : '',
+        expected: item ? plain(item.parts.map((p) => answerMarkdown(p.answer, p)).join(' | ')) : '',
       };
     });
 

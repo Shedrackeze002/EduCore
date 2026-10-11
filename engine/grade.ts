@@ -114,9 +114,13 @@ const GROUPED = /^-?\d{1,3}(,\d{3})+(\.\d+)?$/;
 
 /** Strip a trailing unit the student typed ("12.5 cm" -> "12.5"). */
 function stripUnits(s: string): string {
+  // A unit is never the end of a longer word: the "in" of "min" is not inches.
   return s
-    .replace(/\s*(cm|mm|km|m|in|inches|inch|ft|feet|foot|yd|yards|yard|mi|miles|mile|degrees|deg|°|units?)(\^?[23²³])?\s*$/i, '')
-    .replace(/\s*(kg|mg|g|ml|l|litres?|liters?|lbs?|pounds?|oz|fl\.?\s*oz|gal|gallons?|qt|quarts?|pt|pints?|cups?|tons?|tonnes?|°\s*[cf]|percent|%|h|hrs?|hours?|mins?|minutes?|dollars?)\s*$/i, '')
+    .replace(/\s*(?<![a-z])(km\/h|kph|mph|m\/s|km\/l|l\/100\s*km|mpg)\s*$/i, '')
+    // A rate written with a slash ("2.50/kg", "18/h"); never maths such as 1/pi.
+    .replace(/(\d)\s*\/\s*(?!(?:pi|sqrt|root|cbrt)\b)[a-z]+\s*$/i, '$1')
+    .replace(/\s*(?<![a-z])(cm|mm|km|m|in|inches|inch|ft|feet|foot|yd|yards|yard|mi|miles|mile|degrees|deg|°|units?)(\^?[23²³])?\s*$/i, '')
+    .replace(/\s*(?<![a-z])(kg|mg|g|ml|l|litres?|liters?|lbs?|pounds?|oz|fl\.?\s*oz|gal|gallons?|qt|quarts?|pt|pints?|cups?|tons?|tonnes?|°\s*[cf]|percent|%|h|hrs?|hours?|mins?|minutes?|dollars?)\s*$/i, '')
     .replace(/°$/, '')
     // A word naming what was counted ("48 tiles", "3 cans of paint"), but not maths such as "3 pi".
     .replace(/(\d)\s+(?!(?:pi|sqrt|root|cbrt)\b)[a-z]{2,}(?:\s+[a-z]+){0,2}\.?\s*$/i, '$1')
@@ -222,8 +226,11 @@ export function equivalent(a: Node, b: Node, positive = true): boolean {
 
 function gradeExpression(spec: Extract<AnswerSpec, { kind: 'expression' }>, response: string): PartResult {
   if (!response) return invalid('Enter an answer.');
-  const student = parseExpr(response);
   const expected = parseExpr(spec.expected);
+  // "y = 3n + 4" when the box already says "y =": read the right-hand side, unless the
+  // left-hand letter is one of the expression's own variables.
+  const named = /^\s*([A-Za-z])\s*=\s*([^=]+)$/.exec(response);
+  const student = parseExpr(named && !variablesOf(expected).has(named[1]) ? named[2] : response);
   const extraVars = [...variablesOf(student)].filter((v) => !variablesOf(expected).has(v));
   if (extraVars.length) return no(`Your answer uses ${extraVars.join(', ')}, which is not in the question.`);
   if (!equivalent(student, expected, spec.positiveVars ?? true)) {

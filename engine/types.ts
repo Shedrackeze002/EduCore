@@ -122,7 +122,14 @@ export type Figure =
   | CaliperFigure
   | AreaModelFigure
   | ArrowDiagramFigure
-  | TableFigure;
+  | TableFigure
+  | BarChartFigure
+  | CircleGraphFigure;
+
+/** Every figure type, for checking figures written by hand in lesson files. */
+export const FIGURE_TYPES: ReadonlyArray<Figure['type']> = [
+  'rightTriangle', 'twoTriangles', 'solid', 'plane', 'numberLine', 'ruler', 'caliper', 'areaModel', 'arrowDiagram', 'table', 'barChart', 'circleGraph',
+];
 
 export interface RightTriangleFigure {
   type: 'rightTriangle';
@@ -268,6 +275,32 @@ export interface ArrowDiagramFigure {
   left: string[];
   right: string[];
   arrows: Array<[number, number]>;
+}
+
+/** A vertical bar graph with one bar per category. */
+export interface BarChartFigure {
+  type: 'barChart';
+  categories: string[];
+  values: number[];
+  /** Title of the value (vertical) axis, e.g. "Number of students". */
+  valueLabel?: string;
+  /** Title of the category (horizontal) axis. */
+  categoryLabel?: string;
+  /** Top of the value axis and the gap between grid lines; chosen from the data when omitted. */
+  max?: number;
+  step?: number;
+  /** Print each bar's value above it. Leave off when the question asks students to read the graph. */
+  showValues?: boolean;
+  caption?: string;
+}
+
+/** A circle (pie) graph with at most 6 slices, drawn clockwise from the top in the given order. */
+export interface CircleGraphFigure {
+  type: 'circleGraph';
+  slices: Array<{ label: string; value: number }>;
+  /** What the legend shows after each label: the slice's percent of the whole (default), its value, or nothing. */
+  show?: 'percent' | 'value' | 'none';
+  caption?: string;
 }
 
 export interface TableFigure {

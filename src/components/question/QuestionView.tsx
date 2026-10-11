@@ -187,7 +187,7 @@ function PartInput({
         <div className="mt-2 flex items-start gap-2 rounded-xl bg-good-soft px-3 py-2 text-sm text-good-ink">
           <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
           <span>
-            Correct answer: <Markdown md={answerMarkdown(spec)} inline />
+            Correct answer: <Markdown md={answerMarkdown(spec, part)} inline />
           </span>
         </div>
       )}

@@ -2,7 +2,7 @@
 import { expect, it } from 'vitest';
 import { gradeItem } from '../grade.ts';
 import { canonicalResponses } from '../answers.ts';
-import type { Difficulty, SkillDef } from '../types.ts';
+import { FIGURE_TYPES, type Difficulty, type SkillDef } from '../types.ts';
 
 export function checkSkill(s: SkillDef, seeds = Number(process.env.GEN_SEEDS ?? 60)) {
   it(`${s.id} generates valid, self-consistent items`, () => {
@@ -21,6 +21,7 @@ export function checkSkill(s: SkillDef, seeds = Number(process.env.GEN_SEEDS ?? 
         // A leaked JavaScript value shows up inside maths ($...$); "undefined" as a word (an undefined slope) is fine.
         const maths = (item.prompt + item.hints.join(' ') + item.solution.join(' ') + (item.answerDisplay ?? '')).match(/\$[^$]*\$/g) ?? [];
         expect(maths.filter((m) => /\bundefined\b/.test(m)), `${ctx} prints "undefined" in maths`).toEqual([]);
+        if (item.figure) expect(FIGURE_TYPES, `${ctx} unknown figure type`).toContain(item.figure.type);
         for (const p of item.parts) {
           const a = p.answer;
           if (a.kind === 'mc') {

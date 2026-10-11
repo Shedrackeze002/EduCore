@@ -54,6 +54,13 @@
   --spotlight-glow: 124 92 242;
   --spotlight-accent: 188 173 255;
   --series-1: 106 67 227;
+  /* Categorical slots for circle graphs (validated for colour-blind separation on the light surface). */
+  --cat-1: 42 120 214;
+  --cat-2: 235 104 52;
+  --cat-3: 27 175 122;
+  --cat-4: 237 161 0;
+  --cat-5: 232 123 164;
+  --cat-6: 0 131 0;
   --m0: 229 231 238;
   --m1: 134 182 239;
   --m2: 57 135 229;
@@ -102,6 +109,12 @@
     --spotlight-glow: 124 92 242;
     --spotlight-accent: 188 173 255;
     --series-1: 138 112 245;
+    --cat-1: 57 135 229;
+    --cat-2: 217 89 38;
+    --cat-3: 25 158 112;
+    --cat-4: 201 133 0;
+    --cat-5: 213 81 129;
+    --cat-6: 0 131 0;
     --m0: 40 46 68;
     --m1: 24 79 149;
     --m2: 42 120 214;
@@ -150,6 +163,12 @@
   --spotlight-glow: 124 92 242;
   --spotlight-accent: 188 173 255;
   --series-1: 138 112 245;
+  --cat-1: 57 135 229;
+  --cat-2: 217 89 38;
+  --cat-3: 25 158 112;
+  --cat-4: 201 133 0;
+  --cat-5: 213 81 129;
+  --cat-6: 0 131 0;
   --m0: 40 46 68;
   --m1: 24 79 149;
   --m2: 42 120 214;
