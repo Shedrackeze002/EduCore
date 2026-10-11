@@ -28,6 +28,33 @@ const exprDeg = (a: number, b: number) => (b === 0 ? `${linExpr(a, b)}^\\circ` :
 /** "(3x − 10)°" for a figure label. */
 const exprLabel = (a: number, b: number) => (b === 0 ? `${linExpr(a, b, true)}°` : `(${linExpr(a, b, true)})°`);
 
+const coefX = (k: number) => (k === 1 ? 'x' : `${k}x`);
+const signed = (c: number) => (c === 0 ? '' : ` ${c < 0 ? '-' : '+'} ${Math.abs(c)}`);
+/** kx + c with a value substituted for x, e.g. 3(14) - 8. */
+const subst = (k: number, c: number, x: number) => `${k === 1 ? x : `${k}(${x})`}${signed(c)}`;
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+/** Worked steps for k1 x + c1 = k2 x + c2 (k1 ≠ k2), keeping the x-term positive. */
+function solveEqual(k1: number, c1: number, k2: number, c2: number): string[] {
+  const [kb, cb, ks, cs] = k1 > k2 ? [k1, c1, k2, c2] : [k2, c2, k1, c1];
+  const k = kb - ks;
+  const r = cs - cb;
+  const steps = [`Subtract $${coefX(ks)}$ from both sides: $${coefX(k)}${signed(cb)} = ${cs}$`];
+  if (cb !== 0) steps.push(`${cb > 0 ? 'Subtract' : 'Add'} $${Math.abs(cb)}$ ${cb > 0 ? 'from' : 'to'} both sides: $${coefX(k)} = ${r}$`);
+  if (k !== 1) steps.push(`Divide both sides by $${k}$: $x = ${fmt(r / k)}$`);
+  return steps;
+}
+
+/** Worked steps for (k1 x + c1) + (k2 x + c2) = total. */
+function solveSum(k1: number, c1: number, k2: number, c2: number, total: number): string[] {
+  const k = k1 + k2;
+  const c = c1 + c2;
+  const steps = [`Collect like terms: $${coefX(k)}${signed(c)} = ${total}$`];
+  if (c !== 0) steps.push(`${c > 0 ? 'Subtract' : 'Add'} $${Math.abs(c)}$ ${c > 0 ? 'from' : 'to'} both sides: $${coefX(k)} = ${total - c}$`);
+  if (k !== 1) steps.push(`Divide both sides by $${k}$: $x = ${fmt((total - c) / k)}$`);
+  return steps;
+}
+
 // ---------------------------------------------------------------------------
 // Figure helpers: angles drawn on a hidden-label coordinate plane
 // ---------------------------------------------------------------------------
