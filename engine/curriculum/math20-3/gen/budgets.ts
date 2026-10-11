@@ -51,8 +51,10 @@ export const dec = (r: number) => fmt(r / 100, 6);
 export function toCents(x: number): string {
   if (isCents(x)) return `= ${m2(x)}`;
   if (Math.abs(roundTo(x, 4) - x) < 1e-9) return `= ${num(x, 4)} \\approx ${m2(x)}`;
-  const t = Math.floor(Math.abs(x) * 1000) / 1000;
-  return `= ${x < 0 ? '-' : ''}${group(t.toFixed(3), '{,}')}\\ldots \\approx ${m2(x)}`;
+  // Show a fourth decimal when the third is 5, so 6.3258... does not look like a tie (6.325...).
+  const dp = Math.floor(Math.abs(x) * 1000) % 10 === 5 ? 4 : 3;
+  const t = Math.floor(Math.abs(x) * 10 ** dp) / 10 ** dp;
+  return `= ${x < 0 ? '-' : ''}${group(t.toFixed(dp), '{,}')}\\ldots \\approx ${m2(x)}`;
 }
 /** "about " before a money amount that had to be rounded. */
 export const abt = (x: number) => (isCents(x) ? '' : 'about ');
@@ -530,6 +532,8 @@ const GOALS = [
   { what: 'an emergency fund', lo: 1000, hi: 2500 },
   { what: 'tools for a carpentry apprenticeship', lo: 700, hi: 1800 },
   { what: 'a used snowmobile', lo: 2500, hi: 6000 },
+  { what: 'a new phone', lo: 300, hi: 1200 },
+  { what: 'a concert trip to Edmonton', lo: 300, hi: 900 },
 ];
 const CUTS = ['eating out', 'entertainment', 'clothing', 'streaming and games'];
 
@@ -661,20 +665,27 @@ function adjust3(rng: Rng): Out {
         const ce = (eat * pe) / 100;
         const cf = (fun * pf) / 100;
         const S = total([L, ce, cf]);
-        const G = rng.int(Math.ceil(g.lo / 50), Math.floor(g.hi / 50)) * 50;
+        // Aim for a goal that takes 3 to 10 months, so the deadline fits in one calendar year.
+        const k = rng.int(3, wantYes ? 8 : 10);
+        const lo = Math.floor(((k - 1) * S) / 50) + 1;
+        const G = rng.int(lo, Math.max(lo, Math.floor((k * S) / 50))) * 50;
         const months = Math.ceil(Math.round(G * 100) / Math.round(S * 100));
         // The deadline is a few months after (Yes) or before (No) the months needed.
-        const m = wantYes ? months + rng.int(1, 3) : months - rng.int(1, 4);
+        const m = wantYes ? months + rng.int(1, 3) : months - rng.int(1, Math.max(1, Math.min(4, months - 2)));
         return { eat, fun, pe, pf, L, ce, cf, S, G, months, m };
       },
-      (x) => x.months >= 3 && x.m >= 2 && x.m <= 11 && x.G / x.S - Math.floor(x.G / x.S) >= 0.02,
+      (x) => x.months >= 3 && x.m >= 2 && x.m <= 11 && x.m !== x.months && x.G / x.S - Math.floor(x.G / x.S) >= 0.02,
       600,
     );
+    // Keep the deadline inside one calendar year even if every retry failed.
+    o.m = Math.min(11, Math.max(2, o.m));
+    const fits = GOALS.filter((x) => x.lo <= o.G && o.G <= x.hi);
+    const goal = fits.length ? rng.pick(fits).what : 'an emergency fund';
     const a = rng.int(0, 11 - o.m);
     const span = { m: o.m, from: MONTHS[a], to: MONTHS[a + o.m] };
     const ok = o.months <= span.m;
     return {
-      prompt: `${name} wants ${tag(o.G)} for ${g.what}. ${poss(name)} budget has a surplus of ${tag(o.L)} a month. To save faster, ${name} cuts eating out (now ${tag(o.eat)} a month) by ${pc(o.pe)} and entertainment (now ${tag(o.fun)} a month) by ${pc(o.pf)}, and saves the surplus plus everything cut. How much will ${name} save each month (to the nearest cent)? How many months will it take to reach the goal (count a part month as a whole month)? It is the start of ${span.from}. Will ${name} have the money by the start of ${span.to}?`,
+      prompt: `${name} wants ${tag(o.G)} for ${goal}. ${poss(name)} budget has a surplus of ${tag(o.L)} a month. To save faster, ${name} cuts eating out (now ${tag(o.eat)} a month) by ${pc(o.pe)} and entertainment (now ${tag(o.fun)} a month) by ${pc(o.pf)}, and saves the surplus plus everything cut. How much will ${name} save each month (to the nearest cent)? How many months will it take to reach the goal (count a part month as a whole month)? It is the start of ${span.from}. Will ${name} have the money by the start of ${span.to}?`,
       parts: [moneyPart(o.S, 'Saved each month: \\$'), numPart(o.months, { suffix: 'months', label: 'Months needed:' }), yesNo(`Ready by ${span.to}?`, ok)],
       hints: [`Find ${pc(o.pe)} of the eating-out amount and ${pc(o.pf)} of the entertainment amount. Add both cuts to the surplus.`, 'Months needed = goal ÷ monthly savings, rounded up. Then count the months until the date.'],
       solution: [
@@ -1088,10 +1099,11 @@ function reconcile3(rng: Rng): Out {
   }
   // Reconcile: adjust the statement and the register; they should agree.
   const nOut = rng.int(2, 3);
-  const outs = Array.from({ length: nOut }, () => rng.int(2500, 60000) / 100);
+  const { outs, dit, Sb } = retry(
+    () => ({ outs: Array.from({ length: nOut }, () => rng.int(2500, 60000) / 100), dit: rng.int(5000, 80000) / 100, Sb: rng.int(80000, 300000) / 100 }),
+    (v) => total([v.Sb, v.dit, -total(v.outs)]) >= 200,
+  );
   const outTot = total(outs);
-  const dit = rng.int(5000, 80000) / 100;
-  const Sb = rng.int(80000, 300000) / 100;
   const adj = total([Sb, dit, -outTot]);
   const fee = rng.pick([4.95, 5.95, 6.95, 8.5]);
   const int = rng.int(3, 95) / 100;

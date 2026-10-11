@@ -506,11 +506,12 @@ function areaVolD2(rng: Rng): Out {
     const vol = rng.chance(0.5);
     const k = vol ? rng.pick([2, 3, 4, 5]) : rng.pick([2, 3, 4, 5, 1.5, 2.5]);
     const f = clean(vol ? k ** 3 : k * k);
-    const c = vol ? rng.pick(VOL_CTX) : rng.pick(AREA_CTX);
+    const cv = rng.pick(VOL_CTX);
+    const ca = rng.pick(AREA_CTX);
     return {
       prompt: vol
-        ? `A larger version of ${c.obj} has the same shape and ${c.amt} $${num(f)}$ times as much. By what scale factor were its lengths multiplied?`
-        : `An enlargement of ${c.obj} has the same shape and $${num(f)}$ times the area. By what scale factor were its lengths multiplied?`,
+        ? `A larger version of ${cv.obj} has the same shape and ${cv.amt} $${num(f)}$ times as much. By what scale factor were its lengths multiplied?`
+        : `An enlargement of ${ca.obj} has the same shape and $${num(f)}$ times the area. By what scale factor were its lengths multiplied?`,
       parts: [numPart(k, { label: '$k =$' })],
       hints: [vol ? 'Volume is multiplied by $k^3$.' : 'Area is multiplied by $k^2$.', vol ? `Find the number that multiplies by itself three times to make $${num(f)}$: the cube root.` : `Find the number that multiplies by itself to make $${num(f)}$: the square root.`],
       solution: vol
@@ -1071,7 +1072,7 @@ function priceCents(rng: Rng, lo: number, hi: number): number {
 
 /** A parts list with letter labels as in the exploded view of the instructions. */
 function makeList(rng: Rng, kit: Kit, count: number): LinePart[] {
-  const chosen = kit.parts.length <= count ? kit.parts : kit.parts.filter((p, i) => i < 2 || rng.chance(count / kit.parts.length));
+  const chosen = kit.parts.length <= count ? kit.parts : kit.parts.filter((_, i) => i < 2 || rng.chance(count / kit.parts.length));
   const parts = chosen.slice(0, Math.max(3, Math.min(count, chosen.length)));
   return parts.map((p, i) => ({ label: 'ABCDEFG'[i], name: p.name, plural: p.plural, q: rng.pick(p.qty), c: priceCents(rng, p.lo, p.hi) }));
 }

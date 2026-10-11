@@ -121,7 +121,7 @@ export function endViewFig(b: number, h: number, labels: { b: string; h: string;
     hideTickLabels: true,
     polylines: [{ points: [L, R, A, L], color: 'brand' }],
     segments: [{ from: A, to: [5, y0], dashed: true, color: 'muted' }],
-    points: [tag(4.3, y0 - 0.75, labels.b), tag(5.15, y0 + (k * h) / 2 - 0.3, labels.h), tag(5 + half / 2 + 0.25, y0 + (k * h) / 2 + 0.25, labels.s)],
+    points: [tag(4.3, y0 - 0.75, labels.b), tag(5.22, y0 + (k * h) / 2 - 0.3, labels.h), tag(5 + half / 2 + 0.25, y0 + (k * h) / 2 + 0.25, labels.s)],
     caption,
   };
 }
@@ -143,7 +143,7 @@ function gableEndFig(W: number, H: number, g: number, u: string, caption: string
       { from: [r3(x0), r3(yw)], to: [r3(x1), r3(yw)], dashed: true, color: 'muted' },
       { from: [5, r3(yp)], to: [5, r3(yw)], dashed: true, color: 'muted' },
     ],
-    points: [tag(4.3, y0 - 0.75, `${fmt(W)} ${u}`), tag(x1 + 0.05, y0 + (k * H) / 2 - 0.25, `${fmt(H)} ${u}`), tag(5.1, yw + (k * g) / 2 - 0.3, `${fmt(g)} ${u}`)],
+    points: [tag(4.3, y0 - 0.75, `${fmt(W)} ${u}`), tag(x1 + 0.25, y0 + (k * H) / 2 - 0.25, `${fmt(H)} ${u}`), tag(5.22, yw + (k * g) / 2 - 0.3, `${fmt(g)} ${u}`)],
     caption,
   };
 }
