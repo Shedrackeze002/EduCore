@@ -531,7 +531,7 @@ const GRAPH_WHY: Record<GraphKind, string> = {
 const GRAPH_RULE = 'Bar graph: compare groups. Line graph: change over time. Circle graph: parts of one whole.';
 
 const GRAPH_SITUATIONS: Array<{ text: string; kind: GraphKind; easy?: boolean }> = [
-  { text: 'the temperature in Red Deer every hour from 6 a.m. to 6 p.m.', kind: 'line', easy: true },
+  { text: 'the temperature in Red Deer every hour from 6 in the morning to 6 in the evening', kind: 'line', easy: true },
   { text: 'how a puppy’s mass changed each week for $10$ weeks', kind: 'line', easy: true },
   { text: 'the price of a litre of gas on the first day of each month for a year', kind: 'line' },
   { text: '{name}’s savings account balance at the end of each month', kind: 'line' },
@@ -1001,6 +1001,7 @@ const an = (w: string) => (/^[aeiou]/i.test(w) ? `an ${w}` : `a ${w}`);
 
 function bagDesc(cols: string[], counts: number[]): string {
   const parts = cols.map((c, k) => `$${counts[k]}$ ${c}`);
+  if (parts.length === 1) return parts[0];
   return parts.length === 2 ? `${parts[0]} and ${parts[1]}` : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
 }
 
