@@ -5,13 +5,13 @@ present them in class, and assign work in one click. Students learn, practise an
 feedback. An AI teaching assistant reads every answer and suggests the next step for each
 student and for the class.
 
-It starts with **Grade 10 Mathematics (Alberta Math 10C)** and is built to grow to Grades 5–12.
+It covers **Grade 10 Mathematics in Alberta's -1/-2 and -3 streams (Math 10C and Math 10-3)** and is built to grow to every stream in Grades 5–12.
 
 ## What is inside
 
 | | |
 |---|---|
-| **Curriculum** | 8 units, 42 detailed lessons and 126 skills covering all 19 Math 10C outcomes (M1–M4, A1–A5, R1–R10). Every lesson has explanations, step-by-step worked examples, common mistakes and "check your understanding" questions. |
+| **Curriculum** | **Math 10C:** 8 units, 42 lessons and 126 skills covering all 19 outcomes (M1–M4, A1–A5, R1–R10). **Math 10-3:** 8 units, 31 lessons and 73 skills covering all 13 outcomes (M1–M4, G1–G6, N1–N2, A1), with workplace contexts such as wages, unit pricing, currency exchange, trades measurement and building plans. Every lesson has explanations, step-by-step worked examples, common mistakes and "check your understanding" questions. |
 | **Questions** | Every skill generates unlimited fresh questions at three difficulty levels, with hints, worked solutions and a forgiving math input (fractions, radicals, exponents, equations, points, graphs). Each student gets different numbers, so answers cannot be copied. |
 | **Work types** | Lesson reading, video, reading, practice, classwork, homework, quiz and exam. Instant or delayed feedback, attempts, time limits, hints, "try a similar question", shuffling, open and due dates, late work, and targeting individual students. |
 | **Mastery** | Bayesian Knowledge Tracing per student and skill with five levels: Not started, Attempted, Familiar, Proficient, Mastered. Spaced review is suggested when a skill may be fading. |
@@ -45,6 +45,7 @@ student demo in a second tab to watch notifications and submissions arrive live.
 - [docs/SETUP.md](docs/SETUP.md): GitHub Pages, Supabase, MiniMax, email reminders and a custom domain.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how the pieces fit together, the security model, and how to add Grades 5–12.
 - [docs/RESEARCH.md](docs/RESEARCH.md): the learning science and platforms behind the design, with sources.
+- [docs/ROADMAP.md](docs/ROADMAP.md): what comes next, in order, and the product decisions already made.
 
 ## Scripts
 

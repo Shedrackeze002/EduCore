@@ -9,7 +9,7 @@ function fmtTick(v: number): string {
 }
 
 /** Grid, axes and tick labels. Shared by figures and the interactive graph input. */
-export function PlaneGrid({ g, hideTickLabels }: { g: PlaneGeom; hideTickLabels?: boolean }) {
+export function PlaneGrid({ g, hideTickLabels, hideAxes }: { g: PlaneGeom; hideTickLabels?: boolean; hideAxes?: boolean }) {
   const { grid, toX, toY } = g;
   const x0 = toX(grid.xMin);
   const x1 = toX(grid.xMax);
@@ -17,17 +17,20 @@ export function PlaneGrid({ g, hideTickLabels }: { g: PlaneGeom; hideTickLabels?
   const y1 = toY(grid.yMin);
   const ax = toY(g.axisX);
   const ay = toX(g.axisY);
+  // A plane with no interior grid lines is a drawing canvas (angles, shapes), not a graph: no axes or frame.
+  const canvas = !!hideTickLabels && g.xTicks.length <= 2 && g.yTicks.length <= 2;
+  const axes = !hideAxes && !canvas;
   return (
     <g>
       <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fill="rgb(var(--surface))" />
-      {g.xTicks.map((t) => (
+      {!canvas && g.xTicks.map((t) => (
         <line key={`gx${t}`} x1={toX(t)} x2={toX(t)} y1={y0} y2={y1} stroke="rgb(var(--line))" strokeWidth={1} />
       ))}
-      {g.yTicks.map((t) => (
+      {!canvas && g.yTicks.map((t) => (
         <line key={`gy${t}`} y1={toY(t)} y2={toY(t)} x1={x0} x2={x1} stroke="rgb(var(--line))" strokeWidth={1} />
       ))}
-      <line x1={x0} x2={x1} y1={ax} y2={ax} stroke="rgb(var(--ink-3))" strokeWidth={1.4} />
-      <line y1={y0} y2={y1} x1={ay} x2={ay} stroke="rgb(var(--ink-3))" strokeWidth={1.4} />
+      {axes && <line x1={x0} x2={x1} y1={ax} y2={ax} stroke="rgb(var(--ink-3))" strokeWidth={1.4} />}
+      {axes && <line y1={y0} y2={y1} x1={ay} x2={ay} stroke="rgb(var(--ink-3))" strokeWidth={1.4} />}
       {!hideTickLabels &&
         g.xTicks.map((t, i) =>
           t === g.axisY && g.axisY === 0 && g.axisX === 0 && grid.yMin < 0 ? null : i % g.xLabelEvery === 0 ? (
@@ -112,7 +115,7 @@ export function PlaneFigure({ fig, children, width = 380 }: { fig: PlaneSpec; ch
   const poly = fig.polylines ?? [];
   return (
     <svg viewBox={`0 0 ${g.W} ${g.H}`} className="figure-svg h-auto w-full" role="img" aria-label={fig.caption ?? 'Coordinate graph'}>
-      <PlaneGrid g={g} hideTickLabels={fig.hideTickLabels} />
+      <PlaneGrid g={g} hideTickLabels={fig.hideTickLabels} hideAxes={fig.hideAxes} />
       {poly.map((pl, i) => (
         <polyline
           key={`pl${i}`}
