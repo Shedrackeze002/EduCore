@@ -554,12 +554,9 @@ function proportionMulti(rng: Rng): Out {
   }
   if (mode === 'recipe') {
     const dish = rng.pick(['bannock', 'pancakes', 'pizza dough', 'perogy dough', 'biscuits']);
-    const s = rng.pick([8, 10, 12, 16, 24]);
+    const s = rng.pick([6, 8, 12, 16, 24]);
     const g = rng.pick([400, 450, 500, 600, 750]);
-    const N = retry(() => rng.int(4, 15) * 10, (N) => {
-      const kg = (g * N) / s / 1000;
-      return !isWhole(N / s) && (exactDp(kg) === 1 || !onEdge(kg, 1));
-    });
+    const N = retry(() => rng.int(5, 30) * 5, (N) => !isWhole(N / s) && !onEdge((g * N) / s / 1000, 1));
     const grams = (g * N) / s;
     const kg = grams / 1000;
     return {
@@ -874,19 +871,20 @@ function bestBuyTwo(rng: Rng, name: string): Out {
 function bestBuyThree(rng: Rng, name: string): Out {
   const p = rng.pick(BB);
   const sizes = rng.sample(p.sizes, 3).sort((a, b) => a - b);
-  const best = rng.weighted([[2, 5], [1, 3], [0, 2]] as const);
+  const target = rng.weighted([[2, 5], [1, 3], [0, 2]] as const);
   const prices = retry(
     () => {
       const u = rng.float(p.lo, p.hi, 3);
-      return sizes.map((s, i) => price9((s / p.base) * u * (i === best ? rng.float(0.8, 0.9, 3) : rng.float(0.97, 1.12, 3))));
+      return sizes.map((s, i) => price9((s / p.base) * u * (i === target ? rng.float(0.8, 0.9, 3) : rng.float(0.97, 1.12, 3))));
     },
     (ps) => {
       const us = ps.map((x, i) => x / (sizes[i] / p.base));
-      const others = us.filter((_, i) => i !== best);
-      return Math.min(...others) / us[best] >= 1.03;
+      const others = us.filter((_, i) => i !== target);
+      return Math.min(...others) / us[target] >= 1.03;
     },
   );
   const us = prices.map((x, i) => x / (sizes[i] / p.base));
+  const best = us.indexOf(Math.min(...us));
   const rows = sizes.map((s, i) => [sizeCell(p, s), cell(prices[i])]);
   const div = (i: number) => {
     const n = sizes[i] / p.base;
@@ -1158,7 +1156,7 @@ const salePrice = skill({
       const p = d === 1 ? rng.pick([10, 20, 25, 30, 40, 50]) : rng.pick([15, 20, 25, 30, 35, 40, 45]);
       const askAmount = d === 2 && rng.chance(0.35);
       const P = retry(
-        () => (d === 1 ? 20 * rng.int(Math.ceil(it.lo / 20), Math.floor(it.hi / 20)) : roundTo(rng.int(it.lo, it.hi) + 0.99, 2)),
+        () => (d === 1 ? 20 * rng.int(Math.ceil(it.lo / 20), Math.floor(it.hi / 20)) : roundTo(rng.int(it.lo, it.hi) + rng.pick([0.99, 0.49, 0.95, 0.79, 0.29]), 2)),
         (x) => !onEdge((x * p) / 100, 2),
       );
       const disc = (P * p) / 100;
@@ -1679,7 +1677,11 @@ const exchangeBuySell = skill({
       };
     }
     const F = rng.pick([200, 250, 300, 400, 500, 600, 750]);
-    const r = roundTo(sell + rng.float(0.02, 0.06, 2), 4);
+    const pc = rng.pick([1.5, 2, 2.5, 3]);
+    const r = retry(
+      () => roundTo(sell + rng.float(0.02, 0.06, 2) + rng.int(0, 9) / 10000, 4),
+      (x) => !onEdge(F * x, 2) && !onEdge(F * x * (1 + pc / 100), 2),
+    );
     const R4 = fmtFixed(r, 4);
     if (mode === 'fee') {
       const fee = rng.pick([3.95, 4.95, 5.99, 7.5, 9.99]);
@@ -1692,7 +1694,6 @@ const exchangeBuySell = skill({
         solution: [`Cost of the ${c.name}: $${F} \\times ${R4} ${eq(base)}$`, `Add the fee: $${num(base)} + ${mv(fee)} ${eq(total)}$`, `The total cost is ${money(total)}.`],
       };
     }
-    const pc = rng.pick([1.5, 2, 2.5, 3]);
     const base = F * r;
     const com = (base * pc) / 100;
     const total = base + com;
