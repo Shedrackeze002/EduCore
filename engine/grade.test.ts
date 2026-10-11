@@ -25,6 +25,8 @@ describe('parser', () => {
 
 describe('numeric', () => {
   it('accepts fractions, mixed numbers and rounding', () => {
+    for (const r of ['250 000', '250,000', '250000']) expect(gradePart({ kind: 'numeric', value: 250000 }, r).correct, r).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 1250000.5 }, '1 250 000.5').correct).toBe(true);
     expect(gradePart({ kind: 'numeric', value: 0.75 }, '3/4').correct).toBe(true);
     expect(gradePart({ kind: 'numeric', value: 1.5 }, '1 1/2').correct).toBe(true);
     expect(gradePart({ kind: 'numeric', value: 12.3456, decimals: 1 }, '12.3').correct).toBe(true);

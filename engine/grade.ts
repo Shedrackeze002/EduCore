@@ -113,6 +113,8 @@ export function gradePart(spec: AnswerSpec, raw: string): PartResult {
 
 const MIXED = /^(-?)\s*(\d+)\s+(\d+)\s*\/\s*(\d+)$/;
 const GROUPED = /^-?\d{1,3}(,\d{3})+(\.\d+)?$/;
+/** Digits grouped by spaces, the SI and Canadian style: 250 000 or 1 250 000.5. */
+const SPACED = /^-?\d{1,3}([ \u00a0\u2009\u202f]\d{3})+(\.\d+)?$/;
 
 /** Strip a trailing unit the student typed ("12.5 cm" -> "12.5"). */
 function stripUnits(s: string): string {
@@ -133,6 +135,7 @@ export function parseNumber(raw: string, allowExpression: boolean): { value: num
   let s = stripUnits(raw.replace(/\$/g, '').trim());
   if (!s) return null;
   if (GROUPED.test(s)) s = s.replace(/,/g, '');
+  else if (SPACED.test(s)) s = s.replace(/[ \u00a0\u2009\u202f]/g, '');
   const mixed = MIXED.exec(s);
   if (mixed) {
     const sign = mixed[1] ? -1 : 1;
