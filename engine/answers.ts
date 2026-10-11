@@ -22,6 +22,8 @@ export function canonicalResponse(spec: AnswerSpec): string {
       if (f) return fracText(f);
       return fmt(spec.value, 10);
     }
+    case 'numbers':
+      return spec.values.length ? spec.values.map((value) => canonicalResponse({ kind: 'numeric', value, decimals: spec.decimals })).join(', ') : 'no solution';
     case 'expression':
       return spec.expected;
     case 'line': {
@@ -75,7 +77,6 @@ export function canonicalResponses(item: Item): string[] {
   return item.parts.map((p) => canonicalResponse(p.answer));
 }
 
-/** Human-readable correct answer (Markdown + LaTeX) for review screens. */
 /** True when a fraction with this denominator is a terminating decimal. */
 function terminates(d: number): boolean {
   let x = d;
@@ -84,7 +85,7 @@ function terminates(d: number): boolean {
   return x === 1;
 }
 
-/** The correct answer as Markdown. Pass the part so a unit shown after the box is included. */
+/** The correct answer as Markdown (with LaTeX) for review screens. Pass the part so a unit shown after the box is included. */
 export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): string {
   switch (spec.kind) {
     case 'mc':
@@ -114,6 +115,8 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
       if (f) return `$${f.n}$${unit}`;
       return `$${fmt(spec.value, 6)}$${unit}`;
     }
+    case 'numbers':
+      return spec.values.length ? spec.values.map((value) => answerMarkdown({ kind: 'numeric', value, decimals: spec.decimals })).join(' and ') : 'no solution';
     case 'expression':
       return '`' + spec.expected + '`';
     case 'line':

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { AlertTriangle, Brain, Check, CheckCircle2, ClipboardPlus, Cpu, GraduationCap, Lightbulb, MessageCircle, RefreshCw, Sparkles, TrendingUp, Users, X } from 'lucide-react';
 import { draftFromAction } from '@engine/actions.ts';
-import { getSkill, lessonById } from '@engine/curriculum/index.ts';
+import { skillInfo, lessonById } from '@engine/curriculum/index.ts';
 import type { InsightData, InsightItem, ProposedAction } from '@engine/ai/types.ts';
 import { api } from '@/data/index.ts';
 import { qk, useAiStatus, useGenerateInsight, useRoster, useSetActionStatus } from '@/data/hooks.ts';
@@ -105,7 +105,7 @@ export function ActionRow({ classId, insightId, action, names }: { classId: stri
           <div className="font-medium text-ink">{action.title}</div>
           <div className="mt-0.5 text-xs text-ink-3">
             {who}
-            {action.skillIds.length > 0 && ` · ${action.skillIds.map((s) => getSkill(s)?.name).filter(Boolean).join(', ')}`}
+            {action.skillIds.length > 0 && ` · ${action.skillIds.map((s) => skillInfo(s)?.name).filter(Boolean).join(', ')}`}
             {action.lessonId && ` · Lesson ${lessonById(action.lessonId)?.number}`}
           </div>
           {action.rationale && <p className="mt-1.5 text-sm text-ink-2">{action.rationale}</p>}
@@ -155,7 +155,7 @@ function ItemList({ title, items, icon, tone }: { title: string; items: InsightI
       <ul className="space-y-2">
         {items.map((it, i) => (
           <li key={i} className="rounded-xl bg-surface-2/70 px-3 py-2 text-sm">
-            {it.skillId && !it.text.startsWith(getSkill(it.skillId)?.name ?? '\u0000') && <div className="text-xs font-semibold text-ink-3">{getSkill(it.skillId)?.name}</div>}
+            {it.skillId && !it.text.startsWith(skillInfo(it.skillId)?.name ?? '\u0000') && <div className="text-xs font-semibold text-ink-3">{skillInfo(it.skillId)?.name}</div>}
             <div className="text-ink-2">{it.text}</div>
             {it.evidence && <div className="mt-0.5 text-xs text-ink-3">{it.evidence}</div>}
           </li>

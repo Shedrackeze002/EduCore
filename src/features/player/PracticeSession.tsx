@@ -10,7 +10,8 @@ import { itemFromRef, nextAdaptiveRef, type StoredResponse } from '@engine/assem
 import { gradeItem, type ItemResult } from '@engine/grade.ts';
 import { applyObservation, DEFAULT_BKT, emptySkillState, LEVEL_LABEL, type SkillState } from '@engine/mastery.ts';
 import { freshSeed } from '@engine/rng.ts';
-import { getSkill } from '@engine/curriculum/index.ts';
+import { skillInfo } from '@engine/curriculum/index.ts';
+import { SkillsGate } from '@/components/SkillsGate.tsx';
 import type { ItemRef } from '@engine/types.ts';
 import { api } from '@/data/index.ts';
 import { useMastery } from '@/data/hooks.ts';
@@ -28,7 +29,7 @@ const MAX_QUESTIONS = 25;
 
 export default function PracticeSession() {
   const [params] = useSearchParams();
-  const skillIds = useMemo(() => (params.get('skills') ?? '').split(',').filter((s) => getSkill(s)), [params]);
+  const skillIds = useMemo(() => (params.get('skills') ?? '').split(',').filter((s) => skillInfo(s)), [params]);
   const me = useMe();
   const { cls } = useStudentClass();
   const mastery = useMastery({ studentId: me.id });
@@ -42,7 +43,11 @@ export default function PracticeSession() {
   if (!skillIds.length) return <PageSpinner label="No skills selected." />;
   if (!sub || mastery.isLoading) return <PageSpinner label="Getting your practice ready…" />;
   const initial = new Map<string, SkillState>((mastery.data ?? []).filter((m) => skillIds.includes(m.skillId)).map((m) => [m.skillId, m]));
-  return <Session sub={sub} skillIds={skillIds} initial={initial} />;
+  return (
+    <SkillsGate skillIds={skillIds}>
+      <Session sub={sub} skillIds={skillIds} initial={initial} />
+    </SkillsGate>
+  );
 }
 
 function Session({ sub, skillIds, initial }: { sub: Submission; skillIds: string[]; initial: Map<string, SkillState> }) {
@@ -113,7 +118,7 @@ function Session({ sub, skillIds, initial }: { sub: Submission; skillIds: string
     setResult(r);
     if (r.parts.some((p) => p.invalid) && !r.correct) return;
     const assisted = resp.hintsUsed > 0;
-    const def = getSkill(ref.skillId)!;
+    const def = skillInfo(ref.skillId)!;
     const params = DEFAULT_BKT[def.format];
     const next = new Map(states);
     next.set(ref.skillId, applyObservation(states.get(ref.skillId) ?? emptySkillState(ref.skillId, params), { correct: r.correct, assisted, sessionId: sub.id, at: new Date().toISOString() }, params));
@@ -142,7 +147,7 @@ function Session({ sub, skillIds, initial }: { sub: Submission; skillIds: string
             <X className="h-5 w-5" />
           </button>
           <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-semibold">Practice: {skillIds.map((s) => getSkill(s)?.name).join(', ')}</div>
+            <div className="truncate text-sm font-semibold">Practice: {skillIds.map((s) => skillInfo(s)?.name).join(', ')}</div>
             <div className="text-xs text-ink-3">Question {items.length} · goal: {GOAL_STREAK} in a row</div>
           </div>
           <div className="flex items-center gap-1.5 rounded-xl bg-surface-2 px-3 py-1.5 text-sm font-semibold" title="Correct answers in a row">
@@ -158,7 +163,7 @@ function Session({ sub, skillIds, initial }: { sub: Submission; skillIds: string
             return (
               <div key={s} className="flex min-w-[180px] flex-1 items-center gap-2 text-xs">
                 <MasterySwatch level={st.level} />
-                <span className="truncate text-ink-2">{getSkill(s)?.name}</span>
+                <span className="truncate text-ink-2">{skillInfo(s)?.name}</span>
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-3">
                   <div className="h-full rounded-full bg-m3 transition-[width] duration-500" style={{ width: `${Math.round(st.pKnown * 100)}%` }} />
                 </div>
@@ -183,7 +188,7 @@ function Session({ sub, skillIds, initial }: { sub: Submission; skillIds: string
         )}
         <div className="card p-5 sm:p-7">
           <div className="mb-4 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-ink-3">
-            <Target className="h-4 w-4" /> {getSkill(ref.skillId)?.name}
+            <Target className="h-4 w-4" /> {skillInfo(ref.skillId)?.name}
             <span className="rounded-md bg-surface-2 px-1.5 py-0.5 normal-case tracking-normal">{['', 'Warm-up', 'Core', 'Challenge'][ref.difficulty]}</span>
           </div>
           <QuestionView
@@ -252,7 +257,7 @@ function Summary({ sub, skillIds }: { sub: Submission; skillIds: string[] }) {
               const ch = sub.masteryChanges?.find((c) => c.skillId === s);
               return (
                 <div key={s} className="flex items-center gap-3 rounded-xl bg-surface-2 px-3 py-2.5 text-sm">
-                  <span className="min-w-0 flex-1 truncate font-medium">{getSkill(s)?.name}</span>
+                  <span className="min-w-0 flex-1 truncate font-medium">{skillInfo(s)?.name}</span>
                   {ch ? (
                     <span className="flex items-center gap-1.5">
                       <MasterySwatch level={ch.before as never} />

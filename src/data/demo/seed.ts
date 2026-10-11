@@ -6,6 +6,7 @@
  */
 import { Rng } from '@engine/rng.ts';
 import { buildItemRefs, DEFAULT_SETTINGS, itemFromRef, type AssignmentContent, type AssignmentType, type StoredResponse } from '@engine/assemble.ts';
+import { loadCourseSkills } from '@engine/curriculum/index.ts';
 import { canonicalResponse } from '@engine/answers.ts';
 import { processSubmission } from '@engine/submit.ts';
 import type { AnswerSpec, Item } from '@engine/types.ts';
@@ -89,6 +90,8 @@ function wrongResponse(spec: AnswerSpec, rng: Rng): string {
       ]);
     case 'graph-points':
       return JSON.stringify([[0, 0]]);
+    case 'numbers':
+      return spec.values.length ? spec.values.map((v) => v + 1).join(', ') : '0';
     case 'text':
       return 'not sure';
     case 'manual':
@@ -127,6 +130,8 @@ const PLAN: PlanItem[] = [
 const PUBLISHED_LESSONS = MATH10C.lessons.filter((l) => ['m10c-u1', 'm10c-u2'].includes(l.unitId) || ['m10c-3-1', 'm10c-3-2', 'm10c-3-3', 'm10c-3-4'].includes(l.id)).map((l) => l.id);
 
 export async function buildSeed(): Promise<DemoDB> {
+  // The demo class takes Math 10C; its sample work is generated and graded with that course's generators.
+  await loadCourseSkills('math-10c');
   const rng = new Rng(20261010);
   const now = Date.now();
   const iso = (offsetDays: number, hour?: number) => {

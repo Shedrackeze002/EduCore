@@ -54,8 +54,5 @@ items ship or decisions change.
 
 ## Technical follow-ups
 
-- Split each course's question generators into their own bundle so the app loads only the
-  courses a user needs (the main bundle is about 2 MB, 615 KB compressed, with four courses).
-  Do this before adding the Grade 11 courses.
 - Check the K&E outcome wording word for word against the program of studies once its host
   (education.alberta.ca) is reachable from the build environment.

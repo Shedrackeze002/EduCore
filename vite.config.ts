@@ -32,5 +32,7 @@ export default defineConfig({
   test: {
     include: ['engine/**/*.test.ts', 'src/**/*.test.ts'],
     environment: 'node',
+    // Tests see every course's generators, as the server does.
+    setupFiles: ['engine/curriculum/all.ts'],
   },
 });

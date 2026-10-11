@@ -7,7 +7,9 @@ import { itemFromRef, TYPE_LABEL, type StoredResponse } from '@engine/assemble.t
 import { gradeItem, type ItemResult } from '@engine/grade.ts';
 import { freshSeed } from '@engine/rng.ts';
 import type { ItemRef } from '@engine/types.ts';
-import { getSkill } from '@engine/curriculum/index.ts';
+import { skillInfo } from '@engine/curriculum/index.ts';
+import { SkillsGate } from '@/components/SkillsGate.tsx';
+import { refSkillIds } from '@/lib/useSkills.ts';
 import { api } from '@/data/index.ts';
 import { useAssignment, useSubmit } from '@/data/hooks.ts';
 import type { Submission } from '@/data/types.ts';
@@ -60,7 +62,11 @@ export default function AssignmentPlayer() {
       </FocusShell>
     );
   if (!a.data || !sub) return <PageSpinner label="Preparing your questions…" />;
-  return <Player key={sub.id} assignment={a.data} submission={sub} />;
+  return (
+    <SkillsGate skillIds={refSkillIds(a.data.content, sub.items)}>
+      <Player key={sub.id} assignment={a.data} submission={sub} />
+    </SkillsGate>
+  );
 }
 
 function Player({ assignment, submission }: { assignment: NonNullable<ReturnType<typeof useAssignment>['data']>; submission: Submission }) {
@@ -235,7 +241,7 @@ function Player({ assignment, submission }: { assignment: NonNullable<ReturnType
         <div className="card p-5 sm:p-7">
           <div className="mb-4 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-ink-3">
             <span>Question {idx + 1}</span>
-            {getSkill(item.skillId) && <span className="rounded-md bg-surface-2 px-1.5 py-0.5 normal-case tracking-normal">{getSkill(item.skillId)!.name}</span>}
+            {skillInfo(item.skillId) && <span className="rounded-md bg-surface-2 px-1.5 py-0.5 normal-case tracking-normal">{skillInfo(item.skillId)!.name}</span>}
             {tries > 1 && <span className="rounded-md bg-warn-soft px-1.5 py-0.5 normal-case tracking-normal text-warn-ink">Try {tries}</span>}
           </div>
           <QuestionView

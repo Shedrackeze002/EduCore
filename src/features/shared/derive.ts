@@ -1,6 +1,6 @@
 /** Pure helpers that derive view models from API data. */
 import { summarize, emptySkillState, reviewDue, type SkillState, type MasteryLevel } from '@engine/mastery.ts';
-import { getCourse, getSkill, lessonById } from '@engine/curriculum/index.ts';
+import { getCourse, skillInfo, lessonById } from '@engine/curriculum/index.ts';
 import { isQuestionType } from '@engine/assemble.ts';
 import type { Assignment, Submission, SkillMastery } from '@/data/types.ts';
 
@@ -93,7 +93,7 @@ export function recommendedSkills(publishedLessonIds: string[], map: Map<string,
 }
 
 export function skillLabel(id: string): string {
-  return getSkill(id)?.name ?? id;
+  return skillInfo(id)?.name ?? id;
 }
 
 export function itemCount(a: Assignment): number {

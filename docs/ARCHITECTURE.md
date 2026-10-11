@@ -127,8 +127,12 @@ Math 10-4 and 20-4 already run side by side. To add a course, for example Math 2
    `m201-1-1`), following `math10c/course.ts` or `math10-3/course.ts`.
 2. Write skill generators in `engine/curriculum/math20-1/gen/*.ts` using the `skill()` helper:
    each skill returns a prompt, answer parts, hints and a worked solution for difficulty 1–3.
-3. Export the skills and register the course in `engine/curriculum/index.ts` (`COURSES` and the
-   skill map).
+3. Export the skills and register the course in `engine/curriculum/index.ts` (`COURSES` and
+   `LOADERS`) and in `engine/curriculum/all.ts`, then run `npm run catalog` to regenerate the skill
+   catalogue (`engine/curriculum/catalog.ts`; a test fails when it is out of date). The browser
+   loads only the catalogue up front and downloads a course's generators the first time a page
+   needs them (`useSkillsReady` / `SkillsGate`); the server and the tests register every
+   generator through `all.ts`.
 4. Add lesson text in `src/content/math20-1/lessons/<lesson-id>.md` using the same directives
    (`:::definition`, `:::example` with `@step`/`@answer`, `:::check <skill-id> <difficulty>`,
    `:::mistake`, `:::summary`).

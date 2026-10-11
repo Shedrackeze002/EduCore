@@ -25,6 +25,8 @@ import {
   type StoredResponse,
 } from '../_shared/engine/index.ts';
 import { generateInsight } from '../_shared/engine/ai/index.ts';
+// Every course's question generators, for grading any class on the server.
+import '../_shared/engine/curriculum/all.ts';
 
 // deno-lint-ignore no-explicit-any
 type Row = Record<string, any>;

@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, BookOpen, CheckCircle2, Clock, Eye, Lightbulb, ListChecks, RotateCcw, Sparkles, TrendingUp } from 'lucide-react';
 import { isQuestionType, TYPE_LABEL } from '@engine/assemble.ts';
 import { LEVEL_LABEL, type MasteryLevel } from '@engine/mastery.ts';
-import { getSkill, lessonById } from '@engine/curriculum/index.ts';
+import { skillInfo, lessonById } from '@engine/curriculum/index.ts';
 import { api } from '@/data/index.ts';
 import { qk, useAssignment, useSubmissions } from '@/data/hooks.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
@@ -213,7 +213,7 @@ export default function AssignmentIntro() {
                     .filter((c) => c.after !== c.before)
                     .map((c) => (
                       <div key={c.skillId} className="flex items-center gap-2 rounded-xl bg-surface-2 px-3 py-2 text-sm">
-                        <span className="min-w-0 flex-1 truncate">{getSkill(c.skillId)?.name}</span>
+                        <span className="min-w-0 flex-1 truncate">{skillInfo(c.skillId)?.name}</span>
                         <MasterySwatch level={c.before as MasteryLevel} />
                         <ArrowRight className="h-3.5 w-3.5 text-ink-3" />
                         <MasterySwatch level={c.after as MasteryLevel} />

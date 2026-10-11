@@ -6,7 +6,7 @@
 import { applyToMastery, gradeSubmission, type AssignmentContent, type GradeSummary, type StoredResponse, itemFromRef } from './assemble.ts';
 import { answerMarkdown } from './answers.ts';
 import { gradeItem } from './grade.ts';
-import { getSkill } from './curriculum/index.ts';
+import { skillInfo } from './curriculum/index.ts';
 import { applyObservation, DEFAULT_BKT, emptySkillState, type MasteryLevel, type SkillState } from './mastery.ts';
 import type { Item, ItemRef } from './types.ts';
 
@@ -53,7 +53,7 @@ export function validateRefs(items: ItemRef[], content: AssignmentContent, pract
       if (!Number.isInteger(ref.custom) || ref.custom < 0 || ref.custom >= content.custom.length) return 'Unknown custom question.';
       continue;
     }
-    if (!allowedSkills.has(ref.skillId) || !getSkill(ref.skillId)) return `Skill ${ref.skillId} is not part of this assignment.`;
+    if (!allowedSkills.has(ref.skillId) || !skillInfo(ref.skillId)) return `Skill ${ref.skillId} is not part of this assignment.`;
     if (![1, 2, 3].includes(ref.difficulty)) return 'Invalid difficulty.';
     if (!Number.isInteger(ref.seed)) return 'Invalid seed.';
     perSkill.set(ref.skillId, (perSkill.get(ref.skillId) ?? 0) + 1);
@@ -125,7 +125,7 @@ export function processSubmission(input: SubmitInput): SubmitOutput {
     for (const h of hist) {
       if ('custom' in h.ref) continue;
       const item = itemFromRef(h.ref, input.content, input.assignmentId ?? 'practice');
-      const def = getSkill(h.ref.skillId);
+      const def = skillInfo(h.ref.skillId);
       if (!item || !def) continue;
       const res = gradeItem(item, h.answers ?? []);
       const params = DEFAULT_BKT[def.format];
@@ -136,7 +136,7 @@ export function processSubmission(input: SubmitInput): SubmitOutput {
   states = applyToMastery(states, summary.items, input.submissionId, input.now);
 
   const events: SkillEventOut[] = summary.items
-    .filter((g) => !g.manual && getSkill(g.skillId))
+    .filter((g) => !g.manual && skillInfo(g.skillId))
     .map((g, idx) => {
       const i = input.items.indexOf(g.ref);
       const item = itemFromRef(g.ref, input.content, input.assignmentId ?? 'practice');

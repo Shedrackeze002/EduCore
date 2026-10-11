@@ -8,11 +8,25 @@ import { qk, useAssignment, useProfile, useRoster, useSubmission, useSubmissions
 import type { Assignment, Submission } from '@/data/types.ts';
 import { Avatar, Badge, Button, Card, CardBody, EmptyState, PageHeader, PageSpinner, Textarea, useToast } from '@/components/ui/index.ts';
 import { ReviewList } from '@/components/question/ReviewList.tsx';
+import { SkillsGate } from '@/components/SkillsGate.tsx';
+import { refSkillIds } from '@/lib/useSkills.ts';
 import { fmtDateTime } from '@/lib/dates.ts';
 import { cn } from '@/lib/cn.ts';
 import { scoreCell, useClassId } from './shared.tsx';
 
+/** Waits for the attempt's question generators before showing the review. */
 export default function SubmissionReview() {
+  const { submissionId = '' } = useParams();
+  const sub = useSubmission(submissionId);
+  const a = useAssignment(sub.data?.assignmentId ?? undefined);
+  return (
+    <SkillsGate skillIds={refSkillIds(a.data?.content, sub.data?.items)}>
+      <Review />
+    </SkillsGate>
+  );
+}
+
+function Review() {
   const classId = useClassId();
   const { submissionId = '' } = useParams();
   const sub = useSubmission(submissionId);

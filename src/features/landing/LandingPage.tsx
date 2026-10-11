@@ -15,7 +15,7 @@ import {
   Sparkles,
   Table2,
 } from 'lucide-react';
-import { allSkills, COURSES } from '@engine/curriculum/index.ts';
+import { allSkillInfos, COURSES } from '@engine/curriculum/index.ts';
 import { api, demoApi, setDemoBackend } from '@/data/index.ts';
 import { useAuth } from '@/features/auth/AuthProvider.tsx';
 import { Button, Tabs } from '@/components/ui/index.ts';
@@ -31,7 +31,7 @@ const COURSE_NAMES = COURSES.map((c) => c.shortTitle).join(' and ');
 
 const FEATURES = [
   { icon: BookOpenCheck, title: 'Complete, detailed lessons', body: `${LESSON_COUNT} lessons for ${COURSE_NAMES}, covering every outcome, each with definitions, worked examples, common mistakes and interactive checks.` },
-  { icon: InfinityIcon, title: 'Unlimited practice', body: `${allSkills().length} question generators produce a fresh version of every question, with hints and step-by-step solutions — practice never runs out.` },
+  { icon: InfinityIcon, title: 'Unlimited practice', body: `${allSkillInfos().length} question generators produce a fresh version of every question, with hints and step-by-step solutions — practice never runs out.` },
   { icon: BrainCircuit, title: 'Real mastery tracking', body: 'Bayesian Knowledge Tracing estimates what each student knows. Mastery requires success across separate sessions, not one lucky streak.' },
   { icon: ClipboardList, title: 'Every kind of assignment', body: 'Classwork, homework, practice, quizzes, exams, readings and videos — with time limits, attempts, hints and feedback rules per assignment.' },
   { icon: BellRing, title: 'Reminders that respect effort', body: 'Students are notified when work is assigned and reminded before the deadline — only if they have not finished it yet.' },
@@ -77,7 +77,7 @@ export default function LandingPage() {
     if (demo && (who === 'teacher' || who === 'student')) void tryDemo(who);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const skillCount = allSkills().length;
+  const skillCount = allSkillInfos().length;
   const [courseId, setCourseId] = useState(COURSES[0].id);
   const course = COURSES.find((c) => c.id === courseId) ?? COURSES[0];
 

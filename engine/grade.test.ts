@@ -56,6 +56,26 @@ describe('numeric', () => {
   });
 });
 
+describe('lists of numbers', () => {
+  const roots = { kind: 'numbers' as const, values: [2, -3] };
+  it('accepts the answers in any order and common ways of writing them', () => {
+    for (const r of ['2, -3', '-3, 2', 'x = 2 or x = -3', '−3 and 2', '2; -3']) expect(gradePart(roots, r).correct, r).toBe(true);
+    expect(gradePart({ kind: 'numbers', values: [0.5, -4 / 3] }, '1/2, -4/3').correct).toBe(true);
+    expect(gradePart({ kind: 'numbers', values: [1.4142, -1.4142], decimals: 2 }, '1.41, -1.41').correct).toBe(true);
+  });
+  it('explains a missing or extra answer', () => {
+    expect(gradePart(roots, '2').message).toMatch(/one more answer/);
+    expect(gradePart(roots, '2, -3, 5').message).toMatch(/does not work/);
+    expect(gradePart(roots, '2, 3').correct).toBe(false);
+    expect(gradePart(roots, '2, 2').correct).toBe(false);
+  });
+  it('handles no solution', () => {
+    expect(gradePart({ kind: 'numbers', values: [] }, 'no solution').correct).toBe(true);
+    expect(gradePart({ kind: 'numbers', values: [] }, '3').correct).toBe(false);
+    expect(gradePart(roots, 'none').correct).toBe(false);
+  });
+});
+
 describe('expression forms', () => {
   it('accepts a rule typed with its output letter', () => {
     expect(expr('3n+4', 'any', 'y = 3n + 4').correct).toBe(true);

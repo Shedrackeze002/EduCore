@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ClipboardPlus, X } from 'lucide-react';
-import { getCourse, getSkill, lessonById } from '@engine/curriculum/index.ts';
+import { getCourse, skillInfo, lessonById } from '@engine/curriculum/index.ts';
 import { LEVEL_LABEL, LEVELS, summarize, type MasteryLevel, type SkillState } from '@engine/mastery.ts';
 import { useClass, useMastery, usePublications, useRoster } from '@/data/hooks.ts';
 import type { Profile } from '@/data/types.ts';
@@ -155,7 +155,7 @@ export default function MasteryMapPage() {
 }
 
 function skillIndexInLesson(sid: string): number {
-  const l = lessonById(getSkill(sid)?.lessonId ?? '');
+  const l = lessonById(skillInfo(sid)?.lessonId ?? '');
   return (l?.skills.indexOf(sid) ?? 0) + 1;
 }
 
@@ -166,7 +166,7 @@ function countLevels(skillId: string, students: Profile[], maps: Map<string, Map
 }
 
 function SkillPanel({ skillId, students, maps, classId, onClose }: { skillId: string; students: Profile[]; maps: Map<string, Map<string, SkillState>>; classId: string; onClose: () => void }) {
-  const skill = getSkill(skillId);
+  const skill = skillInfo(skillId);
   const counts = countLevels(skillId, students, maps);
   const below = students.filter((s) => {
     const l = stateOf(maps.get(s.id)!, skillId).level;
