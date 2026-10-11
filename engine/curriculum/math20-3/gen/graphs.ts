@@ -320,6 +320,8 @@ interface PieCtx {
   pct: (w: string) => string;
   /** Counts shown on a graph: "The circle graph shows the number of workers in each group." */
   counts: string;
+  /** Realistic percent range for each category (a budget); all categories are then used. */
+  ranges?: Array<[number, number]>;
 }
 
 const PIES: PieCtx[] = [
@@ -355,6 +357,7 @@ const PIES: PieCtx[] = [
     cats: ['Rent', 'Food', 'Truck payment', 'Fuel', 'Savings', 'Other'],
     words: ['rent', 'food', 'the truck payment', 'fuel', 'savings', 'other costs'],
     top: 45, t1: [2000, 3000, 4000], t2: [2850, 3150, 3420, 3780], money: true, unit: '',
+    ranges: [[30, 40], [10, 18], [10, 16], [5, 10], [5, 15], [5, 20]],
     ask: (w) => `How much is budgeted for ${w} each month?`,
     pct: (w) => `What percent of the budget is for ${w}?`,
     counts: '',
@@ -372,21 +375,35 @@ const PIES: PieCtx[] = [
 
 const pieAmt = (ctx: PieCtx, v: number) => (ctx.money ? money(v) : `$${num(v)}$ ${ctx.unit === 'ha' ? 'hectares' : ctx.unit}`);
 
-/** k categories in their usual order, always including the first (largest). */
+/** k categories in their usual order, always including the first (largest); every category for a budget. */
 function pieCats(rng: Rng, ctx: PieCtx, k: number): number[] {
+  if (ctx.ranges) return keys(ctx.cats.length);
   return [0, ...rng.sample(keys(ctx.cats.length).slice(1), k - 1)].sort((a, b) => a - b);
+}
+
+/** Percents (multiples of `unit`) for the chosen categories: realistic ranges for a budget, otherwise the first category gets the largest share. */
+function piePcts(rng: Rng, ctx: PieCtx, idx: number[], unit: number, min: number, ok: (ps: number[]) => boolean = () => true): number[] {
+  const R = ctx.ranges;
+  if (R) {
+    const last = R[idx[idx.length - 1]];
+    return retry(
+      () => {
+        const ps = idx.slice(0, -1).map((c) => unit * rng.int(Math.ceil(R[c][0] / unit), Math.floor(R[c][1] / unit)));
+        return [...ps, 100 - sum(ps)];
+      },
+      (ps) => ps[ps.length - 1] >= last[0] && ps[ps.length - 1] <= last[1] && ok(ps),
+      400,
+    );
+  }
+  return retry(() => percents(rng, idx.length, unit, min).sort((a, b) => b - a), (ps) => ps[0] <= ctx.top && ok(ps), 400);
 }
 
 function pieAmount(rng: Rng, d: 1 | 2, name: string): Out {
   const ctx = rng.pick(PIES);
-  const k = d === 1 ? rng.int(3, 4) : rng.int(4, 5);
-  const idx = pieCats(rng, ctx, k);
+  const idx = pieCats(rng, ctx, d === 1 ? rng.int(3, 4) : rng.int(4, 5));
+  const k = idx.length;
   const total = rng.pick(d === 1 ? ctx.t1 : ctx.t2);
-  const pcts = retry(
-    () => percents(rng, k, d === 1 ? 5 : 1, d === 1 ? 10 : 4).sort((a, b) => b - a),
-    (ps) => ps[0] <= ctx.top && ((ctx.money && d === 2) || ps.every((p) => isWhole((p * total) / 100))),
-    400,
-  );
+  const pcts = piePcts(rng, ctx, idx, d === 1 ? 5 : 1, d === 1 ? 10 : 4, (ps) => (ctx.money && d === 2) || ps.every((p) => isWhole((p * total) / 100)));
   const figure: CircleGraphFigure = { type: 'circleGraph', slices: idx.map((c, j) => ({ label: ctx.cats[c], value: pcts[j] })), show: 'percent' };
   const j = rng.int(0, k - 1);
   const v = (pcts[j] * total) / 100;
@@ -407,9 +424,9 @@ function pieAmount(rng: Rng, d: 1 | 2, name: string): Out {
 
 function pieAngle(rng: Rng, name: string): Out {
   const ctx = rng.pick(PIES);
-  const k = rng.int(3, 5);
-  const idx = pieCats(rng, ctx, k);
-  const pcts = retry(() => percents(rng, k, 1, 5).sort((a, b) => b - a), (ps) => ps[0] <= ctx.top, 300);
+  const idx = pieCats(rng, ctx, rng.int(3, 5));
+  const k = idx.length;
+  const pcts = piePcts(rng, ctx, idx, 1, 5);
   const j = rng.int(0, k - 1);
   const ang = clean(pcts[j] * 3.6);
   const total = rng.pick(ctx.t1);
@@ -514,10 +531,10 @@ function countsAngle(rng: Rng): Out {
 
 function budgetYear(rng: Rng, name: string): Out {
   const ctx = PIES[3];
-  const k = rng.int(4, 6);
-  const idx = pieCats(rng, ctx, k);
+  const idx = pieCats(rng, ctx, 6);
+  const k = idx.length;
   const total = rng.pick(ctx.t2);
-  const pcts = retry(() => percents(rng, k, 1, 4).sort((a, b) => b - a), (ps) => ps[0] <= ctx.top && ps[0] >= 25, 400);
+  const pcts = piePcts(rng, ctx, idx, 1, 4, (ps) => new Set(ps).size >= 4);
   const figure: CircleGraphFigure = { type: 'circleGraph', slices: idx.map((c, i) => ({ label: ctx.cats[c], value: pcts[i] })), show: 'percent' };
   if (rng.chance(0.5)) {
     const j = rng.int(1, k - 1);
@@ -640,10 +657,18 @@ function histFigure(ctx: HistCtx, f: number[]): BarChartFigure {
   return { type: 'barChart', categories: ivLabels(ctx), values: f, valueLabel: ctx.label, categoryLabel: ctx.cl, max: step * (Math.floor(Math.max(...f) / step) + 1), step };
 }
 
-/** Frequencies for each interval; even (on a grid line) when `even`. */
+/** Mound-shaped frequencies for each interval (one peak, falling off on both sides); even (on a grid line) when `even`. */
 function freqs(rng: Rng, k: number, even: boolean, lo = 1, hi = 12): number[] {
   return retry(
-    () => keys(k).map(() => (even ? 2 * rng.int(Math.max(1, Math.ceil(lo / 2)), Math.floor(hi / 2)) : rng.int(lo, hi))),
+    () => {
+      const peak = rng.int(0, k - 1);
+      const top = rng.int(hi - 3, hi);
+      const drop = rng.int(2, 4);
+      return keys(k).map((j) => {
+        const v = Math.max(lo, Math.min(hi, top - drop * Math.abs(j - peak) - rng.int(0, 2)));
+        return even ? Math.max(2, 2 * Math.round(v / 2)) : v;
+      });
+    },
     (f) => f.filter((x) => x === Math.max(...f)).length === 1 && new Set(f).size >= k - 2 && (even || f.some((x) => x % 2 === 1)),
     300,
   );
@@ -806,7 +831,7 @@ function histMedian(rng: Rng): Out {
     solution: [
       `There are $${plus(f)} = ${n}$ values, so the median is value number $\\dfrac{${n} + 1}{2} = ${pos}$ in order.`,
       `Running totals from the left: ${labels.slice(0, med + 1).map((l, j) => `${l}: $${cum[j]}$`).join(', ')}.`,
-      `Value number $${pos}$ is the first one past $${med ? cum[med - 1] : 0}$, so it falls in the ${labels[med]} interval.`,
+      `Values $${(med ? cum[med - 1] : 0) + 1}$ to $${cum[med]}$ are in the ${labels[med]} interval, so value number $${pos}$ is there.`,
       `The median is in the interval ${labels[med]}. (The tallest bar, ${labels[mode]}, shows the most common interval, not the median.)`,
     ],
     answerDisplay: labels[med],
@@ -949,7 +974,8 @@ function lineValues(rng: Rng, ctx: LineCtx, half: boolean): number[] {
   const n = ctx.xs.length;
   return retry(
     () => {
-      const peak = ctx.shape === 'hill' || ctx.shape === 'valley' ? rng.int(2, n - 3) : ctx.shape === 'up' ? n - 1 : 0;
+      // The line turns at `peak` for a hill or valley, and never turns for a steady rise or fall.
+      const peak = ctx.shape === 'hill' || ctx.shape === 'valley' ? rng.int(2, n - 3) : n - 1;
       const rising = ctx.shape === 'up' || ctx.shape === 'hill';
       const out = [rising ? ctx.vLo + unit * rng.int(0, 3) : ctx.vHi - unit * rng.int(0, 3)];
       for (let i = 1; i < n; i++) {
@@ -1026,9 +1052,11 @@ function lineRate(rng: Rng, name: string): Out {
     () => {
       const vs = lineValues(rng, ctx, true);
       const [i, j] = rng.sample(keys(vs.length), 2).sort((a, b) => a - b);
-      return { vs, i, j, rate: Math.abs(vs[j] - vs[i]) / (ctx.xs[j] - ctx.xs[i]) };
+      // Where a hill or valley turns: both points must be on the same side, so the line only rises or only falls between them.
+      const turn = ctx.shape === 'hill' ? vs.indexOf(Math.max(...vs)) : ctx.shape === 'valley' ? vs.indexOf(Math.min(...vs)) : -1;
+      return { vs, i, j, rate: Math.abs(vs[j] - vs[i]) / (ctx.xs[j] - ctx.xs[i]), sameSide: turn < 0 || j <= turn || i >= turn };
     },
-    (o) => o.j - o.i >= 2 && o.vs[o.j] !== o.vs[o.i] && !onEdge(o.rate, 1),
+    (o) => o.sameSide && o.j - o.i >= 2 && o.vs[o.j] !== o.vs[o.i] && !onEdge(o.rate, 1),
     400,
   );
   const up = vs[j] > vs[i];
@@ -1109,58 +1137,70 @@ interface LinCtx {
   yLabel: string;
   yStep: number;
   v0: number[];
+  /** Change per step; each is a multiple of half a grid step so the points are easy to read. */
   rates: number[];
   sign: 1 | -1;
   unit: string;
+  /** The x-axis word: "hour", "week". */
   per: string;
   money?: boolean;
   when: (x: number) => string;
   what: string;
-  /** The question for "when": e.g. "the tank be empty". */
-  reach: (v: number) => string;
-  targets: (v0: number, r: number) => number[];
+  /** "How much diesel will be left in the tank after 9 hours?" */
+  ask: (when: string, name: string) => string;
+  /** "When will the tank be empty?" for a target value. */
+  reach: (v: number, name: string) => string;
+  /** Target values to ask about. */
+  targets: number[];
 }
 
 const LIN_CTX: LinCtx[] = [
   {
     intro: () => 'A generator at a well site near Drayton Valley burns diesel at a steady rate. The line graph shows the diesel left in its tank.',
-    xLabel: 'Time (h)', yLabel: 'Diesel in tank (L)', yStep: 20, v0: [200, 220, 240, 260, 280], rates: [10, 15, 20, 25, 30], sign: -1, unit: 'L', per: 'hour',
-    when: (x) => `after ${x} hours`, what: 'the diesel in the tank',
-    reach: (v) => (v === 0 ? 'When will the tank be empty' : `After how many hours will only $${v}\\ \\text{L}$ be left`),
-    targets: (v0, r) => [0, 20, 40, 50].filter((t) => (v0 - t) % r === 0 || ((v0 - t) * 2) % r === 0),
+    xLabel: 'Time (h)', yLabel: 'Diesel in tank (L)', yStep: 20, v0: [200, 220, 240, 260, 280], rates: [10, 20, 30], sign: -1, unit: 'L', per: 'hour',
+    when: (x) => (x === 0 ? 'at the start' : `after ${x} hour${x === 1 ? '' : 's'}`), what: 'the diesel in the tank',
+    ask: (w) => `how much diesel will be left in the tank ${w}`,
+    reach: (v) => (v === 0 ? 'after how many hours will the tank be empty' : `after how many hours will only $${v}\\ \\text{L}$ be left`),
+    targets: [0, 20, 40, 60],
   },
   {
     intro: (name) => `${name} weighs a calf every week. Its mass is going up at a steady rate.`,
-    xLabel: 'Week', yLabel: 'Mass (kg)', yStep: 10, v0: [35, 40, 45], rates: [5, 6, 8, 10], sign: 1, unit: 'kg', per: 'week',
+    xLabel: 'Week', yLabel: 'Mass (kg)', yStep: 10, v0: [35, 40, 45], rates: [5, 10, 15], sign: 1, unit: 'kg', per: 'week',
     when: (x) => (x === 0 ? 'at birth' : `at week ${x}`), what: 'the calf’s mass',
-    reach: (v) => `In which week will the calf reach $${v}\\ \\text{kg}$`,
-    targets: (v0, r) => keys(10).map((i) => v0 + r * (8 + i)).filter((t) => t % 5 === 0),
+    ask: (w) => `what will the calf’s mass be ${w}`,
+    reach: (v) => `in which week will the calf reach $${v}\\ \\text{kg}$`,
+    targets: keys(30).map((i) => 100 + 5 * i),
   },
   {
-    intro: () => 'A truck driver leaves Calgary and drives north at a steady speed. The line graph shows the distance travelled.',
-    xLabel: 'Time (h)', yLabel: 'Distance (km)', yStep: 50, v0: [0], rates: [75, 80, 90, 100], sign: 1, unit: 'km', per: 'hour',
-    when: (x) => `after ${x} hours`, what: 'the distance travelled',
-    reach: (v) => `How many hours will it take to travel $${v}\\ \\text{km}$`,
-    targets: (_v0, r) => keys(8).map((i) => r * (6 + i / 2)).filter((t) => t % 10 === 0),
+    intro: () => 'A truck driver leaves Calgary and drives north on the highway at a steady speed. The line graph shows the distance travelled.',
+    xLabel: 'Time (h)', yLabel: 'Distance (km)', yStep: 50, v0: [0], rates: [75, 100], sign: 1, unit: 'km', per: 'hour',
+    when: (x) => (x === 0 ? 'at the start' : `after ${x} hour${x === 1 ? '' : 's'}`), what: 'the distance travelled',
+    ask: (w) => `how far will the driver have travelled ${w}`,
+    reach: (v) => `how many hours will it take to travel $${num(v)}\\ \\text{km}$`,
+    targets: [525, 600, 675, 700, 750, 800, 900, 1000],
   },
   {
     intro: (name) => `${name} is saving the same amount each week for a used truck. The line graph shows ${name}’s savings.`,
     xLabel: 'Week', yLabel: 'Savings ($)', yStep: 100, v0: [200, 300, 400, 500], rates: [50, 100, 150], sign: 1, unit: '$', per: 'week', money: true,
-    when: (x) => (x === 0 ? 'at the start' : `after ${x} weeks`), what: 'the savings',
-    reach: (v) => `After how many weeks will ${'the savings'} reach ${money(v)}`,
-    targets: (v0, r) => keys(10).map((i) => v0 + r * (8 + i)).filter((t) => t % 500 === 0 || t % 1000 === 0),
+    when: (x) => (x === 0 ? 'at the start' : `after ${x} week${x === 1 ? '' : 's'}`), what: 'the amount saved',
+    ask: (w, name) => `how much will ${name} have saved ${w}`,
+    reach: (v, name) => `after how many weeks will ${name} have ${money(v)}`,
+    targets: [1500, 2000, 2500, 3000],
   },
   {
     intro: () => 'An auger fills a grain bin near Vegreville at a steady rate. The line graph shows the wheat in the bin.',
     xLabel: 'Time (h)', yLabel: 'Wheat in bin (t)', yStep: 10, v0: [0, 10, 20], rates: [5, 10, 15], sign: 1, unit: 't', per: 'hour',
-    when: (x) => (x === 0 ? 'at the start' : `after ${x} hours`), what: 'the wheat in the bin',
-    reach: (v) => `After how many hours will the bin hold $${v}\\ \\text{t}$`,
-    targets: (v0, r) => keys(8).map((i) => v0 + r * (6 + i)).filter((t) => t % 10 === 0),
+    when: (x) => (x === 0 ? 'at the start' : `after ${x} hour${x === 1 ? '' : 's'}`), what: 'the wheat in the bin',
+    ask: (w) => `how many tonnes of wheat will be in the bin ${w}`,
+    reach: (v) => `after how many hours will the bin hold $${v}\\ \\text{t}$`,
+    targets: [80, 90, 100, 120, 150],
   },
 ];
 
 const linVal = (ctx: LinCtx, v: number) => (ctx.money ? money(v) : `$${num(v)}\\ \\text{${ctx.unit}}$`);
+const linNum = (ctx: LinCtx, v: number) => (ctx.money ? mv(v) : num(v));
 const linPart = (ctx: LinCtx, v: number) => (ctx.money ? numPart(v, { label: '\\$' }) : numPart(v, { suffix: ctx.unit }));
+const ucFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 function linFigure(ctx: LinCtx, xs: number[], vs: number[]): PlaneFigure {
   const top = ctx.yStep * (Math.floor(Math.max(...vs) / ctx.yStep) + 1);
@@ -1176,52 +1216,52 @@ function linFigure(ctx: LinCtx, xs: number[], vs: number[]): PlaneFigure {
 function linePredict(rng: Rng, name: string): Out {
   const ctx = rng.pick(LIN_CTX);
   const xs = keys(rng.int(5, 6));
+  const last = xs[xs.length - 1];
   const { v0, r } = retry(
     () => ({ v0: rng.pick(ctx.v0), r: rng.pick(ctx.rates) }),
-    (o) => o.v0 + ctx.sign * o.r * (xs.length + 2) > 0 && (o.r * 2) % ctx.yStep === 0 || (o.r % (ctx.yStep / 2) === 0 && o.v0 + ctx.sign * o.r * (xs.length + 2) > 0),
+    (o) => o.v0 + ctx.sign * o.r * (last + 2) >= 0 && (ctx.sign > 0 || o.v0 - o.r * last >= ctx.yStep),
     200,
   );
   const vs = xs.map((x) => v0 + ctx.sign * r * x);
-  const last = xs[xs.length - 1];
-  const fig = linFigure(ctx, xs, vs);
-  if (rng.chance(0.5)) {
-    // Predict a value beyond the graph.
-    const maxAhead = ctx.sign < 0 ? Math.floor(v0 / r) - last : 8;
-    const xt = last + rng.int(2, Math.max(2, Math.min(8, maxAhead)));
-    const vt = v0 + ctx.sign * r * xt;
+  const figure = linFigure(ctx, xs, vs);
+  const rateLine = `${ucFirst(ctx.when(0))}, ${ctx.what} is ${linVal(ctx, v0)}; ${ctx.when(1)}, it is ${linVal(ctx, vs[1])}. So it ${ctx.sign > 0 ? 'goes up' : 'goes down'} by ${linVal(ctx, r)} each ${ctx.per}.`;
+  // When will it reach a target? (Only targets reached at a whole number of steps after the graph ends.)
+  const targets = ctx.targets.filter((t) => {
+    const x = (t - v0) / (ctx.sign * r);
+    return isWhole(x) && x > last + 1 && x <= last + 14;
+  });
+  if (targets.length && rng.chance(0.5)) {
+    const t = rng.pick(targets);
+    const x = (t - v0) / (ctx.sign * r);
+    const dv = Math.abs(t - v0);
     return {
-      prompt: `${ctx.intro(name)} If the trend continues at the same rate, what will ${ctx.what} be ${ctx.when(xt)}?`,
-      figure: fig,
-      parts: [linPart(ctx, vt)],
-      hints: [`Find the rate: read two points and divide the change by the number of ${ctx.per}s between them.`, `Start from the last point and add the rate once for every ${ctx.per} after it.`],
+      prompt: `${ctx.intro(name)} If the trend continues at the same rate, ${ctx.reach(t, name)}?`,
+      figure,
+      parts: [numPart(x, { label: ctx.per === 'week' && /which week/.test(ctx.reach(t, name)) ? 'Week' : undefined, suffix: /which week/.test(ctx.reach(t, name)) ? undefined : `${ctx.per}s` })],
+      hints: [`Find the rate: how much ${ctx.what} changes each ${ctx.per}.`, 'Find how much it must change from the start, then divide by the rate.'],
       solution: [
-        `${cap(ctx.when(0))}: ${linVal(ctx, v0)}. ${cap(ctx.when(1))}: ${linVal(ctx, vs[1])}.`,
-        `Rate: ${ctx.what} ${ctx.sign > 0 ? 'goes up' : 'goes down'} by ${linVal(ctx, r)} each ${ctx.per}.`,
-        `From ${ctx.when(last).replace(/^at /, '')} to ${ctx.when(xt).replace(/^at /, '')} is $${xt} - ${last} = ${xt - last}$ ${ctx.per}s.`,
-        `$${ctx.money ? mv(vs[vs.length - 1]) : num(vs[vs.length - 1])} ${ctx.sign > 0 ? '+' : '-'} ${xt - last} \\times ${num(r)} = ${ctx.money ? mv(vt) : num(vt)}$`,
-        `${cap(ctx.when(xt))}, ${ctx.what} will be ${linVal(ctx, vt)}.`,
+        rateLine,
+        `From the start, it must change by ${ctx.money ? `${money(Math.max(t, v0))} - ${money(Math.min(t, v0))} = ${money(dv)}` : `$${num(Math.max(t, v0))} - ${num(Math.min(t, v0))} = ${num(dv)}\\ \\text{${ctx.unit}}$`}.`,
+        `$${linNum(ctx, dv)} \\div ${linNum(ctx, r)} = ${x}$`,
+        /which week/.test(ctx.reach(t, name)) ? `The calf will reach ${linVal(ctx, t)} at week $${x}$.` : `It will take $${x}$ ${ctx.per}s.`,
       ],
     };
   }
-  // When will it reach a target?
-  const targets = ctx.targets(v0, r).filter((t) => {
-    const x = (t - v0) / (ctx.sign * r);
-    return x > last && isWhole(x * 2) && x <= last + 12;
-  });
-  if (!targets.length) return linePredict(rng.fork('again'), name);
-  const t = rng.pick(targets);
-  const x = (t - v0) / (ctx.sign * r);
-  const dv = Math.abs(t - v0);
+  // Predict a value beyond the graph.
+  const maxAhead = ctx.sign < 0 ? Math.floor(v0 / r) - last : 8;
+  const xt = last + rng.int(2, Math.max(2, Math.min(8, maxAhead)));
+  const vt = v0 + ctx.sign * r * xt;
+  const lastV = vs[vs.length - 1];
   return {
-    prompt: `${ctx.intro(name)} If the trend continues at the same rate, ${ctx.reach(t).charAt(0).toLowerCase()}${ctx.reach(t).slice(1)}?`.replace(/^(.*?), w/, '$1, w'),
-    figure: fig,
-    parts: [numPart(clean(x), { suffix: `${ctx.per}s` })],
-    hints: [`Find the rate: how much ${ctx.what} changes each ${ctx.per}.`, `Find how much it still has to change from the start, then divide by the rate.`],
+    prompt: `${ctx.intro(name)} If the trend continues at the same rate, ${ctx.ask(ctx.when(xt), name)}?`,
+    figure,
+    parts: [linPart(ctx, vt)],
+    hints: [`Find the rate: read two points and find how much ${ctx.what} changes each ${ctx.per}.`, `Start from the last point and ${ctx.sign > 0 ? 'add' : 'subtract'} the rate once for every ${ctx.per} after it.`],
     solution: [
-      `Rate: ${ctx.what} ${ctx.sign > 0 ? 'goes up' : 'goes down'} by ${linVal(ctx, r)} each ${ctx.per} (for example, from ${linVal(ctx, v0)} to ${linVal(ctx, vs[1])}).`,
-      `From the start, it must change by ${ctx.money ? `${money(t)} - ${money(v0)} = ${money(dv)}` : `$${num(Math.max(t, v0))} - ${num(Math.min(t, v0))} = ${num(dv)}\\ \\text{${ctx.unit}}$`}.`,
-      `$${ctx.money ? mv(dv) : num(dv)} \\div ${num(r)} = ${num(x)}$`,
-      `It will take $${num(x)}$ ${ctx.per}s.`,
+      rateLine,
+      `The graph ends at ${ctx.per} $${last}$ with ${linVal(ctx, lastV)}. From ${ctx.per} $${last}$ to ${ctx.per} $${xt}$ is $${xt - last}$ ${ctx.per}s.`,
+      `$${linNum(ctx, lastV)} ${ctx.sign > 0 ? '+' : '-'} ${xt - last} \\times ${linNum(ctx, r)} = ${linNum(ctx, vt)}$`,
+      `${ucFirst(ctx.when(xt))}, ${ctx.what} will be ${linVal(ctx, vt)}.`,
     ],
   };
 }
@@ -1902,8 +1942,11 @@ function nimItem(rng: Rng, d: 1 | 2 | 3, name: string): Out {
   );
   const m = moves[0];
   const left = N - m;
-  const rule = misere ? `The player who takes the last ${ctx.things.replace(/s$/, '')} loses.` : `The player who takes the last ${ctx.things.replace(/s$/, '')} wins.`;
+  const one = ctx.things.replace(/s$/, '');
+  const rule = misere ? `The player who takes the last ${one} loses.` : `The player who takes the last ${one} wins.`;
   const safe = misere ? `one more than a multiple of $${k + 1}$` : `a multiple of $${k + 1}$`;
+  const range = k === 2 ? '$1$ or $2$' : `$1$ to $${k}$`;
+  const others = keys(k).map((i) => i + 1).filter((x) => x !== m && x <= N);
   return {
     prompt: `${name} and ${opp} play a game with $${N}$ ${ctx.things} ${ctx.setting}. They take turns removing $1$${k === 2 ? ' or $2$' : ` to $${k}$`} ${ctx.things}. ${rule} It is ${name}’s turn. How many ${ctx.things} should ${name} take to be sure of winning?`,
     parts: [numPart(m, { suffix: ctx.things })],
@@ -1911,15 +1954,15 @@ function nimItem(rng: Rng, d: 1 | 2 | 3, name: string): Out {
       misere
         ? `Work backward. If ${opp} must move when only $1$ is left, ${opp} loses. What about $${k + 2}$ left?`
         : `Work backward. If ${opp} must move when $${k + 1}$ are left, whatever ${opp} takes, ${name} can take the rest.`,
-      `Leave ${opp} a number that is ${safe}. After that, each round take enough to make $${k + 1}$ with what ${opp} took.`,
+      `Leave ${opp} a number that is ${safe}. After that, each round, take enough to make $${k + 1}$ together with what ${opp} took.`,
     ],
     solution: [
       misere
-        ? `If ${opp} faces $1$ ${ctx.things.replace(/s$/, '')}, ${opp} must take it and lose. If ${opp} faces $${k + 2}$, whatever ${opp} takes ($1$ to $${k}$), ${name} can leave exactly $1$.`
-        : `If ${opp} faces $${k + 1}$ ${ctx.things}, whatever ${opp} takes ($1$ to $${k}$), ${name} can take the rest and win.`,
-      `So the losing numbers to face are ${safe}: ${andList(keys(5).map((i) => `$${(misere ? 1 : 0) + (k + 1) * (misere ? i : i + 1)}$`))}, and so on.`,
-      `From $${N}$, taking $${m}$ leaves $${left}$, which is ${safe}. Taking any other number would leave ${opp} a safe number instead.`,
-      `${name} should take $${m}$ ${ctx.things}, and then always take enough to make $${k + 1}$ with ${opp}’s turn.`,
+        ? `If ${opp} faces $1$ ${one}, ${opp} must take it and lose. If ${opp} faces $${k + 2}$, whatever ${opp} takes (${range}), ${name} can leave exactly $1$.`
+        : `If ${opp} faces $${k + 1}$ ${ctx.things}, whatever ${opp} takes (${range}), ${name} can take the rest and win.`,
+      `So ${name} wants to leave ${opp} a number that is ${safe}: ${andList(keys(5).map((i) => `$${(misere ? 1 : 0) + (k + 1) * (misere ? i : i + 1)}$`))}, and so on.`,
+      `From $${N}$, taking $${m}$ leaves $${left}$, which is ${safe}. Taking ${andList(others.map((x) => `$${x}$`)).replace(/ and /, ' or ')} would leave ${andList(others.map((x) => `$${N - x}$`)).replace(/ and /, ' or ')}, and then ${opp} could use the same plan against ${name}.`,
+      `${name} should take $${m}$ ${m === 1 ? one : ctx.things}. After that, whatever ${opp} takes, ${name} takes enough to make $${k + 1}$ for the round.`,
     ],
     calculator: false,
   };
@@ -1930,6 +1973,8 @@ function nimItem(rng: Rng, d: 1 | 2 | 3, name: string): Out {
 interface Clue {
   text: string;
   test: (x: number) => boolean;
+  /** A stricter reading used when listing what is left (the uniqueness check uses `test`). */
+  show?: (x: number) => boolean;
 }
 
 const tens = (x: number) => Math.floor(x / 10);
@@ -1948,7 +1993,7 @@ function cluesFor(rng: Rng, t: number): Clue[] {
   const lo = Math.max(10, t - rng.int(5, 25));
   const hi = Math.min(99, t + rng.int(5, 25));
   // Tested as inclusive, so the answer is unique however a student reads "between".
-  if (lo < t && t < hi) out.push({ text: `I am between $${lo}$ and $${hi}$.`, test: (x) => x >= lo && x <= hi });
+  if (lo < t && t < hi) out.push({ text: `I am between $${lo}$ and $${hi}$.`, test: (x) => x >= lo && x <= hi, show: (x) => x > lo && x < hi });
   const p = tens(t) * ones(t);
   if (p > 0) out.push({ text: `The product of my digits is $${p}$.`, test: (x) => tens(x) * ones(x) === p });
   const dif = Math.abs(tens(t) - ones(t));
@@ -1980,13 +2025,15 @@ function riddleItem(rng: Rng): Out {
     (o) => o.fits.length === 1 && o.fits[0] === o.t && o.clues.length >= 3 && o.clues.length <= 4,
     400,
   );
-  // Explain with the clues in the order given, listing what is left when the list is short.
+  // Explain starting with the clue that leaves the fewest numbers, listing what is left.
   const steps: string[] = [];
   let cand = TWO_DIGIT;
-  clues.forEach((c, i) => {
-    cand = cand.filter(c.test);
-    const txt = c.text.replace(/^I am/, 'it is').replace(/^My/, 'its').replace(/^The/, 'the').replace(/\.$/, '');
-    steps.push(`Clue ${i + 1} (${txt}): ${cand.length <= 14 ? `that leaves ${listTex(cand)}.` : `that leaves $${cand.length}$ numbers.`}`);
+  const count = (c: Clue) => TWO_DIGIT.filter(c.show ?? c.test).length;
+  const order = clues.map((c, i) => ({ c, i })).sort((a, b) => count(a.c) - count(b.c));
+  order.forEach(({ c, i }, step) => {
+    cand = cand.filter(c.show ?? c.test);
+    const list = cand.length <= 14 ? listTex(cand) : `$${cand.length}$ numbers`;
+    steps.push(step === 0 ? `Start with clue ${i + 1}, “${c.text}” The two-digit numbers that fit are ${list}.` : `Clue ${i + 1}, “${c.text}” leaves ${list}.`);
   });
   return {
     prompt: `Use the clues to find the mystery number. Exactly one number fits.\n\nI am a two-digit number.\n\n${clues.map((c, i) => `${i + 1}. ${c.text}`).join('\n')}\n\nWhat number am I?`,

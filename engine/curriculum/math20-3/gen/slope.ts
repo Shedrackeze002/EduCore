@@ -782,7 +782,7 @@ function rocContext(rng: Rng, d: Lvl, name: string, town: string): Roc {
       meaning: `${name} earns ${money(m)} for each hour worked.`,
       wrongs: [`${name}'s earnings go down by ${money(m)} for each hour worked.`, `${name} earns ${money(m)} in total for all the hours in the table.`, `${name} earns ${money(m * uniq[1])} for each hour worked.`],
       predict: () => {
-        const H = retry(() => rng.pick([22.5, 24.5, 27.5, 29.5, 31.5, 33.5, 37.5]), (H) => !onEdge(m * H, 2, 0.1));
+        const H = retry(() => rng.pick([22, 22.5, 24, 24.5, 26, 27.5, 28, 29.5, 31.5, 32, 33.5, 36, 37.5]), (H) => fitsDp(m * H, 2) || !onEdge(m * H, 2, 0.1));
         const y = m * H;
         return {
           ask: `At the same rate, how much will ${name} earn in a week with $${num(H)}$ hours of work, ${CENT}?`,
@@ -1443,7 +1443,7 @@ const PROP_CTX: PropCtx[] = [
     au: tx('buckets of gravel'),
     bu: '',
     suffix: 'buckets',
-    given: (n, a, b) =>
+    given: (n, _a, b) =>
       b === 1
         ? `${n} mixes concrete in the ratio $1 : 2 : 3$: $1$ bucket of cement, $2$ buckets of sand and $3$ buckets of gravel.`
         : `${n} mixes concrete in the ratio $1 : 2 : 3$ (cement : sand : gravel). That is $3$ buckets of gravel for every $2$ buckets of sand.`,
@@ -1517,7 +1517,8 @@ function proportionMulti(rng: Rng): GenOutput {
   if (mode === 'concrete') {
     const [s, g] = rng.pick([[2, 3], [2, 4], [3, 3], [2, 5]] as const);
     const total = 1 + s + g;
-    const V = retry(() => rng.pick([0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 3, 3.6, 4.2, 4.8]), (V) => fitsDp(V / total, 2) || !onEdge(V / total, 2));
+    const okDp = (x: number) => fitsDp(x, 2) || !onEdge(x, 2);
+    const V = retry(() => rng.pick([0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 3, 3.6, 4.2, 4.8]), (V) => okDp(V / total) && okDp((V * g) / total));
     const cem = V / total;
     const grav = (V * g) / total;
     const exactC = fitsDp(cem, 2);
@@ -1852,7 +1853,7 @@ function unitMulti(rng: Rng): GenOutput {
     };
   }
   if (mode === 'reaction') {
-    const { v, t } = retry(() => ({ v: rng.pick([50, 60, 70, 80, 90, 100, 110]), t: rng.pick([0.75, 1, 1.25, 1.5, 2]) }), (o) => !onEdge(o.v / 3.6, 1) && !onEdge((o.v / 3.6) * o.t, 0) || isWhole((o.v / 3.6) * 10));
+    const { v, t } = retry(() => ({ v: rng.pick([50, 60, 70, 80, 90, 100, 110]), t: rng.pick([0.75, 1, 1.25, 1.5, 2]) }), (o) => (!onEdge(o.v / 3.6, 1) || isWhole((o.v / 3.6) * 10)) && !onEdge((o.v / 3.6) * o.t, 0));
     const ms = v / 3.6;
     const dist = ms * t;
     return {

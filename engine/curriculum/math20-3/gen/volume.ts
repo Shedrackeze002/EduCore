@@ -263,7 +263,7 @@ const volPrism = skill({
       solution: [
         `Depth in feet: $${dIn}\\ \\text{in} = ${inFt(dIn)}\\ \\text{ft}$`,
         `$V = ${l} \\times ${w} \\times ${inFt(dIn)} = ${n(V)}\\ \\text{ft}^3$`,
-        `Bags: $${n(V)} \\div ${n(bag)} \\approx ${nf(V / bag, 2)}$, so round up to ${bags}.`,
+        `Bags: $${n(V)} \\div ${n(bag)} ${shortDec(V / bag) ? `= ${n(V / bag)}` : `\\approx ${nf(V / bag, 2)}`}$, so round up to ${bags}.`,
         `${name} needs ${vol(V, 'ft')} of soil, so ${bags} bags.`,
       ],
     };

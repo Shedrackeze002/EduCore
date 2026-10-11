@@ -33,8 +33,9 @@ const lb = (x: number, u: string) => `${fmt(x)} ${u}`;
 const f1 = (x: number) => fmtFixed(x, 1);
 const f2 = (x: number) => fmtFixed(x, 2);
 const fx = (x: number, dp: number) => fmtFixed(x, dp);
-const n2 = (x: number) => Number(f2(x));
+const rd2 = (x: number) => Number(f2(x));
 const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const sq = (x: number) => Math.round(x * x * 1e6) / 1e6;
 
 /** True when x is safely away from a rounding boundary (…5) at `dp` places. */
@@ -367,54 +368,60 @@ function reviewBasic(rng: Rng): GenOutput {
   const RA = seg(t.R, t.A);
   const RB = seg(t.R, t.B);
   const AB = seg(t.A, t.B);
-  if (mode === 'hyp' || mode === 'leg') {
-    const v = retry(
+  if (mode === 'hyp') {
+    const { a, b, c } = retry(
       () => {
         if (rng.chance(0.4)) {
-          const [p, q, c] = rng.pick(TRIPLES);
-          const k = c <= 13 ? rng.pick([1, 2, 3]) : 1;
-          return rng.chance(0.5) ? { a: p * k, b: q * k, c: c * k } : { a: q * k, b: p * k, c: c * k };
+          const [p, q, r] = rng.pick(TRIPLES);
+          const k = r <= 13 ? rng.pick([1, 2, 3]) : 1;
+          return rng.chance(0.5) ? { a: p * k, b: q * k, c: r * k } : { a: q * k, b: p * k, c: r * k };
         }
         const a = rng.int(4, 24);
         const b = rng.int(4, 24);
         return { a, b, c: Math.hypot(a, b) };
       },
-      (v) => v.a !== v.b && (isWhole(v.c) || (clear(v.c) && clear(Math.sqrt(sq(v.c) - v.a * v.a)))),
+      (v) => v.a !== v.b && (isWhole(v.c) || clear(v.c)),
     );
-    if (mode === 'hyp') {
-      const { a, b, c } = v;
-      const whole = isWhole(c);
-      return {
-        prompt: `In $${tri}$, $\\angle ${t.R} = 90^\\circ$, $${RA} = ${qm(a, unit)}$ and $${RB} = ${qm(b, unit)}$. Find the length of the hypotenuse, $${AB}$${whole ? '' : `, ${nearest(unit)}`}.`,
-        figure: rtFig(t, a, b, { ra: lb(a, unit), rb: lb(b, unit), ab: '?' }),
-        parts: [whole ? numPart(c, { suffix: unit, label: `$${AB}$` }) : lenPart(c, unit, `$${AB}$`)],
-        hints: ['The hypotenuse is the side across from the right angle. You know both legs.', `Use the Pythagorean theorem: $${AB}^2 = ${RA}^2 + ${RB}^2$, then take the square root.`],
-        solution: [
-          `$${AB}$ is across from the right angle, so it is the hypotenuse. Use $c^2 = a^2 + b^2$.`,
-          `$${AB}^2 = ${a}^2 + ${b}^2 = ${a * a} + ${b * b} = ${a * a + b * b}$`,
-          `$${AB} = \\sqrt{${a * a + b * b}} ${whole ? '=' : '\\approx'} ${whole ? c : f2(c)}$`,
-          `The hypotenuse $${AB}$ is ${whole ? '' : 'about '}$${qm(whole ? c : f1(c), unit)}$ long.`,
-        ],
-      };
-    }
-    // Leg: hypotenuse c and leg a are known.
-    const c = isWhole(v.c) ? v.c : Math.round(v.c);
-    const a = v.a;
-    const b = Math.sqrt(c * c - a * a);
-    const ok = isWhole(b) || clear(b);
-    const bb = ok ? b : Math.sqrt((c + 1) * (c + 1) - a * a);
-    const cc = ok ? c : c + 1;
-    const whole = isWhole(bb);
+    const whole = isWhole(c);
     return {
-      prompt: `In $${tri}$, $\\angle ${t.R} = 90^\\circ$, the hypotenuse $${AB} = ${qm(cc, unit)}$ and $${RA} = ${qm(a, unit)}$. Find the length of $${RB}$${whole ? '' : `, ${nearest(unit)}`}.`,
-      figure: rtFig(t, a, bb, { ra: lb(a, unit), rb: '?', ab: lb(cc, unit) }),
-      parts: [whole ? numPart(bb, { suffix: unit, label: `$${RB}$` }) : lenPart(bb, unit, `$${RB}$`)],
+      prompt: `In $${tri}$, $\\angle ${t.R} = 90^\\circ$, $${RA} = ${qm(a, unit)}$ and $${RB} = ${qm(b, unit)}$. Find the length of the hypotenuse, $${AB}$${whole ? '' : `, ${nearest(unit)}`}.`,
+      figure: rtFig(t, a, b, { ra: lb(a, unit), rb: lb(b, unit), ab: '?' }),
+      parts: [whole ? numPart(c, { suffix: unit, label: `$${AB}$` }) : lenPart(c, unit, `$${AB}$`)],
+      hints: ['The hypotenuse is the side across from the right angle. You know both legs.', `Use the Pythagorean theorem: $${AB}^2 = ${RA}^2 + ${RB}^2$, then take the square root.`],
+      solution: [
+        `$${AB}$ is across from the right angle, so it is the hypotenuse. Use $c^2 = a^2 + b^2$.`,
+        `$${AB}^2 = ${a}^2 + ${b}^2 = ${a * a} + ${b * b} = ${a * a + b * b}$`,
+        `$${AB} = \\sqrt{${a * a + b * b}} ${whole ? '=' : '\\approx'} ${whole ? c : f2(c)}$`,
+        `The hypotenuse $${AB}$ is ${whole ? '' : 'about '}$${qm(whole ? c : f1(c), unit)}$ long.`,
+      ],
+    };
+  }
+  if (mode === 'leg') {
+    // The hypotenuse c and the leg a are known.
+    const { a, b, c } = retry(
+      () => {
+        if (rng.chance(0.4)) {
+          const [p, q, r] = rng.pick(TRIPLES);
+          const k = r <= 13 ? rng.pick([1, 2, 3]) : 1;
+          return rng.chance(0.5) ? { a: p * k, b: q * k, c: r * k } : { a: q * k, b: p * k, c: r * k };
+        }
+        const a = rng.int(4, 24);
+        const c = rng.int(a + 2, a + 20);
+        return { a, b: Math.sqrt(c * c - a * a), c };
+      },
+      (v) => isWhole(v.b) || clear(v.b),
+    );
+    const whole = isWhole(b);
+    return {
+      prompt: `In $${tri}$, $\\angle ${t.R} = 90^\\circ$, the hypotenuse $${AB} = ${qm(c, unit)}$ and $${RA} = ${qm(a, unit)}$. Find the length of $${RB}$${whole ? '' : `, ${nearest(unit)}`}.`,
+      figure: rtFig(t, a, b, { ra: lb(a, unit), rb: '?', ab: lb(c, unit) }),
+      parts: [whole ? numPart(b, { suffix: unit, label: `$${RB}$` }) : lenPart(b, unit, `$${RB}$`)],
       hints: ['You know the hypotenuse and one leg. The missing side is a leg.', `Rearrange the Pythagorean theorem: $${RB}^2 = ${AB}^2 - ${RA}^2$.`],
       solution: [
         `$${AB}$ is the hypotenuse, so $${AB}^2 = ${RA}^2 + ${RB}^2$. Subtract to find the missing leg: $${RB}^2 = ${AB}^2 - ${RA}^2$.`,
-        `$${RB}^2 = ${cc}^2 - ${a}^2 = ${cc * cc} - ${a * a} = ${cc * cc - a * a}$`,
-        `$${RB} = \\sqrt{${cc * cc - a * a}} ${whole ? '=' : '\\approx'} ${whole ? bb : f2(bb)}$`,
-        `$${RB}$ is ${whole ? '' : 'about '}$${qm(whole ? bb : f1(bb), unit)}$ long. Check: it is shorter than the hypotenuse.`,
+        `$${RB}^2 = ${c}^2 - ${a}^2 = ${c * c} - ${a * a} = ${c * c - a * a}$`,
+        `$${RB} = \\sqrt{${c * c - a * a}} ${whole ? '=' : '\\approx'} ${whole ? fmt(b) : f2(b)}$`,
+        `$${RB}$ is ${whole ? '' : 'about '}$${qm(whole ? fmt(b) : f1(b), unit)}$ long. Check: it is shorter than the hypotenuse.`,
       ],
     };
   }
@@ -459,7 +466,7 @@ function ladderSide(rng: Rng): GenOutput {
     },
     (v) => v.s.ok,
   );
-  const { ang, mode, given, fn, s } = v;
+  const { ang, mode, given, s } = v;
   const sides = mode === 'LfromH' ? sidesFrom('opp', given, ang) : mode === 'LfromD' ? sidesFrom('adj', given, ang) : sidesFrom('opp', given, ang);
   const t = UPRIGHT('W', 'F', 'T');
   const labels: Partial<Record<SideKey, string>> =
@@ -527,7 +534,7 @@ function heightTop(rng: Rng): GenOutput {
   const town = rng.pick(TOWNS);
   if (rng.chance(0.5)) {
     const thing = rng.pick([
-      { name: 'grain bin', scene: 'building' as const },
+      { name: 'grain bin', scene: 'none' as const },
       { name: 'spruce tree', scene: 'tree' as const },
       { name: 'light standard in a parking lot', scene: 'none' as const },
       { name: 'flagpole', scene: 'none' as const },
@@ -667,36 +674,36 @@ function pythApplied(rng: Rng): GenOutput {
       ],
     };
   }
-  const c = (() => {
-    if (kind === 'gate') {
-      const w = rng.int(8, 16) / 2;
-      const h = rng.int(7, 12) / 2;
-      return { a: w, b: h, u: 'ft' as Unit, text: `${who} is building a wooden farm gate that is ${Q(w, 'ft')} wide and ${Q(h, 'ft')} tall. A diagonal brace runs from one corner of the gate to the opposite corner. How long is the brace, ${nearest('ft')}?`, ask: 'Brace' };
-    }
-    if (kind === 'rafter') {
-      const run = rng.int(16, 32) / 2;
-      const rise = rng.int(6, 16) / 2;
-      return { a: run, b: rise, u: 'ft' as Unit, text: `A shed roof rises ${Q(rise, 'ft')} over a horizontal run of ${Q(run, 'ft')}. How long is a rafter that spans the roof from the low wall to the high wall, ignoring any overhang, ${nearest('ft')}?`, ask: 'Rafter' };
-    }
-    const a = rng.int(12, 40) * 10;
-    const b = rng.int(8, 30) * 10;
-    return { a, b, u: 'm' as Unit, text: `A rectangular hayfield near ${town} measures ${Q(a, 'm')} by ${Q(b, 'm')}. ${who} drives a quad in a straight line from one corner of the field to the opposite corner. How far does ${who} drive, ${nearest('m')}?`, ask: 'Distance' };
-  })();
+  const c = retry(
+    () => {
+      if (kind === 'gate') {
+        const w = rng.int(8, 16) / 2;
+        const h = rng.int(7, 12) / 2;
+        return { a: w, b: h, u: 'ft' as Unit, text: `${who} is building a wooden farm gate that is ${Q(w, 'ft')} wide and ${Q(h, 'ft')} tall. A diagonal brace runs from one corner of the gate to the opposite corner. How long is the brace`, ask: 'Brace' };
+      }
+      if (kind === 'rafter') {
+        const run = rng.int(16, 32) / 2;
+        const rise = rng.int(6, 16) / 2;
+        return { a: run, b: rise, u: 'ft' as Unit, text: `A shed roof rises ${Q(rise, 'ft')} over a horizontal run of ${Q(run, 'ft')}. How long is a rafter that spans the roof from the low wall to the high wall, ignoring any overhang`, ask: 'Rafter' };
+      }
+      const a = rng.int(12, 40) * 10;
+      const b = rng.int(8, 30) * 10;
+      return { a, b, u: 'm' as Unit, text: `A rectangular hayfield near ${town} measures ${Q(a, 'm')} by ${Q(b, 'm')}. ${who} drives a quad in a straight line from one corner of the field to the opposite corner. How far does ${who} drive`, ask: 'Distance' };
+    },
+    (c) => c.a !== c.b && (isWhole(Math.hypot(c.a, c.b)) || clear(Math.hypot(c.a, c.b))),
+  );
   const d = Math.hypot(c.a, c.b);
-  const fixD = clear(d) ? d : Math.hypot(c.a, c.b + (c.u === 'm' ? 10 : 0.5));
-  const b = clear(d) ? c.b : c.b + (c.u === 'm' ? 10 : 0.5);
-  const text = clear(d) ? c.text : c.text.replace(`${fmt(c.b)}\\ \\text`, `${fmt(b)}\\ \\text`);
-  const whole = isWhole(fixD);
+  const whole = isWhole(d);
   return {
-    prompt: whole ? text.replace(/, to the nearest tenth of a (metre|foot)\?/, '?') : text,
-    figure: rtFig(UPRIGHT('C', 'A', 'B'), c.a, b, { ra: lb(c.a, c.u), rb: lb(b, c.u), ab: '?' }),
-    parts: [whole ? numPart(fixD, { suffix: c.u, label: c.ask }) : lenPart(fixD, c.u, c.ask)],
+    prompt: `${c.text}${whole ? '' : `, ${nearest(c.u)}`}?`,
+    figure: rtFig(UPRIGHT('C', 'A', 'B'), c.a, c.b, { ra: lb(c.a, c.u), rb: lb(c.b, c.u), ab: '?' }),
+    parts: [whole ? numPart(d, { suffix: c.u, label: c.ask }) : lenPart(d, c.u, c.ask)],
     hints: ['Find the right triangle. The diagonal is across from the right angle, so it is the hypotenuse.', 'Use $c^2 = a^2 + b^2$, then take the square root.'],
     solution: [
-      `The diagonal is the hypotenuse of a right triangle with legs $${qm(c.a, c.u)}$ and $${qm(b, c.u)}$.`,
-      `$c^2 = ${fmt(c.a)}^2 + ${fmt(b)}^2 = ${fmt(sq(c.a))} + ${fmt(sq(b))} = ${fmt(sq(c.a) + sq(b))}$`,
-      `$c = \\sqrt{${fmt(sq(c.a) + sq(b))}} ${whole ? '=' : '\\approx'} ${whole ? fmt(fixD) : f2(fixD)}$`,
-      `The answer is ${whole ? '' : 'about '}$${qm(whole ? fmt(fixD) : f1(fixD), c.u)}$.`,
+      `The diagonal is the hypotenuse of a right triangle with legs $${qm(c.a, c.u)}$ and $${qm(c.b, c.u)}$.`,
+      `$c^2 = ${fmt(c.a)}^2 + ${fmt(c.b)}^2 = ${fmt(sq(c.a))} + ${fmt(sq(c.b))} = ${fmt(sq(c.a) + sq(c.b))}$`,
+      `$c = \\sqrt{${fmt(sq(c.a) + sq(c.b))}} ${whole ? '=' : '\\approx'} ${whole ? fmt(d) : f2(d)}$`,
+      `The answer is ${whole ? '' : 'about '}$${qm(whole ? fmt(d) : f1(d), c.u)}$.`,
     ],
   };
 }
@@ -716,7 +723,7 @@ function solveAll(rng: Rng): GenOutput {
       const [u1, u2] = (['opp', 'adj', 'hyp'] as Side[]).filter((k) => k !== known);
       const solve = (want: Side) => {
         const fn = fnFor(known, want);
-        return { fn, want, ...solveSide(fn, ang, kv, topOf(fn) === want || (fn !== 'tan' && want !== 'hyp' && known === 'hyp'), want === 'hyp' ? 'c' : 'x') };
+        return { fn, want, ...solveSide(fn, ang, kv, topOf(fn) === want, R.name[want]) };
       };
       return { ang, known, kv, s1: solve(u1), s2: solve(u2) };
     },
@@ -725,11 +732,6 @@ function solveAll(rng: Rng): GenOutput {
   const { ang, known, kv, s1, s2 } = v;
   const sides = sidesFrom(known, kv, ang);
   const [legA, legB] = drawLegs(at, sides);
-  const symOf = (want: Side) => R.name[want];
-  const steps = (s: typeof s1) => {
-    const sym = symOf(s.want);
-    return s.steps.map((st) => st.replace(/\b[xc]\b(?![a-z])/g, sym));
-  };
   return {
     prompt: `In $\\triangle ${t.A}${t.B}${t.R}$, $\\angle ${t.R} = 90^\\circ$, $\\angle ${R.vtx} = ${deg(ang)}$ and $${R.name[known]} = ${qm(kv, unit)}$. Solve the triangle: find $\\angle ${R.other}$ and the lengths of $${R.name[s1.want]}$ and $${R.name[s2.want]}$, ${nearest(unit)}.`,
     figure: rtFig(t, legA, legB, { [R.key[known]]: lb(kv, unit) }, { [at]: `${ang}°` }),
@@ -739,9 +741,9 @@ function solveAll(rng: Rng): GenOutput {
       `$\\angle ${R.other} = 90^\\circ - ${deg(ang)} = ${deg(90 - ang)}$`,
       nameStep(R.vtx, R.name),
       `${R.name[s1.want]}: ${chooseStep(known, s1.want)}`,
-      ...steps(s1),
+      ...s1.steps,
       `${R.name[s2.want]}: ${chooseStep(known, s2.want)}`,
-      ...steps(s2),
+      ...s2.steps,
       `$\\angle ${R.other} = ${deg(90 - ang)}$, $${R.name[s1.want]} \\approx ${qm(f1(s1.x), unit)}$ and $${R.name[s2.want]} \\approx ${qm(f1(s2.x), unit)}$.`,
     ],
   };
@@ -762,9 +764,10 @@ function solveTwoSides(rng: Rng): GenOutput {
       const c = legs ? Math.hypot(a, other) : other;
       // Angle at A: opposite side RB, adjacent RA.
       const angA = atanD(b / a);
-      return { legs, a, b, c, angA };
+      const shownA = legs ? atanD(Number(r4(b / a))) : acosD(Number(r4(a / c)));
+      return { legs, a, b, c, angA, shownA };
     },
-    (v) => v.a !== v.b && clear(v.angA) && clear(v.legs ? v.c : v.b) && f1(v.angA) !== f1(45) && v.angA > 15 && v.angA < 75,
+    (v) => v.a !== v.b && clear(v.angA) && f1(v.shownA) === f1(v.angA) && clear(v.legs ? v.c : v.b) && f1(v.angA) !== f1(45) && v.angA > 15 && v.angA < 75,
   );
   const { legs, a, b, c, angA } = v;
   const angB = 90 - angA;
@@ -825,19 +828,19 @@ function rampDesign(rng: Rng): GenOutput {
       const rise = rng.int(6, 18) * 5 / 100;
       return { lim, rise, run: rise / tanD(lim), len: rise / sinD(lim) };
     },
-    (v) => clear(v.run) && clear(v.len) && f1(v.run) !== f1(v.len) && f1(v.rise / Number(r4(tanD(v.lim)))) === f1(v.run) && f1(v.rise / Number(r4(sinD(v.lim)))) === f1(v.len),
+    (v) => clear(v.run) && clear(v.len, 2) && f1(v.rise / Number(r4(tanD(v.lim)))) === f1(v.run) && f2(v.rise / Number(r4(sinD(v.lim)))) === f2(v.len),
   );
   const { lim, rise, run, len } = v;
   return {
-    prompt: `Suppose the building code says a wheelchair ramp can make an angle of at most $${deg(lim)}$ with the ground. A ramp at a community hall in ${town} must rise ${Q(rise, 'm')} to the door. The builder uses the steepest angle allowed.\n\n(a) What horizontal run does the ramp need, ${nearest('m')}?\n\n(b) How long is the sloped surface of the ramp, ${nearest('m')}?`,
+    prompt: `Suppose the building code says a wheelchair ramp can make an angle of at most $${deg(lim)}$ with the ground. A ramp at a community hall in ${town} must rise ${Q(rise, 'm')} to the door. The builder uses the steepest angle allowed.\n\n(a) What horizontal run does the ramp need, ${nearest('m')}?\n\n(b) How long is the sloped surface of the ramp, ${nearest('m', 2)} (to the nearest centimetre), so the builder can cut the ramp deck?`,
     figure: rtFig(UPRIGHT('C', 'A', 'B'), run, rise, { ra: 'd', rb: lb(rise, 'm'), ab: 'L' }, { a: `${fmt(lim)}°` }, 'ramp'),
-    parts: [lenPart(run, 'm', '(a) Run $d =$'), lenPart(len, 'm', '(b) Length $L =$')],
+    parts: [lenPart(run, 'm', '(a) Run $d =$'), lenPart(len, 'm', '(b) Length $L =$', 2)],
     hints: [`The rise is opposite the $${deg(lim)}$ angle. The run is adjacent and the sloped surface is the hypotenuse.`, `Rearrange each ratio so the unknown is alone: $d = \\dfrac{${fmt(rise)}}{\\tan ${deg(lim)}}$ and $L = \\dfrac{${fmt(rise)}}{\\sin ${deg(lim)}}$.`],
     solution: [
       `(a) Opposite and adjacent: TOA. $\\tan ${deg(lim)} = \\dfrac{${fmt(rise)}}{d}$, so $d = \\dfrac{${fmt(rise)}}{\\tan ${deg(lim)}} \\approx \\dfrac{${fmt(rise)}}{${r4(tanD(lim))}} \\approx ${f2(run)}\\ \\text{m}$`,
-      `(b) Opposite and hypotenuse: SOH. $\\sin ${deg(lim)} = \\dfrac{${fmt(rise)}}{L}$, so $L = \\dfrac{${fmt(rise)}}{\\sin ${deg(lim)}} \\approx \\dfrac{${fmt(rise)}}{${r4(sinD(lim))}} \\approx ${f2(len)}\\ \\text{m}$`,
+      `(b) Opposite and hypotenuse: SOH. $\\sin ${deg(lim)} = \\dfrac{${fmt(rise)}}{L}$, so $L = \\dfrac{${fmt(rise)}}{\\sin ${deg(lim)}} \\approx \\dfrac{${fmt(rise)}}{${r4(sinD(lim))}} \\approx ${fx(len, 3)}\\ \\text{m}$`,
       `Check: the hypotenuse $L$ is a little longer than the run, as it should be.`,
-      `(a) about $${qm(f1(run), 'm')}$; (b) about $${qm(f1(len), 'm')}$.`,
+      `(a) about $${qm(f1(run), 'm')}$; (b) about $${qm(f2(len), 'm')}$.`,
     ],
   };
 }
@@ -907,7 +910,7 @@ function oppositeTower(rng: Rng): GenOutput {
       const d2 = h / tanD(a2);
       return { h, a1, a2, d1, d2, x: d1 + d2 };
     },
-    (v) => Math.abs(v.a1 - v.a2) >= 4 && clear(v.x) && f1(n2(v.d1) + n2(v.d2)) === f1(v.x),
+    (v) => Math.abs(v.a1 - v.a2) >= 4 && clear(v.x) && f1(rd2(v.d1) + rd2(v.d2)) === f1(v.x),
   );
   const { h, a1, a2, d1, d2, x } = v;
   const figure: TwoTriangleFigure = { type: 'twoTriangles', arrangement: 'opposite', labels: { h: `${h} m`, a1: `${a1}°`, a2: `${a2}°`, x: 'x' } };
@@ -944,8 +947,8 @@ function alleyFig(L: number, a1: number, a2: number, ask: 'width' | 'heights'): 
     .right([W, 0], [W - 1, 0], [W, 1])
     .angle(F, [0, 0], [0, h1], `${a1}°`, 22)
     .angle(F, [W, 0], [W, h2], `${a2}°`, 22)
-    .side(F, [0, h1], lb(L, 'm'), [0, 0], 6)
-    .side(F, [W, h2], lb(L, 'm'), [W, 0], 6);
+    .side(F, [0, h1], lb(L, 'm'), [p, top], 6)
+    .side(F, [W, h2], lb(L, 'm'), [p, top], 6);
   if (ask === 'width') s.dim([0, 0], [W, 0], 'x', [0, -14]);
   else s.dim([0, h2], [0, h1], 'x', [-12, 0]).line([0, h2], [W, h2], 'muted', true);
   return s.build(220, 200);
@@ -963,7 +966,7 @@ function alleyWidth(rng: Rng): GenOutput {
       const d2 = L * cosD(a2);
       return { L, a1, a2, d1, d2, x: d1 + d2 };
     },
-    (v) => Math.abs(v.a1 - v.a2) >= 5 && clear(v.x) && f1(n2(v.d1) + n2(v.d2)) === f1(v.x),
+    (v) => Math.abs(v.a1 - v.a2) >= 5 && clear(v.x) && f1(rd2(v.d1) + rd2(v.d2)) === f1(v.x),
   );
   const { L, a1, a2, d1, d2, x } = v;
   return {
@@ -1061,7 +1064,7 @@ function cliffBoats(rng: Rng): GenOutput {
       const df = h / tanD(far);
       return { h, near, far, dn, df, x: df - dn };
     },
-    (v) => clear(v.x) && f1(n2(v.df) - n2(v.dn)) === f1(v.x),
+    (v) => clear(v.x) && f1(rd2(v.df) - rd2(v.dn)) === f1(v.x),
   );
   const { h, near, far, dn, df, x } = v;
   return {
@@ -1095,7 +1098,7 @@ function stackedPole(rng: Rng): GenOutput {
       const bottom = dist * tanD(a1);
       return { dist, a1, a2, top, bottom, x: top - bottom };
     },
-    (v) => clear(v.x) && f1(n2(v.top) - n2(v.bottom)) === f1(v.x),
+    (v) => clear(v.x) && f1(rd2(v.top) - rd2(v.bottom)) === f1(v.x),
   );
   const { dist, a1, a2, top, bottom, x } = v;
   return {
@@ -1124,7 +1127,7 @@ function alleyHeights(rng: Rng): GenOutput {
       const h2 = L * sinD(a2);
       return { L, a1, a2, h1, h2, x: h1 - h2 };
     },
-    (v) => clear(v.x) && v.x > 0.3 && f1(n2(v.h1) - n2(v.h2)) === f1(v.x),
+    (v) => clear(v.x) && v.x > 0.3 && f1(rd2(v.h1) - rd2(v.h2)) === f1(v.x),
   );
   const { L, a1, a2, h1, h2, x } = v;
   return {
@@ -1152,8 +1155,8 @@ function guyAngleFig(d: number, h1: number, h2: number): PlaneFigure {
     .dot([d, 0])
     .angle([d, 0], [0, h1], [0, h2], 'θ', 34)
     .dim([0, 0], [d, 0], lb(d, 'm'), [0, -14])
-    .dim([0, 0], [0, h1], lb(h1, 'm'), [-14, 0])
-    .dim([0, 0], [0, h2], lb(h2, 'm'), [-58, 0])
+    .dim([0, 0], [0, h1], lb(h1, 'm'), [14, 0])
+    .dim([0, 0], [0, h2], lb(h2, 'm'), [-14, 0])
     .build(230, 190);
 }
 
@@ -1168,7 +1171,7 @@ function guyAngle(rng: Rng): GenOutput {
       const b2 = atanD(h2 / d);
       return { d, h1, h2, b1, b2, x: b2 - b1 };
     },
-    (v) => v.h2 >= v.h1 * 1.4 && clear(v.x) && f1(n2(v.b2) - n2(v.b1)) === f1(v.x),
+    (v) => v.h2 >= v.h1 * 1.4 && clear(v.x) && f1(rd2(v.b2) - rd2(v.b1)) === f1(v.x),
   );
   const { d, h1, h2, b1, b2, x } = v;
   return {
@@ -1224,7 +1227,7 @@ function cliffKnown(rng: Rng): GenOutput {
       const d2 = h / tanD(A2);
       return { d1, A1, A2, h, d2, x: d2 - d1 };
     },
-    (v) => clear(v.x) && f1(n2(v.h) / tanD(v.A2) - v.d1) === f1(v.x) && v.d2 < 6 * v.d1,
+    (v) => clear(v.x) && f1(rd2(v.h) / tanD(v.A2) - v.d1) === f1(v.x) && v.d2 < 6 * v.d1,
   );
   const { d1, A1, A2, h, d2, x } = v;
   return {
@@ -1258,7 +1261,7 @@ function oppositeKnownFig(dA: number, dB: number, h: number, aA: number, aB: num
     .text([dB, 0], 'B', 12, 0)
     .dim([-dA, 0], [0, 0], lb(dA, 'm'), [0, -14])
     .dim([-dA, 0], [dB, 0], 'x', [0, -40])
-    .text(T, 'h', 10, -h * 0)
+    .text([0, h / 2], 'h', 10, 0)
     .build(280, 150);
 }
 
@@ -1274,7 +1277,7 @@ function oppositeKnown(rng: Rng): GenOutput {
       const dB = h / tanD(aB);
       return { dA, aA, aB, h, dB, x: dA + dB };
     },
-    (v) => Math.abs(v.aA - v.aB) >= 4 && clear(v.x) && f1(v.dA + n2(v.h) / tanD(v.aB)) === f1(v.x),
+    (v) => Math.abs(v.aA - v.aB) >= 4 && clear(v.x) && f1(v.dA + rd2(v.h) / tanD(v.aB)) === f1(v.x),
   );
   const { dA, aA, aB, h, dB, x } = v;
   return {
@@ -1304,7 +1307,7 @@ function ladderSlideFig(L: number, a: number, m: number): PlaneFigure {
     .line([d2, 0], [0, h2], 'accent', true)
     .right([0, 0], [1, 0], [0, 1])
     .angle([d1, 0], [0, 0], [0, h1], `${a}°`, 22)
-    .side([d1, 0], [0, h1], lb(L, 'm'), [0, 0], 6)
+    .side([d1, 0], [0, h1], lb(L, 'm'), [d1, h1], 6)
     .dim([d1, 0], [d2, 0], lb(m, 'm'), [0, -14])
     .dim([0, h2], [0, h1], '?', [-12, 0])
     .build(150, 200);
@@ -1373,8 +1376,8 @@ function guySecond(rng: Rng): GenOutput {
       const h = L1 * sinD(a);
       const w2 = Math.hypot(d, h - k);
       const b = atanD((h - k) / d);
-      const w2s = Math.hypot(n2(d), n2(h) - k);
-      const bs = atanD((n2(h) - k) / n2(d));
+      const w2s = Math.hypot(rd2(d), rd2(h) - k);
+      const bs = atanD((rd2(h) - k) / rd2(d));
       return { L1, a, k, d, h, w2, b, ok: askAngle ? clear(b) && f1(bs) === f1(b) : clear(w2) && f1(w2s) === f1(w2) };
     },
     (v) => v.ok && v.h - v.k > v.h * 0.55,
@@ -1408,7 +1411,7 @@ function flagAngle(rng: Rng): GenOutput {
       const th = atanD((H + x) / dist);
       return { dist, a1, x, H, th };
     },
-    (v) => clear(v.th) && f1(atanD((n2(v.H) + v.x) / v.dist)) === f1(v.th) && v.th - v.a1 >= 3,
+    (v) => clear(v.th) && f1(atanD((rd2(v.H) + v.x) / v.dist)) === f1(v.th) && v.th - v.a1 >= 3,
   );
   const { dist, a1, x, H, th } = v;
   return {
@@ -1493,10 +1496,10 @@ function boxCtx(rng: Rng, exact: boolean): BoxCtx {
       [60, 45, 40, 'cm'],
       [120, 90, 80, 'cm'],
       [48, 36, 25, 'cm'],
-      [24, 18, 10, 'in'],
+      [24, 18, 16, 'in'],
     ] as Array<[number, number, number, Unit]>);
     const what = u === 'ft' ? `${who}'s storage shed is` : u === 'in' ? 'A toolbox in the back of a pickup is' : 'A wooden shipping crate is';
-    return { u, dp: 1, l, w, h, what: `${what} ${fmt(l)} ${u} long, ${fmt(w)} ${u} wide and ${fmt(h)} ${u} high inside.`, pole: u === 'ft' ? 'a straight length of pipe' : 'a straight steel rod' };
+    return { u, dp: 1, l, w, h, what: `${what} ${'%L%'} long, ${'%W%'} wide and ${'%H%'} high inside.`, pole: u === 'ft' ? 'a straight length of pipe' : 'a straight steel rod' };
   }
   if (kind === 'van') {
     return { u: 'm', dp: 2, l: rng.int(30, 48) / 10, w: rng.int(17, 23) / 10, h: rng.int(17, 22) / 10, what: `The cargo area of a cube van that ${who} rents in ${rng.pick(TOWNS)} is a box ${'%L%'} long, ${'%W%'} wide and ${'%H%'} high.`, pole: 'a length of PVC pipe' };
@@ -1513,7 +1516,7 @@ function boxDiag(rng: Rng): GenOutput {
   const exact = rng.chance(0.35);
   const c = retry(
     () => boxCtx(rng, exact),
-    (c) => c.w < c.l && (exact || (clear(Math.hypot(c.l, c.w), c.dp) && clear(Math.hypot(c.l, c.w, c.h), c.dp) && fx(Math.hypot(n2(Math.hypot(c.l, c.w)), c.h), c.dp) === fx(Math.hypot(c.l, c.w, c.h), c.dp))),
+    (c) => c.w < c.l && (exact || (clear(Math.hypot(c.l, c.w), c.dp) && clear(Math.hypot(c.l, c.w, c.h), c.dp) && fx(Math.hypot(rd2(Math.hypot(c.l, c.w)), c.h), c.dp) === fx(Math.hypot(c.l, c.w, c.h), c.dp))),
   );
   const { u, dp, l, w, h } = c;
   const fd = Math.hypot(l, w);
@@ -1582,7 +1585,7 @@ function stairsPyth(rng: Rng): GenOutput {
       const S = Math.hypot(R1 + R2, T1 + G + T2);
       return { r, t, n1, n2, G, R1, T1, R2, T2, L1, L2, S, tot: L1 + L2 };
     },
-    (v) => v.n1 !== v.n2 && clear(v.tot, 0, 0.2) && clear(v.S, 0, 0.2) && fx(n2(v.L1) + n2(v.L2), 0) === fx(v.tot, 0),
+    (v) => v.n1 !== v.n2 && clear(v.tot, 0, 0.2) && clear(v.S, 0, 0.2) && fx(rd2(v.L1) + rd2(v.L2), 0) === fx(v.tot, 0),
   );
   const { r, t, n1, n2, G, R1, T1, R2, T2, L1, L2, S, tot } = v;
   return {
@@ -1601,7 +1604,7 @@ function stairsPyth(rng: Rng): GenOutput {
 }
 
 /** A roof truss: rafters, bottom chord, king post, vertical webs at one-third of the span and diagonal webs to the king post. */
-function trussFig(S: number, h: number, u: string, labels: { span?: string; h?: string; v?: string; angle?: string; rafter?: string; diag?: string }): PlaneFigure {
+function trussFig(S: number, h: number, labels: { span?: string; h?: string; v?: string; angle?: string; rafter?: string; diag?: string }): PlaneFigure {
   const v = (2 * h) / 3;
   const M: P = [S / 2, 0];
   const top: P = [S / 2, h];
@@ -1621,8 +1624,7 @@ function trussFig(S: number, h: number, u: string, labels: { span?: string; h?: 
   if (labels.h) s.text([S / 2, h * 0.62], labels.h, textW(labels.h) / 2 + 7, 0);
   if (labels.v) s.text([S / 3, v * 0.5], labels.v, -textW(labels.v) / 2 - 7, 0);
   if (labels.rafter) s.side([0, 0], top, labels.rafter, [S / 2, 0], 6);
-  if (labels.diag) s.text([(5 * S) / 12, v / 2], labels.diag, 8, 4);
-  void u;
+  if (labels.diag) s.side(V1, M, labels.diag, Q1, 5);
   return s.build(290, 150);
 }
 
@@ -1646,7 +1648,7 @@ function trussPyth(rng: Rng): GenOutput {
   const show = (x: number) => (isWhole(x) ? `= ${fmt(x)}` : `\\approx ${f2(x)}`);
   return {
     prompt: `A lumber yard in ${town} is building a roof truss that spans ${Q(S, 'ft')}. ${TRUSS_WORDS} The king post is ${Q(h, 'ft')} tall and each vertical web is ${Q(v, 'ft')} tall.\n\n(a) How long is one rafter, from the end of the truss to the peak?\n\n(b) How long is one diagonal web?\n\nRound to the nearest tenth of a foot where needed.`,
-    figure: trussFig(S, h, 'ft', { span: lb(S, 'ft'), h: lb(h, 'ft'), v: lb(v, 'ft'), rafter: 'r', diag: 'w' }),
+    figure: trussFig(S, h, { span: lb(S, 'ft'), h: lb(h, 'ft'), v: lb(v, 'ft'), rafter: 'r', diag: 'w' }),
     parts: [p(raf, '(a) $r =$'), p(dg, '(b) $w =$')],
     hints: ['Find the right triangles. The king post splits the truss into two right triangles: half the span and the king post are the legs of the rafter’s triangle.', `For the diagonal web, its triangle has the vertical web as one leg and the distance from the vertical web to the king post, $\\dfrac{${S}}{2} - \\dfrac{${S}}{3}$, as the other leg.`],
     solution: [
@@ -1694,7 +1696,7 @@ function survey3(rng: Rng): GenOutput {
       const [dP, dQ, dR] = [aP, aQ, aR].map((a) => h / tanD(a));
       return { h, aP, aQ, aR, dP, dQ, dR, x: dQ - dP, y: dR - dQ };
     },
-    (v) => clear(v.x) && clear(v.y) && f1(n2(v.dQ) - n2(v.dP)) === f1(v.x) && f1(n2(v.dR) - n2(v.dQ)) === f1(v.y) && v.dR < 5 * v.dP,
+    (v) => clear(v.x) && clear(v.y) && f1(rd2(v.dQ) - rd2(v.dP)) === f1(v.x) && f1(rd2(v.dR) - rd2(v.dQ)) === f1(v.y) && v.dR < 5 * v.dP,
   );
   const { h, aP, aQ, aR, dP, dQ, dR, x, y } = v;
   return {
@@ -1723,7 +1725,7 @@ function trussTrig(rng: Rng): GenOutput {
       const h = (S / 2) * tanD(th);
       const v = (S / 3) * tanD(th);
       const dg = Math.hypot(S / 6, v);
-      const dgShown = Math.hypot(S / 6, n2(v));
+      const dgShown = Math.hypot(S / 6, rd2(v));
       return { S, th, h, v, dg, dgShown };
     },
     (x) => clear(x.h) && clear(x.dg) && f1(x.dgShown) === f1(x.dg) && f1((x.S / 2) * Number(r4(tanD(x.th)))) === f1(x.h),
@@ -1731,7 +1733,7 @@ function trussTrig(rng: Rng): GenOutput {
   const { S, th, h, v, dg } = v0;
   return {
     prompt: `A roof truss for a garage in ${town} spans ${Q(S, u)}, and each rafter makes an angle of $${deg(th)}$ with the bottom chord. ${TRUSS_WORDS}\n\n(a) How tall is the king post?\n\n(b) How long is one diagonal web?\n\nRound each answer ${nearest(u)}.`,
-    figure: trussFig(S, h, u, { span: lb(S, u), angle: `${th}°`, h: 'k', diag: 'w' }),
+    figure: trussFig(S, h, { span: lb(S, u), angle: `${th}°`, h: 'k', diag: 'w' }),
     parts: [lenPart(h, u, '(a) $k =$'), lenPart(dg, u, '(b) $w =$')],
     hints: [`Triangle 1 (half the truss): the king post is opposite the $${deg(th)}$ angle and half the span is adjacent. Use TOA.`, `Triangle 2: the vertical web is $\\dfrac{${fmt(S)}}{3}$ from the end, so its height is $\\dfrac{${fmt(S)}}{3}\\tan ${deg(th)}$. Triangle 3: the diagonal web is the hypotenuse, with that height and the gap to the king post as legs. ${KEEP}`],
     solution: [
@@ -1756,7 +1758,7 @@ function stairsTrig(rng: Rng): GenOutput {
       const R1 = n1 * r;
       const R2 = n2 * r;
       const tot = (R1 + R2) / sinD(th);
-      const shown = R1 / sinD(n2(th)) + R2 / sinD(n2(th));
+      const shown = R1 / sinD(rd2(th)) + R2 / sinD(rd2(th));
       return { r, t, n1, n2, G, th, R1, R2, tot, shown };
     },
     (v) => v.n1 !== v.n2 && clear(v.th) && clear(v.tot, 0, 0.2) && fx(v.shown, 0) === fx(v.tot, 0) && f1(atanD(Number(r4(v.r / v.t)))) === f1(v.th),
@@ -1802,7 +1804,7 @@ function survey3KnownFig(dA: number, h: number, dQ: number, dR: number, aA: numb
     .text([dR, 0], 'R', 0, -12)
     .dim([-dA, 0], [0, 0], lb(dA, 'm'), [0, -26])
     .dim([dQ, 0], [dR, 0], 'x', [0, -26])
-    .text(T, 'h', -10, -16)
+    .text([0, h / 2], 'h', -10, 0)
     .build(290, 140);
 }
 
@@ -1817,7 +1819,7 @@ function survey3Known(rng: Rng): GenOutput {
       const h = dA * tanD(aA);
       const dQ = h / tanD(aQ);
       const dR = h / tanD(aR);
-      const sh = n2(h);
+      const sh = rd2(h);
       return { dA, aA, aQ, aR, h, dQ, dR, x: dR - dQ, xs: sh / tanD(aR) - sh / tanD(aQ) };
     },
     (v) => clear(v.h) && clear(v.x) && f1(v.xs) === f1(v.x) && v.dR < 4 * v.dA && v.x > 5,
@@ -1882,7 +1884,7 @@ function boxAngle(rng: Rng): GenOutput {
       const fd = Math.hypot(c.l, c.w);
       const sd = Math.hypot(c.l, c.w, c.h);
       const a = atanD(c.h / fd);
-      return c.w < c.l && clear(sd, c.dp) && clear(a) && f1(atanD(c.h / n2(fd))) === f1(a) && fx(Math.hypot(n2(fd), c.h), c.dp) === fx(sd, c.dp);
+      return c.w < c.l && clear(sd, c.dp) && clear(a) && f1(atanD(c.h / rd2(fd))) === f1(a) && fx(Math.hypot(rd2(fd), c.h), c.dp) === fx(sd, c.dp);
     },
   );
   const { u, dp, l, w, h } = c;
@@ -1903,8 +1905,6 @@ function boxAngle(rng: Rng): GenOutput {
     ],
   };
 }
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
 function trussPitch(rng: Rng): GenOutput {
   const town = rng.pick(TOWNS);
   const v0 = retry(
@@ -1918,12 +1918,12 @@ function trussPitch(rng: Rng): GenOutput {
       const total = h + 2 * v + 2 * dg;
       return { p, S, th, h, v, dg, total };
     },
-    (x) => clear(x.th) && clear(x.total) && f1(atanD(Number(r4(x.p / 12)))) === f1(x.th) && f1(x.h + 2 * x.v + 2 * n2(x.dg)) === f1(x.total),
+    (x) => clear(x.th) && clear(x.total) && f1(atanD(Number(r4(x.p / 12)))) === f1(x.th) && f1(x.h + 2 * x.v + 2 * rd2(x.dg)) === f1(x.total),
   );
   const { p, S, th, h, v, dg, total } = v0;
   return {
     prompt: `A truss for a shop roof in ${town} spans ${Q(S, 'ft')} and has ${p === 8 ? 'an' : 'a'} ${p}/12 pitch: the rafters rise $${p}$ in for every $12$ in of run. ${TRUSS_WORDS}\n\n(a) What angle do the rafters make with the bottom chord, ${NEAR_DEG}?\n\n(b) What total length of lumber is needed for the five web pieces (the king post, the two vertical webs and the two diagonal webs), ${nearest('ft')}?`,
-    figure: trussFig(S, h, 'ft', { span: lb(S, 'ft'), angle: 'θ', h: 'k', v: 'v', diag: 'w' }),
+    figure: trussFig(S, h, { span: lb(S, 'ft'), angle: 'θ', h: 'k', v: 'v', diag: 'w' }),
     parts: [angPart(th, '(a) $\\theta =$'), lenPart(total, 'ft', '(b) Total')],
     hints: [`The pitch gives a small right triangle with rise $${p}$ and run $12$: $\\theta = \\tan^{-1}\\left(\\dfrac{${p}}{12}\\right)$.`, `Triangle 1 (half the truss) gives the king post, triangle 2 (out to the vertical web) gives the vertical web, and triangle 3 gives the diagonal web. Add $k + 2v + 2w$. ${KEEP}`],
     solution: [
