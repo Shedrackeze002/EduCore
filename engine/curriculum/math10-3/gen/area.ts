@@ -257,8 +257,40 @@ const TRAP_CTX: Ctx[] = [
 
 type Shape = 'rect' | 'tri' | 'para' | 'trap';
 
-/** Area item for one basic shape. `show` formats a measurement (decimal or mixed number). */
-function basicItem(shape: Shape, what: string, u: string, dims: number[], frac = false, note = '', slant?: number): GenOutput {
+/** True when x has more than two decimal places. */
+const over2dp = (x: number) => Math.abs(x * 100 - Math.round(x * 100)) > 1e-6;
+
+function shapeArea(shape: Shape, dims: number[]): number {
+  if (shape === 'trap') return ((dims[0] + dims[1]) / 2) * dims[2];
+  return shape === 'tri' ? (dims[0] * dims[1]) / 2 : dims[0] * dims[1];
+}
+
+/**
+ * Answer part and wording for an area. Values with more than two decimal places ask for
+ * rounding to the hundredth (exact values and mixed numbers are still within tolerance);
+ * otherwise the exact value is expected.
+ */
+function areaAnswer(A: number, u: string, frac: boolean) {
+  const round = over2dp(A);
+  const note = round
+    ? ` Give the area as a decimal ${sqRound(2, u)}${frac ? ', or as a mixed number' : ''}.`
+    : frac
+      ? ' Give the exact area as a decimal or a mixed number.'
+      : '';
+  return {
+    note,
+    part: numPart(A, round ? { decimals: 2, suffix: `${u}²` } : { suffix: `${u}²` }),
+    /** End of the calculation line: "226.3125 \approx 226.31" or "57.75". */
+    eq: round ? `${n(A, 6)} \\approx ${nf(A, 2)}` : n(A),
+    /** The answer with units, for the last solution step. */
+    final: round ? `about ${arR(A, u, 2)}` : ar(A, u),
+  };
+}
+
+/** Area item for one basic shape, with measurements shown as decimals or (if `frac`) mixed numbers. */
+function basicItem(shape: Shape, what: string, u: string, dims: number[], frac = false, slant?: number): GenOutput {
+  const res = areaAnswer(exact(shapeArea(shape, dims)), u, frac);
+  const note = res.note;
   const show = frac ? mixedTex : (x: number) => n(x);
   const L = (x: number) => `$${show(x)}\\ ${tx(u)}$`;
   const fracDims = frac ? dims.filter((x, i) => x % 1 !== 0 && dims.indexOf(x) === i) : [];
@@ -266,54 +298,50 @@ function basicItem(shape: Shape, what: string, u: string, dims: number[], frac =
   if (shape === 'rect') {
     const l = Math.max(dims[0], dims[1]);
     const w = Math.min(dims[0], dims[1]);
-    const A = exact(l * w);
     return {
       prompt: `A ${what} is ${L(l)} long and ${L(w)} wide. What is its area?${note}`,
-      parts: [numPart(A, { suffix: `${u}²` })],
+      parts: [res.part],
       hints: ['Area counts how many unit squares cover the surface.', 'For a rectangle, $A = l \\times w$ (length times width).'],
-      solution: [...toDec, '$A = lw$', `$A = ${n(l)} \\times ${n(w)} = ${n(A)}$`, `The area of the ${what} is ${ar(A, u)}.`],
+      solution: [...toDec, '$A = lw$', `$A = ${n(l)} \\times ${n(w)} = ${res.eq}$`, `The area of the ${what} is ${res.final}.`],
     };
   }
   if (shape === 'tri') {
     const [b, h] = dims;
-    const A = exact((b * h) / 2);
     return {
       prompt: `A ${what} has a base of ${L(b)} and a height of ${L(h)}. What is its area?${note}`,
-      parts: [numPart(A, { suffix: `${u}²` })],
+      parts: [res.part],
       hints: ['A triangle is half of a rectangle with the same base and height.', 'Use $A = \\tfrac{1}{2}bh$.'],
       solution: [
         ...toDec,
         '$A = \\tfrac{1}{2}bh$',
-        `$A = \\tfrac{1}{2} \\times ${n(b)} \\times ${n(h)} = \\tfrac{1}{2} \\times ${n(exact(b * h))} = ${n(A)}$`,
-        `The area of the ${what} is ${ar(A, u)}.`,
+        `$A = \\tfrac{1}{2} \\times ${n(b)} \\times ${n(h)} = \\tfrac{1}{2} \\times ${n(exact(b * h), 6)} = ${res.eq}$`,
+        `The area of the ${what} is ${res.final}.`,
       ],
     };
   }
   if (shape === 'para') {
     const [b, h] = dims;
-    const A = exact(b * h);
     const slantText = slant ? ` Its slanted sides are ${L(slant)} long.` : '';
     return {
       prompt: `A ${what} has a base of ${L(b)} and a perpendicular height of ${L(h)}.${slantText} What is its area?${note}`,
-      parts: [numPart(A, { suffix: `${u}²` })],
+      parts: [res.part],
       hints: [
         slant ? 'The height must be measured at a right angle to the base. A slanted side is not the height.' : 'Cut a triangle off one end of a parallelogram and slide it to the other end: you get a rectangle.',
         'Use $A = bh$ (base times perpendicular height).',
       ],
-      solution: [...toDec, '$A = bh$', `$A = ${n(b)} \\times ${n(h)} = ${n(A)}$`, ...(slant ? [`The slanted side length (${L(slant)}) is not needed.`] : []), `The area of the ${what} is ${ar(A, u)}.`],
+      solution: [...toDec, '$A = bh$', `$A = ${n(b)} \\times ${n(h)} = ${res.eq}$`, ...(slant ? [`The slanted side length (${L(slant)}) is not needed.`] : []), `The area of the ${what} is ${res.final}.`],
     };
   }
   const [a, b, h] = dims;
-  const A = exact(((a + b) / 2) * h);
   return {
     prompt: `A ${what} has parallel sides of ${L(a)} and ${L(b)}. The perpendicular distance between the parallel sides (the height) is ${L(h)}. What is its area?${note}`,
-    parts: [numPart(A, { suffix: `${u}²` })],
+    parts: [res.part],
     hints: ['Average the two parallel sides, then multiply by the height.', 'Use $A = \\dfrac{a + b}{2} \\times h$, where $a$ and $b$ are the parallel sides.'],
     solution: [
       ...toDec,
       '$A = \\dfrac{a + b}{2} \\times h$',
-      `$A = \\dfrac{${n(a)} + ${n(b)}}{2} \\times ${n(h)} = ${n(exact((a + b) / 2))} \\times ${n(h)} = ${n(A)}$`,
-      `The area of the ${what} is ${ar(A, u)}.`,
+      `$A = \\dfrac{${n(a)} + ${n(b)}}{2} \\times ${n(h)} = ${n(exact((a + b) / 2))} \\times ${n(h)} = ${res.eq}$`,
+      `The area of the ${what} is ${res.final}.`,
     ],
   };
 }
@@ -367,16 +395,16 @@ const areaBasic = skill({
           ([x, y]) => x !== y && (shape !== 'tri' || Math.round(x * y * 100) % 2 === 0) && (Math.round(x * 10) % 10 !== 0 || Math.round(y * 10) % 10 !== 0),
         );
         const slant = shape === 'para' && rng.chance(0.5) ? exact(dims[1] + rng.int(3, 15) / 10) : undefined;
-        return basicItem(shape, c.what, c.u, dims, false, '', slant);
+        return basicItem(shape, c.what, c.u, dims, false, slant);
       }
       const shape = rng.pick(['rect', 'tri', 'para', 'trap'] as const);
       const c = rng.pick(ctxFor(shape).filter((x) => x.u === 'in' || x.u === 'ft'));
       const base = intDims(rng, shape, c);
       const dims = retry(
         () => base.map((x) => x + rng.pick([0, 0.25, 0.5, 0.75])),
-        (ds) => ds.some((x) => x % 1 !== 0) && (shape !== 'trap' || ds[0] < ds[1]),
+        (ds) => ds.some((x) => x % 1 !== 0) && (shape !== 'trap' || ds[0] < ds[1]) && !nearHalf(shapeArea(shape, ds), 2),
       );
-      return basicItem(shape, c.what, c.u, dims, true, ' Give the exact area as a decimal or a mixed number.');
+      return basicItem(shape, c.what, c.u, dims, true);
     }
     // d === 3: applied, multi-step
     const mode = rng.pick(['mixedImp', 'mixedSI', 'many', 'trapFrac'] as const);
@@ -384,26 +412,29 @@ const areaBasic = skill({
     if (mode === 'mixedImp') {
       const [L, W, a, b] = retry(
         () => [rng.int(10, 18), rng.int(8, 14), rng.pick([0, 3, 6, 9]), rng.pick([0, 3, 6, 9])],
-        ([, , x, y]) => x + y > 0,
+        ([l, w, x, y]) => x + y > 0 && !nearHalf((l + x / 12) * (w + y / 12), 2),
       );
       const room = rng.pick(['bedroom', 'basement rec room', 'kitchen', 'home office', 'laundry room']);
       const lf = L + a / 12;
       const wf = W + b / 12;
       const A = exact(lf * wf);
+      const res = areaAnswer(A, 'ft', true);
       const ftin = (f: number, i: number) => `$${f}\\ ${tx('ft')}${i ? `\\ ${i}\\ ${tx('in')}` : ''}$`;
       const conv = (side: string, f: number, i: number) =>
         i ? `$${i}\\ ${tx('in')} = \\tfrac{${i}}{12}\\ ${tx('ft')} = ${fmt(i / 12)}\\ ${tx('ft')}$, so the ${side} is $${fmt(f + i / 12)}\\ ${tx('ft')}$.` : `The ${side} is already in feet: $${f}\\ ${tx('ft')}$.`;
       return {
-        prompt: `${name} is installing vinyl plank flooring in a rectangular ${room} that measures ${ftin(L, a)} by ${ftin(W, b)}. What is the floor area in square feet? Give the exact area as a decimal or a mixed number.`,
-        parts: [numPart(A, { suffix: 'ft²' })],
+        prompt: `${name} is installing vinyl plank flooring in a rectangular ${room} that measures ${ftin(L, a)} by ${ftin(W, b)}. What is the floor area in square feet?${res.note}`,
+        parts: [res.part],
         hints: ['Write each measurement in feet only. There are 12 inches in 1 foot.', 'Then use $A = lw$.'],
-        solution: [conv('length', L, a), conv('width', W, b), `$A = lw = ${fmt(lf)} \\times ${fmt(wf)} = ${n(A)}$`, `The floor area is ${ar(A, 'ft')}.`],
+        solution: [conv('length', L, a), conv('width', W, b), `$A = lw = ${fmt(lf)} \\times ${fmt(wf)} = ${res.eq}$`, `The floor area is ${res.final}.`],
       };
     }
     if (mode === 'mixedSI') {
       const thing = rng.pick(['kitchen countertop', 'workbench top', 'reception desk top', 'shop counter']);
-      const L = rng.int(12, 36) / 10;
-      const D = rng.int(11, 19) * 5;
+      const [L, D] = retry(
+        () => [rng.int(12, 36) / 10, rng.int(11, 19) * 5],
+        ([l, dd]) => !over2dp(l * (dd / 100)),
+      );
       const A = exact(L * (D / 100));
       return {
         prompt: `A rectangular ${thing} is ${len(L, 'm')} long and ${len(D, 'cm')} deep. ${name} needs its area in square metres to order a laminate sheet. What is the area, in square metres?`,
@@ -457,9 +488,9 @@ const areaBasic = skill({
     const base = intDims(rng, 'trap', c);
     const dims = retry(
       () => base.map((x) => x + rng.pick([0, 0.25, 0.5, 0.75])),
-      (ds) => ds.filter((x) => x % 1 !== 0).length >= 2 && ds[0] < ds[1],
+      (ds) => ds.filter((x) => x % 1 !== 0).length >= 2 && ds[0] < ds[1] && !nearHalf(shapeArea('trap', ds), 2),
     );
-    const out = basicItem('trap', c.what, c.u, dims, true, ' Give the exact area as a decimal or a mixed number.');
+    const out = basicItem('trap', c.what, c.u, dims, true);
     return { ...out, prompt: out.prompt.replace(`A ${c.what} has`, `${name} measured a ${c.what}. It has`) };
   },
 });

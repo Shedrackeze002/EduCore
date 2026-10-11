@@ -45,6 +45,8 @@ const mv = (x: number) => (isWhole(x) ? num(Math.round(x)) : group(fmtFixed(x, 2
 const cell = (x: number) => `$${fmtFixed(x, 2)}`;
 /** A unit price that may need a third decimal place: \$0.73 or about \$0.732. */
 const uprice = (x: number) => (isWhole(x * 100) ? money(x) : `about \\$${fmtFixed(x, 3)}`);
+/** "about " when a money value had to be rounded to the cent. */
+const abt = (x: number) => (isWhole(x * 100) ? '' : 'about ');
 
 /** "= 12.5" when exact to `dp` places, otherwise "\approx 12.4567". */
 function eq(v: number, dp = 4): string {
@@ -224,7 +226,7 @@ const RATE_CTX: RateCtx[] = [
     if (d === 1) {
       const r = rng.pick([20, 25, 30, 40, 45, 50, 60, 75]);
       const m = rng.int(3, 12);
-      const tank = rng.pick(['stock-watering trough', 'water tank on a farm truck', 'backyard pool liner test tank', 'cistern']);
+      const tank = rng.pick(['stock-watering trough', 'water tank on a farm truck', 'water tank in a calf barn', 'cistern']);
       return {
         prompt: `${name} uses a pump to fill a ${q(r * m, 'L')} ${tank} in $${m}$ minutes. What is the pumping rate in litres per minute?`,
         parts: [numPart(r, { suffix: 'L/min' })],
@@ -284,7 +286,7 @@ function rateCompare(rng: Rng): Out {
     );
   const hints = ['Find each unit rate first, then compare them.'];
   if (kind === 'speed') {
-    const [rA, rB] = pair(70, 110, 2, 4);
+    const [rA, rB] = pair(70, 104, 2, 4);
     const [tA, tB] = rng.sample([2, 2.5, 3, 3.5, 4, 4.5, 5], 2);
     const T = (t: number) => hm(Math.floor(t), isWhole(t) ? 0 : 30);
     const diff = Math.abs(rA - rB);
@@ -498,7 +500,7 @@ function proportionBasic(rng: Rng, d: Lvl): Out {
       `Check by estimating: $${num(c)}$ is about $${num(roundTo(c / b, 1))}$ times $${num(b)}$, and $${num(a)} \\times ${num(roundTo(c / b, 1))} \\approx ${num(roundTo(a * roundTo(c / b, 1), 1))}$, which is close.`,
     );
   }
-  solution.push(ctx.final(exact ? xs : `about ${xs}`));
+  solution.push(cap(ctx.final(exact ? xs : `about ${xs}`)));
   return {
     prompt: `${ctx.given(name, a, b)} ${ctx.ask(c)}${exact ? '' : ` Round ${roundingPhrase(ctx.dp)}.`}`,
     parts: [exact ? exactPart(x, ctx.xu.replace(/\\text\{(.*)\}/, '$1').replace('^2', '²')) : numPart(x, { decimals: ctx.dp, suffix: ctx.xu.replace(/\\text\{(.*)\}/, '$1').replace('^2', '²') })],
@@ -626,14 +628,14 @@ const proportion = skill({
 // 1.2 Unit price
 // ---------------------------------------------------------------------------
 
-const UP1: Array<{ pack: (n: number) => string; each: string; ns: number[]; per: number[] }> = [
-  { pack: (n) => `a pack of $${n}$ spark plugs`, each: 'spark plug', ns: [4, 6, 8], per: [3.5, 4.25, 5, 6.5, 7.75] },
-  { pack: (n) => `a box of $${n}$ doughnuts`, each: 'doughnut', ns: [6, 12], per: [0.9, 1.15, 1.25, 1.4, 1.5] },
-  { pack: (n) => `${art(n)} ${q(n, 'kg')} bag of rice`, each: 'kilogram', ns: [2, 4, 5, 8, 10], per: [1.6, 1.8, 2.1, 2.4, 2.75] },
-  { pack: (n) => `${art(n)} ${q(n, 'L')} jug of windshield washer fluid`, each: 'litre', ns: [2, 4], per: [1.25, 1.5, 1.75, 2.25] },
-  { pack: (n) => `a case of $${n}$ bottles of water`, each: 'bottle', ns: [12, 24, 36], per: [0.2, 0.25, 0.3, 0.35] },
-  { pack: (n) => `a pack of $${n}$ pairs of work gloves`, each: 'pair', ns: [3, 5, 6, 10], per: [2.5, 3.2, 4, 4.5] },
-  { pack: (n) => `${art(n)} ${q(n, 'kg')} bag of birdseed`, each: 'kilogram', ns: [4, 5, 8, 10], per: [1.4, 1.75, 2.2, 2.6] },
+const UP1: Array<{ pack: (n: number) => string; each: string; ns: number[]; per: number[]; store: string }> = [
+  { pack: (n) => `a pack of $${n}$ spark plugs`, each: 'spark plug', ns: [4, 6, 8], per: [3.5, 4.25, 5, 6.5, 7.75], store: 'an auto parts store' },
+  { pack: (n) => `a box of $${n}$ doughnuts`, each: 'doughnut', ns: [6, 12], per: [0.9, 1.15, 1.25, 1.4, 1.5], store: 'a bakery' },
+  { pack: (n) => `${art(n)} ${q(n, 'kg')} bag of rice`, each: 'kilogram', ns: [2, 4, 5, 8, 10], per: [1.6, 1.8, 2.1, 2.4, 2.75], store: 'a grocery store' },
+  { pack: (n) => `${art(n)} ${q(n, 'L')} jug of windshield washer fluid`, each: 'litre', ns: [2, 4], per: [1.25, 1.5, 1.75, 2.25], store: 'a gas station' },
+  { pack: (n) => `a case of $${n}$ bottles of water`, each: 'bottle', ns: [12, 24, 36], per: [0.2, 0.25, 0.3, 0.35], store: 'a convenience store' },
+  { pack: (n) => `a pack of $${n}$ pairs of work gloves`, each: 'pair', ns: [3, 5, 6, 10], per: [2.5, 3.2, 4, 4.5], store: 'a hardware store' },
+  { pack: (n) => `${art(n)} ${q(n, 'kg')} bag of birdseed`, each: 'kilogram', ns: [4, 5, 8, 10], per: [1.4, 1.75, 2.2, 2.6], store: 'a farm supply store' },
 ];
 
 interface UPItem {
@@ -645,16 +647,17 @@ interface UPItem {
   perText: string;
   lo: number;
   hi: number;
+  store: string;
 }
 
 const UP2: UPItem[] = [
-  { thing: (s) => `${art(s)} ${q(s, 'g')} box of cereal`, sizes: [350, 425, 525, 650, 750, 900], unit: 'g', base: 100, perText: `per $100\\ ${tx('g')}$`, lo: 0.6, hi: 1.1 },
-  { thing: (s) => `${art(s)} ${q(s, 'g')} bag of ground coffee`, sizes: [300, 340, 454, 640, 925], unit: 'g', base: 100, perText: `per $100\\ ${tx('g')}$`, lo: 1.5, hi: 2.6 },
-  { thing: (s) => `${art(s)} ${q(s, 'mL')} bottle of shampoo`, sizes: [355, 400, 650, 750, 975], unit: 'mL', base: 100, perText: `per $100\\ ${tx('mL')}$`, lo: 0.8, hi: 1.8 },
-  { thing: (s) => `${art(s)} ${q(s, 'L')} jug of engine oil`, sizes: [3.78, 4.4, 4.73, 5], unit: 'L', base: 1, perText: 'per litre', lo: 6, hi: 9 },
-  { thing: (s) => `${art(s)} ${q(s, 'kg')} bag of dog food`, sizes: [6.8, 8, 11.3, 13.6, 15, 18], unit: 'kg', base: 1, perText: 'per kilogram', lo: 3, hi: 6 },
-  { thing: (s) => `a box of $${s}$ deck screws`, sizes: [350, 700, 1200, 1750], unit: 'screws', base: 100, perText: 'per $100$ screws', lo: 6, hi: 11 },
-  { thing: (s) => `${art(s)} ${q(s, 'g')} jar of peanut butter`, sizes: [500, 750, 1000], unit: 'g', base: 100, perText: `per $100\\ ${tx('g')}$`, lo: 0.6, hi: 1.1 },
+  { thing: (s) => `${art(s)} ${q(s, 'g')} box of cereal`, sizes: [350, 425, 525, 650, 750, 900], unit: 'g', base: 100, perText: `per $100\\ ${tx('g')}$`, lo: 0.6, hi: 1.1, store: 'a grocery store' },
+  { thing: (s) => `${art(s)} ${q(s, 'g')} bag of ground coffee`, sizes: [300, 340, 454, 640, 925], unit: 'g', base: 100, perText: `per $100\\ ${tx('g')}$`, lo: 1.5, hi: 2.6, store: 'a grocery store' },
+  { thing: (s) => `${art(s)} ${q(s, 'mL')} bottle of shampoo`, sizes: [355, 400, 650, 750, 975], unit: 'mL', base: 100, perText: `per $100\\ ${tx('mL')}$`, lo: 0.8, hi: 1.8, store: 'a drugstore' },
+  { thing: (s) => `${art(s)} ${q(s, 'L')} jug of engine oil`, sizes: [3.78, 4.4, 4.73, 5], unit: 'L', base: 1, perText: 'per litre', lo: 6, hi: 9, store: 'an auto parts store' },
+  { thing: (s) => `${art(s)} ${q(s, 'kg')} bag of dog food`, sizes: [6.8, 8, 11.3, 13.6, 15, 18], unit: 'kg', base: 1, perText: 'per kilogram', lo: 3, hi: 6, store: 'a pet store' },
+  { thing: (s) => `a box of $${s}$ deck screws`, sizes: [350, 700, 1200, 1750], unit: 'screws', base: 100, perText: 'per $100$ screws', lo: 6, hi: 11, store: 'a hardware store' },
+  { thing: (s) => `${art(s)} ${q(s, 'g')} jar of peanut butter`, sizes: [500, 750, 1000], unit: 'g', base: 100, perText: `per $100\\ ${tx('g')}$`, lo: 0.6, hi: 1.1, store: 'a grocery store' },
 ];
 
 interface UP3Item {
@@ -666,6 +669,7 @@ interface UP3Item {
   perText: string;
   lo: number;
   hi: number;
+  store: string;
 }
 
 const UP3: UP3Item[] = [
@@ -677,6 +681,7 @@ const UP3: UP3Item[] = [
     perText: `per $100\\ ${tx('g')}$`,
     lo: 0.3,
     hi: 0.6,
+    store: 'a grocery store',
   },
   {
     thing: (s) => `${art(s)} ${q(s, 'g')} package of ground beef`,
@@ -686,6 +691,7 @@ const UP3: UP3Item[] = [
     perText: 'per kilogram',
     lo: 9,
     hi: 14,
+    store: 'a butcher shop',
   },
   {
     thing: (s) => `${art(s)} ${q(s, 'mL')} bottle of maple syrup`,
@@ -695,6 +701,7 @@ const UP3: UP3Item[] = [
     perText: 'per litre',
     lo: 24,
     hi: 40,
+    store: 'a farmers’ market',
   },
   {
     thing: (s) => `${art(s)} ${q(s, 'mL')} bottle of canola oil`,
@@ -704,6 +711,7 @@ const UP3: UP3Item[] = [
     perText: 'per litre',
     lo: 4,
     hi: 8,
+    store: 'a grocery store',
   },
   {
     thing: (s) => `${art(s)} ${q(s, 'L')} jug of laundry detergent`,
@@ -713,6 +721,7 @@ const UP3: UP3Item[] = [
     perText: `per $100\\ ${tx('mL')}$`,
     lo: 0.2,
     hi: 0.45,
+    store: 'a big-box store',
   },
   {
     thing: (s) => `${art(s)} ${q(s, 'g')} bag of coffee beans`,
@@ -722,6 +731,7 @@ const UP3: UP3Item[] = [
     perText: 'per kilogram',
     lo: 20,
     hi: 35,
+    store: 'a coffee shop',
   },
   {
     thing: (s) => `${art(s)} ${q(s, 'L')} jug of apple juice`,
@@ -731,6 +741,7 @@ const UP3: UP3Item[] = [
     perText: `per $100\\ ${tx('mL')}$`,
     lo: 0.12,
     hi: 0.25,
+    store: 'a grocery store',
   },
 ];
 
@@ -743,14 +754,13 @@ const unitPrice = skill({
   calculator: true,
   gen(rng, d) {
     const name = rng.pick(NAMES);
-    const store = rng.pick(['a grocery store', 'a hardware store', 'a farm supply store', 'a convenience store', 'a big-box store']);
     if (d === 1) {
       const it = rng.pick(UP1);
       const n = rng.pick(it.ns);
       const per = rng.pick(it.per);
       const total = roundTo(n * per, 2);
       return {
-        prompt: `At ${store}, ${it.pack(n)} costs ${tag(total)}. What is the unit price per ${it.each}, ${CENT}?`,
+        prompt: `At ${it.store}, ${it.pack(n)} costs ${tag(total)}. What is the unit price per ${it.each}, ${CENT}?`,
         parts: [moneyPart(per, `per ${it.each}`)],
         hints: ['Unit price = price ÷ number of units.', `Divide $${mv(total)}$ by $${n}$.`],
         solution: ['Unit price = price ÷ number of units.', `$${mv(total)} \\div ${n} = ${mv(per)}$`, `The unit price is ${money(per)} per ${it.each}.`],
@@ -772,10 +782,10 @@ const unitPrice = skill({
           ? [`Unit price ${it.perText} = price ÷ number of ${it.unit === 'L' ? 'litres' : 'kilograms'}.`, `$${mv(p)} \\div ${num(s)} ${eq(up)}$`]
           : [`Count the groups of $100$: $${num(s)} \\div 100 = ${num(groups)}$.`, `Unit price = price ÷ number of groups: $${mv(p)} \\div ${num(groups)} ${eq(up)}$`];
       return {
-        prompt: `${name} is shopping at ${store}. ${cap(it.thing(s))} costs ${money(p)}. What is the unit price ${it.perText}, ${CENT}?`,
+        prompt: `${name} is shopping at ${it.store}. ${cap(it.thing(s))} costs ${money(p)}. What is the unit price ${it.perText}, ${CENT}?`,
         parts: [moneyPart(up)],
         hints: ['Unit price = price ÷ number of units.', it.base === 1 ? 'Divide the price by the size.' : `First find how many groups of $100$ are in $${num(s)}$.`],
-        solution: [...steps, `The unit price is about ${money(up)} ${it.perText}.`],
+        solution: [...steps, `The unit price is ${abt(up)}${money(up)} ${it.perText}.`],
       };
     }
     const it = rng.pick(UP3);
@@ -789,10 +799,10 @@ const unitPrice = skill({
     const c = it.count(s);
     const up = p / c;
     return {
-      prompt: `${name} is comparing prices at ${store}. ${cap(it.thing(s))} costs ${money(p)}. What is the unit price ${it.perText}, ${CENT}?`,
+      prompt: `${name} is comparing prices at ${it.store}. ${cap(it.thing(s))} costs ${money(p)}. What is the unit price ${it.perText}, ${CENT}?`,
       parts: [moneyPart(up)],
       hints: ['The size and the unit price use different units. Convert the size first.', 'Remember $1\\ \\text{kg} = 1000\\ \\text{g}$ and $1\\ \\text{L} = 1000\\ \\text{mL}$.'],
-      solution: [it.convert(s), `Unit price: $${mv(p)} \\div ${num(c)} ${eq(up)}$`, `The unit price is about ${money(up)} ${it.perText}.`],
+      solution: [it.convert(s), `Unit price: $${mv(p)} \\div ${num(c)} ${eq(up)}$`, `The unit price is ${abt(up)}${money(up)} ${it.perText}.`],
     };
   },
 });
@@ -878,7 +888,10 @@ function bestBuyThree(rng: Rng, name: string): Out {
   );
   const us = prices.map((x, i) => x / (sizes[i] / p.base));
   const rows = sizes.map((s, i) => [sizeCell(p, s), cell(prices[i])]);
-  const div = (i: number) => (p.base === 1 ? `$${mv(prices[i])} \\div ${num(sizes[i])}$` : `$${mv(prices[i])} \\div ${num(sizes[i] / p.base)}$`);
+  const div = (i: number) => {
+    const n = sizes[i] / p.base;
+    return n === 1 ? `${money(prices[i])} for one unit, so` : `$${mv(prices[i])} \\div ${num(n)}$, so`;
+  };
   return {
     prompt: `${name} is stocking up on ${p.item}. The store sells three sizes, shown in the table. Which size is the best buy?`,
     figure: { type: 'table', headers: ['Size', 'Price'], rows },
@@ -886,7 +899,7 @@ function bestBuyThree(rng: Rng, name: string): Out {
     hints: [`Find the unit price of each size ${p.perText}.`, 'The best buy has the lowest unit price. The biggest size is not always the cheapest per unit.'],
     solution: [
       p.base === 1 ? `Unit price ${p.perText} = price ÷ size.` : `Unit price ${p.perText} = price ÷ (size ÷ 100).`,
-      ...sizes.map((s, i) => `${cap(sizeMd(p, s))}: ${div(i)}, ${uprice(us[i])} ${p.perText}`),
+      ...sizes.map((s, i) => `${cap(sizeMd(p, s))}: ${div(i)} ${uprice(us[i])} ${p.perText}`),
       NOTE,
       `The best buy is ${sizeMd(p, sizes[best])}.`,
     ],
@@ -991,15 +1004,16 @@ const bestBuy = skill({
 // 1.3 Percent change
 // ---------------------------------------------------------------------------
 
-const PC_ITEMS = [
+const PC_ITEMS: Array<{ what: string; lo: number; hi: number; step: number; dir?: 'up' | 'down'; maxP?: number }> = [
   { what: 'the price of a bag of cattle feed', lo: 20, hi: 45, step: 5 },
   { what: 'the price of a pair of steel-toed boots', lo: 120, hi: 240, step: 20 },
   { what: 'the cost of a monthly phone plan', lo: 40, hi: 100, step: 10 },
   { what: 'the price of a sheet of plywood', lo: 30, hi: 80, step: 10 },
-  { what: 'the price of an oil change at a garage', lo: 60, hi: 140, step: 20 },
+  { what: 'the price of an oil change at a garage', lo: 60, hi: 140, step: 20, dir: 'up' },
   { what: 'the price of a composite hockey stick', lo: 100, hi: 300, step: 20 },
-  { what: 'the monthly rent for a basement suite in Red Deer', lo: 900, hi: 1600, step: 100 },
-  { what: 'the asking price for a used snowmobile', lo: 3000, hi: 9000, step: 500 },
+  { what: 'the monthly rent for a basement suite in Red Deer', lo: 900, hi: 1600, step: 100, dir: 'up', maxP: 20 },
+  { what: 'the asking price for a used snowmobile', lo: 3000, hi: 9000, step: 500, dir: 'down' },
+  { what: 'the value of a used pickup truck', lo: 12000, hi: 30000, step: 1000, dir: 'down' },
   { what: 'the price of a set of winter tires', lo: 600, hi: 1200, step: 100 },
 ];
 
@@ -1012,12 +1026,13 @@ const percentChange = skill({
   calculator: true,
   gen(rng, d) {
     const it = rng.pick(PC_ITEMS);
-    const up = rng.chance(0.5);
+    const up = it.dir ? it.dir === 'up' : rng.chance(0.5);
     const word = up ? 'increase' : 'decrease';
+    const capP = (ps: number[]) => ps.filter((x) => x <= (it.maxP ?? 100));
     const pick = () => it.step * rng.int(Math.ceil(it.lo / it.step), Math.floor(it.hi / it.step));
     if (d === 1) {
       const orig = pick();
-      const p = rng.pick([10, 20, 25, 50]);
+      const p = rng.pick(capP([10, 20, 25, 50]));
       const nw = roundTo(orig * (1 + (up ? p : -p) / 100), 2);
       const ch = Math.abs(nw - orig);
       return {
@@ -1036,7 +1051,7 @@ const percentChange = skill({
       const { orig, nw } = retry(
         () => {
           const orig = roundTo(rng.int(it.lo, it.hi - 1) + cents, 2);
-          const f = rng.float(0.04, 0.38, 3);
+          const f = rng.float(0.04, Math.min(0.38, (it.maxP ?? 100) / 100), 3);
           const raw = orig * (1 + (up ? f : -f));
           const nw = it.hi < 500 ? roundTo(Math.floor(raw) + rng.pick([0.29, 0.49, 0.79, 0.99]), 2) : Math.round(raw / 10) * 10;
           return { orig, nw };
@@ -1056,8 +1071,8 @@ const percentChange = skill({
         ],
       };
     }
-    const orig = pick();
-    const p = 5 * rng.int(1, 8);
+    const orig = rng.int(it.lo, it.hi);
+    const p = rng.pick(capP([5, 10, 15, 20, 25, 30, 35, 40]));
     const mult = roundTo(1 + (up ? p : -p) / 100, 2);
     const nw = roundTo(orig * mult, 2);
     const wrong = roundTo(nw * (1 - (up ? p : -p) / 100), 2);
@@ -1084,25 +1099,28 @@ const percentChange = skill({
 // ---------------------------------------------------------------------------
 
 const DISC_ITEMS = [
-  { what: 'winter jacket', lo: 80, hi: 300 },
-  { what: 'cordless drill', lo: 90, hi: 250 },
-  { what: 'pair of work boots', lo: 100, hi: 220 },
-  { what: 'set of winter tires', lo: 600, hi: 1200 },
-  { what: 'hockey helmet', lo: 60, hi: 180 },
-  { what: 'barbecue', lo: 300, hi: 800 },
-  { what: 'rolling tool chest', lo: 150, hi: 500 },
-  { what: 'snowblower', lo: 400, hi: 1100 },
+  { what: 'winter jacket', lo: 80, hi: 300, store: 'a clothing store' },
+  { what: 'cordless drill', lo: 90, hi: 250, store: 'a hardware store' },
+  { what: 'pair of work boots', lo: 100, hi: 220, store: 'a work-wear store' },
+  { what: 'set of winter tires', lo: 600, hi: 1200, store: 'a tire shop' },
+  { what: 'hockey helmet', lo: 60, hi: 180, store: 'a sporting goods store' },
+  { what: 'barbecue', lo: 300, hi: 800, store: 'a hardware store' },
+  { what: 'rolling tool chest', lo: 150, hi: 500, store: 'an auto parts store' },
+  { what: 'snowblower', lo: 400, hi: 1100, store: 'a farm and garden store' },
 ];
 const MARKUP_ITEMS = [
-  { what: 'pair of jeans', lo: 20, hi: 45 },
-  { what: 'hammer', lo: 10, hi: 25 },
-  { what: 'bag of potting soil', lo: 5, hi: 12 },
-  { what: 'coffee maker', lo: 25, hi: 60 },
-  { what: 'skateboard', lo: 30, hi: 70 },
-  { what: 'ball cap', lo: 6, hi: 15 },
-  { what: 'tape measure', lo: 8, hi: 20 },
+  { what: 'pair of jeans', lo: 20, hi: 45, store: 'a clothing store' },
+  { what: 'hammer', lo: 10, hi: 25, store: 'a hardware store' },
+  { what: 'bag of potting soil', lo: 5, hi: 12, store: 'a garden centre' },
+  { what: 'coffee maker', lo: 25, hi: 60, store: 'a department store' },
+  { what: 'skateboard', lo: 30, hi: 70, store: 'a sporting goods store' },
+  { what: 'ball cap', lo: 6, hi: 15, store: 'a clothing store' },
+  { what: 'tape measure', lo: 8, hi: 20, store: 'a hardware store' },
 ];
-const STORES = ['a sporting goods store in Edmonton', 'a hardware store in Grande Prairie', 'a clothing store in Lethbridge', 'a farm supply store in Brooks', 'a store in Fort McMurray', 'a store in Medicine Hat'];
+const TOWNS = ['Edmonton', 'Grande Prairie', 'Lethbridge', 'Brooks', 'Fort McMurray', 'Medicine Hat', 'Red Deer', 'Camrose', 'Airdrie'];
+const at = (rng: Rng, store: string) => `${store} in ${rng.pick(TOWNS)}`;
+/** "the hardware store" from "a hardware store" or "an auto parts store". */
+const theStore = (store: string) => store.replace(/^an? /, 'the ');
 
 const salePrice = skill({
   id: 'm103-sale-price',
@@ -1112,11 +1130,11 @@ const salePrice = skill({
   lessonId: 'm103-1-3',
   calculator: true,
   gen(rng, d) {
-    const store = rng.pick(STORES);
     if (d < 3) {
       const markup = rng.chance(0.45);
       if (markup) {
         const it = rng.pick(MARKUP_ITEMS);
+        const store = at(rng, it.store);
         const p = d === 1 ? rng.pick([25, 40, 50, 75, 100]) : rng.pick([30, 35, 45, 60, 65, 80, 120]);
         const askAmount = d === 2 && rng.chance(0.35);
         const cost = retry(
@@ -1136,6 +1154,7 @@ const salePrice = skill({
         };
       }
       const it = rng.pick(DISC_ITEMS);
+      const store = at(rng, it.store);
       const p = d === 1 ? rng.pick([10, 20, 25, 30, 40, 50]) : rng.pick([15, 20, 25, 30, 35, 40, 45]);
       const askAmount = d === 2 && rng.chance(0.35);
       const P = retry(
@@ -1157,6 +1176,7 @@ const salePrice = skill({
     const mode = rng.pick(['successive', 'single', 'markupSale'] as const);
     if (mode === 'markupSale') {
       const it = rng.pick(MARKUP_ITEMS);
+      const store = at(rng, it.store);
       const m = rng.pick([40, 50, 60, 80, 100]);
       const dd = rng.pick([10, 15, 20, 25, 30]);
       const C = retry(() => roundTo(rng.int(it.lo, it.hi) + rng.pick([0, 0.5, 0.25, 0.75]), 2), (c) => !onEdge(c * (1 + m / 100) * (1 - dd / 100), 2));
@@ -1174,13 +1194,14 @@ const salePrice = skill({
       };
     }
     const it = rng.pick(DISC_ITEMS);
+    const store = at(rng, it.store);
     const p1 = rng.pick([20, 25, 30, 40, 50]);
     const p2 = rng.pick([10, 15, 20]);
     const keep = (100 - p1) * (100 - p2);
     const single = 100 - keep / 100;
     if (mode === 'single') {
       return {
-        prompt: `A ${it.what} is marked ${p1}% off. At the checkout, ${store.replace(/^a /, 'the ')} takes another ${p2}% off the sale price. What **single** percent discount would give the same final price?`,
+        prompt: `A ${it.what} at ${store} is marked ${p1}% off. At the checkout, ${theStore(it.store)} takes another ${p2}% off the sale price. What **single** percent discount would give the same final price?`,
         parts: [exactPart(single, '%')],
         hints: ['Try a regular price of \\$100 and apply each discount in turn.', `After ${p1}% off you pay $${100 - p1}\\%$. Then you pay $${100 - p2}\\%$ of that.`],
         solution: [
@@ -1197,7 +1218,7 @@ const salePrice = skill({
     const fin = (P * keep) / 10000;
     const wrong = P * (1 - (p1 + p2) / 100);
     return {
-      prompt: `A ${it.what} at ${store} is regularly ${tag(P)}. It is marked ${p1}% off, and at the checkout ${store.replace(/^a /, 'the ').replace(/ in .*/, '')} takes another ${p2}% off the sale price. What is the final price, ${CENT}?`,
+      prompt: `A ${it.what} at ${store} is regularly ${tag(P)}. It is marked ${p1}% off, and at the checkout ${theStore(it.store)} takes another ${p2}% off the sale price. What is the final price, ${CENT}?`,
       parts: [moneyPart(fin)],
       hints: ['Apply the discounts one at a time.', `The ${p2}% is taken off the **sale** price, so ${p1}% then ${p2}% is not the same as ${p1 + p2}% off.`],
       solution: [
@@ -1372,7 +1393,7 @@ const currencyConvert = skill({
         const ctx = rng.pick([
           `${name} has ${c.show(F)} left over after a trip to ${place}.`,
           `${name} orders a part online from a store in ${place}. The part costs ${c.show(F)}.`,
-          `${name} earned ${c.show(F)} doing a weekend job while visiting ${place}.`,
+          `${name} gets ${c.show(F)} as a birthday gift from a relative who lives in ${place}.`,
         ]);
         return {
           prompt: `${ctx} ${rateText(c, r, 2)} How much is that in Canadian dollars, ${CENT}?`,
@@ -1516,7 +1537,7 @@ interface BSCur {
 const BS: BSCur[] = [
   { one: 'US dollar', name: 'US dollars', code: 'USD', label: 'US\\$', places: ['Montana', 'Seattle', 'Arizona', 'Florida'], lo: 1.3, hi: 1.42, show: symAmt('US\\$') },
   { one: 'euro', name: 'euros', code: 'EUR', label: '€', places: ['France', 'Italy', 'Germany', 'Spain'], lo: 1.45, hi: 1.62, show: symAmt('€') },
-  { one: 'British pound', name: 'British pounds', code: 'GBP', label: '£', places: ['England', 'Scotland', 'Ireland'], lo: 1.72, hi: 1.88, show: symAmt('£') },
+  { one: 'British pound', name: 'British pounds', code: 'GBP', label: '£', places: ['England', 'Scotland', 'Wales', 'London'], lo: 1.72, hi: 1.88, show: symAmt('£') },
 ];
 
 const BUY_HINT = 'When you **buy** foreign money, the bank is **selling** it to you, so use the bank’s sell rate (the higher rate).';
@@ -1617,7 +1638,7 @@ const exchangeBuySell = skill({
         solution: [
           buying ? `${name} is buying ${c.name}, so use the bank sells rate: $${S}$ CAD per ${c.one}.` : `${name} is selling ${c.name} to the bank, so use the bank buys rate: $${B}$ CAD per ${c.one}.`,
           `$${F} \\times ${buying ? S : B} ${eq(C)}$`,
-          buying ? `It costs about ${money(C)}.` : `${name} receives about ${money(C)}.`,
+          buying ? `It costs ${abt(C)}${money(C)}.` : `${name} receives ${abt(C)}${money(C)}.`,
         ],
       };
     }
@@ -1635,7 +1656,7 @@ const exchangeBuySell = skill({
           `Cost to buy (bank sells rate): $${F} \\times ${S} ${eq(cost)}$`,
           `Money back (bank buys rate): $${F} \\times ${B} ${eq(back)}$`,
           `Loss: $${num(cost)} - ${num(back)} ${eq(cost - back)}$. The bank earns this difference — that is why it has two rates.`,
-          `${name} lost about ${money(cost - back)}.`,
+          `${name} lost ${abt(cost - back)}${money(cost - back)}.`,
         ],
       };
     }
@@ -1653,7 +1674,7 @@ const exchangeBuySell = skill({
           `Left over: $${mv(F)} - ${mv(E)} = ${mv(R)}$ ${c.name}`,
           `${name} is selling to the bank, so use the bank buys rate: $${B}$.`,
           `$${mv(R)} \\times ${B} ${eq(back)}$`,
-          `${name} gets about ${money(back)} back.`,
+          `${name} gets ${abt(back)}${money(back)} back.`,
         ],
       };
     }
