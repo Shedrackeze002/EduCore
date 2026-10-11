@@ -842,10 +842,10 @@ const completeSquare = skill({
 const ROCKETS = ['A model rocket is launched from a platform', 'A ball is tossed straight up from a balcony', 'A signal flare is fired upward from a boat', 'A beach ball is bumped into the air'];
 
 const REVENUE = [
-  { what: (n: number, p: number) => `A community theatre in Red Deer sells about $${n}$ tickets per show at \\$${p} each`, unit: 'ticket', units: 'tickets', p0: [16, 30], s: 1, k: [5, 8, 10, 12], x: [2, 9] },
-  { what: (n: number, p: number) => `A food truck in Edmonton sells about $${n}$ bowls of pho a day at \\$${p} each`, unit: 'bowl', units: 'bowls', p0: [10, 15], s: 0.5, k: [4, 5, 6, 8], x: [2, 7] },
-  { what: (n: number, p: number) => `A ski hill sells about $${n}$ day passes on a Saturday at \\$${p} each`, unit: 'pass', units: 'passes', p0: [30, 45], s: 2, k: [5, 10, 15], x: [2, 8] },
-  { what: (n: number, p: number) => `A bike rental shop in Canmore rents about $${n}$ bikes a day at \\$${p} per day`, unit: 'bike', units: 'bikes', p0: [30, 50], s: 1, k: [1, 2, 3], x: [2, 10] },
+  { what: (n: number, p: number) => `A community theatre in Red Deer sells about $${n}$ tickets per show at \\$${p} each`, unit: 'ticket', units: 'tickets', verb: 'sold', p0: [16, 30], s: 1, k: [5, 8, 10, 12], x: [2, 9] },
+  { what: (n: number, p: number) => `A food truck in Edmonton sells about $${n}$ bowls of pho a day at \\$${p} each`, unit: 'bowl', units: 'bowls', verb: 'sold', p0: [10, 15], s: 0.5, k: [4, 5, 6, 8], x: [2, 7] },
+  { what: (n: number, p: number) => `A ski hill sells about $${n}$ day passes on a Saturday at \\$${p} each`, unit: 'pass', units: 'passes', verb: 'sold', p0: [30, 45], s: 2, k: [5, 10, 15], x: [2, 8] },
+  { what: (n: number, p: number) => `A bike rental shop in Canmore rents about $${n}$ bikes a day at \\$${p} per day`, unit: 'bike', units: 'bikes', verb: 'rented', p0: [30, 50], s: 1, k: [1, 2, 3], x: [2, 10] },
 ];
 
 const PENS = [
@@ -934,7 +934,7 @@ const quadOptimize = skill({
         const B = n0 - k * p0;
         const C = p0 * n0;
         return {
-          prompt: `${r.what(n0, p0)}. For every \\$1 increase in price, $${k}$ fewer ${r.units} are sold. The revenue, $R$, in dollars, after $x$ price increases of \\$1 is $R(x) = ${stdTex(-k, B, C)}$. What is the maximum revenue, and what price gives it?`,
+          prompt: `${r.what(n0, p0)}. For every \\$1 increase in price, $${k}$ fewer ${r.units} are ${r.verb}. The revenue, $R$, in dollars, after $x$ price increases of \\$1 is $R(x) = ${stdTex(-k, B, C)}$. What is the maximum revenue, and what price gives it?`,
           parts: [numPart(best, { label: 'Maximum revenue: \\$' }), numPart(p0 + xs, { label: 'Price: \\$' })],
           hints: ['The maximum occurs at the vertex: $x = -\\dfrac{b}{2a}$ price increases.', `The price is \\$${p0} plus $x$ increases of \\$1. Substitute $x$ into $R(x)$ for the revenue.`],
           solution: [
@@ -1014,14 +1014,14 @@ const quadOptimize = skill({
       const best = price * sold;
       const sTex = s === 0.5 ? '0.50' : `${s}`;
       return {
-        prompt: `${r.what(n0, p0)}. Market research shows that for every \\$${sTex} increase in price, $${k}$ fewer ${r.units} are sold. What price maximizes the revenue, and what is the maximum revenue? Give both to the nearest cent.`,
+        prompt: `${r.what(n0, p0)}. Market research shows that for every \\$${sTex} increase in price, $${k}$ fewer ${r.units} are ${r.verb}. What price maximizes the revenue, and what is the maximum revenue? Give both to the nearest cent.`,
         parts: [numPart(price, { label: 'Best price: \\$', decimals: 2, tolerance: 0.011 }), numPart(best, { label: 'Maximum revenue: \\$', decimals: 2, tolerance: 0.011 })],
-        hints: [`Let $x$ be the number of \\$${sTex} increases. Write the price and the number sold in terms of $x$.`, 'Revenue = price × number sold. Its zeros are easy to find in factored form, and the vertex is halfway between them.'],
+        hints: [`Let $x$ be the number of \\$${sTex} increases. Write the price and the number sold in terms of $x$.`, `Revenue = price × number ${r.verb}. Its zeros are easy to find in factored form, and the vertex is halfway between them.`],
         solution: [
-          `Let $x$ be the number of \\$${sTex} increases. Price: $${p0} + ${coefTex(s, true)}x$; number sold: $${n0} - ${k}x$.`,
+          `Let $x$ be the number of \\$${sTex} increases. Price: $${p0} + ${coefTex(s, true)}x$; number ${r.verb}: $${n0} - ${k}x$.`,
           `$R(x) = (${p0} + ${coefTex(s, true)}x)(${n0} - ${k}x)$.`,
           `The zeros are $x = ${fmt(-p0 / s)}$ and $x = ${fmt(n0 / k)}$. The vertex is halfway between: $x = \\dfrac{${fmt(-p0 / s)} + ${fmt(n0 / k)}}{2} = ${xs}$.`,
-          `Price: $${p0} + ${fmt(s)}(${xs}) = ${cents(price, true)}$ dollars; number sold: $${n0} - ${k}(${xs}) = ${sold}$.`,
+          `Price: $${p0} + ${s === 1 ? xs : `${fmt(s)}(${xs})`} = ${cents(price, true)}$ dollars; number ${r.verb}: $${n0} - ${k}(${xs}) = ${sold}$.`,
           `Revenue: $${cents(price, true)} \\times ${sold} = ${cents(best, true)}$ dollars.`,
           `The best price is ${money(price)}, which gives a maximum revenue of ${money(best)}.`,
         ],

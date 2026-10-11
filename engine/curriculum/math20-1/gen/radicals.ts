@@ -945,29 +945,15 @@ function ratMonomial(rng: Rng): GenOutput {
   for (let t = 0; t < 300; t++) {
     const m = rng.pick([2, 3, 5, 6, 7, 10, 11]);
     const b = rng.pick([1, 1, 2, 3, 4, 5]);
-    const radNum = true;
-    let numTex: string;
-    let afterTex: string;
-    let numCoef: number;
-    let numRad: number;
+    const a = rng.int(1, 5);
+    const p = rng.pick([2, 3, 5, 6, 7, 10]);
+    if (p === m) continue;
+    const { outside: o, inside: numRad } = radicalSplit(p * m);
+    const numTex = rad(a, p);
+    const afterTex = `${co(a)}\\sqrt{${p * m}}`;
+    const numCoef = a * o;
     const steps: string[] = [];
-    if (radNum) {
-      const a = rng.int(1, 5);
-      const p = rng.pick([2, 3, 5, 6, 7, 10]);
-      if (p === m) continue;
-      const { outside: o, inside: i } = radicalSplit(p * m);
-      numTex = rad(a, p);
-      afterTex = `${co(a)}\\sqrt{${p * m}}`;
-      numCoef = a * o;
-      numRad = i;
-      if (o > 1) steps.push(`Simplify the numerator: $${afterTex} = ${co(a)}${rad(o, i)} = ${rad(a * o, i)}$`);
-    } else {
-      const n = rng.int(1, 18);
-      numTex = `${n}`;
-      afterTex = `${co(n)}\\sqrt{${m}}`;
-      numCoef = n;
-      numRad = m;
-    }
+    if (o > 1) steps.push(`Simplify the numerator: $${afterTex} = ${a === 1 ? '' : `${a} \\times `}${rad(o, numRad)}${a === 1 ? '' : ` = ${rad(numCoef, numRad)}`}$`);
     const denVal = b * m;
     const g = gcd(numCoef, denVal);
     const top = numCoef / g;
@@ -1501,7 +1487,7 @@ function eqBasic(rng: Rng): GenOutput {
     };
   }
   const x = rng.int(-5, 12);
-  const a = rng.int(1, 6);
+  const a = rng.int(2, 6);
   let c = rng.int(2, 9);
   let b = c * c - a * x;
   for (let i = 0; i < 20 && (b === 0 || Math.abs(b) > 60); i++) {
@@ -1604,7 +1590,7 @@ function eqQuadratic(rng: Rng): GenOutput {
 }
 
 function eqNone(rng: Rng): GenOutput {
-  const a = rng.int(1, 5);
+  const a = rng.int(2, 5);
   const xc = rng.int(-4, 10);
   const m = rng.int(3, 12);
   const n = rng.int(-4, m - 1);

@@ -17,11 +17,6 @@ function rt(x: number, dfrac = false): string {
   return f ? fracLatex(f, { dfrac }) : fmt(x);
 }
 
-/** A rational number in brackets when negative, for substitutions: (-3), (\frac{1}{2}). */
-function rp(x: number): string {
-  return x < 0 ? `(${rt(x)})` : rt(x);
-}
-
 /** A sum of [coefficient, body] terms in LaTeX, skipping zeros; coefficients may be fractions or decimals. */
 function sumTex(terms: Array<[number, string]>, decimals = false): string {
   let out = '';
@@ -977,7 +972,8 @@ function csSteps(a: number, b: number, c: number): { steps: string[]; p: number;
   steps.push(`Move the constant term: $${sumTex([[1, 'x^2'], [B, 'x']])} = ${rt(-C)}$`);
   const h = B / 2;
   const q = h * h - C;
-  steps.push(`Add $\\left(${rt(h)}\\right)^2 = ${rt(h * h)}$, the square of half the coefficient of $x$, to both sides: $${quadTex(1, B, h * h)} = ${rt(q)}$`);
+  const half = Number.isInteger(h) ? `(${h})^2` : `\\left(${rt(h)}\\right)^2`;
+  steps.push(`Add $${half} = ${rt(h * h)}$, the square of half the coefficient of $x$, to both sides: $${quadTex(1, B, h * h)} = ${rt(q)}$`);
   steps.push(`Write the left side as a square: $${shiftTex(h)}^2 = ${rt(q)}$`);
   return { steps, p: -h, q };
 }
@@ -1094,7 +1090,7 @@ const quadraticFormula = skill({
     const decimalCoef = variant === 'decimalCoef';
     for (let i = 0; i < 400; i++) {
       if (decimalCoef) {
-        a = rng.pick([0.5, 1.5, 2.5, -0.5, 0.2]);
+        a = rng.pick([0.5, 1.5, 2.5, -1.5, 0.2, -2.5]);
         b = rng.int(-30, 30) / 10;
         c = rng.int(-40, 40) / 10;
         if (b === 0 || c === 0) continue;
@@ -1140,14 +1136,18 @@ const quadraticFormula = skill({
     const show = (x: number) => (decimalCoef ? fmt(x) : `${x}`);
     const showP = (x: number) => (x < 0 ? `(${show(x)})` : show(x));
     const Dtex = decimalCoef ? fmt(D) : `${D}`;
-    const formula = `x = \\dfrac{-${showP(b)} \\pm \\sqrt{${showP(b)}^2 - 4${showP(a)}${showP(c)}}}{2${showP(a)}} = \\dfrac{${show(-b)} \\pm \\sqrt{${Dtex}}}{${show(2 * a)}}`;
+    const over = (num: string) => (2 * a === 1 ? num : `\\dfrac{${num}}{${show(2 * a)}}`);
+    const formula = `x = \\dfrac{-${showP(b)} \\pm \\sqrt{${showP(b)}^2 - 4(${show(a)})(${show(c)})}}{2(${show(a)})} = ${over(`${show(-b)} \\pm \\sqrt{${Dtex}}`)}`;
     const steps = [...pre, `$a = ${show(a)}$, $b = ${show(b)}$, $c = ${show(c)}$`, `$${formula}$`];
     if (exact && roots) {
-      steps.push(`Simplify: $\\sqrt{${D}} = ${sqrtTex(D)}$, so $${roots.tex}$`);
+      const simple = sqrtTex(D);
+      const mid = `x = ${over(`${show(-b)} \\pm ${simple}`)}`;
+      if (simple !== `\\sqrt{${D}}`) steps.push(`Simplify the radical: $\\sqrt{${D}} = ${simple}$, so $${mid}$`);
+      if (mid.replace(/\s/g, '') !== roots.tex.replace(/\s/g, '') || simple === `\\sqrt{${D}}`) steps.push(`In simplest form: $${roots.tex}$`);
     } else {
       const minus = (-b - Math.sqrt(D)) / (2 * a);
       const plus = (-b + Math.sqrt(D)) / (2 * a);
-      steps.push(`$x = \\dfrac{${show(-b)} - \\sqrt{${Dtex}}}{${show(2 * a)}} \\approx ${fmtFixed(minus, 2)}$ or $x = \\dfrac{${show(-b)} + \\sqrt{${Dtex}}}{${show(2 * a)}} \\approx ${fmtFixed(plus, 2)}$`);
+      steps.push(`$x = ${over(`${show(-b)} - \\sqrt{${Dtex}}`)} \\approx ${fmtFixed(minus, 2)}$ or $x = ${over(`${show(-b)} + \\sqrt{${Dtex}}`)} \\approx ${fmtFixed(plus, 2)}$`);
       steps.push(`The roots are $${decimalsList(values)}$.`);
     }
     return {
@@ -1186,7 +1186,7 @@ const discriminant = skill({
         const C = ga * ga;
         const k = 2 * al * ga;
         return {
-          prompt: `Find all values of $k$ for which $${A === 1 ? '' : A}x^2 + kx + ${C} = 0$ has exactly one real root (two equal real roots).\n\n${ROOTS_NOTE}`,
+          prompt: `Find all values of $k$ for which $${A === 1 ? '' : A}x^2 + kx + ${C} = 0$ has exactly one real root (two equal real roots).\n\nEnter each value once, separated by commas.`,
           parts: [{ label: '$k =$', answer: { kind: 'numbers', values: [-k, k] }, placeholder: 'e.g. -4, 4' }],
           hints: ['Two equal real roots means the discriminant is zero.', `Solve $k^2 - 4(${A})(${C}) = 0$.`],
           solution: [`$b^2 - 4ac = k^2 - 4(${A})(${C}) = k^2 - ${4 * A * C}$`, `Set it equal to zero: $k^2 = ${4 * A * C}$`, `$k = \\pm ${k}$`],
@@ -1209,7 +1209,7 @@ const discriminant = skill({
           prompt: `For what value of $k$ does $${eq}$ have exactly one real root (two equal real roots)?`,
           parts: [numPart(k, { label: '$k =$' })],
           hints: ['Two equal real roots means the discriminant is zero.', 'Write $b^2 - 4ac$ in terms of $k$ and set it equal to 0.'],
-          solution: [`$b^2 - 4ac = ${disc}$`, `Set it equal to zero: $${b * b} - ${4 * a}k = 0$`, `$k = \\dfrac{${b * b}}{${4 * a}} = ${rt(k)}$`],
+          solution: [`$b^2 - 4ac = ${disc}$`, `Set it equal to zero: $${b * b} - ${4 * a}k = 0$`, `$k = \\dfrac{${b * b}}{${4 * a}}${gcd(b * b, 4 * a) === 1 ? '' : ` = ${rt(k)}`}$`],
         };
       }
       // range of k for x² + bx + k (or ax² + bx + k)
@@ -1332,7 +1332,7 @@ const quadApply = skill({
         { what: 'patio', unit: 'm' },
         { what: 'poster', unit: 'cm' },
         { what: 'solar panel', unit: 'cm' },
-        { what: 'skating rink', unit: 'm' },
+        { what: 'backyard skating rink', unit: 'm' },
       ]);
       const c = rng.pick([1, 2, 3]);
       const sign = c > 1 && rng.chance(0.35) ? -1 : 1;
@@ -1574,7 +1574,7 @@ const quadApply = skill({
       };
     }
     return {
-      prompt: `${intro} At what times is it exactly $${H}$ m above ${o.surface}? Round each time to the nearest hundredth of a second. ${ROOTS_NOTE}`,
+      prompt: `${intro} At what times is it exactly $${H}$ m above ${o.surface}? Round each time to the nearest hundredth of a second, and separate the two times with a comma.`,
       parts: [{ label: '$t =$', answer: { kind: 'numbers', values: [r1, r2], decimals: 2 }, placeholder: 'e.g. 0.85, 2.41', suffix: 's' }],
       hints: [`Set $h = ${H}$ and write the equation in standard form.`, 'Use the quadratic formula. Both roots are positive: one on the way up and one on the way down.'],
       solution: [

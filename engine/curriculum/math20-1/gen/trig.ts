@@ -327,6 +327,22 @@ class Sketch {
     return this;
   }
 
+  /** Label beside a side, on the side of direction a: tries every outward spot (moving further out) before any other. */
+  sideLabel(mid: P, a: number, text: string) {
+    this.pending.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const dpx of [12, 16, 21, 27, 34, 42, 51])
+          for (const off of [0, 20, -20, 40, -40]) out.push(at(mid, a + off, dpx / ppu));
+        for (const dpx of [14, 20, 28])
+          for (const off of [70, -70, 110, -110, 180]) out.push(at(mid, a + off, dpx / ppu));
+        return out;
+      },
+    });
+    return this;
+  }
+
   /** Label for a vertex where rays meet: tries the widest gaps between the rays first. */
   vertexLabel(v: P, rayDirs: number[], text: string) {
     const dirs = [...rayDirs].map(norm360).sort((a, b) => a - b);
@@ -558,7 +574,7 @@ export function triangleFigure(t: Tri, lab: TriLabels, opts: { base?: 0 | 1 | 2;
     let nrm = dirOf(a, b) + 90;
     const out = at(mid, nrm, 1);
     if (Math.hypot(out[0] - pts[k][0], out[1] - pts[k][1]) < Math.hypot(mid[0] - pts[k][0], mid[1] - pts[k][1])) nrm += 180;
-    s.endLabel(mid, nrm, text, 13);
+    s.sideLabel(mid, nrm, text);
   }
   return s.build({ margin: 0.7, caption: opts.caption });
 }
@@ -600,6 +616,36 @@ function threeAngles(rng: Rng, lo = 25, hi = 115): [number, number, number] {
 const randomBase = (rng: Rng) => rng.pick([0, 1, 2, 2] as const);
 
 /**
+ * A two-leg trip S → T → E: the first leg is extended (dashed) past T so the turn angle can be marked,
+ * and the direct line S–E is dashed. `left` turns counterclockwise.
+ */
+function turnFigure(o: { leg1: number; leg2: number; turn: number; left: boolean; leg1Label: string; leg2Label: string; seLabel?: string; atS?: string }): PlaneFigure {
+  const k = 6 / (o.leg1 + o.leg2);
+  const sg = o.left ? 1 : -1;
+  const S: P = [0, 0];
+  const T: P = [o.leg1 * k, 0];
+  const E: P = at(T, sg * o.turn, o.leg2 * k);
+  const s = new Sketch();
+  s.seg(S, T, { arrowEnd: true }).seg(T, E, { arrowEnd: true });
+  s.seg(T, [T[0] + 1.6, 0], { color: 'muted', dashed: true });
+  s.seg(S, E, { color: 'accent', dashed: true });
+  const [a0, a1] = o.left ? [0, o.turn] : [-o.turn, 0];
+  s.arc(T, 0.8, a0, a1);
+  s.angleLabel(T, a0, a1, `${o.turn}°`, 40);
+  if (o.atS) {
+    const dSE = dirOf(S, E);
+    const [b0, b1] = o.left ? [0, dSE] : [dSE, 360];
+    s.arc(S, 1.0, b0, b1);
+    s.angleLabel(S, b0, b1, o.atS, 50);
+  }
+  s.vertexLabel(S, [0, dirOf(S, E)], 'S').vertexLabel(T, [0, 180, sg * o.turn], 'T').vertexLabel(E, [dirOf(E, T), dirOf(E, S)], 'E');
+  s.sideLabel([T[0] / 2, 0], o.left ? -90 : 90, o.leg1Label);
+  s.sideLabel([(T[0] + E[0]) / 2, (T[1] + E[1]) / 2], sg * o.turn + (o.left ? -90 : 90), o.leg2Label);
+  if (o.seLabel) s.sideLabel([E[0] / 2, E[1] / 2], dirOf(S, E) + (o.left ? 90 : -90), o.seLabel);
+  return s.build({ margin: 0.6 });
+}
+
+/**
  * The ambiguous case: angle A at the left, side b from A to C, and side a from C reaching the base
  * ray at B₁ (acute triangle) and B₂ (obtuse triangle).
  */
@@ -619,17 +665,17 @@ export function ambiguousFigure(o: { A: number; a: number; b: number; names: [st
   if (o.swing) {
     const d1 = dirOf(C, B1);
     const d2 = dirOf(C, B2);
-    s.arc(C, o.a * k, d1 - 12, d2 + 12, 'muted');
+    s.arc(C, o.a * k, d2 - 10, d1 + 10, 'muted');
   }
-  s.arc(A, 0.8, 0, o.A);
+  s.arc(A, 0.65, 0, o.A);
   const [nA, nB, nC] = o.names;
   s.vertexLabel(A, [0, o.A], nA).vertexLabel(C, [dirOf(C, A), dirOf(C, B1)], nC);
   s.endLabel(B1, -60, `${nB}₁`, 12).endLabel(B2, -90, `${nB}₂`, 12);
-  s.angleLabel(A, 0, o.A, o.angleLabel, 42);
+  s.angleLabel(A, 0, o.A, o.angleLabel, 34);
   const midAC: P = [C[0] / 2, C[1] / 2];
-  s.endLabel(midAC, o.A + 90, o.bLabel, 13);
+  s.sideLabel(midAC, o.A + 90, o.bLabel);
   const midCB1: P = [(C[0] + B1[0]) / 2, (C[1] + B1[1]) / 2];
-  s.endLabel(midCB1, dirOf(C, B1) + 90, o.aLabel, 13);
+  s.sideLabel(midCB1, dirOf(C, B1) + 90, o.aLabel);
   return s.build({ margin: 0.6, caption: o.caption });
 }
 
@@ -756,7 +802,7 @@ function exactSteps(f: Fn, t: number): { steps: string[]; value: Ex | null } {
     value,
     steps: [
       `Quadrant ${ROMAN[q]}: $${refWork(t)}$`,
-      `By the CAST rule, ${CAST_WORD[q]} in quadrant ${ROMAN[q]}, so $\\${f} ${deg(t)}$ is ${pos ? 'positive' : 'negative'}.`,
+      `In quadrant ${ROMAN[q]}, $x ${q === 1 || q === 4 ? '>' : '<'} 0$ and $y ${q <= 2 ? '>' : '<'} 0$, so $\\${f} ${deg(t)} = ${FN_DEF[f]}$ is ${pos ? 'positive' : 'negative'}.`,
       `From the special triangle, $${specialRatioWork(f, r)}$.`,
       `$\\${f} ${deg(t)} = ${pos ? '' : '-'}\\${f} ${deg(r)} = ${exLatex(value!)}$`,
     ],
@@ -795,7 +841,7 @@ const specialExact = skill({
         prompt: `Determine the exact value of $\\${f} ${deg(t)}$. ${EXACT_NOTE} If the ratio is undefined, type *undefined*.`,
         parts: [part(value === null ? { kind: 'numeric', value: 0, undefinedValue: true } : { kind: 'numeric', value: exValue(value), allowExpression: true }, { label: `$\\${f} ${deg(t)} =$` })],
         hints: [
-          isQuadrantal(t) ? 'Use a point on the terminal arm with $r = 1$, such as $(0, 1)$ or $(-1, 0)$.' : 'Find the reference angle, then use the CAST rule to decide the sign.',
+          isQuadrantal(t) ? 'Use a point on the terminal arm with $r = 1$, such as $(0, 1)$ or $(-1, 0)$.' : 'Find the reference angle. Then decide the sign from the signs of $x$ and $y$ in that quadrant.',
           'Use $\\sin\\theta = \\dfrac{y}{r}$, $\\cos\\theta = \\dfrac{x}{r}$ and $\\tan\\theta = \\dfrac{y}{x}$, or the special triangles for the reference angle.',
         ],
         solution: steps,
@@ -829,7 +875,7 @@ const specialExact = skill({
       prompt: `Determine the exact value of $${expr}$. ${EXACT_NOTE}`,
       parts: [numPart(exValue(result), { label: 'Value' })],
       hints: [
-        `Find each ratio separately with reference angles and the CAST rule.${t1.sq || t2.sq ? ' Remember that $\\sin^2\\theta$ means $(\\sin\\theta)^2$.' : ''}`,
+        `Find each ratio separately: use the reference angle for the size and the signs of $x$ and $y$ for the sign.${t1.sq || t2.sq ? ' Remember that $\\sin^2\\theta$ means $(\\sin\\theta)^2$.' : ''}`,
         'Substitute the exact values, then simplify. Keep radicals exact — do not use decimals.',
       ],
       solution: [
@@ -1358,7 +1404,7 @@ function sineSideContext(rng: Rng): GenOutput {
     s.dot(Bp, 'accent');
     s.vertexLabel(Pp, [0, alpha, 180], 'P').vertexLabel(Qp, [0, 180, beta], 'Q').endLabel(Bp, 90, 'B');
     s.angleLabel(Pp, 0, alpha, `${alpha}°`, 52).angleLabel(Qp, 0, beta, `${beta}°`, 36);
-    s.endLabel([dist * k * 0.5, 0], -90, `${dist} m`, 14);
+    s.sideLabel([dist * k * 0.5, 0], -90, `${dist} m`);
     return {
       prompt: `${n1} and ${n2} stand ${dist} m apart on level ground, on the same side of a hot-air balloon $B$ and in line with it. From ${n1}'s position $P$, the angle of elevation of the balloon is $${deg(alpha)}$. From ${n2}'s position $Q$, closer to the balloon, it is $${deg(beta)}$. How far is ${n2} from the balloon (the length $QB$), to the nearest metre?`,
       figure: s.build({ margin: 0.6 }),
@@ -1787,7 +1833,7 @@ function cosineSideContext(rng: Rng): GenOutput {
     s.seg(longer ? P1 : P0, longer ? P3 : P2, { color: 'accent', dashed: true });
     s.arc(P0, 0.6, 0, A);
     s.angleLabel(P0, 0, A, `${A}°`, 34);
-    s.endLabel([P1[0] / 2, 0], -90, `${q} cm`, 13).endLabel([P3[0] / 2, P3[1] / 2], A + 90, `${p} cm`, 13);
+    s.sideLabel([P1[0] / 2, 0], -90, `${q} cm`).sideLabel([P3[0] / 2, P3[1] / 2], A + 90, `${p} cm`);
     return {
       prompt: `A parallelogram has sides of ${p} cm and ${q} cm, and one interior angle of $${deg(A)}$. Determine the length of the ${longer ? 'longer' : 'shorter'} diagonal, ${tenthOf('cm')}.`,
       figure: s.build({ margin: 0.6 }),
@@ -2052,9 +2098,10 @@ function applyTwoPart(rng: Rng): GenOutput {
     );
     const { leg1, leg2, turn, t } = data;
     const lake = rng.pick(LAKES);
+    const left = rng.chance(0.5);
     return {
-      prompt: `${who} paddles ${fmt(leg1)} km in a straight line across ${lake} from $S$ to $T$, then turns $${deg(turn)}$ to the left and paddles ${fmt(leg2)} km to $E$. How far is $E$ from the starting point $S$, ${tenthOf('km')}?`,
-      figure: triangleFigure(t, { sides: ['?', `${fmt(leg2)} km`, `${fmt(leg1)} km`], angles: [`${180 - turn}°`, null, null] }, { base: 2 }),
+      prompt: `${who} paddles ${fmt(leg1)} km in a straight line across ${lake} from $S$ to $T$, then turns $${deg(turn)}$ to the ${left ? 'left' : 'right'} and paddles ${fmt(leg2)} km to $E$. How far is $E$ from the starting point $S$, ${tenthOf('km')}?`,
+      figure: turnFigure({ leg1, leg2, turn, left, leg1Label: `${fmt(leg1)} km`, leg2Label: `${fmt(leg2)} km`, seLabel: '?' }),
       parts: [numPart(t.s[0], { decimals: 1, suffix: 'km', label: '$SE =$' })],
       hints: [`The turn is measured from the direction ${who} was already travelling. The interior angle of the triangle at $T$ is $180^\\circ - ${deg(turn)}$.`, 'Two sides and the angle between them: use the cosine law.'],
       solution: [`Interior angle at $T$: $180^\\circ - ${deg(turn)} = ${deg(180 - turn)}$`, ...cosSideSteps(t, 'km', true)],
@@ -2136,7 +2183,7 @@ function applyTwoStep(rng: Rng): GenOutput {
     s.arc(A, 1.2, 0, alpha).arc(B, 0.7, 0, beta);
     s.vertexLabel(A, [0, alpha, 180], 'A').vertexLabel(B, [0, 180, beta], 'B').endLabel(T, 90, 'T').endLabel(F, -45, 'F');
     s.angleLabel(A, 0, alpha, `${alpha}°`, 56).angleLabel(B, 0, beta, `${beta}°`, 36);
-    s.endLabel([B[0] / 2, 0], -90, `${dist} m`, 14).endLabel([F[0], h * k * 0.5], 0, 'h', 10);
+    s.sideLabel([B[0] / 2, 0], -90, `${dist} m`).sideLabel([F[0], h * k * 0.5], 0, 'h');
     return {
       prompt: `To find the height of a tree, ${who} measures the angle of elevation of its top $T$ from point $A$ as $${deg(alpha)}$. Walking ${dist} m straight toward the tree to point $B$, the angle of elevation is $${deg(beta)}$. Determine the height $h$ of the tree, ${tenthOf('m')}.`,
       figure: s.build({ margin: 0.6 }),
@@ -2177,7 +2224,7 @@ function applyTwoStep(rng: Rng): GenOutput {
     s.dot(Pp).dot(Wp);
     s.vertexLabel(Pp, [0, 180, th], 'P').vertexLabel(Wp, [0, 180, W], 'W').endLabel(Bp, 60, 'B');
     s.angleLabel(Pp, 0, th, `${th}°`, 34).angleLabel(Wp, 0, W, '?', 56);
-    s.endLabel([Pp[0] / 2, 0], -90, `${dW} m`, 14).endLabel([(Pp[0] + Bp[0]) / 2, Bp[1] / 2], th - 90, `${L} m`, 13);
+    s.sideLabel([Pp[0] / 2, 0], -90, `${dW} m`).sideLabel([(Pp[0] + Bp[0]) / 2, Bp[1] / 2], th - 90, `${L} m`);
     return {
       prompt: `A crane's boom $PB$ is ${L} m long and makes an angle of $${deg(th)}$ with the level ground at its pivot $P$. A cable runs from the top of the boom $B$ to a winch $W$ on the ground ${dW} m behind the pivot (on the other side of $P$ from the boom). Determine the angle the cable makes with the ground at $W$, ${TENTH_DEG}.`,
       figure: s.build({ margin: 0.6 }),
@@ -2205,9 +2252,10 @@ function applyTwoStep(rng: Rng): GenOutput {
   );
   const { leg1, leg2, turn, t } = data;
   const lake = rng.pick(LAKES);
+  const left = rng.chance(0.5);
   return {
-    prompt: `${who} sails ${fmt(leg1)} km in a straight line across ${lake} from the marina $S$ to a point $T$, then turns $${deg(turn)}$ to the right and sails ${fmt(leg2)} km to $E$. (a) How far is $E$ from the marina, ${tenthOf('km')}? (b) What is $\\angle TSE$, the angle at the marina between the first leg and the direct line to $E$, ${TENTH_DEG}?`,
-    figure: triangleFigure(t, { sides: [null, `${fmt(leg2)} km`, `${fmt(leg1)} km`], angles: [`${180 - turn}°`, '?', null] }, { base: 2, mirror: true }),
+    prompt: `${who} sails ${fmt(leg1)} km in a straight line across ${lake} from the marina $S$ to a point $T$, then turns $${deg(turn)}$ to the ${left ? 'left' : 'right'} and sails ${fmt(leg2)} km to $E$. (a) How far is $E$ from the marina, ${tenthOf('km')}? (b) What is $\\angle TSE$, the angle at the marina between the first leg and the direct line to $E$, ${TENTH_DEG}?`,
+    figure: turnFigure({ leg1, leg2, turn, left, leg1Label: `${fmt(leg1)} km`, leg2Label: `${fmt(leg2)} km`, atS: '?' }),
     parts: [numPart(t.s[0], { decimals: 1, suffix: 'km', label: '(a) $SE =$' }), numPart(t.ang[1], { decimals: 1, suffix: '°', label: '(b) $\\angle TSE =$' })],
     hints: [`The interior angle at $T$ is $180^\\circ - ${deg(turn)}$. With two sides and that angle, use the cosine law for $SE$.`, 'Then use the sine law (or the cosine law again) with your unrounded $SE$ to find $\\angle TSE$.'],
     solution: [

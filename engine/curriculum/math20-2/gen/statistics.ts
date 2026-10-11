@@ -191,7 +191,7 @@ const NORM: NormCtx[] = [
     intro: 'The resting heart rates of adults in a large Alberta health study',
     pop: 'adults', above: (v) => `have a resting heart rate above ${v}`, below: (v) => `have a resting heart rate below ${v}`, between: (a, b) => `have a resting heart rate between ${a} and ${b}`,
     one: (v) => `a resting heart rate of ${v}`, noun: 'resting heart rate', cert: 'rate', unit: 'beats/min', axis: 'Heart rate (beats/min)',
-    pairs: [[72, 8], [70, 7], [68, 6], [72, 9], [70, 10]], dp: 1,
+    pairs: [[72, 8], [70, 7], [66, 6], [72, 9], [70, 10]], dp: 1,
   },
   {
     intro: 'The lengths of adult rainbow trout in a lake in Kananaskis Country',

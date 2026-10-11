@@ -87,6 +87,9 @@ function pointsList(pts: Array<[number, number]>): string {
   return pts.map(([x, y]) => `$${ptTex(x, y)}$`).join(' and ');
 }
 
+/** '=' when x is exact to the shown decimals, otherwise '≈'. */
+const eq = (x: number, decimals: number) => (Math.abs(x - Number(fmt(x, decimals))) < 1e-9 ? '=' : '\\approx');
+
 const NAMES = ['Aiyana', 'Mateo', 'Priya', 'Liam', 'Mei', 'Kwame', 'Sofia', 'Arjun', 'Chloé', 'Tariq', 'Noah', 'Amara', 'Jasmine', 'Ethan', 'Nadia', 'Owen', 'Leila', 'Dakota', 'Hamid', 'Grace'];
 
 // ---------------------------------------------------------------------------
@@ -135,7 +138,7 @@ function countCase(rng: Rng): CountCase {
         count: 2,
         why: [
           `$y = ${vertexTex(down, p2, q2)}$ opens down from its vertex $${ptTex(p2, q2)}$; $y = ${vertexTex(up, p1, q1)}$ opens up.`,
-          `At $x = ${p2}$, the upward parabola has $y = ${texNum(up)}(${p2} - ${par(p1)})^2 + ${par(q1)} = ${texNum(f1p2)}$, which is below the vertex $${ptTex(p2, q2)}$.`,
+          `At $x = ${p2}$, the upward parabola has $y = ${coefTex(up)}(${p2} - ${par(p1)})^2 + ${par(q1)} = ${texNum(f1p2)}$, which is below the vertex $${ptTex(p2, q2)}$.`,
           'Moving left or right from there, the downward parabola falls while the upward one rises, so they cross once on each side: exactly two solutions.',
         ],
       });
@@ -361,9 +364,9 @@ const systemGraph = skill({
 // ---------------------------------------------------------------------------
 
 /** A rational root n/d (d = 2 or 3) in lowest terms, between -4 and 4. */
-function fracRoot(rng: Rng): number {
+function fracRoot(rng: Rng, dens: number[] = [2, 3]): number {
   for (;;) {
-    const d = rng.pick([2, 3]);
+    const d = rng.pick(dens);
     const n = rng.int(-4 * d, 4 * d);
     if (gcd(n, d) === 1) return n / d;
   }
@@ -380,7 +383,7 @@ function fromRoots(r1: number, r2: number, s: number): [number, number, number] 
 type Shape = { Q: [number, number, number]; roots: number[] };
 
 /** A quadratic difference with 0, 1 or 2 rational real roots. */
-function diffShape(rng: Rng, count: 0 | 1 | 2, opts: { frac?: boolean; scale?: number[] } = {}): Shape {
+function diffShape(rng: Rng, count: 0 | 1 | 2, opts: { frac?: boolean; dens?: number[]; scale?: number[] } = {}): Shape {
   const s = rng.sign();
   const c0 = rng.pick(opts.scale ?? [1]);
   if (count === 0) {
@@ -393,7 +396,7 @@ function diffShape(rng: Rng, count: 0 | 1 | 2, opts: { frac?: boolean; scale?: n
     return { Q: [s * c0, -2 * s * c0 * t, s * c0 * t * t], roots: [t] };
   }
   for (;;) {
-    const r1 = opts.frac ? fracRoot(rng) : rng.int(-5, 5);
+    const r1 = opts.frac ? fracRoot(rng, opts.dens) : rng.int(-5, 5);
     const r2 = rng.int(-5, 5);
     if (r1 === r2) continue;
     const [a, b, c] = fromRoots(r1, r2, s);
@@ -413,7 +416,7 @@ const linQuad = skill({
     for (;;) {
       const count = d === 3 ? (rng.pick([0, 1, 2, 2]) as 0 | 1 | 2) : 2;
       const shape = diffShape(rng, count, { frac: d >= 2 && rng.chance(d === 2 ? 0.7 : 0.4), scale: d === 1 ? [1] : [1, 1, 2] });
-      const m = rng.int(-4, 4);
+      const m = d === 3 ? rng.int(-4, 4) : rng.nonZero(-4, 4);
       const k = rng.int(-6, 6);
       const [A, B, C] = shape.Q;
       const [a, b, c] = [A, B + m, C + k];
@@ -429,7 +432,8 @@ const linQuad = skill({
       steps.push(`Substitute $y = ${lineTex(m, k)}$ into the quadratic equation: $${lineTex(m, k)} = ${stdTex(a, b, c)}$.`);
       steps.push(`Collect the terms on one side: $${stdTex(A, B, C)} = 0$.`);
       steps.push(...quadSolveSteps(A, B, C, shape.roots, d === 3));
-      if (pts.length) steps.push(`Substitute into $y = ${lineTex(m, k)}$: ${pts.map(([x, y]) => `$x = ${texNum(x)}$ gives $y = ${subLine(m, k, x)} = ${texNum(y)}$`).join('; ')}.`);
+      if (pts.length && m === 0) steps.push(`Every point on the line has $y = ${k}$.`);
+      else if (pts.length) steps.push(`Substitute into $y = ${lineTex(m, k)}$: ${pts.map(([x, y]) => `$x = ${texNum(x)}$ gives $y = ${subLine(m, k, x)} = ${texNum(y)}$`).join('; ')}.`);
       const parts: Part[] = d === 3 ? [part({ kind: 'numbers', values: shape.roots }, { label: '$x$-coordinates:', placeholder: 'e.g. -2, 3' })] : pointParts(pts);
       return {
         prompt: d === 3 ? `Solve the system algebraically. ${XS_NOTE}\n\n$$${sysTex(e1, e2)}$$` : `Solve the system by substitution. ${ORDER_NOTE}${d === 2 ? ' (Fractions are fine.)' : ''}\n\n$$${sysTex(e1, e2)}$$`,
@@ -452,22 +456,22 @@ const quadQuad = skill({
       const kind = d === 3 ? rng.pick(['two', 'two', 'linear', 'tangent', 'none'] as const) : 'two';
       let shape: Shape;
       if (kind === 'linear') {
-        const t = rng.chance(0.5) ? rng.int(-5, 5) : fracRoot(rng);
+        const t = rng.chance(0.5) ? rng.int(-5, 5) : fracRoot(rng, [2]);
         const f = toFrac(t, 12)!;
         const s = rng.sign() * rng.pick([1, 2]);
         shape = { Q: [0, s * f.d, -s * f.n], roots: [t] };
       } else {
         const count = kind === 'none' ? 0 : kind === 'tangent' ? 1 : 2;
-        shape = diffShape(rng, count, { frac: d >= 2 && rng.chance(0.4), scale: d === 1 ? [1] : [1, 2, 3] });
+        shape = diffShape(rng, count, { frac: d >= 2 && rng.chance(0.4), dens: [2], scale: d === 1 ? [1] : [1, 2, 3] });
       }
       const [A, B, C] = shape.Q;
       const a2 = rng.pick([-3, -2, -1, 1, 2, 3]);
       const b2 = rng.int(-6, 6);
       const c2 = rng.int(-8, 8);
       const [a1, b1, c1] = [a2 + A, b2 + B, c2 + C];
-      if (a1 === 0 || Math.abs(b1) > 20 || Math.abs(c1) > 30) continue;
+      if (a1 === 0 || Math.abs(a1) > 5 || Math.abs(b1) > 15 || Math.abs(c1) > 25) continue;
       const pts = shape.roots.map((x) => [x, a2 * x * x + b2 * x + c2] as [number, number]);
-      if (pts.some(([, y]) => Math.abs(y) > 60)) continue;
+      if (pts.some(([, y]) => Math.abs(y) > 40)) continue;
       const steps: string[] = [
         `Both equations are solved for $y$. Subtract the second equation from the first to eliminate $y$: $0 = (${stdTex(a1, b1, c1)}) - (${stdTex(a2, b2, c2)})$.`,
       ];
@@ -522,14 +526,14 @@ const systemApply = skill({
         const v = 5 * (t1 + t2) + r;
         const h1 = h0 + 5 * t1 * t2;
         return {
-          prompt: `${name} throws a ball upward. Its height, $h$, in metres, after $t$ seconds is $h = ${stdTex(-5, v, h0, 't')}$. At the same moment, a drone $${h1}$ m above the ground starts to rise at a steady $${r}$ m/s, so its height is $h = ${r}t + ${h1}$. At what times are the ball and the drone at the same height, and what is that height the first time?`,
+          prompt: `${name} launches a model rocket straight up. Its height, $h$, in metres, after $t$ seconds is $h = ${stdTex(-5, v, h0, 't')}$. At the same moment, a camera drone $${h1}$ m above the ground starts to rise at a steady $${r}$ m/s, so its height is $h = ${r}t + ${h1}$. At what times are the rocket and the drone at the same height, and what is that height the first time?`,
           parts: [part({ kind: 'numbers', values: [t1, t2] }, { label: 'Times (s):', placeholder: 'e.g. 1, 4' }), numPart(r * t1 + h1, { label: 'Height the first time:', suffix: 'm' })],
           hints: ['Set the two expressions for $h$ equal to each other.', 'Collect the terms on one side, divide by the common factor, and factor.'],
           solution: [
             `Set the heights equal: $${stdTex(-5, v, h0, 't')} = ${r}t + ${h1}$.`,
             `Collect the terms: $${stdTex(-5, v - r, h0 - h1, 't')} = 0$.`,
             `Divide by $-5$: $${stdTex(1, -(t1 + t2), t1 * t2, 't')} = 0$, so $(t - ${t1})(t - ${t2}) = 0$.`,
-            `$t = ${t1}$ s or $t = ${t2}$ s (the ball passes the drone going up, then again coming down).`,
+            `$t = ${t1}$ s or $t = ${t2}$ s (the rocket passes the drone going up, then again coming down).`,
             `At $t = ${t1}$: $h = ${r}(${t1}) + ${h1} = ${r * t1 + h1}$ m.`,
             `They are at the same height at $${t1}$ s and $${t2}$ s; the first time, both are $${r * t1 + h1}$ m high.`,
           ],
@@ -632,13 +636,13 @@ const systemApply = skill({
         if (h <= 1 || !safeRound(t, 1) || !safeRound(h, 1)) continue;
         const other = rng.pick(NAMES.filter((n) => n !== name));
         return {
-          prompt: `At the same moment, ${name} throws a ball straight up from the ground and ${other} throws a ball straight up from a balcony. Their heights, in metres, after $t$ seconds are $h = ${stdTex(-4.9, v1, c1, 't', true)}$ and $h = ${stdTex(-4.9, v2, c2, 't', true)}$. When are the two balls at the same height, and what is that height? Give both to the nearest tenth.`,
+          prompt: `At the same moment, ${name} throws a ball straight up while standing on the ground, and ${other} throws a ball straight up from a balcony. Their heights, in metres, after $t$ seconds are $h = ${stdTex(-4.9, v1, c1, 't', true)}$ and $h = ${stdTex(-4.9, v2, c2, 't', true)}$. When are the two balls at the same height, and what is that height? Give both to the nearest tenth.`,
           parts: [numPart(t, { label: 'Time:', suffix: 's', decimals: 1 }), numPart(h, { label: 'Height:', suffix: 'm', decimals: 1 })],
           hints: ['Set the two heights equal. What happens to the $t^2$ terms?', 'Solve for $t$, then substitute into either equation for the height.'],
           solution: [
             `Set the heights equal: $${stdTex(-4.9, v1, c1, 't', true)} = ${stdTex(-4.9, v2, c2, 't', true)}$.`,
-            `The $-4.9t^2$ terms cancel: $${v1 - v2}t = ${fmt(c2 - c1)}$, so $t = \\dfrac{${fmt(c2 - c1)}}{${v1 - v2}} \\approx ${fmt(t, 4)}$.`,
-            `Height: $h \\approx -4.9(${fmt(t, 4)})^2 + ${v1}(${fmt(t, 4)})${c1 ? ` + ${fmt(c1)}` : ''} \\approx ${fmt(h, 3)}$.`,
+            `The $-4.9t^2$ terms cancel: $${v1 - v2}t = ${fmt(c2 - c1)}$, so $t = \\dfrac{${fmt(c2 - c1)}}{${v1 - v2}} ${eq(t, 4)} ${fmt(t, 4)}$.`,
+            `Height: $h ${eq(t, 4)} -4.9(${fmt(t, 4)})^2 + ${v1}(${fmt(t, 4)})${c1 ? ` + ${fmt(c1)}` : ''} ${eq(h, 3)} ${fmt(h, 3)}$.`,
             `The balls are at the same height after about $${fmtFixed(t, 1)}$ s, at about $${fmtFixed(h, 1)}$ m.`,
           ],
         };

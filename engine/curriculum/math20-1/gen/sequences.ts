@@ -58,6 +58,9 @@ function rBase(r: Frac, dec = false): string {
   return r.n < 0 ? `(${fv(r, dec)})` : fv(r, dec);
 }
 
+/** The base of a power written after a coefficient, always bracketed: 9(4)^5, 64\left(\frac{3}{4}\right)^8. */
+const pbase = (r: Frac, dec = false) => (!dec && r.d !== 1 ? `\\left(${fl(r)}\\right)` : `(${fv(r, dec)})`);
+
 function fpow(f: Frac, e: number): Frac {
   let out = frac(1);
   for (let i = 0; i < e; i++) out = fracMul(out, f);
@@ -65,6 +68,8 @@ function fpow(f: Frac, e: number): Frac {
 }
 
 const fabs = (f: Frac) => frac(Math.abs(f.n), f.d);
+/** A coefficient in front of a letter: 3r, -r, \frac{1}{2}r. */
+const coef = (f: Frac) => (f.d === 1 && Math.abs(f.n) === 1 ? (f.n < 0 ? '-' : '') : fl(f));
 
 /** A list of terms followed by an ellipsis. */
 const seqTex = (terms: string[]) => `${terms.join(',\\ ')},\\ \\ldots`;
@@ -534,7 +539,7 @@ function unknownContext(rng: Rng): GenOutput {
     return {
       prompt: `${name} pays off a car loan with equal monthly payments and no interest. After the first payment, the balance owing is ${dollars(b1)}. After the ${ord(m)} payment, it is ${dollars(bm)}. By how much does the balance decrease each month?`,
       parts: [numPart(dec, { label: 'Decrease per month: \\$' })],
-      hints: ['The balances form an arithmetic sequence with a negative common difference.', `Solve $${bm} = ${b1} + (${m} - 1)d$ for $d$.`],
+      hints: ['The balances form an arithmetic sequence with a negative common difference.', `Solve $${nx(bm)} = ${nx(b1)} + (${m} - 1)d$ for $d$.`],
       solution: [`$t_1 = ${nx(b1)}$ and $t_{${m}} = ${nx(bm)}$`, `$${nx(bm)} = ${nx(b1)} + (${m} - 1)d$`, `$${nx(bm - b1)} = ${m - 1}d$`, `$d = ${nx(-dec)}$`, `The balance decreases by ${dollars(dec)} each month.`],
       calculator: true,
     };
@@ -958,7 +963,7 @@ const arithSumApply = skill({
 function geoNth(t1: Frac, r: Frac, k: number, dec = false): string {
   const pw = fpow(r, k - 1);
   const tk = fracMul(t1, pw);
-  return `$t_{${k}} = t_1 r^{${k - 1}} = ${fv(t1, dec)}${rBase(r, dec)}^{${k - 1}} = ${fv(t1, dec)}${fbr(pw, dec)} = ${fv(tk, dec)}$`;
+  return `$t_{${k}} = t_1 r^{${k - 1}} = ${fv(t1, dec)}${pbase(r, dec)}^{${k - 1}} = ${fv(t1, dec)}${fbr(pw, dec)} = ${fv(tk, dec)}$`;
 }
 
 const FRAC_RATIOS: Frac[] = [frac(1, 2), frac(-1, 2), frac(1, 3), frac(-1, 3), frac(2, 3), frac(-2, 3), frac(3, 2), frac(-3, 2), frac(1, 4), frac(3, 4), frac(-3, 4), frac(4, 3)];
@@ -996,7 +1001,15 @@ const geoTerm = skill({
       } else {
         r = rng.pick(FRAC_RATIOS);
         t1 = frac(rng.int(1, 3) * r.d ** 3 * (rng.chance(0.2) ? -1 : 1));
-        k = rng.int(6, 9);
+        const r0 = r;
+        const s0 = t1;
+        k = retry(
+          () => rng.int(5, 9),
+          (x) => {
+            const v = fracMul(s0, fpow(r0, x - 1));
+            return v.d <= 256 && Math.abs(v.n) <= 20000;
+          },
+        );
       }
       const terms = [0, 1, 2, 3].map((i) => fracMul(t1, fpow(r, i)));
       const tk = fracMul(t1, fpow(r, k - 1));
@@ -1028,17 +1041,25 @@ const geoTerm = skill({
     const sign = r.n < 0 ? 'negative' : 'positive';
     const steps = [
       `From $t_{${p}}$ to $t_{${q}}$ is ${g} steps, so $t_{${q}} = t_{${p}} r^{${g}}$.`,
-      `$${fl(t(q))} = ${fl(t(p))}r^{${g}}$, so $r^{${g}} = \\dfrac{${fl(t(q))}}{${fl(t(p))}} = ${fl(rg)}$.`,
+      `$${fl(t(q))} = ${coef(t(p))}r^{${g}}$, so $r^{${g}} = \\dfrac{${fl(t(q))}}{${fl(t(p))}} = ${fl(rg)}$.`,
       g === 2
         ? `$r = \\pm\\sqrt{${fl(rg)}} = \\pm ${fl(fabs(r))}$. The ratio is ${sign}, so $r = ${fl(r)}$.`
         : `$r = \\sqrt[3]{${fl(rg)}} = ${fl(r)}$`,
     ];
     if (k === 1) {
       const rp = fpow(r, p - 1);
-      steps.push(`$t_{${p}} = t_1 r^{${p - 1}}$, so $t_1 = \\dfrac{${fl(t(p))}}{${rBase(r)}^{${p - 1}}} = \\dfrac{${fl(t(p))}}{${fl(rp)}} = ${fl(t1)}$`);
+      steps.push(
+        p === 2
+          ? `$t_2 = t_1 r$, so $t_1 = \\dfrac{${fl(t(p))}}{${fl(r)}} = ${fl(t1)}$`
+          : `$t_{${p}} = t_1 r^{${p - 1}}$, so $t_1 = \\dfrac{${fl(t(p))}}{${rBase(r)}^{${p - 1}}} = \\dfrac{${fl(t(p))}}{${fl(rp)}} = ${fl(t1)}$`,
+      );
     } else {
       const pw = fpow(r, k - q);
-      steps.push(`$t_{${k}} = t_{${q}} r^{${k - q}} = ${fl(t(q))}${rBase(r)}^{${k - q}} = ${fl(t(q))}${fbr(pw)} = ${fl(t(k))}$`);
+      steps.push(
+        k - q === 1
+          ? `$t_{${k}} = t_{${q}} r = ${fl(t(q))}${pbase(r)} = ${fl(t(k))}$`
+          : `$t_{${k}} = t_{${q}} r^{${k - q}} = ${fl(t(q))}${pbase(r)}^{${k - q}} = ${fl(t(q))}${fbr(pw)} = ${fl(t(k))}$`,
+      );
     }
     steps.push(`So $r = ${fl(r)}$ and $t_{${k}} = ${fl(t(k))}$.`);
     return {
@@ -1071,7 +1092,7 @@ function geoUnknownContext(rng: Rng): GenOutput {
       solution: [
         `The heights after each bounce form a geometric sequence with $r = ${fl(r)}$. After bounce $n$ the height is $${h0}\\left(${fl(r)}\\right)^n$.`,
         `$${hk} = ${h0}\\left(${fl(r)}\\right)^n$`,
-        `$\\left(${fl(r)}\\right)^n = \\dfrac{${hk}}{${h0}} = \\dfrac{${p ** k}}{${q ** k}}$`,
+        `$\\left(${fl(r)}\\right)^n = \\dfrac{${hk}}{${h0}}${c === 1 ? '' : ` = \\dfrac{${p ** k}}{${q ** k}}`}$`,
         `$\\dfrac{${p ** k}}{${q ** k}} = \\left(${fl(r)}\\right)^{${k}}$, so $n = ${k}$.`,
         `The ball rises to $${hk}$ cm after bounce ${k}.`,
       ],
@@ -1124,7 +1145,7 @@ function geoUnknownContext(rng: Rng): GenOutput {
     solution: [
       `$${nx(v1)} = ${nx(v0)}r^{${g}}$`,
       `$r^{${g}} = \\dfrac{${nx(v1)}}{${nx(v0)}} = ${nx(rg)}$`,
-      `$r = ${g === 2 ? `\\sqrt{${nx(rg)}}` : `\\sqrt[3]{${nx(rg)}}`} = ${nx(rv)}$${g === 2 ? ' (the ratio is positive here)' : ''}`,
+      `$r = ${g === 2 ? `\\sqrt{${nx(rg)}}` : `\\sqrt[3]{${nx(rg)}}`} = ${nx(rv)}$${g === 2 ? ` (reject $-${nx(rv)}$: a ${growth ? 'population' : 'value'} cannot change sign)` : ''}`,
       growth
         ? `$r = ${nx(rv)} = 1 + ${nx(o.pct / 100)}$, so the population grows by ${o.pct}% each year.`
         : `$r = ${nx(rv)} = 1 - ${nx(o.pct / 100)}$, so the value drops by ${o.pct}% each year.`,
@@ -1155,7 +1176,7 @@ const geoUnknown = skill({
           hints: ['Find $t_1$ and $r$, then substitute into $t_n = t_1 r^{n - 1}$.', 'Divide both sides by $t_1$, then write the result as a power of $r$.'],
           solution: [
             `$t_1 = ${t1}$ and $r = ${r}$. Substitute $t_n = ${nx(v)}$ into $t_n = t_1 r^{n - 1}$:`,
-            `$${nx(v)} = ${t1}(${r})^{n - 1}$`,
+            `$${nx(v)} = ${t1 === 1 ? `${r}^{n - 1}` : `${t1}(${r})^{n - 1}`}$`,
             `$${r}^{n - 1} = ${nx(r ** (m - 1))}$`,
             `$${nx(r ** (m - 1))} = ${r}^{${m - 1}}$, so $n - 1 = ${m - 1}$ and $n = ${m}$.`,
             `$${nx(v)}$ is the ${ord(m)} term.`,
@@ -1188,7 +1209,7 @@ const geoUnknown = skill({
       parts: [part({ kind: 'numbers', values }, { label: '$r =$', placeholder: 'e.g. 2, -2' })],
       hints: [`From $t_{${p}}$ to $t_{${q}}$ is ${g} steps, so $t_{${q}} = t_{${p}} r^{${g}}$.`, g === 2 ? 'Solve for $r^2$. A positive number has two square roots.' : 'Solve for $r^3$. A number has only one real cube root.'],
       solution: [
-        `$t_{${q}} = t_{${p}} r^{${g}}$, so $${fl(tq)} = ${fl(tp)}r^{${g}}$`,
+        `$t_{${q}} = t_{${p}} r^{${g}}$, so $${fl(tq)} = ${coef(tp)}r^{${g}}$`,
         `$r^{${g}} = \\dfrac{${fl(tq)}}{${fl(tp)}} = ${fl(rg)}$`,
         g === 2
           ? `$r = \\pm\\sqrt{${fl(rg)}} = \\pm ${fl(r)}$. Both values work: the middle term is just positive for one and negative for the other.`
@@ -1370,7 +1391,7 @@ function geoApplyD1(rng: Rng): GenOutput {
       hints: [`The daily pay, in cents, is a geometric sequence with $t_1 = ${c}$ and $r = 2$.`, 'Use $S_n = \\dfrac{t_1(r^n - 1)}{r - 1}$, then divide by 100 to change cents to dollars.'],
       solution: [
         `$t_1 = ${c}$, $r = 2$, $n = ${n}$ (in cents)`,
-        `$S_{${n}} = \\dfrac{${c}(2^{${n}} - 1)}{2 - 1} = ${c === 1 ? '' : `${c}(`}${nx(2 ** n - 1)}${c === 1 ? '' : ')'} = ${nx(cents)}$ cents`,
+        `$S_{${n}} = \\dfrac{${c}(2^{${n}} - 1)}{2 - 1} = ${c === 1 ? '' : `${c}(${nx(2 ** n - 1)}) = `}${nx(cents)}$ cents`,
         `$${nx(cents)} \\div 100 = ${fixed(S, 2)}$`,
         `The total pay is ${cash(S)}.`,
       ],
@@ -1624,10 +1645,12 @@ function convergeSolution(t1: Frac, r: Frac, dec: boolean, given = false): strin
   const rt = fv(r, dec && toDecOk(r));
   return [
     given ? `The general term is $t_1 r^{n - 1}$, so $r = ${rt}$.` : `$r = \\dfrac{t_2}{t_1} = \\dfrac{${fv(t2, dec)}}{${fv(t1, dec)}} = ${rt}$`,
-    `$|r| = ${fv(fabs(r), dec && toDecOk(r))}$, so $|r| ${relTex(r)} 1$.`,
+    relTex(r) === '=' ? '$|r| = 1$, which is not less than 1.' : `$|r| = ${fv(fabs(r), dec && toDecOk(r))}$, so $|r| ${relTex(r)} 1$.`,
     absLess(r)
       ? 'An infinite geometric series with $|r| < 1$ converges: its terms shrink toward 0 and the partial sums approach a limit.'
-      : `An infinite geometric series with $|r| \\ge 1$ diverges: its terms do not shrink toward 0, so the partial sums ${relTex(r) === '=' ? 'never settle on one value' : 'grow without bound'}.`,
+      : relTex(r) === '='
+        ? `An infinite geometric series with $|r| \\ge 1$ diverges. Here the partial sums alternate between $${fl(t1)}$ and $0$ and never settle on one value.`
+        : 'An infinite geometric series with $|r| \\ge 1$ diverges: its terms do not shrink toward 0, so the partial sums do not approach a limit.',
   ];
 }
 
@@ -1669,7 +1692,7 @@ const infiniteConverge = skill({
       }
       if (mode === 'general') {
         return {
-          prompt: `An infinite geometric series has general term $t_n = ${fl(t1)}${rBase(r)}^{n - 1}$. Does the series converge or diverge?`,
+          prompt: `An infinite geometric series has general term $t_n = ${fl(t1)}${pbase(r)}^{n - 1}$. Does the series converge or diverge?`,
           parts: [{ answer: convergeChoices(rng, t1, r, false) }],
           hints: ['Compare the general term with $t_n = t_1 r^{n - 1}$ to read off $r$.', hints[1]],
           solution: [...convergeSolution(t1, r, false, true), `The series ${absLess(r) ? 'converges' : 'diverges'}.`],
