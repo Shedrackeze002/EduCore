@@ -26,7 +26,8 @@ const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
 const sum = (a: number[]) => a.reduce((s, x) => s + x, 0);
 const plus = (a: number[]) => a.map((x) => num(x)).join(' + ');
 const keys = (n: number) => [...Array(n).keys()];
-const listTex = (a: number[]) => `$${a.map((x) => num(x)).join(',\\ ')}$`;
+/** Each value is its own formula, so a long data list wraps on a phone. */
+const listTex = (a: number[]) => a.map((x) => `$${num(x)}$`).join(', ');
 /** "a, b and c" */
 const andList = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
