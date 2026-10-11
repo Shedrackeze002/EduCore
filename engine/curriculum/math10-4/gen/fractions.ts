@@ -116,7 +116,7 @@ function missingNumber(rng: Rng, d: Difficulty): Out {
   }
   const full = reverse ? `${fr(big[0], big[1])} = ${fr(a, b)}` : `${fr(a, b)} = ${fr(a * k, b * k)}`;
   return {
-    prompt: `Find the missing number: $${eq}$`,
+    prompt: `Find the missing number: $${eq}$${d === 1 ? ' The fraction strips show the same amount shaded in both strips.' : ''}`,
     figure: d === 1 ? strips([{ parts: b, shaded: a }, { parts: b * k, shaded: a * k }], `Both strips have the same amount shaded.`) : undefined,
     parts: [numPart(answer, { label: '? =', exact: false })],
     hints: [EQ_HINT, 'Look at the two numbers you know (both tops or both bottoms). What do you multiply or divide by to get from one to the other?'],
@@ -485,7 +485,7 @@ function fractionOfBasic(rng: Rng, d: Difficulty): Out {
   const x = one * n;
   const f = ff(n, dd);
   return {
-    prompt: c.text(Q, f, name, town),
+    prompt: `${c.text(Q, f, name, town)}${d === 1 ? ` The strip shows the whole split into $${dd}$ equal parts.` : ''}`,
     figure: d === 1 ? strips([{ parts: dd, shaded: n }], `The whole is split into ${dd} equal parts. ${n} ${n === 1 ? 'part is' : 'parts are'} shaded.`) : undefined,
     parts: [numPart(x, { exact: false, suffix: c.suffix, label: c.label })],
     hints: [`The bottom number, $${dd}$, tells you to split the whole into $${dd}$ equal parts.`, `Find one part: divide by $${dd}$. Then multiply by the top number, $${n}$.`],

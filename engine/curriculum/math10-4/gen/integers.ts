@@ -233,7 +233,7 @@ function compareD3(rng: Rng): Out {
     const colder = vals.filter((x) => x < t).sort((a, b) => a - b);
     const count = colder.length;
     return {
-      prompt: `The table shows the low temperature each day for one week in Fort McMurray. Which day was the coldest? On how many days was the low colder than ${deg(t)}?`,
+      prompt: `The table shows the low temperature each weekday for one week in Fort McMurray. Which day was the coldest? On how many days was the low colder than ${deg(t)}?`,
       figure: { type: 'table', headers: ['Day', 'Low (°C)'], rows: days.map((d, j) => [d, `${vals[j]}`]) },
       parts: [{ label: 'Coldest day', answer: mc(rng, days[i], [...new Set(others)].map((j) => days[j])) }, numPart(count, { label: 'Number of days', suffix: 'days' })],
       hints: ['The coldest day has the lowest temperature: the number farthest left on a number line.', `Colder than ${deg(t)} means farther left than $${t}$ on a number line.`],
@@ -264,7 +264,7 @@ function compareD3(rng: Rng): Out {
       solution: [
         `From lowest to highest: ${[...vals].sort((a, b) => a - b).map(dol).join(', ')}.`,
         `The lowest balance is ${dol(vals[i])}, in ${months[i]}.`,
-        `The negative balances are ${negs.map(dol).join(', ')}. The account was overdrawn in $${count}$ ${count === 1 ? 'month' : 'months'}.`,
+        count === 1 ? `The only negative balance is ${dol(negs[0])}. The account was overdrawn in $1$ month.` : `The negative balances are ${negs.map(dol).join(', ')}. The account was overdrawn in $${count}$ months.`,
       ],
     };
   }
@@ -287,7 +287,7 @@ function compareD3(rng: Rng): Out {
     solution: [
       `From lowest to highest: ${[...vals].sort((a, b) => a - b).map((v) => `$${v}$`).join(', ')}.`,
       `The lowest score is $${vals[i]}$, so ${players[i]} won.`,
-      `The negative scores are ${negs.map((v) => `$${v}$`).join(', ')}. That is $${count}$ ${count === 1 ? 'player' : 'players'} under par.`,
+      count === 1 ? `The only negative score is $${negs[0]}$. That is $1$ player under par.` : `The negative scores are ${negs.map((v) => `$${v}$`).join(', ')}. That is $${count}$ players under par.`,
     ],
   };
 }
@@ -618,7 +618,7 @@ function changeD3(rng: Rng, name: string): Out {
   const lo = Math.min(...vals);
   const town = rng.pick(TOWNS);
   return {
-    prompt: `The table shows the temperature at noon each day for one week in ${town}. What is the difference between the warmest and the coldest temperature?`,
+    prompt: `The table shows the temperature at noon each weekday for one week in ${town}. What is the difference between the warmest and the coldest temperature?`,
     figure: { type: 'table', headers: ['Day', 'Temperature (°C)'], rows: days.map((d, j) => [d, `${vals[j]}`]) },
     parts: [numPart(hi - lo, { suffix: 'degrees' })],
     hints: ['First find the warmest (highest) and the coldest (lowest) temperatures.', 'Difference = highest − lowest. Subtracting a negative is the same as adding.'],

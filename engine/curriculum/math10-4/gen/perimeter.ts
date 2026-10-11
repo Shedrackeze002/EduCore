@@ -701,9 +701,9 @@ const circumference = skill({
           ...(useR ? [`The diameter is twice the radius: $d = 2 \\times ${nm(r)} = ${nm(dia)}$`] : []),
           `$C = \\pi d = \\pi \\times ${nm(dia)} \\approx ${nm(C, 3)}$`,
           `Round to the nearest tenth: $${nf(C, 1)}$`,
-          `${cap(c.job)} about ${Q(roundTo(C, 1), c.u)} long goes around the ${c.thing}.`,
+          `${cap(c.job)} about $${nf(C, 1)}\\ ${tx(c.u)}$ long goes around the ${c.thing}.`,
         ],
-        answerDisplay: `about ${Q(roundTo(C, 1), c.u)}`,
+        answerDisplay: `about $${nf(C, 1)}\\ ${tx(c.u)}$`,
       };
     }
     const mode = rng.pick(['roll', 'buy', 'turns'] as const);
@@ -720,12 +720,12 @@ const circumference = skill({
         figure: circleFig(`d = ${lab(dia, 'cm')}`, 'd', thing),
         parts: [numPart(D, { decimals: 1, suffix: 'm' })],
         hints: ['Each time a wheel turns once, it rolls forward one circumference.', `Find $C = \\pi d$, multiply by $${n}$, then divide by $100$ to change centimetres to metres.`],
-        solution: [`One turn: $C = \\pi \\times ${dia} \\approx ${nm(C, 3)}\\ \\text{cm}$`, `$${n}$ turns: $${n} \\times ${nm(C, 3)} \\approx ${nm(C * n, 2)}\\ \\text{cm}$`, `Change to metres: $${nm(C * n, 2)} \\div 100 \\approx ${nm(D, 3)}$`, `The ${thing} rolls about ${Q(roundTo(D, 1), 'm')}.`],
-        answerDisplay: `about ${Q(roundTo(D, 1), 'm')}`,
+        solution: [`One turn: $C = \\pi \\times ${dia} \\approx ${nm(C, 3)}\\ \\text{cm}$`, `$${n}$ turns: $${n} \\times ${nm(C, 3)} \\approx ${nm(C * n, 2)}\\ \\text{cm}$`, `Change to metres: $${nm(C * n, 2)} \\div 100 \\approx ${nm(D, 3)}$`, `The ${thing} rolls about $${nf(D, 1)}\\ \\text{m}$.`],
+        answerDisplay: `about $${nf(D, 1)}\\ \\text{m}$`,
       };
     }
     if (mode === 'buy') {
-      const thing = rng.pick(['round flower garden', 'round fire pit', 'round fish pond', 'round tree bed in a park']);
+      const thing = rng.pick(['round flower garden', 'round fire pit', 'round fish pond', 'round tree bed']);
       const { dia, price } = retry(
         () => ({ dia: tenths(rng, 1.5, 6), price: rng.pick([2.49, 3.25, 3.99, 4.5, 5.75, 1.89, 6.29]) }),
         (o) => {
@@ -864,9 +864,9 @@ function circleA(rng: Rng, name: string): GenOutput {
       ...(useR ? [] : [`The radius is half the diameter: $r = ${nm(dia)} \\div 2 = ${nm(r)}$`]),
       `$A = \\pi r^2 = \\pi \\times ${nm(r)} \\times ${nm(r)} \\approx ${nm(A, 3)}$`,
       `Round to the nearest tenth: $${nf(A, 1)}$`,
-      `The area is about ${A2(roundTo(A, 1), c.u, 1)}.`,
+      `The area is about $${nf(A, 1)}\\ ${sq(c.u)}$.`,
     ],
-    answerDisplay: `about ${A2(roundTo(A, 1), c.u, 1)}`,
+    answerDisplay: `about $${nf(A, 1)}\\ ${sq(c.u)}$`,
   };
 }
 
@@ -875,7 +875,7 @@ function costA(rng: Rng, name: string): GenOutput {
   if (mode === 'paint') {
     const H = rng.pick([2.4, 2.5, 2.7, 3]);
     const door = rng.chance(0.5);
-    const cover = rng.pick([10, 12, 15]);
+    const cover = rng.pick([4, 5, 6, 8]);
     const { Lw, A } = retry(
       () => {
         const Lw = tenths(rng, 3, 7);
@@ -890,7 +890,7 @@ function costA(rng: Rng, name: string): GenOutput {
     const cans = Math.ceil(A / cover);
     const wallA = clean(Lw * H);
     return {
-      prompt: `${name} is painting one wall of a ${rng.pick(['hotel room', 'daycare room', 'restaurant', 'basement suite'])}. The wall is ${Q(Lw, 'm')} long and ${Q(H, 'm')} high.${door ? ` It has a door that is ${Q(0.9, 'm')} wide and ${Q(2, 'm')} high, which is not painted.` : ''} One can of paint covers ${A2(cover, 'm')}. What area will be painted, and how many cans must ${name} buy?`,
+      prompt: `${name} is painting one wall of a ${rng.pick(['hotel room', 'daycare room', 'restaurant', 'basement suite'])}. The wall is ${Q(Lw, 'm')} long and ${Q(H, 'm')} high.${door ? ` It has a door that is ${Q(0.9, 'm')} wide and ${Q(2, 'm')} high, which is not painted.` : ''} One small can of paint covers ${A2(cover, 'm')}. What area will be painted, and how many cans must ${name} buy?`,
       figure: door
         ? render((s) => {
             const [W, Hp] = [200 * s, Math.min(150 * s, 200 * s * (H / Lw))];
@@ -911,7 +911,7 @@ function costA(rng: Rng, name: string): GenOutput {
         ...(door ? [`Door: $0.9 \\times 2 = 1.8\\ ${sq('m')}$`, `Area to paint: $${nm(wallA)} - 1.8 = ${nm(A)}\\ ${sq('m')}$`] : []),
         `Cans: $${nm(A)} \\div ${cover} \\approx ${nm(A / cover, 2)}$`,
         `Round up so there is enough paint: $${cans}$ cans.`,
-        `${name} paints ${A2(A, 'm')} and must buy $${cans}$ cans.`,
+        `${name} paints ${A2(A, 'm')} and must buy $${cans}$ cans of paint.`,
       ],
       answerDisplay: `${A2(A, 'm')}; $${cans}$ cans`,
     };
@@ -1010,10 +1010,10 @@ const volume = skill({
           { thing: 'raised garden bed', l: [1.2, 3], w: [0.6, 1.2], h: [0.3, 0.5] },
           { thing: 'sandbox', l: [1.5, 2.5], w: [1.2, 2], h: [0.2, 0.4] },
           { thing: 'box of a dump truck', l: [3, 4.5], w: [2, 2.4], h: [0.8, 1.2] },
-          { thing: 'concrete step', l: [1, 1.8], w: [0.3, 0.5], h: [0.2, 0.3] },
+          { thing: 'box of a utility trailer', l: [1.8, 2.4], w: [1.2, 1.5], h: [0.3, 0.5] },
         ]);
         const l = tenths(rng, c.l[0], c.l[1]);
-        const w = rng.int(Math.round(c.w[0] * 10), Math.round(c.w[1] * 10)) / 10;
+        const w = retry(() => rng.int(Math.round(c.w[0] * 10), Math.round(c.w[1] * 10)) / 10, (x) => x < l);
         const h = rng.int(Math.round(c.h[0] * 10), Math.round(c.h[1] * 10)) / 10;
         const V = clean(l * w * h);
         return {
@@ -1065,9 +1065,11 @@ const volume = skill({
       };
     }
     if (mode === 'pack') {
-      const [a, b, c] = [rng.pick([10, 15, 20]), rng.pick([10, 12, 20, 25]), rng.pick([5, 8, 10, 15])];
-      const [na, nb, nc] = [rng.int(2, 5), rng.int(2, 4), rng.int(2, 4)];
+      let [a, b, c] = [rng.pick([10, 15, 20]), rng.pick([10, 12, 20, 25]), rng.pick([5, 8, 10, 15])];
+      let [na, nb, nc] = [rng.int(2, 5), rng.int(2, 4), rng.int(2, 4)];
+      if (b * nb > a * na) [a, na, b, nb] = [b, nb, a, na];
       const [L, W, H] = [a * na, b * nb, c * nc];
+      void c;
       const n = na * nb * nc;
       const item = rng.pick(['boxes of granola bars', 'boxes of light bulbs', 'boxes of tea', 'small boxes of screws']);
       return {

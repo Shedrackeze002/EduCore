@@ -57,6 +57,12 @@ describe('numeric', () => {
 });
 
 describe('expression forms', () => {
+  it('accepts a rule typed with its output letter', () => {
+    expect(expr('3n+4', 'any', 'y = 3n + 4').correct).toBe(true);
+    expect(expr('40h+50', 'any', 'C=50+40h').correct).toBe(true);
+    expect(expr('3n+4', 'any', 'y = 3n + 5').correct).toBe(false);
+    expect(expr('3n+4', 'any', 'n = 3n + 4').correct).toBe(false);
+  });
   it('expanded', () => {
     expect(expr('2x^2+7x+3', 'expanded', '2x^2 + 7x + 3').correct).toBe(true);
     expect(expr('2x^2+7x+3', 'expanded', '(2x+1)(x+3)').correct).toBe(false);

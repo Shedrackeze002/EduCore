@@ -898,11 +898,11 @@ function discountTax(rng: Rng, d: Difficulty): Out {
         solution: [`Discount: $${pc(p)}$ of ${tag(price)} is $${num(p / 100)} \\times ${price} = ${mv(disc)}$`, `Sale price: $${price} - ${mv(disc)} = ${mv(sale)}$`, `The discount is ${money(disc)}, so the sale price is ${money(sale)}.`],
       };
     }
-    const price = rng.pick([10, 12, 16, 20, 24, 30, 36, 40, 48, 50, 60, 64, 80, 100]);
+    const price = rng.chance(0.5) ? 10 * rng.int(Math.ceil((0.6 * g.lo) / 10), Math.floor(g.hi / 10)) : 2 * rng.int(Math.ceil((0.3 * g.lo)), Math.floor(g.hi / 2));
     const gst = (price * 5) / 100;
     const total = price + gst;
     return {
-      prompt: `${name} buys ${g.item} on sale for ${tag(price)}. ${GST} How much is the GST? What is the total?`,
+      prompt: `${name} buys ${g.item} for ${tag(price)}. ${GST} How much is the GST? What is the total?`,
       parts: [cashPart(gst, 'GST (\\$)'), cashPart(total, 'Total (\\$)')],
       hints: ['GST is $5\\%$ of the price. Change $5\\%$ to the decimal $0.05$ and multiply.', 'Then add the GST to the price.'],
       solution: [`GST: $0.05 \\times ${price} = ${mv(gst)}$`, `Total: $${price} + ${mv(gst)} = ${mv(total)}$`, `The GST is ${money(gst)} and the total is ${money(total)}.`],

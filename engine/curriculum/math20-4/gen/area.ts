@@ -205,7 +205,7 @@ export function drawPlan(pic: Pic): PlaneFigure {
   const minY = Math.min(...all.map((p) => p[1]));
   const W = Math.max(...all.map((p) => p[0])) - minX || 1;
   const H = Math.max(...all.map((p) => p[1])) - minY || 1;
-  let s = Math.min(240 / W, 170 / H);
+  let s = Math.min(250 / W, 200 / H);
   let polys: P[][] = [];
   let dashed: Array<[P, P]> = [];
   let marks: P[][] = [];
@@ -305,18 +305,14 @@ const above = (text: string, x: number, y: number): Lab => ({ text, at: [x, y], 
 const leftOf = (text: string, x: number, y: number): Lab => ({ text, at: [x, y], dir: [-1, 0] });
 const rightOf = (text: string, x: number, y: number): Lab => ({ text, at: [x, y], dir: [1, 0] });
 
-/** A label beside a dashed height line inside a shape: right of the line, else left of it, else the bare number. */
-function heightLab(text: string, short: string, x: number, y: number): Lab {
-  return {
-    text,
-    at: [x, y],
-    dir: [1, 0],
-    alt: [
-      { text, at: [x, y], dir: [-1, 0] },
-      { text: short, at: [x, y], dir: [-1, 0] },
-      { text: short, at: [x, y], dir: [1, 0] },
-    ],
-  };
+/**
+ * A label beside a dashed height line at x inside a shape. It tries each height in ys, right of the line and
+ * then left of it, first with the full text and then with the bare number.
+ */
+function heightLab(text: string, short: string, x: number, ys: number[]): Lab {
+  const opts: Lab[] = [];
+  for (const t of text === short ? [text] : [text, short]) for (const y of ys) for (const dx of [1, -1]) opts.push({ text: t, at: [x, y], dir: [dx, 0] });
+  return { ...opts[0], alt: opts.slice(1) };
 }
 
 /** A label just above a dashed line across a circle, with a shorter form if it does not fit. */
@@ -615,9 +611,9 @@ function perimCost(rng: Rng, name: string): GenOutput {
   }
   if (mode === 'circle') {
     const c = rng.pick([
-      { thing: 'round flower bed', item: 'Plastic edging', p: [2, 4], d: () => rng.int(2, 6) + rng.pick([0, 0.5]) },
-      { thing: 'round fish pond', item: 'Stone edging', p: [7, 12], d: () => rng.int(2, 5) + rng.pick([0, 0.5]) },
-      { thing: 'circular play area at a park', item: 'Rubber edging', p: [8, 14], d: () => rng.int(6, 12) },
+      { thing: 'round flower bed', short: 'flower bed', item: 'Plastic edging', p: [2, 4], d: () => rng.int(2, 6) + rng.pick([0, 0.5]) },
+      { thing: 'round fish pond', short: 'pond', item: 'Stone edging', p: [7, 12], d: () => rng.int(2, 5) + rng.pick([0, 0.5]) },
+      { thing: 'circular play area at a park', short: 'play area', item: 'Rubber edging', p: [8, 14], d: () => rng.int(6, 12) },
     ]);
     const [dia, pr] = retry(
       () => [c.d(), price(rng, c.p[0], c.p[1])],
@@ -627,7 +623,7 @@ function perimCost(rng: Rng, name: string): GenOutput {
     const Cr = roundTo(C, 1);
     const cost = Cr * pr;
     return {
-      prompt: `A ${c.thing} has a diameter of ${len(dia, 'm')}. ${c.item} costs ${cash(pr)} per metre.\n\n(a) What is the circumference of the ${c.thing}, to the nearest tenth of a metre?\n\n(b) Use your rounded answer to find the cost of edging, to the nearest cent.`,
+      prompt: `A ${c.thing} has a diameter of ${len(dia, 'm')}. ${c.item} costs ${cash(pr)} per metre.\n\n(a) What is the circumference of the ${c.short}, to the nearest tenth of a metre?\n\n(b) Use your rounded answer to find the cost of edging, to the nearest cent.`,
       figure: circleFig(dia / 2, 'm', 'd', c.thing),
       parts: [{ ...numPart(C, { decimals: 1, suffix: 'm' }), label: '(a)' }, moneyPart(cost, '(b) \\$')],
       hints: ['Use $C = \\pi d$ for the distance around the circle, and round to the nearest tenth.', 'Multiply your rounded answer by the price for one metre.'],
@@ -706,7 +702,7 @@ function bhFig(shape: 'tri' | 'para', b: number, h: number, u: string, caption: 
       shapes: [{ pts }],
       dashed: [[[px, h], [px, 0]]],
       right: [{ at: [px, 0], u: [1, 0], v: [0, 1] }],
-      labels: [below(`b = ${lab(b, u)}`, b / 2, 0), heightLab(`h = ${lab(h, u)}`, lab(h, u), px, h * 0.3)],
+      labels: [below(`b = ${lab(b, u)}`, b / 2, 0), heightLab(`h = ${lab(h, u)}`, lab(h, u), px, [h * 0.3, h * 0.4, h * 0.22])],
       caption,
     });
   }
@@ -721,7 +717,7 @@ function bhFig(shape: 'tri' | 'para', b: number, h: number, u: string, caption: 
     shapes: [{ pts }],
     dashed: [[[k, h], [k, 0]]],
     right: [{ at: [k, 0], u: [1, 0], v: [0, 1] }],
-    labels: [below(`b = ${lab(b, u)}`, b / 2, 0), heightLab(`h = ${lab(h, u)}`, lab(h, u), k, h * 0.5), ...(slant !== undefined ? sideLabels(pts, [null, null, null, lab(slant, u)]) : [])],
+    labels: [below(`b = ${lab(b, u)}`, b / 2, 0), heightLab(`h = ${lab(h, u)}`, lab(h, u), k, [h * 0.5, h * 0.3, h * 0.7]), ...(slant !== undefined ? sideLabels(pts, [null, null, null, lab(slant, u)]) : [])],
     caption,
   });
 }
@@ -785,14 +781,17 @@ const CIRC_AREA: Array<{ what: string; u: string; r: (rng: Rng) => number }> = [
 function circleArea(rng: Rng, d: 1 | 2): GenOutput {
   const c = rng.pick(CIRC_AREA);
   const useD = d === 2;
-  const r = retry(() => (d === 1 ? c.r(rng) : c.r(rng) + rng.pick(c.u === 'cm' ? [0, 5] : [0, 0.5, 0.25])), (x) => clearOf(Math.PI * x * x, 1));
+  // Square centimetres are small, so those areas are rounded to the nearest whole square centimetre.
+  const dp = c.u === 'cm' ? 0 : 1;
+  const round = dp === 0 ? `to the nearest square ${UNIT[c.u].one}` : tenthSq(c.u);
+  const r = retry(() => (d === 1 ? c.r(rng) : c.r(rng) + rng.pick(c.u === 'cm' ? [0, 5] : [0, 0.5, 0.25])), (x) => clearOf(Math.PI * x * x, dp));
   const A = Math.PI * r * r;
   return {
     prompt: useD
-      ? `A ${c.what} has a diameter of ${len(2 * r, c.u)}. What is its area? Round ${tenthSq(c.u)}.`
-      : `A ${c.what} has a radius of ${len(r, c.u)}. What is its area? Round ${tenthSq(c.u)}.`,
+      ? `A ${c.what} has a diameter of ${len(2 * r, c.u)}. What is its area? Round ${round}.`
+      : `A ${c.what} has a radius of ${len(r, c.u)}. What is its area? Round ${round}.`,
     figure: circleFig(r, c.u, useD ? 'd' : 'r', c.what),
-    parts: [numPart(A, { decimals: 1, suffix: `${c.u}²` })],
+    parts: [numPart(A, { decimals: dp, suffix: `${c.u}²` })],
     hints: useD
       ? ['The area formula uses the radius. The radius is half of the diameter.', 'Find $r = d \\div 2$. Then use $A = \\pi \\times r \\times r$.']
       : ['Use $A = \\pi r^2$, which means $\\pi \\times r \\times r$.', 'Multiply the radius by itself first, then multiply by $\\pi$.'],
@@ -800,7 +799,7 @@ function circleArea(rng: Rng, d: 1 | 2): GenOutput {
       ...(useD ? [`Radius: $r = ${nm(2 * r)} \\div 2 = ${nm(r)}\\ ${tx(c.u)}$`] : []),
       '$A = \\pi r^2 = \\pi \\times r \\times r$',
       `$A = \\pi \\times ${nm(r)} \\times ${nm(r)} = \\pi \\times ${nm(clean(r * r))} \\approx ${nm(A, 3)}$`,
-      `Rounded ${tenthSq(c.u)}, the area is about $${nf(A, 1)}\\ ${sq(c.u)}$.`,
+      `Rounded ${round}, the area is about $${nf(A, dp)}\\ ${sq(c.u)}$.`,
     ],
   };
 }
@@ -809,12 +808,12 @@ function areaHard(rng: Rng, name: string): GenOutput {
   const mode = rng.pick(['mixedUnits', 'many', 'sprinklers', 'pizza'] as const);
   if (mode === 'mixedUnits') {
     const c = rng.pick([
-      { thing: 'table top for a craft fair booth', L: [12, 24], D: [60, 95] },
-      { thing: 'counter in a hair salon', L: [15, 30], D: [45, 70] },
+      { thing: 'table top for a craft fair booth', L: [12, 24], D: [60, 90] },
+      { thing: 'counter in a hair salon', L: [15, 30], D: [50, 70] },
       { thing: 'workbench top', L: [12, 25], D: [50, 80] },
       { thing: 'reception desk top at a hotel', L: [15, 28], D: [60, 90] },
     ]);
-    const [L, D] = retry(() => [rng.int(c.L[0], c.L[1]) / 10, rng.int(c.D[0] / 5, c.D[1] / 5) * 5], ([l, dd]) => placesOf(clean(l * (dd / 100))) <= 3);
+    const [L, D] = retry(() => [rng.int(c.L[0], c.L[1]) / 10, rng.int(c.D[0] / 10, c.D[1] / 10) * 10], ([l, dd]) => placesOf(clean(l * (dd / 100))) <= 2);
     const Dm = D / 100;
     const A = clean(L * Dm);
     return {
@@ -1046,7 +1045,7 @@ function compositeMid(rng: Rng, name: string): GenOutput {
       figure: drawPlan({
         shapes: [{ pts }],
         dashed: [[[0, h], [w, h]], [[w / 2, h], [w / 2, h + t]]],
-        labels: [below(lab(w, 'ft'), w / 2, 0), leftOf(lab(h, 'ft'), 0, h / 2), heightLab(lab(t, 'ft'), lab(t, 'ft'), w / 2, h + t * 0.35)],
+        labels: [below(lab(w, 'ft'), w / 2, 0), leftOf(lab(h, 'ft'), 0, h / 2), heightLab(lab(t, 'ft'), lab(t, 'ft'), w / 2, [h + t * 0.35, h + t * 0.3, h + t * 0.45, h + t * 0.25])],
         caption: `end wall of a ${bld}`,
       }),
       parts: [numPart(rect + tri, { suffix: 'ft²' })],
@@ -1103,7 +1102,7 @@ function compositeHard(rng: Rng, name: string): GenOutput {
   if (mode === 'gableDoor') {
     const bld = rng.pick(['garage', 'workshop', 'barn', 'storage shed']);
     const w = 2 * rng.int(6, 10);
-    const h = rng.int(8, 10);
+    const h = rng.int(9, 12);
     const t = rng.int(3, 6);
     const dw = rng.pick([3, 4]);
     const dh = 7;
@@ -1124,7 +1123,7 @@ function compositeHard(rng: Rng, name: string): GenOutput {
       figure: drawPlan({
         shapes: [{ pts }, { pts: rectPts(dx, 0, dw, dh), color: 'accent' }],
         dashed: [[[0, h], [w, h]], [[w / 2, h], [w / 2, h + t]]],
-        labels: [below(lab(w, 'ft'), w * 0.6, 0), leftOf(lab(h, 'ft'), 0, h / 2), heightLab(lab(t, 'ft'), lab(t, 'ft'), w / 2, h + t * 0.35), above(lab(dw, 'ft'), dx + dw / 2, dh), rightOf(lab(dh, 'ft'), dx + dw, dh / 2)],
+        labels: [below(lab(w, 'ft'), w * 0.6, 0), leftOf(lab(h, 'ft'), 0, h / 2), heightLab(lab(t, 'ft'), lab(t, 'ft'), w / 2, [h + t * 0.35, h + t * 0.3, h + t * 0.45, h + t * 0.25]), { text: lab(dw, 'ft'), at: [dx + dw / 2, dh], dir: [0, 1], alt: [{ text: lab(dw, 'ft'), at: [dx + dw / 2, dh], dir: [0, -1] }] }, rightOf(lab(dh, 'ft'), dx + dw, dh / 2)],
         caption: `end wall of a ${bld} with a door`,
       }),
       parts: [numPart(A, { suffix: 'ft²' })],
@@ -1229,6 +1228,9 @@ const MATERIALS: Material[] = [
   { item: 'paint', pack: 'can', packs: 'cans', u: 'm', cover: [10, 12, 15], p: [25, 60], where: 'a wall in a restaurant', L: [6, 15], W: [2.4, 3] },
 ];
 
+/** "=" when x has at most two decimals, otherwise "≈". */
+const eqOr = (x: number) => (placesOf(clean(x)) <= 2 ? '=' : '\\approx');
+
 /** True when need ÷ cover is not close to a whole number, so rounding up really matters. */
 function notWhole(q: number): boolean {
   const f = q - Math.floor(q);
@@ -1254,7 +1256,7 @@ function materialCost(rng: Rng, d: 1 | 2 | 3, name: string): GenOutput {
         prompt: `One ${c.pack} of ${c.item} covers ${ar(cover, 'm')}. ${name} needs to ${c.job} with an area of ${ar(A, 'm')}. How many ${c.packs} should ${name} buy?`,
         parts: [numPart(N, { suffix: c.packs })],
         hints: [`Divide the area by the amount one ${c.pack} covers.`, `You cannot buy part of a ${c.pack}, so always round **up** to the next whole number.`],
-        solution: [`$${A} \\div ${cover} = ${nm(q, 2)}$`, `$${nm(q, 2)}$ ${c.packs} is not enough to buy, so round up to $${N}$.`, `${name} should buy ${N} ${c.packs}.`],
+        solution: [`$${A} \\div ${cover} ${eqOr(q)} ${nm(q, 2)}$`, `You cannot buy $${nm(q, 2)}$ ${c.packs}, and ${Math.floor(q)} ${Math.floor(q) === 1 ? c.pack : c.packs} would not be enough. Round up to $${N}$.`, `${name} should buy ${N} ${c.packs}.`],
       };
     }
     const [l, w] = retry(() => [rng.int(4, 12), rng.int(3, 9)], ([x, y]) => y < x && notWhole((x * y) / cover) && x * y > cover);
@@ -1266,7 +1268,7 @@ function materialCost(rng: Rng, d: 1 | 2 | 3, name: string): GenOutput {
       figure: rectFig(l, w, 'm', `area to cover`),
       parts: [numPart(N, { suffix: c.packs })],
       hints: ['Find the area first: length × width.', `Divide the area by the amount one ${c.pack} covers. Always round **up**.`],
-      solution: [`Area: $${l} \\times ${w} = ${A}\\ ${sq('m')}$`, `$${A} \\div ${cover} = ${nm(q, 2)}$`, `You cannot buy part of a ${c.pack}, so round up to $${N}$.`, `${name} should buy ${N} ${c.packs}.`],
+      solution: [`Area: $${l} \\times ${w} = ${A}\\ ${sq('m')}$`, `$${A} \\div ${cover} ${eqOr(q)} ${nm(q, 2)}$`, `You cannot buy part of a ${c.pack}, so round up to $${N}$.`, `${name} should buy ${N} ${c.packs}.`],
     };
   }
   const c = rng.pick(MATERIALS);
@@ -1298,7 +1300,7 @@ function materialCost(rng: Rng, d: 1 | 2 | 3, name: string): GenOutput {
     solution: [
       `Area: $${nm(made.L)} \\times ${nm(made.W)} = ${nm(made.A)}\\ ${sq(c.u)}$`,
       ...(waste ? [`Add 10% for waste: $${nm(made.A)} \\times 1.1 = ${nm(made.need)}\\ ${sq(c.u)}$`] : []),
-      `(a) $${nm(made.need)} \\div ${nm(made.cover)} \\approx ${nm(made.need / made.cover, 2)}$, so round up to $${made.N}$ ${c.packs}.`,
+      `(a) $${nm(made.need)} \\div ${nm(made.cover)} ${eqOr(made.need / made.cover)} ${nm(made.need / made.cover, 2)}$, so round up to $${made.N}$ ${c.packs}.`,
       `Cost before tax: $${made.N} \\times ${mon(made.pr)} = ${mon(made.sub)}$`,
       `GST: $${mon(made.sub)} \\times 0.05 \\approx ${mon(gst)}$`,
       `(b) Total: $${mon(made.sub)} + ${mon(gst)} = ${mon(made.total)}$, so the total cost is ${cash(made.total)}.`,

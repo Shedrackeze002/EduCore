@@ -226,8 +226,11 @@ export function equivalent(a: Node, b: Node, positive = true): boolean {
 
 function gradeExpression(spec: Extract<AnswerSpec, { kind: 'expression' }>, response: string): PartResult {
   if (!response) return invalid('Enter an answer.');
-  const student = parseExpr(response);
   const expected = parseExpr(spec.expected);
+  // "y = 3n + 4" when the box already says "y =": read the right-hand side, unless the
+  // left-hand letter is one of the expression's own variables.
+  const named = /^\s*([A-Za-z])\s*=\s*([^=]+)$/.exec(response);
+  const student = parseExpr(named && !variablesOf(expected).has(named[1]) ? named[2] : response);
   const extraVars = [...variablesOf(student)].filter((v) => !variablesOf(expected).has(v));
   if (extraVars.length) return no(`Your answer uses ${extraVars.join(', ')}, which is not in the question.`);
   if (!equivalent(student, expected, spec.positiveVars ?? true)) {

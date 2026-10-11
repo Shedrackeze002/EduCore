@@ -18,6 +18,8 @@ const CITIES = ['Edmonton', 'Calgary', 'Red Deer', 'Lethbridge', 'Grande Prairie
 
 const num = (x: number, dp = 4) => fmtGroupTex(x, dp);
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** "a" or "an" before a number read aloud (an 8-hour shift, an \$85 bill, an 11 km ride). */
+const art = (x: number) => (/^(8|11|18)(\D|$)|^8/.test(String(x)) ? 'an' : 'a');
 const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
 function group(s: string): string {
   const [i, f] = s.split('.');
@@ -366,16 +368,16 @@ function intContext3(rng: Rng): GenOutput {
   const nC = rng.int(2, 3);
   const chq = rng.pick([145, 180, 215, 260, 285, 320]);
   const [what, lo, hi] = rng.pick([
-    ['pays a {} phone bill', 45, 95],
-    ['pays a {} internet bill', 60, 110],
-    ['makes a {} car insurance payment', 120, 190],
+    ['pays {a} {} phone bill', 45, 95],
+    ['pays {a} {} internet bill', 60, 110],
+    ['makes {a} {} car insurance payment', 120, 190],
     ['pays {} for groceries', 70, 160],
-    ['buys a {} bus pass', 60, 110],
+    ['buys {a} {} bus pass', 60, 110],
   ] as const);
   const bill = rng.int(lo, hi);
   const end = start + nC * chq - bill;
   return {
-    prompt: `${name}’s bank account is overdrawn. The balance is $${start}$ dollars. ${name} deposits $${nC}$ pay cheques of ${tag(chq)} each. Then ${name} ${what.replace('{}', tag(bill))} with a debit card. What is the balance now? Write it as an integer in dollars.`,
+    prompt: `${name}’s bank account is overdrawn. The balance is $${start}$ dollars. ${name} deposits $${nC}$ pay cheques of ${tag(chq)} each. Then ${name} ${what.replace('{a}', art(bill)).replace('{}', tag(bill))} with a debit card. What is the balance now? Write it as an integer in dollars.`,
     parts: [numPart(end, { suffix: 'dollars' })],
     hints: ['Deposits add to the balance. Paying a bill subtracts from it.', `Calculate $${start} + ${nC} \\times ${chq} - ${bill}$. Multiply first.`],
     solution: [
@@ -1015,7 +1017,7 @@ function rateScale3(rng: Rng): GenOutput {
     const p1 = roundTo(r * h1, 2);
     const ans = roundTo(r * h2, 2);
     return {
-      prompt: `${name} earned ${money(p1)} for a $${h1}$-hour shift at a ${rng.pick(['garden centre', 'movie theatre', 'car wash', 'bakery'])}. At the same rate, how much will ${name} earn for $${h2}$ hours${centNote(ans)}?`,
+      prompt: `${name} earned ${money(p1)} for ${art(h1)} $${h1}$-hour shift at a ${rng.pick(['garden centre', 'movie theatre', 'car wash', 'bakery'])}. At the same rate, how much will ${name} earn for $${h2}$ hours${centNote(ans)}?`,
       parts: [moneyPart(ans)],
       hints: ['First find the pay for **one** hour.', `Pay per hour: $${mv(p1)} \\div ${h1}$. Then multiply by $${h2}$.`],
       solution: [`Unit rate: $${mv(p1)} \\div ${h1} = ${mv(r)}$, so ${money(r)} per hour.`, `For $${h2}$ hours: $${mv(r)} \\times ${h2} = ${mv(ans)}$`, `${name} will earn ${money(ans)}.`],
@@ -1076,7 +1078,7 @@ const ratioRate = skill({
 
 const pc = (x: number) => `${num(x)}\\%`;
 /** "a" or "an" before a percent read aloud (an 18% tip, an 8% raise). */
-const anPct = (x: number) => (/^(8|11|18)/.test(String(x)) ? 'an' : 'a');
+const anPct = art;
 const dec = (pct: number) => num(pct / 100);
 
 function percentOf1(rng: Rng): GenOutput {
@@ -1126,7 +1128,7 @@ function percentOf1(rng: Rng): GenOutput {
   const ans = (pct * C) / 100;
   const tank = rng.pick(['fuel tank on a tractor', 'water tank on a camper', 'fuel tank on a delivery truck', 'water tank for a pressure washer']);
   return {
-    prompt: `A $${C}\\ \\text{L}$ ${tank} is $${pct}\\%$ full. How many litres are in the tank?`,
+    prompt: `${cap(art(C))} $${C}\\ \\text{L}$ ${tank} is $${pct}\\%$ full. How many litres are in the tank?`,
     parts: [numPart(ans, { suffix: 'L' })],
     hints: [`$${pct}\\%$ as a decimal is $${dec(pct)}$.`, `Multiply: $${dec(pct)} \\times ${C}$.`],
     solution: [`Change the percent to a decimal: $${pct}\\% = ${dec(pct)}$`, `Multiply: $${dec(pct)} \\times ${C} = ${ans}$`, `There are $${ans}\\ \\text{L}$ in the tank.`],

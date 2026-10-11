@@ -62,6 +62,8 @@ function exactPart(v: number, suffix?: string, label?: string): Part {
 const p = (n: number) => (n < 0 ? `(${num(n)})` : num(n));
 const M2 = '\\text{m}^2';
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** "a" or "an" before a number read aloud (an \$80 fee, an 11.8 km ride). */
+const an = (x: number) => (/^(8|11|18)(\D|$)|^8/.test(String(x)) ? 'an' : 'a');
 const degC = (t: number) => `${num(t)}^\\circ\\text{C}`;
 const degF = (t: number) => `${num(t)}^\\circ\\text{F}`;
 
@@ -274,7 +276,7 @@ const FORMULA_3: Gen[] = [
     const C = roundTo(b + k * d, 2);
     const paid = [20, 50, 100].find((x) => x - C >= 3) ?? 100;
     return {
-      prompt: `A taxi in ${rng.pick(CITIES)} charges using the formula $C = ${num(b)} + ${num(k)}d$. $C$ is the fare in dollars and $d$ is the distance in kilometres. ${name} takes a $${num(d)}\\ \\text{km}$ ride and pays with a ${tag(paid)} bill.\n\n**(a)** What is the fare?\n\n**(b)** How much change should ${name} get?`,
+      prompt: `A taxi in ${rng.pick(CITIES)} charges using the formula $C = ${num(b)} + ${num(k)}d$. $C$ is the fare in dollars and $d$ is the distance in kilometres. ${name} takes ${an(d)} $${num(d)}\\ \\text{km}$ ride and pays with a ${tag(paid)} bill.\n\n**(a)** What is the fare?\n\n**(b)** How much change should ${name} get?`,
       parts: [moneyPart(C, '(a) \\$'), moneyPart(paid - C, '(b) \\$')],
       hints: ['First use the formula to find the fare. Multiply before you add.', `Then subtract the fare from ${tag(paid)} to find the change.`],
       solution: [
@@ -629,7 +631,12 @@ interface Rel {
   tex: string;
   xVar: string;
   yVar: string;
+  /** x in words (plural), e.g. "hours worked", and how a y-value is asked for: "the pay" ... "for". */
   xName: string;
+  yWhat: string;
+  xPrep: 'for' | 'after';
+  /** Finish "Use the graph to find ..." when y is given and x is wanted. */
+  back: (y: number) => string;
   xLabel: string;
   yLabel: string;
   money: boolean;
@@ -638,10 +645,12 @@ interface Rel {
   xUnit: string;
   b: number;
   k: number;
-  /** Graph settings: grid spacing on the y-axis and the last x-value. */
+  /** Graph settings: grid spacing on the y-axis and the last x-value (at most 11 grid lines up the side). */
   yStep: number;
   xMax: number;
 }
+
+const MONEY_Y = { money: true, yUnit: '' };
 
 /** Proportional relationships (no start value) with friendly numbers. */
 function relProp(rng: Rng): Rel {
@@ -650,56 +659,103 @@ function relProp(rng: Rng): Rel {
   if (kind === 1) {
     const k = rng.pick([15, 16, 18, 20, 25]);
     const job = rng.pick(['coffee shop', 'car wash', 'garden centre', 'grocery store']);
-    return { story: `${name} earns ${tag(k)} per hour at a ${job}.`, scene: `The graph shows ${name}’s pay at a ${job}.`, words: `Pay $=$ ${k} $\\times$ hours worked`, tex: `P = ${k}h`, xVar: 'h', yVar: 'P', xName: 'hours worked', xLabel: 'Hours worked', yLabel: 'Pay ($)', money: true, yUnit: '', xUnit: 'h', b: 0, k, yStep: k, xMax: 8 };
+    return {
+      ...MONEY_Y, story: `${name} earns ${tag(k)} per hour at a ${job}.`, scene: `The graph shows ${name}’s pay at a ${job}.`,
+      words: `Pay $=$ ${k} $\\times$ hours worked`, tex: `P = ${k}h`, xVar: 'h', yVar: 'P', xName: 'hours worked', yWhat: 'the pay', xPrep: 'for',
+      back: (y) => `how many hours ${name} must work to earn ${tag(y)}`, xLabel: 'Hours worked', yLabel: 'Pay ($)', xUnit: 'h', b: 0, k, yStep: k, xMax: 8,
+    };
   }
   if (kind === 2) {
     const k = rng.pick([6, 8, 10, 12, 14]);
-    const what = rng.pick(['movie tickets', 'swim passes', 'tickets to a school dance', 'bus tickets']);
-    return { story: `${what.charAt(0).toUpperCase() + what.slice(1)} cost ${tag(k)} each.`, scene: `The graph shows the cost of ${what}.`, words: `Cost $=$ ${k} $\\times$ number of tickets`, tex: `C = ${k}n`, xVar: 'n', yVar: 'C', xName: 'tickets', xLabel: 'Number of tickets', yLabel: 'Cost ($)', money: true, yUnit: '', xUnit: '', b: 0, k, yStep: k, xMax: 8 };
+    const what = rng.pick(['movie tickets', 'tickets to a hockey game', 'tickets to a school dance', 'bus tickets']);
+    return {
+      ...MONEY_Y, story: `${cap(what)} cost ${tag(k)} each.`, scene: `The graph shows the cost of ${what}.`,
+      words: `Cost $=$ ${k} $\\times$ number of tickets`, tex: `C = ${k}n`, xVar: 'n', yVar: 'C', xName: 'tickets', yWhat: 'the cost', xPrep: 'for',
+      back: (y) => `how many tickets you can buy for ${tag(y)}`, xLabel: 'Number of tickets', yLabel: 'Cost ($)', xUnit: '', b: 0, k, yStep: k, xMax: 8,
+    };
   }
   if (kind === 3) {
     const k = rng.pick([5, 10, 15, 20]);
-    return { story: `A hose fills an empty stock tank on a farm at ${k} litres per minute.`, scene: 'The graph shows the water in a stock tank as a hose fills it.', words: `Water $=$ ${k} $\\times$ minutes`, tex: `W = ${k}t`, xVar: 't', yVar: 'W', xName: 'minutes', xLabel: 'Time (min)', yLabel: 'Water (L)', money: false, yUnit: 'L', xUnit: 'min', b: 0, k, yStep: k, xMax: 10 };
+    return {
+      story: `A hose fills an empty stock tank on a farm at ${k} litres per minute.`, scene: 'The graph shows the water in a stock tank as a hose fills it.',
+      words: `Water $=$ ${k} $\\times$ minutes`, tex: `W = ${k}t`, xVar: 't', yVar: 'W', xName: 'minutes', yWhat: 'the amount of water in the tank', xPrep: 'after',
+      back: (y) => `how many minutes it takes to put $${y}\\ \\text{L}$ in the tank`, xLabel: 'Time (min)', yLabel: 'Water (L)', money: false, yUnit: 'L', xUnit: 'min', b: 0, k, yStep: k, xMax: 10,
+    };
   }
   const k = rng.pick([60, 70, 80, 90, 100]);
-  return { story: `A delivery truck travels at an average speed of ${k} km/h.`, scene: 'The graph shows how far a delivery truck travels.', words: `Distance $=$ ${k} $\\times$ hours`, tex: `d = ${k}t`, xVar: 't', yVar: 'd', xName: 'hours', xLabel: 'Time (h)', yLabel: 'Distance (km)', money: false, yUnit: 'km', xUnit: 'h', b: 0, k, yStep: k, xMax: 6 };
+  return {
+    story: `A delivery truck travels at an average speed of ${k} km/h.`, scene: 'The graph shows how far a delivery truck travels.',
+    words: `Distance $=$ ${k} $\\times$ hours`, tex: `d = ${k}t`, xVar: 't', yVar: 'd', xName: 'hours', yWhat: 'the distance travelled', xPrep: 'after',
+    back: (y) => `how many hours it takes to travel $${y}\\ \\text{km}$`, xLabel: 'Time (h)', yLabel: 'Distance (km)', money: false, yUnit: 'km', xUnit: 'h', b: 0, k, yStep: k, xMax: 6,
+  };
 }
 
-/** Relationships with a start value, chosen so every whole-number x lands on a grid line. */
+/** Relationships with a start value, chosen so every whole-number x lands on a labelled grid line. */
 function relStart(rng: Rng): Rel {
   const kind = rng.int(1, 7);
+  const costBack = (unit: string) => (y: number) => `how many ${unit} give a total cost of ${tag(y)}`;
   if (kind === 1) {
     const [b, k, s] = rng.pick([[4, 2, 2], [3, 3, 3], [6, 2, 2], [4, 4, 4]] as const);
     const city = rng.pick(CITIES);
-    return { story: `A taxi company in ${city} charges ${tag(b)} to start plus ${tag(k)} per kilometre.`, scene: `The graph shows the fare for a taxi ride in ${city}.`, words: `Fare $=$ ${b} $+$ ${k} $\\times$ kilometres`, tex: `C = ${b} + ${k}d`, xVar: 'd', yVar: 'C', xName: 'kilometres', xLabel: 'Distance (km)', yLabel: 'Fare ($)', money: true, yUnit: '', xUnit: 'km', b, k, yStep: s, xMax: 8 };
+    return {
+      ...MONEY_Y, story: `A taxi company in ${city} charges ${tag(b)} to start plus ${tag(k)} per kilometre.`, scene: `The graph shows the fare for a taxi ride in ${city}.`,
+      words: `Fare $=$ ${b} $+$ ${k} $\\times$ kilometres`, tex: `C = ${b} + ${k}d`, xVar: 'd', yVar: 'C', xName: 'kilometres', yWhat: 'the fare', xPrep: 'for',
+      back: (y) => `how many kilometres long a ride is if the fare is ${tag(y)}`, xLabel: 'Distance (km)', yLabel: 'Fare ($)', xUnit: 'km', b, k, yStep: s, xMax: 8,
+    };
   }
   if (kind === 2) {
-    const [b, k] = rng.pick([[50, 25], [100, 25], [75, 25]] as const);
-    return { story: `A community hall charges ${tag(b)} to book plus ${tag(k)} per hour.`, scene: 'The graph shows the cost to book a community hall.', words: `Cost $=$ ${b} $+$ ${k} $\\times$ hours`, tex: `C = ${b} + ${k}h`, xVar: 'h', yVar: 'C', xName: 'hours', xLabel: 'Time (h)', yLabel: 'Cost ($)', money: true, yUnit: '', xUnit: 'h', b, k, yStep: 25, xMax: 8 };
+    const [b, k, s] = rng.pick([[50, 25, 25], [75, 25, 25], [100, 50, 50]] as const);
+    return {
+      ...MONEY_Y, story: `A community hall charges ${tag(b)} to book plus ${tag(k)} per hour.`, scene: 'The graph shows the cost to book a community hall.',
+      words: `Cost $=$ ${b} $+$ ${k} $\\times$ hours`, tex: `C = ${b} + ${k}h`, xVar: 'h', yVar: 'C', xName: 'hours', yWhat: 'the cost', xPrep: 'for',
+      back: costBack('hours'), xLabel: 'Time (h)', yLabel: 'Cost ($)', xUnit: 'h', b, k, yStep: s, xMax: 8,
+    };
   }
   if (kind === 3) {
     const [b, k] = rng.pick([[80, 40], [120, 40], [40, 40]] as const);
-    return { story: `A plumber charges a ${tag(b)} call-out fee plus ${tag(k)} per hour.`, scene: 'The graph shows what a plumber charges for a job.', words: `Cost $=$ ${b} $+$ ${k} $\\times$ hours`, tex: `C = ${b} + ${k}h`, xVar: 'h', yVar: 'C', xName: 'hours', xLabel: 'Time (h)', yLabel: 'Cost ($)', money: true, yUnit: '', xUnit: 'h', b, k, yStep: 40, xMax: 6 };
+    return {
+      ...MONEY_Y, story: `A plumber charges ${an(b)} ${tag(b)} call-out fee plus ${tag(k)} per hour.`, scene: 'The graph shows what a plumber charges for a job.',
+      words: `Cost $=$ ${b} $+$ ${k} $\\times$ hours`, tex: `C = ${b} + ${k}h`, xVar: 'h', yVar: 'C', xName: 'hours', yWhat: 'the cost', xPrep: 'for',
+      back: costBack('hours of work'), xLabel: 'Time (h)', yLabel: 'Cost ($)', xUnit: 'h', b, k, yStep: 40, xMax: 6,
+    };
   }
   if (kind === 4) {
-    const [b, k] = rng.pick([[5, 5], [10, 5], [5, 10]] as const);
-    return { story: `At a bowling alley, shoe rental costs ${tag(b)} and each game costs ${tag(k)}.`, scene: 'The graph shows the cost of bowling, including shoe rental.', words: `Cost $=$ ${b} $+$ ${k} $\\times$ games`, tex: `C = ${b} + ${k}g`, xVar: 'g', yVar: 'C', xName: 'games', xLabel: 'Number of games', yLabel: 'Cost ($)', money: true, yUnit: '', xUnit: '', b, k, yStep: 5, xMax: 8 };
+    const [b, k, s] = rng.pick([[5, 5, 5], [10, 5, 5], [8, 4, 4]] as const);
+    return {
+      ...MONEY_Y, story: `At a bowling alley, shoe rental costs ${tag(b)} and each game costs ${tag(k)}.`, scene: 'The graph shows the cost of bowling, including shoe rental.',
+      words: `Cost $=$ ${b} $+$ ${k} $\\times$ games`, tex: `C = ${b} + ${k}g`, xVar: 'g', yVar: 'C', xName: 'games', yWhat: 'the cost', xPrep: 'for',
+      back: costBack('games'), xLabel: 'Number of games', yLabel: 'Cost ($)', xUnit: 'games', b, k, yStep: s, xMax: 8,
+    };
   }
   if (kind === 5) {
-    const [b, k] = rng.pick([[20, 10], [30, 10], [40, 10]] as const);
-    return { story: `A phone plan costs ${tag(b)} a month plus ${tag(k)} for each gigabyte (GB) of data.`, scene: 'The graph shows the monthly cost of a phone plan.', words: `Cost $=$ ${b} $+$ ${k} $\\times$ GB`, tex: `C = ${b} + ${k}g`, xVar: 'g', yVar: 'C', xName: 'gigabytes', xLabel: 'Data (GB)', yLabel: 'Cost ($)', money: true, yUnit: '', xUnit: 'GB', b, k, yStep: 10, xMax: 8 };
+    const [b, k] = rng.pick([[20, 10], [30, 10], [10, 10]] as const);
+    return {
+      ...MONEY_Y, story: `A phone plan costs ${tag(b)} a month plus ${tag(k)} for each gigabyte (GB) of data.`, scene: 'The graph shows the monthly cost of a phone plan.',
+      words: `Cost $=$ ${b} $+$ ${k} $\\times$ GB`, tex: `C = ${b} + ${k}g`, xVar: 'g', yVar: 'C', xName: 'gigabytes', yWhat: 'the monthly cost', xPrep: 'for',
+      back: costBack('gigabytes'), xLabel: 'Data (GB)', yLabel: 'Cost ($)', xUnit: 'GB', b, k, yStep: 10, xMax: 8,
+    };
   }
   if (kind === 6) {
-    const [b, k] = rng.pick([[30, 15], [45, 15], [15, 30]] as const);
-    return { story: `A tool rental shop charges ${tag(b)} for a pressure washer plus ${tag(k)} per hour.`, scene: 'The graph shows the cost to rent a pressure washer.', words: `Cost $=$ ${b} $+$ ${k} $\\times$ hours`, tex: `C = ${b} + ${k}h`, xVar: 'h', yVar: 'C', xName: 'hours', xLabel: 'Time (h)', yLabel: 'Cost ($)', money: true, yUnit: '', xUnit: 'h', b, k, yStep: 15, xMax: 8 };
+    const [b, k, s] = rng.pick([[30, 15, 15], [45, 15, 15], [40, 20, 20]] as const);
+    return {
+      ...MONEY_Y, story: `A tool rental shop charges ${tag(b)} for a pressure washer plus ${tag(k)} per hour.`, scene: 'The graph shows the cost to rent a pressure washer.',
+      words: `Cost $=$ ${b} $+$ ${k} $\\times$ hours`, tex: `C = ${b} + ${k}h`, xVar: 'h', yVar: 'C', xName: 'hours', yWhat: 'the cost', xPrep: 'for',
+      back: costBack('hours'), xLabel: 'Time (h)', yLabel: 'Cost ($)', xUnit: 'h', b, k, yStep: s, xMax: 8,
+    };
   }
-  const [b, k] = rng.pick([[20, 10], [40, 10], [10, 20]] as const);
-  return { story: `A water tank on a farm already holds ${b} L. A pump adds ${k} L every minute.`, scene: 'The graph shows the water in a farm tank as a pump fills it.', words: `Water $=$ ${b} $+$ ${k} $\\times$ minutes`, tex: `W = ${b} + ${k}t`, xVar: 't', yVar: 'W', xName: 'minutes', xLabel: 'Time (min)', yLabel: 'Water (L)', money: false, yUnit: 'L', xUnit: 'min', b, k, yStep: 10, xMax: 8 };
+  const [b, k, s] = rng.pick([[20, 10, 10], [30, 10, 10], [20, 20, 20]] as const);
+  return {
+    story: `A water tank on a farm already holds ${b} L. A pump adds ${k} L every minute.`, scene: 'The graph shows the water in a farm tank as a pump fills it.',
+    words: `Water $=$ ${b} $+$ ${k} $\\times$ minutes`, tex: `W = ${b} + ${k}t`, xVar: 't', yVar: 'W', xName: 'minutes', yWhat: 'the amount of water in the tank', xPrep: 'after',
+    back: (y) => `how many minutes it takes until the tank holds $${y}\\ \\text{L}$`, xLabel: 'Time (min)', yLabel: 'Water (L)', money: false, yUnit: 'L', xUnit: 'min', b, k, yStep: s, xMax: 8,
+  };
 }
 
 const yv = (r: Rel, x: number) => r.b + r.k * x;
 /** The y quantity in words: "pay", "fare", "water". */
-const yName = (r: Rel) => r.yLabel.replace(/ \(.*\)$/, '').toLowerCase();
+const yName = (r: Rel) => axisName(r.yLabel);
+/** An axis title without its unit, in lower case: "time", "number of games". */
+const axisName = (label: string) => label.replace(/ \(.*\)$/, '').toLowerCase();
 /** One unit of x in words: "hour", "game", "kilometre". */
 const xOne = (r: Rel) => (r.xName === 'tickets' ? 'ticket' : r.xName.replace(/s$/, ''));
 /** A y-value in prose: \$45 or 45 L. */
@@ -749,7 +805,7 @@ function tableTask(rng: Rng, r: Rel, missing: number): GenOutput {
     prompt: `${r.story} The rule is ${r.words}, or $${r.tex}$. Find the missing ${missing === 1 ? 'value' : 'values A and B'} in the table of values.`,
     figure: { type: 'table', headers: head, rows, horizontal: true },
     parts: hidden.map((x, j) => yPart(r, yv(r, x), missing === 1 ? undefined : labels[j])),
-    hints: [`Put the ${r.xName} value into the rule. The top row gives $${r.xVar}$.`, `For $${r.xVar} = ${hidden[0]}$: ${r.b === 0 ? `$${r.yVar} = ${num(r.k)} \\times ${hidden[0]}$` : `$${r.yVar} = ${num(r.b)} + ${num(r.k)} \\times ${hidden[0]}$`}. Multiply first.`],
+    hints: [`The top row gives $${r.xVar}$. Put the value above each missing entry into the rule.`, `For $${r.xVar} = ${hidden[0]}$: ${r.b === 0 ? `$${r.yVar} = ${num(r.k)} \\times ${hidden[0]}$` : `$${r.yVar} = ${num(r.b)} + ${num(r.k)} \\times ${hidden[0]}$`}. Multiply first.`],
     solution: [
       ...hidden.map((x, j) => `${missing === 1 ? '' : `${labels[j]}: `}Substitute $${r.xVar} = ${x}$: ${subLine(r, x)}`),
       missing === 1
@@ -762,7 +818,7 @@ function tableTask(rng: Rng, r: Rel, missing: number): GenOutput {
 /** Realistic rules with decimals for difficulty-2 tables (no graph). */
 function relDecimal(rng: Rng): Rel {
   const kind = rng.int(1, 4);
-  const base = { yStep: 1, xMax: 10, scene: '' };
+  const base = { yStep: 1, xMax: 10, scene: '', yWhat: '', xPrep: 'for' as const, back: () => '' };
   if (kind === 1) {
     const b = rng.pick([3.5, 3.75, 4.25]);
     const k = rng.pick([1.75, 2.25, 2.5]);
@@ -790,10 +846,10 @@ function readGraph(rng: Rng, r: Rel, backwards: boolean): GenOutput {
   const fig = graphOf(r, [[r.b, r.k]]);
   if (backwards) {
     return {
-      prompt: `${r.scene} Use the graph to find how many ${r.xName} give ${r.money ? `a total of ${tag(y)}` : yText(r, y)}.`,
+      prompt: `${r.scene} Use the graph to find ${r.back(y)}.`,
       figure: fig,
       parts: [numPart(x, { suffix: r.xUnit || r.xName })],
-      hints: [`Find ${r.money ? mv(y) : num(y)} on the vertical axis (${r.yLabel}).`, 'Go straight across to the line. Then go straight down to the horizontal axis and read the value.'],
+      hints: [`Find ${r.money ? mv(y) : num(y)} on the vertical axis, the ${yName(r)} axis.`, 'Go straight across to the line. Then go straight down to the horizontal axis and read the value.'],
       solution: [
         `Start at ${r.money ? mv(y) : num(y)} on the vertical axis and go across to the line.`,
         `Go down from the line to the horizontal axis. It reads $${x}$.`,
@@ -803,15 +859,15 @@ function readGraph(rng: Rng, r: Rel, backwards: boolean): GenOutput {
     };
   }
   return {
-    prompt: `${r.scene} Use the graph to find the ${yName(r)} for ${xText(r, x)}.`,
+    prompt: `${r.scene} Use the graph to find ${r.yWhat} ${r.xPrep} ${xText(r, x)}.`,
     figure: fig,
     parts: [yPart(r, y)],
-    hints: [`Find $${x}$ on the horizontal axis (${r.xLabel}).`, 'Go straight up to the line. Then go straight across to the vertical axis and read the value.'],
+    hints: [`Find $${x}$ on the horizontal axis, the ${axisName(r.xLabel)} axis.`, 'Go straight up to the line. Then go straight across to the vertical axis and read the value.'],
     solution: [
       `Start at $${x}$ on the horizontal axis and go straight up to the line.`,
       `Go across from the line to the vertical axis. It reads ${r.money ? mv(y) : num(y)}.`,
       `Check with the rule: ${subLine(r, x)}`,
-      `The ${yName(r)} is ${yText(r, y)}.`,
+      `${cap(r.yWhat)} ${r.xPrep} ${xText(r, x)} is ${yText(r, y)}.`,
     ],
   };
 }
