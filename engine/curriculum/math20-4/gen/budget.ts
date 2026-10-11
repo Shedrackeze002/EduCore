@@ -67,7 +67,6 @@ function exactDp(v: number): number {
   return -1;
 }
 
-const CENT = 'to the nearest cent';
 // Money is graded to within a cent, not the 0.2% allowance used for measurements.
 const moneyPart = (v: number, label = '\\$', suffix?: string): Part => numPart(v, { decimals: 2, tolerance: 0.011, label, suffix });
 /** A non-money answer that is exact: integers stay exact, decimals get a matching `decimals`. */

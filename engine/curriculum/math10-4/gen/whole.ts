@@ -334,7 +334,7 @@ function roundBasic(rng: Rng, d: Difficulty): Out {
   } else {
     place = rng.pick([10, 100, 1000]);
     const lo = place === 10 ? 1000 : place === 100 ? 1000 : 10000;
-    x = retry(() => rng.int(lo + 1, lo * 10 - 1), (v) => v % place !== 0 && v % (place / 10) !== 0);
+    x = retry(() => rng.int(lo + 1, lo * 10 - 1), (v) => v % place !== 0);
     if (rng.chance(0.35)) {
       // Rounding up carries into the next place (3962 -> 4000).
       const s = digitsOf(x);
@@ -375,7 +375,7 @@ function roundWhich(rng: Rng): Out {
   const place = rng.pick([100, 1000]);
   const R = place === 100 ? rng.int(12, 89) * 100 : rng.int(12, 49) * 1000;
   const half = place / 2;
-  const correct = R + rng.pick([-1, 1]) * rng.int(1, half - 1) * (rng.chance(0.5) ? 1 : 1);
+  const correct = R + rng.pick([-1, 1]) * rng.int(1, half - 1);
   const above = R + half + rng.int(1, half - 1);
   const below = R - half - rng.int(1, half - 1);
   const far = R + rng.pick([-1, 1]) * place * rng.int(2, 3) + rng.int(1, half - 1);
@@ -889,27 +889,26 @@ function estimateMulDiv(rng: Rng): Out {
   const name = rng.pick(NAMES);
   for (let tries = 0; tries < 200; tries++) {
     if (rng.chance(0.55)) {
-      const a = rng.int(11, 99);
-      const b = rng.chance(0.5) ? rng.int(11, 99) : rng.int(110, 950);
-      if (a % 10 === 0 || a % 10 === 5 || b % 10 === 0) continue;
+      const c = rng.pick([
+        { a: [12, 48], b: [21, 950], s: (a: number, b: number) => `A case holds ${n$(a)} cans. About how many cans are in ${n$(b)} cases?`, u: 'cans' },
+        { a: [12, 48], b: [11, 39], s: (a: number, b: number) => `A hotel has ${n$(a)} rooms on each floor and ${n$(b)} floors. About how many rooms does it have?`, u: 'rooms' },
+        { a: [16, 29], b: [31, 89], s: (a: number, b: number) => `${name} earns ${money(a)} an hour and works ${n$(b)} hours this month. About how much does ${name} earn?`, u: '$' },
+        { a: [21, 89], b: [11, 99], s: (a: number, b: number) => `A field has ${n$(b)} rows with ${n$(a)} hay bales in each row. About how many bales are there?`, u: 'bales' },
+      ]);
+      const a = rng.int(c.a[0], c.a[1]);
+      const b = rng.int(c.b[0], c.b[1]);
+      if (a % 10 === 0 || a % 10 === 5 || b % 10 === 0 || b % 10 === 5) continue;
       if (b > 100 && Math.floor(b / 10) % 10 === 5) continue;
       const ra = est(a);
       const rb = est(b);
       const exact = a * b;
       const E = ra * rb;
       if (!near(exact, E, 0.7, 1.4)) continue;
-      const c = rng.pick([
-        { s: `A case holds ${n$(a)} cans. About how many cans are in ${n$(b)} cases?`, u: 'cans' },
-        { s: `A hotel has ${n$(a)} rooms on each floor and ${n$(b)} floors. About how many rooms does it have?`, u: 'rooms' },
-        { s: `${name} earns ${money(a)} an hour and works ${n$(b)} hours. About how much does ${name} earn?`, u: '$' },
-        { s: `A field has ${n$(b)} rows with ${n$(a)} hay bales in each row. About how many bales are there?`, u: 'bales' },
-      ]);
-      if (c.u === 'rooms' && b > 99) continue;
       const fmtv = (v: number) => (c.u === '$' ? `about ${money(v)}` : `about $${N(v)}$`);
       const spec = estimateChoices(rng, exact, E, [E * 10, E / 10, ra + rb], fmtv);
       if (!spec) continue;
       return {
-        prompt: `${c.s} Choose the best estimate.`,
+        prompt: `${c.s(a, b)} Choose the best estimate.`,
         parts: [{ answer: spec }],
         hints: ['Round each number to its first digit, with zeros after it.', 'Multiply the first digits, then put back all the zeros.'],
         solution: [

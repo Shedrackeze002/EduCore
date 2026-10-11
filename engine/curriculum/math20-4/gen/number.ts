@@ -325,11 +325,11 @@ function intContext3(rng: Rng): GenOutput {
       hints: ['Mean: add all seven temperatures, then divide by $7$.', `For (b), subtract the coldest from the warmest: $${hi} - ${p(lo)}$.`],
       solution: [
         `(a) Add the temperatures: $${sumLine(vals)} = ${total}$`,
-        `Divide by $7$: $${total} \\div 7 = ${m}$. The mean low is $${degC(m)}$.`,
+        `Divide by $7$: $${total} \\div 7 = ${m}$`,
         `(b) The warmest night was $${degC(hi)}$ and the coldest was $${degC(lo)}$.`,
-        `$${hi} - ${p(lo)} = ${hi} + ${-lo} = ${hi - lo}$`,
+        lo < 0 ? `Subtract: $${hi} - ${p(lo)} = ${hi} + ${-lo} = ${hi - lo}$` : `Subtract: $${hi} - ${lo} = ${hi - lo}$`,
         `(a) The mean low is $${degC(m)}$. (b) The warmest night was $${hi - lo}$ degrees warmer than the coldest.`,
-      ].map((s) => s.replace(`${hi} + ${-lo}`, lo < 0 ? `${hi} + ${-lo}` : `${hi} - ${lo}`)),
+      ],
     };
   }
   if (kind === 'freezer') {
