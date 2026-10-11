@@ -5,6 +5,7 @@ import type {
   Assignment,
   ClassRoom,
   Insight,
+  PlatformSettings,
   Profile,
   Publication,
   Resource,
@@ -16,6 +17,16 @@ import { getItem, removeItem, setItem } from '@/lib/storage.ts';
 
 export interface DemoUser extends Profile {
   password: string;
+  lastSignInAt?: string | null;
+}
+
+export interface DemoAuditRow {
+  id: string;
+  createdAt: string;
+  action: string;
+  actorId: string | null;
+  targetUser: string | null;
+  details: Record<string, unknown>;
 }
 
 export interface DemoDB {
@@ -36,6 +47,9 @@ export interface DemoDB {
   reminderLog: string[];
   aiKey: string | null;
   aiModel: string | null;
+  /** Platform administration (added later; older saved demos may lack these). */
+  settings?: PlatformSettings;
+  audit?: DemoAuditRow[];
 }
 
 export const DB_KEY = 'educore-demo-db-v1';

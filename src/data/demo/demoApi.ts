@@ -15,6 +15,12 @@ import { generateInsight, DEFAULT_MODEL } from '@engine/ai/index.ts';
 import type { SkillState } from '@engine/mastery.ts';
 import type { AiConfigStatus, DataApi, SignUpInput } from '../api.ts';
 import type {
+  AdminAuditEntry,
+  AdminClassRow,
+  AdminOverview,
+  AdminUserFilter,
+  AdminUserRow,
+  PlatformSettings,
   Announcement,
   AppNotification,
   Assignment,
@@ -33,7 +39,7 @@ import type {
   Submission,
 } from '../types.ts';
 import { clearDb, DB_KEY, loadDb, saveDb, type DemoDB, type DemoUser } from './db.ts';
-import { buildSeed, DEMO_PASSWORD } from './seed.ts';
+import { buildSeed, DEMO_PASSWORD, DEMO_TEACHER_EMAIL } from './seed.ts';
 import { buildAnalystInput } from './analyst.ts';
 import { uid, joinCode as makeJoinCode, friendlyPassword } from '@/lib/ids.ts';
 
@@ -89,7 +95,14 @@ export class DemoApi implements DataApi {
   private async init() {
     const existing = loadDb();
     this.db = existing ?? (await buildSeed());
-    if (!existing) saveDb(this.db);
+    // Demos saved before platform administration existed: the sample teacher is the administrator.
+    if (!this.db.users.some((u) => u.platformAdmin)) {
+      const t = this.db.users.find((u) => u.email === DEMO_TEACHER_EMAIL);
+      if (t) Object.assign(t, { platformAdmin: true, teacherStatus: 'approved' });
+    }
+    this.db.settings ??= { teacherSignup: 'open' };
+    this.db.audit ??= [];
+    if (!existing || !existing.audit) saveDb(this.db);
     const me = this.meOrNull();
     for (const n of this.db.notifications) if (!me || n.userId === me.id) this.seenNotifications.add(n.id);
   }
@@ -97,7 +110,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = await buildSeed();
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [] };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -169,6 +182,9 @@ export class DemoApi implements DataApi {
     const id = identifier.trim().toLowerCase();
     const u = this.db.users.find((x) => x.email.toLowerCase() === id || x.username?.toLowerCase() === id);
     if (!u || u.password !== password) throw new Error('That email/username and password do not match.');
+    if (u.disabled) throw new Error('This account has been disabled. Please contact your school administrator.');
+    u.lastSignInAt = nowIso();
+    this.persist();
     sessionSet(u.id);
     this.seenNotifications = new Set(this.db.notifications.filter((n) => n.userId === u.id).map((n) => n.id));
     this.authListeners.forEach((l) => l(strip(u)));
@@ -195,8 +211,15 @@ export class DemoApi implements DataApi {
       avatarColor: COLORS[this.db.users.length % COLORS.length],
       createdAt: nowIso(),
       password: input.password,
+      teacherStatus: input.role === 'teacher' ? (this.db.settings?.teacherSignup === 'open' ? 'approved' : 'pending') : null,
+      lastSignInAt: nowIso(),
     };
     this.db.users.push(u);
+    if (u.teacherStatus === 'pending') {
+      for (const a of this.db.users.filter((x) => x.platformAdmin && !x.disabled)) {
+        this.notify(a.id, 'admin', 'New teacher waiting for approval', `${u.fullName} (${u.email}) signed up as a teacher.`, '/admin/users?status=pending');
+      }
+    }
     if (cls) this.db.enrollments.push({ classId: cls.id, studentId: u.id, joinedAt: nowIso() });
     this.persist();
     sessionSet(u.id);
@@ -242,6 +265,7 @@ export class DemoApi implements DataApi {
   async createClass(input: { name: string; section?: string | null; courseId: string }) {
     const me = this.me();
     if (me.role !== 'teacher') throw new Error('Only teachers can create classes.');
+    if ((me.teacherStatus ?? 'approved') !== 'approved' || me.disabled) throw new Error('Your teacher account is waiting for approval.');
     const c: ClassRoom = {
       id: uid('c'),
       teacherId: me.id,
@@ -777,6 +801,206 @@ export class DemoApi implements DataApi {
     this.persist();
   }
 
+  // ------------------------------------------------------------------ platform administration
+  // Mirrors the SQL functions in supabase/migrations/*_platform_admin.sql.
+
+  private requireAdmin(): DemoUser {
+    const me = this.me();
+    if (!me.platformAdmin || me.disabled) throw new Error('Platform administrators only.');
+    return me;
+  }
+
+  private audit(action: string, target: string | null, details: Record<string, unknown> = {}) {
+    (this.db.audit ??= []).push({ id: uid('log'), createdAt: nowIso(), action, actorId: this.me().id, targetUser: target, details });
+    this.persist();
+  }
+
+  private user(id: string): DemoUser {
+    const u = this.db.users.find((x) => x.id === id);
+    if (!u) throw new Error('User not found.');
+    return u;
+  }
+
+  async signupConfig(): Promise<PlatformSettings> {
+    await this.ready;
+    return { teacherSignup: this.db.settings?.teacherSignup ?? 'open' };
+  }
+
+  async adminOverview(): Promise<AdminOverview> {
+    await this.ready;
+    this.requireAdmin();
+    const now = Date.now();
+    const within = (iso: string | null | undefined, days: number) => !!iso && now - new Date(iso).getTime() <= days * 86_400_000;
+    const users = this.db.users;
+    const recent = this.db.submissions.filter((x) => within(x.submittedAt, 7));
+    const monday = new Date();
+    monday.setHours(0, 0, 0, 0);
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+    const signupsByWeek = Array.from({ length: 12 }, (_, i) => {
+      const start = new Date(monday);
+      start.setDate(start.getDate() - (11 - i) * 7);
+      const end = start.getTime() + 7 * 86_400_000;
+      const inWeek = users.filter((u) => {
+        const t = new Date(u.createdAt).getTime();
+        return t >= start.getTime() && t < end;
+      });
+      const pad = (n: number) => String(n).padStart(2, '0');
+      return { week: `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`, teachers: inWeek.filter((u) => u.role === 'teacher').length, students: inWeek.filter((u) => u.role === 'student').length };
+    });
+    return {
+      teachers: users.filter((u) => u.role === 'teacher' && (u.teacherStatus ?? 'approved') === 'approved' && !u.disabled).length,
+      pendingTeachers: users.filter((u) => u.role === 'teacher' && u.teacherStatus === 'pending').length,
+      students: users.filter((u) => u.role === 'student' && !u.disabled).length,
+      disabled: users.filter((u) => u.disabled).length,
+      classes: this.db.classes.filter((c) => !c.archived).length,
+      assignments: this.db.assignments.filter((a) => a.status === 'published').length,
+      submissions7d: recent.length,
+      activeStudents7d: new Set(recent.map((x) => x.studentId)).size,
+      aiInsights30d: this.db.insights.filter((i) => within(i.createdAt, 30)).length,
+      signupsByWeek,
+    };
+  }
+
+  async adminListUsers(f: AdminUserFilter): Promise<{ rows: AdminUserRow[]; total: number }> {
+    await this.ready;
+    this.requireAdmin();
+    const q = (f.search ?? '').trim().toLowerCase();
+    const list = this.db.users
+      .filter((u) => !q || u.fullName.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || (u.username ?? '').toLowerCase().includes(q))
+      .filter((u) => !f.role || u.role === f.role)
+      .filter((u) => {
+        switch (f.status) {
+          case 'pending':
+            return u.teacherStatus === 'pending';
+          case 'disabled':
+            return !!u.disabled;
+          case 'admin':
+            return !!u.platformAdmin;
+          case 'active':
+            return !u.disabled && (u.teacherStatus ?? 'approved') === 'approved';
+          default:
+            return true;
+        }
+      })
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    const offset = Math.max(0, f.offset ?? 0);
+    const limit = Math.min(200, Math.max(1, f.limit ?? 50));
+    const rows = list.slice(offset, offset + limit).map(
+      (u): AdminUserRow => ({
+        id: u.id,
+        role: u.role,
+        fullName: u.fullName,
+        email: u.email,
+        username: u.username ?? null,
+        avatarColor: u.avatarColor,
+        createdAt: u.createdAt,
+        lastSignInAt: u.lastSignInAt ?? null,
+        platformAdmin: !!u.platformAdmin,
+        teacherStatus: u.role === 'teacher' ? u.teacherStatus ?? 'approved' : null,
+        disabled: !!u.disabled,
+        classes: u.role === 'teacher' ? this.db.classes.filter((c) => c.teacherId === u.id).length : this.db.enrollments.filter((e) => e.studentId === u.id).length,
+      }),
+    );
+    return { rows, total: list.length };
+  }
+
+  async adminListClasses(f: { search?: string; limit?: number; offset?: number }): Promise<{ rows: AdminClassRow[]; total: number }> {
+    await this.ready;
+    this.requireAdmin();
+    const q = (f.search ?? '').trim().toLowerCase();
+    const name = (id: string) => this.db.users.find((u) => u.id === id)?.fullName ?? 'Unknown';
+    const list = this.db.classes
+      .filter((c) => !q || c.name.toLowerCase().includes(q) || name(c.teacherId).toLowerCase().includes(q))
+      .map((c): AdminClassRow => {
+        const times = [
+          ...this.db.submissions.filter((x) => x.classId === c.id && x.submittedAt).map((x) => x.submittedAt!),
+          ...this.db.assignments.filter((a) => a.classId === c.id).map((a) => a.createdAt),
+          c.createdAt,
+        ].sort();
+        return {
+          id: c.id,
+          name: c.name,
+          section: c.section,
+          courseId: c.courseId,
+          teacherId: c.teacherId,
+          teacherName: name(c.teacherId),
+          students: this.rosterIds(c.id).length,
+          assignments: this.db.assignments.filter((a) => a.classId === c.id && a.status === 'published').length,
+          lastActivity: times[times.length - 1] ?? null,
+          createdAt: c.createdAt,
+          archived: c.archived,
+        };
+      })
+      .sort((a, b) => (b.lastActivity ?? '').localeCompare(a.lastActivity ?? ''));
+    const offset = Math.max(0, f.offset ?? 0);
+    const limit = Math.min(200, Math.max(1, f.limit ?? 50));
+    return { rows: list.slice(offset, offset + limit), total: list.length };
+  }
+
+  async adminSetTeacherStatus(userId: string, status: 'approved' | 'rejected' | 'pending') {
+    this.requireAdmin();
+    const u = this.user(userId);
+    if (u.role !== 'teacher') throw new Error('Teacher not found.');
+    const from = u.teacherStatus ?? null;
+    u.teacherStatus = status;
+    if (status === 'approved' && from !== 'approved') this.notify(u.id, 'admin', 'Your teacher account is approved', 'You can now create classes and invite students.', '/t');
+    this.audit(`teacher_${status}`, u.id, { from });
+  }
+
+  async adminSetPlatformAdmin(userId: string, on: boolean) {
+    this.requireAdmin();
+    const u = this.user(userId);
+    if (on && u.role !== 'teacher') throw new Error('Only teacher accounts can be administrators.');
+    if (!on && !this.db.users.some((x) => x.platformAdmin && !x.disabled && x.id !== userId)) throw new Error('EduCore needs at least one administrator.');
+    u.platformAdmin = on;
+    if (on) u.teacherStatus = 'approved';
+    this.audit(on ? 'admin_granted' : 'admin_revoked', u.id);
+  }
+
+  async adminSetUserDisabled(userId: string, disabled: boolean) {
+    const me = this.requireAdmin();
+    if (userId === me.id) throw new Error('You cannot disable your own account.');
+    const u = this.user(userId);
+    if (disabled && u.platformAdmin && !this.db.users.some((x) => x.platformAdmin && !x.disabled && x.id !== userId)) throw new Error('EduCore needs at least one administrator.');
+    u.disabled = disabled;
+    this.audit(disabled ? 'user_disabled' : 'user_enabled', u.id);
+  }
+
+  async adminResetPassword(userId: string) {
+    this.requireAdmin();
+    const u = this.user(userId);
+    const password = friendlyPassword();
+    u.password = password;
+    this.audit('password_reset', u.id);
+    return password;
+  }
+
+  async adminGetSettings(): Promise<PlatformSettings> {
+    await this.ready;
+    this.requireAdmin();
+    return { teacherSignup: this.db.settings?.teacherSignup ?? 'open' };
+  }
+
+  async adminSetSettings(patch: Partial<PlatformSettings>): Promise<PlatformSettings> {
+    this.requireAdmin();
+    const before = { teacherSignup: this.db.settings?.teacherSignup ?? 'open' } as PlatformSettings;
+    if (patch.teacherSignup && patch.teacherSignup !== 'open' && patch.teacherSignup !== 'approval') throw new Error('Teacher sign-up must be "open" or "approval".');
+    this.db.settings = { ...before, ...patch };
+    if (patch.teacherSignup && patch.teacherSignup !== before.teacherSignup) this.audit('setting_changed', null, { key: 'teacher_signup', from: before.teacherSignup, to: patch.teacherSignup });
+    else this.persist();
+    return { ...this.db.settings };
+  }
+
+  async adminAuditLog(limit = 100): Promise<AdminAuditEntry[]> {
+    await this.ready;
+    this.requireAdmin();
+    const name = (id: string | null) => (id ? this.db.users.find((u) => u.id === id)?.fullName ?? null : null);
+    return [...(this.db.audit ?? [])]
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, limit)
+      .map((r) => ({ id: r.id, createdAt: r.createdAt, action: r.action, actorName: name(r.actorId), targetName: name(r.targetUser), details: r.details }));
+  }
+
   // ------------------------------------------------------------------ scheduler
 
   async runScheduledJobs() {
@@ -794,5 +1018,6 @@ export class DemoApi implements DataApi {
     this.persist();
   }
 }
+
 
 export { DEMO_PASSWORD };

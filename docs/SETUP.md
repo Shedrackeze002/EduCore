@@ -41,7 +41,7 @@ Install the [Supabase CLI](https://supabase.com/docs/guides/local-development/cl
 supabase login
 supabase link --project-ref <project-ref>      # the "abcd…" in https://abcd….supabase.co
 npm run db:push                                 # tables, security policies, reminder schedule
-npm run functions:deploy                        # grade-submission, ai-agent, create-students, send-emails
+npm run functions:deploy                        # grade-submission, ai-agent, create-students, send-emails, admin-users
 ```
 
 The migration turns on `pg_cron` and schedules `send_due_reminders()` every 5 minutes.
@@ -124,6 +124,38 @@ and parents who signed up with an email address:
 To apply migrations and deploy functions automatically when `supabase/` or `engine/` changes on
 `main`, add these repository **secrets**: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID` and
 `SUPABASE_DB_PASSWORD`. The **Deploy Supabase backend** workflow skips itself until they exist.
+
+### 2.8 Become the platform administrator
+
+Platform administrators see every teacher, student and class, approve new teachers, reset
+passwords, disable accounts and change platform settings. Every change they make is written to an
+audit log. New teacher sign-ups wait for an administrator's approval by default, so make yourself
+the first administrator straight after connecting the site:
+
+1. Sign up on the live site as a **teacher**. You will see "waiting for approval" for now.
+2. In Supabase, open **SQL Editor** and run, with your own email:
+
+   ```sql
+   update public.profiles set platform_admin = true, teacher_status = 'approved'
+   where id = (select id from auth.users where email = 'you@yourschool.ca');
+   ```
+
+3. Reload the site. **Admin console** now appears in the sidebar and the account menu.
+
+From then on, use the console to approve teachers (you are notified of each request) and to make
+other teachers administrators. EduCore always keeps at least one active administrator.
+
+| Page | What it does |
+|---|---|
+| **Overview** | Teachers, students, classes, submissions and AI use, new accounts per week, pending approvals. |
+| **Users** | Search and filter every account; approve or decline teachers, grant or remove admin access, reset a password (shown once), disable or re-enable an account. |
+| **Classes** | Every class with its teacher, students, assignments and last activity. |
+| **Settings** | Teacher sign-up: **Approve new teachers** (recommended) or **Open sign-up**. |
+| **Audit log** | Who changed what, and when. |
+
+Disabling an account bans it in Supabase Auth and marks the profile disabled: the person cannot
+sign in or call the Edge Functions, but their classes, work and grades are kept. To erase someone's
+data entirely, delete the user in **Authentication → Users**.
 
 ---
 

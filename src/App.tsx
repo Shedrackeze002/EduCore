@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './features/auth/AuthProvider.tsx';
-import { RequireRole } from './features/auth/RequireRole.tsx';
+import { RequireAdmin, RequireRole } from './features/auth/RequireRole.tsx';
 import { AppShell } from './components/layout/AppShell.tsx';
 import { PageSpinner, ToastProvider } from './components/ui/index.ts';
 import { ErrorBoundary } from './components/layout/ErrorBoundary.tsx';
@@ -39,6 +39,12 @@ const AssignmentIntro = lazy(() => import('./features/student/AssignmentIntro.ts
 const Player = lazy(() => import('./features/player/AssignmentPlayer.tsx'));
 const Practice = lazy(() => import('./features/player/PracticeSession.tsx'));
 const Progress = lazy(() => import('./features/student/ProgressPage.tsx'));
+
+const AdminOverview = lazy(() => import('./features/admin/AdminOverviewPage.tsx'));
+const AdminUsers = lazy(() => import('./features/admin/AdminUsersPage.tsx'));
+const AdminClasses = lazy(() => import('./features/admin/AdminClassesPage.tsx'));
+const AdminSettings = lazy(() => import('./features/admin/AdminSettingsPage.tsx'));
+const AdminAudit = lazy(() => import('./features/admin/AdminAuditPage.tsx'));
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 20_000, retry: 1, refetchOnWindowFocus: true } },
@@ -95,6 +101,14 @@ export default function App() {
                   </Route>
                   <Route path="/s/work/:assignmentId/take" element={<RequireRole role="student"><Player /></RequireRole>} />
                   <Route path="/s/practice" element={<RequireRole role="student"><Practice /></RequireRole>} />
+
+                  <Route path="/admin" element={<RequireAdmin><AppShell role="admin" /></RequireAdmin>}>
+                    <Route index element={<AdminOverview />} />
+                    <Route path="users" element={<AdminUsers />} />
+                    <Route path="classes" element={<AdminClasses />} />
+                    <Route path="settings" element={<AdminSettings />} />
+                    <Route path="audit" element={<AdminAudit />} />
+                  </Route>
 
                   <Route element={<RequireRole><AppShellForRole /></RequireRole>}>
                     <Route path="/notifications" element={<NotificationsPage />} />

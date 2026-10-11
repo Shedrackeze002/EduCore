@@ -25,3 +25,12 @@ test('teacher pages fit a phone screen', async ({ page }) => {
     await expectNoHorizontalScroll(page);
   }
 });
+
+test('admin pages fit a phone screen', async ({ page }) => {
+  await signInDemo(page, 'Teacher');
+  for (const path of ['/admin', '/admin/users', '/admin/classes', '/admin/settings', '/admin/audit']) {
+    await page.goto(path);
+    await page.waitForLoadState('networkidle');
+    await expectNoHorizontalScroll(page);
+  }
+});

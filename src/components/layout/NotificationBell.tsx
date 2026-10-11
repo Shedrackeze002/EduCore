@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { Bell, BellRing, CalendarClock, CheckCheck, ClipboardCheck, Megaphone, Sparkles, Upload } from 'lucide-react';
+import { Bell, BellRing, CalendarClock, CheckCheck, ClipboardCheck, Megaphone, ShieldCheck, Sparkles, Upload } from 'lucide-react';
 import { api } from '@/data/index.ts';
 import { qk, useMarkRead, useNotifications } from '@/data/hooks.ts';
 import type { AppNotification, NotificationKind } from '@/data/types.ts';
@@ -17,6 +17,7 @@ export const NOTIF_ICON: Record<NotificationKind, typeof Bell> = {
   insight: Sparkles,
   overdue: CalendarClock,
   submission: Upload,
+  admin: ShieldCheck,
 };
 
 /** Listens for live notifications: toast + optional browser notification. Also runs the demo scheduler. */

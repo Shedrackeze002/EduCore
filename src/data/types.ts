@@ -6,6 +6,8 @@ import type { InsightData, ProposedAction } from '@engine/ai/types.ts';
 
 export type Role = 'teacher' | 'student';
 
+export type TeacherStatus = 'approved' | 'pending' | 'rejected';
+
 export interface Profile {
   id: string;
   role: Role;
@@ -14,6 +16,11 @@ export interface Profile {
   username?: string | null;
   avatarColor: string;
   createdAt: string;
+  /** Can open the platform admin console. */
+  platformAdmin?: boolean;
+  /** Teachers who sign up themselves may need an administrator's approval. */
+  teacherStatus?: TeacherStatus | null;
+  disabled?: boolean;
 }
 
 export interface ClassSettings {
@@ -123,7 +130,7 @@ export interface SkillEvent {
   expected?: string;
 }
 
-export type NotificationKind = 'assignment' | 'reminder' | 'graded' | 'announcement' | 'insight' | 'overdue' | 'submission';
+export type NotificationKind = 'assignment' | 'reminder' | 'graded' | 'announcement' | 'insight' | 'overdue' | 'submission' | 'admin';
 
 export interface AppNotification {
   id: string;
@@ -155,6 +162,75 @@ export interface Announcement {
   title: string;
   body: string;
   createdAt: string;
+}
+
+// ---------------------------------------------------------------- platform administration
+
+export interface AdminOverview {
+  teachers: number;
+  pendingTeachers: number;
+  students: number;
+  disabled: number;
+  classes: number;
+  assignments: number;
+  submissions7d: number;
+  activeStudents7d: number;
+  aiInsights30d: number;
+  signupsByWeek: Array<{ week: string; teachers: number; students: number }>;
+}
+
+export type AdminUserStatus = 'active' | 'pending' | 'disabled' | 'admin';
+
+export interface AdminUserFilter {
+  search?: string;
+  role?: Role | '';
+  status?: AdminUserStatus | '';
+  limit?: number;
+  offset?: number;
+}
+
+export interface AdminUserRow {
+  id: string;
+  role: Role;
+  fullName: string;
+  email: string;
+  username: string | null;
+  avatarColor: string;
+  createdAt: string;
+  lastSignInAt: string | null;
+  platformAdmin: boolean;
+  teacherStatus: TeacherStatus | null;
+  disabled: boolean;
+  /** Classes taught (teachers) or joined (students). */
+  classes: number;
+}
+
+export interface AdminClassRow {
+  id: string;
+  name: string;
+  section: string | null;
+  courseId: string;
+  teacherId: string;
+  teacherName: string;
+  students: number;
+  assignments: number;
+  lastActivity: string | null;
+  createdAt: string;
+  archived: boolean;
+}
+
+export interface PlatformSettings {
+  /** "approval": new teachers wait for an administrator. "open": they can start immediately. */
+  teacherSignup: 'open' | 'approval';
+}
+
+export interface AdminAuditEntry {
+  id: string;
+  createdAt: string;
+  action: string;
+  actorName: string | null;
+  targetName: string | null;
+  details: Record<string, unknown>;
 }
 
 export interface NewStudentCredential {

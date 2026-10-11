@@ -18,7 +18,8 @@ work authoritatively. This keeps the server and the student's screen in exact ag
                  │  Postgres: tables + row-level security + triggers + RPCs           │
                  │  pg_cron: send_due_reminders() every 5 min, email delivery         │
                  │  Edge Functions (Deno, engine copied in by scripts/sync-engine):   │
-                 │    grade-submission · ai-agent · create-students · send-emails     │
+                 │    grade-submission · ai-agent · create-students · send-emails ·   │
+                 │    admin-users                                                     │
                  └──────────────┬───────────────────────────────┬────────────────────┘
                                 │                               │
                          MiniMax chat API                  Resend email API
@@ -80,6 +81,12 @@ implementations exist:
   role. History entries for "try a similar question" must match the slot's skill.
 - **Definer functions** with an empty `search_path` handle cross-row work: joining with a code,
   publishing (which notifies students), reminders and insight actions.
+- **Platform administrators** (`profiles.platform_admin`) work only through `admin_*` definer
+  functions that check `is_platform_admin()` first, and the `admin-users` Edge Function for Auth
+  actions (disable, enable, password reset). Every change is written to `admin_audit_log`, which
+  has no client access. Self sign-up teachers start as `pending` when approval is required, and
+  `can_teach()` keeps them from creating classes until approved. Disabled accounts are banned in
+  Auth and rejected by every Edge Function.
 - **Secrets** (MiniMax, Resend, cron secret) live in Edge Function secrets or Vault, never in the
   browser bundle.
 
