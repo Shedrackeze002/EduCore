@@ -144,7 +144,7 @@ const siPrefix = skill({
         prompt: `In the unit **${unit}**, what does the prefix **${pre.p}-** mean?`,
         parts: [{ answer: mc(rng, pre.meaning, pre.wrong) }],
         hints: ['Big prefixes (kilo, hecto, deca) make the unit larger. Small prefixes (deci, centi, milli) make it smaller.', 'Remember: kilo = 1000, hecto = 100, deca = 10, deci = $\\tfrac{1}{10}$, centi = $\\tfrac{1}{100}$, milli = $\\tfrac{1}{1000}$.'],
-        solution: [`The base unit is the ${baseUnit}. The prefix **${pre.p}-** means ${pre.rel} the base unit.`, `For example, ${pre.fact}.`, `So ${pre.p}- means ${pre.meaning}.`],
+        solution: [`Without the prefix, the unit is the ${baseUnit}. The prefix **${pre.p}-** means ${pre.rel} that unit.`, `For example, ${pre.fact}.`, `So ${pre.p}- means ${pre.meaning}.`],
       };
     }
     if (mode === 'howMany') {

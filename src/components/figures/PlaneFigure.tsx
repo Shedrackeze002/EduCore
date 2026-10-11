@@ -8,6 +8,11 @@ function fmtTick(v: number): string {
   return s.replace('-', '−');
 }
 
+/** A plane with no interior grid lines is a drawing canvas (angles, shapes), not a graph: no axes or frame. */
+function isDrawing(g: PlaneGeom, hideTickLabels?: boolean): boolean {
+  return !!hideTickLabels && g.xTicks.length <= 2 && g.yTicks.length <= 2;
+}
+
 /** Grid, axes and tick labels. Shared by figures and the interactive graph input. */
 export function PlaneGrid({ g, hideTickLabels, hideAxes }: { g: PlaneGeom; hideTickLabels?: boolean; hideAxes?: boolean }) {
   const { grid, toX, toY } = g;
@@ -17,8 +22,7 @@ export function PlaneGrid({ g, hideTickLabels, hideAxes }: { g: PlaneGeom; hideT
   const y1 = toY(grid.yMin);
   const ax = toY(g.axisX);
   const ay = toX(g.axisY);
-  // A plane with no interior grid lines is a drawing canvas (angles, shapes), not a graph: no axes or frame.
-  const canvas = !!hideTickLabels && g.xTicks.length <= 2 && g.yTicks.length <= 2;
+  const canvas = isDrawing(g, hideTickLabels);
   const axes = !hideAxes && !canvas;
   return (
     <g>
@@ -113,8 +117,9 @@ function SegmentMark({ s, g }: { s: PlaneSegment; g: PlaneGeom }) {
 export function PlaneFigure({ fig, children, width = 380 }: { fig: PlaneSpec; children?: ReactNode; width?: number }) {
   const g = planeGeom(fig.grid, width);
   const poly = fig.polylines ?? [];
+  const drawing = !!fig.hideAxes || isDrawing(g, fig.hideTickLabels);
   return (
-    <svg viewBox={`0 0 ${g.W} ${g.H}`} className="figure-svg h-auto w-full" role="img" aria-label={fig.caption ?? 'Coordinate graph'}>
+    <svg viewBox={`0 0 ${g.W} ${g.H}`} className="figure-svg h-auto w-full" role="img" aria-label={fig.caption ?? (drawing ? 'Diagram' : 'Coordinate graph')}>
       <PlaneGrid g={g} hideTickLabels={fig.hideTickLabels} hideAxes={fig.hideAxes} />
       {poly.map((pl, i) => (
         <polyline

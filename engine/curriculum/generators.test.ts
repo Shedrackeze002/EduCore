@@ -17,7 +17,7 @@ describe('money answers', () => {
           for (const p of item.parts) {
             const a = p.answer;
             if (a.kind !== 'numeric' || a.decimals !== 2 || /²|\^2/.test(`${p.suffix ?? ''}${p.label ?? ''}`)) continue;
-            if (a.tolerance === undefined || a.tolerance > 0.05) loose.push(`${s.id} seed=${seed} d=${d} value=${a.value} tolerance=${a.tolerance}`);
+            if (a.tolerance === undefined || a.tolerance > 0.031) loose.push(`${s.id} seed=${seed} d=${d} value=${a.value} tolerance=${a.tolerance}`);
           }
         }
       }

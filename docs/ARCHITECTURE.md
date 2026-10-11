@@ -133,8 +133,8 @@ course, for example Math 20-1:
    (`:::definition`, `:::example` with `@step`/`@answer`, `:::check <skill-id> <difficulty>`,
    `:::mistake`, `:::summary`).
 5. Run `npm test`: the generator and lesson tests automatically cover the new course, and the new
-   course appears in *New class*. Money answers must be graded to the cent (`tolerance: 0.011`);
-   a test fails any "nearest cent" question that is graded more loosely.
+   course appears in *New class*. Money answers must be graded to the cent (`tolerance: 0.011`, or
+   up to 0.03 where several amounts are each rounded before adding); a test fails any "nearest cent" question that is graded more loosely.
 6. Redeploy the Edge Functions (`npm run functions:deploy`, or the *Deploy Supabase backend*
    workflow). The server re-grades every submission with the shared engine, so until the
    functions carry the new course, its assignments cannot be started or graded.
