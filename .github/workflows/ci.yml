@@ -25,6 +25,7 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
+      - run: node scripts/check-backend.mjs
 
   e2e:
     name: End-to-end (demo mode)

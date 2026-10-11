@@ -71,8 +71,10 @@ Re-run **Deploy to GitHub Pages** (Actions tab → Run workflow). The site now u
 Visitors can still open the demo from the sign-in page.
 
 This repository already contains `.env.production` with the values for its own Supabase
-project; repository variables with the same names take precedence, so a fork can point at its
-own project without editing files.
+project, so it needs no variables. Repository variables with the same names take precedence
+when they are set (an unset variable is ignored), so a fork can point at its own project without
+editing files. The deploy stops with an error if the built site would not reach its backend,
+rather than quietly publishing a demo-only site.
 
 ### 2.5 Turn on the AI assistant (MiniMax)
 
