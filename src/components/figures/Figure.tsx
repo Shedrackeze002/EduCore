@@ -4,6 +4,7 @@ import { PlaneFigure } from './PlaneFigure.tsx';
 import { RightTriangle, TwoTriangles } from './TriangleFigures.tsx';
 import { SolidFigure } from './SolidFigure.tsx';
 import { AreaModel, ArrowDiagram, Caliper, NumberLine, Ruler, TableFig } from './MiscFigures.tsx';
+import { BarChart, CircleGraph } from './ChartFigures.tsx';
 
 function Inner({ fig }: { fig: FigureSpec }) {
   switch (fig.type) {
@@ -27,6 +28,10 @@ function Inner({ fig }: { fig: FigureSpec }) {
       return <ArrowDiagram fig={fig} />;
     case 'table':
       return <TableFig fig={fig} />;
+    case 'barChart':
+      return <BarChart fig={fig} />;
+    case 'circleGraph':
+      return <CircleGraph fig={fig} />;
   }
 }
 

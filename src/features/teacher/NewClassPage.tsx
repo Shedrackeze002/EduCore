@@ -9,7 +9,7 @@ import { cn } from '@/lib/cn.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { ApprovalNotice, needsApproval } from './ApprovalNotice.tsx';
 
-const UPCOMING = ['Math 20-1', 'Math 20-2', 'Math 20-3', 'Math 30-1', 'Math 30-2', 'Math 30-3', 'Math 31', 'Math 10-4 and 20-4 (K&E)', 'Grades 5 to 9'];
+const UPCOMING = ['Math 20-1', 'Math 20-2', 'Math 20-3', 'Math 30-1', 'Math 30-2', 'Math 30-3', 'Math 31', 'Grades 5 to 9'];
 
 export default function NewClassPage() {
   const [name, setName] = useState(COURSES[0].shortTitle);

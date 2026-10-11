@@ -186,8 +186,8 @@ export default function LandingPage() {
 
       <section id="curriculum" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <h2 className="text-3xl font-semibold sm:text-4xl">Every outcome in every course</h2>
-        <p className="mt-3 max-w-2xl text-lg text-ink-2">Each course follows the Alberta program of studies: every outcome is taught, practised and assessed. Grade 11 and 12 streams and Grades 5 to 9 are on the way.</p>
-        <Tabs className="mt-8" value={courseId} onChange={setCourseId} items={COURSES.map((c) => ({ value: c.id, label: c.shortTitle }))} />
+        <p className="mt-3 max-w-2xl text-lg text-ink-2">Each course follows the Alberta program of studies: every outcome is taught, practised and assessed. The other Grade 11 and 12 streams and Grades 5 to 9 are on the way.</p>
+        <Tabs className="mt-8 flex-wrap" value={courseId} onChange={setCourseId} items={COURSES.map((c) => ({ value: c.id, label: c.shortTitle }))} />
         <p className="mt-3 text-sm text-ink-3">{course.description}</p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {course.units.map((u) => (

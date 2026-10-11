@@ -90,3 +90,21 @@ test('a teacher creates a Math 10-3 class and teaches from its curriculum', asyn
   expect(await page.locator('.katex-error').count()).toBe(0);
   expect(errors).toEqual([]);
 });
+
+test('a teacher creates a Knowledge and Employability class and sees its graphs', async ({ page }) => {
+  const errors = trackErrors(page);
+  await signInDemo(page, 'Teacher');
+  await page.goto('/t/new-class');
+  await page.getByRole('button', { name: /Mathematics 20-4/ }).click();
+  await expect(page.getByLabel('Class name')).toHaveValue('Math 20-4');
+  await page.getByRole('button', { name: 'Create class' }).click();
+  await page.waitForURL(/\/t\/c\/c_/);
+  await expect(page.getByText('Knowledge and Employability Mathematics 20-4').first()).toBeVisible();
+  await page.goto(`${page.url().replace(/\/$/, '')}/curriculum`);
+  await expect(page.getByText('Budgeting and Credit').first()).toBeVisible();
+  await page.goto(`${page.url().replace(/\/curriculum$/, '')}/lessons/m204-9-1`);
+  await expect(page.getByText('Displaying Data').first()).toBeVisible();
+  await expect(page.locator('svg[role="img"][aria-label*="graph" i]').first()).toBeVisible();
+  expect(await page.locator('.katex-error').count()).toBe(0);
+  expect(errors).toEqual([]);
+});

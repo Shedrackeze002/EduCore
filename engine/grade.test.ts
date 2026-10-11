@@ -47,6 +47,13 @@ describe('numeric', () => {
     expect(gradePart({ kind: 'numeric', value: 3 * Math.PI }, '3 pi').correct).toBe(true);
     expect(gradePart({ kind: 'numeric', value: 2 * Math.sqrt(5) }, '2 sqrt(5)').correct).toBe(true);
   });
+  it('accepts minutes, rates and negative temperatures', () => {
+    for (const [value, typed] of [[45, '45 min'], [45, '45 minutes'], [90, '90 km/h'], [60, '60 mph'], [2.5, '$2.50/kg'], [18, '18/h'], [-12, '−12°C'], [-5, '-5 °C'], [7.8, '7.8 L/100 km']] as const) {
+      expect(gradePart({ kind: 'numeric', value }, typed).correct, typed).toBe(true);
+    }
+    expect(gradePart({ kind: 'numeric', value: 1 / Math.PI }, '1/pi').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: 45 }, '45 m').correct).toBe(true);
+  });
 });
 
 describe('expression forms', () => {
