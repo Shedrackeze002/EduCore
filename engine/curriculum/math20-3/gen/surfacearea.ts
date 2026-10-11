@@ -8,74 +8,75 @@ import type { Part, PlaneFigure, SkillDef, SolidFigure } from '../../../types.ts
 // Formatting helpers
 // ---------------------------------------------------------------------------
 
-const tx = (u: string) => `\\text{${u}}`;
-const sq = (u: string) => `\\text{${u}}^2`;
+export const tx = (u: string) => `\\text{${u}}`;
+export const sq = (u: string) => `\\text{${u}}^2`;
 /** Remove floating-point noise from an exact decimal result. */
-const exact = (x: number) => roundTo(x, 6);
+export const exact = (x: number) => roundTo(x, 6);
 
-function withGroups(s: string): string {
+export function withGroups(s: string): string {
   const neg = s.startsWith('-');
   const [i, f] = (neg ? s.slice(1) : s).split('.');
   const g = i.length > 4 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, '\\,') : i;
   return `${neg ? '-' : ''}${g}${f ? `.${f}` : ''}`;
 }
 /** LaTeX number (trailing zeros dropped) with SI thin-space grouping for 5+ digit numbers. */
-const n = (x: number, dec = 4) => withGroups(fmt(x, dec));
+export const n = (x: number, dec = 4) => withGroups(fmt(x, dec));
 /** LaTeX number with exactly `dec` decimals. */
-const nf = (x: number, dec: number) => withGroups(fmtFixed(x, dec));
-const len = (x: number, u: string) => `$${n(x)}\\ ${tx(u)}$`;
-const ar = (x: number, u: string) => `$${n(x)}\\ ${sq(u)}$`;
-const arR = (x: number, u: string, dec: number) => `$${nf(x, dec)}\\ ${sq(u)}$`;
+export const nf = (x: number, dec: number) => withGroups(fmtFixed(x, dec));
+export const len = (x: number, u: string) => `$${n(x)}\\ ${tx(u)}$`;
+export const ar = (x: number, u: string) => `$${n(x)}\\ ${sq(u)}$`;
+export const arR = (x: number, u: string, dec: number) => `$${nf(x, dec)}\\ ${sq(u)}$`;
 
 /** Money for Markdown text, kept outside maths: \$1,234.50 */
-function cash(x: number): string {
+export function cash(x: number): string {
   const [i, f] = fmtFixed(x, 2).split('.');
   return `\\$${i.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${f}`;
 }
 
-const UNIT: Record<string, { one: string; many: string }> = {
+export const UNIT: Record<string, { one: string; many: string }> = {
   mm: { one: 'millimetre', many: 'millimetres' },
   cm: { one: 'centimetre', many: 'centimetres' },
   m: { one: 'metre', many: 'metres' },
   in: { one: 'inch', many: 'inches' },
   ft: { one: 'foot', many: 'feet' },
+  yd: { one: 'yard', many: 'yards' },
 };
 
 /** "to the nearest tenth of a square metre", "to the nearest square foot". */
-function sqRound(dec: number, u: string): string {
+export function sqRound(dec: number, u: string): string {
   const w = `square ${UNIT[u].one}`;
   return dec === 0 ? `to the nearest ${w}` : `${roundingPhrase(dec)} of a ${w}`;
 }
 
 /** True when rounding to `dec` places would sit on (or near) a ...5 boundary, so a worked step shown to one more place never ends in 5. */
-function nearHalf(v: number, dec: number): boolean {
+export function nearHalf(v: number, dec: number): boolean {
   const x = Math.abs(v) * 10 ** dec;
   return Math.abs(x - Math.floor(x) - 0.5) < 0.06;
 }
 
 /** A quotient that is not close to a whole number, so rounding up clearly matters. */
-function notWhole(q: number): boolean {
+export function notWhole(q: number): boolean {
   const f = q - Math.floor(q);
   return f > 0.08 && f < 0.92;
 }
 
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+export const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** Answer rounded to `dec` places. */
-const rPart = (v: number, dec: number, suffix: string, label?: string): Part => numPart(v, { decimals: dec, suffix, label });
+export const rPart = (v: number, dec: number, suffix: string, label?: string): Part => numPart(v, { decimals: dec, suffix, label });
 /** Exact answer, shown as a decimal on review screens. */
-const xPart = (v: number, suffix: string, label?: string): Part => numPart(exact(v), { suffix, label, display: 'decimal' });
+export const xPart = (v: number, suffix: string, label?: string): Part => numPart(exact(v), { suffix, label, display: 'decimal' });
 /** Money to the nearest cent. */
-const moneyPart = (v: number, label: string): Part => numPart(v, { decimals: 2, tolerance: 0.011, label });
+export const moneyPart = (v: number, label: string): Part => numPart(v, { decimals: 2, tolerance: 0.011, label });
 
-const NAMES = [
+export const NAMES = [
   'Amara', 'Jordan', 'Priya', 'Mateo', 'Kiona', 'Liam', 'Mei', 'Tariq', 'Sofia', 'Aiden', 'Nadia', 'Ravi',
   'Chloé', 'Dakota', 'Hamid', 'Jasmine', 'Wei', 'Olivia', 'Kwame', 'Simran', 'Ethan', 'Fatima', 'Noah',
   'Leilani', 'Émilie', 'Tyler', 'Aaliyah', 'Connor', 'Anika', 'Gurpreet', 'Marcus', 'Ayesha', 'Owen',
   'Sienna', 'Jun', 'Malik', 'Harpreet', 'Isabelle', 'Cody', 'Talia', 'Yusuf', 'Brooklyn', 'Sanjay',
   'Rosalie', 'Nathan', 'Ingrid', 'Tanis', 'Mariam',
 ];
-const TOWNS = [
+export const TOWNS = [
   'Red Deer', 'Lethbridge', 'Grande Prairie', 'Medicine Hat', 'Camrose', 'Lloydminster', 'Brooks', 'Olds',
   'Airdrie', 'Okotoks', 'Wetaskiwin', 'Vegreville', 'Drumheller', 'Peace River', 'Taber', 'Stettler',
   'Cold Lake', 'High River', 'Athabasca', 'Westlock',
@@ -85,28 +86,28 @@ const TOWNS = [
 // Figure helpers
 // ---------------------------------------------------------------------------
 
-type P2 = [number, number];
-const r3 = (v: number) => Math.round(v * 1000) / 1000;
+export type P2 = [number, number];
+export const r3 = (v: number) => Math.round(v * 1000) / 1000;
 
-const prismFig = (l: number, w: number, h: number, u: string): SolidFigure => ({
+export const prismFig = (l: number, w: number, h: number, u: string): SolidFigure => ({
   type: 'solid',
   shape: 'rectPrism',
   labels: { l: `${fmt(l)} ${u}`, w: `${fmt(w)} ${u}`, h: `${fmt(h)} ${u}` },
 });
-const cylFig = (r: number, h: number, u: string, useD: boolean, hLabel?: string): SolidFigure => ({
+export const cylFig = (r: number, h: number, u: string, useD: boolean, hLabel?: string): SolidFigure => ({
   type: 'solid',
   shape: 'cylinder',
   labels: useD ? { d: `${fmt(2 * r)} ${u}`, h: hLabel ?? `${fmt(h)} ${u}` } : { r: `${fmt(r)} ${u}`, h: hLabel ?? `${fmt(h)} ${u}` },
 });
 
 /** A label with no visible dot (the text sits up and to the right of the point). */
-const tag = (x: number, y: number, label: string) => ({ x: r3(x), y: r3(y), label, color: 'muted' as const, open: true });
+export const tag = (x: number, y: number, label: string) => ({ x: r3(x), y: r3(y), label, color: 'muted' as const, open: true });
 
 /**
  * End view of an isosceles triangle (tent, greenhouse, gift box), drawn to scale on a blank canvas
  * with the base, the dashed height and one sloped side labelled.
  */
-function endViewFig(b: number, h: number, labels: { b: string; h: string; s: string }, caption: string): PlaneFigure {
+export function endViewFig(b: number, h: number, labels: { b: string; h: string; s: string }, caption: string): PlaneFigure {
   const k = Math.min(6 / b, 4.2 / h);
   const half = (k * b) / 2;
   const y0 = 1;
@@ -899,7 +900,7 @@ const saSphere = skill({
       const A = retry(c.A, (x) => !nearHalf(Math.sqrt(x / (4 * Math.PI)), 1));
       const r = Math.sqrt(A / (4 * Math.PI));
       return {
-        prompt: `${name} measured the outside of ${c.thing} and found a surface area of ${ar(A, c.u)}. What is the radius of the sphere, ${roundingPhrase(1)} of ${c.u === 'm' ? 'a metre' : 'a centimetre'}?`,
+        prompt: `${name} needs the radius of ${c.thing}. The spec sheet gives only its surface area: ${ar(A, c.u)}. What is the radius, ${roundingPhrase(1)} of ${c.u === 'm' ? 'a metre' : 'a centimetre'}?`,
         figure: { type: 'solid', shape: 'sphere', labels: { r: 'r' } },
         parts: [rPart(r, 1, c.u, '$r =$')],
         hints: ['Start with $SA = 4\\pi r^2$ and substitute the surface area.', 'Divide both sides by $4\\pi$, then take the square root.'],
@@ -939,7 +940,7 @@ const saSphere = skill({
 // ---------------------------------------------------------------------------
 
 /** A price such as 3.49 within [lo, hi]. */
-function price(rng: Rng, lo: number, hi: number): number {
+export function price(rng: Rng, lo: number, hi: number): number {
   return rng.int(lo, hi) + rng.pick([0.19, 0.29, 0.49, 0.79, 0.99]);
 }
 
@@ -1096,7 +1097,7 @@ const saApply = skill({
           ],
         };
       }
-      const [L, s] = retry(() => [rng.int(12, 30), rng.int(8, 16)], ([x, y]) => notWhole((3 * 2 * x * y) / 100));
+      const [L, s] = retry(() => [rng.int(12, 30), rng.int(8, 16)], ([x, y]) => x > y + 2 && notWhole((3 * 2 * x * y) / 100));
       const A = 2 * L * s;
       const bundles = Math.ceil((3 * A) / 100);
       return {

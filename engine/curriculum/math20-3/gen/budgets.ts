@@ -5,28 +5,28 @@ import type { Rng } from '../../../rng.ts';
 import type { Figure, Part, SkillDef } from '../../../types.ts';
 
 // ---------------------------------------------------------------------------
-// Shared helpers
+// Shared helpers (the money helpers are also used by interest.ts)
 // ---------------------------------------------------------------------------
 
-type Out = { prompt: string; parts: Part[]; hints: string[]; solution: string[]; figure?: Figure };
+export type Out = { prompt: string; parts: Part[]; hints: string[]; solution: string[]; figure?: Figure };
 type Lvl = 1 | 2;
 
-const NAMES = [
+export const NAMES = [
   'Amara', 'Liam', 'Priya', 'Mateo', 'Aiyana', 'Noah', 'Mei', 'Jaxon', 'Fatima', 'Ethan', 'Nia', 'Arjun',
   'Chloé', 'Kai', 'Zainab', 'Owen', 'Sofia', 'Tariq', 'Leila', 'Dylan', 'Harpreet', 'Kiona', 'Rajesh', 'Hana',
   'Jamal', 'Émilie', 'Wyatt', 'Ayesha', 'Lucas', 'Talia', 'Simran', 'Cole', 'Ngozi', 'Marcus', 'Rosa', 'Ji-woo',
   'Kwame', 'Tanvir', 'Maya', 'Bao', 'Dakota', 'Thanh',
 ];
-const CITIES = ['Red Deer', 'Lethbridge', 'Grande Prairie', 'Medicine Hat', 'Edmonton', 'Calgary', 'Fort McMurray', 'Airdrie', 'Camrose', 'Brooks', 'Lloydminster', 'Okotoks'];
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const BANKS = ['Prairie Credit Union', 'Northern Bank', 'Chinook Savings', 'Aspen Valley Credit Union', 'Foothills Trust', 'Parkland Bank'];
+export const CITIES = ['Red Deer', 'Lethbridge', 'Grande Prairie', 'Medicine Hat', 'Edmonton', 'Calgary', 'Fort McMurray', 'Airdrie', 'Camrose', 'Brooks', 'Lloydminster', 'Okotoks'];
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+export const BANKS = ['Prairie Credit Union', 'Northern Bank', 'Chinook Savings', 'Aspen Valley Credit Union', 'Foothills Trust', 'Parkland Bank'];
 
-const poss = (n: string) => `${n}’s`;
-const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
-const isCents = (x: number) => Math.abs(x * 100 - Math.round(x * 100)) < 1e-6;
+export const poss = (n: string) => `${n}’s`;
+export const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
+export const isCents = (x: number) => Math.abs(x * 100 - Math.round(x * 100)) < 1e-6;
 
 /** Thousands separators on a plain number string. */
-function group(s: string, sep = ','): string {
+export function group(s: string, sep = ','): string {
   const neg = s.startsWith('-');
   const body = neg ? s.slice(1) : s;
   const [i, f] = body.split('.');
@@ -34,43 +34,43 @@ function group(s: string, sep = ','): string {
   return `${neg ? '-' : ''}${g}${f !== undefined ? `.${f}` : ''}`;
 }
 /** Money in prose, always with cents: \$1,234.50. Never inside $...$. */
-const money = (x: number) => `\\$${group(fmtFixed(x, 2))}`;
+export const money = (x: number) => `\\$${group(fmtFixed(x, 2))}`;
 /** A price in prose: whole dollars print without cents (\$950). */
-const tag = (x: number) => (isWhole(x) ? `\\$${group(String(Math.round(x)))}` : money(x));
+export const tag = (x: number) => (isWhole(x) ? `\\$${group(String(Math.round(x)))}` : money(x));
 /** Money inside maths, no dollar sign: 1{,}250 or 12.50. */
-const mv = (x: number) => (isWhole(x) ? group(String(Math.round(x)), '{,}') : group(fmtFixed(x, 2), '{,}'));
+export const mv = (x: number) => (isWhole(x) ? group(String(Math.round(x)), '{,}') : group(fmtFixed(x, 2), '{,}'));
 /** Money inside maths with exactly two decimals. */
-const m2 = (x: number) => group(fmtFixed(x, 2), '{,}');
+export const m2 = (x: number) => group(fmtFixed(x, 2), '{,}');
 /** Plain-text money for table cells. */
-const cell = (x: number) => `$${group(fmtFixed(x, 2))}`;
-const num = (x: number, dp = 4) => group(fmt(x, dp), '{,}');
-const pc = (r: number) => `${fmt(r)}%`;
-const pcm = (r: number) => `${fmt(r)}\\%`;
-const dec = (r: number) => fmt(r / 100, 6);
+export const cell = (x: number) => `$${group(fmtFixed(x, 2))}`;
+export const num = (x: number, dp = 4) => group(fmt(x, dp), '{,}');
+export const pc = (r: number) => `${fmt(r)}%`;
+export const pcm = (r: number) => `${fmt(r)}\\%`;
+export const dec = (r: number) => fmt(r / 100, 6);
 /** "= 12.35" when exact to the cent, otherwise "= 12.3456 \approx 12.35" or "= 12.345\ldots \approx 12.35". */
-function toCents(x: number): string {
+export function toCents(x: number): string {
   if (isCents(x)) return `= ${m2(x)}`;
   if (Math.abs(roundTo(x, 4) - x) < 1e-9) return `= ${num(x, 4)} \\approx ${m2(x)}`;
   const t = Math.floor(Math.abs(x) * 1000) / 1000;
   return `= ${x < 0 ? '-' : ''}${group(t.toFixed(3), '{,}')}\\ldots \\approx ${m2(x)}`;
 }
 /** "about " before a money amount that had to be rounded. */
-const abt = (x: number) => (isCents(x) ? '' : 'about ');
+export const abt = (x: number) => (isCents(x) ? '' : 'about ');
 /** True when v sits close to a rounding boundary (x.xx5) at `dp` places. */
-function onEdge(v: number, dp = 2): boolean {
+export function onEdge(v: number, dp = 2): boolean {
   const s = Math.abs(v) * 10 ** dp;
   return Math.abs(s - Math.floor(s) - 0.5) < 0.06;
 }
 /** Exact sum of money amounts (in cents, then back to dollars). */
-const total = (xs: number[]) => xs.reduce((s, x) => s + Math.round(x * 100), 0) / 100;
-const sub = (a: number, b: number) => (Math.round(a * 100) - Math.round(b * 100)) / 100;
-const list = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
+export const total = (xs: number[]) => xs.reduce((s, x) => s + Math.round(x * 100), 0) / 100;
+export const sub = (a: number, b: number) => (Math.round(a * 100) - Math.round(b * 100)) / 100;
+export const list = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 
 /** A money answer graded to the cent. */
-const moneyPart = (v: number, label = '\\$'): Part => numPart(v, { decimals: 2, tolerance: 0.011, label });
-const yesNo = (label: string, yes: boolean): Part => part(fixedChoice(['Yes', 'No'], yes ? 0 : 1), { label });
-const CENT = 'Answer to the nearest cent.';
+export const moneyPart = (v: number, label = '\\$'): Part => numPart(v, { decimals: 2, tolerance: 0.011, label });
+export const yesNo = (label: string, yes: boolean): Part => part(fixedChoice(['Yes', 'No'], yes ? 0 : 1), { label });
+export const CENT = 'Answer to the nearest cent.';
 
 // ---------------------------------------------------------------------------
 // Jobs, expenses and budget tables
@@ -661,28 +661,29 @@ function adjust3(rng: Rng): Out {
         const ce = (eat * pe) / 100;
         const cf = (fun * pf) / 100;
         const S = total([L, ce, cf]);
-        const span = monthSpan(rng, 4, 9);
         const G = rng.int(Math.ceil(g.lo / 50), Math.floor(g.hi / 50)) * 50;
-        return { eat, fun, pe, pf, L, ce, cf, S, span, G, months: Math.ceil(Math.round(G * 100) / Math.round(S * 100)) };
+        const months = Math.ceil(Math.round(G * 100) / Math.round(S * 100));
+        // The deadline is a few months after (Yes) or before (No) the months needed.
+        const m = wantYes ? months + rng.int(1, 3) : months - rng.int(1, 4);
+        return { eat, fun, pe, pf, L, ce, cf, S, G, months, m };
       },
-      (x) =>
-        x.months >= 3 &&
-        (wantYes ? x.months < x.span.m && x.months >= x.span.m - 3 : x.months > x.span.m && x.months <= x.span.m + 4) &&
-        x.G / x.S - Math.floor(x.G / x.S) >= 0.02,
+      (x) => x.months >= 3 && x.m >= 2 && x.m <= 11 && x.G / x.S - Math.floor(x.G / x.S) >= 0.02,
       600,
     );
-    const ok = o.months <= o.span.m;
+    const a = rng.int(0, 11 - o.m);
+    const span = { m: o.m, from: MONTHS[a], to: MONTHS[a + o.m] };
+    const ok = o.months <= span.m;
     return {
-      prompt: `${name} wants ${tag(o.G)} for ${g.what}. ${poss(name)} budget has a surplus of ${tag(o.L)} a month. To save faster, ${name} cuts eating out (now ${tag(o.eat)} a month) by ${pc(o.pe)} and entertainment (now ${tag(o.fun)} a month) by ${pc(o.pf)}, and saves the surplus plus everything cut. How much will ${name} save each month (to the nearest cent)? How many months will it take to reach the goal (count a part month as a whole month)? It is the start of ${o.span.from}. Will ${name} have the money by the start of ${o.span.to}?`,
-      parts: [moneyPart(o.S, 'Saved each month: \\$'), numPart(o.months, { suffix: 'months', label: 'Months needed:' }), yesNo(`Ready by ${o.span.to}?`, ok)],
+      prompt: `${name} wants ${tag(o.G)} for ${g.what}. ${poss(name)} budget has a surplus of ${tag(o.L)} a month. To save faster, ${name} cuts eating out (now ${tag(o.eat)} a month) by ${pc(o.pe)} and entertainment (now ${tag(o.fun)} a month) by ${pc(o.pf)}, and saves the surplus plus everything cut. How much will ${name} save each month (to the nearest cent)? How many months will it take to reach the goal (count a part month as a whole month)? It is the start of ${span.from}. Will ${name} have the money by the start of ${span.to}?`,
+      parts: [moneyPart(o.S, 'Saved each month: \\$'), numPart(o.months, { suffix: 'months', label: 'Months needed:' }), yesNo(`Ready by ${span.to}?`, ok)],
       hints: [`Find ${pc(o.pe)} of the eating-out amount and ${pc(o.pf)} of the entertainment amount. Add both cuts to the surplus.`, 'Months needed = goal ÷ monthly savings, rounded up. Then count the months until the date.'],
       solution: [
         `Eating-out cut: $${dec(o.pe)} \\times ${mv(o.eat)} = ${mv(o.ce)}$`,
         `Entertainment cut: $${dec(o.pf)} \\times ${mv(o.fun)} = ${mv(o.cf)}$`,
         `Saved each month: $${mv(o.L)} + ${mv(o.ce)} + ${mv(o.cf)} = ${mv(o.S)}$`,
         `Months needed: $${mv(o.G)} \\div ${mv(o.S)} \\approx ${num(o.G / o.S, 2)}$, so round up to ${o.months} months.`,
-        `From the start of ${o.span.from} to the start of ${o.span.to} is ${o.span.m} months.`,
-        `${name} saves ${money(o.S)} a month and needs ${o.months} months. ${ok ? `Yes, ${name} will be ready by ${o.span.to}.` : `No, ${name} will not be ready by ${o.span.to}; ${name} would need to cut more or wait longer.`}`,
+        `From the start of ${span.from} to the start of ${span.to} is ${span.m} months.`,
+        `${name} saves ${money(o.S)} a month and needs ${o.months} months. ${ok ? `Yes, ${name} will be ready by ${span.to}.` : `No, ${name} will not be ready by ${span.to}; ${name} would need to cut more or wait longer.`}`,
       ],
     };
   }
@@ -800,7 +801,7 @@ function fees2(rng: Rng): Out {
         if (A.fee === 0) A.free = 0;
         const B: Plan = rng.chance(0.6)
           ? { name: rng.pick(BIG_NAMES), fee: rng.pick([10.95, 12.95, 14.95, 16.95, 18.95]), free: Infinity, extra: 0 }
-          : { name: rng.pick(BIG_NAMES), fee: rng.pick([9.95, 10.95, 11.95]), free: rng.pick([25, 30, 40]), extra: rng.pick([1, 1.25]) };
+          : { name: rng.pick(BIG_NAMES.filter((n) => n !== 'Unlimited')), fee: rng.pick([9.95, 10.95, 11.95]), free: rng.pick([25, 30, 40]), extra: rng.pick([1, 1.25]) };
         const x = rng.int(12, 40);
         return { A, B, x, a: planCost(A, x), b: planCost(B, x) };
       },

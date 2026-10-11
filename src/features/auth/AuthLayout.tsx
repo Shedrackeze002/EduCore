@@ -19,7 +19,7 @@ export function AuthLayout({ title, subtitle, children }: { title: string; subti
           <h2 className="font-display text-4xl font-semibold leading-tight">Every student, every concept, to mastery.</h2>
           <ul className="mt-8 space-y-3 text-[15px] text-white/85">
             {[
-              'Complete lessons for Math 10C, 10-3, 10-4 and 20-4, with worked examples and instant checks',
+              'Complete lessons for every Grade 10 and 11 math course, with worked examples and instant checks',
               'Unlimited practice — a fresh version of every question, every time',
               'Assignments, quizzes and exams with automatic deadline reminders',
               'An AI teaching assistant that spots gaps and suggests next steps',

@@ -23,7 +23,7 @@ describe('money answers', () => {
       }
     }
     expect(loose.slice(0, 10)).toEqual([]);
-  });
+  }, 60_000); // every skill in every course, 120 items each
 });
 
 describe('course structure', () => {

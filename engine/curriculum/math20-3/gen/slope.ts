@@ -26,6 +26,8 @@ const qm = (x: number | string, u: string) => `${typeof x === 'number' ? num(x) 
 /** A quantity as inline maths: $12\ \text{cm}$. */
 const Q = (x: number | string, u: string) => `$${qm(x, u)}$`;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** "a 6/12 pitch" but "an 8/12 pitch" and "an 11/12 pitch". */
+const aPitch = (p: number) => `${p === 8 || p === 11 ? 'an' : 'a'} ${p}/12`;
 const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
 const clean = (x: number) => roundTo(x, 9);
 
@@ -488,7 +490,7 @@ function gradeBasic(rng: Rng): GenOutput {
       solution: [
         `$\\text{slope} = \\dfrac{\\text{rise}}{\\text{run}} = \\dfrac{${num(rise)}}{${run}}$`,
         `The pitch keeps the same slope with a run of $12$: $\\dfrac{${num(rise)}}{${run}} = \\dfrac{x}{12}$, so $x = 12 \\times \\dfrac{${num(rise)}}{${run}} = ${p}$`,
-        `The roof rises $${p}$ in for every $12$ in of run. It has a ${p}/12 pitch.`,
+        `The roof rises $${p}$ in for every $12$ in of run. It has ${aPitch(p)} pitch.`,
       ],
     };
   }
@@ -545,7 +547,7 @@ function gradeMid(rng: Rng): GenOutput {
         inch ? `Change the rise to inches: $${ft} \\times 12 + ${inch} = ${riseIn}\\ \\text{in}$` : `Change the rise to inches: $${ft} \\times 12 = ${riseIn}\\ \\text{in}$`,
         `Rise for each foot of run: $${riseIn}\\ \\text{in} \\div ${run}\\ \\text{ft} = ${p}\\ \\text{in per ft}$`,
         `One foot is $12$ in, so the roof rises $${p}$ in for every $12$ in of run.`,
-        `The roof has a ${p}/12 pitch.`,
+        `The roof has ${aPitch(p)} pitch.`,
       ],
     };
   }
@@ -556,10 +558,10 @@ function gradeMid(rng: Rng): GenOutput {
     const ft = Math.floor(riseIn / 12);
     const inch = riseIn % 12;
     return {
-      prompt: `A new house in ${town} has a ${p}/12 roof pitch: the roof rises $${p}$ in for every $12$ in ($1$ ft) of horizontal run. Each rafter covers a horizontal run of ${Q(run, 'ft')}. How many inches does the roof rise?`,
+      prompt: `A new house in ${town} has ${aPitch(p)} roof pitch: the roof rises $${p}$ in for every $12$ in ($1$ ft) of horizontal run. Each rafter covers a horizontal run of ${Q(run, 'ft')}. How many inches does the roof rise?`,
       figure: slopeTri(run, riseIn / 12, `${run} ft`, 'rise = ?', { mirror: rng.chance(0.5) }),
       parts: [numPart(riseIn, { suffix: 'in', label: 'Rise' })],
-      hints: [`A ${p}/12 pitch means $${p}$ in of rise for each foot of run.`, `Multiply the run in feet by $${p}$.`],
+      hints: [`${cap(aPitch(p))} pitch means $${p}$ in of rise for each foot of run.`, `Multiply the run in feet by $${p}$.`],
       solution: [
         `The roof rises $${p}$ in for each foot of run.`,
         `$\\text{rise} = ${run}\\ \\text{ft} \\times \\dfrac{${p}\\ \\text{in}}{1\\ \\text{ft}} = ${riseIn}\\ \\text{in}$`,
@@ -612,10 +614,10 @@ function gradeMulti(rng: Rng): GenOutput {
         const a = rng.int(5, 8);
         const b = rng.int(9, 12);
         return [
-          { v: p / 12, md: `a roof with a ${p}/12 pitch`, calc: `Roof: $${p} \\div 12 \\approx ${num(p / 12, 3)}$` },
+          { v: p / 12, md: `a roof with ${aPitch(p)} pitch`, calc: `Roof: $${p} \\div 12 ${eq(p / 12, 3)}$` },
           { v: g / 100, md: `a ski run with a $${g}\\%$ grade`, calc: `Ski run: $${g}\\% = ${num(g / 100)}$` },
           { v: s, md: `a conveyor belt with a slope of $${num(s)}$`, calc: `Conveyor belt: $${num(s)}$` },
-          { v: a / b, md: `stairs that rise $${a}$ in for every $${b}$ in of run`, calc: `Stairs: $${a} \\div ${b} \\approx ${num(a / b, 3)}$` },
+          { v: a / b, md: `stairs that rise $${a}$ in for every $${b}$ in of run`, calc: `Stairs: $${a} \\div ${b} ${eq(a / b, 3)}$` },
         ];
       },
       (o) => o.every((x, i) => o.every((y, j) => i === j || Math.abs(x.v - y.v) >= 0.03)),
@@ -680,15 +682,15 @@ function gradeMulti(rng: Rng): GenOutput {
   const run = rng.int(9, 16);
   const riseIn = p * run;
   return {
-    prompt: `A house in ${town} has a ${p}/12 roof pitch.\n\n(a) What is the percent grade of the roof, to the nearest tenth of a percent?\n\n(b) A rafter covers a horizontal run of ${Q(run, 'ft')}. How many inches does the roof rise over that run?`,
+    prompt: `A house in ${town} has ${aPitch(p)} roof pitch.\n\n(a) What is the percent grade of the roof, to the nearest tenth of a percent?\n\n(b) A rafter covers a horizontal run of ${Q(run, 'ft')}. How many inches does the roof rise over that run?`,
     figure: slopeTri(run, riseIn / 12, `${run} ft`, 'rise = ?', { mirror: rng.chance(0.5) }),
     parts: [numPart(pct, { decimals: 1, suffix: '%', label: '(a) Grade' }), numPart(riseIn, { suffix: 'in', label: '(b) Rise' })],
-    hints: [`A ${p}/12 pitch is a slope of $\\dfrac{${p}}{12}$. Change it to a decimal, then to a percent.`, `The roof rises $${p}$ in for each foot of run.`],
+    hints: [`${cap(aPitch(p))} pitch is a slope of $\\dfrac{${p}}{12}$. Change it to a decimal, then to a percent.`, `The roof rises $${p}$ in for each foot of run.`],
     solution: [
       `(a) $\\dfrac{${p}}{12} ${eq(p / 12)}$, so the grade is $${num(p / 12)} \\times 100\\% ${eq(pct, 2)}\\%$.`,
       `To the nearest tenth, the grade is $${fmtFixed(pct, 1)}\\%$.`,
       `(b) $${run}\\ \\text{ft} \\times \\dfrac{${p}\\ \\text{in}}{1\\ \\text{ft}} = ${riseIn}\\ \\text{in}$`,
-      `(a) about $${fmtFixed(pct, 1)}\\%$; (b) the roof rises $${riseIn}\\ \\text{in}$ (${Math.floor(riseIn / 12)} ft ${riseIn % 12} in).`,
+      `(a) about $${fmtFixed(pct, 1)}\\%$; (b) the roof rises $${riseIn}\\ \\text{in}$ (${Math.floor(riseIn / 12)} ft${riseIn % 12 ? ` ${riseIn % 12} in` : ''}).`,
     ],
   };
 }
@@ -759,8 +761,12 @@ function rocContext(rng: Rng, d: Lvl, name: string, town: string): Roc {
   const kind = rng.pick(['pay', 'generator', 'water', 'van', 'truck', 'plane'] as const);
   if (kind === 'pay') {
     const m = rng.pick([15.5, 16, 16.25, 16.75, 17, 17.5, 18.25, 19, 19.5, 20.5, 21.75]);
-    const xs = d === 1 ? evenXs(rng).map((x) => (x === 0 ? x + 4 : x)).sort((a, b) => a - b) : unevenXs(rng, [2, 3, 4, 5, 6, 7.5, 8, 10, 12]);
-    const uniq = [...new Set(xs)].length === 4 ? xs : [2, 4, 6, 8];
+    // Every earnings value in the table must be exact to the cent, so the table shows true values.
+    const xs = retry(
+      () => (d === 1 ? evenXs(rng).map((x) => (x === 0 ? x + 4 : x)).sort((a, b) => a - b) : unevenXs(rng, [2, 3, 4, 5, 6, 7.5, 8, 10, 12])),
+      (xs) => xs.every((x) => fitsDp(m * x, 2)),
+    );
+    const uniq = [...new Set(xs)].length === 4 && xs.every((x) => fitsDp(m * x, 2)) ? xs : [2, 4, 6, 8];
     return {
       xHead: 'Hours worked',
       yHead: 'Earnings (\\$)',
@@ -1173,7 +1179,9 @@ function lineGraph(rng: Rng, d: 1 | 2): GenOutput {
   );
   const pairs: Array<[number, number]> = [];
   for (let a = 0; a < pts.length; a++) for (let b = a + 1; b < pts.length; b++) if (pts[b][0] - pts[a][0] >= 2 * g.xStep) pairs.push([a, b]);
-  const [ia, ib] = rng.pick(pairs);
+  // Labelled points (level 1) stay away from the right edge so their labels are not cut off.
+  const inside = pairs.filter(([, b]) => pts[b][0] <= 0.75 * g.xMax);
+  const [ia, ib] = rng.pick(d === 1 && inside.length ? inside : pairs);
   const A = pts[ia];
   const B = pts[ib];
   const xEnd = g.m < 0 ? Math.min(g.xMax, (g.yMin - g.b) / g.m) : Math.min(g.xMax, (g.yMax - g.b) / g.m);
@@ -1189,7 +1197,9 @@ function lineGraph(rng: Rng, d: 1 | 2): GenOutput {
   const steps = [
     d === 1 ? `Use the two marked points, $(${num(A[0])}, ${num(A[1])})$ and $(${num(B[0])}, ${num(B[1])})$.` : `Read two points where the line crosses grid lines exactly: $(${num(A[0])}, ${num(A[1])})$ and $(${num(B[0])}, ${num(B[1])})$.`,
     `$\\text{slope} = \\dfrac{\\text{rise}}{\\text{run}} = \\dfrac{${num(B[1])} - ${num(A[1])}}{${num(B[0])} - ${num(A[0])}} = \\dfrac{${num(dy)}}{${num(dx)}} = ${num(g.m)}$`,
-    `The slope is a rate of change, so it has units: ${g.unitWords}. The rate of change is $${num(g.m)}\\ \\text{${g.unit.replace('$', '\\$')}}$.`,
+    g.unit.startsWith('$')
+      ? `The slope is a rate of change, so it has units: ${g.unitWords}. The rate of change is ${money(g.m)} per ${g.unitWords.replace('dollars per ', '')}.`
+      : `The slope is a rate of change, so it has units: ${g.unitWords}. The rate of change is $${num(g.m)}\\ \\text{${g.unit}}$.`,
   ];
   const hints = [
     'The slope of a line graph is its rate of change: rise over run, with units of (vertical units) per (horizontal unit).',
@@ -1470,18 +1480,26 @@ function proportionBasic(rng: Rng, d: 1 | 2): GenOutput {
   const x = (a * c) / b;
   const exact = fits(x);
   const concrete = idx === 5;
-  const bu = concrete ? (b === 1 ? tx('bucket of cement') : tx('buckets of sand')) : ctx.bu;
+  const one = (u: string) => (b === 1 ? u.replace('{acres}', '{acre}').replace('{people}', '{person}').replace('{sheets}', '{sheet}') : u);
+  const bu = concrete ? (b === 1 ? tx('bucket of cement') : tx('buckets of sand')) : one(ctx.bu);
   const cu = concrete ? (b === 1 ? tx('buckets of cement') : tx('buckets of sand')) : ctx.bu;
   const given = ctx.given(name, a, b).replace('%TOWN%', town);
   const ask = ctx.ask(c).replace('%SECOND%', b === 1 ? 'cement' : 'sand');
   const xs = exact ? `$${qm(x, ctx.suffix)}$` : `about $${fmtFixed(x, ctx.dp)}\\ ${tx(ctx.suffix)}$`;
   const solution = [`Set up a proportion with the same units in the same places: $\\dfrac{${num(a)}\\ ${ctx.au}}{${num(b)}\\ ${bu}} = \\dfrac{x}{${num(c)}\\ ${cu}}$`];
-  if (d === 1) {
+  if (d === 1 && b === 1) {
+    solution.push(`The bottom changes from $1$ to $${num(c)}$, so multiply the top by $${num(c)}$ too: $x = ${num(a)} \\times ${num(c)} = ${num(x)}$`);
+  } else if (d === 1) {
     const k = c / b;
     solution.push(`$${num(c)}$ is $${num(c)} \\div ${num(b)} = ${num(k)}$ times $${num(b)}$, so multiply the top by $${num(k)}$ too: $x = ${num(a)} \\times ${num(k)} = ${num(x)}$`);
   } else {
     solution.push(`Multiply both sides by $${num(c)}$: $x = \\dfrac{${num(a)} \\times ${num(c)}}{${num(b)}} ${eq(x)}$`);
-    solution.push(`Check: $${num(c)}$ is a little ${c / b > Math.round(c / b) ? 'more' : 'less'} than $${num(Math.round(c / b))}$ times $${num(b)}$, so $x$ should be close to $${num(a)} \\times ${num(Math.round(c / b))} = ${num(a * Math.round(c / b))}$. It is.`);
+    const k = Math.round(c / b);
+    solution.push(
+      k >= 2
+        ? `Check: $${num(c)}$ is a little ${c / b > k ? 'more' : 'less'} than $${k}$ times $${num(b)}$, so $x$ should be close to $${num(a)} \\times ${k} = ${num(a * k)}$. It is.`
+        : `Check: $${num(c)}$ is ${c < b ? 'less' : 'more'} than $${num(b)}$, so $x$ should be ${c < b ? 'less' : 'more'} than $${num(a)}$. It is.`,
+    );
   }
   solution.push(ctx.final(xs));
   return {
@@ -1533,7 +1551,7 @@ function proportionMulti(rng: Rng): GenOutput {
       hints: ['Two coats means the whole area is painted twice.', 'Set up a proportion (or divide) to find the number of cans, then round **up**: the store does not sell part of a can.'],
       solution: [
         `Area to paint: $2 \\times ${A} = ${2 * A}\\ \\text{m}^2$`,
-        `$\\dfrac{1\\ \\text{can}}{${C}\\ \\text{m}^2} = \\dfrac{x}{${2 * A}\\ \\text{m}^2}$, so $x = \\dfrac{${2 * A}}{${C}} \\approx ${num((2 * A) / C, 2)}$`,
+        `$\\dfrac{1\\ \\text{can}}{${C}\\ \\text{m}^2} = \\dfrac{x}{${2 * A}\\ \\text{m}^2}$, so $x = \\dfrac{${2 * A}}{${C}} ${eq((2 * A) / C, 2)}$`,
         `${name} cannot buy part of a can, so round up: ${name} must buy $${cans}$ cans.`,
       ],
     };
@@ -1555,7 +1573,7 @@ function proportionMulti(rng: Rng): GenOutput {
       hints: ['First use a proportion to find the kilograms of beef for the whole crew.', 'Then divide by the size of a package and round **up**.'],
       solution: [
         `$\\dfrac{${num(g)}\\ \\text{kg}}{${s}\\ \\text{people}} = \\dfrac{x}{${N}\\ \\text{people}}$, so $x = \\dfrac{${num(g)} \\times ${N}}{${s}} ${eq(kg, 3)}\\ \\text{kg}$`,
-        `Packages: $${num(kg, 3)} \\div ${num(pack)} \\approx ${num(kg / pack, 2)}$`,
+        `Packages: $${num(kg, 3)} \\div ${num(pack)} ${eq(kg / pack, 2)}$`,
         `Round up so there is enough: ${name} should buy $${packs}$ packages.`,
       ],
     };
@@ -1577,7 +1595,7 @@ function proportionMulti(rng: Rng): GenOutput {
       solution: [
         `Area: $${L} \\times ${W} = ${num(L * W)}\\ \\text{m}^2$`,
         `$\\dfrac{${num(a)}\\ \\text{kg}}{100\\ \\text{m}^2} = \\dfrac{x}{${num(L * W)}\\ \\text{m}^2}$, so $x = \\dfrac{${num(a)} \\times ${num(L * W)}}{100} = ${num(kg)}\\ \\text{kg}$`,
-        `Bags: $${num(kg)} \\div ${B} \\approx ${num(kg / B, 2)}$`,
+        `Bags: $${num(kg)} \\div ${B} ${eq(kg / B, 2)}$`,
         `Part of a bag is not enough, so round up: $${bags}$ bags are needed.`,
       ],
     };
@@ -1701,7 +1719,7 @@ function unitMid(rng: Rng): GenOutput {
   const name = rng.pick(NAMES);
   const mode = rng.pick(['kmhToMs', 'msToKmh', 'l100ToKmL', 'kmLToL100', 'kgMinToTH'] as const);
   if (mode === 'kmhToMs') {
-    const v = retry(() => rng.int(30, 130), (v) => isWhole((v * 10) / 3.6) || !onEdge(v / 3.6, 1));
+    const v = retry(() => rng.int(30, 110), (v) => isWhole((v * 10) / 3.6) || !onEdge(v / 3.6, 1));
     const ms = v / 3.6;
     const ex = fitsDp(ms, 1);
     const ctx = rng.pick([`A grain truck travels at $${v}\\ \\text{km/h}$ on a highway.`, `${name} drives a pickup at $${v}\\ \\text{km/h}$.`, `A snowplow clears a road at $${v}\\ \\text{km/h}$.`]);
@@ -1860,7 +1878,7 @@ function unitMulti(rng: Rng): GenOutput {
   const [A, B] = rng.pick([['Store A', 'Store B'], ['the butcher shop', 'the supermarket']] as const);
   const aCheaper = v.plk < v.pk;
   return {
-    prompt: `${cap(A)} in ${town} sells ${item} for ${money(v.pl)} per pound. ${cap(B)} sells it for ${money(v.pk)} per kilogram. Use ${F_LB}.\n\n(a) What is ${A}'s price per kilogram, ${CENT}?\n\n(b) Which store has the better price?`,
+    prompt: `${cap(A)} in ${town} sells ${item} for ${money(v.pl)} per pound. ${cap(B)} sells ${item.endsWith('s') ? 'them' : 'it'} for ${money(v.pk)} per kilogram. Use ${F_LB}.\n\n(a) What is ${A}'s price per kilogram, ${CENT}?\n\n(b) Which store has the better price?`,
     parts: [moneyPart(v.plk, 'per kg', '(a) \\$'), part(fixedChoice([cap(A), cap(B)], aCheaper ? 0 : 1), { label: '(b)' })],
     hints: ['To compare prices, write them in the same units.', 'A kilogram is more than a pound: divide the price per pound by 0.4536 to get the price per kilogram.'],
     solution: [

@@ -27,10 +27,9 @@ const DEMO_START_KEY = 'educore-demo-start';
 
 const LESSON_COUNT = COURSES.reduce((n, c) => n + c.lessons.length, 0);
 const OUTCOME_COUNT = COURSES.reduce((n, c) => n + c.outcomes.length, 0);
-const COURSE_NAMES = COURSES.map((c) => c.shortTitle).join(' and ');
 
 const FEATURES = [
-  { icon: BookOpenCheck, title: 'Complete, detailed lessons', body: `${LESSON_COUNT} lessons for ${COURSE_NAMES}, covering every outcome, each with definitions, worked examples, common mistakes and interactive checks.` },
+  { icon: BookOpenCheck, title: 'Complete, detailed lessons', body: `${LESSON_COUNT} lessons across ${COURSES.length} Alberta courses, covering every outcome, each with definitions, worked examples, common mistakes and interactive checks.` },
   { icon: InfinityIcon, title: 'Unlimited practice', body: `${allSkillInfos().length} question generators produce a fresh version of every question, with hints and step-by-step solutions — practice never runs out.` },
   { icon: BrainCircuit, title: 'Real mastery tracking', body: 'Bayesian Knowledge Tracing estimates what each student knows. Mastery requires success across separate sessions, not one lucky streak.' },
   { icon: ClipboardList, title: 'Every kind of assignment', body: 'Classwork, homework, practice, quizzes, exams, readings and videos — with time limits, attempts, hints and feedback rules per assignment.' },
@@ -108,7 +107,7 @@ export default function LandingPage() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:pt-20">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-surface px-3 py-1 text-xs font-semibold text-brand-700">
-              <Sparkles className="h-3.5 w-3.5" /> Grade 10 Mathematics · {COURSE_NAMES}
+              <Sparkles className="h-3.5 w-3.5" /> Alberta Mathematics · Grades 10 and 11, every stream
             </span>
             <h1 className="mt-5 text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[56px]">
               Teach it once. <span className="text-brand">Practise until it sticks.</span> Know who needs help.
@@ -186,7 +185,7 @@ export default function LandingPage() {
 
       <section id="curriculum" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <h2 className="text-3xl font-semibold sm:text-4xl">Every outcome in every course</h2>
-        <p className="mt-3 max-w-2xl text-lg text-ink-2">Each course follows the Alberta program of studies: every outcome is taught, practised and assessed. The other Grade 11 and 12 streams and Grades 5 to 9 are on the way.</p>
+        <p className="mt-3 max-w-2xl text-lg text-ink-2">Each course follows the Alberta program of studies: every outcome is taught, practised and assessed. The Grade 12 courses and Grades 5 to 9 are on the way.</p>
         <Tabs className="mt-8 flex-wrap" value={courseId} onChange={setCourseId} items={COURSES.map((c) => ({ value: c.id, label: c.shortTitle }))} />
         <p className="mt-3 text-sm text-ink-3">{course.description}</p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">

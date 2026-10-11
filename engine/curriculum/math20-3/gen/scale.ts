@@ -215,7 +215,8 @@ function lengthD1(rng: Rng, name: string): Out {
     };
   }
   const c = rng.pick(METRIC_PLANS);
-  const k = rng.pick(c.k);
+  // A scale of 1 cm to 1 m makes the question trivial.
+  const k = rng.pick(c.k.filter((x) => x !== 1));
   const d = pickDrawing(rng, k, c.lo, c.hi, k < 1 ? 1 : 0.5);
   const real = clean(d * k);
   if (mode === 'drawing') {
@@ -452,11 +453,11 @@ const AREA_CTX = [
 ];
 
 const VOL_CTX = [
-  { obj: 'a water tank for a cattle trough', thing: 'the tank', amt: 'holds', u: 'L', range: [40, 400] },
-  { obj: 'a sandbox at a daycare in Calgary', thing: 'the sandbox', amt: 'holds', u: 'L', range: [100, 600] },
-  { obj: 'a concrete footing', thing: 'the footing', amt: 'uses', u: 'm³', range: [0.2, 1.2] },
-  { obj: 'a shipping box', thing: 'the box', amt: 'holds', u: 'L', range: [12, 60] },
-  { obj: 'a planter box', thing: 'the planter', amt: 'holds', u: 'L', range: [20, 90] },
+  { obj: 'a water tank for a cattle trough', noun: 'water tank', amt: 'holds', of: 'water', u: 'L', range: [40, 400] },
+  { obj: 'a sandbox at a daycare in Calgary', noun: 'sandbox', amt: 'holds', of: 'sand', u: 'L', range: [100, 600] },
+  { obj: 'a concrete footing', noun: 'concrete footing', amt: 'uses', of: 'concrete', u: 'm³', range: [0.2, 1.2] },
+  { obj: 'a shipping box', noun: 'shipping box', amt: 'holds', of: 'packing', u: 'L', range: [12, 60] },
+  { obj: 'a planter box', noun: 'planter box', amt: 'holds', of: 'soil', u: 'L', range: [20, 90] },
 ];
 
 /** A unit for an area or capacity in maths. */
@@ -488,8 +489,9 @@ function areaVolD1(rng: Rng): Out {
   }
   const c = rng.pick(VOL_CTX);
   const k = rng.pick([2, 3, 4, 5]);
+  const how = c.amt === 'holds' ? `How many times as much ${c.of === 'packing' ? '' : `${c.of} `}does the larger one hold?` : `How many times as much ${c.of} does the larger one use?`;
   return {
-    prompt: `A company makes a larger ${c.obj.replace(/^an? /, '')} with every length (length, width and height) $${k}$ times as long. How many times as much does the larger one ${c.amt === 'holds' ? 'hold' : 'use'}?`,
+    prompt: `A larger version of ${c.obj} is built with the same shape: every length (length, width and height) is $${k}$ times as long. ${how}`,
     parts: [numPart(k ** 3, { suffix: 'times' })],
     hints: ['Volume uses three lengths, and each one is multiplied by the scale factor.', `The volume is multiplied by $k^3 = ${k} \\times ${k} \\times ${k}$.`],
     solution: [`The length, width and height are each multiplied by $${k}$.`, `The volume is multiplied by $${k} \\times ${k} \\times ${k} = ${k}^3 = ${k ** 3}$.`, `The larger one ${c.amt} $${k ** 3}$ times as much.`],
@@ -541,20 +543,25 @@ function areaVolD2(rng: Rng): Out {
   };
 }
 
+/** Real areas in square metres that are realistic for each model. */
 const AREA_MODELS = [
-  { thing: 'barn', part: 'the floor' },
-  { thing: 'house', part: 'the roof' },
-  { thing: 'machine shed', part: 'the floor' },
-  { thing: 'hockey arena', part: 'the ice surface' },
-  { thing: 'grain elevator', part: 'one wall' },
+  { thing: 'barn', part: 'the floor', lo: 150, hi: 600 },
+  { thing: 'house', part: 'the roof', lo: 120, hi: 300 },
+  { thing: 'machine shed', part: 'the floor', lo: 200, hi: 900 },
+  { thing: 'hockey arena', part: 'the ice surface', lo: 1400, hi: 1900 },
+  { thing: 'grain elevator', part: 'one wall', lo: 150, hi: 500 },
 ];
 
+/** Real capacities in cubic metres that are realistic for each model. */
 const VOL_MODELS = [
-  { thing: 'grain bin', what: 'holds', of: 'grain' },
-  { thing: 'water tower', what: 'holds', of: 'water' },
-  { thing: 'oil storage tank', what: 'holds', of: 'oil' },
-  { thing: 'swimming pool', what: 'holds', of: 'water' },
+  { thing: 'grain bin', what: 'holds', of: 'grain', lo: 60, hi: 600 },
+  { thing: 'water tower', what: 'holds', of: 'water', lo: 300, hi: 3000 },
+  { thing: 'oil storage tank', what: 'holds', of: 'oil', lo: 200, hi: 5000 },
+  { thing: 'swimming pool', what: 'holds', of: 'water', lo: 150, hi: 2500 },
 ];
+
+/** "a" or "an" before a word. */
+const article = (w: string) => (/^[aeiou]/i.test(w) ? 'an' : 'a');
 
 function areaVolD3(rng: Rng, name: string): Out {
   const mode = rng.pick(['modelArea', 'modelVol', 'cost', 'kLength'] as const);
@@ -562,16 +569,17 @@ function areaVolD3(rng: Rng, name: string): Out {
     const m = rng.pick(AREA_MODELS);
     const { n, a, realM2 } = retry(
       () => {
-        const n = rng.pick([10, 20, 25, 50, 100]);
-        const a = rng.int(4, 60) * (n >= 50 ? 2 : 10);
+        const n = rng.pick([20, 25, 50, 100, 200]);
+        const step = n >= 100 ? 1 : n >= 50 ? 2 : 10;
+        const a = rng.int(Math.ceil((m.lo * 10000) / (n * n) / step), Math.max(1, Math.floor((m.hi * 10000) / (n * n) / step))) * step;
         return { n, a, realM2: clean((a * n * n) / 10000) };
       },
-      (o) => o.realM2 >= 20 && o.realM2 <= 2500 && isWhole(o.realM2 * 10),
+      (o) => o.realM2 >= m.lo && o.realM2 <= m.hi && o.a >= 10 && o.a <= 6000 && isWhole(o.realM2 * 10),
       300,
     );
     const realCm2 = a * n * n;
     return {
-      prompt: `${name} builds a $1 : ${n}$ model of a ${m.thing}. On the model, ${m.part} has an area of $${num(a)}\\ ${sq('cm')}$. What is the area of ${m.part} of the real ${m.thing}, in square metres?`,
+      prompt: `${name} builds a $1 : ${n}$ model of ${article(m.thing)} ${m.thing}. On the model, ${m.part} has an area of $${num(a)}\\ ${sq('cm')}$. What is the area of ${m.part} of the real ${m.thing}, in square metres?`,
       parts: [ans(realM2, 'm²')],
       hints: [`Real lengths are $${n}$ times the model lengths, so real areas are $${n}^2$ times the model areas.`, `Then change square centimetres to square metres: $1\\ ${sq('m')} = 100 \\times 100 = 10\\,000\\ ${sq('cm')}$.`],
       solution: [
@@ -586,16 +594,17 @@ function areaVolD3(rng: Rng, name: string): Out {
     const m = rng.pick(VOL_MODELS);
     const { n, v, realM3 } = retry(
       () => {
-        const n = rng.pick([10, 20, 25, 50]);
-        const v = rng.int(2, 60) * (n >= 25 ? 4 : 50);
+        const n = rng.pick([20, 25, 50, 100]);
+        const step = n >= 50 ? 1 : n === 25 ? 4 : 10;
+        const v = rng.int(Math.ceil((m.lo * 1e6) / n ** 3 / step), Math.max(1, Math.floor((m.hi * 1e6) / n ** 3 / step))) * step;
         return { n, v, realM3: clean((v * n ** 3) / 1e6) };
       },
-      (o) => o.realM3 >= 5 && o.realM3 <= 5000 && isWhole(o.realM3 * 10),
+      (o) => o.realM3 >= m.lo && o.realM3 <= m.hi && o.v >= 20 && isWhole(o.realM3 * 10),
       300,
     );
     const realCm3 = v * n ** 3;
     return {
-      prompt: `A $1 : ${n}$ model of a ${m.thing} ${m.what} $${num(v)}\\ ${cu('cm')}$. How many cubic metres of ${m.of} would the real ${m.thing} hold?`,
+      prompt: `A $1 : ${n}$ model of ${article(m.thing)} ${m.thing} ${m.what} $${num(v)}\\ ${cu('cm')}$. How many cubic metres of ${m.of} would the real ${m.thing} hold?`,
       parts: [ans(realM3, 'm³')],
       hints: [`Real lengths are $${n}$ times the model lengths, so real volumes are $${n}^3$ times the model volume.`, `Then change cubic centimetres to cubic metres: $1\\ ${cu('m')} = 100 \\times 100 \\times 100 = 1\\,000\\,000\\ ${cu('cm')}$.`],
       solution: [
@@ -631,14 +640,14 @@ function areaVolD3(rng: Rng, name: string): Out {
     const k = rng.pick([2, 3, 1.5, 2.5]);
     const f = clean(k ** 3);
     const c = rng.pick([
-      { what: 'water tank', dim: 'height', u: 'm', lo: 0.6, hi: 1.6 },
-      { what: 'cardboard box', dim: 'height', u: 'cm', lo: 20, hi: 50 },
-      { what: 'compost bin', dim: 'width', u: 'cm', lo: 60, hi: 100 },
+      { what: 'water tank', whats: 'water tanks', dim: 'height', u: 'm', lo: 0.6, hi: 1.6 },
+      { what: 'cardboard box', whats: 'cardboard boxes', dim: 'height', u: 'cm', lo: 20, hi: 50 },
+      { what: 'compost bin', whats: 'compost bins', dim: 'width', u: 'cm', lo: 60, hi: 100 },
     ]);
     const L = c.u === 'm' ? clean(rng.int(c.lo * 10, c.hi * 10) / 10) : rng.int(c.lo / 2, c.hi / 2) * 2;
     const L2 = clean(L * k);
     return {
-      prompt: `Two ${c.what}s have the same shape. The larger one holds $${num(f)}$ times as much as the smaller one. The ${c.dim} of the smaller one is ${M(L, c.u)}. What is the ${c.dim} of the larger one?`,
+      prompt: `Two ${c.whats} have the same shape. The larger one holds $${num(f)}$ times as much as the smaller one. The ${c.dim} of the smaller one is ${M(L, c.u)}. What is the ${c.dim} of the larger one?`,
       parts: [ans(L2, c.u)],
       hints: ['Capacity (volume) is multiplied by $k^3$. Find $k$ with a cube root.', 'Then multiply the length by $k$.'],
       solution: [`$k^3 = ${num(f)}$, so $k = \\sqrt[3]{${num(f)}} = ${num(k)}$.`, `Lengths are multiplied by $k$: $${num(L)} \\times ${num(k)} = ${num(L2)}$`, `The ${c.dim} of the larger one is ${M(L2, c.u)}.`],
@@ -760,8 +769,8 @@ const CUBE_CTX = [
 ];
 
 const TOP_NOTE = 'The table is a top view: each number tells how many are stacked in that spot, and the front of the stack is at the bottom of the table.';
-const FRONT_HINT = 'From the front, you see each column of the top view (Left, Centre, Right). The height you see is the tallest stack in that column, because shorter stacks hide behind it.';
-const SIDE_HINT = 'From the right side, you see each row (Front, Middle, Back) as one column, and the front row is on your left. The height you see is the tallest stack in that row.';
+const FRONT_HINT = 'From the front, you see each column of the top view, from Left to Right. The height you see is the tallest stack in that column, because shorter stacks hide behind it.';
+const SIDE_HINT = 'From the right side, you see each row of the top view as one column, and the front row is on your left. The height you see is the tallest stack in that row.';
 
 function viewsD1(rng: Rng, name: string): Out {
   const ctx = rng.pick(CUBE_CTX);
@@ -901,8 +910,21 @@ function matchItem(rng: Rng): Out {
   );
   const f = frontOf(h);
   const s = sideOf(h);
-  const answer = mcFigures(rng, [h, ...wrong].map((g, i) => ({ md: '', figure: topTable(g), correct: i === 0 })));
-  const bad = wrong.map((g) => (vkey(frontOf(g)) !== vkey(f) ? 'front' : 'side'));
+  const opts = [h, ...wrong].map((g, i) => ({ g, md: '', figure: topTable(g), correct: i === 0 }));
+  const answer = mcFigures(rng, opts) as Extract<AnswerSpec, { kind: 'mc' }>;
+  const heights = (v: number[]) => v.map((x) => `$${x}$`).join(', ');
+  // Explain each wrong choice by its letter.
+  const why = answer.choices
+    .filter((c) => c.id !== answer.correct)
+    .map((c) => {
+      const g = opts.find((o) => o.figure === c.figure)!.g;
+      const fg = frontOf(g);
+      const sg = sideOf(g);
+      const bad: string[] = [];
+      if (vkey(fg) !== vkey(f)) bad.push(`its front view would be ${heights(fg)}`);
+      if (vkey(sg) !== vkey(s)) bad.push(`its side view would be ${heights(sg)}`);
+      return `Choice ${c.id}): ${andList(bad)}, so it does not match.`;
+    });
   return {
     prompt: 'The figure shows the front view and the right side view of a structure made of cubes. Which top view could belong to this structure? (Each number tells how many cubes are stacked in that spot; the front is at the bottom of each table.)',
     figure: twoViews(f, s),
@@ -911,8 +933,8 @@ function matchItem(rng: Rng): Out {
     solution: [
       `The front view has heights ${f.map((x) => `$${x}$`).join(', ')} from left to right, so the tallest stacks in the columns must be ${f.map((x) => `$${x}$`).join(', ')}.`,
       `The right side view has heights ${s.map((x) => `$${x}$`).join(', ')} from left to right, so the tallest stacks in the rows, from front to back, must be ${s.map((x) => `$${x}$`).join(', ')}.`,
-      `The three other top views each fail one test: ${bad.filter((b) => b === 'front').length} give the wrong front view and ${bad.filter((b) => b === 'side').length} give the wrong side view.`,
-      `The answer is the top view with rows (back to front) ${h.map((row) => `$${row.join(',\\ ')}$`).join('; ')}.`,
+      ...why,
+      `The answer is choice ${answer.correct}): its rows, from back to front, are ${h.map((row) => `$${row.join(',\\ ')}$`).join('; ')}.`,
     ],
   };
 }
@@ -1059,7 +1081,9 @@ const listTable = (ps: LinePart[], prices: boolean): TableFigure => ({
   rows: ps.map((p) => (prices ? [p.label, p.name, String(p.q), cell(p.c / 100)] : [p.label, p.name, String(p.q)])),
 });
 
-const LIST_INTRO = (kit: Kit) => `The instructions for ${kit.kit} include an exploded view, with each part labelled by a letter, and the parts list shown.`;
+const LIST_INTRO = (kit: Kit) => `The instructions for ${kit.kit} have an exploded view with each part labelled by a letter. The parts list is shown.`;
+/** "a, b and c" */
+const andList = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
 /** Exploded front view of a bookshelf: two side panels (A), n shelves (B) and a top (C). */
 function shelfExploded(n: number): PlaneFigure {
@@ -1074,7 +1098,7 @@ function shelfExploded(n: number): PlaneFigure {
   c.rect(1.2, 10, 11.6, 0.5);
   c.seg([1.55, 9], [1.55, 10], { dashed: true, color: 'muted' });
   c.seg([12.45, 9], [12.45, 10], { dashed: true, color: 'muted' });
-  c.text([0.55, 5], 'A').text([13.45, 5], 'A').text([7, 0.75], 'B').text([7, 11.15], 'C');
+  c.text([0.55, 5], 'A').text([13.6, 5], 'A').text([7, 0.75], 'B').text([7, 11.4], 'C');
   return c.build();
 }
 
@@ -1133,7 +1157,7 @@ function explodedD1(rng: Rng, name: string): Out {
   const got = ps.map((p) => (p === short ? p.q - rng.int(1, Math.min(3, p.q)) : p.q));
   const answer = mc(rng, short.name, rng.shuffle(ps.filter((p) => p !== short)).map((p) => p.name));
   return {
-    prompt: `${LIST_INTRO(kit)} When ${name} opens the box, ${name} counts ${ps.map((p, i) => howMany(p, got[i])).join(', ')}. Which part is short?`,
+    prompt: `${LIST_INTRO(kit)} When ${name} opens the box, ${name} counts ${andList(ps.map((p, i) => howMany(p, got[i])))}. Which part is short?`,
     figure: listTable(ps, false),
     parts: [{ answer }],
     hints: ['Compare each count with the Quantity column of the parts list.', 'The part with fewer than the list says is short.'],
@@ -1310,7 +1334,7 @@ function explodedD3(rng: Rng, name: string): Out {
     const grand = c1 + c2 + fee;
     const got = ps.map((p) => (p === p1 ? p.q - m1 : p === p2 ? p.q - m2 : p.q));
     return {
-      prompt: `${LIST_INTRO(kit)} When ${name} opens the box, ${name} counts ${ps.map((p, i) => howMany(p, got[i])).join(', ')}. The store sends missing parts at the unit prices in the list, plus a shipping fee of ${money(fee)}. How much will the missing parts cost, ${CENT}?`,
+      prompt: `${LIST_INTRO(kit)} When ${name} opens the box, ${name} counts ${andList(ps.map((p, i) => howMany(p, got[i])))}. The store sends missing parts at the unit prices in the list, plus a shipping fee of ${money(fee)}. How much will the missing parts cost, ${CENT}?`,
       figure: listTable(ps, true),
       parts: [moneyPart(grand)],
       hints: ['Compare each count with the Quantity column to find what is missing and how many.', 'Multiply each missing number by its unit price, add, then add the shipping fee once.'],
