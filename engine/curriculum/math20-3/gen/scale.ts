@@ -1077,7 +1077,7 @@ function makeList(rng: Rng, kit: Kit, count: number): LinePart[] {
   return parts.map((p, i) => ({ label: 'ABCDEFG'[i], name: p.name, plural: p.plural, q: rng.pick(p.qty), c: priceCents(rng, p.lo, p.hi) }));
 }
 
-const howMany = (p: LinePart, q: number) => `$${q}$ ${q === 1 ? p.name.toLowerCase() : p.plural}`;
+const howMany = (p: LinePart, q: number) => (q === 0 ? `no ${p.plural}` : `$${q}$ ${q === 1 ? p.name.toLowerCase() : p.plural}`);
 const listTable = (ps: LinePart[], prices: boolean): TableFigure => ({
   type: 'table',
   headers: prices ? ['Label', 'Part', 'Quantity', 'Unit price'] : ['Label', 'Part', 'Quantity'],
@@ -1143,7 +1143,8 @@ function explodedD1(rng: Rng, name: string): Out {
   }
   if (mode === 'times') {
     const k = rng.int(2, 6);
-    const p = rng.pick(ps.filter((x) => x.q > 1));
+    const many = ps.filter((x) => x.q > 1);
+    const p = rng.pick(many.length ? many : ps);
     return {
       prompt: `${LIST_INTRO(kit)} A shop class is building $${k}$ of these ${kit.thing === 'deck' ? 'decks' : `${kit.thing}s`}. How many ${p.plural} (part ${p.label}) do they need in all?`,
       figure: listTable(ps, false),

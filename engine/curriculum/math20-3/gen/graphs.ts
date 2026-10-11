@@ -930,7 +930,7 @@ const LINES: LineCtx[] = [
   {
     intro: () => 'The line graph shows the temperature in Lethbridge on a summer day. The times use the 24-hour clock.',
     xs: [6, 8, 10, 12, 14, 16, 18], xStep: 2, xLabel: 'Time of day (h)', yLabel: 'Temperature (°C)',
-    yStep: 2, yTop: 32, vLo: 8, vHi: 30, shape: 'hill', unit: '°C',
+    yStep: 4, yTop: 32, vLo: 12, vHi: 30, shape: 'hill', unit: '°C',
     when: (x) => `at ${x}:00`, ask: 'What was the temperature', what: 'the temperature', per: 'hour',
   },
   {
@@ -1748,7 +1748,8 @@ function cageFigure(n: number, cage: number[], sums: Map<number, number>, givens
     seen.add(cage[k]);
     const r = Math.floor(k / n);
     const col = k % n;
-    c.text([X(col) + 0.3, Y(r) - 0.24], String(sums.get(cage[k])));
+    // A + marks the sum of a cage with more than one cell, so it is not mistaken for a number in the grid.
+    c.text([X(col) + 0.3, Y(r) - 0.24], `${sums.get(cage[k])}${cage.filter((x) => x === cage[k]).length > 1 ? '+' : ''}`);
   }
   for (const [k, v] of givens) c.text([X(k % n) + 0.5, Y(Math.floor(k / n)) - 0.58], String(v));
   c.text([X(target % n) + 0.5, Y(Math.floor(target / n)) - 0.58], '?');
@@ -1782,7 +1783,7 @@ function cageItem(rng: Rng, n: 3 | 4): Out {
   const singles = [...sums].filter(([id]) => cage.filter((x) => x === id).length === 1);
   const rowSum = (n * (n + 1)) / 2;
   return {
-    prompt: `Fill the grid with the numbers $1$ to $${n}$ so that each number appears exactly once in every row and every column. Solid lines mark the cages. The numbers in each cage add up to the small number in its top-left corner.${givens.size === 1 ? ' One number is filled in for you.' : givens.size ? ' Two numbers are filled in for you.' : ''} Find the number that goes in the cell marked $?$.`,
+    prompt: `Fill the grid with the numbers $1$ to $${n}$ so that each number appears exactly once in every row and every column. Solid lines mark the cages. The numbers in each cage add up to the small number in its top-left corner (a cage of one cell just holds that number).${givens.size === 1 ? ' One number is filled in for you.' : givens.size ? ' Two numbers are filled in for you.' : ''} Find the number that goes in the cell marked $?$.`,
     figure: cageFigure(n, cage, sums, givens, target),
     parts: [numPart(sol[target], { label: '$? =$' })],
     hints: [
@@ -1825,8 +1826,8 @@ function patternItem(rng: Rng, d: 1 | 2 | 3): Out {
     { what: 'triangles in a row made of toothpicks', unit: 'toothpicks', first: 3, d: 2 },
     { what: 'hexagons in a row made of toothpicks', unit: 'toothpicks', first: 6, d: 5 },
     { what: 'square tables pushed together in a row at a banquet hall, with chairs all around', unit: 'chairs', first: 4, d: 2 },
-    { what: 'fence sections in a row, where each section has 3 rails and the sections share posts', unit: 'pieces of wood (posts and rails)', first: 5, d: 4 },
-    { what: 'fence sections in a row, where each section has 4 rails and the sections share posts', unit: 'pieces of wood (posts and rails)', first: 6, d: 5 },
+    { what: 'fence sections in a row. Each section has $3$ rails, and sections next to each other share a post', unit: 'pieces of wood', first: 5, d: 4 },
+    { what: 'fence sections in a row. Each section has $4$ rails, and sections next to each other share a post', unit: 'pieces of wood', first: 6, d: 5 },
   ]);
   const count = (k: number) => ctx.first + ctx.d * (k - 1);
   const intro = `A pattern is made of ${ctx.what}. Figure $1$ uses $${count(1)}$ ${ctx.unit}, figure $2$ uses $${count(2)}$ and figure $3$ uses $${count(3)}$. Each new figure adds the same number of ${ctx.unit}.`;
@@ -1925,9 +1926,9 @@ function nimItem(rng: Rng, d: 1 | 2 | 3, name: string): Out {
       hints: [`Work backward from $${T}$. If ${name} says $${T - k - 1}$, can ${opp} reach $${T}$? Whatever ${opp} adds, ${name} can add enough to make $${k + 1}$.`, `So the safe numbers are $${T}$, $${T - (k + 1)}$, $${T - 2 * (k + 1)}$, and so on, going down by $${k + 1}$.`],
       solution: [
         `If ${name} says $${T - k - 1}$, then ${opp} can only reach $${T - k}$ to $${T - 1}$, and ${name} reaches $${T}$ next turn.`,
-        `So the safe numbers go down from $${T}$ by $${k + 1}$: ${andList(keysNums.slice().reverse().slice(0, 6).map((x) => `$${x}$`))}${keysNums.length > 6 ? ', ...' : ''}.`,
+        `So the safe numbers go down from $${T}$ by $${k + 1}$: ${keysNums.slice().reverse().slice(0, 6).map((x) => `$${x}$`).join(', ')}${keysNums.length > 6 ? ', and so on' : ''}.`,
         `From $${S}$, ${name} can add $1$ to $${k}$, reaching $${S + 1}$ to $${S + k}$. The only safe number in that range is $${say}$.`,
-        `${name} should say $${say}$ (add $${moves[0]}$), then keep adding enough to make $${k + 1}$ with ${opp}’s number each round.`,
+        `${name} should say $${say}$ (add $${moves[0]}$). After that, each round, ${name} adds enough to make $${k + 1}$ together with what ${opp} added.`,
       ],
       calculator: false,
     };

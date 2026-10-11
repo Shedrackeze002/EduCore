@@ -34,8 +34,13 @@ const f1 = (x: number) => fmtFixed(x, 1);
 const f2 = (x: number) => fmtFixed(x, 2);
 const fx = (x: number, dp: number) => fmtFixed(x, dp);
 const rd2 = (x: number) => Number(f2(x));
+/** A value to at most 2 decimals: exact values print plainly, others as 2-decimal approximations. */
+const v2 = (x: number) => (Math.abs(x * 100 - Math.round(x * 100)) < 1e-9 ? fmt(x) : f2(x));
+const eq2 = (x: number) => (Math.abs(x * 100 - Math.round(x * 100)) < 1e-9 ? `= ${fmt(x)}` : `\\approx ${f2(x)}`);
 const isWhole = (x: number) => Math.abs(x - Math.round(x)) < 1e-9;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** "a 6 m ladder" but "an 8 m ladder" and "an 11 m tower". */
+const an = (x: number) => (/^(8|11|18)(\.|$)|^8\d/.test(fmt(x)) ? 'an' : 'a');
 const sq = (x: number) => Math.round(x * x * 1e6) / 1e6;
 
 /** True when x is safely away from a rounding boundary (…5) at `dp` places. */
@@ -239,77 +244,119 @@ class Sketch {
       ...this.dotList,
       ...this.arcs.map((a) => a.v),
     ];
-    const xs = all.map((p) => p[0]);
-    const ys = all.map((p) => p[1]);
-    const minX = Math.min(...xs);
-    const minY = Math.min(...ys);
-    const sx = Math.max(...xs) - minX || 1;
-    const sy = Math.max(...ys) - minY || 1;
-    const k = Math.min(maxW / sx, maxH / sy);
-    const mB = 30;
-    const mT = 26;
-    const H = Math.round(sy * k + mB + mT);
-    const ox = (CANVAS_W - sx * k) / 2;
-    const T = (p: P): P => [ox + (p[0] - minX) * k, mB + (p[1] - minY) * k];
-    const R = (p: P): [number, number] => [r1(p[0]), r1(p[1])];
+    const minX = Math.min(...all.map((p) => p[0]));
+    const minY = Math.min(...all.map((p) => p[1]));
+    const sx = Math.max(...all.map((p) => p[0])) - minX || 1;
+    const sy = Math.max(...all.map((p) => p[1])) - minY || 1;
+    let k = Math.min(maxW / sx, maxH / sy);
+    let L = this.layout(k, minX, minY);
+    for (let i = 0; i < 10 && L.box[2] - L.box[0] > CANVAS_W - 8; i++) {
+      k *= 0.92;
+      L = this.layout(k, minX, minY);
+    }
+    const [bx0, by0, bx1, by1] = L.box;
+    const ox = (CANVAS_W - (bx1 - bx0)) / 2 - bx0;
+    const oy = 8 - by0;
+    const H = Math.round(by1 - by0 + 16);
+    const mv = (p: P): [number, number] => [r1(p[0] + ox), r1(p[1] + oy)];
+    const segments: PlaneSegment[] = L.segs.map((s) => ({
+      from: mv(s.a),
+      to: mv(s.b),
+      color: s.color,
+      ...(s.dashed ? { dashed: true } : {}),
+      ...(s.arrows ? { arrowStart: true, arrowEnd: true } : {}),
+    }));
+    const polylines: NonNullable<PlaneFigure['polylines']> = L.polys.map((p) => ({ points: p.pts.map(mv), color: p.color }));
+    // Every drawn line, for keeping the (invisible) label anchors off them.
+    const lines: Array<[P, P]> = [...segments.map((sg): [P, P] => [sg.from, sg.to]), ...polylines.flatMap((pl) => pl.points.slice(1).map((q, i): [P, P] => [pl.points[i], q]))];
+    const distTo = (p: P, [a, b]: [P, P]) => {
+      const vx = b[0] - a[0];
+      const vy = b[1] - a[1];
+      const t = Math.max(0, Math.min(1, ((p[0] - a[0]) * vx + (p[1] - a[1]) * vy) / (vx * vx + vy * vy || 1)));
+      return Math.hypot(p[0] - a[0] - t * vx, p[1] - a[1] - t * vy);
+    };
+    const NUDGE: P[] = [[0, 0], [0, 3], [0, -3], [3, 0], [-3, 0], [0, 6], [0, -6], [6, 0], [-6, 0], [4, 4], [-4, 4], [4, -4], [-4, -4], [0, 9], [0, -9], [9, 0], [-9, 0]];
+    const points: PlanePoint[] = [];
+    for (const lab of L.labels) {
+      const w = textW(lab.text);
+      let best: P = [0, 0];
+      let bestD = -1;
+      for (const n of NUDGE) {
+        const cx = Math.min(Math.max(lab.c[0] + ox + n[0], w / 2 + 2), CANVAS_W - w / 2 - 2);
+        const cy = lab.c[1] + oy + n[1];
+        const anchor: P = [cx - 8 - w / 2, cy - 12.3];
+        const dmin = Math.min(99, ...lines.map((ln) => distTo(anchor, ln)));
+        if (dmin > bestD) {
+          bestD = dmin;
+          best = anchor;
+        }
+        if (dmin >= 6) break;
+      }
+      points.push({ x: r1(best[0]), y: r1(best[1]), label: lab.text, color: 'muted', open: true });
+    }
+    for (const d of L.dots) points.push({ x: r1(d[0] + ox), y: r1(d[1] + oy), color: 'accent' });
+    return {
+      type: 'plane',
+      grid: { xMin: 0, xMax: CANVAS_W, yMin: 0, yMax: H, step: 1000 },
+      segments,
+      polylines,
+      points,
+      hideTickLabels: true,
+    };
+  }
+
+  /** Everything in pixels (before centring) at scale k, with the bounding box of lines, dots and label text. */
+  private layout(k: number, minX: number, minY: number) {
+    const T = (p: P): P => [(p[0] - minX) * k, (p[1] - minY) * k];
     const unit = (v: P): P => {
       const l = Math.hypot(v[0], v[1]) || 1;
       return [v[0] / l, v[1] / l];
     };
     const ext = (n: P, w: number) => Math.abs(n[0]) * (w / 2) + Math.abs(n[1]) * 7;
-    const points: PlanePoint[] = [];
-    const place = (c: P, text: string) => {
-      const w = textW(text);
-      const cx = Math.min(Math.max(c[0], w / 2 + 2), CANVAS_W - w / 2 - 2);
-      const cy = Math.min(Math.max(c[1], 8), H - 8);
-      points.push({ x: r1(cx - 8 - w / 2), y: r1(cy - 12.3), label: text, color: 'muted', open: true });
-    };
-
-    const segments: PlaneSegment[] = this.segs.map((s) => ({ from: R(T(s.a)), to: R(T(s.b)), color: s.color, ...(s.dashed ? { dashed: true } : {}) }));
+    const segs: Array<{ a: P; b: P; color: Col; dashed?: boolean; arrows?: boolean }> = this.segs.map((s) => ({ a: T(s.a), b: T(s.b), color: s.color, dashed: s.dashed }));
+    const polys: Array<{ pts: P[]; color: Col }> = this.polys.map((p) => ({ pts: p.pts.map(T), color: p.color }));
+    const labels: Array<{ c: P; text: string }> = [];
     for (const d of this.dims) {
       const a = T(d.a);
       const b = T(d.b);
-      segments.push({ from: R([a[0] + d.shift[0], a[1] + d.shift[1]]), to: R([b[0] + d.shift[0], b[1] + d.shift[1]]), color: 'muted', arrowStart: true, arrowEnd: true });
+      segs.push({ a: [a[0] + d.shift[0], a[1] + d.shift[1]], b: [b[0] + d.shift[0], b[1] + d.shift[1]], color: 'muted', arrows: true });
       const n = unit(d.shift);
-      const w = textW(d.text);
-      const e = 5 + ext(n, w);
-      place([(a[0] + b[0]) / 2 + d.shift[0] + n[0] * e, (a[1] + b[1]) / 2 + d.shift[1] + n[1] * e], d.text);
+      const e = 7 + ext(n, textW(d.text));
+      labels.push({ c: [(a[0] + b[0]) / 2 + d.shift[0] + n[0] * e, (a[1] + b[1]) / 2 + d.shift[1] + n[1] * e], text: d.text });
     }
-    const polylines: NonNullable<PlaneFigure['polylines']> = this.polys.map((p) => ({ points: p.pts.map((q) => R(T(q))), color: p.color }));
     for (const m of this.rights) {
       const v = T(m.v);
       const u = unit([T(m.p)[0] - v[0], T(m.p)[1] - v[1]]);
       const w = unit([T(m.q)[0] - v[0], T(m.q)[1] - v[1]]);
       const s = 9;
-      polylines.push({ points: [R([v[0] + u[0] * s, v[1] + u[1] * s]), R([v[0] + (u[0] + w[0]) * s, v[1] + (u[1] + w[1]) * s]), R([v[0] + w[0] * s, v[1] + w[1] * s])], color: 'muted' });
+      polys.push({ pts: [[v[0] + u[0] * s, v[1] + u[1] * s], [v[0] + (u[0] + w[0]) * s, v[1] + (u[1] + w[1]) * s], [v[0] + w[0] * s, v[1] + w[1] * s]], color: 'muted' });
     }
     for (const a of this.arcs) {
       const v = T(a.v);
       const p = T(a.p);
       const q = T(a.q);
-      const f1a = Math.atan2(p[1] - v[1], p[0] - v[0]);
-      let diff = Math.atan2(q[1] - v[1], q[0] - v[0]) - f1a;
+      const start = Math.atan2(p[1] - v[1], p[0] - v[0]);
+      let diff = Math.atan2(q[1] - v[1], q[0] - v[0]) - start;
       while (diff > Math.PI) diff -= 2 * Math.PI;
       while (diff <= -Math.PI) diff += 2 * Math.PI;
       const n = Math.max(6, Math.ceil(Math.abs(diff) / 0.1));
-      const pts: Array<[number, number]> = [];
+      const pts: P[] = [];
       for (let i = 0; i <= n; i++) {
-        const t = f1a + (diff * i) / n;
-        pts.push(R([v[0] + a.r * Math.cos(t), v[1] + a.r * Math.sin(t)]));
+        const t = start + (diff * i) / n;
+        pts.push([v[0] + a.r * Math.cos(t), v[1] + a.r * Math.sin(t)]);
       }
-      polylines.push({ points: pts, color: 'accent' });
+      polys.push({ pts, color: 'accent' });
       if (a.text) {
-        const mid = f1a + diff / 2;
+        const mid = start + diff / 2;
         const bis: P = [Math.cos(mid), Math.sin(mid)];
         const e = a.r + 6 + ext(bis, textW(a.text));
-        place([v[0] + bis[0] * e, v[1] + bis[1] * e], a.text);
+        labels.push({ c: [v[0] + bis[0] * e, v[1] + bis[1] * e], text: a.text });
       }
     }
     for (const l of this.labels) {
-      const w = textW(l.text);
       if (l.at) {
         const c = T(l.at);
-        place([c[0] + (l.dx ?? 0), c[1] + (l.dy ?? 0)], l.text);
+        labels.push({ c: [c[0] + (l.dx ?? 0), c[1] + (l.dy ?? 0)], text: l.text });
         continue;
       }
       const a = T(l.a!);
@@ -318,22 +365,32 @@ class Sketch {
       let n = unit([-(b[1] - a[1]), b[0] - a[0]]);
       const aw = T(l.away!);
       if (n[0] * (aw[0] - m[0]) + n[1] * (aw[1] - m[1]) > 0) n = [-n[0], -n[1]];
-      const e = (l.gap ?? 8) + ext(n, w);
-      place([m[0] + n[0] * e, m[1] + n[1] * e], l.text);
+      const e = (l.gap ?? 8) + ext(n, textW(l.text));
+      labels.push({ c: [m[0] + n[0] * e, m[1] + n[1] * e], text: l.text });
     }
-    for (const d of this.dotList) {
-      const p = R(T(d));
-      points.push({ x: p[0], y: p[1], color: 'accent' });
-    }
-    const fig: PlaneFigure = {
-      type: 'plane',
-      grid: { xMin: 0, xMax: CANVAS_W, yMin: 0, yMax: H, step: 1000 },
-      segments,
-      polylines,
-      points,
-      hideTickLabels: true,
+    const dots = this.dotList.map(T);
+    const xs: number[] = [];
+    const ys: number[] = [];
+    const add = (x: number, y: number) => {
+      xs.push(x);
+      ys.push(y);
     };
-    return fig;
+    for (const sg of segs) {
+      add(...sg.a);
+      add(...sg.b);
+    }
+    for (const pl of polys) for (const q of pl.pts) add(...q);
+    for (const d of dots) {
+      add(d[0] - 6, d[1] - 6);
+      add(d[0] + 6, d[1] + 6);
+    }
+    for (const lab of labels) {
+      const w = textW(lab.text);
+      add(lab.c[0] - w / 2, lab.c[1] - 8);
+      add(lab.c[0] + w / 2, lab.c[1] + 8);
+    }
+    const box: [number, number, number, number] = [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+    return { segs, polys, labels, dots, box };
   }
 }
 
@@ -364,7 +421,7 @@ function reviewBasic(rng: Rng): GenOutput {
   const t = triN(rng);
   const unit = rng.pick(['cm', 'm'] as const);
   const mode = rng.pick(['hyp', 'leg', 'trig', 'trig', 'trig'] as const);
-  const tri = `\\triangle ${t.A}${t.B}${t.R}`;
+  const tri = `\\triangle ${[t.A, t.B, t.R].sort().join('')}`;
   const RA = seg(t.R, t.A);
   const RB = seg(t.R, t.B);
   const AB = seg(t.A, t.B);
@@ -585,7 +642,7 @@ function angleFind(rng: Rng): GenOutput {
       const rise = rng.int(6, 18) * 5 / 100;
       const run = rng.int(40, 110) / 10;
       return {
-        fn: 'tan', top: rise, bottom: run, u: 'm', tw: 'opp', bw: 'adj', what: 'the ramp makes with the ground',
+        fn: 'tan', top: rise, bottom: run, u: 'm', tw: 'opp', bw: 'adj', what: 'The ramp makes an angle of about %A with the ground.',
         prompt: `A loading ramp behind a shop in ${town} rises ${Q(rise, 'm')} over a horizontal run of ${Q(run, 'm')}. What angle does the ramp make with the ground, ${NEAR_DEG}?`,
         fig: rtFig(UPRIGHT('C', 'A', 'B'), run, rise, { ra: lb(run, 'm'), rb: lb(rise, 'm') }, { a: 'θ' }, 'ramp'),
       };
@@ -594,8 +651,8 @@ function angleFind(rng: Rng): GenOutput {
       const L = rng.int(8, 18) / 2;
       const d = rng.int(10, 26) / 10;
       return {
-        fn: 'cos', top: d, bottom: L, u: 'm', tw: 'adj', bw: 'hyp', what: 'the ladder makes with the ground',
-        prompt: `A ${fmt(L)} m ladder leans against a wall with its foot ${Q(d, 'm')} from the wall. What angle does the ladder make with the ground, ${NEAR_DEG}?`,
+        fn: 'cos', top: d, bottom: L, u: 'm', tw: 'adj', bw: 'hyp', what: 'The ladder makes an angle of about %A with the ground.',
+        prompt: `${cap(an(L))} ${fmt(L)} m ladder leans against a wall with its foot ${Q(d, 'm')} from the wall. What angle does the ladder make with the ground, ${NEAR_DEG}?`,
         fig: rtFig(UPRIGHT('W', 'F', 'T'), d, Math.sqrt(L * L - d * d), { ra: lb(d, 'm'), ab: lb(L, 'm') }, { a: 'θ' }, 'ladder'),
       };
     }
@@ -603,7 +660,7 @@ function angleFind(rng: Rng): GenOutput {
       const len = rng.int(20, 36) / 2;
       const rise = rng.int(3, 9);
       return {
-        fn: 'sin', top: rise, bottom: len, u: 'ft', tw: 'opp', bw: 'hyp', what: 'the rafter makes with the horizontal',
+        fn: 'sin', top: rise, bottom: len, u: 'ft', tw: 'opp', bw: 'hyp', what: 'The rafter makes an angle of about %A with the horizontal.',
         prompt: `A roof rafter on a garage in ${town} is ${Q(len, 'ft')} long from the top of the wall to the peak, and the peak is ${Q(rise, 'ft')} higher than the top of the wall. What angle does the rafter make with the horizontal, ${NEAR_DEG}?`,
         fig: rtFig(UPRIGHT('C', 'A', 'B'), Math.sqrt(len * len - rise * rise), rise, { rb: lb(rise, 'ft'), ab: lb(len, 'ft') }, { a: 'θ' }),
       };
@@ -612,7 +669,7 @@ function angleFind(rng: Rng): GenOutput {
       const len = rng.int(12, 30);
       const h = rng.int(30, 100) / 10;
       return {
-        fn: 'sin', top: h, bottom: len, u: 'm', tw: 'opp', bw: 'hyp', what: 'the conveyor makes with the ground',
+        fn: 'sin', top: h, bottom: len, u: 'm', tw: 'opp', bw: 'hyp', what: 'The conveyor makes an angle of about %A with the ground.',
         prompt: `A grain conveyor on a farm near ${town} is ${Q(len, 'm')} long. Its top end rests on the edge of a bin ${Q(h, 'm')} above the ground. What angle does the conveyor make with the ground, ${NEAR_DEG}?`,
         fig: rtFig(UPRIGHT('C', 'A', 'B'), Math.sqrt(len * len - h * h), h, { rb: lb(h, 'm'), ab: lb(len, 'm') }, { a: 'θ' }),
       };
@@ -620,8 +677,8 @@ function angleFind(rng: Rng): GenOutput {
     const h = rng.int(3, 12);
     const sh = rng.int(25, 220) / 10;
     return {
-      fn: 'tan', top: h, bottom: sh, u: 'm', tw: 'opp', bw: 'adj', what: 'is the angle of elevation of the sun',
-      prompt: `A ${h} m flagpole in ${town} casts a shadow ${Q(sh, 'm')} long on level ground. What is the angle of elevation of the sun, ${NEAR_DEG}?`,
+      fn: 'tan', top: h, bottom: sh, u: 'm', tw: 'opp', bw: 'adj', what: 'The angle of elevation of the sun is about %A.',
+      prompt: `${cap(an(h))} ${h} m flagpole in ${town} casts a shadow ${Q(sh, 'm')} long on level ground. What is the angle of elevation of the sun, ${NEAR_DEG}?`,
       fig: rtFig(UPRIGHT('B', 'S', 'T'), sh, h, { ra: lb(sh, 'm'), rb: lb(h, 'm') }, { a: 'θ' }),
     };
   };
@@ -642,7 +699,7 @@ function angleFind(rng: Rng): GenOutput {
       `From $\\theta$, the ${fmt(top)} ${u} side is the ${SIDE_WORD[c.tw]} and the ${fmt(bottom)} ${u} side is the ${SIDE_WORD[c.bw]}, so use ${FN_WORD[fn]} (${MEM[fn]}).`,
       `$\\${fn}\\theta = \\dfrac{${fmt(top)}}{${fmt(bottom)}} \\approx ${r4(s.r)}$`,
       `$\\theta = \\${fn}^{-1}\\left(\\dfrac{${fmt(top)}}{${fmt(bottom)}}\\right) \\approx ${fx(s.a, 2)}^\\circ$`,
-      `The angle ${c.what} is about $${f1(s.a)}^\\circ$.`,
+      c.what.replace('%A', `$${f1(s.a)}^\\circ$`),
     ],
   };
 }
@@ -662,7 +719,7 @@ function pythApplied(rng: Rng): GenOutput {
     );
     const { L, d, h } = v;
     return {
-      prompt: `${who} sets the foot of a ${fmt(L)} m ladder ${Q(d, 'm')} from the wall of a house in ${town}. How high up the wall does the ladder reach, ${nearest('m')}?`,
+      prompt: `${who} sets the foot of ${an(L)} ${fmt(L)} m ladder ${Q(d, 'm')} from the wall of a house in ${town}. How high up the wall does the ladder reach, ${nearest('m')}?`,
       figure: rtFig(UPRIGHT('W', 'F', 'T'), d, h, { ra: lb(d, 'm'), ab: lb(L, 'm'), rb: 'h' }, {}, 'ladder'),
       parts: [lenPart(h, 'm', 'Height')],
       hints: ['No angle is given, but you know two sides of a right triangle: use the Pythagorean theorem.', 'The ladder is the hypotenuse, so $h^2 = L^2 - d^2$.'],
@@ -733,7 +790,7 @@ function solveAll(rng: Rng): GenOutput {
   const sides = sidesFrom(known, kv, ang);
   const [legA, legB] = drawLegs(at, sides);
   return {
-    prompt: `In $\\triangle ${t.A}${t.B}${t.R}$, $\\angle ${t.R} = 90^\\circ$, $\\angle ${R.vtx} = ${deg(ang)}$ and $${R.name[known]} = ${qm(kv, unit)}$. Solve the triangle: find $\\angle ${R.other}$ and the lengths of $${R.name[s1.want]}$ and $${R.name[s2.want]}$, ${nearest(unit)}.`,
+    prompt: `In $\\triangle ${[t.A, t.B, t.R].sort().join('')}$, $\\angle ${t.R} = 90^\\circ$, $\\angle ${R.vtx} = ${deg(ang)}$ and $${R.name[known]} = ${qm(kv, unit)}$. Solve the triangle: find $\\angle ${R.other}$ and the lengths of $${R.name[s1.want]}$ and $${R.name[s2.want]}$, ${nearest(unit)}.`,
     figure: rtFig(t, legA, legB, { [R.key[known]]: lb(kv, unit) }, { [at]: `${ang}°` }),
     parts: [numPart(90 - ang, { suffix: '°', label: `$\\angle ${R.other}$` }), lenPart(s1.x, unit, `$${R.name[s1.want]}$`), lenPart(s2.x, unit, `$${R.name[s2.want]}$`)],
     hints: ['The angles of a triangle add to $180^\\circ$. With a $90^\\circ$ angle, the two acute angles add to $90^\\circ$.', `Label the sides from $\\angle ${R.vtx}$, then use the side you were given to find each missing side. ${KEEP}`],
@@ -778,7 +835,7 @@ function solveTwoSides(rng: Rng): GenOutput {
   const ratioA = legs ? `\\dfrac{${RB}}{${RA}} = \\dfrac{${fmt(b)}}{${fmt(a)}}` : `\\dfrac{${RA}}{${AB}} = \\dfrac{${fmt(a)}}{${fmt(c)}}`;
   const rA = legs ? b / a : a / c;
   return {
-    prompt: `In $\\triangle ${t.A}${t.B}${t.R}$, $\\angle ${t.R} = 90^\\circ$, ${givenText}. Find the length of $${thirdName}$ ${nearest(unit)}, and find $\\angle ${t.A}$ and $\\angle ${t.B}$ ${NEAR_DEG}.`,
+    prompt: `In $\\triangle ${[t.A, t.B, t.R].sort().join('')}$, $\\angle ${t.R} = 90^\\circ$, ${givenText}. Find the length of $${thirdName}$ ${nearest(unit)}, and find $\\angle ${t.A}$ and $\\angle ${t.B}$ ${NEAR_DEG}.`,
     figure: rtFig(t, a, b, legs ? { ra: lb(a, unit), rb: lb(b, unit) } : { ra: lb(a, unit), ab: lb(c, unit) }),
     parts: [lenPart(third, unit, `$${thirdName}$`), angPart(angA, `$\\angle ${t.A}$`), angPart(angB, `$\\angle ${t.B}$`)],
     hints: ['Use the Pythagorean theorem for the missing side. Use an inverse trig ratio for one angle, then subtract from $90^\\circ$ for the other.', `From $\\angle ${t.A}$, $${RA}$ is adjacent${legs ? ` and $${RB}$ is opposite: use TOA` : ` and $${AB}$ is the hypotenuse: use CAH`}.`],
@@ -807,7 +864,7 @@ function ladderSafety(rng: Rng): GenOutput {
   const { L, d, ang, h } = v;
   const safe = ang >= 70 && ang <= 80;
   return {
-    prompt: `Suppose a safety guideline says a ladder should make an angle between $70^\\circ$ and $80^\\circ$ with the ground. ${who} sets up a ${fmt(L)} m ladder with its foot ${Q(d, 'm')} from a wall.\n\n(a) What angle does the ladder make with the ground, ${NEAR_DEG}?\n\n(b) How high up the wall does it reach, ${nearest('m')}?\n\n(c) Does the setup follow the guideline?`,
+    prompt: `Suppose a safety guideline says a ladder should make an angle between $70^\\circ$ and $80^\\circ$ with the ground. ${who} sets up ${an(L)} ${fmt(L)} m ladder with its foot ${Q(d, 'm')} from a wall.\n\n(a) What angle does the ladder make with the ground, ${NEAR_DEG}?\n\n(b) How high up the wall does it reach, ${nearest('m')}?\n\n(c) Does the setup follow the guideline?`,
     figure: rtFig(UPRIGHT('W', 'F', 'T'), d, h, { ra: lb(d, 'm'), ab: lb(L, 'm'), rb: 'h' }, { a: 'θ' }, 'ladder'),
     parts: [angPart(ang, '(a) $\\theta =$'), lenPart(h, 'm', '(b) $h =$'), part(fixedChoice(['Yes', 'No'], safe ? 0 : 1), { label: '(c)' })],
     hints: ['The ladder is the hypotenuse and the distance from the wall is adjacent to the angle at the ground: use CAH and $\\cos^{-1}$.', 'For the height, use the Pythagorean theorem (or SOH with your angle). Then compare the angle with the guideline.'],
@@ -947,8 +1004,8 @@ function alleyFig(L: number, a1: number, a2: number, ask: 'width' | 'heights'): 
     .right([W, 0], [W - 1, 0], [W, 1])
     .angle(F, [0, 0], [0, h1], `${a1}°`, 22)
     .angle(F, [W, 0], [W, h2], `${a2}°`, 22)
-    .side(F, [0, h1], lb(L, 'm'), [p, top], 6)
-    .side(F, [W, h2], lb(L, 'm'), [p, top], 6);
+    .side(F, [0, h1], lb(L, 'm'), [0, 0], 6)
+    .side(F, [W, h2], lb(L, 'm'), [W, 0], 6);
   if (ask === 'width') s.dim([0, 0], [W, 0], 'x', [0, -14]);
   else s.dim([0, h2], [0, h1], 'x', [-12, 0]).line([0, h2], [W, h2], 'muted', true);
   return s.build(220, 200);
@@ -970,7 +1027,7 @@ function alleyWidth(rng: Rng): GenOutput {
   );
   const { L, a1, a2, d1, d2, x } = v;
   return {
-    prompt: `${who} is painting in a narrow alley between two buildings in ${town}. The foot of a ${fmt(L)} m ladder stands on the ground between the buildings. Leaned against one wall, the ladder makes an angle of $${deg(a1)}$ with the ground. Without moving the foot, ${who} swings the ladder over to the other wall, where it makes an angle of $${deg(a2)}$ with the ground. How wide is the alley, ${nearest('m')}?`,
+    prompt: `${who} is painting in a narrow alley between two buildings in ${town}. The foot of ${an(L)} ${fmt(L)} m ladder stands on the ground between the buildings. Leaned against one wall, the ladder makes an angle of $${deg(a1)}$ with the ground. Without moving the foot, ${who} swings the ladder over to the other wall, where it makes an angle of $${deg(a2)}$ with the ground. How wide is the alley, ${nearest('m')}?`,
     figure: alleyFig(L, a1, a2, 'width'),
     parts: [lenPart(x, 'm', 'Width $x =$')],
     hints: [`${SPLIT} The ladder is the hypotenuse of both triangles.`, `In each triangle the distance from the foot to the wall is adjacent to the angle: use CAH, distance $= ${fmt(L)}\\cos\\theta$. Add the two distances.`],
@@ -1030,15 +1087,15 @@ function guyPair(rng: Rng): GenOutput {
   const w1 = Math.hypot(h, d1);
   const w2 = Math.hypot(h, d2);
   const total = w1 + w2;
-  const mast = rng.pick(['radio mast', 'wind-monitoring mast', 'communications tower', 'light tower at a ball diamond']);
+  const [mast, short] = rng.pick([['radio mast', 'mast'], ['wind-monitoring mast', 'mast'], ['communications tower', 'tower'], ['light tower at a ball diamond', 'tower']] as const);
   const show = (w: number) => (isWhole(w) ? `= ${fmt(w)}` : `\\approx ${f2(w)}`);
   return {
     prompt: `Two guy wires hold up a ${mast} near ${town}. Both wires are attached ${Q(h, 'm')} above the ground and run to anchors on opposite sides of the base: one anchor is ${Q(d1, 'm')} from the base and the other is ${Q(d2, 'm')} from the base. What total length of wire is needed${exact ? '' : `, ${nearest('m')}`}? Ignore the extra wire needed to fasten the ends.`,
     figure: guyFigPair(h, d1, d2),
     parts: [exact ? numPart(total, { suffix: 'm', label: 'Total' }) : lenPart(total, 'm', 'Total')],
-    hints: [`${SPLIT} They share the height on the mast, $${qm(h, 'm')}$.`, 'No angles are given, so use the Pythagorean theorem in each triangle (each wire is a hypotenuse), then add the two lengths.'],
+    hints: [`${SPLIT} They share the height on the ${short}, $${qm(h, 'm')}$.`, 'No angles are given, so use the Pythagorean theorem in each triangle (each wire is a hypotenuse), then add the two lengths.'],
     solution: [
-      `The two right triangles share the vertical side: $${qm(h, 'm')}$ up the mast. Each wire is a hypotenuse.`,
+      `The two right triangles share the vertical side: $${qm(h, 'm')}$ up the ${short}. Each wire is a hypotenuse.`,
       `First wire: $\\sqrt{${h}^2 + ${d1}^2} = \\sqrt{${h * h + d1 * d1}} ${show(w1)}\\ \\text{m}$`,
       `Second wire: $\\sqrt{${h}^2 + ${d2}^2} = \\sqrt{${h * h + d2 * d2}} ${show(w2)}\\ \\text{m}$`,
       exact ? `Total: $${fmt(w1)} + ${fmt(w2)} = ${fmt(total)}\\ \\text{m}$` : `Total: $${f2(w1)} + ${f2(w2)} \\approx ${f2(total)}\\ \\text{m}$`,
@@ -1131,7 +1188,7 @@ function alleyHeights(rng: Rng): GenOutput {
   );
   const { L, a1, a2, h1, h2, x } = v;
   return {
-    prompt: `${who} stands a ${fmt(L)} m ladder in a narrow alley. Leaned against one wall, it makes an angle of $${deg(a1)}$ with the ground. Without moving the foot, ${who} swings it over to the opposite wall, where it makes an angle of $${deg(a2)}$ with the ground. How much higher does the ladder reach on the first wall than on the second, ${nearest('m')}?`,
+    prompt: `${who} stands ${an(L)} ${fmt(L)} m ladder in a narrow alley. Leaned against one wall, it makes an angle of $${deg(a1)}$ with the ground. Without moving the foot, ${who} swings it over to the opposite wall, where it makes an angle of $${deg(a2)}$ with the ground. How much higher does the ladder reach on the first wall than on the second, ${nearest('m')}?`,
     figure: alleyFig(L, a1, a2, 'heights'),
     parts: [lenPart(x, 'm', 'Difference')],
     hints: [`${SPLIT} The ladder is the hypotenuse of both.`, `In each triangle the height on the wall is opposite the angle: use SOH, height $= ${fmt(L)}\\sin\\theta$. Subtract the heights. ${KEEP}`],
@@ -1155,9 +1212,9 @@ function guyAngleFig(d: number, h1: number, h2: number): PlaneFigure {
     .dot([d, 0])
     .angle([d, 0], [0, h1], [0, h2], 'θ', 34)
     .dim([0, 0], [d, 0], lb(d, 'm'), [0, -14])
-    .dim([0, 0], [0, h1], lb(h1, 'm'), [14, 0])
-    .dim([0, 0], [0, h2], lb(h2, 'm'), [-14, 0])
-    .build(230, 190);
+    .dim([0, 0], [0, h1], lb(h1, 'm'), [-12, 0])
+    .dim([0, 0], [0, h2], lb(h2, 'm'), [-26 - textW(lb(h1, 'm')), 0])
+    .build(190, 190);
 }
 
 function guyAngle(rng: Rng): GenOutput {
@@ -1207,10 +1264,10 @@ function cliffKnownFig(d1: number, d2: number, h: number, A1: number, A2: number
     .angle(T, [d2, h], [d2, 0], `${A2}°`, 58)
     .dot([d1, 0])
     .dot([d2, 0])
-    .text([d1, 0], obj1, 0, 14)
-    .text([d2, 0], obj2, 0, 14)
-    .dim([0, 0], [d1, 0], lb(d1, 'm'), [0, -14])
-    .dim([d1, 0], [d2, 0], 'x', [0, -14])
+    .text([d1, 0], obj1, 0, -13)
+    .text([d2, 0], obj2, 0, -13)
+    .dim([0, 0], [d1, 0], lb(d1, 'm'), [0, -30])
+    .dim([d1, 0], [d2, 0], 'x', [0, -30])
     .dim([0, 0], T, 'h', [-26, 0])
     .build(280, 150);
 }
@@ -1260,7 +1317,7 @@ function oppositeKnownFig(dA: number, dB: number, h: number, aA: number, aB: num
     .text([-dA, 0], 'A', -12, 0)
     .text([dB, 0], 'B', 12, 0)
     .dim([-dA, 0], [0, 0], lb(dA, 'm'), [0, -14])
-    .dim([-dA, 0], [dB, 0], 'x', [0, -40])
+    .dim([-dA, 0], [dB, 0], 'x', [0, -50])
     .text([0, h / 2], 'h', 10, 0)
     .build(280, 150);
 }
@@ -1298,7 +1355,8 @@ function oppositeKnown(rng: Rng): GenOutput {
 function ladderSlideFig(L: number, a: number, m: number): PlaneFigure {
   const d1 = L * cosD(a);
   const h1 = L * sinD(a);
-  const d2 = d1 + m;
+  // A small pull is drawn a little larger so the second position is visible.
+  const d2 = d1 + Math.max(m, L * 0.12);
   const h2 = Math.sqrt(L * L - d2 * d2);
   return new Sketch()
     .line([0, 0], [0, h1 * 1.1], 'muted')
@@ -1332,7 +1390,7 @@ function ladderSlide(rng: Rng): GenOutput {
   );
   const { L, a, m, d1, h1, d2, h2, cm } = v;
   return {
-    prompt: `A ${fmt(L)} m ladder leans against a wall and makes an angle of $${deg(a)}$ with the ground. ${who} pulls the foot of the ladder ${Q(m, 'm')} farther away from the wall, and the top slides down the wall. How far does the top of the ladder slide down, to the nearest centimetre?`,
+    prompt: `${cap(an(L))} ${fmt(L)} m ladder leans against a wall and makes an angle of $${deg(a)}$ with the ground. ${who} pulls the foot of the ladder ${Q(m, 'm')} farther away from the wall, and the top slides down the wall. How far does the top of the ladder slide down, to the nearest centimetre?`,
     figure: ladderSlideFig(L, a, m),
     parts: [numPart(cm, { decimals: 0, suffix: 'cm', label: 'Slide' })],
     hints: [`${SHARED_FIRST} In the first position you know the angle and the ladder (hypotenuse): find the height $h_1 = ${fmt(L)}\\sin ${deg(a)}$ and the foot distance $d_1 = ${fmt(L)}\\cos ${deg(a)}$.`, `In the second position the foot is $d_1 + ${fmt(m)}$ from the wall and the ladder is still $${fmt(L)}$ m long: use the Pythagorean theorem for the new height. Subtract. ${KEEP}`],
@@ -1415,7 +1473,7 @@ function flagAngle(rng: Rng): GenOutput {
   );
   const { dist, a1, x, H, th } = v;
   return {
-    prompt: `A ${x} m flagpole stands on the flat roof of a school in ${town}. From a point on the ground ${Q(dist, 'm')} from the base of the school, the angle of elevation to the top of the roof (the bottom of the flagpole) is $${deg(a1)}$. What is the angle of elevation from the same point to the top of the flagpole, ${NEAR_DEG}?`,
+    prompt: `${cap(an(x))} ${x} m flagpole stands on the flat roof of a school in ${town}. From a point on the ground ${Q(dist, 'm')} from the base of the school, the angle of elevation to the top of the roof (the bottom of the flagpole) is $${deg(a1)}$. What is the angle of elevation from the same point to the top of the flagpole, ${NEAR_DEG}?`,
     figure: { type: 'twoTriangles', arrangement: 'stacked', labels: { d: `${dist} m`, a1: `${a1}°`, a2: 'θ', x: `${x} m` } },
     parts: [angPart(th, '$\\theta =$')],
     hints: [`${SHARED_FIRST} Use the lower triangle to find the height of the school: $H = ${dist}\\tan ${deg(a1)}$.`, `The top of the flagpole is $H + ${x}$ above the ground. In the larger triangle, $\\tan\\theta = \\dfrac{H + ${x}}{${dist}}$. ${KEEP}`],
@@ -1472,7 +1530,7 @@ function boxFig(l: number, w: number, h: number, u: string, labels: { floor: str
     .side(B, Fb, lb(w, u), A, 6)
     .side(A, D, lb(h, u), B, 6)
     .side(A, G, labels.space, D, 4)
-    .text([(A[0] + Fb[0]) * 0.6, (A[1] + Fb[1]) * 0.6], labels.floor, 0, 9);
+    .side(A, Fb, labels.floor, B, 3);
   if (angle) s.angle(A, Fb, G, angle, 30);
   return s.build(250, 190);
 }
@@ -1540,7 +1598,7 @@ function boxDiag(rng: Rng): GenOutput {
 }
 
 /** Two flights of stairs with a landing between them. */
-function stairsFig(n1: number, n2: number, r: number, t: number, G: number, mode: 'pyth' | 'trig' | 'angle', labels: { T1?: string; R1?: string; T2?: string; R2?: string; G: string; step?: [string, string] }): PlaneFigure {
+function stairsFig(n1: number, n2: number, r: number, t: number, G: number, mode: 'pyth' | 'trig' | 'angle', labels: { T1?: string; R1?: string; T2?: string; R2?: string; G: string }): PlaneFigure {
   const T1 = n1 * t;
   const R1 = n1 * r;
   const T2 = n2 * t;
@@ -1560,10 +1618,6 @@ function stairsFig(n1: number, n2: number, r: number, t: number, G: number, mode
   if (labels.T2) s.dim([X2, R1], [end[0], R1], labels.T2, [0, -14]);
   if (labels.R1) s.dim([end[0] + t * 0.8, 0], [end[0] + t * 0.8, R1], labels.R1, [14, 0]);
   if (labels.R2) s.dim([end[0] + t * 0.8, R1], [end[0] + t * 0.8, end[1]], labels.R2, [14, 0]);
-  if (labels.step) {
-    s.text([0, r / 2], labels.step[0], -textW(labels.step[0]) / 2 - 8, 0);
-    s.text([t / 2, r], labels.step[1], 0, 10);
-  }
   return s.build(260, 160);
 }
 
@@ -1696,11 +1750,11 @@ function survey3(rng: Rng): GenOutput {
       const [dP, dQ, dR] = [aP, aQ, aR].map((a) => h / tanD(a));
       return { h, aP, aQ, aR, dP, dQ, dR, x: dQ - dP, y: dR - dQ };
     },
-    (v) => clear(v.x) && clear(v.y) && f1(rd2(v.dQ) - rd2(v.dP)) === f1(v.x) && f1(rd2(v.dR) - rd2(v.dQ)) === f1(v.y) && v.dR < 5 * v.dP,
+    (v) => clear(v.x) && clear(v.y) && f1(rd2(v.dQ) - rd2(v.dP)) === f1(v.x) && f1(rd2(v.dR) - rd2(v.dQ)) === f1(v.y) && v.dR < 5 * v.dP && v.x > 0.15 * v.dR && v.y > 0.15 * v.dR,
   );
   const { h, aP, aQ, aR, dP, dQ, dR, x, y } = v;
   return {
-    prompt: `${who} is a survey technician near ${town}. Stakes P, Q and R are in a straight line on level ground, going away from the base of a ${h} m communications tower. From each stake, ${who} sights the top of the tower and measures the angle of elevation: $${deg(aP)}$ from P, $${deg(aQ)}$ from Q and $${deg(aR)}$ from R. (Measure from ground level.)\n\n(a) How far apart are P and Q?\n\n(b) How far apart are Q and R?\n\nRound each answer ${nearest('m')}.`,
+    prompt: `${who} is a survey technician near ${town}. Stakes P, Q and R are in a straight line on level ground, going away from the base of ${an(h)} ${h} m communications tower. From each stake, ${who} sights the top of the tower and measures the angle of elevation: $${deg(aP)}$ from P, $${deg(aQ)}$ from Q and $${deg(aR)}$ from R. (Measure from ground level.)\n\n(a) How far apart are P and Q?\n\n(b) How far apart are Q and R?\n\nRound each answer ${nearest('m')}.`,
     figure: survey3Fig(h, [dP, dQ, dR], [aP, aQ, aR], 'gaps'),
     parts: [lenPart(x, 'm', '(a) $x =$'), lenPart(y, 'm', '(b) $y =$')],
     hints: [`There are three right triangles, one for each sighting. They all share the tower, $${qm(h, 'm')}$, which is opposite each angle.`, `Find each stake’s distance from the base with $\\dfrac{${h}}{\\tan\\theta}$, then subtract neighbouring distances. ${KEEP}`],
@@ -1768,7 +1822,7 @@ function stairsTrig(rng: Rng): GenOutput {
   const L2 = R2 / sinD(th);
   return {
     prompt: `${who} is building stairs with a landing. Every step has a riser of ${Q(r, 'cm')} and a tread of ${Q(t, 'cm')}. The first flight rises ${Q(R1, 'cm')}, then there is a landing ${Q(G, 'cm')} long, and the second flight rises ${Q(R2, 'cm')}. A stringer under each flight slopes at the same angle as the steps.\n\n(a) What angle do the stairs make with the floor, ${NEAR_DEG}?\n\n(b) What is the total length of the two stringers on one side of the stairs, to the nearest centimetre?`,
-    figure: stairsFig(n1, n2, r, t, G, 'trig', { R1: lb(R1, 'cm'), R2: lb(R2, 'cm'), G: lb(G, 'cm'), step: [`${fmt(r)} cm`, `${t} cm`] }),
+    figure: stairsFig(n1, n2, r, t, G, 'trig', { R1: lb(R1, 'cm'), R2: lb(R2, 'cm'), G: lb(G, 'cm') }),
     parts: [angPart(th, '(a) $\\theta =$'), numPart(tot, { decimals: 0, suffix: 'cm', label: '(b) Stringers' })],
     hints: ['Triangle 1 is one step: the riser is opposite the angle and the tread is adjacent, so $\\theta = \\tan^{-1}\\left(\\dfrac{\\text{riser}}{\\text{tread}}\\right)$.', `Triangles 2 and 3 are the two flights. In each, the rise is opposite $\\theta$ and the stringer is the hypotenuse: stringer $= \\dfrac{\\text{rise}}{\\sin\\theta}$. ${KEEP}`],
     solution: [
@@ -1864,8 +1918,8 @@ function stairsAngle(rng: Rng): GenOutput {
   const T2 = R2 / tanD(th);
   return {
     prompt: `A staircase in a community centre has two flights with a landing between them. Every step has a riser of ${Q(r, 'cm')} and a tread of ${Q(t, 'cm')}. The first flight rises ${Q(R1, 'cm')}, the landing is ${Q(G, 'cm')} long, and the second flight rises ${Q(R2, 'cm')}. ${who} wants to run a straight cable from the bottom of the stairs to the top.\n\n(a) What angle do the steps make with the floor?\n\n(b) What angle does the straight cable make with the floor?\n\nRound each angle ${NEAR_DEG}.`,
-    figure: stairsFig(n1, n2, r, t, G, 'angle', { R1: lb(R1, 'cm'), R2: lb(R2, 'cm'), G: lb(G, 'cm'), step: [`${fmt(r)} cm`, `${t} cm`] }),
-    parts: [angPart(th, '(a)'), angPart(big, '(b) $\\theta =$')],
+    figure: stairsFig(n1, n2, r, t, G, 'angle', { R1: lb(R1, 'cm'), R2: lb(R2, 'cm'), G: lb(G, 'cm') }),
+    parts: [angPart(th, '(a) $\\alpha =$'), angPart(big, '(b) $\\theta =$')],
     hints: ['Triangle 1 is one step. Triangles 2 and 3 are the flights: each run is the rise divided by $\\tan$ of the step angle (or the number of steps times the tread).', `The cable is the hypotenuse of a large triangle: total rise over total run, where the total run includes the ${G} cm landing. ${KEEP}`],
     solution: [
       `(a) One step: $\\tan\\alpha = \\dfrac{${fmt(r)}}{${t}}$, so $\\alpha = \\tan^{-1}\\left(\\dfrac{${fmt(r)}}{${t}}\\right) \\approx ${f2(th)}^\\circ$`,
@@ -1928,10 +1982,10 @@ function trussPitch(rng: Rng): GenOutput {
     hints: [`The pitch gives a small right triangle with rise $${p}$ and run $12$: $\\theta = \\tan^{-1}\\left(\\dfrac{${p}}{12}\\right)$.`, `Triangle 1 (half the truss) gives the king post, triangle 2 (out to the vertical web) gives the vertical web, and triangle 3 gives the diagonal web. Add $k + 2v + 2w$. ${KEEP}`],
     solution: [
       `(a) $\\tan\\theta = \\dfrac{${p}}{12} \\approx ${r4(p / 12)}$, so $\\theta \\approx ${f2(th)}^\\circ$`,
-      `Triangle 1: the king post rises $${p}$ in per foot of run over half the span: $k = ${fmt(S / 2)} \\times \\dfrac{${p}}{12} = ${fmt(h)}\\ \\text{ft}$ (or $${fmt(S / 2)}\\tan\\theta$)`,
-      `Triangle 2: each vertical web is $${fmt(S / 3)}$ ft from its end: $v = ${fmt(S / 3)} \\times \\dfrac{${p}}{12} = ${fmt(v)}\\ \\text{ft}$`,
-      `Triangle 3: each diagonal web has legs $${fmt(S / 2)} - ${fmt(S / 3)} = ${fmt(S / 6)}$ ft and $${fmt(v)}$ ft: $w = \\sqrt{${fmt(S / 6)}^2 + ${fmt(v)}^2} \\approx ${f2(dg)}\\ \\text{ft}$`,
-      `(b) Total: $k + 2v + 2w \\approx ${fmt(h)} + 2(${fmt(v)}) + 2(${f2(dg)}) \\approx ${f2(total)}\\ \\text{ft}$`,
+      `Triangle 1: the king post rises $${p}$ in per foot of run over half the span: $k = ${fmt(S / 2)} \\times \\dfrac{${p}}{12} ${eq2(h)}\\ \\text{ft}$ (or $${fmt(S / 2)}\\tan\\theta$)`,
+      `Triangle 2: each vertical web is $${fmt(S / 3)}$ ft from its end: $v = ${fmt(S / 3)} \\times \\dfrac{${p}}{12} ${eq2(v)}\\ \\text{ft}$`,
+      `Triangle 3: each diagonal web has legs $${fmt(S / 2)} - ${fmt(S / 3)} = ${fmt(S / 6)}$ ft and $${v2(v)}$ ft: $w = \\sqrt{${fmt(S / 6)}^2 + ${v2(v)}^2} \\approx ${f2(dg)}\\ \\text{ft}$`,
+      `(b) Total: $k + 2v + 2w \\approx ${v2(h)} + 2(${v2(v)}) + 2(${f2(dg)}) \\approx ${f2(total)}\\ \\text{ft}$`,
       `(a) about $${f1(th)}^\\circ$; (b) about $${qm(f1(total), 'ft')}$ of lumber.`,
     ],
   };
