@@ -670,7 +670,7 @@ const angleMeasure = skill({
     }
     if (mode === 'reflex') {
       const fromInterior = d === 1 || rng.chance(0.6);
-      const x = d === 1 ? rng.int(4, 34) * 5 : rng.intExcept(21, 169, [90, 180]);
+      const x = d === 1 ? rng.int(6, 34) * 5 : rng.intExcept(31, 169, [90]);
       const base = rng.int(0, 11) * 30;
       const names = rng.pick(LETTERS);
       const ang = `\\angle ${names.join('')}`;
@@ -873,7 +873,7 @@ const compSupp = skill({
         };
       }
       if (mode === 'corner') {
-        const g = rng.intExcept(14, 76, [45]);
+        const g = rng.intExcept(22, 68, [45]);
         const base = rng.int(0, 3) * 90;
         const givenFirst = rng.chance(0.5);
         const s = new Sketch();
