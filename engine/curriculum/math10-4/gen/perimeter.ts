@@ -9,10 +9,49 @@ import type { Part, PlaneFigure, PlanePoint, PlaneSegment, SkillDef, SolidFigure
 // ---------------------------------------------------------------------------
 
 const NAMES = [
-  'Amara', 'Jordan', 'Priya', 'Mateo', 'Kiona', 'Liam', 'Mei', 'Tariq', 'Sofia', 'Aiden', 'Nadia', 'Ravi',
-  'Chloé', 'Dakota', 'Hamid', 'Jasmine', 'Wei', 'Olivia', 'Kwame', 'Simran', 'Ethan', 'Fatima', 'Noah',
-  'Leilani', 'Émilie', 'Tyler', 'Aaliyah', 'Connor', 'Anika', 'Gurpreet', 'Marcus', 'Ayesha', 'Owen',
-  'Sienna', 'Jun', 'Malik', 'Harpreet', 'Isabelle', 'Cody', 'Talia', 'Yusuf', 'Brooklyn', 'Sanjay',
+  'Amara',
+  'Jordan',
+  'Priya',
+  'Mateo',
+  'Kiona',
+  'Liam',
+  'Mei',
+  'Tariq',
+  'Sofia',
+  'Aiden',
+  'Nadia',
+  'Ravi',
+  'Chloé',
+  'Dakota',
+  'Hamid',
+  'Jasmine',
+  'Wei',
+  'Olivia',
+  'Kwame',
+  'Simran',
+  'Ethan',
+  'Fatima',
+  'Noah',
+  'Leilani',
+  'Émilie',
+  'Tyler',
+  'Aaliyah',
+  'Connor',
+  'Anika',
+  'Gurpreet',
+  'Marcus',
+  'Ayesha',
+  'Owen',
+  'Sienna',
+  'Jun',
+  'Malik',
+  'Harpreet',
+  'Isabelle',
+  'Cody',
+  'Talia',
+  'Yusuf',
+  'Brooklyn',
+  'Sanjay',
 ];
 
 const tx = (u: string) => `\\text{${u}}`;
@@ -62,7 +101,10 @@ function onEdge(v: number, dp: number): boolean {
 }
 /** A decimal with one place in [lo, hi] that is not a whole number. */
 function tenths(rng: Rng, lo: number, hi: number): number {
-  return retry(() => rng.int(Math.round(lo * 10), Math.round(hi * 10)) / 10, (v) => !Number.isInteger(v));
+  return retry(
+    () => rng.int(Math.round(lo * 10), Math.round(hi * 10)) / 10,
+    (v) => !Number.isInteger(v),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -189,8 +231,7 @@ class Drawing {
   /** A label as close as possible to c. */
   labelNear(c: P, text: string): this {
     const cands: P[] = [];
-    for (const r of [0, 6, 12, 18, 26])
-      for (let k = 0; k < 8; k++) cands.push([c[0] + r * Math.cos((k * Math.PI) / 4), c[1] + r * Math.sin((k * Math.PI) / 4)]);
+    for (const r of [0, 6, 12, 18, 26]) for (let k = 0; k < 8; k++) cands.push([c[0] + r * Math.cos((k * Math.PI) / 4), c[1] + r * Math.sin((k * Math.PI) / 4)]);
     return this.place(text, cands);
   }
 
@@ -446,7 +487,11 @@ function rectP(rng: Rng, name: string): GenOutput {
     figure: rectFig(l, w, lab(l, c.u), lab(w, c.u), `rectangular ${c.thing}`),
     parts: [numPart(P, { suffix: c.u })],
     hints: [HINT_P, 'A rectangle has two long sides that match and two short sides that match. Add all four: $l + w + l + w$.'],
-    solution: [`The sides are ${Q(l, c.u)}, ${Q(w, c.u)}, ${Q(l, c.u)} and ${Q(w, c.u)}.`, `$P = ${l} + ${w} + ${l} + ${w} = ${P}$`, `The perimeter is ${Q(P, c.u)}. That is how much ${c.job} ${name} needs.`],
+    solution: [
+      `The sides are ${Q(l, c.u)}, ${Q(w, c.u)}, ${Q(l, c.u)} and ${Q(w, c.u)}.`,
+      `$P = ${l} + ${w} + ${l} + ${w} = ${P}$`,
+      `The perimeter is ${Q(P, c.u)}. That is how much ${c.job} ${name} needs.`,
+    ],
     answerDisplay: Q(P, c.u),
   };
 }
@@ -481,7 +526,7 @@ function regularP(rng: Rng): GenOutput {
     { n: 6, shape: 'regular hexagon', thing: 'gazebo floor', job: 'trim', u: 'm', lo: 1.2, hi: 2.8 },
     { n: 8, shape: 'regular octagon', thing: 'stop sign', job: 'reflective tape', u: 'cm', lo: 25, hi: 32 },
     { n: 5, shape: 'regular pentagon', thing: 'sandbox', job: 'a wooden border', u: 'm', lo: 1.1, hi: 2.4 },
-    { n: 6, shape: 'regular hexagon', thing: 'patio stone', job: 'edging', u: 'cm', lo: 20, hi: 35 },
+    { n: 6, shape: 'regular hexagon', thing: 'wall mirror', job: 'metal trim', u: 'cm', lo: 20, hi: 35 },
   ]);
   const s = c.u === 'm' ? tenths(rng, c.lo, c.hi) : rng.int(c.lo, c.hi);
   const P = clean(c.n * s);
@@ -520,7 +565,11 @@ function lP(rng: Rng): GenOutput {
   const room = rng.pick(['L-shaped living room', 'L-shaped basement', 'L-shaped kitchen', 'L-shaped office']);
   return {
     prompt: `${cap(rng.pick(NAMES))} is installing baseboard around an ${room}. The plan shows every wall. How many metres of baseboard go around the room? (Do not leave a gap for the door.)`,
-    figure: polyFig(pts, sides.map((x) => lab(x, 'm')), `plan of an ${room}`),
+    figure: polyFig(
+      pts,
+      sides.map((x) => lab(x, 'm')),
+      `plan of an ${room}`,
+    ),
     parts: [exact(P, 'm')],
     hints: [HINT_P, 'This shape has $6$ sides. Trace around it with your finger and add each side once.'],
     solution: [`Add all $6$ sides: $${sides.map((x) => nm(x)).join(' + ')}$`, `$P = ${nm(P)}$`, `The room needs ${Q(P, 'm')} of baseboard.`],
@@ -560,7 +609,13 @@ function missingP(rng: Rng, name: string): GenOutput {
       figure: rectFig(l, w, lab(l, c.u), '?', `rectangular ${c.thing}`, true),
       parts: [numPart(w, { suffix: c.u })],
       hints: ['The two long sides use $l + l$ of the fencing. The rest is for the two short sides.', `Subtract the two lengths from the perimeter, then divide what is left by $2$.`],
-      solution: [`The two long sides: $${l} + ${l} = ${2 * l}$`, `Left for the two short sides: $${P} - ${2 * l} = ${2 * w}$`, `Each short side: $${2 * w} \\div 2 = ${w}$`, `Check: $${l} + ${w} + ${l} + ${w} = ${P}$ ✓`, `The ${c.thing} is ${Q(w, c.u)} wide.`],
+      solution: [
+        `The two long sides: $${l} + ${l} = ${2 * l}$`,
+        `Left for the two short sides: $${P} - ${2 * l} = ${2 * w}$`,
+        `Each short side: $${2 * w} \\div 2 = ${w}$`,
+        `Check: $${l} + ${w} + ${l} + ${w} = ${P}$ ✓`,
+        `The ${c.thing} is ${Q(w, c.u)} wide.`,
+      ],
       answerDisplay: Q(w, c.u),
     };
   }
@@ -687,7 +742,7 @@ const circumference = skill({
       const useR = d === 2 && rng.chance(0.6);
       const dia = retry(
         () => (d === 1 ? rng.int(c.d[0], c.d[1]) * c.step : c.u === 'm' ? tenths(rng, c.d[0], c.d[1] + 0.9) : rng.int(c.d[0], c.d[1]) * c.step + (useR ? 0 : rng.pick([0, 5]))),
-        (x) => !onEdge(Math.PI * x, 1) && (!useR || Math.abs(x / 2 - Math.round(x / 2 * 10) / 10) < 1e-9),
+        (x) => !onEdge(Math.PI * x, 1) && (!useR || Math.abs(x / 2 - Math.round((x / 2) * 10) / 10) < 1e-9),
       );
       const r = clean(dia / 2);
       const C = Math.PI * dia;
@@ -696,7 +751,9 @@ const circumference = skill({
         prompt: `A ${c.thing} has ${given}. ${cap(c.job)} goes once around the edge. How long is it? Round to the nearest tenth of a ${c.u === 'm' ? 'metre' : 'centimetre'}.`,
         figure: circleFig(useR ? `r = ${lab(r, c.u)}` : `d = ${lab(dia, c.u)}`, useR ? 'r' : 'd', c.thing),
         parts: [numPart(C, { decimals: 1, suffix: c.u })],
-        hints: useR ? [HINT_C, `The radius is half the diameter. Double it first: $d = 2 \\times ${nm(r)}$, or use $C = 2\\pi r$.`] : [HINT_C, `Multiply: $\\pi \\times ${nm(dia)}$. Round only at the end.`],
+        hints: useR
+          ? [HINT_C, `The radius is half the diameter. Double it first: $d = 2 \\times ${nm(r)}$, or use $C = 2\\pi r$.`]
+          : [HINT_C, `Multiply: $\\pi \\times ${nm(dia)}$. Round only at the end.`],
         solution: [
           ...(useR ? [`The diameter is twice the radius: $d = 2 \\times ${nm(r)} = ${nm(dia)}$`] : []),
           `$C = \\pi d = \\pi \\times ${nm(dia)} \\approx ${nm(C, 3)}$`,
@@ -720,7 +777,12 @@ const circumference = skill({
         figure: circleFig(`d = ${lab(dia, 'cm')}`, 'd', thing),
         parts: [numPart(D, { decimals: 1, suffix: 'm' })],
         hints: ['Each time a wheel turns once, it rolls forward one circumference.', `Find $C = \\pi d$, multiply by $${n}$, then divide by $100$ to change centimetres to metres.`],
-        solution: [`One turn: $C = \\pi \\times ${dia} \\approx ${nm(C, 3)}\\ \\text{cm}$`, `$${n}$ turns: $${n} \\times ${nm(C, 3)} \\approx ${nm(C * n, 2)}\\ \\text{cm}$`, `Change to metres: $${nm(C * n, 2)} \\div 100 \\approx ${nm(D, 3)}$`, `The ${thing} rolls about $${nf(D, 1)}\\ \\text{m}$.`],
+        solution: [
+          `One turn: $C = \\pi \\times ${dia} \\approx ${nm(C, 3)}\\ \\text{cm}$`,
+          `$${n}$ turns: $${n} \\times ${nm(C, 3)} \\approx ${nm(C * n, 2)}\\ \\text{cm}$`,
+          `Change to metres: $${nm(C * n, 2)} \\div 100 \\approx ${nm(D, 3)}$`,
+          `The ${thing} rolls about $${nf(D, 1)}\\ \\text{m}$.`,
+        ],
         answerDisplay: `about $${nf(D, 1)}\\ \\text{m}$`,
       };
     }
@@ -762,7 +824,12 @@ const circumference = skill({
       figure: circleFig(`d = ${lab(dia, 'cm')}`, 'd', 'bicycle wheel'),
       parts: [numPart(turns, { decimals: 0, suffix: 'turns' })],
       hints: ['One turn moves the bike forward one circumference: $C = \\pi d$.', `Change ${Q(dist, 'm')} to centimetres, then divide by the circumference.`],
-      solution: [`One turn: $C = \\pi \\times ${dia} \\approx ${nm(C, 2)}\\ \\text{cm}$`, `Distance: ${Q(dist, 'm')} $= ${nm(dist * 100)}\\ \\text{cm}$`, `Turns: $${nm(dist * 100)} \\div ${nm(C, 2)} \\approx ${nm(turns, 1)}$`, `The wheel turns about $${nf(turns, 0)}$ times.`],
+      solution: [
+        `One turn: $C = \\pi \\times ${dia} \\approx ${nm(C, 2)}\\ \\text{cm}$`,
+        `Distance: ${Q(dist, 'm')} $= ${nm(dist * 100)}\\ \\text{cm}$`,
+        `Turns: $${nm(dist * 100)} \\div ${nm(C, 2)} \\approx ${nm(turns, 1)}$`,
+        `The wheel turns about $${nf(turns, 0)}$ times.`,
+      ],
       answerDisplay: `about $${nf(turns, 0)}$ turns`,
     };
   },
@@ -851,7 +918,7 @@ function circleA(rng: Rng, name: string): GenOutput {
   const useR = rng.chance(0.5);
   const dia = retry(
     () => (c.u === 'm' ? tenths(rng, c.d[0], c.d[1]) : rng.int(c.d[0] / 2, c.d[1] / 2) * 2),
-    (x) => !onEdge(Math.PI * (x / 2) ** 2, 1) && (!useR || Math.abs(x / 2 * 10 - Math.round(x / 2 * 10)) < 1e-9),
+    (x) => !onEdge(Math.PI * (x / 2) ** 2, 1) && (!useR || Math.abs((x / 2) * 10 - Math.round((x / 2) * 10)) < 1e-9),
   );
   const r = clean(dia / 2);
   const A = Math.PI * r * r;
@@ -896,8 +963,22 @@ function costA(rng: Rng, name: string): GenOutput {
             const [W, Hp] = [200 * s, Math.min(150 * s, 200 * s * (H / Lw))];
             const dw = W * (0.9 / Lw);
             const dh = Hp * (2 / H);
-            const d = new Drawing().poly([[0, 0], [W, 0], [W, Hp], [0, Hp]]);
-            d.poly([[W * 0.62, 0], [W * 0.62, dh], [W * 0.62 + dw, dh], [W * 0.62 + dw, 0]], false, 'muted');
+            const d = new Drawing().poly([
+              [0, 0],
+              [W, 0],
+              [W, Hp],
+              [0, Hp],
+            ]);
+            d.poly(
+              [
+                [W * 0.62, 0],
+                [W * 0.62, dh],
+                [W * 0.62 + dw, dh],
+                [W * 0.62 + dw, 0],
+              ],
+              false,
+              'muted',
+            );
             d.sideLabel([0, 0], [W, 0], lab(Lw, 'm'), [0, -1]);
             d.sideLabel([W, 0], [W, Hp], lab(H, 'm'), [1, 0]);
             d.labelNear([W * 0.62 + dw / 2, dh + 12], 'door');
@@ -905,7 +986,10 @@ function costA(rng: Rng, name: string): GenOutput {
           }, 'wall with a door')
         : rectFig(Lw, H, lab(Lw, 'm'), lab(H, 'm'), 'wall'),
       parts: [exact(A, 'm²', 'Area painted'), numPart(cans, { label: 'Cans to buy', suffix: 'cans' })],
-      hints: [door ? 'Find the area of the whole wall, then subtract the area of the door.' : 'The wall is a rectangle: $A = l \\times w$.', `Divide the area by $${cover}$. You cannot buy part of a can, so round **up**.`],
+      hints: [
+        door ? 'Find the area of the whole wall, then subtract the area of the door.' : 'The wall is a rectangle: $A = l \\times w$.',
+        `Divide the area by $${cover}$. You cannot buy part of a can, so round **up**.`,
+      ],
       solution: [
         `Wall: $${nm(Lw)} \\times ${nm(H)} = ${nm(wallA)}\\ ${sq('m')}$`,
         ...(door ? [`Door: $0.9 \\times 2 = 1.8\\ ${sq('m')}$`, `Area to paint: $${nm(wallA)} - 1.8 = ${nm(A)}\\ ${sq('m')}$`] : []),
@@ -1013,7 +1097,10 @@ const volume = skill({
           { thing: 'box of a utility trailer', l: [1.8, 2.4], w: [1.2, 1.5], h: [0.3, 0.5] },
         ]);
         const l = tenths(rng, c.l[0], c.l[1]);
-        const w = retry(() => rng.int(Math.round(c.w[0] * 10), Math.round(c.w[1] * 10)) / 10, (x) => x < l);
+        const w = retry(
+          () => rng.int(Math.round(c.w[0] * 10), Math.round(c.w[1] * 10)) / 10,
+          (x) => x < l,
+        );
         const h = rng.int(Math.round(c.h[0] * 10), Math.round(c.h[1] * 10)) / 10;
         const V = clean(l * w * h);
         return {
@@ -1060,7 +1147,12 @@ const volume = skill({
         figure: prismFig(lab(l, 'cm'), lab(w, 'cm'), lab(h, 'cm')),
         parts: [exact(L, 'L')],
         hints: [`The water is not as deep as the tank. Its depth is $${h} - ${gap}$ cm.`, 'Find the volume of the water in cubic centimetres, then divide by $1000$ to get litres.'],
-        solution: [`Water depth: $${h} - ${gap} = ${wh}\\ \\text{cm}$`, `Volume of water: $${l} \\times ${w} \\times ${wh} = ${nm(V)}\\ ${cu('cm')}$`, `Litres: $${nm(V)} \\div 1000 = ${nm(L)}$`, `The tank holds ${Q(L, 'L')} of water.`],
+        solution: [
+          `Water depth: $${h} - ${gap} = ${wh}\\ \\text{cm}$`,
+          `Volume of water: $${l} \\times ${w} \\times ${wh} = ${nm(V)}\\ ${cu('cm')}$`,
+          `Litres: $${nm(V)} \\div 1000 = ${nm(L)}$`,
+          `The tank holds ${Q(L, 'L')} of water.`,
+        ],
         answerDisplay: Q(L, 'L'),
       };
     }
@@ -1116,6 +1208,3 @@ const volume = skill({
 });
 
 export const PERIMETER_SKILLS: SkillDef[] = [perimeter, circumference, area, volume];
-
-// Exported for the lesson figures' sanity checks in development only.
-export const _figures = { rectFig, triFig, circleFig, polyFig, triAreaFig, regularFig };

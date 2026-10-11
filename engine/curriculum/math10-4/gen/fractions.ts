@@ -116,7 +116,7 @@ function missingNumber(rng: Rng, d: Difficulty): Out {
   }
   const full = reverse ? `${fr(big[0], big[1])} = ${fr(a, b)}` : `${fr(a, b)} = ${fr(a * k, b * k)}`;
   return {
-    prompt: `Find the missing number: $${eq}$${d === 1 ? ' The fraction strips show the same amount shaded in both strips.' : ''}`,
+    prompt: `${d === 1 ? 'The two fraction strips have the same amount shaded. ' : ''}Find the missing number: $${eq}$`,
     figure: d === 1 ? strips([{ parts: b, shaded: a }, { parts: b * k, shaded: a * k }], `Both strips have the same amount shaded.`) : undefined,
     parts: [numPart(answer, { label: '? =', exact: false })],
     hints: [EQ_HINT, 'Look at the two numbers you know (both tops or both bottoms). What do you multiply or divide by to get from one to the other?'],
@@ -791,27 +791,38 @@ function measureD1D2(rng: Rng, d: Difficulty): Out {
       add: (x: string, y: string) => `${name} works in a restaurant kitchen. A batch of pancakes needs ${x} cups of flour and a batch of muffins needs ${y} cups. How many cups of flour is that in all?`,
       sub: (x: string, y: string) => `A container holds ${x} cups of rice. ${name} uses ${y} cups for a stir-fry. How many cups of rice are left?` },
   ]);
-  const { A, B } = retry(
-    () => {
-      let p: number;
-      let r: number;
-      if (d === 1) {
-        p = r = rng.pick(c.dens);
-      } else {
-        [p, r] = rng.sample(c.dens, 2);
-      }
-      const A: Mixed = { w: rng.int(c.w[0], c.w[1]), n: properLowest(rng, p), d: p };
-      const B: Mixed = { w: rng.int(c.w[0], c.w[1]), n: properLowest(rng, r), d: r };
-      return { A, B };
-    },
-    ({ A, B }) => {
-      const L = lcm(A.d, B.d);
-      const fa = A.n * (L / A.d);
-      const fb = B.n * (L / B.d);
-      if (op === '+') return d === 1 ? fa + fb < L : true;
-      return A.w > B.w && (d === 1 ? fa > fb : fa !== fb);
-    },
-  );
+  // Build the two mixed numbers so the conditions always hold (no rejection loop that could run out).
+  const lowNums = (q: number) => Array.from({ length: q - 1 }, (_, i) => i + 1).filter((n) => gcd(n, q) === 1);
+  let p: number;
+  let r: number;
+  if (d === 1) {
+    // Same denominator; halves are left out because 1/2 + 1/2 and 1/2 - 1/2 have no fraction part.
+    p = r = rng.pick(c.dens.filter((x) => x !== 2));
+  } else {
+    [p, r] = rng.sample(c.dens, 2);
+  }
+  let na: number;
+  let nb: number;
+  if (d === 1) {
+    if (op === '+') {
+      // fa + fb < p
+      const opts = lowNums(p).flatMap((x) => lowNums(p).filter((y) => x + y < p).map((y) => [x, y] as [number, number]));
+      [na, nb] = rng.pick(opts);
+    } else {
+      const [x, y] = rng.sample(lowNums(p), 2);
+      [na, nb] = x > y ? [x, y] : [y, x];
+    }
+  } else {
+    const L = lcm(p, r);
+    [na, nb] = retry(
+      () => [rng.pick(lowNums(p)), rng.pick(lowNums(r))],
+      ([x, y]) => x * (L / p) !== y * (L / r),
+    );
+  }
+  const wb = op === '+' ? rng.int(c.w[0], c.w[1]) : rng.int(c.w[0], c.w[1] - 1);
+  const wa = op === '+' ? rng.int(c.w[0], c.w[1]) : rng.int(wb + 1, c.w[1]);
+  const A: Mixed = { w: wa, n: na, d: p };
+  const B: Mixed = { w: wb, n: nb, d: r };
   const { steps, result } = mixedSteps(A, B, op);
   const unitWord = c.u === 'cups' ? 'cups' : c.u;
   return {

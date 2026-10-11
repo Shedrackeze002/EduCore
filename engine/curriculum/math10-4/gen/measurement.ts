@@ -1636,19 +1636,19 @@ function temperatureGen(rng: Rng, d: 1 | 2 | 3): GenOutput {
     const lo = Math.min(...temps);
     const fig: TableFigure = {
       type: 'table',
-      headers: ['Town', 'Low temperature (°C)'],
+      headers: ['Place', 'Low temperature (°C)'],
       rows: towns.map((t, i) => [t, String(temps[i]).replace('-', '−')]),
     };
     const steps =
       hi > 0
         ? [`From ${C(lo)} up to $0^\\circ\\text{C}$ is ${degs(-lo)}, and from $0$ up to ${C(hi)} is ${degs(hi)}.`, `$${-lo} + ${hi} = ${hi - lo}$`]
-        : [`Subtract: $${hi} - (${lo}) = ${hi} + ${-lo} = ${hi - lo}$`];
+        : [`Both are below zero. Count up from ${C(lo)} to ${C(hi)}: $${hi} - (${lo}) = ${hi} + ${-lo} = ${hi - lo}$`];
     return {
-      prompt: `The table shows the lowest temperature in four Alberta towns on one January night. How many degrees warmer was the warmest town than the coldest town?`,
+      prompt: `The table shows the lowest temperature in four Alberta places on one January night. How many degrees warmer was the warmest place than the coldest place?`,
       figure: fig,
       parts: [numPart(hi - lo, { suffix: '°C' })],
       hints: ['The warmest temperature is the one closest to (or above) zero. The coldest is the most negative.', 'Find the difference by counting up from the coldest temperature to the warmest.'],
-      solution: [`Warmest: ${towns[temps.indexOf(hi)]} at ${C(hi)}. Coldest: ${towns[temps.indexOf(lo)]} at ${C(lo)}.`, ...steps, `The warmest town was $${hi - lo}$ degrees warmer.`],
+      solution: [`Warmest: ${towns[temps.indexOf(hi)]} at ${C(hi)}. Coldest: ${towns[temps.indexOf(lo)]} at ${C(lo)}.`, ...steps, `The warmest place was $${hi - lo}$ degrees warmer.`],
       answerDisplay: `$${hi - lo}$ degrees`,
     };
   }

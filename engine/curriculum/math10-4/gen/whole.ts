@@ -156,12 +156,21 @@ function expandedToStandard(rng: Rng, d: Difficulty): Out {
   const terms = ds.map((g, i) => g * 10 ** (len - 1 - i)).filter((v) => v > 0);
   const missing = ds.map((g, i) => (g === 0 ? PLACES[len - 1 - i] : '')).filter(Boolean);
   const name = rng.pick(NAMES);
-  const intro = rng.pick([
-    `${name} counted the cans at a food bank and wrote the total in expanded form:`,
-    `A cashier wrote an amount in expanded form:`,
-    `${name} wrote the number of kilometres on a delivery van in expanded form:`,
-    `A farmer wrote the number of bales stacked this season in expanded form:`,
-  ]);
+  const intro = rng.pick(
+    d === 1
+      ? [
+          `${name} counted the cans at a food bank and wrote the total in expanded form:`,
+          `A farmer wrote the number of hay bales stacked this season in expanded form:`,
+          `${name} wrote the number of kilometres on a new delivery van in expanded form:`,
+          `A cashier wrote the number of coffees sold this month in expanded form:`,
+        ]
+      : [
+          `${name} wrote the number of kilometres on a delivery van in expanded form:`,
+          `A dairy wrote the number of litres of milk it sold this year in expanded form:`,
+          `A provincial park wrote its number of visitors this year in expanded form:`,
+          `A warehouse wrote the number of boxes it shipped this year in expanded form:`,
+        ],
+  );
   return {
     prompt: `${intro} $${terms.map(N).join(' + ')}$. Write the number in **standard form** (the usual way, with digits).`,
     parts: [whole(x)],
@@ -327,7 +336,7 @@ const ROUND_SMALL: Ctx[] = [
 const ROUND_BIG: Ctx[] = [
   (x, name) => `${name}’s truck has ${x} km on the odometer.`,
   (x, _n, town) => `A warehouse in ${town} shipped ${x} boxes this year.`,
-  (x, name) => `${name} walked ${x} steps in two weeks.`,
+  (x, _n, town) => `A poultry farm near ${town} has ${x} chickens.`,
   (x, _n, town) => `${x} visitors came to a summer festival in ${town}.`,
   (x, _n, town) => `A grocery store in ${town} sold ${x} litres of milk this month.`,
 ];
@@ -508,29 +517,29 @@ function opsBasic(rng: Rng, d: Difficulty): Out {
   }
   if (op === 'mul') {
     if (d === 1) {
-      const per = rng.pick([6, 8, 12, 24]);
       const k = rng.int(3, 9);
       const ctx = rng.pick([
-        { s: `Each case holds ${n$(per)} cans of juice. How many cans are in ${n$(k)} cases?`, u: 'cans' },
-        { s: `A carton holds ${n$(per)} eggs. A restaurant kitchen gets ${n$(k)} cartons. How many eggs is that?`, u: 'eggs' },
-        { s: `Each pack has ${n$(per)} rolls of paper towel. ${name} puts ${n$(k)} packs on the shelf. How many rolls is that?`, u: 'rolls' },
+        { per: [6, 12, 24], s: (per: number) => `Each case holds ${n$(per)} cans of juice. How many cans are in ${n$(k)} cases?`, u: 'cans' },
+        { per: [12, 18], s: (per: number) => `A carton holds ${n$(per)} eggs. A restaurant kitchen gets ${n$(k)} cartons. How many eggs is that?`, u: 'eggs' },
+        { per: [6, 8, 12], s: (per: number) => `Each pack has ${n$(per)} rolls of paper towel. ${name} puts ${n$(k)} packs on the shelf. How many rolls is that?`, u: 'rolls' },
       ]);
+      const per = rng.pick(ctx.per);
       return {
-        prompt: ctx.s,
+        prompt: ctx.s(per),
         parts: [whole(per * k, ctx.u)],
         hints: ['You have several equal groups. Which operation finds the total of equal groups?', `Multiply: $${k} ${T} ${per}$.`],
         solution: [`Equal groups means **multiply**.`, `$${k} ${T} ${per} = ${per * k}$`, `There are $${per * k}$ ${ctx.u}.`],
       };
     }
-    const per = rng.int(24, 72);
     const k = rng.int(105, 480);
     const ctx = rng.pick([
-      { s: `A pallet holds ${n$(per)} boxes. A warehouse in ${town} has ${n$(k)} full pallets. How many boxes are there?`, u: 'boxes' },
-      { s: `A bus seats ${n$(per)} people. A tour company runs ${n$(k)} full bus trips this summer. How many people is that?`, u: 'people' },
-      { s: `A box holds ${n$(per)} granola bars. A school orders ${n$(k)} boxes. How many granola bars is that?`, u: 'bars' },
+      { per: [24, 72], s: (per: number) => `A pallet holds ${n$(per)} boxes. A warehouse in ${town} has ${n$(k)} full pallets. How many boxes are there?`, u: 'boxes' },
+      { per: [40, 56], s: (per: number) => `A bus seats ${n$(per)} people. A tour company runs ${n$(k)} full bus trips this summer. How many people is that?`, u: 'people' },
+      { per: [18, 48], s: (per: number) => `A case holds ${n$(per)} bottles of hand soap. A cleaning company orders ${n$(k)} cases this year. How many bottles is that?`, u: 'bottles' },
     ]);
+    const per = rng.int(ctx.per[0], ctx.per[1]);
     return {
-      prompt: ctx.s,
+      prompt: ctx.s(per),
       parts: [whole(per * k, ctx.u)],
       hints: ['Equal groups means multiply.', `Multiply: $${k} ${T} ${per}$. A calculator is fine.`],
       solution: [`Equal groups means **multiply**.`, `$${k} ${T} ${per} = ${N(per * k)}$`, `There are $${N(per * k)}$ ${ctx.u}.`],
@@ -1114,7 +1123,7 @@ function probD1(rng: Rng, name: string, town: string): Prob {
   }
   const tray = rng.pick([6, 8, 12]);
   const trays = rng.int(6, 12);
-  const a = retry(() => rng.int(Math.ceil(tray * trays * 0.35), Math.floor(tray * trays * 0.65)), (v) => v % 10 !== 0 && v % 10 !== 5);
+  const a = retry(() => rng.int(Math.ceil(tray * trays * 0.35), Math.floor(tray * trays * 0.65)), (v) => v % 10 !== 0 && v % 10 !== 5 && v * 2 !== tray * trays);
   const b = tray * trays - a;
   return {
     prompt: `A café sold ${n$(a)} muffins in the morning and ${n$(b)} in the afternoon. The muffins were baked on trays of ${n$(tray)}. How many trays of muffins were sold?`,

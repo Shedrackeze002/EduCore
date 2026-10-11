@@ -270,7 +270,7 @@ function barData(rng: Rng, d: Lvl, n: number, ok: (vs: number[]) => boolean = ()
 }
 
 /** Indices whose fraction of the total simplifies to a denominator of 12 or less. */
-const niceIdx = (vs: number[]) => vs.map((v, k) => k).filter((k) => sum(vs) / gcd(vs[k], sum(vs)) <= 12 && vs[k] < sum(vs));
+const niceIdx = (vs: number[]) => vs.map((_, k) => k).filter((k) => sum(vs) / gcd(vs[k], sum(vs)) <= 12 && vs[k] < sum(vs));
 const display = (ctx: CatCtx, what: string) => ctx.intro.replace('{display}', what);
 const BAR_HINT = 'Find the top of the bar. Look straight across to the numbers on the left side of the graph.';
 const HALF_HINT = 'If the top of a bar is halfway between two grid lines, its value is halfway between the two numbers.';

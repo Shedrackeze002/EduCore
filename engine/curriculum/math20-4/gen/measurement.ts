@@ -645,7 +645,7 @@ function betweenTwoStep(rng: Rng, n: string) {
     const drive = retry(() => Math.round(kmh / 10) * 10 + rng.pick([-20, -10, 10, 20]), (x) => Math.abs(x - kmh) >= 4 && x > 0);
     const under = drive <= kmh;
     return {
-      prompt: `${n} is driving a car from Alberta in ${rng.pick(['Montana', 'Idaho', 'Washington State'])}. The speed limit sign says $${mph}$ miles per hour. The car’s speedometer shows kilometres per hour.\n\n(a) What is the speed limit in km/h?\n\n(b) ${n} is driving at ${M(drive, 'km/h')}. Is that at or under the limit?\n\nUse ${F_MI}.`,
+      prompt: `${n} is driving an Alberta car in ${rng.pick(['Montana', 'Idaho', 'Washington State'])}. The speed limit sign says $${mph}$ miles per hour. The car’s speedometer shows kilometres per hour.\n\n(a) What is the speed limit in km/h?\n\n(b) ${n} is driving at ${M(drive, 'km/h')}. Is that at or under the limit?\n\nUse ${F_MI}.`,
       parts: [{ ...exact(kmh, 'km/h'), label: '(a)' }, { label: '(b)', answer: fixedChoice(['Yes, at or under the limit', 'No, over the limit'], under ? 0 : 1) }],
       hints: ['Only the distance unit changes. A kilometre is shorter than a mile, so multiply by 1.6.', 'Then compare the car’s speed with your answer.'],
       solution: [`$${mph} \\times 1.6 = ${nm(kmh)}$, so the limit is $${nm(kmh)}\\ \\text{km/h}$.`, `${n} is driving at $${drive}\\ \\text{km/h}$, which is ${under ? 'less than' : 'more than'} $${nm(kmh)}\\ \\text{km/h}$.`, `(a) $${nm(kmh)}\\ \\text{km/h}$; (b) ${under ? 'Yes, it is under the limit.' : 'No, it is over the limit.'}`],

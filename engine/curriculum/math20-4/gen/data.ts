@@ -1,6 +1,6 @@
 /** Math 20-4 Unit 9 — Data and Probability (SP1, SP2). */
-import { fixedChoice, mc, numPart, retry, skill } from '../../helpers.ts';
-import { fmtFixed, fmtGroupTex, gcd, roundTo } from '../../../math/numbers.ts';
+import { mc, numPart, retry, skill } from '../../helpers.ts';
+import { fmtFixed, fmtGroupTex, roundTo } from '../../../math/numbers.ts';
 import type { Rng } from '../../../rng.ts';
 import type { Difficulty, Figure, Part, PlaneFigure, SkillDef } from '../../../types.ts';
 
@@ -156,11 +156,12 @@ function lineValues(rng: Rng, ctx: LineCtx, d: Lvl): number[] {
           v += unit * rng.int(0, Math.max(1, Math.floor(steps / (n - 1)) + 1));
         }
       } else if (ctx.shape === 'hill') {
-        const peak = rng.int(Math.floor(n / 2) - 1, Math.floor(n / 2) + 1);
+        // Rises to a peak in the afternoon, then drops more slowly.
+        const peak = rng.int(Math.floor(n / 2), n - 2);
         let v = lo + ctx.yStep * rng.int(1, 3);
         for (let i = 0; i < n; i++) {
           out.push(clamp(v));
-          v += (i < peak ? 1 : -1) * unit * rng.int(1, Math.max(2, Math.floor(steps / n) + 1));
+          v += i < peak ? unit * rng.int(1, 2) : -unit * rng.int(0, 1);
         }
       } else {
         let v = lo + unit * rng.int(1, steps - 1);
@@ -600,7 +601,10 @@ function compareSets(rng: Rng, d: Lvl, a: string, b: string): Out {
 }
 
 interface OutlierCtx {
+  /** Ends with a sentence that leads into the data list. */
   intro: (name: string, n: number) => string;
+  /** "a typical delivery time" */
+  typ: string;
   r: [number, number];
   out: [number, number];
   money?: boolean;
@@ -611,23 +615,28 @@ interface OutlierCtx {
 
 const OUTLIERS: OutlierCtx[] = [
   {
-    intro: (name, n) => `${name} drives for a delivery company in Edmonton. Here are the times, in minutes, for ${name}’s last $${n}$ deliveries. One delivery was during a snowstorm.`,
+    intro: (name, n) => `${name} drives for a delivery company in Edmonton. One of ${name}’s last $${n}$ deliveries was during a snowstorm. Here are the times, in minutes:`,
+    typ: 'a typical delivery time',
     r: [18, 34], out: [70, 95], unit: 'min', noun: 'delivery time', why: 'the snowstorm delivery',
   },
   {
-    intro: (_name, n) => `A food truck in Calgary recorded its sales for $${n}$ days. One of the days was during a big music festival.`,
+    intro: (_name, n) => `A food truck in Calgary recorded its sales for $${n}$ days. One of the days was during a big music festival. The daily sales were:`,
+    typ: 'a typical day’s sales',
     r: [420, 690], out: [1850, 2400], money: true, unit: '', noun: 'daily sales', why: 'the festival day',
   },
   {
-    intro: (name, n) => `${name} bowled $${n}$ games in a league. In one game, ${name} had a sore wrist.`,
+    intro: (name, n) => `${name} bowled $${n}$ games in a league. In one game, ${name} had a sore wrist. The scores were:`,
+    typ: 'a typical score',
     r: [142, 186], out: [58, 85], unit: 'points', noun: 'score', why: 'the sore-wrist game',
   },
   {
-    intro: (name, n) => `Here are ${name}’s tips for the last $${n}$ shifts at a restaurant in Lethbridge. On one shift, ${name} served a big wedding party.`,
+    intro: (name, n) => `${name} is a server at a restaurant in Lethbridge. On one of the last $${n}$ shifts, ${name} served a big wedding party. Here are ${name}’s tips for those shifts:`,
+    typ: 'a typical shift’s tips',
     r: [38, 72], out: [210, 260], money: true, unit: '', noun: 'tips per shift', why: 'the wedding-party shift',
   },
   {
-    intro: (_name, n) => `A small landscaping company has $${n}$ people. Here are their hourly wages in dollars. One of them is the owner.`,
+    intro: (_name, n) => `A small landscaping company has $${n}$ people, and one of them is the owner. Here are their hourly wages:`,
+    typ: 'a typical hourly wage',
     r: [16, 22], out: [55, 70], money: true, unit: '', noun: 'hourly wage', why: 'the owner’s wage',
   },
 ];
@@ -650,7 +659,7 @@ function outlierEffect(rng: Rng, name: string): Out {
   const dp = ctx.money ? 2 : 1;
   const vs = outlierData(rng, ctx, n, dp);
   const o = outOf(ctx, vs);
-  const rest = vs.filter((v, i) => i !== vs.indexOf(o));
+  const rest = vs.filter((_, i) => i !== vs.indexOf(o));
   const m1 = sum(vs) / n;
   const m2 = sum(rest) / (n - 1);
   const round = ctx.money ? 'to the nearest cent' : 'to the nearest tenth';
@@ -720,6 +729,7 @@ function typicalThreeStep(rng: Rng, name: string): Out {
   const med = median(vs);
   const high = ctx.out[0] > ctx.r[1];
   const s = asc(vs);
+  const others = high ? s.slice(0, -1) : s.slice(1);
   const round = ctx.money ? 'to the nearest cent' : 'to the nearest tenth';
   const correct = `The median, because ${ctx.why} pulls the mean ${high ? 'up' : 'down'}`;
   const choice = mc(rng, correct, [
@@ -730,13 +740,13 @@ function typicalThreeStep(rng: Rng, name: string): Out {
   const medPart: Part = ctx.money ? { ...numPart(med, { label: 'Median: \\$' }) } : numPart(med, { label: 'Median:', suffix: ctx.unit });
   const meanPart: Part = ctx.money ? { ...moneyPart(m), label: 'Mean: \\$' } : numPart(m, { decimals: 1, label: 'Mean:', suffix: ctx.unit });
   return {
-    prompt: `${ctx.intro(name, n)} ${oList(ctx, vs)}. Find the mean (round ${round}) and the median. Then decide which one better describes a typical ${ctx.noun}.`,
+    prompt: `${ctx.intro(name, n)} ${oList(ctx, vs)}. Find the mean (round ${round}) and the median. Then decide which one better describes ${ctx.typ}.`,
     parts: [meanPart, medPart, { label: 'Better measure:', answer: choice }],
     hints: ['Mean: add and divide. Median: put the values in order and find the middle.', 'An outlier pulls the mean toward it, but it barely moves the median.'],
     solution: [
       `Mean: $${plus(vs)} = ${num(sum(vs))}$, and $${num(sum(vs))} \\div ${n} ${eq(m)}$`,
       `Median: in order ${listTex(s)}. ${n % 2 ? `The middle value is $${num(med)}$.` : `Halfway between $${num(s[n / 2 - 1])}$ and $${num(s[n / 2])}$ is $${num(med)}$.`}`,
-      `Most values are between ${oVal(ctx, ctx.r[0])} and ${oVal(ctx, ctx.r[1])}. The median, ${oVal(ctx, med)}, is in that range. The mean, about ${ctx.money ? money(m) : `$${fmtFixed(m, 1)}$ ${ctx.unit}`}, is pulled ${high ? 'up' : 'down'} by ${ctx.why}.`,
+      `Without ${ctx.why}, the values are between ${oVal(ctx, Math.min(...others))} and ${oVal(ctx, Math.max(...others))}. The median, ${oVal(ctx, med)}, is in that range. The mean, about ${ctx.money ? money(m) : `$${fmtFixed(m, 1)}$ ${ctx.unit}`}, is pulled ${high ? 'up' : 'down'} by ${ctx.why}.`,
       `Mean ≈ ${ctx.money ? money(m) : `$${fmtFixed(m, 1)}$`}, median = ${oVal(ctx, med)}. The better measure is: ${correct}.`,
     ],
   };
@@ -994,21 +1004,21 @@ function predictTheory(rng: Rng, d: Lvl, name: string): Out {
   };
 }
 
-const RESULTS: Array<{ intro: (t: number) => string; head: string; cats: string[]; ask: (c: string) => string; next: (c: string, n: number) => string }> = [
+const RESULTS: Array<{ intro: (t: number) => string; head: string; cats: string[]; rank: string[]; ask: (c: string) => string; next: (c: string, n: number) => string }> = [
   {
-    intro: (t) => `A coffee shop in Edmonton recorded the drink size for its last $${t}$ customers.`, head: 'Size', cats: ['Small', 'Medium', 'Large', 'Extra large'],
+    intro: (t) => `A coffee shop in Edmonton recorded the drink size for its last $${t}$ customers.`, head: 'Size', cats: ['Small', 'Medium', 'Large', 'Extra large'], rank: ['Medium', 'Large', 'Small', 'Extra large'],
     ask: (c) => `What is the experimental probability that a customer orders ${lower(c)}?`, next: (c, n) => `Predict how many of the next $${n}$ customers will order ${lower(c)}.`,
   },
   {
-    intro: (t) => `A quality checker at a factory in Red Deer tested $${t}$ light bulbs.`, head: 'Result', cats: ['Works', 'Dim', 'Broken'],
+    intro: (t) => `A quality checker at a factory in Red Deer tested $${t}$ light bulbs.`, head: 'Result', cats: ['Works', 'Dim', 'Broken'], rank: ['Works', 'Dim', 'Broken'],
     ask: (c) => `What is the experimental probability that a bulb is ${c === 'Works' ? 'working' : lower(c)}?`, next: (c, n) => `Predict how many bulbs in the next batch of $${n}$ will be ${c === 'Works' ? 'working' : lower(c)}.`,
   },
   {
-    intro: (t) => `A car wash in Calgary recorded the wash chosen by its last $${t}$ customers.`, head: 'Wash', cats: ['Basic', 'Deluxe', 'Premium'],
+    intro: (t) => `A car wash in Calgary recorded the wash chosen by its last $${t}$ customers.`, head: 'Wash', cats: ['Basic', 'Deluxe', 'Premium'], rank: ['Basic', 'Deluxe', 'Premium'],
     ask: (c) => `What is the experimental probability that a customer chooses the ${lower(c)} wash?`, next: (c, n) => `Predict how many of the next $${n}$ customers will choose the ${lower(c)} wash.`,
   },
   {
-    intro: (t) => `A basketball player took $${t}$ free throws in practice.`, head: 'Result', cats: ['Made', 'Missed'],
+    intro: (t) => `A basketball player took $${t}$ free throws in practice.`, head: 'Result', cats: ['Made', 'Missed'], rank: ['Made', 'Missed'],
     ask: (c) => `What is the experimental probability that a free throw is ${lower(c)}?`, next: (c, n) => `If the player takes $${n}$ free throws in the season, predict how many will be ${lower(c)}.`,
   },
 ];
@@ -1038,9 +1048,12 @@ function resultsItem(rng: Rng, d: Lvl, name: string): Out {
       const cuts = rng.sample([...Array(t - 1).keys()].map((x) => x + 1), k - 1).sort((x, y) => x - y);
       return [...cuts, t].map((c, j) => c - (j ? cuts[j - 1] : 0));
     },
-    (cs) => cs.every((c) => c >= t * 0.08) && new Set(cs).size === k && (ctx.head !== 'Result' || cs[0] === Math.max(...cs)),
+    (cs) => cs.every((c) => c >= t * 0.08) && new Set(cs).size === k && Math.max(...cs) <= t * 0.75,
     300,
-  );
+  )
+    .sort((x, y) => y - x)
+    // The usual most popular result gets the biggest count.
+    .map((_, j, sorted) => sorted[ctx.rank.indexOf(ctx.cats[j])]);
   const i = rng.int(0, k - 1);
   const figure: Figure = { type: 'table', headers: [ctx.head, 'Count'], rows: ctx.cats.map((c, j) => [c, String(counts[j])]) };
   const p = (counts[i] * 100) / t;

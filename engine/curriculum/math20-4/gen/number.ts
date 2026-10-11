@@ -231,7 +231,7 @@ function intOrderBare(rng: Rng): GenOutput {
     // a × (b ± c)
     const a = s() * rng.int(2, 6);
     const b = s() * rng.int(1, 12);
-    const c = retry(() => s() * rng.int(1, 12), (v) => b + v !== 0);
+    const c = retry(() => s() * rng.int(1, 12), (v) => Math.abs(b + v) >= 2 && (b < 0 || v < 0 || a < 0));
     const sum = b + c;
     const inner = `${b} ${c < 0 ? '-' : '+'} ${Math.abs(c)}`;
     ans = a * sum;
@@ -1277,7 +1277,7 @@ function newAmount3(rng: Rng): GenOutput {
   return {
     prompt,
     parts: [moneyPart(n)],
-    hints: [`First find $${pct}\\%$ of ${money(o)}. Then ${up ? 'add it to' : 'subtract it from'} the original amount.`, `$${pct}\\% = ${dec(pct)}$. Find $${dec(pct)} \\times ${mv(o)}$.`],
+    hints: [`First find $${pct}\\%$ of ${tag(o)}. Then ${up ? 'add it to' : 'subtract it from'} the original amount.`, `$${pct}\\% = ${dec(pct)}$. Find $${dec(pct)} \\times ${mv(o)}$.`],
     solution: [
       `Find the ${up ? 'increase' : 'discount'}: $${dec(pct)} \\times ${mv(o)} ${eq(ch)}$`,
       `${up ? 'Add' : 'Subtract'}: $${mv(o)} ${up ? '+' : '-'} ${num(roundTo(ch, 4))} ${eq(n)}$`,
@@ -1288,9 +1288,16 @@ function newAmount3(rng: Rng): GenOutput {
 
 function wholeFromPart3(rng: Rng): GenOutput {
   const name = rng.pick(NAMES);
-  const [pct, W] = retry(() => [rng.pick([10, 15, 20, 25, 30]), 20 * rng.int(10, 90)] as const, ([q, w]) => isWhole((q * w) / 100));
+  const [item, kind, lo, hi] = rng.pick([
+    ['used car', 'a down payment', 3000, 15000],
+    ['couch', 'a deposit', 400, 1800],
+    ['set of hockey gear', 'a deposit', 200, 900],
+    ['fridge', 'a deposit', 800, 2200],
+    ['used utility trailer', 'a down payment', 1500, 6000],
+  ] as const);
+  const step = hi >= 3000 ? 100 : 20;
+  const [pct, W] = retry(() => [rng.pick([10, 15, 20, 25, 30]), step * rng.int(Math.ceil(lo / step), Math.floor(hi / step))] as const, ([q, w]) => isWhole((q * w) / 100));
   const part = (pct * W) / 100;
-  const [item, kind] = rng.pick([['used car', 'a down payment'], ['couch', 'a deposit'], ['set of hockey gear', 'a deposit'], ['fridge', 'a deposit'], ['used trailer', 'a down payment']]);
   return {
     prompt: `${name} pays ${kind} of ${tag(part)} on a ${item}. The ${kind.replace(/^an? /, '')} is $${pct}\\%$ of the full price.\n\n**(a)** What is the full price of the ${item}?\n\n**(b)** How much does ${name} still have to pay?`,
     parts: [moneyPart(W, undefined), moneyPart(W - part)].map((pt, i) => ({ ...pt, label: i === 0 ? '(a) \\$' : '(b) \\$' })),
@@ -1307,7 +1314,10 @@ function wholeFromPart3(rng: Rng): GenOutput {
 function percentChangeRound3(rng: Rng): GenOutput {
   const kind = rng.pick(['gas', 'customers'] as const);
   if (kind === 'gas') {
-    const [o, n] = retry(() => [rng.int(119, 169) / 100, rng.int(109, 179) / 100] as const, ([x, y]) => Math.abs(y - x) >= 0.06 && !onEdge((Math.abs(y - x) / x) * 100, 1));
+    const [o, n] = retry(() => {
+      const x = rng.int(119, 169) / 100;
+      return [x, roundTo(x + rng.sign() * rng.int(6, 22) / 100, 2)] as const;
+    }, ([x, y]) => !onEdge((Math.abs(y - x) / x) * 100, 1));
     const up = n > o;
     const pct = (Math.abs(n - o) / o) * 100;
     const w = up ? 'increase' : 'decrease';
