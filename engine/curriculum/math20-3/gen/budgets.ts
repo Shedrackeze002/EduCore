@@ -92,26 +92,26 @@ const JOBS: Job[] = [
   { job: 'a tire technician in Lloydminster', lo: 18, hi: 24 },
 ];
 
-interface ExpKind { label: string; fixed: boolean; d1: number[]; lo: number; hi: number; style: 'w25' | 'w5' | 'nine' | 'any' }
+interface ExpKind { label: string; phrase: string; fixed: boolean; d1: number[]; lo: number; hi: number; style: 'w25' | 'w5' | 'nine' | 'any' }
 const EX = {
-  rent: { label: 'Rent', fixed: true, d1: [650, 700, 750, 800, 850, 900], lo: 750, hi: 1350, style: 'w25' },
-  tenant: { label: 'Tenant insurance', fixed: true, d1: [20, 25, 30], lo: 18, hi: 36, style: 'any' },
-  utilities: { label: 'Utilities', fixed: false, d1: [80, 100, 120], lo: 70, hi: 170, style: 'any' },
-  phone: { label: 'Phone plan', fixed: true, d1: [45, 50, 60, 65], lo: 36, hi: 81, style: 'nine' },
-  internet: { label: 'Internet', fixed: true, d1: [50, 60, 70], lo: 46, hi: 91, style: 'nine' },
-  bus: { label: 'Bus pass', fixed: true, d1: [90, 100, 110], lo: 85, hi: 115, style: 'w5' },
-  truckPay: { label: 'Truck payment', fixed: true, d1: [300, 350, 400], lo: 280, hi: 520, style: 'any' },
-  truckIns: { label: 'Vehicle insurance', fixed: true, d1: [120, 150, 180], lo: 110, hi: 240, style: 'any' },
-  gas: { label: 'Gas', fixed: false, d1: [120, 150, 180, 200], lo: 90, hi: 260, style: 'any' },
-  groceries: { label: 'Groceries', fixed: false, d1: [250, 300, 350, 400], lo: 220, hi: 480, style: 'any' },
-  eating: { label: 'Eating out', fixed: false, d1: [60, 80, 100], lo: 40, hi: 180, style: 'any' },
-  fun: { label: 'Entertainment', fixed: false, d1: [40, 50, 60, 80], lo: 30, hi: 140, style: 'any' },
-  clothes: { label: 'Clothing', fixed: false, d1: [40, 50, 60], lo: 25, hi: 120, style: 'any' },
-  gym: { label: 'Gym membership', fixed: true, d1: [25, 30, 40], lo: 21, hi: 56, style: 'nine' },
-  care: { label: 'Personal care', fixed: false, d1: [20, 30, 40], lo: 15, hi: 70, style: 'any' },
+  rent: { label: 'Rent', phrase: 'rent', fixed: true, d1: [650, 700, 750, 800, 850, 900], lo: 750, hi: 1350, style: 'w25' },
+  tenant: { label: 'Tenant insurance', phrase: 'tenant insurance', fixed: true, d1: [20, 25, 30], lo: 18, hi: 36, style: 'any' },
+  utilities: { label: 'Utilities', phrase: 'utilities', fixed: false, d1: [80, 100, 120], lo: 70, hi: 170, style: 'any' },
+  phone: { label: 'Phone plan', phrase: 'the phone plan', fixed: true, d1: [45, 50, 60, 65], lo: 36, hi: 81, style: 'nine' },
+  internet: { label: 'Internet', phrase: 'internet', fixed: true, d1: [50, 60, 70], lo: 46, hi: 91, style: 'nine' },
+  bus: { label: 'Bus pass', phrase: 'the bus pass', fixed: true, d1: [90, 100, 110], lo: 85, hi: 115, style: 'w5' },
+  truckPay: { label: 'Truck payment', phrase: 'the truck payment', fixed: true, d1: [300, 350, 400], lo: 280, hi: 520, style: 'any' },
+  truckIns: { label: 'Vehicle insurance', phrase: 'vehicle insurance', fixed: true, d1: [120, 150, 180], lo: 110, hi: 240, style: 'any' },
+  gas: { label: 'Gas', phrase: 'gas', fixed: false, d1: [120, 150, 180, 200], lo: 90, hi: 260, style: 'any' },
+  groceries: { label: 'Groceries', phrase: 'groceries', fixed: false, d1: [250, 300, 350, 400], lo: 220, hi: 480, style: 'any' },
+  eating: { label: 'Eating out', phrase: 'eating out', fixed: false, d1: [60, 80, 100], lo: 40, hi: 180, style: 'any' },
+  fun: { label: 'Entertainment', phrase: 'entertainment', fixed: false, d1: [40, 50, 60, 80], lo: 30, hi: 140, style: 'any' },
+  clothes: { label: 'Clothing', phrase: 'clothing', fixed: false, d1: [40, 50, 60], lo: 25, hi: 120, style: 'any' },
+  gym: { label: 'Gym membership', phrase: 'the gym membership', fixed: true, d1: [25, 30, 40], lo: 21, hi: 56, style: 'nine' },
+  care: { label: 'Personal care', phrase: 'personal care', fixed: false, d1: [20, 30, 40], lo: 15, hi: 70, style: 'any' },
 } satisfies Record<string, ExpKind>;
 
-interface Exp { label: string; fixed: boolean; amount: number }
+interface Exp { label: string; phrase: string; fixed: boolean; amount: number }
 
 function expAmount(rng: Rng, k: ExpKind, d: Lvl): number {
   if (d === 1) return rng.pick(k.d1);
@@ -130,7 +130,7 @@ function makeBudget(rng: Rng, d: Lvl, n: number, opts: { housing?: boolean } = {
   kinds.push(EX.phone, EX.groceries);
   const extras: ExpKind[] = rng.shuffle([EX.eating, EX.fun, EX.clothes, EX.care, EX.gym, EX.internet, ...(opts.housing ? [] : [EX.utilities]), ...(truck ? [EX.truckIns] : [])]);
   while (kinds.length < n && extras.length) kinds.push(extras.pop()!);
-  return kinds.map((k) => ({ label: k.label, fixed: k.fixed, amount: expAmount(rng, k, d) }));
+  return kinds.map((k) => ({ label: k.label, phrase: k.phrase, fixed: k.fixed, amount: expAmount(rng, k, d) }));
 }
 
 const budgetTable = (items: Exp[]): Figure => ({
@@ -244,7 +244,7 @@ function classify(rng: Rng, d: Lvl): Out {
       hints: ['A fixed expense costs the same amount every month. A variable expense changes from month to month.', askFixed ? 'Look for the bill with a set price each month.' : 'Look for the cost that goes up or down with how much you buy or use.'],
       solution: [
         askFixed ? `${correct} costs the same amount every month.` : `${correct} changes from month to month, depending on how much ${name} buys or uses.`,
-        `${list(others)} ${askFixed ? 'can change from month to month, so they are variable' : 'cost the same every month, so they are fixed'}.`,
+        `${list(others.map((x, i) => (i ? lower(x) : x)))} ${askFixed ? 'can change from month to month, so they are variable' : 'cost the same every month, so they are fixed'}.`,
         `The ${kind} expense is ${lower(correct)}.`,
       ],
     };
@@ -342,7 +342,7 @@ function percentOfIncome(rng: Rng): Out {
   const items = makeBudget(rng, 2, 6);
   const o = retry(
     () => {
-      const k = rng.int(0, items.length - 1);
+      const k = rng.pick(items.map((e, i) => (e.amount >= 90 ? i : -1)).filter((i) => i >= 0));
       const I = rng.int(240000, 400000) / 100;
       return { k, I, p: (items[k].amount / I) * 100 };
     },
@@ -350,14 +350,14 @@ function percentOfIncome(rng: Rng): Out {
   );
   const e = items[o.k];
   return {
-    prompt: `${name} has a net income of ${money(o.I)} a month. The table shows ${poss(name)} monthly budget. What percent of ${poss(name)} net income goes to ${lower(e.label)}? Round to the nearest tenth of a percent.`,
+    prompt: `${name} has a net income of ${money(o.I)} a month. The table shows ${poss(name)} monthly budget. What percent of ${poss(name)} net income goes to ${e.phrase}? Round to the nearest tenth of a percent.`,
     figure: budgetTable(items),
     parts: [numPart(o.p, { decimals: 1, suffix: '%' })],
     hints: ['Percent of income = expense ÷ net income × 100.', `Work out $${m2(e.amount)} \\div ${m2(o.I)} \\times 100$, then round to one decimal place.`],
     solution: [
       `${e.label} costs ${money(e.amount)} a month.`,
       `$${m2(e.amount)} \\div ${m2(o.I)} \\times 100 \\approx ${num(o.p, 3)}$`,
-      `About ${fmtFixed(o.p, 1)}% of ${poss(name)} net income goes to ${lower(e.label)}.`,
+      `About ${fmtFixed(o.p, 1)}% of ${poss(name)} net income goes to ${e.phrase}.`,
     ],
   };
 }
@@ -447,9 +447,9 @@ function housingGuide(rng: Rng): Out {
   if (rng.chance(0.5)) {
     const o = retry(
       () => {
-        const R = rng.int(32, 56) * 25;
-        const H = total([R, U, Ti]);
         const I = rng.int(240000, 420000) / 100;
+        const R = Math.round(((I * limit) / 100 - U - Ti) * rng.float(0.8, 1.2, 2) / 25) * 25;
+        const H = total([R, U, Ti]);
         return { R, H, I, p: (H / I) * 100 };
       },
       (x) => !onEdge(x.p, 1) && Math.abs(x.p - limit) >= 0.5,
@@ -549,7 +549,7 @@ function adjust1(rng: Rng): Out {
       const m = rng.int(3, 12);
       return { m, S: rng.int(Math.ceil(g.lo / m / 25), Math.floor(g.hi / m / 25)) * 25 };
     },
-    (x) => x.S >= 50,
+    (x) => x.S >= 50 && x.S <= 600,
     200,
   );
   const G = S * m;
@@ -563,7 +563,7 @@ function adjust1(rng: Rng): Out {
   }
   if (kind === 'months') {
     return {
-      prompt: `${name} has a budget surplus of ${tag(S)} each month and puts all of it toward ${g.what}, which costs ${tag(G)}. How many months will it take ${name} to save enough?`,
+      prompt: `${name} has a budget surplus of ${tag(S)} each month and puts all of it toward ${g.what}. The goal is ${tag(G)}. How many months will it take ${name} to save enough?`,
       parts: [numPart(m, { suffix: 'months' })],
       hints: ['Each month adds the same amount to the savings.', `Number of months = goal ÷ monthly savings: $${mv(G)} \\div ${mv(S)}$.`],
       solution: ['Number of months $=$ goal $\\div$ monthly savings.', `$${mv(G)} \\div ${mv(S)} = ${m}$`, `It will take ${name} ${m} months.`],
@@ -633,7 +633,7 @@ function adjust2(rng: Rng): Out {
   const months = Math.ceil(exact);
   const savedText = o.saved ? ` and already has ${tag(o.saved)} saved` : '';
   return {
-    prompt: `${name} is saving for ${g.what}, which costs ${tag(o.G)}. ${name} can save ${tag(o.S)} each month${savedText}. How many months of saving will it take to have enough? Count a part of a month as a whole month.`,
+    prompt: `${name} is saving ${tag(o.G)} for ${g.what}. ${name} can save ${tag(o.S)} each month${savedText}. How many months of saving will it take to have enough? Count a part of a month as a whole month.`,
     parts: [numPart(months, { suffix: 'months' })],
     hints: ['Find how much more is needed, then divide by the monthly savings.', 'If the answer is not a whole number, round **up**: rounding down leaves you short of the goal.'],
     solution: [
@@ -650,6 +650,7 @@ function adjust3(rng: Rng): Out {
   const g = rng.pick(GOALS);
   if (rng.chance(0.5)) {
     // Cut two variable expenses by stated percents, then find the months needed.
+    const wantYes = rng.chance(0.5);
     const o = retry(
       () => {
         const eat = rng.int(9, 26) * 10 + rng.pick([0, 5]);
@@ -664,8 +665,11 @@ function adjust3(rng: Rng): Out {
         const G = rng.int(Math.ceil(g.lo / 50), Math.floor(g.hi / 50)) * 50;
         return { eat, fun, pe, pf, L, ce, cf, S, span, G, months: Math.ceil(Math.round(G * 100) / Math.round(S * 100)) };
       },
-      (x) => x.months >= 3 && x.months <= 18 && x.months !== x.span.m && x.G / x.S - Math.floor(x.G / x.S) >= 0.02,
-      400,
+      (x) =>
+        x.months >= 3 &&
+        (wantYes ? x.months < x.span.m && x.months >= x.span.m - 3 : x.months > x.span.m && x.months <= x.span.m + 4) &&
+        x.G / x.S - Math.floor(x.G / x.S) >= 0.02,
+      600,
     );
     const ok = o.months <= o.span.m;
     return {
@@ -675,8 +679,8 @@ function adjust3(rng: Rng): Out {
       solution: [
         `Eating-out cut: $${dec(o.pe)} \\times ${mv(o.eat)} = ${mv(o.ce)}$`,
         `Entertainment cut: $${dec(o.pf)} \\times ${mv(o.fun)} = ${mv(o.cf)}$`,
-        `Saved each month: $${mv(o.L)} + ${mv(o.ce)} + ${mv(o.cf)} = ${m2(o.S)}$`,
-        `Months needed: $${mv(o.G)} \\div ${m2(o.S)} \\approx ${num(o.G / o.S, 2)}$, so round up to ${o.months} months.`,
+        `Saved each month: $${mv(o.L)} + ${mv(o.ce)} + ${mv(o.cf)} = ${mv(o.S)}$`,
+        `Months needed: $${mv(o.G)} \\div ${mv(o.S)} \\approx ${num(o.G / o.S, 2)}$, so round up to ${o.months} months.`,
         `From the start of ${o.span.from} to the start of ${o.span.to} is ${o.span.m} months.`,
         `${name} saves ${money(o.S)} a month and needs ${o.months} months. ${ok ? `Yes, ${name} will be ready by ${o.span.to}.` : `No, ${name} will not be ready by ${o.span.to}; ${name} would need to cut more or wait longer.`}`,
       ],

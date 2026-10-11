@@ -47,10 +47,10 @@ function sqRound(dec: number, u: string): string {
   return dec === 0 ? `to the nearest ${w}` : `${roundingPhrase(dec)} of a ${w}`;
 }
 
-/** True when rounding to `dec` places would sit on (or very near) a ...5 boundary. */
+/** True when rounding to `dec` places would sit on (or near) a ...5 boundary, so a worked step shown to one more place never ends in 5. */
 function nearHalf(v: number, dec: number): boolean {
   const x = Math.abs(v) * 10 ** dec;
-  return Math.abs(x - Math.floor(x) - 0.5) < 0.02;
+  return Math.abs(x - Math.floor(x) - 0.5) < 0.06;
 }
 
 /** A quotient that is not close to a whole number, so rounding up clearly matters. */
@@ -212,7 +212,7 @@ const saPrism = skill({
         { thing: 'steel job-site toolbox', u: 'in', lo: 10, hi: 36 },
         { thing: 'closed wooden storage crate', u: 'ft', lo: 2, hi: 7 },
         { thing: 'closed insulated cooler', u: 'in', lo: 12, hi: 30 },
-        { thing: 'closed plywood tool chest', u: 'cm', lo: 40, hi: 120 },
+        { thing: 'closed plywood tool chest', u: 'cm', lo: 40, hi: 90 },
         { thing: 'closed metal electrical box', u: 'cm', lo: 10, hi: 40 },
       ]);
       const l = rng.int(c.lo, c.hi);
@@ -790,7 +790,7 @@ const saPyramidCone = skill({
         `Slant height: $s = \\sqrt{${n(r)}^2 + ${h}^2} = \\sqrt{${n(exact(r * r + h * h))}} \\approx ${nf(s, 3)}\\ ${tx(c.u)}$`,
         `Curved side: $\\pi r s = \\pi(${n(r)})(${nf(s, 3)}) \\approx ${nf(lat, 2)}\\ ${sq(c.u)}$`,
         ...(cup ? [] : [`Base: $\\pi r^2 = \\pi(${n(r)})^2 \\approx ${nf(Math.PI * r * r, 2)}$, so $SA \\approx ${nf(SA, 2)}$`]),
-        `The answer is about ${arR(SA, c.u, 1)}.`,
+        cup ? `About ${arR(SA, c.u, 1)} is needed.` : `The total surface area is about ${arR(SA, c.u, 1)}.`,
       ],
     };
   },
@@ -1006,20 +1006,20 @@ const saApply = skill({
           prompt: `The surface area of ${c.thing} is ${ar(A, c.u)}. ${c.item} costs ${cash(rate)} per square ${UNIT[c.u].one}. What does the material cost before tax, to the nearest cent?`,
           parts: [moneyPart(cost, 'Cost')],
           hints: ['The price is per square unit, so you pay that amount for every square unit of surface.', 'Cost = area × price per square unit.'],
-          solution: [`Cost $= ${n(A)} \\times ${fmtFixed(rate, 2)}$`, `$= ${nf(cost, 3)}$`, `The material costs ${cash(cost)} before tax.`],
+          solution: [`Cost $= ${n(A)} \\times ${fmtFixed(rate, 2)}$`, `$= ${n(exact(cost))}$`, `The material costs ${cash(cost)} before tax.`],
         };
       }
       const c = rng.pick([
-        { thing: 'The outside walls of a garden shed', u: 'ft', cover: [300, 350, 400], A: [180, 900], item: 'can of paint', items: 'cans' },
-        { thing: 'The outside of a steel grain bin', u: 'ft', cover: [350, 400], A: [900, 2400], item: 'can of paint', items: 'cans' },
-        { thing: 'A fence', u: 'm', cover: [30, 35, 40], A: [50, 200], item: 'can of stain', items: 'cans' },
-        { thing: 'A water tower', u: 'm', cover: [35, 40], A: [150, 500], item: 'pail of primer', items: 'pails' },
+        { thing: 'the outside walls of a garden shed', u: 'ft', cover: [300, 350, 400], A: [180, 900], item: 'can of paint', items: 'cans' },
+        { thing: 'the outside of a steel grain bin', u: 'ft', cover: [350, 400], A: [900, 2400], item: 'can of paint', items: 'cans' },
+        { thing: 'a wooden fence', u: 'm', cover: [30, 35, 40], A: [50, 200], item: 'can of stain', items: 'cans' },
+        { thing: 'the tank of a water tower', u: 'm', cover: [35, 40], A: [150, 500], item: 'pail of primer', items: 'pails' },
       ]);
       const cover = rng.pick(c.cover);
-      const A = retry(() => rng.int(c.A[0], c.A[1]), (x) => notWhole(x / cover));
+      const A = retry(() => rng.int(c.A[0], c.A[1]), (x) => notWhole(x / cover) && x / cover > 1.1);
       const N = Math.ceil(A / cover);
       return {
-        prompt: `${c.thing} has a surface area of ${ar(A, c.u)} to cover with one coat. One ${c.item} covers ${ar(cover, c.u)}. How many ${c.items} does ${name} need to buy?`,
+        prompt: `${name} is giving ${c.thing} one coat. The surface area to cover is ${ar(A, c.u)}, and one ${c.item} covers ${ar(cover, c.u)}. How many ${c.items} does ${name} need to buy?`,
         parts: [numPart(N, { suffix: c.items })],
         hints: [`Divide the area by the amount one ${c.item.split(' of ')[0]} covers.`, `You cannot buy part of a ${c.item.split(' of ')[0]}, so always round up.`],
         solution: [`$${n(A)} \\div ${cover} \\approx ${nf(A / cover, 2)}$`, `Round up: ${name} needs ${N} ${c.items}.`],
@@ -1032,7 +1032,7 @@ const saApply = skill({
         const cover = rng.pick([300, 350, 400]);
         const [L, W, H] = retry(
           () => [rng.int(8, 16), rng.int(6, 10), rng.pick([7, 8])],
-          ([x, y, z]) => x > y && notWhole(((2 * (x + y) * z - 21) * coats) / cover),
+          ([x, y, z]) => x > y && notWhole(((2 * (x + y) * z - 21) * coats) / cover) && ((2 * (x + y) * z - 21) * coats) / cover > 1.1,
         );
         const walls = 2 * (L + W) * H;
         const A = walls - 21;
@@ -1071,7 +1071,7 @@ const saApply = skill({
             `Perimeter of the end: $2(${w} + ${h}) = ${P}\\ \\text{in}$`,
             `Length in inches: $${L} \\times 12 = ${Lin}\\ \\text{in}$`,
             `Four sides: $${P} \\times ${Lin} = ${n(Ain)}\\ ${sq('in')}$`,
-            `In square feet: $${n(Ain)} \\div 144 \\approx ${nf(Aft, 2)}$`,
+            Ain % 144 === 0 ? `In square feet: $${n(Ain)} \\div 144 = ${n(Aft)}$` : `In square feet: $${n(Ain)} \\div 144 \\approx ${nf(Aft, 2)}$`,
             `About ${arR(Aft, 'ft', 1)} of sheet metal is needed.`,
           ],
         };
@@ -1091,7 +1091,7 @@ const saApply = skill({
           hints: ['Only the curved side is wrapped: $A = \\pi d h$ (or $2\\pi r h$).', 'Multiply the rounded area by the price per square metre.'],
           solution: [
             `Curved side: $A = \\pi d h = \\pi(${n(dia)})(${n(H)}) \\approx ${nf(A, 3)}$, which rounds to $${nf(A, 1)}\\ ${sq('m')}$`,
-            `Cost: $${nf(A, 1)} \\times ${fmtFixed(rate, 2)} = ${nf(cost, 3)}$`,
+            `Cost: $${nf(A, 1)} \\times ${fmtFixed(rate, 2)} = ${n(exact(cost))}$`,
             `The area is about ${arR(A, 'm', 1)} and the insulation costs ${cash(cost)}.`,
           ],
         };
@@ -1135,8 +1135,8 @@ const saApply = skill({
         solution: [
           `$r = ${D} \\div 2 = ${r}\\ \\text{ft}$`,
           `Wall: $\\pi d h = \\pi(${D})(${H}) \\approx ${nf(wall, 2)}\\ ${sq('ft')}$`,
-          `Roof slant height: $s = \\sqrt{${r}^2 + ${R}^2} = \\sqrt{${r * r + R * R}} \\approx ${nf(s, 3)}\\ \\text{ft}$`,
-          `Roof: $\\pi r s = \\pi(${r})(${nf(s, 3)}) \\approx ${nf(roof, 2)}\\ ${sq('ft')}$`,
+          `Roof slant height: $s = \\sqrt{${r}^2 + ${R}^2} = \\sqrt{${r * r + R * R}} ${Number.isInteger(s) ? `= ${s}` : `\\approx ${nf(s, 3)}`}\\ \\text{ft}$`,
+          `Roof: $\\pi r s = \\pi(${r})(${Number.isInteger(s) ? s : nf(s, 3)}) \\approx ${nf(roof, 2)}\\ ${sq('ft')}$`,
           `Total: $${nf(wall, 2)} + ${nf(roof, 2)} \\approx ${nf(A, 2)}$, about ${arR(A, 'ft', 0)}`,
           `Cans: $${nf(A, 2)} \\div ${cover} \\approx ${nf(A / cover, 2)}$, so round up to ${N} cans.`,
         ],
@@ -1164,7 +1164,7 @@ const saApply = skill({
           `$r = ${n(dia)} \\div 2 = ${n(r)}\\ \\text{m}$`,
           `$SA = 2\\pi(${n(r)})^2 + 2\\pi(${n(r)})(${n(H)}) \\approx ${nf(SA, 3)}$, which rounds to $${nf(SA, 1)}\\ ${sq('m')}$`,
           `With 10% extra: $${nf(SA, 1)} \\times 1.1 = ${n(withWaste)}\\ ${sq('m')}$`,
-          `Cost: $${n(withWaste)} \\times ${fmtFixed(rate, 2)} = ${nf(cost, 3)}$`,
+          `Cost: $${n(withWaste)} \\times ${fmtFixed(rate, 2)} = ${n(exact(cost))}$`,
           `The steel costs ${cash(cost)}.`,
         ],
       };
