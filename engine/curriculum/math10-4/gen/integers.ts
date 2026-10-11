@@ -127,7 +127,7 @@ function compareD1(rng: Rng): Out {
   }
   if (kind === 'towns') {
     const towns = rng.sample(TOWNS, 3);
-    const temps = distinct(rng, 3, -30, 4, 2, (v) => v.filter((x) => x < 0).length >= 2);
+    const temps = distinct(rng, 3, -30, 1, 2, (v) => v.filter((x) => x < 0).length >= 2);
     const coldest = rng.chance(0.6);
     const target = coldest ? Math.min(...temps) : Math.max(...temps);
     const i = temps.indexOf(target);

@@ -434,14 +434,14 @@ function solveOneContext(rng: Rng): GenOutput {
   };
 }
 
-function twoStepSteps(v: string, a: number, b: number, c: number, x: number, minus: boolean): string[] {
+function twoStepSteps(v: string, a: number, b: number, c: number, x: number, minus: boolean, bFirst = false): string[] {
   const mid = minus ? c + b : c - b;
   return [
     minus ? `Undo the subtraction first: add $${b}$ to both sides.` : `Undo the addition first: subtract $${b}$ from both sides.`,
     `$${a}${v} = ${c} ${minus ? '+' : '-'} ${b} = ${mid}$`,
     `Then undo the multiplication: divide both sides by $${a}$.`,
     `$${v} = ${mid} \\div ${a} = ${x}$`,
-    `Check: $${a} \\times ${x} ${minus ? '-' : '+'} ${b} = ${c}$. It works.`,
+    bFirst ? `Check: $${b} + ${a} \\times ${x} = ${c}$. It works.` : `Check: $${a} \\times ${x} ${minus ? '-' : '+'} ${b} = ${c}$. It works.`,
   ];
 }
 
@@ -459,7 +459,7 @@ function solveTwoBare(rng: Rng): GenOutput {
     prompt: `Solve for $${v}$: $${eqTex}$`,
     parts: [numPart(x, { label: `$${v} =$` })],
     hints: ['Undo the operations in reverse order: first undo the adding or subtracting, then undo the multiplying.', minus ? `Add $${b}$ to both sides first.` : `Subtract $${b}$ from both sides first.`],
-    solution: [...twoStepSteps(v, a, b, c, x, minus), `The solution is $${v} = ${x}$.`],
+    solution: [...twoStepSteps(v, a, b, c, x, minus, form === 3), `The solution is $${v} = ${x}$.`],
   };
 }
 
