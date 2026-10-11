@@ -299,7 +299,7 @@ const systemGraph = skill({
         for (;;) {
           const x1 = rng.int(-4, 2);
           const x2 = rng.int(x1 + 2, 5);
-          const [s1, s2] = rng.pick([[1, -1], [-1, 1], [2, -1], [1, -2], [-2, 1], [-1, 2], [1, 2], [2, 1], [-1, -2], [-2, -1]] as const);
+          const [s1, s2] = rng.pick([[1, -1], [-1, 1], [2, -1], [1, -2], [-2, 1], [-1, 2]] as const);
           const m = rng.int(-2, 2);
           const k = rng.int(-4, 4);
           const P1 = [s1, -s1 * (x1 + x2) + m, s1 * x1 * x2 + k] as const;

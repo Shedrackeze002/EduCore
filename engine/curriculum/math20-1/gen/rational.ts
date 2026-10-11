@@ -934,9 +934,6 @@ function prod2(L: string, R: string): string {
   const w = (q: string) => (oneTerm(q) ? q : `(${q})`);
   return oneTerm(R) && !oneTerm(L) ? `${R}${w(L)}` : `${w(L)}${w(R)}`;
 }
-function paren(n: number) {
-  return n < 0 ? `(${n})` : `${n}`;
-}
 /** \dfrac{top}{den} with a negative numeral moved in front: −\dfrac{3}{x − 2}. */
 function fracTerm(top: number | string, den: string) {
   return typeof top === 'number' && top < 0 ? `-\\dfrac{${-top}}{${den}}` : `\\dfrac{${top}}{${den}}`;

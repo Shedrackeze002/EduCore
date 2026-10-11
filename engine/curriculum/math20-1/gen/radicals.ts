@@ -142,7 +142,7 @@ function mixedNumeric(rng: Rng): GenOutput {
   for (let i = 0; i < 100; i++) {
     s = rng.int(2, 10);
     r = rng.pick(SF);
-    if (s * s * r <= 600 && s * s * r >= 40) break;
+    if (s * s * r <= 600 && s * s * r >= 100) break;
   }
   const n = s * s * r;
   const k = rng.pick([1, 1, 1, 2, 3, -1, -2]);
@@ -163,8 +163,13 @@ function mixedNumeric(rng: Rng): GenOutput {
 }
 
 function entireNumeric(rng: Rng): GenOutput {
-  const k = rng.int(2, 9);
-  const m = rng.pick([2, 3, 5, 6, 7, 10, 11]);
+  let k = 5;
+  let m = 7;
+  for (let i = 0; i < 100; i++) {
+    k = rng.int(3, 9);
+    m = rng.pick([2, 3, 5, 6, 7, 10, 11]);
+    if (k * k * m >= 100) break;
+  }
   const n = k * k * m;
   return {
     prompt: `Write $${k}\\sqrt{${m}}$ as an entire radical.`,
@@ -183,7 +188,7 @@ function varMixed(rng: Rng): GenOutput {
   for (let i = 0; i < 100; i++) {
     s = rng.int(2, 7);
     r = rng.pick([1, 2, 3, 5, 6, 7, 10]);
-    e = rng.int(2, 9);
+    e = rng.int(3, 9);
     if (s * s * r <= 300 && (r > 1 || e % 2 === 1)) break;
   }
   const c = s * s * r;
@@ -212,7 +217,7 @@ function varEntire(rng: Rng): GenOutput {
   const k = rng.int(2, 6);
   const p = rng.int(1, 3);
   const r = rng.pick([1, 2, 3, 5, 6, 7]);
-  const q = r === 1 ? 1 : rng.int(0, 1);
+  const q = r === 1 || p === 1 ? 1 : rng.int(0, 1);
   const outE: Pow = [[v, p]];
   const inE: Pow = [[v, q]];
   const given = mixedTex(k, outE, r, inE);
@@ -940,7 +945,7 @@ function ratMonomial(rng: Rng): GenOutput {
   for (let t = 0; t < 300; t++) {
     const m = rng.pick([2, 3, 5, 6, 7, 10, 11]);
     const b = rng.pick([1, 1, 2, 3, 4, 5]);
-    const radNum = rng.chance(0.45);
+    const radNum = true;
     let numTex: string;
     let afterTex: string;
     let numCoef: number;

@@ -422,7 +422,7 @@ const quadFormula = skill({
 // 7.3 — Modelling and solving problems
 // ---------------------------------------------------------------------------
 
-const RECTS = ['garden', 'patio', 'poster', 'deck', 'skating rink', 'dog run'];
+const RECTS = ['garden', 'patio', 'vegetable plot', 'deck', 'skating rink', 'dog run', 'parking lot'];
 const TRIPLES: Array<[number, number, number]> = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [12, 35, 37], [9, 40, 41]];
 
 const quadApply = skill({

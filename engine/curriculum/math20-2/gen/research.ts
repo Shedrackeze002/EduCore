@@ -156,6 +156,12 @@ const FLAW_TEXT: Record<Flaw, string> = {
   fact: 'It can be answered with a single fact, so there is nothing to analyze.',
   leading: 'It is biased: the wording assumes the answer.',
 };
+const FLAW_WHY: Record<Flaw, string> = {
+  broad: 'is too broad to answer with one set of data.',
+  opinion: 'asks for an opinion, so it cannot be measured.',
+  fact: 'can be answered with a single fact, so there is nothing to analyze.',
+  leading: 'is biased, because its wording assumes the answer.',
+};
 const FLAWS: Flaw[] = ['broad', 'opinion', 'fact', 'leading'];
 const q = (s: string) => `“${s}”`;
 
@@ -181,7 +187,7 @@ const researchQuestion = skill({
         parts: [part(mc(rng, t.good, bad.map((f) => t[f])))],
         hints: GOOD_HINTS,
         solution: [
-          ...bad.map((f) => `${q(t[f])}: ${FLAW_TEXT[f].charAt(0).toLowerCase()}${FLAW_TEXT[f].slice(1)}`),
+          ...bad.map((f) => `${q(t[f])} ${FLAW_WHY[f]}`),
           `${q(t.good)} is focused, and it can be answered by collecting and analyzing data.`,
           `The best research question is ${q(t.good)}`,
         ],
@@ -200,7 +206,7 @@ const researchQuestion = skill({
             fact: 'One look-up answers it, so there is no data to collect and analyze.',
             leading: 'The wording takes a side before any data is collected, so it is not neutral.',
           }[flaw],
-          `Main problem: ${FLAW_TEXT[flaw]}`,
+          `The main problem: ${FLAW_TEXT[flaw].charAt(0).toLowerCase()}${FLAW_TEXT[flaw].slice(1)}`,
           `A better question would be ${q(t.good)}`,
         ],
       };
@@ -320,9 +326,9 @@ const SURVEY_QS = [
 
 const SAMPLES = [
   {
-    want: 'how many hours of homework Grade 10 to 12 students at her school do each week',
+    want: 'how many hours of homework the Grade 10 to 12 students at a large Calgary high school do each week',
     good: 'Randomly select 60 students from the school’s list of all Grade 10 to 12 students.',
-    bad: ['Ask the 25 students in her own math class.', 'Post an online survey on the school website and use whoever answers.', 'Ask students who are studying in the library after school.'],
+    bad: ['Ask the 25 students in one math class.', 'Post an online survey on the school website and use whoever answers.', 'Ask students who are studying in the library after school.'],
   },
   {
     want: 'how Lethbridge residents feel about adding bike lanes downtown',
@@ -330,9 +336,9 @@ const SAMPLES = [
     bad: ['Survey the members of a cycling club.', 'Ask shoppers at one downtown mall on a Tuesday morning.', 'Post a poll on a social media page and use whoever answers.'],
   },
   {
-    want: 'the average height of Grade 11 students in his school division',
+    want: 'the average height of the Grade 11 students in a large school division',
     good: 'Randomly select Grade 11 students from every high school in the division.',
-    bad: ['Measure the players on the senior basketball team.', 'Measure the students in his own class.', 'Ask for volunteers at a school assembly.'],
+    bad: ['Measure the players on the senior basketball team.', 'Measure the students in one class at one school.', 'Ask for volunteers at a school assembly.'],
   },
   {
     want: 'what percent of Calgary teenagers have a part-time job',

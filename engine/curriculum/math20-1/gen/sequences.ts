@@ -548,7 +548,7 @@ function unknownContext(rng: Rng): GenOutput {
       prompt: `Each row of seats in a stadium section has ${d} more seats than the row in front of it. Row ${k} has ${tk} seats. How many seats are in the first row?`,
       parts: [numPart(t1, { label: 'Row 1:', suffix: 'seats' })],
       hints: ['You know $d$ and one term, $t_{' + k + '}$.', `Solve $${tk} = t_1 + (${k} - 1)(${d})$ for $t_1$.`],
-      solution: [`$t_{${k}} = t_1 + (${k} - 1)d$`, `$${tk} = t_1 + ${(k - 1) * d}$`, `$t_1 = ${tk} - ${(k - 1) * d} = ${t1}$`, `The first row has ${t1} seats.`],
+      solution: [`The rows form an arithmetic sequence with $d = ${d}$: $t_{${k}} = t_1 + (${k} - 1)d$`, `$${tk} = t_1 + (${k - 1})(${d}) = t_1 + ${(k - 1) * d}$`, `$t_1 = ${tk} - ${(k - 1) * d} = ${t1}$`, `The first row has ${t1} seats.`],
       calculator: true,
     };
   }

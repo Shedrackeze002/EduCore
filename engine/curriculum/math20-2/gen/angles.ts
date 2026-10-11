@@ -1566,7 +1566,7 @@ const polygonAngles = skill({
     if (d === 2) {
       const kind = rng.pick(['missing', 'missing', 'fromExt', 'fromInt', 'fromSum'] as const);
       if (kind === 'missing') {
-        const n = rng.pick([5, 5, 6, 6, 6, 7]);
+        const n = rng.pick([5, 6]);
         for (;;) {
           const ang = polyAngles(rng, n);
           const pts = polygonPts(rng, ang);
@@ -1620,38 +1620,36 @@ const polygonAngles = skill({
     const kind = rng.pick(['algebra', 'ratio', 'join'] as const);
     if (kind === 'algebra') {
       const n = rng.pick([5, 6]);
+      const names = ['A', 'B', 'C', 'D', 'E', 'F'].slice(0, n);
       for (let tries = 0; tries < 500; tries++) {
         const ang = polyAngles(rng, n);
-        const x = rng.int(15, 40);
+        const x = rng.int(12, 40);
         const k = ang.map(() => rng.int(1, 4));
         const c = ang.map((a, i) => a - k[i] * x);
-        if (c.some((v) => Math.abs(v) > 90)) continue;
-        // Keep some angles as plain numbers for readability.
-        const keep = rng.sample([...ang.keys()], n - 3);
-        const terms: Array<[number, number]> = [];
-        const labels = ang.map((a, i) => {
-          if (keep.includes(i)) return `${a}°`;
-          terms.push([k[i], c[i]]);
-          return exprLabel(k[i], c[i]);
-        });
-        if (terms.some(([kk, cc]) => cc === 0 && kk === 1) && terms.length < 2) continue;
+        // Two or three angles are expressions; the rest are plain numbers.
+        const exprIdx = rng.sample([...ang.keys()], rng.int(2, 3)).sort((a, b) => a - b);
+        if (exprIdx.some((i) => Math.abs(c[i]) > 60)) continue;
+        const exprs = exprIdx.map((i) => linExpr(k[i], c[i]));
+        if (new Set(exprs).size < exprs.length) continue;
         const pts = polygonPts(rng, ang);
         if (!pts) continue;
         const total = 180 * (n - 2);
-        const known = keep.map((i) => ang[i]);
-        const knownSum = known.reduce((s, v) => s + v, 0);
-        const largest = Math.max(...ang);
+        const terms: Array<[number, number]> = exprIdx.map((i) => [k[i], c[i]]);
+        const keep = [...ang.keys()].filter((i) => !exprIdx.includes(i));
+        const knownSum = keep.reduce((sum, i) => sum + ang[i], 0);
+        const ask = exprIdx.reduce((best, i) => (ang[i] > ang[best] ? i : best), exprIdx[0]);
+        const list = ang.map((a, i) => `$\\angle ${names[i]} = ${exprIdx.includes(i) ? exprDeg(k[i], c[i]) : deg(a)}$`);
         return {
-          prompt: `Find $x$ in this convex ${polyName(n)}, then find its largest interior angle.`,
-          figure: polygonFigure(pts, labels),
-          parts: [numPart(x, { label: '$x =$' }), numPart(largest, { label: 'Largest angle', suffix: '°' })],
-          hints: [sumRule, 'Add all the angles, set the sum equal to the angle sum for this polygon, and solve for $x$. Then substitute to find every angle.'],
+          prompt: `In convex ${polyName(n)} $${names.join('')}$, ${list.slice(0, -1).join(', ')} and ${list[n - 1]}. Find $x$, then find the measure of $\\angle ${names[ask]}$.`,
+          figure: polygonFigure(pts, ang.map(() => ''), names),
+          parts: [numPart(x, { label: '$x =$' }), numPart(ang[ask], { label: `$\\angle ${names[ask]} =$`, suffix: '°' })],
+          hints: [sumRule, 'Add all the angles, set the sum equal to the angle sum for this polygon, and solve for $x$. Then substitute.'],
           solution: [
             `The angles of a ${polyName(n)} add to $180^\\circ(${n} - 2) = ${deg(total)}$.`,
-            `$${[...known.map(String), ...terms.map(([kk, cc]) => (cc === 0 ? coefX(kk) : `(${linExpr(kk, cc)})`))].join(' + ')} = ${total}$`,
+            `$${ang.map((a, i) => (exprIdx.includes(i) ? (c[i] === 0 ? coefX(k[i]) : `(${linExpr(k[i], c[i])})`) : String(a))).join(' + ')} = ${total}$`,
             ...solveSum([[0, knownSum], ...terms], total),
-            `Substitute $x = ${x}$: the angles are $${ang.map((a) => deg(a)).join('$, $')}$ (check: they add to $${deg(total)}$).`,
-            `$x = ${x}$ and the largest angle is $${deg(largest)}$.`,
+            `Substitute $x = ${x}$: $\\angle ${names[ask]} = ${subst(k[ask], c[ask], x)} = ${deg(ang[ask])}$ (check: all the angles, $${ang.join(', ')}$, add to $${total}$).`,
+            `$x = ${x}$ and $\\angle ${names[ask]} = ${deg(ang[ask])}$`,
           ],
         };
       }
