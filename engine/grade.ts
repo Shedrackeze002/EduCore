@@ -210,6 +210,8 @@ function gradeNumbers(spec: Extract<AnswerSpec, { kind: 'numbers' }>, response: 
   for (const piece of pieces) {
     const at = unmatched.findIndex((v) => gradeNumeric(one(v), piece).correct);
     if (at >= 0) unmatched.splice(at, 1);
+    // A repeated root ("3, 3" for a double root) is not a wrong answer.
+    else if (spec.values.some((v) => !unmatched.includes(v) && gradeNumeric(one(v), piece).correct)) continue;
     else {
       const r = gradeNumeric(one(spec.values[0]), piece);
       if (r.invalid) return invalid(`We could not read "${piece}". Separate answers with commas.`);

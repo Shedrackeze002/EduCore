@@ -24,7 +24,7 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
       return fmt(spec.value, 10);
     }
     case 'numbers':
-      return spec.values.length ? spec.values.map((value) => canonicalResponse({ kind: 'numeric', value, decimals: spec.decimals })).join(', ') : 'no solution';
+      return spec.values.length ? spec.values.map((value) => canonicalResponse({ kind: 'numeric', value, decimals: spec.decimals })).join(', ') : 'none';
     case 'expression':
       return spec.expected;
     case 'line': {
@@ -137,7 +137,7 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
       return `$${fmt(spec.value, 6)}$${unit}`;
     }
     case 'numbers':
-      return spec.values.length ? spec.values.map((value) => answerMarkdown({ kind: 'numeric', value, decimals: spec.decimals })).join(' and ') : 'no solution';
+      return spec.values.length ? spec.values.map((value) => answerMarkdown({ kind: 'numeric', value, decimals: spec.decimals })).join(' and ') : 'none';
     case 'expression':
       return '`' + spec.expected + '`';
     case 'line':

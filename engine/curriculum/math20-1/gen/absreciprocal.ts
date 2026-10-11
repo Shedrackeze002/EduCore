@@ -128,7 +128,7 @@ const absEvaluate = skill({
   lessonId: 'm201-7-1',
   gen(rng, d): GenOutput {
     const kind = d === 1 ? rng.pick(['basic', 'basic', 'distance'] as const) : d === 2 ? rng.pick(['ops', 'ops', 'context'] as const) : rng.pick(['fractions', 'substitute', 'total'] as const);
-    const hint1 = 'The absolute value of a number is its distance from $0$, so it is never negative: $|-7| = 7$ and $|7| = 7$.';
+    const hint1 = 'The absolute value of a number is its distance from $0$, so it is never negative: $|{-7}| = 7$ and $|7| = 7$.';
     if (kind === 'basic') {
       const t = rng.int(0, 4);
       const a = -rng.int(2, 15);
@@ -168,11 +168,15 @@ const absEvaluate = skill({
       };
     }
     if (kind === 'distance') {
-      const [a, b] = rng.chance(0.5) ? [-rng.int(1, 9), rng.int(1, 9)] : distinctInts(rng, 2, -9, 9).sort((p, q) => p - q);
+      let [a, b] = [-rng.int(1, 8), rng.int(1, 8)];
+      if (rng.chance(0.4)) [a, b] = distinctInts(rng, 2, -9, 9).sort((p, q) => p - q);
+      while (b - a > 9) b--;
       const [A, B] = rng.chance(0.5) ? [a, b] : [b, a];
+      // Twelve labelled ticks, so every integer can be read.
+      const lo = a - 1;
       return {
         prompt: `Points $A$ and $B$ are shown on the number line. Use absolute value to find the distance between them.`,
-        figure: { type: 'numberLine', min: -10, max: 10, step: 1, points: [{ value: A, label: 'A' }, { value: B, label: 'B' }] },
+        figure: { type: 'numberLine', min: lo, max: lo + 11, step: 1, points: [{ value: A, label: 'A' }, { value: B, label: 'B' }] },
         parts: [numPart(Math.abs(A - B), { suffix: 'units' })],
         hints: ['The distance between two numbers $a$ and $b$ is $|a - b|$ (or $|b - a|$ — they are equal).', `Read the two numbers: $A = ${A}$ and $B = ${B}$.`],
         solution: [`$A = ${A}$ and $B = ${B}$.`, `Distance $= ${abs(`${A} - ${pn(B)}`)} = ${abs(`${A - B}`)} = ${Math.abs(A - B)}$ units.`, `Check: $${abs(`${B} - ${pn(A)}`)} = ${abs(`${B - A}`)} = ${Math.abs(A - B)}$ as well.`],
@@ -229,7 +233,7 @@ const absEvaluate = skill({
         return {
           prompt: `One January day in ${city}, the temperature was $${low}\\,^{\\circ}\\text{C}$ at 7 a.m. and $${high}\\,^{\\circ}\\text{C}$ at 3 p.m. Use absolute value to find the change in temperature.`,
           parts: [numPart(high - low, { suffix: '°C' })],
-          hints: ['The size of a change is the absolute value of the difference: $|\\text{final} - \\text{initial}|$.', `Calculate $|${high} - ${pn(low)}|$.`],
+          hints: ['The size of a change is the absolute value of the difference: $|\\text{final} - \\text{initial}|$.', `Calculate $${abs(`${high} - ${pn(low)}`)}$.`],
           solution: [`Change $= ${abs(`${high} - ${pn(low)}`)} = ${abs(`${high - low}`)} = ${high - low}$`, `The temperature changed by $${high - low}\\,^{\\circ}\\text{C}$.`],
         };
       }
@@ -240,7 +244,7 @@ const absEvaluate = skill({
       return {
         prompt: `${name} is scuba diving in ${lake} at an elevation of $${-depth}$ m relative to the surface. An osprey is flying directly above at $${height}$ m. Use absolute value to find the vertical distance between them.`,
         parts: [numPart(height + depth, { suffix: 'm' })],
-        hints: ['Distance between two positions $a$ and $b$ is $|a - b|$.', `Calculate $|${height} - ${pn(-depth)}|$.`],
+        hints: ['Distance between two positions $a$ and $b$ is $|a - b|$.', `Calculate $${abs(`${height} - ${pn(-depth)}`)}$.`],
         solution: [`Distance $= ${abs(`${height} - ${pn(-depth)}`)} = ${abs(`${height + depth}`)} = ${height + depth}$`, `They are ${height + depth} m apart vertically.`],
       };
     }

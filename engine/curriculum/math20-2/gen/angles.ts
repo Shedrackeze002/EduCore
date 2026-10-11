@@ -68,7 +68,6 @@ const norm360 = (a: number) => ((a % 360) + 360) % 360;
 const r3 = (x: number) => Math.round(x * 1000) / 1000;
 const dirTo = (a: P, b: P) => (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI;
 const mid = (a: P, b: P): P => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-const dist = (a: P, b: P) => Math.hypot(b[0] - a[0], b[1] - a[1]);
 
 interface Box {
   x0: number;
@@ -1464,6 +1463,8 @@ const POLY: Record<number, string> = {
   3: 'triangle', 4: 'quadrilateral', 5: 'pentagon', 6: 'hexagon', 7: 'heptagon', 8: 'octagon', 9: 'nonagon', 10: 'decagon', 12: 'dodecagon',
 };
 const polyName = (n: number) => POLY[n] ?? `${n}-sided polygon`;
+/** Name of a regular polygon: "square", "equilateral triangle", "regular hexagon". */
+const regName = (n: number) => (n === 3 ? 'equilateral triangle' : n === 4 ? 'square' : `regular ${polyName(n)}`);
 const article = (w: string) => (/^[aeiou]/i.test(w) || /^8/.test(w) || /^1[18]-/.test(w) ? 'an' : 'a');
 
 /** Vertices of a convex polygon with the given interior angles (sum 180(n-2)), or null if no nice shape was found. */
@@ -1664,7 +1665,7 @@ const polygonAngles = skill({
         prompt: `Each interior angle of a regular polygon is $${k}$ times as large as each exterior angle. How many sides does the polygon have, and what is each interior angle?`,
         parts: [numPart(n, { label: 'Number of sides' }), numPart(k * e, { label: 'Each interior angle', suffix: '°' })],
         hints: ['At each vertex, the interior angle and the exterior angle form a straight angle: $i + e = 180^\\circ$.', `Write $i = ${k}e$ and substitute into $i + e = 180^\\circ$.`],
-        solution: [`$${k}e + e = 180^\\circ$, so $${k + 1}e = 180^\\circ$ and $e = ${deg(e)}$.`, `$n = 360^\\circ \\div ${deg(e)} = ${n}$`, `Each interior angle: $${k} \\times ${deg(e)} = ${deg(k * e)}$`, `The polygon has $${n}$ sides (${article(nm)} ${nm}) and each interior angle is $${deg(k * e)}$.`],
+        solution: [`$${k}e + e = 180^\\circ$, so $${k + 1}e = 180^\\circ$ and $e = ${deg(e)}$.`, `$n = 360^\\circ \\div ${deg(e)} = ${n}$`, `Each interior angle: $${k} \\times ${deg(e)} = ${deg(k * e)}$`, `The polygon has $${n}$ sides${POLY[n] ? ` (${article(nm)} ${nm})` : ''} and each interior angle is $${deg(k * e)}$.`],
       };
     }
     // Two regular polygons share a side; find the gap angle at a shared vertex.
@@ -1674,16 +1675,16 @@ const polygonAngles = skill({
     const i2 = (180 * (n2 - 2)) / n2;
     const gap = 360 - i1 - i2;
     const who = rng.pick(NAMES);
-    const nm1 = polyName(n1);
-    const nm2 = polyName(n2);
+    const nm1 = regName(n1);
+    const nm2 = regName(n2);
     const thing = rng.pick(['tiles', 'panels of stained glass', 'paving stones']);
     return {
-      prompt: `${who} sets two ${thing} side by side: a regular ${nm1} and a regular ${nm2} that share one full side. At one end of the shared side, what angle is left in the gap between them (going the rest of the way around the point)?`,
+      prompt: `${who} sets two ${thing} side by side: ${article(nm1)} ${nm1} and ${article(nm2)} ${nm2} that share one full side. At one end of the shared side, what angle is left in the gap between them (going the rest of the way around the point)?`,
       parts: [numPart(gap, { suffix: '°' })],
       hints: ['Find each interior angle of each regular polygon.', 'The angles around a point add to $360^\\circ$.'],
       solution: [
-        `Regular ${nm1}: $\\dfrac{180^\\circ(${n1} - 2)}{${n1}} = ${deg(fmt(i1, 2))}$`,
-        `Regular ${nm2}: $\\dfrac{180^\\circ(${n2} - 2)}{${n2}} = ${deg(fmt(i2, 2))}$`,
+        `${cap(nm1)}: $\\dfrac{180^\\circ(${n1} - 2)}{${n1}} = ${deg(fmt(i1, 2))}$`,
+        `${cap(nm2)}: $\\dfrac{180^\\circ(${n2} - 2)}{${n2}} = ${deg(fmt(i2, 2))}$`,
         `Angles around a point: $360^\\circ - ${deg(fmt(i1, 2))} - ${deg(fmt(i2, 2))} = ${deg(gap)}$`,
         `The gap is $${deg(gap)}$.`,
       ],
@@ -1705,11 +1706,6 @@ function triFromASA(a0: number, a1: number, c: number): P[] {
   return [[0, 0], [c, 0], at([0, 0], a0, b)];
 }
 
-const angleAt = (T: P[], i: number) => {
-  const [a0, a1] = wedge(T[i], T[(i + 1) % 3], T[(i + 2) % 3]);
-  return a1 - a0;
-};
-
 function placeTri(T: P[], scale: number, rot: number, mirror: boolean, dx: number): P[] {
   const c: P = [(T[0][0] + T[1][0] + T[2][0]) / 3, (T[0][1] + T[1][1] + T[2][1]) / 3];
   return T.map(([x, y]) => {
@@ -1720,20 +1716,19 @@ function placeTri(T: P[], scale: number, rot: number, mirror: boolean, dx: numbe
   });
 }
 
+/** Equal parts are shown the usual way: matching tick marks on sides and matching arcs on angles. */
 interface TriMarks {
-  sides?: Array<[number, number, string]>;
-  angles?: Array<[number, string]>;
+  sides?: Array<[number, number, number]>;
+  angles?: Array<[number, number]>;
 }
 
 function drawTri(s: Sketch, T: P[], names: string[], marks: TriMarks) {
   s.polyline([T[0], T[1], T[2], T[0]]);
-  const cx = (T[0][0] + T[1][0] + T[2][0]) / 3;
-  const cy = (T[0][1] + T[1][1] + T[2][1]) / 3;
-  for (const [i, j, lab] of marks.sides ?? []) {
-    const m = mid(T[i], T[j]);
-    s.endLabel(m, dirTo([cx, cy], m), lab);
+  for (const [i, j, count] of marks.sides ?? []) s.ticks(T[i], T[j], count, 0.2);
+  for (const [i, count] of marks.angles ?? []) {
+    const [a0, a1] = wedge(T[i], T[(i + 1) % 3], T[(i + 2) % 3]);
+    for (let k = 0; k < count; k++) s.arc(T[i], 0.5 + 0.15 * k, a0, a1);
   }
-  for (const [i, lab] of marks.angles ?? []) markAngle(s, T[i], T[(i + 1) % 3], T[(i + 2) % 3], lab, { r: 0.42 });
   for (let i = 0; i < 3; i++) {
     s.dot(T[i]);
     s.vertexLabel(T[i], [dirTo(T[i], T[(i + 1) % 3]), dirTo(T[i], T[(i + 2) % 3])], names[i]);
@@ -1747,7 +1742,6 @@ function congruenceCase(rng: Rng, kase: Case) {
   let T1: P[];
   let T2: P[];
   let marks: TriMarks;
-  const r1 = (x: number) => Math.round(x * 10) / 10;
   if (kase === 'SSA') {
     for (;;) {
       const alpha = rng.int(6, 10) * 5;
@@ -1761,7 +1755,7 @@ function congruenceCase(rng: Rng, kase: Case) {
       if (b2 < 2) continue;
       T1 = [[0, 0], [c, 0], at([0, 0], alpha, b1)];
       T2 = [[0, 0], [c, 0], at([0, 0], alpha, b2)];
-      marks = { sides: [[0, 1, `${c}`], [1, 2, `${a}`]], angles: [[0, `${alpha}°`]] };
+      marks = { sides: [[0, 1, 1], [1, 2, 2]], angles: [[0, 1]] };
       break;
     }
   } else {
@@ -1770,13 +1764,12 @@ function congruenceCase(rng: Rng, kase: Case) {
     T1 = triFromASA(a0, a1, c);
     if (kase === 'AAA') {
       T2 = T1.map(([x, y]) => [x * 1.4, y * 1.4] as P);
-      const A = [0, 1, 2].map((i) => Math.round(angleAt(T1, i)));
-      marks = { angles: [[0, `${A[0]}°`], [1, `${A[1]}°`], [2, `${180 - A[0] - A[1]}°`]] };
+      marks = { angles: [[0, 1], [1, 2], [2, 3]] };
     } else {
       T2 = T1;
-      if (kase === 'SSS') marks = { sides: [[0, 1, `${c}`], [1, 2, `${r1(dist(T1[1], T1[2]))}`], [2, 0, `${r1(dist(T1[2], T1[0]))}`]] };
-      else if (kase === 'SAS') marks = { sides: [[0, 1, `${c}`], [2, 0, `${r1(dist(T1[2], T1[0]))}`]], angles: [[0, `${a0}°`]] };
-      else marks = { sides: [[0, 1, `${c}`]], angles: [[0, `${a0}°`], [1, `${a1}°`]] };
+      if (kase === 'SSS') marks = { sides: [[0, 1, 1], [1, 2, 2], [2, 0, 3]] };
+      else if (kase === 'SAS') marks = { sides: [[0, 1, 1], [2, 0, 2]], angles: [[0, 1]] };
+      else marks = { sides: [[0, 1, 1]], angles: [[0, 1], [1, 2]] };
     }
   }
   return { T1: T1!, T2: T2!, marks: marks! };
@@ -1968,16 +1961,22 @@ const congruence = skill({
         AAA: 'All three pairs of angles are equal, but no sides are given. The triangles have the same shape but can be different sizes, as the diagram shows.',
       };
       return {
-        prompt: `Lengths are in centimetres. Can you conclude that $${tri1} \\cong ${tri2}$? If so, which condition proves it? (The vertices are listed in corresponding order.)`,
+        prompt: `Matching marks show equal sides and equal angles. Can you conclude that $${tri1} \\cong ${tri2}$? If so, which condition proves it? (The vertices are listed in corresponding order.)`,
         figure: s.build({ margin: 0.8 }),
         parts: [{ answer: fixedChoice(CONG_CHOICES, ans) }],
-        hints: ['List the pairs of equal sides and equal angles shown.', conds],
+        hints: ['List the pairs of equal sides (tick marks) and equal angles (arcs) shown.', conds],
         solution: [why[kase], ans === 3 ? 'There is not enough information to conclude that the triangles are congruent.' : `$${tri1} \\cong ${tri2}$ by ${CONG_CHOICES[ans]}.`],
         answerDisplay: CONG_CHOICES[ans],
       };
     }
     const [n1, n2] = rng.pick(CONG_NAMES);
-    const S = (n: string[], i: number, j: number) => (rng.chance(0.3) ? `${n[j]}${n[i]}` : `${n[i]}${n[j]}`);
+    // Side names, sometimes written backwards; fixed once per item so the choices and the solution match.
+    const flip = [0, 1, 2].map(() => rng.chance(0.3));
+    const S = (n: string[], i: number, j: number) => {
+      const [a, b] = i < j ? [i, j] : [j, i];
+      const k = a === 0 ? (b === 1 ? 0 : 2) : 1;
+      return flip[k] ? `${n[b]}${n[a]}` : `${n[a]}${n[b]}`;
+    };
     const Ang = (n: string[], i: number) => `\\angle ${n[i]}`;
     const tri1 = `\\triangle ${n1.join('')}`;
     const tri2 = `\\triangle ${n2.join('')}`;
@@ -1994,13 +1993,13 @@ const congruence = skill({
           why = 'Three pairs of corresponding sides are equal: SSS.';
         } else if (kase === 'SAS') {
           facts = [`$${S(n1, k, i)} = ${S(n2, k, i)}$`, `$${Ang(n1, k)} = ${Ang(n2, k)}$`, `$${S(n1, k, j)} = ${S(n2, k, j)}$`];
-          why = `$${Ang(n1, k)}$ is between sides $${n1[k]}${n1[i]}$ and $${n1[k]}${n1[j]}$, so this is SAS.`;
+          why = `$${Ang(n1, k)}$ is between sides $${S(n1, k, i)}$ and $${S(n1, k, j)}$, so this is SAS.`;
         } else if (kase === 'ASA') {
           facts = [`$${Ang(n1, i)} = ${Ang(n2, i)}$`, `$${S(n1, i, j)} = ${S(n2, i, j)}$`, `$${Ang(n1, j)} = ${Ang(n2, j)}$`];
-          why = `Side $${n1[i]}${n1[j]}$ is between $${Ang(n1, i)}$ and $${Ang(n1, j)}$, so this is ASA.`;
+          why = `Side $${S(n1, i, j)}$ is between $${Ang(n1, i)}$ and $${Ang(n1, j)}$, so this is ASA.`;
         } else if (kase === 'SSA') {
           facts = [`$${S(n1, k, i)} = ${S(n2, k, i)}$`, `$${S(n1, k, j)} = ${S(n2, k, j)}$`, `$${Ang(n1, i)} = ${Ang(n2, i)}$`];
-          why = `The angle between $${n1[k]}${n1[i]}$ and $${n1[k]}${n1[j]}$ is $${Ang(n1, k)}$, but the equal angle given is $${Ang(n1, i)}$, which is not between them. Side-side-angle does not prove congruence.`;
+          why = `The angle between $${S(n1, k, i)}$ and $${S(n1, k, j)}$ is $${Ang(n1, k)}$, but the equal angle given is $${Ang(n1, i)}$, which is not between them. Side-side-angle does not prove congruence.`;
         } else {
           facts = [0, 1, 2].map((p) => `$${Ang(n1, p)} = ${Ang(n2, p)}$`);
           why = 'Three pairs of equal angles show the triangles have the same shape, but they can be different sizes. Angle-angle-angle does not prove congruence.';
@@ -2027,9 +2026,9 @@ const congruence = skill({
         return {
           prompt: `In $${tri1}$ and $${tri2}$, ${known[0]} and ${known[1]}. Which additional fact would prove $${tri1} \\cong ${tri2}$ by **SAS**?`,
           parts: [{ answer: mc(rng, correct, ds) }],
-          hints: ['SAS needs the angle **between** the two pairs of equal sides.', `Which vertex do sides $${n1[k]}${n1[i]}$ and $${n1[k]}${n1[j]}$ share?`],
+          hints: ['SAS needs the angle **between** the two pairs of equal sides.', `Which vertex do sides $${S(n1, k, i)}$ and $${S(n1, k, j)}$ share?`],
           solution: [
-            `Sides $${n1[k]}${n1[i]}$ and $${n1[k]}${n1[j]}$ meet at $${n1[k]}$, so the included angle is $${Ang(n1, k)}$.`,
+            `Sides $${S(n1, k, i)}$ and $${S(n1, k, j)}$ meet at $${n1[k]}$, so the included angle is $${Ang(n1, k)}$.`,
             `$${S(n1, i, j)} = ${S(n2, i, j)}$ would prove congruence by SSS, not SAS. The other angles are not between the equal sides.`,
             `The fact needed is ${correct}.`,
           ],
@@ -2042,9 +2041,9 @@ const congruence = skill({
       return {
         prompt: `In $${tri1}$ and $${tri2}$, ${known[0]} and ${known[1]}. Which additional fact would prove $${tri1} \\cong ${tri2}$ by **ASA**?`,
         parts: [{ answer: mc(rng, correct, ds) }],
-        hints: ['ASA needs two angles with the equal side **between** them.', `Side $${n1[i]}${n1[j]}$ joins $${n1[i]}$ and $${n1[j]}$. Which angle is still missing?`],
+        hints: ['ASA needs two angles with the equal side **between** them.', `Side $${S(n1, i, j)}$ joins $${n1[i]}$ and $${n1[j]}$. Which angle is still missing?`],
         solution: [
-          `Side $${n1[i]}${n1[j]}$ is between the angles at $${n1[i]}$ and $${n1[j]}$. You already have $${Ang(n1, i)}$.`,
+          `Side $${S(n1, i, j)}$ is between the angles at $${n1[i]}$ and $${n1[j]}$. You already have $${Ang(n1, i)}$.`,
           `$${S(n1, i, k)} = ${S(n2, i, k)}$ would give SAS, not ASA. $${S(n1, j, k)} = ${S(n2, j, k)}$ gives a side-side-angle pattern, which proves nothing. One angle and one side are not enough on their own.`,
           `The fact needed is ${correct}.`,
         ],

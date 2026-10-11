@@ -69,6 +69,7 @@ describe('lists of numbers', () => {
     expect(gradePart(roots, '2, -3, 5').message).toMatch(/does not work/);
     expect(gradePart(roots, '2, 3').correct).toBe(false);
     expect(gradePart(roots, '2, 2').correct).toBe(false);
+    expect(gradePart({ kind: 'numbers', values: [3] }, '3, 3').correct).toBe(true);
   });
   it('handles no solution', () => {
     expect(gradePart({ kind: 'numbers', values: [] }, 'no solution').correct).toBe(true);

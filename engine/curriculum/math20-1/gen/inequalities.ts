@@ -374,7 +374,7 @@ const linearInequality = skill({
       return {
         prompt: `How do you graph the solution region of $${v} ${op} ${h}$ on a coordinate grid?`,
         parts: [{ answer: mc(rng, correct, rng.shuffle(all.filter((x) => x !== correct))) }],
-        hints: ['A strict inequality ($<$ or $>$) has a dashed boundary; $\\le$ or $\\ge$ has a solid boundary.', vx ? `The boundary is the vertical line $x = ${h}$. Values of $x$ greater than ${h} are to the right.` : `The boundary is the horizontal line $y = ${h}$. Values of $y$ greater than ${h} are above it.`],
+        hints: ['A strict inequality ($<$ or $>$) has a dashed boundary; $\\le$ or $\\ge$ has a solid boundary.', vx ? `The boundary is the vertical line $x = ${h}$. Values of $x$ greater than $${h}$ are to the right of it.` : `The boundary is the horizontal line $y = ${h}$. Values of $y$ greater than $${h}$ are above it.`],
         solution: [
           `The boundary is the ${vx ? 'vertical' : 'horizontal'} line $${v} = ${h}$. It is ${isStrict(op) ? 'dashed because points on it do not satisfy a strict inequality' : 'solid because points on it are included'}.`,
           `$${v} ${op} ${h}$ means ${v}-values ${opWord(op)} $${h}$: ${vx ? (isGreater(op) ? 'to the right of' : 'to the left of') : isGreater(op) ? 'above' : 'below'} the line.`,
@@ -538,21 +538,21 @@ const quadIneq1 = skill({
     const variant = d === 1 ? 'factored' : d === 2 ? rng.pick(['standard', 'standard', 'rearrange']) : rng.pick(['leadA', 'negative', 'context']);
     if (variant === 'context') {
       // h = −5t² + vt + h0 > H, with integer crossing times
-      const t1 = rng.int(1, 3);
+      const t1 = rng.int(1, 2);
       const t2 = t1 + rng.int(2, 4);
       const h0 = rng.pick([0, 0, 2, 5]);
       const vel = 5 * (t1 + t2);
       const H = 5 * t1 * t2 + h0;
       const cop: Op = rng.chance(0.5) ? '>' : '\\ge';
-      const thing = rng.pick(['A ball is kicked', 'A model rocket is launched', 'A beanbag is tossed']);
-      const context = `${thing} so that its height, $h$, in metres, after $t$ seconds is $h = -5t^2 + ${vel}t${h0 ? ` + ${h0}` : ''}$. During what times is it ${cop === '>' ? 'more than' : 'at least'} $${H}$ m above the ground?`;
+      const thing = vel > 25 ? (h0 ? `A model rocket is launched from a platform ${h0} m above the ground` : 'A model rocket is launched from the ground') : h0 ? `A ball is thrown upward from a balcony ${h0} m above the ground` : rng.pick(['A soccer ball is kicked straight up from the ground', 'A model rocket is launched from the ground']);
+      const context = `${thing}. Its height, $h$, in metres, after $t$ seconds is $h = -5t^2 + ${vel}t${h0 ? ` + ${h0}` : ''}$. During what times is it ${cop === '>' ? 'more than' : 'at least'} $${H}$ m above the ground?`;
       ineq = `-5t^2 + ${vel}t${h0 ? ` + ${h0}` : ''} ${cop} ${H}`;
       pre.push(`Write the inequality: $${ineq}$`, `Subtract $${H}$: $${sumTex([[-5, 't^2'], [vel, 't'], [h0 - H, '']])} ${cop} 0$`, `Divide by $-5$ and reverse the sign: $${sumTex([[1, 't^2'], [-(t1 + t2), 't'], [t1 * t2, '']])} ${flip(cop)} 0$`, `Factor: $(t - ${t1})(t - ${t2}) ${flip(cop)} 0$`);
       return solve1(rng, d, 1, t1, t2, flip(cop), 't', context, pre, true);
     }
     for (let i = 0; i < 100; i++) {
       r = rng.int(-6, 5);
-      s = r + rng.int(1, d === 1 ? 7 : 8);
+      s = r + rng.int(2, d === 1 ? 7 : 8);
       if (s <= 6 && r !== 0 && s !== 0 && r !== -s) break;
     }
     if (variant === 'factored') {

@@ -224,6 +224,8 @@ interface Extra {
   to: P;
   dashed?: boolean;
   label?: string;
+  /** Label the segment without drawing it (to label part of a side). */
+  hidden?: boolean;
 }
 interface TriSpec {
   /** The three vertices in model units (y up). */
@@ -265,7 +267,7 @@ function triFigure(o: TriSpec): PlaneFigure {
       [V[2], V[0]],
     ];
     segs = (o.extra ?? []).map((e) => ({ ...e, from: T(e.from), to: T(e.to) }));
-    for (const e of segs) obstacles.push([e.from, e.to]);
+    for (const e of segs) if (!e.hidden) obstacles.push([e.from, e.to]);
     const ccw = signedArea(V) > 0;
     const angleLabs: Lab[] = [];
     const vertLabs: Lab[] = [];
@@ -365,7 +367,7 @@ function triFigure(o: TriSpec): PlaneFigure {
   const oy = 6 - bounds.y0;
   const r1 = (v: number) => Math.round(v * 10) / 10;
   const tr = (p: P): [number, number] => [r1(p[0] + ox), r1(p[1] + oy)];
-  const segments: PlaneSegment[] = segs.map((e) => ({ from: tr(e.from), to: tr(e.to), color: 'muted', ...(e.dashed ? { dashed: true } : {}) }));
+  const segments: PlaneSegment[] = segs.filter((e) => !e.hidden).map((e) => ({ from: tr(e.from), to: tr(e.to), color: 'muted', ...(e.dashed ? { dashed: true } : {}) }));
   const points: PlanePoint[] = placed.map((p) => {
     const [x, y] = tr(p.A);
     return { x, y, label: p.text, color: 'muted', open: true };
@@ -851,12 +853,12 @@ const R = {
 };
 
 const REASONS: Record<Situation, { correct: string; wrong: string[]; plain: number; why: string }> = {
-  aas: { correct: R.sinePair, wrong: [R.cosTwoAngles, R.cosSAS, R.pythag, R.cosPair], plain: 0, why: 'A side and its opposite angle are a matching pair, and the unknown side is opposite a known angle. That is exactly what the sine law needs.' },
-  asa: { correct: R.sineAfterSum, wrong: [R.cosTwoAngles, R.cosSAS, R.neither, R.cosPair], plain: 0, why: 'The known side is not opposite a known angle yet. The angle sum gives the third angle, which completes a matching pair, so then the sine law works.' },
-  ssa: { correct: R.sinePair, wrong: [R.cosSAS, R.cosSSS, R.pythag, R.cosPair], plain: 0, why: 'A side and its opposite angle are a matching pair, and the unknown angle is opposite a known side, so the sine law (angles on top) gives it.' },
-  sas: { correct: R.cosSAS, wrong: [R.sineTwoSides, R.sinePair, R.pythag, R.cosSSS], plain: 1, why: 'There is no matching side–angle pair, so the sine law cannot start. Two sides and the contained angle is a cosine law situation.' },
-  sss: { correct: R.cosSSS, wrong: [R.sineAllSides, R.sinePair, R.primary, R.cosSAS], plain: 1, why: 'No angles are known, so there is no matching pair for the sine law. With three sides, the cosine law gives any angle.' },
-  right: { correct: R.primary, wrong: [R.cosSAS, R.cosTwoAngles, R.pythag, R.cosSSS], plain: 2, why: 'In a right triangle, SOH CAH TOA connects an acute angle with two sides directly. It is the quickest method.' },
+  aas: { correct: R.sinePair, wrong: [R.sineTwoSides, R.cosTwoAngles, R.cosSAS, R.cosPair], plain: 0, why: 'A side and its opposite angle are a matching pair, and the unknown side is opposite a known angle. That is exactly what the sine law needs.' },
+  asa: { correct: R.sineAfterSum, wrong: [R.sineTwoSides, R.cosTwoAngles, R.neither, R.cosPair], plain: 0, why: 'The known side is not opposite a known angle yet. The angle sum gives the third angle, which completes a matching pair, so then the sine law works.' },
+  ssa: { correct: R.sinePair, wrong: [R.sineAfterSum, R.cosSAS, R.cosSSS, R.cosPair], plain: 0, why: 'A side and its opposite angle are a matching pair, and the unknown angle is opposite a known side, so the sine law (angles on top) gives it.' },
+  sas: { correct: R.cosSAS, wrong: [R.cosSSS, R.sineTwoSides, R.sinePair, R.pythag], plain: 1, why: 'There is no matching side–angle pair, so the sine law cannot start. Two sides and the contained angle is a cosine law situation.' },
+  sss: { correct: R.cosSSS, wrong: [R.cosSAS, R.sineAllSides, R.sinePair, R.primary], plain: 1, why: 'No angles are known, so there is no matching pair for the sine law. With three sides, the cosine law gives any angle.' },
+  right: { correct: R.primary, wrong: [R.sineTwoSides, R.cosSAS, R.cosTwoAngles, R.pythag], plain: 2, why: 'In a right triangle, SOH CAH TOA connects an acute angle with two sides directly. It is the quickest method.' },
 };
 
 /** A triangle drawn with the given information for a situation; the unknown is x (side) or θ (angle). */
@@ -1045,7 +1047,8 @@ const chooseLaw = skill({
         solution: [`The diagram gives ${desc}.`, info.why, `Use ${PLAIN[info.plain].charAt(0).toLowerCase()}${PLAIN[info.plain].slice(1)}.`],
       };
     }
-    const wrong = rng.shuffle(info.wrong).slice(0, 3);
+    // The first listed distractor names the same law as the answer (or the other law), so the answer cannot be found by elimination.
+    const wrong = [info.wrong[0], ...rng.shuffle(info.wrong.slice(1)).slice(0, 2)];
     return {
       prompt: `Which method should you use to find ${what}, and why?`,
       figure,
@@ -1483,4 +1486,3 @@ const trigApply = skill({
 
 export const TRIG_SKILLS: SkillDef[] = [sineLaw, cosineLaw, chooseLaw, trigApply];
 
-export { triFigure, triPts, sidesFromAngles, anglesFromSides }; // TEMP
