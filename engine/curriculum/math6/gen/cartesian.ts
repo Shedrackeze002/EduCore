@@ -104,7 +104,8 @@ const SHAPES: P[][] = [
 
 /** A random shape, turned and maybe flipped, with its lowest-left corner at (x0, y0). */
 function placeShape(rng: Rng, x0: number, y0: number, pool: P[][] = SHAPES): P[] {
-  let q = rng.pick(pool).map(([x, y]) => [rng.chance(0.5) ? neg(x) : x, y] as P);
+  const flip = rng.chance(0.5);
+  let q = rng.pick(pool).map(([x, y]) => [flip ? neg(x) : x, y] as P);
   const k = rng.int(0, 3);
   for (let i = 0; i < k; i++) q = q.map(([x, y]) => [neg(y), x] as P);
   const mx = Math.min(...q.map((p) => p[0]));

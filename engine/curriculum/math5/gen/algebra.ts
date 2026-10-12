@@ -538,20 +538,50 @@ function evaluateCtx(rng: Rng): Out {
   const b = rng.int(5, 20);
   const [x1, x2] = rng.sample([2, 3, 4, 5, 6, 7, 8, 9, 10, 12], 2).sort((p, q) => p - q);
   const ctx = rng.pick([
-    { text: `Renting skates at an arena in ${rng.pick(TOWNS)} costs $${a}h + ${b}$ dollars for $h$ hours.`, v: 'h', ask: (x: number) => `${x} hours`, unit: 'dollars', say: (x: number, y: number) => `Renting for $${x}$ hours costs ${dollars(y)}.` },
-    { text: `${name} has $${a}w + ${b}$ dollars saved after $w$ weeks.`, v: 'w', ask: (x: number) => `${x} weeks`, unit: 'dollars', say: (x: number, y: number) => `After $${x}$ weeks, ${name} has ${dollars(y)}.` },
-    { text: `A stack of $c$ chairs is $${a}c + ${b}$ centimetres tall.`, v: 'c', ask: (x: number) => `${x} chairs`, unit: 'cm', say: (x: number, y: number) => `A stack of $${x}$ chairs is $${y}$ cm tall.` },
+    {
+      text: `Renting skates at an arena in ${rng.pick(TOWNS)} costs $${a}h + ${b}$ dollars for $h$ hours.`, v: 'h', unit: 'dollars',
+      ask: (x: number) => `How much does it cost to rent skates for $${x}$ hours?`, say: (x: number, y: number) => `Renting for $${x}$ hours costs ${dollars(y)}.`,
+    },
+    {
+      text: `After $w$ weeks, ${name} has saved $${a}w + ${b}$ dollars.`, v: 'w', unit: 'dollars',
+      ask: (x: number) => `How much has ${name} saved after $${x}$ weeks?`, say: (x: number, y: number) => `After $${x}$ weeks, ${name} has ${dollars(y)}.`,
+    },
+    {
+      text: `A stack of $c$ chairs is $${a}c + ${b}$ centimetres tall.`, v: 'c', unit: 'cm',
+      ask: (x: number) => `How tall is a stack of $${x}$ chairs?`, say: (x: number, y: number) => `A stack of $${x}$ chairs is $${y}$ cm tall.`,
+    },
   ]);
   const y1 = a * x1 + b;
   const y2 = a * x2 + b;
   return {
-    prompt: `${ctx.text}\n\n(a) Find the value for ${ctx.ask(x1)}.\n\n(b) Find the value for ${ctx.ask(x2)}.`,
+    prompt: `${ctx.text}\n\n(a) ${ctx.ask(x1)}\n\n(b) ${ctx.ask(x2)}`,
     parts: [numAns(y1, '(a)', ctx.unit), numAns(y2, '(b)', ctx.unit)],
     hints: [`Replace $${ctx.v}$ with $${x1}$, then with $${x2}$.`, `Multiply before adding: $${a} ${T} ${ctx.v}$ first, then add $${b}$.`],
     solution: [
       `(a) $${ctx.v} = ${x1}$: $${a} ${T} ${x1} + ${b} = ${a * x1} + ${b} = ${y1}$. ${ctx.say(x1, y1)}`,
       `(b) $${ctx.v} = ${x2}$: $${a} ${T} ${x2} + ${b} = ${a * x2} + ${b} = ${y2}$. ${ctx.say(x2, y2)}`,
       `The answers are (a) $${y1}$ and (b) $${y2}$.`,
+    ],
+  };
+}
+
+/** A classmate reads 4n as the digits 4 and n; find the correct value. */
+function evaluateMistake(rng: Rng): Out {
+  const name = rng.pick(NAMES);
+  const v = rng.pick(LETTERS);
+  const a = rng.int(2, 9);
+  const x = rng.int(2, 9);
+  const b = rng.int(2, 15);
+  const wrong = (10 * a + x) + b;
+  const right = a * x + b;
+  return {
+    prompt: `${name} evaluates $${term(a, v)} + ${b}$ when $${v} = ${x}$. ${name} writes $${a}${x} + ${b} = ${wrong}$. What is the correct value?`,
+    parts: [numAns(right)],
+    hints: [`$${term(a, v)}$ means $${a} ${T} ${v}$, not a two-digit number.`, `Substitute: $${a} ${T} ${x} + ${b}$. Multiply first.`],
+    solution: [
+      `${name} put the digits side by side, making $${a}${x}$. But $${term(a, v)}$ means $${a} ${T} ${v}$.`,
+      `Substitute $${v} = ${x}$: $${a} ${T} ${x} + ${b} = ${a * x} + ${b} = ${right}$.`,
+      `The correct value is $${right}$.`,
     ],
   };
 }
@@ -563,7 +593,7 @@ const evaluateExpression = skill({
   outcomes: ['A1'],
   lessonId: 'm5-7-2',
   gen(rng, d: Difficulty) {
-    if (d === 3 && rng.chance(0.7)) return evaluateCtx(rng);
+    if (d === 3) return rng.chance(0.7) ? evaluateCtx(rng) : evaluateMistake(rng);
     const v = rng.pick(LETTERS);
     const { e, x } = d === 1 ? exprOne(rng, v) : exprTwo(rng, v);
     const y = e.at(x);
