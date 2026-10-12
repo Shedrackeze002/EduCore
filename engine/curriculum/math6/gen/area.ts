@@ -33,6 +33,8 @@ interface Dim {
   text: string;
   /** The label goes on the side of ab away from this point. */
   away: P;
+  /** Keep the label inside this polygon. */
+  within?: P[];
 }
 
 interface Pic {
@@ -58,11 +60,10 @@ function picFigure(pic: Pic): PlaneFigure {
   for (const [p, q] of pic.extend ?? []) s.seg(p, q, { dashed: true, color: 'muted' });
   for (const [p, q] of pic.dashed ?? []) s.seg(p, q, { dashed: true, color: 'accent' });
   for (const m of pic.marks ?? []) s.rightMark(m.at, m.dir, size);
-  for (const d of pic.dims) s.sideLabel(d.a, d.b, d.text, d.away);
-  return s.build({ margin: 0.12 * Math.max(b.x1 - b.x0, b.y1 - b.y0) });
+  for (const d of pic.dims) s.sideLabel(d.a, d.b, d.text, d.away, d.within);
+  return s.build({ margin: 0.22 * Math.max(b.x1 - b.x0, b.y1 - b.y0) });
 }
 
-const UNITS = ['cm', 'cm', 'm'];
 
 // ---------------------------------------------------------------------------
 // Parallelograms
@@ -103,7 +104,7 @@ function paraPic(p: Para, labels: { base?: string; height?: string; side?: strin
   const dims: Dim[] = [];
   if (labels.base) dims.push({ a: pts[0], b: pts[1], text: labels.base, away: c });
   if (labels.side) dims.push(p.lean === 1 ? { a: pts[0], b: pts[3], text: labels.side, away: c } : { a: pts[1], b: pts[2], text: labels.side, away: c });
-  if (labels.height) dims.push({ a: top, b: foot, text: labels.height, away: [foot[0] - p.lean, p.h / 2] });
+  if (labels.height) dims.push({ a: top, b: foot, text: labels.height, away: [foot[0] - p.lean, p.h / 2], within: pts });
   return {
     outline: pts,
     dashed: [[top, foot], ...(extra.dashed ?? [])],
@@ -112,13 +113,14 @@ function paraPic(p: Para, labels: { base?: string; height?: string; side?: strin
   };
 }
 
-const PARA_CTX = [
-  (w: string) => `${w} is painting a parallelogram on the school playground for a game.`,
-  () => 'A parking space is shaped like a parallelogram.',
-  (w: string) => `${w} cut a parallelogram out of coloured paper for a math poster.`,
-  () => 'A flower bed in a park in Red Deer is shaped like a parallelogram.',
-  (w: string) => `${w} is sewing a quilt patch shaped like a parallelogram.`,
-  () => 'A tile on a bathroom wall is shaped like a parallelogram.',
+/** Contexts with a sensible unit. */
+const PARA_CTX: Array<[string, (w: string) => string]> = [
+  ['m', (w) => `${w} is painting a parallelogram on the school playground for a game.`],
+  ['m', () => 'A parking lot in Red Deer has a section shaped like a parallelogram.'],
+  ['cm', (w) => `${w} cut a parallelogram out of coloured paper for a math poster.`],
+  ['m', () => 'A flower bed in a park is shaped like a parallelogram.'],
+  ['cm', (w) => `${w} is sewing a quilt patch shaped like a parallelogram.`],
+  ['cm', () => 'A tile on a bathroom wall is shaped like a parallelogram.'],
 ];
 
 const areaParallelogram = skill({
@@ -129,8 +131,8 @@ const areaParallelogram = skill({
   lessonId: 'm6-9-1',
   gen(rng, d) {
     const who = rng.pick(NAMES);
-    const u = rng.pick(UNITS);
-    const ctx = rng.pick(PARA_CTX)(who);
+    const [u, mk] = rng.pick(PARA_CTX);
+    const ctx = mk(who);
     const mode =
       d === 1 ? 'area' : d === 2 ? rng.weighted([['area-decimal', 1], ['missing', 2]] as const) : rng.weighted([['two-bases', 2], ['many', 2]] as const);
 
@@ -293,19 +295,19 @@ function triPic(t: Tri, labels: { base?: string; height?: string; side?: string 
     if (labels.height) dims.push({ a: apex, b: foot, text: labels.height, away: [foot[0] + (t.mirror ? -1 : 1), t.h / 2] });
   } else {
     pic.marks!.push({ at: foot, dir: t.mirror ? 90 : 0 });
-    if (labels.height) dims.push({ a: apex, b: foot, text: labels.height, away: [foot[0] + (t.mirror ? 1 : -1), t.h / 2] });
+    if (labels.height) dims.push({ a: apex, b: foot, text: labels.height, away: [foot[0] + (t.mirror ? 1 : -1), t.h / 2], within: pts });
   }
-  if (labels.side && t.side) dims.push({ a: t.mirror ? pts[1] : pts[0], b: apex, text: labels.side, away: c });
+  if (labels.side && t.side) dims.push({ a: pts[0], b: apex, text: labels.side, away: c });
   return pic;
 }
 
-const TRI_CTX = [
-  (w: string) => `${w} is making a triangular pennant for a school team.`,
-  () => 'A sail on a sailboat at Sylvan Lake is shaped like a triangle.',
-  (w: string) => `${w} is planting a triangular garden bed.`,
-  () => 'A roof gable on a garden shed is shaped like a triangle.',
-  (w: string) => `${w} cut a triangle out of cardboard for a model.`,
-  () => 'A slice of a giant cookie at a bake sale is shaped like a triangle.',
+const TRI_CTX: Array<[string, (w: string) => string]> = [
+  ['cm', (w) => `${w} is making a triangular pennant for a school team.`],
+  ['m', () => 'A sail on a sailboat at Sylvan Lake is shaped like a triangle.'],
+  ['m', (w) => `${w} is planting a triangular garden bed.`],
+  ['m', () => 'The end of a roof on a large barn is shaped like a triangle.'],
+  ['cm', (w) => `${w} cut a triangle out of cardboard for a model.`],
+  ['cm', () => 'A slice of a giant cookie at a bake sale is shaped like a triangle.'],
 ];
 
 const areaTriangle = skill({
@@ -316,8 +318,8 @@ const areaTriangle = skill({
   lessonId: 'm6-9-2',
   gen(rng, d) {
     const who = rng.pick(NAMES);
-    const u = rng.pick(UNITS);
-    const ctx = rng.pick(TRI_CTX)(who);
+    const [u, mk] = rng.pick(TRI_CTX);
+    const ctx = mk(who);
     const mode =
       d === 1
         ? 'area'
@@ -510,7 +512,7 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
         dims: [
           { a: [0, 0], b: [w, 0], text: L(w), away: c },
           { a: [w, 0], b: [w, h1], text: L(h1), away: c },
-          { a: [ax, h1], b: [ax, h1 + h2], text: L(h2), away: [ax - 1, h1 + h2 / 2] },
+          { a: [ax, h1], b: [ax, h1 + h2], text: L(h2), away: [ax - 1, h1 + h2 / 2], within: pts },
         ],
       },
       cuts: [[[0, h1], [w, h1]]],
@@ -536,7 +538,7 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
           dims: [
             { a: [0, 0], b: [B, 0], text: L(B), away: c },
             { a: [s1, h], b: [s1 + t, h], text: L(t), away: c },
-            { a: [s1, h], b: [s1, 0], text: L(h), away: [s1 + 1, h / 2] },
+            { a: [s1, h], b: [s1, 0], text: L(h), away: [s1 - 1, h / 2], within: pts },
           ],
         },
         cuts: [[[t, 0], [s1 + t, h]]],
@@ -559,8 +561,8 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
         marks: [{ at: [p, 0], dir: 0 }, { at: [q, 0], dir: 180 }],
         dims: [
           { a: [0, 0], b: [dd, 0], text: L(dd), away: [dd / 2, 1] },
-          { a: [p, 0], b: [p, h1], text: L(h1), away: [p - 1, h1 / 2] },
-          { a: [q, 0], b: [q, -h2], text: L(h2), away: [q + 1, -h2 / 2] },
+          { a: [p, 0], b: [p, h1], text: L(h1), away: [p - 1, h1 / 2], within: pts },
+          { a: [q, 0], b: [q, -h2], text: L(h2), away: [q + 1, -h2 / 2], within: pts },
         ],
       },
       cuts: [],
@@ -582,8 +584,8 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
         dims: [
           { a: [0, 0], b: [a, 0], text: L(a), away: c },
           { a: [0, 2 * h], b: [a, 2 * h], text: L(a), away: c },
-          { a: [s, 0], b: [s, h], text: L(h), away: [s - 1, h / 2] },
-          { a: [s, h], b: [s, 2 * h], text: L(h), away: [s - 1, 1.5 * h] },
+          { a: [s, 0], b: [s, h], text: L(h), away: [s - 1, h / 2], within: pts },
+          { a: [s, h], b: [s, 2 * h], text: L(h), away: [s - 1, 1.5 * h], within: pts },
         ],
       },
       cuts: [[[s, h], [a + s, h]]],
@@ -607,8 +609,8 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
         marks: [{ at: [s, 0], dir: 0 }, { at: [ax, h], dir: 0 }],
         dims: [
           { a: [0, 0], b: [b, 0], text: L(b), away: c },
-          { a: [s, h], b: [s, 0], text: L(h), away: [s + 1, h / 2] },
-          { a: [ax, h], b: [ax, h + h2], text: L(h2), away: [ax + 1, h + h2 / 2] },
+          { a: [s, h], b: [s, 0], text: L(h), away: [s - 1, h / 2], within: pts },
+          { a: [ax, h], b: [ax, h + h2], text: L(h2), away: [ax - 1, h + h2 / 2], within: pts },
         ],
       },
       cuts: [[[s, h], [b + s, h]]],
@@ -621,7 +623,8 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
   const nb = 2 * rng.int(1, Math.floor(W / 2) - 2);
   const depth = rng.int(1, H - 2);
   const x0 = rng.int(1, W - nb - 1);
-  const pts: P[] = [[0, 0], [W, 0], [W, H], [x0 + nb, H], [x0 + nb / 2, H - depth], [x0, H]];
+  const pts: P[] = [[0, 0], [W, 0], [W, H], [x0 + nb, H], [x0 + nb / 2, H - depth], [x0, H], [0, H]];
+  const notch: P[] = [[x0, H], [x0 + nb, H], [x0 + nb / 2, H - depth]];
   const c: P = [W / 2, H / 3];
   return {
     name: 'a rectangle with a triangle cut out',
@@ -632,7 +635,7 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
         { a: [0, 0], b: [W, 0], text: L(W), away: c },
         { a: [W, 0], b: [W, H], text: L(H), away: c },
         { a: [x0, H], b: [x0 + nb, H], text: L(nb), away: c },
-        { a: [x0 + nb / 2, H - depth], b: [x0 + nb / 2, H], text: L(depth), away: [x0 + nb / 2 + 1, H - depth / 2] },
+        { a: [x0 + nb / 2, H - depth], b: [x0 + nb / 2, H], text: L(depth), away: [x0 + nb / 2 - 1, H - depth / 2], within: notch },
       ],
     },
     cuts: [],
@@ -641,13 +644,13 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
   };
 }
 
-const COMP_CTX: Record<string, Array<(w: string) => string>> = {
-  house: [(w) => `${w} is painting the end wall of a garden shed.`, () => 'The front of a doghouse is shown.', (w) => `${w} drew the outline of a birdhouse.`],
-  trapezoid: [() => 'A garden bed is shaped like this.', (w) => `${w} is tiling a patio shaped like this.`, () => 'A ramp at a skate park has a side shaped like this.'],
-  kite: [(w) => `${w} is making a kite from two triangles of fabric.`, () => 'A road sign is shaped like this.', (w) => `${w} cut this gem shape out of paper.`],
-  chevron: [() => 'A school logo has this arrow shape.', (w) => `${w} is painting an arrow on the gym floor.`, () => 'A stripe on a hockey jersey has this shape.'],
-  flag: [(w) => `${w} is designing a pennant shaped like this.`, () => 'A sign at a campground in Kananaskis has this shape.', (w) => `${w} cut this shape out of felt for a banner.`],
-  notch: [() => 'A banner has a triangle cut out of its top edge.', (w) => `${w} made a sign from a rectangle with a triangular notch.`, () => 'A wall has a triangular opening at the top.'],
+const COMP_CTX: Record<string, Array<[string, (w: string) => string]>> = {
+  house: [['m', (w) => `${w} is painting the end wall of a large barn.`], ['cm', (w) => `${w} drew the outline of a birdhouse.`], ['cm', () => 'A sticker is shaped like a little house.']],
+  trapezoid: [['m', () => 'A garden bed is shaped like this.'], ['m', (w) => `${w} is laying sod on a yard shaped like this.`], ['cm', () => 'A wooden block in a toy set has a face shaped like this.']],
+  kite: [['cm', (w) => `${w} is making a paper kite from two triangles.`], ['cm', () => 'A badge is shaped like this.'], ['cm', (w) => `${w} cut this gem shape out of paper.`]],
+  chevron: [['cm', () => 'A school logo has this arrow shape.'], ['m', (w) => `${w} is painting an arrow on a parking lot.`], ['cm', () => 'A stripe on a hockey jersey has this shape.']],
+  flag: [['cm', (w) => `${w} is designing a pennant shaped like this.`], ['m', () => 'A field at a campground in Kananaskis has this shape.'], ['cm', (w) => `${w} cut this shape out of felt for a banner.`]],
+  notch: [['cm', () => 'A paper banner has a triangle cut out of its top edge.'], ['cm', (w) => `${w} made a sign from a rectangle of card with a triangular notch.`], ['m', () => 'The wall of a barn has a triangular opening at the top.']],
 };
 
 const compositeArea = skill({
@@ -658,14 +661,14 @@ const compositeArea = skill({
   lessonId: 'm6-9-3',
   gen(rng, d) {
     const who = rng.pick(NAMES);
-    const u = rng.pick(UNITS);
     const kind = d === 1 ? rng.pick(['house', 'trapezoid', 'flag']) : d === 2 ? rng.pick(['house', 'trapezoid', 'kite', 'chevron', 'flag']) : rng.pick(['trapezoid', 'kite', 'chevron', 'flag', 'notch', 'notch']);
+    const [u, mk] = rng.pick(COMP_CTX[kind]);
     const comp = makeComposite(rng, kind, u, d >= 2);
     const showCuts = d < 3;
     const pic: Pic = { ...comp.pic, dashed: [...(comp.pic.dashed ?? []), ...(showCuts ? comp.cuts : [])] };
     const total = comp.pieces.reduce((s, p) => s + pieceArea(p), 0) - (comp.minus ?? []).reduce((s, p) => s + pieceArea(p), 0);
     const word = (p: Piece) => (p.kind === 'triangle' ? 'Triangle' : p.kind === 'rectangle' ? 'Rectangle' : 'Parallelogram');
-    const ctx = rng.pick(COMP_CTX[kind])(who);
+    const ctx = mk(who);
     const sumLine = comp.minus
       ? `Area $= ${n(pieceArea(comp.pieces[0]))} - ${n(pieceArea(comp.minus[0]))} = ${n(total)}$`
       : `Area $= ${comp.pieces.map((p) => n(pieceArea(p))).join(' + ')} = ${n(total)}$`;

@@ -126,6 +126,8 @@ interface PendingLabel {
   fixed?: boolean;
   /** The shape a name belongs to: the name must be nearer to it than to any other shaded shape. */
   owner?: P[];
+  /** The label must sit inside this polygon (a height drawn inside a shape). */
+  within?: P[];
 }
 
 /**
@@ -275,7 +277,7 @@ export class Sketch {
   }
 
   /** Label beside the side ab, on the side away from the point `inside`. */
-  sideLabel(a: P, b: P, text: string, inside: P) {
+  sideLabel(a: P, b: P, text: string, inside: P, within?: P[]) {
     const m = mid(a, b);
     const d = dirOf(a, b);
     const n1 = d + 90;
@@ -284,6 +286,7 @@ export class Sketch {
     const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
     this.pending.push({
       text,
+      within,
       cands: (ppu) => {
         const res: P[] = [];
         const extra = Math.abs(Math.cos(rad(out))) * (textWidth(text) / 2);
@@ -328,6 +331,7 @@ export class Sketch {
           // Keep labels and their invisible anchors off shaded shapes.
           const probes: P[] = [A, c, [box.x0, box.y0], [box.x1, box.y0], [box.x0, box.y1], [box.x1, box.y1]];
           if (this.polys.some((pl) => pl.fill && probes.some((q) => inPoly(q, pl.points)))) score -= 100;
+          if (lab.within && ![c, [box.x0, box.y0], [box.x1, box.y0], [box.x0, box.y1], [box.x1, box.y1]].every((q) => inPoly(q as P, lab.within!))) score -= 50;
           if (lab.owner) {
             const own = lab.owner;
             const dTo = (poly: P[]) => Math.min(...poly.map((p, i) => distSegBox(p, poly[(i + 1) % poly.length], box)));

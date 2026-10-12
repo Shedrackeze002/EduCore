@@ -508,7 +508,7 @@ function oneStep(rng: Rng): Problem {
     }
     case 4: {
       const L = rng.int(3, 6) * 10 + rng.pick([0, 5]);
-      const cut = retry(() => decNum(rng, 1, 3), (u) => u < L * 100 - 500);
+      const cut = retry(() => rng.int(1001, L * 100 - 500), (u) => u % 10 !== 0);
       return {
         prompt: `A roll of ribbon is ${m$(L, 1)} m long. ${name} uses ${m$(cut, 3)} m to wrap gifts. How much ribbon is left?`,
         steps: [{ nums: [L * 100, cut], op: '-', why: 'Left over means subtract.' }],

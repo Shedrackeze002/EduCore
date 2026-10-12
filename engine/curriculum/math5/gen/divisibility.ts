@@ -249,9 +249,12 @@ function missingDigit(rng: Rng): Out {
 /** Which number passes two tests? */
 function bothTests(rng: Rng): Out {
   const [a, b] = rng.pick([[2, 3], [3, 5], [2, 5], [3, 10]] as Array<[number, number]>);
-  const right = retry(() => rng.int(102, 998), (x) => x % a === 0 && x % b === 0);
-  const onlyA = retry(() => rng.int(102, 998), (x) => x % a === 0 && x % b !== 0);
-  const onlyB = retry(() => rng.int(102, 998), (x) => x % b === 0 && x % a !== 0);
+  // Build each choice as a multiple, so every choice really passes (or fails) the tests it should.
+  const both = a * b; // the pairs share no factor, so this is the smallest number divisible by both
+  const multipleOf = (k: number) => k * rng.int(Math.ceil(102 / k), Math.floor(998 / k));
+  const right = multipleOf(both);
+  const onlyA = retry(() => multipleOf(a), (x) => x % b !== 0, 200);
+  const onlyB = retry(() => multipleOf(b), (x) => x % a !== 0, 200);
   const neither = retry(() => rng.int(102, 998), (x) => x % a !== 0 && x % b !== 0 && x !== onlyA && x !== onlyB);
   const all = [right, onlyA, onlyB, neither];
   return {

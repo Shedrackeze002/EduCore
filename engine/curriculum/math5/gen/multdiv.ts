@@ -307,7 +307,8 @@ function divideCalc(rng: Rng, d: Difficulty): Out {
   const k = rng.int(d === 1 ? 2 : 3, 9);
   let n: number;
   if (d === 1) {
-    n = retry(() => k * rng.int(rng.chance(0.4) ? 11 : 21, rng.chance(0.4) ? Math.floor(99 / k) : Math.floor(999 / k)), (x) => x >= 24 && x <= 999 && x / k >= 11);
+    // A two-digit or three-digit dividend with no remainder and a quotient of at least 11.
+    n = k * (rng.chance(0.4) ? rng.int(11, Math.floor(99 / k)) : rng.int(Math.max(11, Math.ceil(100 / k)), Math.floor(999 / k)));
   } else if (d === 2) {
     n = retry(() => rng.int(100, 999), (x) => x % k !== 0 && Math.floor(x / k) >= 12);
   } else {

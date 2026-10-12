@@ -575,13 +575,13 @@ function compareUnits(rng: Rng): Out {
     ['A ranch', 'a field'],
   ]);
   return {
-    prompt: `${place[0]} has an area of $${A(1, 'km')}$. ${place[1].charAt(0).toUpperCase() + place[1].slice(1)} next to it has an area of $${A(part2, 'm')}$. How many square metres larger is ${place[0].toLowerCase()}?`,
+    prompt: `${place[0]} has an area of $${A(1, 'km')}$. ${place[1].charAt(0).toUpperCase() + place[1].slice(1)} next to it has an area of $${A(part2, 'm')}$. How many square metres larger is the ${place[0].slice(2).toLowerCase()}?`,
     parts: [intPart(1000000 - part2, { suffix: `m${SUP2}` })],
     hints: ['Write both areas in square metres. $1\\ \\text{km}^2 = 1\\,000\\,000\\ \\text{m}^2$.', 'Then subtract.'],
     solution: [
       `$${A(1, 'km')} = ${A(1000000, 'm')}$`,
       `$${g(1000000)} - ${g(part2)} = ${g(1000000 - part2)}$`,
-      `${place[0]} is larger by $${A(1000000 - part2, 'm')}$.`,
+      `The ${place[0].slice(2).toLowerCase()} is larger by $${A(1000000 - part2, 'm')}$.`,
     ],
   };
 }
