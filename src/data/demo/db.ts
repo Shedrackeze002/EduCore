@@ -3,8 +3,10 @@ import type {
   Announcement,
   AppNotification,
   Assignment,
+  Board,
   ClassRoom,
   Insight,
+  LessonPrefs,
   PlatformSettings,
   Profile,
   Publication,
@@ -50,6 +52,9 @@ export interface DemoDB {
   /** Platform administration (added later; older saved demos may lack these). */
   settings?: PlatformSettings;
   audit?: DemoAuditRow[];
+  /** Presenting (added later; older saved demos may lack these). */
+  boards?: Board[];
+  lessonPrefs?: LessonPrefs[];
 }
 
 export const DB_KEY = 'educore-demo-db-v1';

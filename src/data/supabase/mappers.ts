@@ -11,10 +11,12 @@ import type {
   Profile,
   Publication,
   Resource,
+  Board,
   SkillEvent,
   SkillMastery,
   Submission,
 } from '../types.ts';
+import { parsePages } from '@/lib/ink.ts';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Row = Record<string, any>;
@@ -55,6 +57,17 @@ export const toResource = (r: Row): Resource => ({
   url: r.url,
   body: r.body,
   createdAt: r.created_at,
+});
+
+export const toBoard = (r: Row): Board => ({
+  id: r.id,
+  classId: r.class_id,
+  lessonId: r.lesson_id,
+  title: r.title,
+  pages: parsePages(r.pages),
+  shared: r.shared,
+  createdAt: r.created_at,
+  updatedAt: r.updated_at,
 });
 
 export const toAssignment = (r: Row): Assignment => ({

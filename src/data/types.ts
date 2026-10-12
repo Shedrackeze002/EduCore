@@ -3,6 +3,7 @@ import type { AssignmentContent, AssignmentSettings, AssignmentType, StoredRespo
 import type { ItemRef } from '@engine/types.ts';
 import type { SkillState } from '@engine/mastery.ts';
 import type { InsightData, ProposedAction } from '@engine/ai/types.ts';
+import type { BoardPage } from '@/lib/ink.ts';
 
 export type Role = 'teacher' | 'student';
 
@@ -61,6 +62,36 @@ export interface Resource {
   url: string | null;
   body: string | null;
   createdAt: string;
+}
+
+/** A whiteboard saved to a lesson in one class. */
+export interface Board {
+  id: string;
+  classId: string;
+  lessonId: string;
+  title: string;
+  pages: BoardPage[];
+  /** Students in the class can view it with the lesson. */
+  shared: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BoardInput {
+  id?: string;
+  classId: string;
+  lessonId: string;
+  title: string;
+  pages: BoardPage[];
+  shared?: boolean;
+}
+
+/** A teacher's choices for presenting one lesson to one class. */
+export interface LessonPrefs {
+  classId: string;
+  lessonId: string;
+  /** Keys of the lesson blocks hidden from the slides (see slideKeys in PresentMode). */
+  hidden: string[];
 }
 
 export type AssignmentStatus = 'draft' | 'published' | 'archived';

@@ -22,6 +22,9 @@ import type {
   Profile,
   ProposedAction,
   Resource,
+  Board,
+  BoardInput,
+  LessonPrefs,
   Submission,
 } from '../types.ts';
 import {
@@ -39,6 +42,7 @@ import {
   toProfile,
   toPublication,
   toResource,
+  toBoard,
   toSubmission,
 } from './mappers.ts';
 import { STUDENT_EMAIL_DOMAIN } from '@/config.ts';
@@ -300,6 +304,52 @@ export class SupabaseApi implements DataApi {
 
   async deleteResource(id: string) {
     const { error } = await this.client.from('resources').delete().eq('id', id);
+    fail(error);
+  }
+
+  // ------------------------------------------------------------------ presenting
+
+  async getLessonPrefs(classId: string, lessonId: string): Promise<LessonPrefs> {
+    const { data, error } = await this.client.from('lesson_prefs').select('hidden').eq('class_id', classId).eq('lesson_id', lessonId).maybeSingle();
+    fail(error);
+    return { classId, lessonId, hidden: (data?.hidden as string[] | null) ?? [] };
+  }
+
+  async setHiddenBlocks(classId: string, lessonId: string, hidden: string[]): Promise<LessonPrefs> {
+    const list = [...new Set(hidden)].slice(0, 500);
+    const { error } = await this.client.from('lesson_prefs').upsert({ class_id: classId, lesson_id: lessonId, hidden: list, updated_at: new Date().toISOString() });
+    fail(error);
+    return { classId, lessonId, hidden: list };
+  }
+
+  async listBoards(classId: string, lessonId: string): Promise<Board[]> {
+    // Row-level security returns every board to the class's teacher and shared boards to its students.
+    const { data, error } = await this.client.from('boards').select('*').eq('class_id', classId).eq('lesson_id', lessonId).order('updated_at', { ascending: false });
+    fail(error);
+    return (data ?? []).map(toBoard);
+  }
+
+  async saveBoard(input: BoardInput): Promise<Board> {
+    const title = input.title.trim().slice(0, 120) || 'Whiteboard';
+    if (input.id) {
+      const patch: Record<string, unknown> = { title, pages: input.pages, updated_at: new Date().toISOString() };
+      if (input.shared !== undefined) patch.shared = input.shared;
+      const { data, error } = await this.client.from('boards').update(patch).eq('id', input.id).select().maybeSingle();
+      fail(error);
+      if (data) return toBoard(data);
+    }
+    const { data, error } = await this.client.from('boards').insert({ class_id: input.classId, lesson_id: input.lessonId, title, pages: input.pages, shared: input.shared ?? false }).select().single();
+    fail(error);
+    return toBoard(data);
+  }
+
+  async setBoardShared(id: string, shared: boolean) {
+    const { error } = await this.client.from('boards').update({ shared }).eq('id', id);
+    fail(error);
+  }
+
+  async deleteBoard(id: string) {
+    const { error } = await this.client.from('boards').delete().eq('id', id);
     fail(error);
   }
 

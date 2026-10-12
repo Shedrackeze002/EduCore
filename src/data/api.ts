@@ -13,9 +13,12 @@ import type {
   Announcement,
   AppNotification,
   Assignment,
+  Board,
+  BoardInput,
   ClassRoom,
   ClassSettings,
   Insight,
+  LessonPrefs,
   NewStudentCredential,
   Profile,
   ProposedAction,
@@ -74,6 +77,15 @@ export interface DataApi {
   listResources(classId: string): Promise<Resource[]>;
   addResource(input: Omit<Resource, 'id' | 'createdAt'>): Promise<Resource>;
   deleteResource(id: string): Promise<void>;
+
+  // Presenting: hidden blocks and saved whiteboards
+  getLessonPrefs(classId: string, lessonId: string): Promise<LessonPrefs>;
+  setHiddenBlocks(classId: string, lessonId: string, hidden: string[]): Promise<LessonPrefs>;
+  /** Teachers get every board of the class; students only the ones shared with them. */
+  listBoards(classId: string, lessonId: string): Promise<Board[]>;
+  saveBoard(input: BoardInput): Promise<Board>;
+  setBoardShared(id: string, shared: boolean): Promise<void>;
+  deleteBoard(id: string): Promise<void>;
 
   // Assignments
   listAssignments(classId: string): Promise<Assignment[]>;

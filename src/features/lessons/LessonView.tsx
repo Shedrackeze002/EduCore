@@ -3,7 +3,8 @@ import { BookOpen, Clock, ExternalLink, FileText, Target, Video } from 'lucide-r
 import { courseOfLesson, lessonById, unitById } from '@engine/curriculum/index.ts';
 import { loadLesson } from '@/content/index.ts';
 import type { LessonContent } from '@/content/lessonParser.ts';
-import type { Resource } from '@/data/types.ts';
+import type { Board, Resource } from '@/data/types.ts';
+import { ClassBoards } from '@/features/whiteboard/BoardView.tsx';
 import { Markdown } from '@/components/math/Markdown.tsx';
 import { PageSpinner } from '@/components/ui/index.ts';
 import { BlockView, VideoEmbed } from './LessonBlocks.tsx';
@@ -116,7 +117,7 @@ export function TeacherResources({ resources }: { resources: Resource[] }) {
   );
 }
 
-export function LessonView({ lessonId, resources = [], footer, headerActions }: { lessonId: string; resources?: Resource[]; footer?: ReactNode; headerActions?: ReactNode }) {
+export function LessonView({ lessonId, resources = [], boards = [], footer, headerActions }: { lessonId: string; resources?: Resource[]; boards?: Board[]; footer?: ReactNode; headerActions?: ReactNode }) {
   const { content, error } = useLessonContent(lessonId);
   const [active, setActive] = useState(0);
 
@@ -157,6 +158,7 @@ export function LessonView({ lessonId, resources = [], footer, headerActions }: 
             </section>
           ))}
           <TeacherResources resources={resources} />
+          <ClassBoards boards={boards} />
           {footer}
         </article>
         <aside className="hidden xl:block">

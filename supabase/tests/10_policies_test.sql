@@ -341,6 +341,38 @@ select _assert(signup_config() ->> 'teacherSignup' = 'open', 'sign-up page can r
 select _fails($$select admin_overview()$$, 'anonymous visitors cannot see the overview');
 reset role;
 
+-- ---------------------------------------------------------------- presenting: hidden blocks and whiteboards
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+insert into lesson_prefs (class_id, lesson_id, hidden) select class_id, 'm10c-1-1', array['md-abc'] from ctx;
+select _assert((select hidden from lesson_prefs) = array['md-abc'], 'teacher hides a block from the slides');
+insert into boards (class_id, lesson_id, title, pages) select class_id, 'm10c-1-1', 'Private board', '[{"background":"grid","strokes":[]}]' from ctx;
+insert into boards (class_id, lesson_id, title, pages, shared) select class_id, 'm10c-1-1', 'Shared board', '[]', true from ctx;
+select _fails($$insert into boards (class_id, lesson_id, title, pages) select class_id, 'm10c-1-1', 'Bad', '{}' from ctx$$, 'board pages must be a list');
+select _fails($$insert into boards (class_id, lesson_id, title, pages) select class_id, 'm10c-1-1', '', '[]' from ctx$$, 'boards need a name');
+select _assert((select count(*) from boards) = 2, 'teacher sees every board of the class');
+update boards set title = 'Renamed board', updated_at = now() where title = 'Private board';
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from boards) = 1 and (select title from boards) = 'Shared board', 'students see only shared boards');
+select _assert((select count(*) from lesson_prefs) = 0, 'students cannot read presenting choices');
+select _fails($$insert into boards (class_id, lesson_id, title) select class_id, 'm10c-1-1', 'Mine' from ctx$$, 'students cannot save boards');
+select _fails($$insert into lesson_prefs (class_id, lesson_id) select class_id, 'm10c-1-2' from ctx$$, 'students cannot hide blocks');
+update boards set shared = true;
+delete from boards;
+reset role;
+select _assert((select count(*) from boards where shared) = 1, 'students cannot share a board');
+select _assert((select count(*) from boards) = 2, 'students cannot delete boards');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from boards) = 0, 'other teachers see no boards');
+select _assert((select count(*) from lesson_prefs) = 0, 'other teachers see no presenting choices');
+select _fails($$insert into boards (class_id, lesson_id, title) select class_id, 'm10c-1-1', 'Theirs' from ctx$$, 'other teachers cannot save boards to the class');
+reset role;
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;
