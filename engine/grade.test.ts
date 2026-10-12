@@ -29,6 +29,8 @@ describe('parser', () => {
     expect(at('sin 2x', 0.3)).toBeCloseTo(Math.sin(0.6));
     expect(at('2sinx cosx', 0.3)).toBeCloseTo(Math.sin(0.6));
     expect(at('sin x^2', 1.2)).toBeCloseTo(Math.sin(1.44));
+    expect(at('2sin 3(x - pi/6) + 1', 1)).toBeCloseTo(2 * Math.sin(3 * (1 - Math.PI / 6)) + 1);
+    expect(at('2sin(x)(x + 1)', 1)).toBeCloseTo(2 * Math.sin(1) * 2);
     expect(at('tan(x)sec^2(x)', 0.4)).toBeCloseTo(Math.tan(0.4) / Math.cos(0.4) ** 2);
     expect(at('3e^(2x)', 0.5)).toBeCloseTo(3 * Math.E);
     expect(at('2e', 0)).toBeCloseTo(2 * Math.E);

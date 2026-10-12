@@ -124,6 +124,8 @@ export interface GridSpec {
   /** Scale per grid line on each axis (for context graphs). */
   xStep?: number;
   yStep?: number;
+  /** Label the x-axis in multiples of pi (π/2, π, 3π/2); use an xStep such as Math.PI / 2 or Math.PI / 6. */
+  xPi?: boolean;
 }
 
 // ---------------------------------------------------------------------------

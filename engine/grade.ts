@@ -9,7 +9,6 @@ import {
   ParseError,
   containsNode,
   evaluate,
-  isConstant,
   parseEquation,
   parseExpr,
   splitPoint,

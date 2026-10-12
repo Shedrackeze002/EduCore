@@ -27,6 +27,8 @@ describe('answerMarkdown', () => {
     expect(answerMarkdown({ kind: 'point', x: 3, y: 5 / 11 })).toBe('$(3,\\ \\frac{5}{11})$');
     expect(answerMarkdown({ kind: 'point', x: -2.5, y: 0.25 })).toBe('$(-2.5,\\ 0.25)$');
     expect(canonicalResponse({ kind: 'point', x: -1 / 3, y: 4 })).toBe('(-1/3, 4)');
+    expect(answerMarkdown({ kind: 'point', x: -Math.sqrt(3) / 2, y: 0.5 })).toBe('$(-\\frac{\\sqrt{3}}{2},\\ 0.5)$');
+    expect(canonicalResponse({ kind: 'point', x: -Math.sqrt(3) / 2, y: 0.5 })).toBe('(-sqrt(3)/2, 0.5)');
   });
   it('shows exact forms for multiples of pi and radicals', () => {
     expect(answerMarkdown({ kind: 'numeric', value: (5 * Math.PI) / 6 })).toBe('$\\frac{5\\pi}{6}$');

@@ -552,7 +552,7 @@ class Sketch {
 
 /** A spiral arc from 0° to t° (any sign or size) with an arrowhead at t. */
 function turnArc(s: Sketch, t: number, r0: number) {
-  const n = Math.max(8, Math.ceil(Math.abs(t) / 6));
+  const n = Math.max(6, Math.ceil(Math.abs(t) / 15));
   const pts: P[] = [];
   for (let i = 0; i <= n; i++) {
     const a = (t * i) / n;
@@ -563,10 +563,24 @@ function turnArc(s: Sketch, t: number, r0: number) {
   s.seg(pts[pts.length - 1], last, { color: 'muted', arrowEnd: true });
 }
 
-const circlePts = (): P[] => Array.from({ length: 121 }, (_, i) => [Math.cos((2 * PI * i) / 120), Math.sin((2 * PI * i) / 120)] as P);
+const circlePts = (): P[] => Array.from({ length: 73 }, (_, i) => [Math.cos((2 * PI * i) / 72), Math.sin((2 * PI * i) / 72)] as P);
+/** Laying out labels is slow, and the same unit-circle figure is drawn for many items: keep the results. */
+const FIG_CACHE = new Map<string, PlaneFigure>();
+function cached(key: string, make: () => PlaneFigure): PlaneFigure {
+  let f = FIG_CACHE.get(key);
+  if (!f) {
+    f = make();
+    if (FIG_CACHE.size > 500) FIG_CACHE.clear();
+    FIG_CACHE.set(key, f);
+  }
+  return structuredClone(f);
+}
 
 /** The unit circle with the terminal arm of θ (degrees) and the point P(θ). */
 export function unitCircleFigure(o: { theta: number; label?: string; arc?: boolean; caption?: string }): PlaneFigure {
+  return cached(JSON.stringify(['uc', o]), () => drawUnitCircle(o));
+}
+function drawUnitCircle(o: { theta: number; label?: string; arc?: boolean; caption?: string }): PlaneFigure {
   const s = new Sketch();
   const L = 1.45;
   s.seg([-L, 0], [L, 0], { color: 'muted', arrowStart: true, arrowEnd: true });
@@ -595,7 +609,7 @@ export function sectorFigure(o: { theta: number; r: string; angle: string; arc?:
   const s = new Sketch();
   const deg = (o.theta * 180) / PI;
   s.polyline(circlePts(), 'muted');
-  const n = Math.max(8, Math.ceil(deg / 4));
+  const n = Math.max(6, Math.ceil(deg / 8));
   s.polyline(Array.from({ length: n + 1 }, (_, i) => at([0, 0], (deg * i) / n, 1)), 'accent');
   s.seg([0, 0], [1, 0], { color: 'brand' });
   s.seg([0, 0], at([0, 0], deg, 1), { color: 'brand' });

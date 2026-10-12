@@ -286,7 +286,8 @@ class Parser {
 
   /**
    * A trigonometric, log or exponential function applied to its argument: sin(2x), or without
-   * brackets the whole term that follows, as textbooks write it (sin 2x, ln x^2, sin x cos x).
+   * brackets the whole term that follows, as textbooks write it (sin 2x, sin 3(x - pi/6), ln x^2,
+   * sin x cos x).
    */
   private fnArgs(t: Extract<Tok, { k: 'fn' }>): Node {
     if (this.isOp('(')) {
@@ -298,7 +299,8 @@ class Parser {
     const nt = this.peek();
     if (nt.k !== 'num' && nt.k !== 'id' && nt.k !== 'pi') throw new ParseError(`${t.v} needs something to act on.`, t.pos);
     let arg = this.power();
-    for (let k = this.peek(); k.k === 'id' || k.k === 'pi' || (k.k === 'num' && k.raw === 'e'); k = this.peek()) {
+    // The term continues through letters and brackets: sin 3(x - pi/6) is sin(3(x - pi/6)).
+    for (let k = this.peek(); k.k === 'id' || k.k === 'pi' || (k.k === 'num' && k.raw === 'e') || (k.k === 'op' && k.v === '('); k = this.peek()) {
       arg = { t: 'mul', a: arg, b: this.power(), implicit: true };
     }
     return { t: 'fn', name: t.v, args: [arg] };
@@ -521,8 +523,12 @@ export function toLatex(n: Node): string {
       const needsDot = !n.implicit || startsWithDigit(n.b) || n.b.t === 'neg';
       return needsDot ? `${l} \\cdot ${r}` : `${l}${r}`;
     }
-    case 'div':
-      return `\\frac{${toLatex(unparen(n.a))}}{${toLatex(unparen(n.b))}}`;
+    case 'div': {
+      const top = unparen(n.a);
+      // -3/4 and -sqrt(3)/2 read best with the minus sign in front of the fraction.
+      if (top.t === 'neg') return `-\\frac{${toLatex(unparen(top.a))}}{${toLatex(unparen(n.b))}}`;
+      return `\\frac{${toLatex(top)}}{${toLatex(unparen(n.b))}}`;
+    }
     case 'pow': {
       const base = prec(n.a) < 5 || n.a.t === 'fn' ? `\\left(${toLatex(n.a)}\\right)` : toLatex(n.a);
       return `{${base}}^{${toLatex(unparen(n.b))}}`;

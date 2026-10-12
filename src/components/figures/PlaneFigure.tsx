@@ -1,11 +1,22 @@
 import type { ReactNode } from 'react';
 import type { PlaneFigure as PlaneSpec, PlaneLine, PlaneSegment } from '@engine/types.ts';
 import { texToText } from '@/lib/texText.ts';
+import { toFrac } from '@engine/math/numbers.ts';
 import { clipLine, COLOR, lineThroughPoints, planeGeom, type PlaneGeom } from './plane.ts';
 
 function fmtTick(v: number): string {
   const s = Math.abs(v) >= 1000 ? `${Math.round(v)}` : `${Math.round(v * 100) / 100}`;
   return s.replace('-', '−');
+}
+
+/** A tick at a multiple of pi: 0, π/2, π, 3π/2, −π. Falls back to a decimal for other values. */
+function piTick(v: number): string {
+  const f = toFrac(v / Math.PI, 12);
+  if (!f) return fmtTick(v);
+  if (f.n === 0) return '0';
+  const sign = f.n < 0 ? '−' : '';
+  const n = Math.abs(f.n);
+  return `${sign}${n === 1 ? '' : n}π${f.d === 1 ? '' : `/${f.d}`}`;
 }
 
 /** A plane with no interior grid lines is a drawing canvas (angles, shapes), not a graph: no axes or frame. */
@@ -39,7 +50,7 @@ export function PlaneGrid({ g, hideTickLabels, hideAxes }: { g: PlaneGeom; hideT
         g.xTicks.map((t, i) =>
           t === g.axisY && g.axisY === 0 && g.axisX === 0 && grid.yMin < 0 ? null : i % g.xLabelEvery === 0 ? (
             <text key={`tx${t}`} x={toX(t)} y={Math.min(ax + 14, y1 + 14)} fontSize={10.5} textAnchor="middle" className="fig-muted">
-              {fmtTick(t)}
+              {grid.xPi ? piTick(t) : fmtTick(t)}
             </text>
           ) : null,
         )}
