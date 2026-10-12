@@ -258,6 +258,8 @@ export interface PlaneFigure {
   hideAxes?: boolean;
   /** Label segments A, B, C ... at their midpoints. */
   segmentLabels?: string[];
+  /** Show "Diagram not to scale" under the figure (lengths and angles are given as labels). */
+  notToScale?: boolean;
   caption?: string;
 }
 

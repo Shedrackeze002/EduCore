@@ -152,7 +152,7 @@ function pairFigure(p1: P[], p2: P[], n1: string, n2: string, m1: Marks = {}, m2
   const dr = new Drawing();
   addPolygon(dr, p1, n1, 'brand', m1);
   addPolygon(dr, p2, n2, 'accent', m2);
-  return dr.build({ caption: 'Not drawn to scale' });
+  return { ...dr.build({ caption: 'Not drawn to scale' }), notToScale: true };
 }
 
 /** A scalene triangle with whole-number sides that are not too close in length, and whole-degree angles. */

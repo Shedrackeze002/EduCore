@@ -45,7 +45,7 @@ export function Figure({ fig, className, compact }: { fig: FigureSpec; className
       <div className={cn('mx-auto', narrow && (compact ? 'max-w-[260px]' : 'max-w-[420px]'))}>
         <Inner fig={fig} />
       </div>
-      {fig.type === 'solid' || fig.type === 'rightTriangle' || fig.type === 'twoTriangles' ? <figcaption className="mt-1 text-center text-[11px] text-ink-3">Diagram not to scale</figcaption> : null}
+      {fig.type === 'solid' || fig.type === 'rightTriangle' || fig.type === 'twoTriangles' || (fig.type === 'plane' && fig.notToScale) ? <figcaption className="mt-1 text-center text-[11px] text-ink-3">Diagram not to scale</figcaption> : null}
     </figure>
   );
 }

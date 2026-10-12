@@ -884,7 +884,7 @@ function stackFig(base: Solid3, top: Solid3, labels: Array<{ text: string; at: [
   for (const [a, b] of solidEdges(top)) dr.seg(a, b);
   for (const [a, b] of extra) dr.seg(pr(...a), pr(...b), { dashed: true, color: 'muted' });
   for (const l of labels) dr.label(l.text, pr(...l.at), l.dir, 4);
-  return dr.build({ caption: 'Not drawn to scale' });
+  return { ...dr.build({ caption: 'Not drawn to scale' }), notToScale: true };
 }
 
 /** Is the projected segment part of the base's top face? (Checked against the projected top face outline.) */
