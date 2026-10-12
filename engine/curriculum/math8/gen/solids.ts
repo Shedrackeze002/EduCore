@@ -207,7 +207,11 @@ export class Drawing {
   centre(text: string, p: P) {
     this.labels.push({
       text,
-      cands: (ppu) => [p, [p[0], p[1] + 6 / ppu], [p[0], p[1] - 6 / ppu], [p[0] + 6 / ppu, p[1]], [p[0] - 6 / ppu, p[1]]],
+      cands: (ppu) => {
+        const out: P[] = [p];
+        for (let r = 3; r <= 30; r += 3) for (let a = 0; a < 360; a += 30) out.push([p[0] + (r * Math.cos((a * Math.PI) / 180)) / ppu, p[1] + (r * Math.sin((a * Math.PI) / 180)) / ppu]);
+        return out;
+      },
     });
     return this;
   }

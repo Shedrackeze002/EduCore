@@ -461,7 +461,7 @@ function ofPrice(rng: Rng): GenOutput {
     ([, , v]) => !onEdge(v),
   );
   return {
-    prompt: `Last year, ${c.item} cost ${tag(old)}. This year, the price is $${pc(p)}$ of last year’s price. What is the price this year, ${CENT}?`,
+    prompt: `${name} is shopping for ${c.item}. Last year, it cost ${tag(old)}. This year, the price is $${pc(p)}$ of last year’s price. What is the price this year, ${CENT}?`,
     parts: [moneyPart(v)],
     hints: [`$${pc(p)}$ of the old price means multiply the old price by $${num(p / 100)}$.`, 'Round your answer to the nearest cent at the end.'],
     solution: [`$${pc(p)} = ${num(p / 100)}$`, `$${num(p / 100)} \\times ${mv(old)} ${eqMoney(v)}$`, `The price this year is ${money(r2(v))}.`],
@@ -583,12 +583,12 @@ interface ChangeCtx {
 const CHANGE_CTX: ChangeCtx[] = [
   { text: (n, a, b) => `${n}’s hockey team scored ${a} goals last season and ${b} goals this season.`, noun: 'goals', lo: 30, hi: 120 },
   { text: (n, a, b) => `The chess club at ${n}’s school had ${a} members last year and has ${b} members this year.`, noun: 'members', lo: 16, hi: 60 },
-  { text: (n, a, b) => `The Grade 8 food drive collected ${a} cans last year and ${b} cans this year.`, noun: 'cans', lo: 200, hi: 900 },
+  { text: (_n, a, b) => `The Grade 8 food drive collected ${a} cans last year and ${b} cans this year.`, noun: 'cans', lo: 200, hi: 900 },
   { text: (n, a, b) => `${n}’s school website had ${a} visits in September and ${b} visits in October.`, noun: 'visits', lo: 800, hi: 4000 },
-  { text: (n, a, b) => `A dairy farm near Camrose sold ${a} litres of milk on Monday and ${b} litres on Tuesday.`, noun: 'litres', lo: 400, hi: 2000 },
-  { text: (n, a, b) => `The price of a monthly bus pass changed from ${a} to ${b}.`, noun: 'price', money: true, lo: 40, hi: 120 },
-  { text: (n, a, b) => `The price of a pair of skates changed from ${a} to ${b}.`, noun: 'price', money: true, lo: 80, hi: 300 },
-  { text: (n, a, b) => `A basketball team scored ${a} points in its first game and ${b} points in its second game.`, noun: 'points', lo: 40, hi: 90 },
+  { text: (_n, a, b) => `A dairy farm near Camrose sold ${a} litres of milk on Monday and ${b} litres on Tuesday.`, noun: 'litres', lo: 400, hi: 2000 },
+  { text: (_n, a, b) => `The price of a monthly bus pass changed from ${a} to ${b}.`, noun: 'price', money: true, lo: 40, hi: 120 },
+  { text: (_n, a, b) => `The price of a pair of skates changed from ${a} to ${b}.`, noun: 'price', money: true, lo: 80, hi: 300 },
+  { text: (_n, a, b) => `A basketball team scored ${a} points in its first game and ${b} points in its second game.`, noun: 'points', lo: 40, hi: 90 },
 ];
 
 const showVal = (c: ChangeCtx, x: number) => (c.money ? tag(x) : `$${num(x)}$`);

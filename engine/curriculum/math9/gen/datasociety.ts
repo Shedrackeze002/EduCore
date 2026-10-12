@@ -345,7 +345,7 @@ const STEP = {
 
 const PROJECTS: Array<{ topic: string; steps: string[] }> = [
   {
-    topic: 'how much Grade 9 students at her school sleep on school nights',
+    topic: 'how much Grade 9 students at the school sleep on school nights',
     steps: [
       'Write the question: “How many hours of sleep do Grade 9 students at our school get on school nights?”',
       'Choose $40$ Grade 9 students at random from the school list.',
@@ -365,7 +365,7 @@ const PROJECTS: Array<{ topic: string; steps: string[] }> = [
     ],
   },
   {
-    topic: 'how the number of students at his school has changed over the last ten years',
+    topic: 'how the number of students at the school has changed over the last ten years',
     steps: [
       'Write the question: “How has our school’s enrolment changed over the last ten years?”',
       'Ask the school office for the total enrolment for each year (no names needed).',
@@ -375,7 +375,7 @@ const PROJECTS: Array<{ topic: string; steps: string[] }> = [
     ],
   },
   {
-    topic: 'which lunch option students at her school like best',
+    topic: 'which lunch option students at the school like best',
     steps: [
       'Write the question: “Which of the four lunch options do students at our school like best?”',
       'Choose students at random from each grade, in proportion to the size of each grade.',
@@ -480,8 +480,8 @@ function planConclusion(rng: Rng, name: string): Out {
   const top = TRAVEL[counts.indexOf(Math.max(...counts))];
   const notTop = TRAVEL.filter((t) => t !== top && t !== 'Bus');
   const wrongMost = rng.pick(notTop);
-  const pctTxt = Number.isInteger(pct) ? `${pct}` : `${Math.round(pct)}`;
-  const about = Number.isInteger(pct) ? '' : 'about ';
+  const exactPct = Number.isInteger(pct * 10);
+  const pctTxt = exactPct ? fmt(pct, 1) : `${Math.round(pct)}`;
   const correct = `About ${pctTxt}% of the students at the school probably take the bus, but the true percent may be a little different.`;
   return {
     prompt: `${name} surveyed a random sample of $${n}$ of the $${school}$ students at a school about how they usually travel to school. The table shows the results. (a) Predict how many students in the whole school take the bus. (b) Which conclusion is best supported by the data?`,
@@ -493,7 +493,7 @@ function planConclusion(rng: Rng, name: string): Out {
     ]) }],
     hints: ['Find the fraction of the sample who take the bus. Apply the same fraction to the whole school.', 'A random sample lets you make a reasonable prediction about this school only, and the prediction is not exact.'],
     solution: [
-      `Bus riders in the sample: $${bus}$ of $${n}$, which is $${fr(bus, n)} = ${about}${fmt(pct, 1)}\\%$.`,
+      `Bus riders in the sample: $${bus}$ of $${n}$, which is $${fr(bus, n)} ${exactPct ? '=' : '\\approx'} ${fmt(pct, 1)}\\%$.`,
       `Prediction: $${fr(bus, n)} \\times ${school} = ${pred}$ students.`,
       `The sample only represents this school, and a sample result is an estimate, not an exact count. The most common way to travel in the sample is ${top.toLowerCase() === 'walk' ? 'walking' : top.toLowerCase() === 'bike' ? 'biking' : top === 'Bus' ? 'the bus' : 'by car'}.`,
       `(a) About $${pred}$ students. (b) ${correct}`,
@@ -570,7 +570,7 @@ function forecast(rng: Rng): Out {
     parts: [{ answer: mc(rng, correct, [
       `It will rain for $${p}\\%$ of the day, about $${fmt((24 * p) / 100, 1)}$ hours.`,
       likely ? `It will definitely rain, because $${p}\\%$ is more than $50\\%$.` : `It will definitely not rain, because $${p}\\%$ is less than $50\\%$.`,
-      `There is a $${100 - p}\\%$ chance that it will rain.`,
+      `There is ${100 - p === 80 ? 'an' : 'a'} $${100 - p}\\%$ chance that it will rain.`,
     ]) }],
     hints: ['A probability describes how often something happens over many similar situations.', 'A probability between $0\\%$ and $100\\%$ is never a guarantee either way.'],
     solution: [`A $${p}\\%$ chance of rain means that, out of many days with weather like this, rain falls on about $${p}$ of every $100$ ($${p / 10}$ of every $10$).`, `It does not say how long it will rain, and it is not certain either way.`, `The answer: ${correct}`],

@@ -86,9 +86,9 @@ function dihedral(set: string, shift: number, reverse: boolean): string {
 }
 
 /** Two letter sets: the first polygon's names, and the second polygon's names listed to match (T[i] matches S[i]). */
-function namePair(rng: Rng, k: number, scramble: boolean): { S: string; S2: string; T: string } {
-  const sets = k === 3 ? TRI_SETS : QUAD_SETS;
-  const [S, S2] = rng.sample(sets, 2);
+function namePair(rng: Rng, k: number, scramble: boolean, first?: string): { S: string; S2: string; T: string } {
+  const sets = (k === 3 ? TRI_SETS : QUAD_SETS).filter((x) => x !== first);
+  const [S, S2] = first ? [first, rng.pick(sets)] : rng.sample(sets, 2);
   if (!scramble) return { S, S2, T: S2 };
   for (;;) {
     const T = dihedral(S2, rng.int(0, k - 1), rng.chance(0.5));
@@ -531,7 +531,7 @@ function shapeAndImage(rng: Rng, k: number, kind: Iso['kind']): { pts: P[]; img:
       t = vertical ? { kind, vertical, m: b.x1 + rng.int(1, 2) } : { kind, vertical, m: rng.chance(0.5) ? b.y1 + 1 : b.y0 - 1 };
     } else t = { kind, cx: b.x1 + rng.int(1, 2), cy: rng.int(b.y0, b.y1), q: rng.pick([1, 2, 3] as const) };
     const img = applyIso(pts, t);
-    if (!inside(pts, GW, GH) || !inside(img, GW, GH) || !apart(pts, img)) continue;
+    if (!inside(pts, GW, GH) || !inside(img, GW, GH) || !apart(pts, img, 2)) continue;
     return { pts, img, t };
   }
 }
@@ -706,8 +706,8 @@ const congruenceTransformations = skill({
     // Congruence statement (d2) or transformation plus matching side (d3), with letters in scrambled order.
     const kind = rng.pick(KINDS);
     const { pts, img, t } = shapeAndImage(rng, k, kind);
-    const { S2, T } = namePair(rng, k, true);
     const S0 = k === 3 ? 'ABC' : 'ABCD';
+    const { S2, T } = namePair(rng, k, true, S0);
     const fig = gridPair(pts, img, [...S0], [...T]);
     if (d === 2) {
       const correct = `$${S0} \\cong ${T}$`;
