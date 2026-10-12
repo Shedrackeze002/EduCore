@@ -39,12 +39,10 @@ const q = (x: number, u: string) => `$${num(x)}\\ \\text{${u}}$`;
 const cashPart = (v: number, label = '\\$'): Part => numPart(clean(v), { decimals: 2, tolerance: 0.004, label });
 /** A money answer rounded to the nearest cent. */
 const centPart = (v: number, label = '\\$'): Part => numPart(v, { decimals: 2, tolerance: 0.011, label });
-/** An exact answer: whole numbers as typed, decimals to their own number of places. */
+/** An exact answer typed as a number (not a calculation); a decimal value must be written as a decimal, not a fraction. */
 function exactPart(value: number, suffix?: string, label?: string): Part {
   const v = clean(value);
-  const dp = dpOf(v);
-  if (dp === 0) return numPart(v, { suffix, label, exact: false });
-  return numPart(v, { suffix, label, decimals: dp, tolerance: 0.4 * 10 ** -dp });
+  return numPart(v, { suffix, label, exact: false, ...(dpOf(v) > 0 && { asDecimal: true }) });
 }
 const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 /** True when a × b (b natural) ends in a non-zero digit, so the product keeps all its decimal places. */

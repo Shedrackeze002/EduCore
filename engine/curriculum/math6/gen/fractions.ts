@@ -99,7 +99,7 @@ function groupsFig(groups: number, per: number, shaded: number, caption: string)
     const hi = r2(y + 0.5);
     polylines.push({ points: [[0.4, lo], [per + 0.6, lo], [per + 0.6, hi], [0.4, hi], [0.4, lo]], color: on ? 'accent' : 'muted', fill: on || undefined });
   }
-  return { type: 'plane', grid: { xMin: 0, xMax: W, yMin: 0, yMax: r2(H), step: Math.max(W, H) }, polylines, points, hideTickLabels: true, caption };
+  return { type: 'plane', grid: { xMin: 0, xMax: W, yMin: 0, yMax: r2(H), step: Math.max(W, r2(H)) }, polylines, points, hideTickLabels: true, caption };
 }
 
 // ---------------------------------------------------------------------------
@@ -218,7 +218,7 @@ function toDecimal(rng: Rng): Out {
   const value = a / b;
   return {
     prompt: `Write $${fr(a, b)}$ as a decimal. Divide the numerator by the denominator.`,
-    parts: [numPart(value, { exact: false, display: 'decimal', label: 'Decimal:' })],
+    parts: [numPart(value, { exact: false, asDecimal: true, label: 'Decimal:' })],
     hints: [`$${fr(a, b)}$ means $${a} ${D} ${b}$.`, `Use the standard algorithm. When there is a remainder, write a zero after it and keep dividing.`],
     solution: [`$${fr(a, b)} = ${a} ${D} ${b}$.`, ...divSteps(a, b), `Check: $${b} ${T} ${fmtDec(value)} = ${a}$.`, `$${fr(a, b)} = ${fmtDec(value)}$`],
   };
@@ -234,7 +234,7 @@ function shareD2(rng: Rng): Out {
     const value = a / b;
     return {
       prompt: `${c.text(a, b, name)} ${c.ask} Write your answer as a decimal.`,
-      parts: [numPart(value, { exact: false, display: 'decimal', suffix: c.unit })],
+      parts: [numPart(value, { exact: false, asDecimal: true, suffix: c.unit })],
       hints: [`Each share is $${a} ${D} ${b} = ${fr(a, b)}$ ${c.unit}.`, 'Divide the numerator by the denominator to get the decimal.'],
       solution: [`Each share is $${a} ${D} ${b} = ${fr(a, b)}$ ${c.unit}.`, ...divSteps(a, b), c.answer(fmtDec(value))],
     };

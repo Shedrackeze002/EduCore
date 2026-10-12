@@ -28,8 +28,6 @@ const cM = (t: number) => `${t}^\\circ\\text{C}`;
 const deg = (t: number) => `$${cM(t)}$`;
 /** A height in metres as inline maths. */
 const mt = (h: number) => `$${h}\\ \\text{m}$`;
-/** Whole-dollar money in prose: \$45 or −\$45. */
-const dol = (x: number) => (x < 0 ? `${MINUS}\\$${-x}` : `\\$${x}`);
 const plural = (n: number, one: string, many: string) => (Math.abs(n) === 1 ? one : many);
 /** An integer answer: the student types the value, not a calculation. */
 const intPart = (v: number, opts: { label?: string; suffix?: string } = {}): Part => numPart(v, { ...opts, exact: false });

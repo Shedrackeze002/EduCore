@@ -1028,6 +1028,7 @@ const symmetryPolygons = skill({
   description: 'Relate the reflection and rotation symmetries of a regular polygon to its equal sides and angles, know that a circle has infinitely many, and classify shapes by their symmetries.',
   outcomes: ['G1'],
   lessonId: 'm5-8-2',
+  format: 'mc',
   gen(rng, d: Difficulty) {
     if (d === 1) return rng.chance(0.65) ? regularPicture(rng) : circleQuestion(rng);
     if (d === 2) {

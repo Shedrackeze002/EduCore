@@ -186,21 +186,21 @@ function gradeNumeric(spec: Extract<AnswerSpec, { kind: 'numeric' }>, response: 
   const parsed = parseNumber(response, allowExpr, spec.allowFunctions);
   if (!parsed) return invalid('Enter an answer.');
   const v = parsed.value;
-  if (spec.tolerance !== undefined) {
-    return Math.abs(v - spec.value) <= spec.tolerance + 1e-12 ? ok() : no();
-  }
+  if (!numericMatches(spec, v)) return no();
+  const issue = spec.fraction ? fractionIssue(response, spec.fraction) : spec.asDecimal && response.includes('/') ? 'Write your answer as a decimal.' : null;
+  return issue ? no(issue) : ok();
+}
+
+function numericMatches(spec: Extract<AnswerSpec, { kind: 'numeric' }>, v: number): boolean {
+  if (spec.tolerance !== undefined) return Math.abs(v - spec.value) <= spec.tolerance + 1e-12;
   if (spec.decimals !== undefined) {
     // Accept answers within roughly half a unit in the last place (allowing for
     // reasonable rounding of intermediate steps), plus a 0.2% relative allowance.
     const unit = 10 ** -spec.decimals;
     const tol = Math.max(0.6 * unit, Math.abs(spec.value) * 0.002);
-    if (Math.abs(v - spec.value) <= tol + 1e-12) return ok();
-    // Correct but under-rounded / over-precise answers are still correct.
-    return no();
+    return Math.abs(v - spec.value) <= tol + 1e-12;
   }
-  if (!approxEqual(v, spec.value, 1e-6, 1e-7)) return no();
-  const issue = spec.fraction ? fractionIssue(response, spec.fraction) : null;
-  return issue ? no(issue) : ok();
+  return approxEqual(v, spec.value, 1e-6, 1e-7);
 }
 
 /** Why a correct value is not written as the fraction the question asks for (lowest terms, or a mixed number). */

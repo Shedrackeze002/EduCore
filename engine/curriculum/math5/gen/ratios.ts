@@ -353,7 +353,7 @@ function pctD1(rng: Rng): Out {
   if (kind === 'pctToDec') {
     return {
       prompt: `Write $${pct(h)}$ as a decimal number.`,
-      parts: [numPart(h / 100, { exact: false, display: 'decimal' })],
+      parts: [numPart(h / 100, { exact: false, asDecimal: true, display: 'decimal' })],
       hints: [PCT_HINT, `$${pct(h)} = ${fr(h, 100)}$. How do you write hundredths as a decimal?`],
       solution: [`$${pct(h)}$ means $${h}$ out of $100$: $${fr(h, 100)}$.`, `$${h}$ hundredths is $${dec(h)}$.`, `$${pct(h)} = ${dec(h)}$`],
     };
@@ -394,7 +394,7 @@ function pctD2(rng: Rng): Out {
     return {
       prompt: `The picture has $${b}$ equal squares. $${a}$ of them are shaded.\n\n(a) Write the shaded part as a decimal number.\n\n(b) Write the shaded part as a percentage.`,
       figure: gridFigure(rows, cols, a, `${a} of ${b} squares shaded`),
-      parts: [numPart(H / 100, { exact: false, display: 'decimal', label: '(a)' }), wholePart(H, '(b)', '%')],
+      parts: [numPart(H / 100, { exact: false, asDecimal: true, display: 'decimal', label: '(a)' }), wholePart(H, '(b)', '%')],
       hints: [`The shaded part is $${fr(a, b)}$ of the picture. Change it to hundredths.`, `Multiply the top and bottom by the same number to make the denominator $100$.`],
       solution: [`The shaded part is $${fr(a, b)}$.`, ...toHundredths(a, b), `(a) $${H}$ hundredths is $${dec(H)}$.`, `(b) $${H}$ out of $100$ is $${pct(H)}$.`],
     };
@@ -405,7 +405,7 @@ function pctD2(rng: Rng): Out {
   if (kind === 'fracDec') {
     return {
       prompt: `${text} Write the part-whole ratio of ${c.part} to ${c.all} as a decimal number.`,
-      parts: [numPart(H / 100, { exact: false, display: 'decimal' })],
+      parts: [numPart(H / 100, { exact: false, asDecimal: true, display: 'decimal' })],
       hints: [`As a fraction, the ratio is $${fr(a, b)}$.`, 'Make the denominator $100$, then write the hundredths as a decimal.'],
       solution: [`The ratio is $${ratio(a, b)}$, or $${fr(a, b)}$.`, ...toHundredths(a, b), `$${fr(H, 100)} = ${dec(H)}$`],
     };
@@ -429,7 +429,7 @@ function pctD3(rng: Rng): Out {
     return {
       prompt: `${text} Complete the table. Each column shows the same part-whole relationship.`,
       figure: { type: 'table', headers: ['Ratio', 'Fraction', 'Decimal', 'Percentage'], rows: [[ratio(a, b), `$${fr(a, b)}$`, '(a)', '(b)']] },
-      parts: [numPart(H / 100, { exact: false, display: 'decimal', label: '(a) Decimal' }), wholePart(H, '(b) Percentage', '%')],
+      parts: [numPart(H / 100, { exact: false, asDecimal: true, display: 'decimal', label: '(a) Decimal' }), wholePart(H, '(b) Percentage', '%')],
       hints: [`Change $${fr(a, b)}$ to hundredths first.`, 'Hundredths can be written as a decimal (two places after the point) and as a percentage (out of $100$).'],
       solution: [...toHundredths(a, b), `(a) $${fr(H, 100)} = ${dec(H)}$`, `(b) $${fr(H, 100)} = ${pct(H)}$`, `The answers are $${dec(H)}$ and $${pct(H)}$.`],
     };

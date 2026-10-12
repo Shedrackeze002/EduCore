@@ -15,7 +15,6 @@ const NAMES = [
   'Sienna', 'Jun', 'Malik', 'Harpreet', 'Isabelle', 'Cody', 'Talia', 'Yusuf', 'Brooklyn', 'Sanjay', 'Tanis',
 ];
 
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const exact = (x: number) => roundTo(x, 6);
 const n = (x: number, dec = 4) => fmt(x, dec);
 const nf = (x: number, dec: number) => fmtFixed(x, dec);
@@ -393,7 +392,7 @@ const sqrtPerfect = skill({
       const k = rng.pick(TENTHS);
       const v = (k * k) / 100;
       if (mode === 'area') {
-        const thing = rng.pick([['square floor tile', 'm'], ['square sticky note', 'dm'], ['square patio stone', 'm'], ['square cork board', 'm']] as const);
+        const thing = rng.pick([['square floor tile', 'm'], ['square table top', 'm'], ['square patio stone', 'm'], ['square cork board', 'm']] as const);
         return {
           prompt: `A ${thing[0]} has an area of $${n(v)}${sq(thing[1])}$. How long is each side?`,
           parts: [numPart(k / 10, { suffix: thing[1] })],
@@ -758,8 +757,15 @@ function cubeObject(rng: Rng, rows: [number, number], cols: [number, number], ma
 
 // --- Oblique sketches of a solid sitting on another solid ---------------------
 
-const KX = 0.6 * Math.cos((35 * Math.PI) / 180);
-const KY = 0.6 * Math.sin((35 * Math.PI) / 180);
+/** Oblique projection: how far a step back (y) moves right and up on the page. */
+let KX = 0;
+let KY = 0;
+/** Boxes: receding edges at 35°. Round objects only: straight back, so circles show as level ellipses. */
+function useProjection(kind: 'oblique' | 'level') {
+  KX = kind === 'oblique' ? 0.6 * Math.cos((35 * Math.PI) / 180) : 0;
+  KY = kind === 'oblique' ? 0.6 * Math.sin((35 * Math.PI) / 180) : 0.32;
+  T_EDGE = Math.atan(KX);
+}
 /** x to the right, y going back, z up. */
 const pr = (x: number, y: number, z: number): P => [x + KX * y, z + KY * y];
 
@@ -778,7 +784,7 @@ function circlePts(s: Extract<Solid3, { kind: 'cyl' }>, z: number, t0 = 0, t1 = 
 }
 
 /** Angle where a horizontal circle is widest on the page. */
-const T_EDGE = Math.atan(KX);
+let T_EDGE = 0;
 
 /** Edges you can see on one solid on its own. */
 function solidEdges(s: Solid3): Seg2[] {
@@ -941,10 +947,10 @@ const compositeSA = skill({
 
     if (mode === 'boxes' || mode === 'boxesPaint') {
       const c = rng.pick([
-        { thing: 'two-layer birthday cake made of two rectangular layers', u: 'cm', L: [30, 40], W: [20, 30], H: [8, 12], l: [15, 25], w: [10, 18], h: [8, 12] },
-        { thing: 'office building with a smaller block on its roof', u: 'm', L: [30, 50], W: [20, 30], H: [12, 20], l: [10, 20], w: [8, 15], h: [6, 12] },
-        { thing: 'stack of two gift boxes', u: 'cm', L: [30, 45], W: [25, 35], H: [10, 20], l: [15, 25], w: [12, 20], h: [8, 15] },
-        { thing: 'wooden trophy base made of two rectangular blocks', u: 'cm', L: [20, 30], W: [15, 20], H: [4, 8], l: [10, 15], w: [8, 12], h: [3, 6] },
+        { thing: 'two-layer birthday cake made of two rectangular layers', verb: 'icing', done: 'iced', u: 'cm', L: [30, 40], W: [20, 30], H: [8, 12], l: [15, 25], w: [10, 18], h: [8, 12] },
+        { thing: 'office building with a smaller block on its roof', verb: 'painting', done: 'painted', u: 'm', L: [30, 50], W: [20, 30], H: [12, 20], l: [10, 20], w: [8, 15], h: [6, 12] },
+        { thing: 'stack of two gift boxes glued together', verb: 'wrapping', done: 'covered with paper', u: 'cm', L: [30, 45], W: [25, 35], H: [10, 20], l: [15, 25], w: [12, 20], h: [8, 15] },
+        { thing: 'wooden trophy base made of two rectangular blocks', verb: 'painting', done: 'painted', u: 'cm', L: [20, 30], W: [15, 20], H: [4, 8], l: [10, 15], w: [8, 12], h: [3, 6] },
       ]);
       const L = rng.int(c.L[0], c.L[1]);
       const W = rng.int(c.W[0], c.W[1]);
@@ -960,6 +966,7 @@ const compositeSA = skill({
       const paint = mode === 'boxesPaint';
       const ans = paint ? SA - L * W : SA;
       // Drawing (not to scale).
+      useProjection('oblique');
       const dL = drawn(L, L, 4, 4);
       const dW = drawn(W, L, 1.6, 2.6);
       const dH = drawn(H, L, 1.2, 2.4);
@@ -990,18 +997,18 @@ const compositeSA = skill({
         });
       return {
         prompt: paint
-          ? `${who} is painting a ${c.thing}. The bottom part is ${len(L, u)} long, ${len(W, u)} wide and ${len(H, u)} high. The top part is ${len(l, u)} long, ${len(w, u)} wide and ${len(h, u)} high, and sits on the middle of the bottom part. Every outside surface is painted except the bottom. What area is painted?`
-          : `A ${c.thing} is shown. The bottom part is ${len(L, u)} long, ${len(W, u)} wide and ${len(H, u)} high. The top part is ${len(l, u)} long, ${len(w, u)} wide and ${len(h, u)} high, and sits on the middle of the bottom part. What is the surface area of the whole object, including the bottom?`,
+          ? `${who} is ${c.verb} ${/^[aeiou]/.test(c.thing) ? 'an' : 'a'} ${c.thing}. The bottom part is ${len(L, u)} long, ${len(W, u)} wide and ${len(H, u)} high. The top part is ${len(l, u)} long, ${len(w, u)} wide and ${len(h, u)} high, and sits on the middle of the bottom part. Every outside surface is ${c.done} except the bottom. What area is ${c.done}?`
+          : `${/^[aeiou]/.test(c.thing) ? 'An' : 'A'} ${c.thing} is shown. The bottom part is ${len(L, u)} long, ${len(W, u)} wide and ${len(H, u)} high. The top part is ${len(l, u)} long, ${len(w, u)} wide and ${len(h, u)} high, and sits on the middle of the bottom part. What is the surface area of the whole object, including the bottom?`,
         figure,
         parts,
-        hints: ['Find the surface area of each prism on its own: $SA = 2lw + 2lh + 2wh$.', `The overlap is the bottom of the top prism, $${l} \\times ${w}$. It hides that area on both prisms, so subtract it twice.${paint ? ' Then take away the bottom, which is not painted.' : ''}`],
+        hints: ['Find the surface area of each prism on its own: $SA = 2lw + 2lh + 2wh$.', `The overlap is the bottom of the top prism, $${l} \\times ${w}$. It hides that area on both prisms, so subtract it twice.${paint ? ' Then take away the bottom.' : ''}`],
         solution: [
           `Bottom prism: $2(${L} \\times ${W} + ${L} \\times ${H} + ${W} \\times ${H}) = ${sa1}${sq(u)}$`,
           `Top prism: $2(${l} \\times ${w} + ${l} \\times ${h} + ${w} \\times ${h}) = ${sa2}${sq(u)}$`,
           `Overlap: $${l} \\times ${w} = ${ov}${sq(u)}$. ${OVERLAP_WHY}`,
           `$SA = ${sa1} + ${sa2} - 2 \\times ${ov} = ${SA}${sq(u)}$`,
-          ...(paint ? [`Not painted: the bottom, $${L} \\times ${W} = ${L * W}${sq(u)}$. Painted: $${SA} - ${L * W} = ${ans}${sq(u)}$`] : []),
-          `The ${paint ? 'painted area' : 'surface area'} is $${ans}${sq(u)}$.${parts.length > 1 ? ' The overlap is subtracted twice because the top of the bottom part and the bottom of the top part are both hidden.' : ''}`,
+          ...(paint ? [`The bottom is not ${c.done}: $${L} \\times ${W} = ${L * W}${sq(u)}$. Area ${c.done}: $${SA} - ${L * W} = ${ans}${sq(u)}$`] : []),
+          `The ${paint ? `area ${c.done}` : 'surface area'} is $${ans}${sq(u)}$.${parts.length > 1 ? ' The overlap is subtracted twice because the top of the bottom part and the bottom of the top part are both hidden.' : ''}`,
         ],
       };
     }
@@ -1025,6 +1032,7 @@ const compositeSA = skill({
         const SA = box + cylSA - 2 * circle;
         if (nearHalf(SA, 1)) continue;
         const u = c.u;
+        useProjection('oblique');
         const dL = 4;
         const dW = drawn(W, L, 1.8, 3);
         const dH = drawn(H, L, 0.7, 1.6);
@@ -1070,6 +1078,7 @@ const compositeSA = skill({
       const topTier = Math.PI * r * r + 2 * Math.PI * r * h;
       const icing = bottomTier - Math.PI * r * r + topTier;
       if (nearHalf(icing, 1)) continue;
+      useProjection('level');
       const dR = 1.9;
       const dH = drawn(H, R * 2, 1, 1.8);
       const dr_ = Math.max(0.7, (r / R) * dR);

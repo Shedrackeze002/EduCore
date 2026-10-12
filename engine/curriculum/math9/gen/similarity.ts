@@ -53,14 +53,18 @@ interface Box {
   y1: number;
 }
 
-function distPtSeg(p: P, a: P, b: P): number {
+function distXYSeg(px: number, py: number, a: P, b: P): number {
   const dx = b[0] - a[0];
   const dy = b[1] - a[1];
   const L2 = dx * dx + dy * dy;
-  let t = L2 ? ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L2 : 0;
-  t = Math.max(0, Math.min(1, t));
-  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
+  let t = L2 ? ((px - a[0]) * dx + (py - a[1]) * dy) / L2 : 0;
+  t = t < 0 ? 0 : t > 1 ? 1 : t;
+  const ex = px - a[0] - t * dx;
+  const ey = py - a[1] - t * dy;
+  return Math.sqrt(ex * ex + ey * ey);
 }
+
+const distPtSeg = (p: P, a: P, b: P) => distXYSeg(p[0], p[1], a, b);
 
 function distPtBox(p: P, b: Box): number {
   const dx = Math.max(b.x0 - p[0], 0, p[0] - b.x1);
@@ -98,10 +102,10 @@ function segHitsBox(a: P, b: P, box: Box): boolean {
 function distSegBox(a: P, b: P, box: Box): number {
   if (segHitsBox(a, b, box)) return 0;
   return Math.min(
-    distPtSeg([box.x0, box.y0], a, b),
-    distPtSeg([box.x0, box.y1], a, b),
-    distPtSeg([box.x1, box.y0], a, b),
-    distPtSeg([box.x1, box.y1], a, b),
+    distXYSeg(box.x0, box.y0, a, b),
+    distXYSeg(box.x0, box.y1, a, b),
+    distXYSeg(box.x1, box.y0, a, b),
+    distXYSeg(box.x1, box.y1, a, b),
     distPtBox(a, box),
     distPtBox(b, box),
   );
@@ -327,7 +331,21 @@ export class Sketch {
       const wpx = textWidth(lab.text);
       let best: { c: P; score: number } | null = null;
       let outside = false;
-      for (const c of lab.cands(ppu)) {
+      const cands = lab.cands(ppu);
+      // Only obstacles near some candidate can matter for this label.
+      let ux0 = Infinity;
+      let ux1 = -Infinity;
+      let uy0 = Infinity;
+      let uy1 = -Infinity;
+      for (const c of cands) {
+        ux0 = Math.min(ux0, c[0]);
+        ux1 = Math.max(ux1, c[0]);
+        uy0 = Math.min(uy0, c[1]);
+        uy1 = Math.max(uy1, c[1]);
+      }
+      const reach = CAP + (wpx / 2 + 16) / ppu;
+      const near = lab.fixed ? [] : obs.filter((o) => !(o.x1 < ux0 - reach || o.x0 > ux1 + reach || o.y1 < uy0 - reach || o.y0 > uy1 + reach));
+      for (const c of cands) {
         const hw = (wpx / 2 + 1.5) / ppu;
         const hh = 6.5 / ppu;
         const box: Box = { x0: c[0] - hw, x1: c[0] + hw, y0: c[1] - hh, y1: c[1] + hh };
@@ -345,7 +363,7 @@ export class Sketch {
           const rx1 = box.x1 + CAP;
           const ry0 = Math.min(box.y0, A[1]) - CAP - 6 / ppu;
           const ry1 = box.y1 + CAP;
-          for (const o of obs) {
+          for (const o of near) {
             if (o.x1 < rx0 || o.x0 > rx1 || o.y1 < ry0 || o.y0 > ry1) continue;
             tc = Math.min(tc, distSegBox(o.a, o.b, box));
             ac = Math.min(ac, distPtSeg(A, o.a, o.b) - 5.5 / ppu);

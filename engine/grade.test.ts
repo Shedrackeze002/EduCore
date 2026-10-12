@@ -95,6 +95,13 @@ describe('numeric', () => {
     expect(mixed(-1.5, '-1 1/2').correct).toBe(true);
     expect(mixed(0.4, '2/5').correct).toBe(true);
   });
+  it('asks for a decimal when the question does', () => {
+    const dec = (value: number, r: string, decimals?: number) => gradePart({ kind: 'numeric', value, asDecimal: true, decimals }, r);
+    expect(dec(0.375, '0.375').correct).toBe(true);
+    expect(dec(0.375, '3/8')).toMatchObject({ correct: false, message: 'Write your answer as a decimal.' });
+    expect(dec(5 / 11, '0.455', 3).correct).toBe(true);
+    expect(dec(0.375, '0.38').correct).toBe(false);
+  });
   it('accepts fractions, mixed numbers and rounding', () => {
     for (const r of ['250 000', '250,000', '250000']) expect(gradePart({ kind: 'numeric', value: 250000 }, r).correct, r).toBe(true);
     expect(gradePart({ kind: 'numeric', value: 1250000.5 }, '1 250 000.5').correct).toBe(true);

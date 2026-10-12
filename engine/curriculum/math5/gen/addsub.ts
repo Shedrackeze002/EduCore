@@ -47,7 +47,7 @@ function exactPart(units: number, dp: number, suffix?: string, label?: string): 
   return {
     label,
     suffix,
-    answer: { kind: 'numeric', value: Number(s), allowExpression: false, exact: s, ...(s.includes('.') && { display: 'decimal' as const }) },
+    answer: { kind: 'numeric', value: Number(s), allowExpression: false, exact: s, ...(s.includes('.') && { display: 'decimal' as const, asDecimal: true }) },
   };
 }
 /** A money answer in dollars, graded to the cent. */

@@ -55,6 +55,12 @@ function decPart(value: number, suffix?: string, label?: string): Part {
   return { label, suffix, answer: { kind: 'numeric', value: v, allowExpression: false, display: 'decimal', exact: String(v) } };
 }
 
+/** A decimal answer to "write … as a decimal": a fraction typed back is not accepted. */
+function asDecPart(value: number, label?: string): Part {
+  const p = decPart(value, undefined, label);
+  return { ...p, answer: { ...p.answer, asDecimal: true } as Part['answer'] };
+}
+
 /** True when v sits too close to a rounding boundary (x.xx5) at `dp` places. */
 function onEdge(v: number, dp: number): boolean {
   const s = Math.abs(v) * 10 ** dp;
@@ -1168,7 +1174,7 @@ function pctToDec(p: number): Out {
   const dec = clean(p / 100);
   return {
     prompt: `Write $${pc(p)}$ as a decimal.`,
-    parts: [decPart(dec)],
+    parts: [asDecPart(dec)],
     hints: [`${PERCENT_MEANS} To change a percent to a decimal, divide by $100$.`, 'Dividing by $100$ moves the decimal point $2$ places to the left. Put in zeros if you run out of digits.'],
     solution: [estLine(dec), `$${pc(p)} = ${fr(num(p), 100)}$. Divide by $100$: the decimal point moves $2$ places to the left.`, `$${num(p)} \\div 100 = ${num(dec)}$`, `So $${pc(p)} = ${num(dec)}$.`],
   };
@@ -1259,7 +1265,7 @@ function convertD3(rng: Rng): Out {
     const g = gcd(p, 100);
     return {
       prompt: `Write $${pc(p)}$ as a decimal and as a fraction in lowest terms.`,
-      parts: [decPart(p / 100, undefined, 'Decimal:'), { ...numPart(p / 100, { fraction: 'lowest' }), label: 'Fraction:' }],
+      parts: [asDecPart(p / 100, 'Decimal:'), { ...numPart(p / 100, { fraction: 'lowest' }), label: 'Fraction:' }],
       hints: [`${PERCENT_MEANS} Divide by $100$ for the decimal.`, 'For the fraction, write it over $100$ and simplify.'],
       solution: [estLine(p / 100), `Decimal: $${num(p)} \\div 100 = ${num(p / 100)}$`, `Fraction: $${fr(p, 100)} = ${fr(p / g, 100 / g)}$ (divide both by $${g}$)`, `So $${pc(p)} = ${num(p / 100)} = ${fr(p / g, 100 / g)}$.`],
     };
@@ -1269,7 +1275,7 @@ function convertD3(rng: Rng): Out {
     const dec = n / d;
     return {
       prompt: `Write $${fr(n, d)}$ as a decimal and as a percent.`,
-      parts: [decPart(dec, undefined, 'Decimal:'), decPart(dec * 100, '%', 'Percent:')],
+      parts: [asDecPart(dec, 'Decimal:'), decPart(dec * 100, '%', 'Percent:')],
       hints: ['Divide the numerator by the denominator to get the decimal.', 'Multiply the decimal by $100$ to get the percent.'],
       solution: [estLine(dec), `Decimal: $${n} \\div ${d} = ${num(dec)}$`, `Percent: $${num(dec)} \\times 100 = ${num(dec * 100)}$, so $${pc(dec * 100)}$`, `So $${fr(n, d)} = ${num(dec)} = ${pc(dec * 100)}$.`],
     };

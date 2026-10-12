@@ -287,8 +287,9 @@ const orderOfOperations = skill({
 /** Algebra tiles: long tiles stand for x, small squares for 1. Groups are drawn left to right. */
 function tilesFig(groups: Array<{ x: number; one: number }>, caption: string): Figure {
   const polylines: Array<{ points: Array<[number, number]>; color?: 'brand' | 'accent' | 'muted'; fill?: boolean }> = [];
+  const r1 = (v: number) => Math.round(v * 100) / 100;
   const rect = (x0: number, y0: number, w: number, h: number, color: 'brand' | 'accent' | 'muted', fill = true) =>
-    polylines.push({ points: [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h], [x0, y0]], color, ...(fill ? { fill } : {}) });
+    polylines.push({ points: ([[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h], [x0, y0]] as Array<[number, number]>).map(([p, q]) => [r1(p), r1(q)] as [number, number]), color, ...(fill ? { fill } : {}) });
   let x = 0.6;
   const H = 3.8;
   groups.forEach((g, i) => {
@@ -303,10 +304,10 @@ function tilesFig(groups: Array<{ x: number; one: number }>, caption: string): F
       rect(x + col * 1.0, 0.5 + row * 1.0, 0.8, 0.8, 'accent');
     }
     x += Math.ceil(g.one / 3) * 1.0;
-    if (groups.length > 1) rect(start, 0.2, Math.round((x - 0.2 - start) * 10) / 10, 3.4, 'muted', false);
+    if (groups.length > 1) rect(start, 0.2, Math.round((x + 0.1 - start) * 10) / 10, 3.4, 'muted', false);
     x += i < groups.length - 1 ? 0.9 : 0;
   });
-  const W = Math.round((x + 0.4) * 10) / 10;
+  const W = Math.round((x + 0.5) * 10) / 10;
   return { type: 'plane', grid: { xMin: 0, xMax: W, yMin: 0, yMax: H, step: Math.max(W, H) }, hideTickLabels: true, polylines, caption };
 }
 
@@ -483,7 +484,7 @@ function likeTermsD3(rng: Rng): Out {
       { bag: 'box', things: 'crayons', loose: 'loose crayons' },
       { bag: 'bag', things: 'beads', loose: 'loose beads' },
     ]);
-    const [a, p, b, q] = [rng.int(2, 5), rng.int(1, 9), rng.int(1, 4), rng.int(1, 9)];
+    const [a, p, b, q] = [rng.int(2, 5), rng.int(2, 9), rng.int(1, 4), rng.int(2, 9)];
     const ans = plain(a + b, v, p + q);
     return {
       prompt: `Each ${c.bag} holds the same number of ${c.things}, $${v}$. ${n1} has $${a}$ ${c.bag}s and $${p}$ ${c.loose}. ${n2b} has $${b}$ ${b === 1 ? c.bag : `${c.bag}s`} and $${q}$ ${c.loose}. Write a simplified expression for the number of ${c.things} they have together.`,
@@ -609,7 +610,7 @@ function twoOp(rng: Rng, v: string): Eq {
 
 function bothSides(rng: Rng, v: string): Eq {
   const x = rng.int(2, 12);
-  const t = rng.int(0, 2);
+  const t = rng.weighted([[0, 0.4], [1, 0.4], [2, 0.2]] as const);
   if (t === 0) {
     const [a, b] = [rng.int(1, 5), rng.int(1, 5)];
     const k = rng.int(1, 15);
@@ -637,12 +638,15 @@ function bothSides(rng: Rng, v: string): Eq {
   const total = a * x;
   const k = rng.int(1, 9);
   const r = total + k;
-  const ms = [2, 3, 4, 5].filter((m) => r % m === 0 && r / m > 1);
-  if (ms.length) {
-    const m = rng.pick(ms);
+  const pairs: Array<[number, number]> = [];
+  for (let m = 2; m <= 9; m++) for (let q = 2; q <= 12; q++) if (m * q - total >= 1 && m * q - total <= 9) pairs.push([m, q]);
+  if (pairs.length) {
+    const [m, q] = rng.pick(pairs);
+    const r = m * q;
+    const k = r - total;
     return {
-      tex: `${term(a, v)} = ${m} ${T} ${r / m} - ${k}`, x,
-      steps: [`Simplify the right side. Multiply first: $${m} ${T} ${r / m} = ${r}$, then $${r} - ${k} = ${total}$. Now $${term(a, v)} = ${total}$.`, `Divide both sides by $${a}$: $${v} = ${total} ${D} ${a} = ${x}$.`],
+      tex: `${term(a, v)} = ${m} ${T} ${q} - ${k}`, x,
+      steps: [`Simplify the right side. Multiply first: $${m} ${T} ${q} = ${r}$, then $${r} - ${k} = ${total}$. Now $${term(a, v)} = ${total}$.`, `Divide both sides by $${a}$: $${v} = ${total} ${D} ${a} = ${x}$.`],
       check: (s) => [`${a} ${T} ${s}`, a * s, total],
     };
   }
@@ -656,7 +660,7 @@ function bothSides(rng: Rng, v: string): Eq {
 /** "Check: 3 × 5 + 4 = 19 ✓" for the solution. */
 function checkLine(e: Eq, v: string): string {
   const [lhs, L, R] = e.check(e.x);
-  return `Check: put $${v} = ${e.x}$ back in. $${lhs} = ${L}$, which equals $${R}$.`;
+  return `Check: put $${v} = ${e.x}$ back in. $${lhs} = ${L}$. Both sides equal $${R}$.`;
 }
 
 function verifyMc(rng: Rng, v: string, d: Difficulty): Out {
@@ -769,7 +773,9 @@ function eqProblemD2(rng: Rng): ProbOut {
     };
   }
   if (kind === 1) {
-    const [p, c, loose] = [rng.int(2, 6), rng.int(5, 12), rng.int(1, 9)];
+    const p = rng.int(2, 6);
+    const c = rng.int(5, 12);
+    const loose = rng.intExcept(1, 9, [p]);
     const t = p * c + loose;
     return {
       text: `${name} has $${p}$ full boxes of crayons and $${loose}$ loose crayons. Each box holds the same number of crayons. ${name} has $${t}$ crayons in all. Let $b$ be the number of crayons in one box.`,

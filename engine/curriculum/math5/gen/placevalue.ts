@@ -84,7 +84,7 @@ function numeral(s: string, label?: string): Part {
   const v = val(s);
   return {
     label,
-    answer: { kind: 'numeric', value: v, allowExpression: false, ...(s.includes('.') && { display: 'decimal' as const }), exact: trim(s) },
+    answer: { kind: 'numeric', value: v, allowExpression: false, ...(s.includes('.') && { display: 'decimal' as const, asDecimal: true }), exact: trim(s) },
   };
 }
 

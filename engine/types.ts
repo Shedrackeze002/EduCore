@@ -64,6 +64,8 @@ export type AnswerSpec =
        * whole-number value is written as a whole number.
        */
       fraction?: 'lowest' | 'mixed';
+      /** The answer must be written as a decimal, not a fraction ("Write 3/8 as a decimal"). */
+      asDecimal?: boolean;
     }
   | {
       kind: 'numbers';

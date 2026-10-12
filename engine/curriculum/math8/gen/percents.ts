@@ -114,7 +114,7 @@ function pctToDec(q: Pct): GenOutput {
   const { steps, dec } = toDecSteps(q);
   return {
     prompt: `Write $${q.tex}$ as a decimal.`,
-    parts: [numPart(dec, { display: 'decimal' })],
+    parts: [numPart(dec, { display: 'decimal', asDecimal: true })],
     hints: [`${PCT_MEANS} To change a percent to a decimal, divide by $100$.`, 'Dividing by $100$ moves the decimal point $2$ places to the left. Put in zeros if you run out of digits.'],
     solution: [...steps, `So $${q.tex} = ${num(dec, 8)}$.`],
   };
@@ -319,7 +319,7 @@ function twoForms(rng: Rng): GenOutput {
   const fs = toFracSteps(q);
   return {
     prompt: `${ctx} Write $${q.tex}$ as a decimal and as a fraction in lowest terms.`,
-    parts: [numPart(ds.dec, { label: 'Decimal', display: 'decimal' }), fracPart(fs.n, fs.d, 'Fraction')],
+    parts: [numPart(ds.dec, { label: 'Decimal', display: 'decimal', asDecimal: true }), fracPart(fs.n, fs.d, 'Fraction')],
     hints: ['To get the decimal, divide the percent by $100$.', 'To get the fraction, write the percent over $100$ and simplify. Clear any decimal first.'],
     solution: [
       `Decimal: ${ds.steps[ds.steps.length - (sizeNote(q.p) ? 2 : 1)]}`,

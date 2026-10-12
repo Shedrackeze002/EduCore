@@ -34,7 +34,7 @@ function decPart(value: number, opts: { suffix?: string; label?: string } = {}):
   return {
     label: opts.label,
     suffix: opts.suffix,
-    answer: { kind: 'numeric', value: v, allowExpression: false, display: 'decimal', exact: String(v) },
+    answer: { kind: 'numeric', value: v, allowExpression: false, display: 'decimal', exact: String(v), asDecimal: true },
   };
 }
 
