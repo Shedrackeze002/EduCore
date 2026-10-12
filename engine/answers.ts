@@ -20,8 +20,12 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
       if (spec.undefinedValue) return 'undefined';
       if (spec.decimals !== undefined) return fmtFixed(spec.value, spec.decimals);
       if (spec.exact) return spec.exact;
-      const f = toFrac(spec.value, 1000);
-      if (f && showDecimal(spec, f.d, unitOf(spec, part))) return fmt(spec.value, 6);
+      const f = toFrac(spec.value, spec.fraction ? 100000 : 1000);
+      if (f && spec.fraction === 'mixed' && f.d !== 1 && Math.abs(f.n) > f.d) {
+        const n = Math.abs(f.n);
+        return `${f.n < 0 ? '-' : ''}${Math.floor(n / f.d)} ${n % f.d}/${f.d}`;
+      }
+      if (f && !spec.fraction && (spec.asDecimal || showDecimal(spec, f.d, unitOf(spec, part)))) return fmt(spec.value, 6);
       if (f) return fracText(f);
       return exactForm(spec.value) ?? fmt(spec.value, 10);
     }
@@ -176,12 +180,12 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
       const unit = spec.unit ? ` ${spec.unit}` : part?.suffix ? ` ${part.suffix}` : '';
       if (spec.decimals !== undefined) return `$${fmtFixed(spec.value, spec.decimals)}$${unit}`;
       if (spec.exact) return `$${latexOf(spec.exact)}$${unit}`;
-      const f = toFrac(spec.value, 1000);
+      const f = toFrac(spec.value, spec.fraction ? 100000 : 1000);
       if (f && f.d !== 1) {
-        if (showDecimal(spec, f.d, unitOf(spec, part))) return `$${fmt(spec.value, 6)}$${unit}`;
+        if (!spec.fraction && (spec.asDecimal || showDecimal(spec, f.d, unitOf(spec, part)))) return `$${fmt(spec.value, 6)}$${unit}`;
         const n = Math.abs(f.n);
         // A measured amount (it has a unit) is written as a mixed number: 5 2/3 cups, not 17/3.
-        if (part?.suffix && n > f.d) return `$${f.n < 0 ? '-' : ''}${Math.floor(n / f.d)}\\tfrac{${n % f.d}}{${f.d}}$${unit}`;
+        if ((part?.suffix || spec.fraction === 'mixed') && n > f.d) return `$${f.n < 0 ? '-' : ''}${Math.floor(n / f.d)}\\tfrac{${n % f.d}}{${f.d}}$${unit}`;
         return `$${f.n < 0 ? '-' : ''}\\frac{${n}}{${f.d}}$${unit}`;
       }
       if (f) return `$${f.n}$${unit}`;

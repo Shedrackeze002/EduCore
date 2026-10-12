@@ -32,7 +32,7 @@ work authoritatively. This keeps the server and the student's screen in exact ag
 | `rng.ts` | Seeded random numbers (mulberry32). An item is fully described by `{skillId, seed, difficulty}`. |
 | `math/` | A forgiving expression parser (implicit multiplication, `sqrt`, roots, `\|x\|`, sin/cos/tan/sec/csc/cot in radians, `ln`, `log`, `e`, unicode), polynomial normalisation, linear-relation helpers. |
 | `curriculum/` | Course metadata (units, lessons, outcomes) and one generator per skill. |
-| `grade.ts` | Grades every answer type: numbers (an exact value must be worked out, not typed as sin(5pi/12)), lists of numbers (roots and solutions in any order), expressions by equivalence, including derivatives and identities, in a required form (expanded, factored, simplified radical, exponent form, one trigonometric function…), lines in a required form, points, graphs, choices, ordering. Gives specific messages such as "Factor completely". |
+| `grade.ts` | Grades every answer type: numbers (an exact value must be worked out, not typed as sin(5pi/12); a fraction in lowest terms or a mixed number when the question asks for one), lists of numbers (roots and solutions in any order), expressions by equivalence, including derivatives and identities, in a required form (expanded, factored, simplified radical, exponent form, one trigonometric function…), lines in a required form, points, graphs, choices, ordering. Gives specific messages such as "Factor completely". |
 | `mastery.ts` | Bayesian Knowledge Tracing and mastery levels. |
 | `assemble.ts` | Builds an attempt from an assignment, regenerates items from references, grades a submission. |
 | `submit.ts` | `validateRefs` and `processSubmission`: the single code path used by the demo and the server. |
@@ -120,8 +120,9 @@ implementations exist:
 
 ## Adding a course
 
-The platform is course-agnostic: every high school course (Math 10C, 10-3, 10-4; 20-1, 20-2,
-20-3, 20-4; 30-1, 30-2, 30-3 and 31) already runs side by side. To add a course, for example
+The platform is course-agnostic: every Alberta mathematics course from Grade 5 to Grade 12 (Math 5
+to 9; 10C, 10-3, 10-4; 20-1, 20-2, 20-3, 20-4; 30-1, 30-2, 30-3 and 31) already runs side by side,
+grouped by grade in course pickers. To add a course, for example
 Math 30-1 (the steps it followed):
 
 1. Create `engine/curriculum/math30-1/course.ts` with outcomes, units and lessons (ids such as
@@ -141,7 +142,9 @@ Math 30-1 (the steps it followed):
    course appears in *New class*. Money answers must be graded to the cent (`tolerance: 0.011`, or
    up to 0.03 where several amounts are each rounded before adding); a test fails any "nearest
    cent" question that is graded more loosely. Figures must use the types in `engine/types.ts`
-   (`FIGURE_TYPES`), including `barChart` and `circleGraph` for data; the tests reject unknown types.
+   (`FIGURE_TYPES`), including `barChart` and `circleGraph` for data and `cubes` for structures of
+   unit cubes; the tests reject unknown types. A numeric answer can require a fraction in lowest
+   terms or a mixed number (`fraction: 'lowest' | 'mixed'`).
 6. Redeploy the Edge Functions (`npm run functions:deploy`, or the *Deploy Supabase backend*
    workflow). The server re-grades every submission with the shared engine, so until the
    functions carry the new course, its assignments cannot be started or graded.

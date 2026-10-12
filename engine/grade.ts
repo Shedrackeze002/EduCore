@@ -25,7 +25,7 @@ import {
   sumTerms,
   toPoly,
 } from './math/poly.ts';
-import { approxEqual, isPrime, radicalSplit } from './math/numbers.ts';
+import { approxEqual, gcd, isPrime, radicalSplit } from './math/numbers.ts';
 import type { AnswerSpec, ExprForm, Item, Line, LineForm } from './types.ts';
 
 export interface PartResult {
@@ -186,19 +186,37 @@ function gradeNumeric(spec: Extract<AnswerSpec, { kind: 'numeric' }>, response: 
   const parsed = parseNumber(response, allowExpr, spec.allowFunctions);
   if (!parsed) return invalid('Enter an answer.');
   const v = parsed.value;
-  if (spec.tolerance !== undefined) {
-    return Math.abs(v - spec.value) <= spec.tolerance + 1e-12 ? ok() : no();
-  }
+  if (!numericMatches(spec, v)) return no();
+  const issue = spec.fraction ? fractionIssue(response, spec.fraction) : spec.asDecimal && response.includes('/') ? 'Write your answer as a decimal.' : null;
+  return issue ? no(issue) : ok();
+}
+
+function numericMatches(spec: Extract<AnswerSpec, { kind: 'numeric' }>, v: number): boolean {
+  if (spec.tolerance !== undefined) return Math.abs(v - spec.value) <= spec.tolerance + 1e-12;
   if (spec.decimals !== undefined) {
     // Accept answers within roughly half a unit in the last place (allowing for
     // reasonable rounding of intermediate steps), plus a 0.2% relative allowance.
     const unit = 10 ** -spec.decimals;
     const tol = Math.max(0.6 * unit, Math.abs(spec.value) * 0.002);
-    if (Math.abs(v - spec.value) <= tol + 1e-12) return ok();
-    // Correct but under-rounded / over-precise answers are still correct.
-    return no();
+    return Math.abs(v - spec.value) <= tol + 1e-12;
   }
-  return approxEqual(v, spec.value, 1e-6, 1e-7) ? ok() : no();
+  return approxEqual(v, spec.value, 1e-6, 1e-7);
+}
+
+/** Why a correct value is not written as the fraction the question asks for (lowest terms, or a mixed number). */
+function fractionIssue(response: string, mode: 'lowest' | 'mixed'): string | null {
+  const s = stripUnits(response.replace(/\$/g, '').trim());
+  if (/^-?\d+$/.test(s)) return null;
+  const m = /^-?\s*(?:(\d+)\s+)?(\d+)\s*\/\s*(\d+)$/.exec(s);
+  if (!m) return mode === 'mixed' ? 'Write your answer as a fraction or a mixed number.' : 'Write your answer as a fraction in lowest terms.';
+  const whole = m[1] !== undefined;
+  const a = Number(m[2]);
+  const b = Number(m[3]);
+  if (b === 1 || (a % b === 0 && a > 0)) return 'Simplify: this fraction is a whole number.';
+  if (whole && a >= b) return 'In a mixed number, the fraction part must be less than 1.';
+  if (gcd(a, b) > 1) return 'Write the fraction in lowest terms.';
+  if (mode === 'mixed' && !whole && a > b) return 'Write your answer as a mixed number.';
+  return null;
 }
 
 const NO_SOLUTION = /^(none|no solutions?|no real (roots?|solutions?|zeros?)|no answer|dne|∅|\{\s*\})$/i;

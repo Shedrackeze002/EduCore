@@ -7,9 +7,11 @@ describe('every skill generator', () => {
 });
 
 describe('money answers', () => {
-  it('are graded to the cent, not with the relative allowance used for measurements', () => {
+  it('are graded to the cent, not with the relative allowance used for measurements', async () => {
     const loose: string[] = [];
     for (const s of allSkills()) {
+      // Let the test worker report progress between skills (a long synchronous loop times it out).
+      await new Promise((r) => setTimeout(r, 0));
       for (const d of [1, 2, 3] as const) {
         for (let seed = 1; seed <= 40; seed++) {
           const item = s.generate(seed, d);

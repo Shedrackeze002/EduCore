@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Check, Lock } from 'lucide-react';
+import { BookOpen, Check } from 'lucide-react';
 import { COURSES } from '@engine/curriculum/index.ts';
 import { api } from '@/data/index.ts';
 import { useCreateClass } from '@/data/hooks.ts';
@@ -9,7 +9,8 @@ import { cn } from '@/lib/cn.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { ApprovalNotice, needsApproval } from './ApprovalNotice.tsx';
 
-const UPCOMING = ['Grades 5 to 9'];
+/** Courses grouped by grade, youngest first. */
+const GRADES = [...new Set(COURSES.map((c) => c.grade))].sort((a, b) => a - b).map((grade) => ({ grade, courses: COURSES.filter((c) => c.grade === grade) }));
 
 export default function NewClassPage() {
   const [name, setName] = useState(COURSES[0].shortTitle);
@@ -51,35 +52,35 @@ export default function NewClassPage() {
         </Card>
         <div>
           <div className="label">Course</div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {COURSES.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => {
-                  setCourseId(c.id);
-                  if (!nameEdited) setName(c.shortTitle);
-                }}
-                className={cn('card flex items-start gap-3 p-4 text-left transition', courseId === c.id ? 'border-brand ring-2 ring-brand/20' : 'hover:border-line-strong')}
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
-                  <BookOpen className="h-5 w-5" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold">{c.title}</span>
-                  <span className="mt-0.5 block text-sm text-ink-3">
-                    {c.units.length} units · {c.lessons.length} lessons · {c.outcomes.length} outcomes
-                  </span>
-                </span>
-                {courseId === c.id && <Check className="h-5 w-5 text-brand" />}
-              </button>
-            ))}
-            {UPCOMING.map((t) => (
-              <div key={t} className="flex items-center gap-3 rounded-2xl border border-dashed border-line p-4 text-ink-3">
-                <Lock className="h-4 w-4" />
-                <span className="text-sm">{t}</span>
-                <span className="ml-auto text-xs">Coming soon</span>
-              </div>
+          <div className="space-y-5">
+            {GRADES.map(({ grade, courses }) => (
+              <section key={grade} aria-label={`Grade ${grade}`}>
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-3">Grade {grade}</h3>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {courses.map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => {
+                        setCourseId(c.id);
+                        if (!nameEdited) setName(c.shortTitle);
+                      }}
+                      className={cn('card flex items-start gap-3 p-4 text-left transition', courseId === c.id ? 'border-brand ring-2 ring-brand/20' : 'hover:border-line-strong')}
+                    >
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                        <BookOpen className="h-5 w-5" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-semibold">{c.title}</span>
+                        <span className="mt-0.5 block text-sm text-ink-3">
+                          {c.units.length} units · {c.lessons.length} lessons · {c.outcomes.length} outcomes
+                        </span>
+                      </span>
+                      {courseId === c.id && <Check className="h-5 w-5 text-brand" />}
+                    </button>
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         </div>

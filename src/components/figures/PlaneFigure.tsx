@@ -140,7 +140,8 @@ export function PlaneFigure({ fig, children, width = 380 }: { fig: PlaneSpec; ch
         <polyline
           key={`pl${i}`}
           points={pl.points.map(([x, y]) => `${g.toX(x)},${g.toY(y)}`).join(' ')}
-          fill="none"
+          fill={pl.fill ? COLOR[pl.color ?? 'brand'] : 'none'}
+          fillOpacity={pl.fill ? 0.14 : undefined}
           stroke={COLOR[pl.color ?? 'brand']}
           strokeWidth={2.4}
           strokeLinejoin="round"
