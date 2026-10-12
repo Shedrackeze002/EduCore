@@ -28,6 +28,8 @@ const money = (x: number, whole = false) => (whole && Number.isInteger(x) ? `\\$
 /** A number with exactly two decimals inside maths (prices without the dollar sign). */
 const m2 = (x: number) => x.toFixed(2);
 const r2 = (x: number) => Math.round(x * 100) / 100;
+/** A whole number inside maths, with a comma for 5 or more digits: 11{,}400. */
+const N = (x: number) => (Math.abs(x) >= 10000 ? String(x).replace(/\B(?=(\d{3})+(?!\d))/g, '{,}') : String(x));
 
 /** A money answer to the cent. */
 const centsPart = (value: number, label = '\\$'): Part => numPart(value, { decimals: 2, tolerance: 0.011, label });
@@ -43,9 +45,9 @@ function ratioTable(top: string, bottom: string, cols: Array<[string, string]>):
 // ---------------------------------------------------------------------------
 
 /** A ratio p : q in simplest form with small terms. */
-function simplest(rng: Rng, max = 9): [number, number] {
+function simplest(rng: Rng, max = 9, min = 1): [number, number] {
   return retry(
-    () => [rng.int(1, max), rng.int(1, max)] as [number, number],
+    () => [rng.int(min, max), rng.int(min, max)] as [number, number],
     ([p, q]) => p !== q && gcd(p, q) === 1 && !(p === 1 && q === 1),
   );
 }
@@ -216,8 +218,8 @@ function ratioProblem(rng: Rng): Out {
   const name = pickName(rng);
   if (kind === 'scale') {
     const c = rng.pick(RATIO_CTX);
-    const [p, q] = simplest(rng, 6);
-    const [k1, k2] = retry(() => [rng.int(1, 3), rng.int(2, 8)], ([x, y]) => x !== y && (x === 1 || y % x !== 0));
+    const [p, q] = simplest(rng, 5, 2);
+    const [k1, k2] = retry(() => [rng.int(1, 3), rng.int(2, 6)], ([x, y]) => x !== y && (x === 1 || y % x !== 0));
     // Recipe ratio p*k1 : q*k1 (sometimes not in simplest form), scaled to k2.
     const A = p * k1;
     const B = q * k1;
@@ -239,19 +241,19 @@ function ratioProblem(rng: Rng): Out {
   }
   // part-part ratio with one part given, find the total
   const c = rng.pick([
-    { a: 'boys', b: 'girls', whole: 'students', text: (p: number, q: number) => `In a Grade 6 class in ${rng.pick(TOWNS)}, the ratio of boys to girls is $${ratio(p, q)}$.` },
-    { a: 'cats', b: 'dogs', whole: 'animals', text: (p: number, q: number) => `At an animal shelter, the ratio of cats to dogs is $${ratio(p, q)}$.` },
-    { a: 'fiction books', b: 'non-fiction books', whole: 'books', text: (p: number, q: number) => `In ${name}'s classroom library, the ratio of fiction books to non-fiction books is $${ratio(p, q)}$.` },
-    { a: 'wins', b: 'losses', whole: 'games', text: (p: number, q: number) => `A hockey team's ratio of wins to losses is $${ratio(p, q)}$. The team had no ties.` },
+    { a: 'boys', b: 'girls', whole: 'students', ask: 'How many students are in the class?', text: (p: number, q: number) => `In a Grade 6 class in ${rng.pick(TOWNS)}, the ratio of boys to girls is $${ratio(p, q)}$.` },
+    { a: 'cats', b: 'dogs', whole: 'animals', ask: 'How many cats and dogs are there in all?', text: (p: number, q: number) => `At an animal shelter, the ratio of cats to dogs is $${ratio(p, q)}$.` },
+    { a: 'fiction books', b: 'non-fiction books', whole: 'books', ask: 'How many books are there in all?', text: (p: number, q: number) => `In ${name}'s classroom library, the ratio of fiction books to non-fiction books is $${ratio(p, q)}$.` },
+    { a: 'wins', b: 'losses', whole: 'games', ask: 'How many games did the team play?', text: (p: number, q: number) => `A hockey team's ratio of wins to losses is $${ratio(p, q)}$. The team had no ties.` },
   ]);
-  const [p, q] = simplest(rng, 5);
+  const [p, q] = simplest(rng, 5, 2);
   const k = rng.int(2, 6);
   const knownA = rng.chance(0.5);
   const known = knownA ? p * k : q * k;
   const other = knownA ? q * k : p * k;
   const total = known + other;
   return {
-    prompt: `${c.text(p, q)} There are $${known}$ ${knownA ? c.a : c.b}. How many ${c.whole} are there in all?`,
+    prompt: `${c.text(p, q)} There are $${known}$ ${knownA ? c.a : c.b}. ${c.ask}`,
     parts: [numPart(total, { exact: false, suffix: c.whole })],
     hints: [`First use the ratio to find the number of ${knownA ? c.b : c.a}.`, `$${knownA ? p : q} ${T} ${k} = ${known}$. Multiply the other term by $${k}$ too, then add.`],
     solution: [
@@ -328,7 +330,7 @@ const PRICE_CTX: PriceCtx[] = [
   { item: 'juice box', items: 'juice boxes', pack: (n) => `A pack of $${n}$ juice boxes`, each: [0.45, 0.95] },
   { item: 'granola bar', items: 'granola bars', pack: (n) => `A box of $${n}$ granola bars`, each: [0.35, 0.85] },
   { item: 'pencil', items: 'pencils', pack: (n) => `A pack of $${n}$ pencils`, each: [0.15, 0.45] },
-  { item: 'muffin', items: 'muffins', pack: (n) => `A bakery sells $${n}$ muffins`, each: [1.15, 2.25] },
+  { item: 'muffin', items: 'muffins', pack: (n) => `A box of $${n}$ muffins`, each: [1.15, 2.25] },
   { item: 'bottle of water', items: 'bottles of water', pack: (n) => `A case of $${n}$ bottles of water`, each: [0.25, 0.65] },
   { item: 'hockey card', items: 'hockey cards', pack: (n) => `A pack of $${n}$ hockey cards`, each: [0.3, 0.6] },
   { item: 'apple', items: 'apples', pack: (n) => `A bag of $${n}$ apples`, each: [0.4, 0.9] },
@@ -336,10 +338,11 @@ const PRICE_CTX: PriceCtx[] = [
 
 /** A unit price in cents within the range, and a pack size, with a 3-digit (or smaller) total. */
 function pricePack(rng: Rng, c: PriceCtx, counts: number[]): { each: number; n: number; total: number } {
+  const fits = counts.filter((n) => n * c.each[1] < 10);
   return retry(
     () => {
       const each = rng.int(Math.round(c.each[0] * 100), Math.round(c.each[1] * 100)) / 100;
-      const n = rng.pick(counts);
+      const n = rng.pick(fits);
       return { each, n, total: r2(each * n) };
     },
     (o) => Math.round(o.total * 100) < 1000 && Math.round(o.each * 100) % 5 === 0,
@@ -397,7 +400,7 @@ function rateProblemD3(rng: Rng): Out {
   const name = pickName(rng);
   if (kind === 'better') {
     const c = rng.pick(PRICE_CTX);
-    const [n1, n2] = rng.sample([2, 3, 4, 5, 6, 8, 10, 12], 2);
+    const [n1, n2] = rng.sample([2, 3, 4, 5, 6, 8, 10, 12].filter((n) => n * c.each[1] < 10), 2);
     const same = rng.chance(0.12);
     const [e1, e2] = retry(
       () => {
@@ -436,7 +439,7 @@ function rateProblemD3(rng: Rng): Out {
       solution: [`Unit price: $${m2(total)} ${D} ${n} = ${m2(each)}$, so one costs ${money(each)}.`, `$${m}$ ${c.items}: $${m2(each)} ${T} ${m} = ${m2(cost)}$.`, `$${m}$ ${c.items} cost ${money(cost)}.`],
     };
   }
-  const r = rng.int(6, 12) * 10;
+  const r = rng.int(6, 10) * 10;
   const h = rng.int(2, 4);
   const dist = r * h;
   const vehicle = rng.pick(['car', 'bus', 'train']);
@@ -512,7 +515,7 @@ function percentD2(rng: Rng): Out {
   if (rng.chance(0.3)) {
     // relate to a proportion
     const p = rng.pick([20, 30, 40, 60, 70, 80, 90, 15, 35, 45]);
-    const n = retry(() => rng.int(2, 18) * 10, (x) => (p * x) % 100 === 0);
+    const n = retry(() => rng.int(2, 18) * 10, (x) => (p * x) % 100 === 0 && x !== 100 && x !== p);
     const ans = (p * n) / 100;
     const correct = `$${fr(p, 100)} = ${fr('x', n)}$`;
     return {
@@ -533,8 +536,8 @@ function percentD2(rng: Rng): Out {
     parts: [numPart(ans, { exact: false })],
     hints: ['To find a percent of a number, multiply the number by the percent and divide by $100$.', useTens ? `Or find $10\\%$ first ($${n} ${D} 10$), then multiply by $${tens}$.` : `Find $${p} ${T} ${n}$, then divide by $100$.`],
     solution: [
-      `Multiply by the percent and divide by $100$: $${p} ${T} ${n} = ${p * n}$.`,
-      `$${p * n} ${D} 100 = ${ans}$`,
+      `Multiply by the percent and divide by $100$: $${p} ${T} ${n} = ${N(p * n)}$.`,
+      `$${N(p * n)} ${D} 100 = ${ans}$`,
       ...(useTens && Number.isInteger(tenth) ? [`Check: $10\\%$ of $${n}$ is $${tenth}$, and $${tens} ${T} ${tenth} = ${ans}$.`] : []),
       `$${p}\\%$ of $${n}$ is $${ans}$.`,
     ],

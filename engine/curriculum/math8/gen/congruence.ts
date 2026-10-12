@@ -76,8 +76,8 @@ function roundAngles(pts: P[]): number[] {
 // Names and congruence statements
 // ---------------------------------------------------------------------------
 
-const TRI_SETS = ['ABC', 'DEF', 'JKL', 'PQR', 'XYZ', 'LMN', 'STU', 'GHK'];
-const QUAD_SETS = ['ABCD', 'EFGH', 'JKLM', 'PQRS', 'WXYZ', 'TUVW'];
+const TRI_SETS = ['ABC', 'DEF', 'GHJ', 'KLM', 'PQR', 'STU', 'XYZ'];
+const QUAD_SETS = ['ABCD', 'EFGH', 'JKLM', 'PQRS', 'TUVW'];
 
 /** The letters of `set` read around the polygon from another start or the other way: a cyclic shift, perhaps reversed. */
 function dihedral(set: string, shift: number, reverse: boolean): string {
@@ -250,7 +250,7 @@ const congruentPolygons = skill({
         reason = `$${S[i]}$ is letter ${i + 1} of $${S}$, and letter ${i + 1} of $${T}$ is $${T[i]}$.`;
       }
       return {
-        prompt: `${ctx} ${cap(statement(S, T))}. Which ${what} of ${POLY_SYM(k)}$${T}$ corresponds to ${asked}?`,
+        prompt: `${ctx} ${cap(statement(S, T))}. Which ${what} of $${POLY_SYM(k)}${T}$ corresponds to ${asked}?`,
         figure: pairFigure(p1, p2, S, T),
         parts: [{ answer }],
         hints: ['In a congruence statement, the vertices are listed in matching order: the first matches the first, the second matches the second, and so on.', 'Do not go by where the letters sit in the picture: the second shape may be turned or flipped. Use the order in the statement.'],
@@ -270,7 +270,7 @@ const congruentPolygons = skill({
       const value = askSide ? shape.sides[i] : shape.angles[i];
       const target = askSide ? sideOf(T, i) : T[i];
       return {
-        prompt: `${ctx} ${cap(statement(S, T))}. The ${askSide ? 'side lengths' : 'angle measures'} of ${POLY_SYM(k)}$${S}$ are shown. What is ${askSide ? `the length of $${target}$` : `the measure of $\\angle ${target}$`}?`,
+        prompt: `${ctx} ${cap(statement(S, T))}. The ${askSide ? 'side lengths' : 'angle measures'} of $${POLY_SYM(k)}${S}$ are shown. What is ${askSide ? `the length of $${target}$` : `the measure of $\\angle ${target}$`}?`,
         figure: pairFigure(p1, p2, S, T, m1, m2),
         parts: [numPart(value, askSide ? { suffix: 'cm' } : { suffix: '°' })],
         hints: ['Corresponding parts of congruent polygons are equal.', `Use the statement to find the part of $${S}$ that matches ${askSide ? `$${target}$` : `$\\angle ${target}$`}.`],
@@ -398,10 +398,10 @@ const congruentPolygons = skill({
         prompt: `${ctx} ${cap(statement(S, T))}. Some angle measures are marked on the two ${POLY_WORD(k)}s. What is the measure of $\\angle ${T[ask]}$?`,
         figure: pairFigure(p1, p2, S, T, m1, m2),
         parts: [numPart(value, { suffix: '°' })],
-        hints: [`Use the statement to move every known angle onto ${POLY_SYM(k)}$${S}$.`, `The angles of a ${POLY_WORD(k)} add to $${total}^\\circ$.`],
+        hints: [`Use the statement to move every known angle onto $${POLY_SYM(k)}${S}$.`, `The angles of a ${POLY_WORD(k)} add to $${total}^\\circ$.`],
         solution: [
           `Match the letters in order: $${pairs(S, T)}$.`,
-          `In ${POLY_SYM(k)}$${S}$: ${facts.join(', ')}.`,
+          `In $${POLY_SYM(k)}${S}$: ${facts.join(', ')}.`,
           `$\\angle ${S[ask]} = ${total}^\\circ - ${known.map((j) => `${shape.angles[j]}^\\circ`).join(' - ')} = ${value}^\\circ$`,
           `$\\angle ${T[ask]}$ matches $\\angle ${S[ask]}$, so $\\angle ${T[ask]} = ${value}^\\circ$.`,
         ],
@@ -414,7 +414,7 @@ const congruentPolygons = skill({
     const P_ = shape.sides.reduce((s, x) => s + x, 0);
     const askFirst = rng.chance(0.5);
     return {
-      prompt: `${ctx} ${cap(statement(S, T))}. Some side lengths are marked on each ${POLY_WORD(k)}. What is the perimeter of ${POLY_SYM(k)}$${askFirst ? S : T}$?`,
+      prompt: `${ctx} ${cap(statement(S, T))}. Some side lengths are marked on each ${POLY_WORD(k)}. What is the perimeter of $${POLY_SYM(k)}${askFirst ? S : T}$?`,
       figure: pairFigure(p1, p2, S, T, m1, m2),
       parts: [numPart(P_, { suffix: 'cm' })],
       hints: ['Corresponding sides of congruent polygons are equal, so the two polygons have the same perimeter.', 'Use the statement to find which marked side on one polygon matches each unmarked side on the other.'],

@@ -124,6 +124,8 @@ interface PendingLabel {
   text: string;
   cands: (ppu: number) => P[];
   fixed?: boolean;
+  /** The shape a name belongs to: the name must be nearer to it than to any other shaded shape. */
+  owner?: P[];
 }
 
 /**
@@ -198,8 +200,43 @@ export class Sketch {
   }
 
   /** A label centred exactly at p (a shape's name written inside it). */
-  tag(p: P, text: string) {
-    this.pending.unshift({ text, cands: () => [p], fixed: true });
+  /** A shape's name, written just outside it and nearer to it than to any other shaded shape. */
+  name(poly: P[], text: string) {
+    const c = centroid(poly);
+    const n = poly.length;
+    this.pending.push({
+      text,
+      owner: poly,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const dpx of [11, 14, 18, 23, 29, 36, 45]) {
+          for (let i = 0; i < n; i++) {
+            const a = poly[i];
+            const b = poly[(i + 1) % n];
+            const m = mid(a, b);
+            const d = dirOf(a, b);
+            const outN = Math.cos(rad(d + 90 - dirOf(m, c))) > 0 ? d - 90 : d + 90;
+            out.push(at(m, outN, dpx / ppu));
+          }
+          for (const v of poly) out.push(at(v, dirOf(c, v), dpx / ppu));
+        }
+        return out;
+      },
+    });
+    return this;
+  }
+
+  /** A name written inside an unshaded shape, clear of its sides. */
+  inner(poly: P[], text: string) {
+    const c = centroid(poly);
+    this.pending.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const rpx of [0, 4, 8, 12, 16, 20]) for (let a = 0; a < 360; a += rpx ? 30 : 360) out.push(at(c, a, rpx / ppu));
+        return out.filter((p) => inPoly(p, poly));
+      },
+    });
     return this;
   }
 
@@ -291,6 +328,13 @@ export class Sketch {
           // Keep labels and their invisible anchors off shaded shapes.
           const probes: P[] = [A, c, [box.x0, box.y0], [box.x1, box.y0], [box.x0, box.y1], [box.x1, box.y1]];
           if (this.polys.some((pl) => pl.fill && probes.some((q) => inPoly(q, pl.points)))) score -= 100;
+          if (lab.owner) {
+            const own = lab.owner;
+            const dTo = (poly: P[]) => Math.min(...poly.map((p, i) => distSegBox(p, poly[(i + 1) % poly.length], box)));
+            const dOwn = dTo(own);
+            const rivals = this.polys.filter((pl) => pl.fill && !(pl.points.length === own.length + 1 && own.every((p, i) => p[0] === pl.points[i][0] && p[1] === pl.points[i][1])));
+            if (rivals.some((pl) => dTo(pl.points.slice(0, -1)) < dOwn + 3 / ppu)) score -= 60;
+          }
         }
         if (!best || score > best.score) best = { c, score };
         if (score >= 5) break;
@@ -568,7 +612,7 @@ function paperFigure(items: Drawn[], marks: Marks, grid: GridSpec = paperFor(ite
   for (const it of items) {
     if (it.outline) s.polyline([...it.tile.pts, it.tile.pts[0]], it.color);
     else s.polygon(it.tile.pts, it.color);
-    if (it.name) s.tag(it.tile.c, it.name);
+    if (it.name) s.name(it.tile.pts, it.name);
   }
   if (marks.mirror) {
     const { vertical, at: m } = marks.mirror;
@@ -703,11 +747,12 @@ function relation(x: P[], y: P[]): Rel | null {
 
 function tessFigure(tiles: P[][], one: number, two: number): PlaneFigure {
   const s = new Sketch();
+  const loop = (t: P[]): P[] => [...t, t[0]];
   tiles.forEach((t, k) => {
-    if (k !== one && k !== two) s.polygon(t, 'muted');
+    if (k !== one && k !== two) s.polyline(loop(t), 'muted');
   });
-  s.polygon(tiles[one], 'brand').polygon(tiles[two], 'accent');
-  s.tag(centroid(tiles[one]), '1').tag(centroid(tiles[two]), '2');
+  s.polyline(loop(tiles[one]), 'brand').polyline(loop(tiles[two]), 'accent');
+  s.inner(tiles[one], '1').inner(tiles[two], '2');
   return s.build({ margin: 0.3 });
 }
 
@@ -775,13 +820,10 @@ function starFigure(one: number, two: number): PlaneFigure {
   const s = new Sketch();
   const u = (k: number): P => [2 * Math.cos(rad(45 * k + 22.5)), 2 * Math.sin(rad(45 * k + 22.5))];
   const diamond = (k: number): P[] => [[0, 0], u(k), [u(k)[0] + u(k + 1)[0], u(k)[1] + u(k + 1)[1]], u(k + 1)].map(([x, y]) => [r3(x), r3(y)] as P);
-  for (let k = 0; k < 8; k++) if (k !== one && k !== two) s.polygon(diamond(k), 'muted');
-  s.polygon(diamond(one), 'brand').polygon(diamond(two), 'accent');
-  const inner = (k: number): P => {
-    const d = diamond(k);
-    return [r3((d[0][0] + d[2][0]) / 2), r3((d[0][1] + d[2][1]) / 2)];
-  };
-  s.tag(inner(one), '1').tag(inner(two), '2');
+  const loop = (t: P[]): P[] => [...t, t[0]];
+  for (let k = 0; k < 8; k++) if (k !== one && k !== two) s.polyline(loop(diamond(k)), 'muted');
+  s.polyline(loop(diamond(one)), 'brand').polyline(loop(diamond(two)), 'accent');
+  s.inner(diamond(one), '1').inner(diamond(two), '2');
   return s.build({ margin: 0.4 });
 }
 
@@ -1180,14 +1222,14 @@ function trianglePair(rng: Rng) {
 
 function trianglePairFigure(t1: P[], t2: P[], labels1: Array<string | null>, labels2: Array<string | null>): PlaneFigure {
   const s = new Sketch();
-  s.polygon(t1, 'brand').polygon(t2, 'accent');
+  s.polyline([...t1, t1[0]], 'brand').polyline([...t2, t2[0]], 'accent');
   const c1 = centroid(t1);
   const c2 = centroid(t2);
   for (let i = 0; i < 3; i++) {
     if (labels1[i]) s.sideLabel(t1[i], t1[(i + 1) % 3], labels1[i]!, c1);
     if (labels2[i]) s.sideLabel(t2[i], t2[(i + 1) % 3], labels2[i]!, c2);
   }
-  s.tag(c1, '1').tag(c2, '2');
+  s.inner(t1, '1').inner(t2, '2');
   return s.build({ margin: 0.6 });
 }
 

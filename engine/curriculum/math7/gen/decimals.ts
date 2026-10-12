@@ -1605,7 +1605,7 @@ const PROB_D1: Gen[] = [
       prompt: `${name}’s family’s bill at a restaurant in ${rng.pick(TOWNS)} is \\$${B}. They leave ${art(p)} $${pc(p)}$ tip. How much is the tip?`,
       parts: [cashPart(tip)],
       hints: [`$10\\%$ is one tenth: divide by $10$.`, p === 20 ? '$20\\%$ is double $10\\%$.' : 'Divide the bill by $10$.'],
-      solution: [`$10\\%$ of \\$${B} is $${B} \\div 10 = ${num(B / 10)}$.`, ...(p === 20 ? [`$20\\%$ is double that: $2 \\times ${num(B / 10)} = ${num(tip)}$`] : []), `The tip is ${tag(tip)}.`],
+      solution: [`Estimate: the tip is a small part of the bill, much less than half of \\$${B}.`, `$10\\%$ of \\$${B} is $${B} \\div 10 = ${num(B / 10)}$.`, ...(p === 20 ? [`$20\\%$ is double that: $2 \\times ${num(B / 10)} = ${num(tip)}$`] : []), `The tip is ${tag(tip)}.`],
       calculator: false,
     };
   },
@@ -1795,7 +1795,7 @@ const PROB_D3: Gen[] = [
       parts: [numPart(need, { suffix: 'questions' })],
       hints: [`Find $${pc(p)}$ of $${T}$.`, 'You cannot get part of a question right. Should you round up or down?'],
       solution: [
-        `Estimate: $${pc(p)}$ is ${benchmark(p / 100)}, so ${name} needs well over half of the $${T}$ questions.`,
+        pctEstimate(p, T).line,
         `$${pc(p)}$ of $${T}$: $${num(p / 100)} \\times ${T} = ${num(raw)}$`,
         `$${num(raw)}$ is not a whole number. $${Math.floor(raw)}$ right would be less than $${pc(p)}$, so round **up**.`,
         `${name} must get at least $${need}$ questions right.`,

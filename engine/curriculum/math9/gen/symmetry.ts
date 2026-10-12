@@ -278,7 +278,6 @@ function mirrorFor(kind: 'v' | 'h' | 'diag' | 'anti', k: number, side: 1 | -1): 
 }
 
 const GRID: GridSpec = { xMin: -7, xMax: 7, yMin: -7, yMax: 7, step: 1 };
-const pt = (p: P) => `(${fmt(p[0])}, ${fmt(p[1])})`;
 const ptTex = (p: P) => `(${fmt(p[0])},\\ ${fmt(p[1])})`;
 const inGrid = (p: P) => Math.abs(p[0]) <= 6 && Math.abs(p[1]) <= 6;
 

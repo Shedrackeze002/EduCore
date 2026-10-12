@@ -181,8 +181,8 @@ const ADD_D1: Ctx[] = [
     };
   },
   (rng, name) => {
-    const a = rng.int(12, 89) / 10;
-    const b = rng.int(12, 89) / 10;
+    const a = retry(() => rng.int(12, 89), (x) => x % 10 !== 0) / 10;
+    const b = retry(() => rng.int(12, 89), (x) => x % 10 !== 0) / 10;
     const t = clean(a + b);
     const [d1, d2] = rng.pick([['Saturday', 'Sunday'], ['Monday', 'Tuesday'], ['the morning', 'the afternoon']]);
     const act = rng.pick(['bikes', 'runs', 'walks', 'cross-country skis']);
@@ -195,7 +195,7 @@ const ADD_D1: Ctx[] = [
   },
   (rng, name) => {
     const L = rng.int(30, 95) / 10;
-    const u = rng.int(5, Math.round(L * 10) - 5) / 10;
+    const u = retry(() => rng.int(5, Math.round(L * 10) - 5), (x) => x % 10 !== 0) / 10;
     const left = clean(L - u);
     const what = rng.pick(['ribbon', 'rope', 'yarn', 'string']);
     const why = rng.pick(['for a craft project', 'to wrap gifts', 'for a school play', 'to build a kite']);
@@ -333,13 +333,13 @@ const ADD_D3: Ctx[] = [
   },
   (rng, name) => {
     const T = rng.int(150, 420) / 10;
-    const a = rng.int(35, Math.round(T * 4)) / 10;
-    const b = rng.int(25, Math.round(T * 10 - a * 10) - 15) / 10;
+    const a = retry(() => rng.int(35, Math.round(T * 4)), (x) => x % 10 !== 0) / 10;
+    const b = retry(() => rng.int(25, Math.round(T * 10 - a * 10) - 15), (x) => x % 10 !== 0) / 10;
     const done = clean(a + b);
     const left = clean(T - done);
     const trail = rng.pick(['the Iron Horse Trail', 'a trail in Kananaskis', 'the river valley trail in Edmonton', 'a trail around Sylvan Lake', 'the Bow River Pathway']);
     return {
-      prompt: `${name}'s family is biking ${trail}, which is ${q(T, 'km')} long. They bike ${q(a, 'km')} on Saturday and ${q(b, 'km')} on Sunday. How much of the trail is left?`,
+      prompt: `${name}’s family is biking ${trail}, which is ${q(T, 'km')} long. They bike ${q(a, 'km')} on Saturday and ${q(b, 'km')} on Sunday. How much of the trail is left?`,
       parts: [exactPart(left, 'km')],
       hints: ['Add the distances for the two days first.', 'Then subtract that sum from the length of the trail.'],
       solution: ['Step 1: Add the two days.', column([a, b], '+', 1), 'Step 2: Subtract from the length of the trail.', column([T, done], '-', 1), `${q(left, 'km')} of the trail is left.`],
@@ -353,7 +353,7 @@ const ADD_D3: Ctx[] = [
     const need = clean(goal - sum);
     const [e1, e2] = rng.sample(['a bake sale', 'a car wash', 'a bottle drive', 'a used-book sale', 'a popcorn sale'], 2);
     return {
-      prompt: `${name}'s class wants to raise \\$${goal} for a field trip. They raise ${money(a)} at ${e1} and ${money(b)} at ${e2}. How much more money do they need to reach their goal?`,
+      prompt: `${name}’s class wants to raise \\$${goal} for a field trip. They raise ${money(a)} at ${e1} and ${money(b)} at ${e2}. How much more money do they need to reach their goal?`,
       parts: [cashPart(need)],
       hints: ['Add the two amounts raised.', `Then subtract the sum from \\$${goal}.00.`],
       solution: ['Step 1: Add the amounts raised.', column([a, b], '+', 2), `Step 2: Subtract from the goal, \\$${goal}.00.`, column([goal, sum], '-', 2), `They need ${money(need)} more.`],
@@ -648,14 +648,14 @@ const decimalDivide = skill({
 // ---------------------------------------------------------------------------
 
 const BUY = [
-  { thing: 'pack of markers', things: 'packs of markers', lo: 2, hi: 6 },
-  { thing: 'ticket to the science centre', things: 'tickets to the science centre', lo: 6, hi: 9.9 },
-  { thing: 'bag of popcorn', things: 'bags of popcorn', lo: 1, hi: 3.5 },
-  { thing: 'pizza', things: 'pizzas', lo: 7, hi: 9.9 },
-  { thing: 'jar of paint', things: 'jars of paint', lo: 2, hi: 5 },
-  { thing: 'bus ticket', things: 'bus tickets', lo: 2, hi: 4 },
-  { thing: 'notebook', things: 'notebooks', lo: 1, hi: 3 },
-  { thing: 'pair of hockey socks', things: 'pairs of hockey socks', lo: 4, hi: 9 },
+  { thing: 'pack of markers', things: 'packs of markers', why: 'for an art project', lo: 2, hi: 6 },
+  { thing: 'ticket to the science centre', things: 'tickets to the science centre', why: 'for a field trip', lo: 6, hi: 9.9 },
+  { thing: 'bag of popcorn', things: 'bags of popcorn', why: 'for a movie afternoon', lo: 1, hi: 3.5 },
+  { thing: 'pizza', things: 'pizzas', why: 'for a class party', lo: 7, hi: 9.9 },
+  { thing: 'jar of paint', things: 'jars of paint', why: 'for a mural', lo: 2, hi: 5 },
+  { thing: 'bus ticket', things: 'bus tickets', why: 'for a trip to the library', lo: 2, hi: 4 },
+  { thing: 'notebook', things: 'notebooks', why: 'for science journals', lo: 1, hi: 3 },
+  { thing: 'pair of hockey socks', things: 'pairs of hockey socks', why: 'for the school team', lo: 4, hi: 9 },
 ];
 
 /** A price in cents (multiple of 5, a 3-digit decimal under \$10) whose product with n has no stray cents. */
@@ -669,7 +669,7 @@ function problemD1(rng: Rng, name: string): Out {
     const p = unitPrice(rng, it.lo, it.hi) / 100;
     const { steps, product } = multiplySteps(p, n);
     return {
-      prompt: `${name}'s class buys $${n}$ ${it.things}. Each ${it.thing} costs ${money(p)}. What is the total cost?`,
+      prompt: `${name}’s class buys $${n}$ ${it.things} ${it.why}. Each ${it.thing} costs ${money(p)}. What is the total cost?`,
       parts: [cashPart(product)],
       hints: ['When you buy many items at the same price, multiply.', `Find $${num(p)} \\times ${n}$.`],
       solution: [`Total cost = price × number of items = $${fmtFixed(p, 2)} \\times ${n}$.`, ...steps, `The total cost is ${money(product)}.`],
@@ -698,7 +698,7 @@ function problemD1(rng: Rng, name: string): Out {
   const { steps } = longDivision(total, n, 2);
   const what = rng.pick(['a pizza lunch', 'a class gift', 'craft supplies', 'a team snack order', 'bus tickets']);
   return {
-    prompt: `${n} students share the cost of ${what} equally. The total cost is ${money(total)}. How much does each student pay?`,
+    prompt: `A group of $${n}$ students shares the cost of ${what} equally. The total cost is ${money(total)}. How much does each student pay?`,
     parts: [cashPart(each)],
     hints: ['Sharing equally means divide.', `Find $${num(total)} \\div ${n}$ with long division.`],
     solution: [`Divide the total by the number of students: $${num(total)} \\div ${n}$.`, ...steps, `Each student pays ${money(each)}.`],
@@ -731,7 +731,7 @@ function problemD2(rng: Rng, name: string): Out {
     const what = rng.pick(['rope', 'ribbon', 'pipe', 'lumber']);
     const { steps } = longDivision(total, n, 2);
     return {
-      prompt: `${name} cuts a ${q(total, 'm')} piece of ${what} into $${n}$ equal pieces. How long is each piece?`,
+      prompt: `${name} has a piece of ${what} that is ${q(total, 'm')} long. ${name} cuts it into $${n}$ equal pieces. How long is each piece?`,
       parts: [exactPart(qi / 100, 'm')],
       hints: ['Cutting into equal pieces means divide.', `Find $${num(total)} \\div ${n}$.`],
       solution: [`Divide: $${num(total)} \\div ${n}$.`, ...steps, `Each piece is ${q(qi / 100, 'm')} long.`],
@@ -764,7 +764,7 @@ function problemD3(rng: Rng, name: string): Out {
     const change = clean(bill - total);
     const { steps } = multiplySteps(p, n);
     return {
-      prompt: `${name} buys $${n}$ ${it.things} for a class party. Each one costs ${money(p)}. ${name} pays with a \\$${bill} bill. How much change should ${name} get?`,
+      prompt: `${name} buys $${n}$ ${it.things} ${it.why}. Each ${it.thing} costs ${money(p)}. ${name} pays with a \\$${bill} bill. How much change should ${name} get?`,
       parts: [cashPart(change)],
       hints: ['First multiply to find the total cost.', `Then subtract the total cost from \\$${bill}.00.`],
       solution: [`Step 1: Total cost = $${fmtFixed(p, 2)} \\times ${n}$.`, ...steps, `Step 2: Change = \\$${bill}.00 − ${money(total)}.`, column([bill, total], '-', 2), `${name} should get ${money(change)} in change.`],
@@ -784,7 +784,7 @@ function problemD3(rng: Rng, name: string): Out {
     const { steps, quotient } = longDivision(total, n, 3);
     const what = rng.pick(['a pizza lunch', 'a birthday gift for their teacher', 'a bowling party', 'snacks for a road trip']);
     return {
-      prompt: `${n} friends share the cost of ${what} equally. The total is ${money(total)}. How much does each friend pay, to the nearest cent?`,
+      prompt: `A group of $${n}$ friends shares the cost of ${what} equally. The total is ${money(total)}. How much does each friend pay, to the nearest cent?`,
       parts: [centPart(value)],
       hints: ['Sharing equally means divide.', 'Divide to the thousandths place, then round to the nearest hundredth (the nearest cent).'],
       solution: [`Divide: $${num(total)} \\div ${n}$.`, ...steps, `So far, the quotient is $${num(quotient, 3)}\\ldots$ Round to the nearest hundredth.`, `Each friend pays about ${money(roundTo(value, 2))}.`],

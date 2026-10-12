@@ -334,6 +334,23 @@ function dimLine(sk: Sketch, from: P, dx: number, y0: number, y1: number) {
   sk.seg(from, [dx - 0.15, y1], { color: 'muted', dashed: true });
 }
 
+/** A rectangle w × h1 with a triangle of height h2 on top; the roof height is shown with a dimension line. */
+export function houseFigure(w: number, h1: number, h2: number, unit: string, caption?: string): PlaneFigure {
+  const sk = new Sketch();
+  const s = scaleFor(w, h1 + h2, 6);
+  const ww = w * s;
+  const a1 = h1 * s;
+  const a2 = h2 * s;
+  const ax = ww / 2;
+  sk.polygon([[0, 0], [ww, 0], [ww, a1], [ax, a1 + a2], [0, a1]]);
+  sk.seg([0, a1], [ww, a1], { color: 'muted' });
+  sk.seg([ax, a1 + a2], [ax, a1], { color: 'accent', dashed: true }).rightMark([ax, a1], 0, 0.25);
+  const dx = ww + 0.45;
+  dimLine(sk, [ax, a1 + a2], dx, a1, a1 + a2);
+  sk.sideLabel([0, 0], [ww, 0], lab(w, unit), -90, false).sideLabel([0, 0], [0, a1], lab(h1, unit), 180, false).sideLabel([dx, a1], [dx, a1 + a2], lab(h2, unit), 0, false);
+  return sk.build(caption);
+}
+
 /** Drawing scale so the larger of w and h becomes `size` units. */
 const scaleFor = (w: number, h: number, size = 6) => size / Math.max(w, h);
 
@@ -602,11 +619,11 @@ const circleParts = skill({
     if (mode === 'row') {
       const count = rng.int(3, 6);
       const [thing, u, rr] = rng.pick([
-        ['coins', 'cm', () => rng.int(9, 14) / 10],
-        ['checkers', 'cm', () => rng.int(14, 18) / 10],
-        ['hockey pucks', 'cm', () => 3.8],
-        ['tennis balls', 'cm', () => rng.int(32, 34) / 10],
-        ['round hay bales', 'm', () => rng.int(8, 9) / 10],
+        ['coins', 'cm', (): number => rng.int(9, 14) / 10],
+        ['checkers', 'cm', (): number => rng.int(14, 18) / 10],
+        ['hockey pucks', 'cm', (): number => 3.8],
+        ['tennis balls', 'cm', (): number => rng.int(32, 34) / 10],
+        ['round hay bales', 'm', (): number => rng.int(8, 9) / 10],
       ] as const);
       const r = rr();
       const L = exact(2 * r * count);
@@ -646,8 +663,8 @@ const circleParts = skill({
 
 const CIRC_HINTS = ['The circumference is the distance around a circle.', '$C = \\pi d$, or $C = 2\\pi r$. ' + PI_HINT];
 
-/** A measurement 0.5..hi that does not make value(x) sit on a rounding boundary. */
-function niceMeasure(rng: Rng, make: () => number, value: (x: number) => number, dp: number | 'area' = 1): number {
+/** A measurement that does not make value(x) sit on a rounding boundary. */
+function niceMeasure(make: () => number, value: (x: number) => number, dp: number | 'area' = 1): number {
   return retry(make, (x) => !nearHalf(value(x), dp === 'area' ? dpFor(value(x)) : dp));
 }
 
@@ -663,7 +680,7 @@ const circumference = skill({
     if (d === 1) {
       const u = rng.pick(['cm', 'm', 'mm']);
       const useD = rng.chance(0.5);
-      const x = niceMeasure(rng, () => rng.int(3, u === 'mm' ? 60 : 25), (v) => (useD ? Math.PI * v : 2 * Math.PI * v));
+      const x = niceMeasure(() => rng.int(3, u === 'mm' ? 60 : 25), (v) => (useD ? Math.PI * v : 2 * Math.PI * v));
       const C = useD ? Math.PI * x : 2 * Math.PI * x;
       return {
         prompt: `A circle has a ${useD ? 'diameter' : 'radius'} of ${len(x, u)}. What is its circumference, ${lenRound(1, u)}?`,
@@ -680,7 +697,7 @@ const circumference = skill({
       if (mode === 'forward') {
         const c = rng.pick(ROUND_THINGS);
         const useD = rng.chance(0.5);
-        const r = niceMeasure(rng, () => (c.u === 'm' ? rng.int(c.lo * 10, c.hi * 10 + 5) / 10 : rng.int(c.lo, c.hi)), (v) => 2 * Math.PI * v);
+        const r = niceMeasure(() => (c.u === 'm' ? rng.int(c.lo * 10, c.hi * 10 + 5) / 10 : rng.int(c.lo, c.hi)), (v) => 2 * Math.PI * v);
         const C = 2 * Math.PI * r;
         const Thing = c.what.charAt(0).toUpperCase() + c.what.slice(1);
         return {
@@ -701,7 +718,7 @@ const circumference = skill({
           [(x: string) => `${name} runs a measuring tape around the edge of a round tabletop. The circumference is ${x}.`, 'the diameter of the tabletop', 'cm', 250, 420],
           [(x: string) => `The rope around a circular corral on a ranch near Pincher Creek is ${x} long.`, 'the diameter of the corral', 'm', 40, 90],
         ] as const);
-        const C = niceMeasure(rng, () => rng.int(lo, hi), (v) => v / Math.PI);
+        const C = niceMeasure(() => rng.int(lo, hi), (v) => v / Math.PI);
         const D = C / Math.PI;
         return {
           prompt: `${lead(len(C, u))} What is ${ask}, ${lenRound(1, u)}?`,
@@ -742,7 +759,7 @@ const circumference = skill({
         [(x: string) => `The rim of a round fire pit measures ${x} around.`, 'cm', 280, 420],
         [(x: string) => `A circular fountain has a circumference of ${x}.`, 'm', 15, 35],
       ] as const);
-      const C = niceMeasure(rng, () => rng.int(lo, hi), (v) => v / (2 * Math.PI));
+      const C = niceMeasure(() => rng.int(lo, hi), (v) => v / (2 * Math.PI));
       const r = C / (2 * Math.PI);
       return {
         prompt: `${lead(len(C, u))} What is its radius, ${lenRound(1, u)}?`,
@@ -753,7 +770,7 @@ const circumference = skill({
     }
     if (mode === 'semicircle') {
       const u = rng.pick(['cm', 'm']);
-      const D = niceMeasure(rng, () => (u === 'cm' ? rng.int(30, 120) : rng.int(2, 9)), (v) => (Math.PI * v) / 2 + v);
+      const D = niceMeasure(() => (u === 'cm' ? rng.int(30, 120) : rng.int(2, 9)), (v) => (Math.PI * v) / 2 + v);
       const curve = (Math.PI * D) / 2;
       const P = curve + D;
       const thing = u === 'cm' ? rng.pick(['a semicircular window', 'a semicircular rug', 'a half-moon cutting board']) : rng.pick(['a semicircular patio', 'a semicircular stage', 'a semicircular garden bed']);
@@ -775,7 +792,7 @@ const circumference = skill({
     }
     if (mode === 'track') {
       const L = rng.int(6, 12) * 10;
-      const D = niceMeasure(rng, () => rng.int(40, 75), (v) => 2 * L + Math.PI * v);
+      const D = niceMeasure(() => rng.int(40, 75), (v) => 2 * L + Math.PI * v);
       const P = 2 * L + Math.PI * D;
       const k = scaleFor(L + D, D, 7);
       const l = L * k;
@@ -797,7 +814,7 @@ const circumference = skill({
       };
     }
     const turns = rng.pick([20, 25, 40, 50, 100, 150]);
-    const DD = niceMeasure(rng, () => rng.int(50, 70), (v) => (Math.PI * v * turns) / 100);
+    const DD = niceMeasure(() => rng.int(50, 70), (v) => (Math.PI * v * turns) / 100);
     const dist2 = (Math.PI * DD * turns) / 100;
     return {
       prompt: `The wheels on ${name}’s bike have a diameter of ${len(DD, 'cm')}. How far does the bike move when the wheels turn ${turns} times? Give your answer in metres, ${lenRound(1, 'm')}.`,
@@ -1055,22 +1072,9 @@ const areaTriangle = skill({
       const W = w;
       const H1 = h1;
       const H2 = h2;
-      const sk = new Sketch();
-      const s = scaleFor(w, h1 + h2, 6);
-      const ww = w * s;
-      const a1 = h1 * s;
-      const a2 = h2 * s;
-      const ax = ww / 2;
-      sk.polygon([[0, 0], [ww, 0], [ww, a1], [ax, a1 + a2], [0, a1]]);
-      sk.seg([0, a1], [ww, a1], { color: 'muted' });
-      sk.seg([ax, a1 + a2], [ax, a1], { color: 'accent', dashed: true }).rightMark([ax, a1], 0, 0.25);
-      // The roof height is shown with a dimension line to the right of the roof.
-      const dx = ww + 0.45;
-      dimLine(sk, [ax, a1 + a2], dx, a1, a1 + a2);
-      sk.sideLabel([0, 0], [ww, 0], lab(W, unit), -90, false).sideLabel([0, 0], [0, a1], lab(H1, unit), 180, false).sideLabel([dx, a1], [dx, a1 + a2], lab(H2, unit), 0, false);
       return {
         prompt: `The diagram shows ${thing}. It is a rectangle with a triangle on top. What is its area?`,
-        figure: sk.build(),
+        figure: houseFigure(W, H1, H2, unit),
         parts: [numPart(A, { suffix: `${unit}²` })],
         hints: ['Split the shape into a rectangle and a triangle.', 'Rectangle: $A = lw$. Triangle: $A = bh \\div 2$, where the base of the triangle is the top of the rectangle. Then add.'],
         solution: [
@@ -1170,7 +1174,7 @@ const areaCircle = skill({
     const angle = rng.pick([20, 35, 150, 200, 330, 0]);
     if (d === 1) {
       const u = rng.pick(['cm', 'm', 'mm']);
-      const r = niceMeasure(rng, () => rng.int(2, 20), (v) => Math.PI * v * v, 'area');
+      const r = niceMeasure(() => rng.int(2, 20), (v) => Math.PI * v * v, 'area');
       const A = Math.PI * r * r;
       return {
         prompt: `Find the area of the circle, ${sqRound(dpFor(A), u)}.`,
@@ -1183,7 +1187,7 @@ const areaCircle = skill({
     if (d === 2) {
       if (rng.chance(0.3)) {
         const u = rng.pick(['cm', 'm']);
-        const D = niceMeasure(rng, () => rng.int(3, 30) * 2 + (rng.chance(0.3) ? 1 : 0), (v) => (Math.PI * v * v) / 4, 'area');
+        const D = niceMeasure(() => rng.int(3, 30) * 2 + (rng.chance(0.3) ? 1 : 0), (v) => (Math.PI * v * v) / 4, 'area');
         const r = D / 2;
         const A = Math.PI * r * r;
         return {
@@ -1195,7 +1199,7 @@ const areaCircle = skill({
         };
       }
       const c = rng.pick(AREA_THINGS);
-      const g = niceMeasure(rng, () => rng.int(c.lo, c.hi), (v) => (c.given === 'd' ? (Math.PI * v * v) / 4 : Math.PI * v * v), 'area');
+      const g = niceMeasure(() => rng.int(c.lo, c.hi), (v) => (c.given === 'd' ? (Math.PI * v * v) / 4 : Math.PI * v * v), 'area');
       const r = c.given === 'd' ? g / 2 : g;
       const A = Math.PI * r * r;
       return {

@@ -99,7 +99,7 @@ function readPoint(rng: Rng, d: Difficulty): Out {
     `${who} plotted some points on a coordinate grid.`,
     `${who} marked some spots on a grid map of the schoolyard.`,
     `The grid shows where some friends are standing in a gym.`,
-    `${who} is playing a board game on a coordinate grid.`,
+    `${who} is playing a board game on a coordinate grid. The letters show where the game pieces are.`,
   ]);
   return {
     prompt: `${ctx} What are the coordinates of point $${name}$?`,
@@ -439,6 +439,28 @@ function readVertices(rng: Rng, d: Difficulty): Out {
   };
 }
 
+/** True when no two sides of the polygon cross (and no side has zero length). */
+function isSimple(ps: P[]): boolean {
+  const n = ps.length;
+  const cross = (o: P, a: P, b: P) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const hit = (a: P, b: P, c: P, d: P) => {
+    const d1 = cross(c, d, a);
+    const d2 = cross(c, d, b);
+    const d3 = cross(a, b, c);
+    const d4 = cross(a, b, d);
+    return ((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) && ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0));
+  };
+  for (let i = 0; i < n; i++) {
+    if (sameP(ps[i], ps[(i + 1) % n])) return false;
+    for (let j = i + 2; j < n; j++) {
+      if (i === 0 && j === n - 1) continue;
+      if (hit(ps[i], ps[(i + 1) % n], ps[j], ps[(j + 1) % n])) return false;
+    }
+  }
+  // No three vertices in a row on one line.
+  return ps.every((p, i) => cross(ps[(i + n - 1) % n], p, ps[(i + 1) % n]) !== 0);
+}
+
 /** Which picture shows the polygon with these vertices? */
 function whichPolygon(rng: Rng): Out {
   const MAX = 7;
@@ -450,12 +472,17 @@ function whichPolygon(rng: Rng): Out {
     // Distractors: every vertex with its coordinates swapped; one vertex swapped; the shape shifted.
     const swapAll = pts.map(([x, y]) => [y, x] as P);
     const j = pts.findIndex(([x, y]) => x !== y);
-    const swapOne = pts.map((p, i) => (i === j ? ([p[1], p[0]] as P) : p));
+    let swapOne = pts.map((p, i) => (i === j ? ([p[1], p[0]] as P) : p));
+    if (!isSimple(swapOne)) {
+      const k = rng.int(0, pts.length - 1);
+      const nudge = rng.pick([[1, 0], [-1, 0], [0, 1], [0, -1]] as P[]);
+      swapOne = pts.map((p, i) => (i === k ? ([p[0] + nudge[0], p[1] + nudge[1]] as P) : p));
+    }
     const sh = rng.pick([[1, 0], [-1, 0], [0, 1], [0, -1]] as P[]);
     const shift = pts.map(([x, y]) => [x + sh[0], y + sh[1]] as P);
-    const opts = [pts, swapAll, swapOne, shift].filter(inside);
+    const opts = [pts, swapAll, swapOne, shift].filter((o) => inside(o) && isSimple(o));
     const keys = opts.map(key);
-    if (opts.length < 4 || new Set(keys).size < 4 || j < 0) continue;
+    if (opts.length < 4 || new Set(keys).size < 4 || j < 0 || opts[0] !== pts) continue;
     const order = rng.shuffle(opts.map((o, i) => ({ o, correct: i === 0 })));
     const answer = mcFigures(rng, order.map(({ o, correct }) => ({ md: '', figure: gridFig(MAX, [], [o], 'A polygon on a grid'), correct })), true);
     const letter = choiceLetter(answer);
@@ -466,7 +493,7 @@ function whichPolygon(rng: Rng): Out {
       hints: ['Plot one vertex at a time: across first, then up.', `Check every vertex. One wrong corner means it is the wrong picture.`],
       solution: [
         `Plot each point: ${pts.map((p) => `${P$(p)} is $${p[0]}$ across and $${p[1]}$ up`).join('; ')}.`,
-        'Some pictures have a vertex with its numbers the other way round, or the whole shape moved over by one square.',
+        'The other pictures have a vertex in the wrong place: a corner with its numbers the other way round, a corner moved by one square, or the whole shape moved over.',
         `Picture ${letter} has a vertex at every point and no others, so picture ${letter} shows the polygon.`,
       ],
       answerDisplay: `Picture ${letter}`,
@@ -521,6 +548,7 @@ function buildRectangle(rng: Rng): Out {
   const D: P = [x, y + h];
   return {
     prompt: `${ctx} Its bottom-left vertex is $A${pt(A)}$. The ${name} is $${w}$ units wide and $${h}$ units tall. Going around the ${name}, vertex $B$ is the bottom-right vertex, $C$ is the top-right vertex and $D$ is the top-left vertex. What are the coordinates of $B$, $C$ and $D$?`,
+    figure: gridFig(10, [lab(A, 'A')]),
     parts: [pointPart(B, '$B$ ='), pointPart(C, '$C$ ='), pointPart(D, '$D$ =')],
     hints: ['Wide means across: moving right adds to the first number. Tall means up: moving up adds to the second number.', `Start at $A${pt(A)}$. Move $${w}$ right to get $B$, then $${h}$ up to get $C$.`],
     solution: [

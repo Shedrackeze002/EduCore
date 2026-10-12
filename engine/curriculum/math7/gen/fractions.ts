@@ -151,7 +151,7 @@ function mixedSteps(a: Mixed, b: Mixed, op: '+' | '-'): { steps: string[]; resul
     W = a.w + b.w;
     F = A + B;
     const wholes = a.w > 0 && b.w > 0 ? `Add the whole numbers: $${a.w} + ${b.w} = ${W}$.` : `The whole number part is $${W}$.`;
-    steps.push(`${wholes} Add the fractions: $${fr(A, L)} + ${fr(B, L)} = ${fr(F, L)}$.`);
+    steps.push(A === 0 || B === 0 ? `${wholes} The fraction part is $${fr(F, L)}$.` : `${wholes} Add the fractions: $${fr(A, L)} + ${fr(B, L)} = ${fr(F, L)}$.`);
     if (F >= L) {
       steps.push(
         F === L
@@ -798,8 +798,9 @@ function problemD3(rng: Rng): Out {
     const [bike, run] = retry(
       () => mixedPair(rng, KM_PAIRS, 2, 9, '+').sort((p, q) => mval(q) - mval(p)),
       ([p, q]) => {
-        const tot = swim[0] / swim[1] + mval(p) + mval(q);
-        return Math.abs(tot - Math.round(tot)) > 1e-9 && lcm(lcm(swim[1], p.d), q.d) <= 20;
+        const part = swim[0] / swim[1] + mval(p);
+        const tot = part + mval(q);
+        return Math.abs(tot - Math.round(tot)) > 1e-9 && Math.abs(part - Math.round(part)) > 1e-9 && lcm(lcm(swim[1], p.d), q.d) <= 20;
       },
       200,
     );

@@ -425,7 +425,7 @@ const chordProperties = skill({
  * Points on the circle for an inscribed triangle with angles a (at the first point), b and c, placed so
  * that each arc is twice the opposite angle. Returns the directions of the three points.
  */
-function triDirs(a: number, b: number, c: number, start: number): [number, number, number] {
+function triDirs(a: number, _b: number, c: number, start: number): [number, number, number] {
   // P1 at start; P2 is 2c further on (arc P1P2 is opposite the third point); P3 is 2a further.
   return [start, start + 2 * c, start + 2 * c + 2 * a];
 }
