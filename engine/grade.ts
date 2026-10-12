@@ -273,7 +273,7 @@ function gradeExpression(spec: Extract<AnswerSpec, { kind: 'expression' }>, resp
   // "y = 3n + 4" when the box already says "y =": read the right-hand side, unless the
   // left-hand letter is one of the expression's own variables.
   const named = /^\s*([A-Za-z])\s*=\s*([^=]+)$/.exec(response);
-  const student = parseExpr(named && !variablesOf(expected).has(named[1]) ? named[2] : response);
+  const student = matchCase(parseExpr(named && !variablesOf(expected).has(named[1]) ? named[2] : response), expected);
   const extraVars = [...variablesOf(student)].filter((v) => !variablesOf(expected).has(v));
   if (extraVars.length) return no(`Your answer uses ${extraVars.join(', ')}, which is not in the question.`);
   if (!equivalent(student, expected, spec.positiveVars ?? true)) {
@@ -282,6 +282,38 @@ function gradeExpression(spec: Extract<AnswerSpec, { kind: 'expression' }>, resp
   const form = spec.form ?? 'any';
   const issue = formIssue(student, form, spec.radicalIndex ?? 2);
   return issue ? no(issue) : ok();
+}
+
+/**
+ * A letter typed in the other case (c for the question's C) is read as the question's variable,
+ * unless the question itself uses both cases of that letter.
+ */
+function matchCase(n: Node, expected: Node): Node {
+  const own = variablesOf(expected);
+  const byLower = new Map<string, string | null>();
+  for (const v of own) byLower.set(v.toLowerCase(), byLower.has(v.toLowerCase()) ? null : v);
+  const rename = (x: Node): Node => {
+    switch (x.t) {
+      case 'var': {
+        const to = own.has(x.name) ? x.name : byLower.get(x.name.toLowerCase());
+        return to ? { t: 'var', name: to } : x;
+      }
+      case 'neg':
+      case 'paren':
+        return { ...x, a: rename(x.a) };
+      case 'add':
+      case 'sub':
+      case 'mul':
+      case 'div':
+      case 'pow':
+        return { ...x, a: rename(x.a), b: rename(x.b) };
+      case 'fn':
+        return { ...x, args: x.args.map(rename) };
+      default:
+        return x;
+    }
+  };
+  return rename(n);
 }
 
 /** Returns a message describing why `n` is not in the requested form, or null if it is. */

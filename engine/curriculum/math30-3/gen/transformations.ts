@@ -759,7 +759,7 @@ function reverse(rng: Rng): Out {
     const inv = inverse(T);
     const cw = rng.chance(0.6);
     const ctx = rng.pick([
-      'A drafter rotated part of a CAD drawing and lost the original. ',
+      'A drafter moved part of a CAD drawing and lost the original. ',
       'A tile setter is checking a pattern on a floor plan. ',
       'A sign maker is checking a logo layout. ',
       '',
@@ -1046,7 +1046,7 @@ function modelItem(rng: Rng): Out {
       prompt: `A hobby shop sells a scale model of ${c.thing}. The model is a dilation of the real ${c.thing.replace(/^an? /, '')} with scale factor $\\frac{1}{${c.n}}$ (a scale of $1 : ${c.n}$). The real ${c.part} is ${len(actualM, 'm')}. What is the ${c.part} of the model, in centimetres?`,
       parts: [numPart(model, { suffix: 'cm' })],
       hints: ['Change the real length to centimetres first: multiply metres by $100$.', `Multiply by the scale factor $\\frac{1}{${c.n}}$, which is the same as dividing by $${c.n}$.`],
-      solution: [`${len(actualM, 'm')} $= ${num(actualM)} \\times 100 = ${num(actual)}\\ \\text{cm}$`, `$${num(actual)} \\div ${c.n} = ${num(model)}$`, `The model's ${c.part} is ${len(model, 'cm')}.`],
+      solution: [`$${num(actualM)}\\ \\text{m} = ${num(actualM)} \\times 100 = ${num(actual)}\\ \\text{cm}$`, `$${num(actual)} \\div ${c.n} = ${num(model)}$`, `The model's ${c.part} is ${len(model, 'cm')}.`],
       calculator: true,
     };
   }

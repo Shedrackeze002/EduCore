@@ -61,6 +61,10 @@ describe('parser', () => {
     expect(gradePart({ ...one, expected: '2cos^2(x)' }, '2cos^2 x').correct).toBe(true);
     expect(gradePart({ ...one, expected: '1' }, 'sin^2 x + cos^2 x').correct).toBe(false);
   });
+  it('reads a variable typed in the other case as the question variable', () => {
+    expect(gradePart({ kind: 'expression', expected: '1.8C + 32' }, '1.8c + 32').correct).toBe(true);
+    expect(gradePart({ kind: 'expression', expected: 'x + X' }, 'x + x').correct).toBe(false);
+  });
   it('grades calculus-style answers by equivalence', () => {
     const d = (expected: string) => ({ kind: 'expression' as const, expected });
     expect(gradePart(d('2sin(x)cos(x)'), 'sin(2x)').correct).toBe(true);
