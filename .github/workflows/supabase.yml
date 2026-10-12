@@ -17,9 +17,19 @@ on:
     paths:
       - 'supabase/**'
       - 'engine/**'
+  # Merges made through an app do not start push workflows (see deploy.yml), so a merged pull
+  # request into main deploys too. The job checks out main, never the pull request's own code.
+  pull_request_target:
+    types: [closed]
+    branches: [main]
+    paths:
+      - 'supabase/**'
+      - 'engine/**'
 
 jobs:
   deploy:
+    # A closed pull request deploys only when it was merged.
+    if: github.event_name != 'pull_request_target' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -35,6 +45,8 @@ jobs:
           fi
       - uses: actions/checkout@v4
         if: steps.cfg.outputs.skip != 'true'
+        with:
+          ref: ${{ github.event_name == 'pull_request_target' && 'main' || github.ref }}
       - uses: supabase/setup-cli@v1
         if: steps.cfg.outputs.skip != 'true'
         with:
