@@ -76,22 +76,23 @@ const GRID: Record<number, [number, number]> = { 4: [1, 4], 5: [1, 5], 10: [1, 1
 interface TwoParts {
   /** Sentence giving both counts. */
   text: (a: number, b: number) => string;
-  /** Names of the two parts and of the whole, e.g. 'red marbles', 'blue marbles', 'marbles'. */
+  /** Names of the two parts, the whole (for "to all the ..."), and a plural noun for the whole set. */
   A: string;
   B: string;
   whole: string;
+  noun: string;
   range: [number, number];
 }
 
 const TWO: TwoParts[] = [
-  { text: (a, b) => `A bag has $${a}$ red marbles and $${b}$ blue marbles.`, A: 'red marbles', B: 'blue marbles', whole: 'all the marbles', range: [2, 9] },
-  { text: (a, b) => `A chess club has $${a}$ girls and $${b}$ boys.`, A: 'girls', B: 'boys', whole: 'all the club members', range: [3, 12] },
-  { text: (a, b) => `An animal shelter in ${'@town'} has $${a}$ cats and $${b}$ dogs.`, A: 'cats', B: 'dogs', whole: 'all the animals', range: [2, 12] },
-  { text: (a, b) => `A beaded bracelet has $${a}$ blue beads and $${b}$ white beads.`, A: 'blue beads', B: 'white beads', whole: 'all the beads', range: [4, 15] },
-  { text: (a, b) => `In September, ${'@town'} had $${a}$ sunny days and $${b}$ cloudy days.`, A: 'sunny days', B: 'cloudy days', whole: 'all the days in September', range: [8, 22] },
-  { text: (a, b) => `${'@name'} took shots on goal at hockey practice. $${a}$ shots went in and $${b}$ shots missed.`, A: 'shots that went in', B: 'shots that missed', whole: 'all the shots', range: [2, 12] },
-  { text: (a, b) => `A garden bed has $${a}$ tomato plants and $${b}$ pepper plants.`, A: 'tomato plants', B: 'pepper plants', whole: 'all the plants', range: [2, 10] },
-  { text: (a, b) => `A basket has $${a}$ apples and $${b}$ oranges.`, A: 'apples', B: 'oranges', whole: 'all the fruit', range: [2, 10] },
+  { text: (a, b) => `A bag has $${a}$ red marbles and $${b}$ blue marbles.`, A: 'red marbles', B: 'blue marbles', whole: 'all the marbles', noun: 'marbles', range: [2, 9] },
+  { text: (a, b) => `A chess club has $${a}$ girls and $${b}$ boys.`, A: 'girls', B: 'boys', whole: 'all the club members', noun: 'club members', range: [3, 12] },
+  { text: (a, b) => `An animal shelter in @town has $${a}$ cats and $${b}$ dogs.`, A: 'cats', B: 'dogs', whole: 'all the animals', noun: 'animals', range: [2, 12] },
+  { text: (a, b) => `A beaded bracelet has $${a}$ blue beads and $${b}$ white beads.`, A: 'blue beads', B: 'white beads', whole: 'all the beads', noun: 'beads', range: [4, 15] },
+  { text: (a, b) => `On a field trip bus to @town, there are $${a}$ adults and $${b}$ students.`, A: 'adults', B: 'students', whole: 'all the people on the bus', noun: 'people on the bus', range: [2, 9] },
+  { text: (a, b) => `@name took shots at hockey practice. $${a}$ shots were goals and $${b}$ shots missed.`, A: 'goals', B: 'missed shots', whole: 'all the shots', noun: 'shots', range: [2, 12] },
+  { text: (a, b) => `A garden bed has $${a}$ tomato plants and $${b}$ pepper plants.`, A: 'tomato plants', B: 'pepper plants', whole: 'all the plants', noun: 'plants', range: [2, 10] },
+  { text: (a, b) => `A basket has $${a}$ apples and $${b}$ oranges.`, A: 'apples', B: 'oranges', whole: 'all the fruit', noun: 'pieces of fruit', range: [2, 10] },
 ];
 
 function fillCtx(rng: Rng, t: string): string {
@@ -102,12 +103,10 @@ const RATIO_DEF_HINT = 'A ratio compares two amounts in order. The first amount 
 
 function ratioD1(rng: Rng): Out {
   const c = rng.pick(TWO);
-  const [a, b] = retry(() => [rng.int(c.range[0], c.range[1]), rng.int(c.range[0], c.range[1])], ([x, y]) => x !== y && c.range[1] - 0 >= 0, 50);
-  // September has 30 days.
-  const [A, B] = c.A === 'sunny days' ? [a, 30 - a] : [a, b];
+  const [A, B] = retry(() => [rng.int(c.range[0], c.range[1]), rng.int(c.range[0], c.range[1])], ([x, y]) => x !== y, 50);
   const W = A + B;
   const kind = rng.pick(['AB', 'BA', 'Awhole', 'Bwhole'] as const);
-  const pic = W <= 20 && c.A !== 'sunny days' && rng.chance(0.5);
+  const pic = W <= 20 && rng.chance(0.5);
   const order = rng.shuffle([...Array(A).fill(true), ...Array(B).fill(false)] as boolean[]);
   const ask =
     kind === 'AB' ? `${c.A} to ${c.B}` : kind === 'BA' ? `${c.B} to ${c.A}` : kind === 'Awhole' ? `${c.A} to ${c.whole}` : `${c.B} to ${c.whole}`;
@@ -131,7 +130,7 @@ function ratioD1(rng: Rng): Out {
 }
 
 function ratioD2(rng: Rng): Out {
-  const c = rng.pick(TWO.filter((t) => t.A !== 'sunny days'));
+  const c = rng.pick(TWO);
   const [A, B] = retry(() => [rng.int(c.range[0], c.range[1] + 4), rng.int(c.range[0], c.range[1] + 4)], ([x, y]) => x !== y, 50);
   const W = A + B;
   const text = fillCtx(rng, c.text(A, B));
@@ -157,9 +156,8 @@ function ratioD2(rng: Rng): Out {
     };
   }
   // Missing part-part term from the whole.
-  const pronoun = c.whole.replace(/^all the /, '');
   return {
-    prompt: `There are $${W}$ ${pronoun} in all. $${A}$ of them are ${c.A}. The rest are ${c.B}. Complete the part-part ratio of ${c.A} to ${c.B}: $${ratio(A, '\\square')}$`,
+    prompt: `There are $${W}$ ${c.noun} in all. $${A}$ of them are ${c.A}. The rest are ${c.B}. Complete the part-part ratio of ${c.A} to ${c.B}: $${ratio(A, '\\square')}$`,
     parts: [wholePart(B, '$\\square =$')],
     hints: [`Find how many are ${c.B}: take the ${c.A} away from the whole.`, `$${W} - ${A} = ?$`],
     solution: [`The number of ${c.B} is $${W} - ${A} = ${B}$.`, `The ratio of ${c.A} to ${c.B} is $${ratio(A, B)}$.`, `The missing number is $${B}$.`],
@@ -289,10 +287,10 @@ interface PctCtx {
 }
 
 const PCT_CTX: PctCtx[] = [
-  { text: (a, b) => `${'@name'} answered $${a}$ of $${b}$ questions correctly on a spelling quiz.`, part: 'questions answered correctly', whole: [10, 20, 25, 50] },
-  { text: (a, b) => `A hockey team in ${'@town'} played $${b}$ games and won $${a}$ of them.`, part: 'games won', whole: [10, 20, 25] },
+  { text: (a, b) => `@name answered $${a}$ of $${b}$ questions correctly on a spelling quiz.`, part: 'questions answered correctly', whole: [10, 20, 25, 50] },
+  { text: (a, b) => `A hockey team in @town played $${b}$ games and won $${a}$ of them.`, part: 'games won', whole: [10, 20, 25] },
   { text: (a, b) => `In a class of $${b}$ students, $${a}$ walk to school.`, part: 'students who walk', whole: [20, 25] },
-  { text: (a, b) => `${'@name'} planted $${b}$ seeds in the school garden. $${a}$ of them sprouted.`, part: 'seeds that sprouted', whole: [10, 20, 25, 50] },
+  { text: (a, b) => `@name planted $${b}$ seeds in the school garden. $${a}$ of them sprouted.`, part: 'seeds that sprouted', whole: [10, 20, 25, 50] },
   { text: (a, b) => `A bag has $${b}$ beads. $${a}$ of them are red.`, part: 'beads that are red', whole: [4, 5, 10, 20, 25, 50] },
 ];
 
@@ -344,7 +342,7 @@ function pctD1(rng: Rng): Out {
 
 function pctD2(rng: Rng): Out {
   const b = rng.pick([4, 5, 10, 20, 25, 50]);
-  const a = retry(() => rng.int(1, b - 1), (x) => b <= 10 || x % (b / 5) !== 0 || rng.chance(0.3), 50);
+  const a = rng.int(1, b - 1);
   const H = (a * 100) / b;
   const kind = rng.pick(['ratioPct', 'fracDec', 'gridBoth', 'mcSame'] as const);
   if (kind === 'mcSame') {
@@ -367,7 +365,7 @@ function pctD2(rng: Rng): Out {
       solution: [`The shaded part is $${fr(a, b)}$.`, ...toHundredths(a, b), `(a) $${H}$ hundredths is $${dec(H)}$.`, `(b) $${H}$ out of $100$ is $${pct(H)}$.`],
     };
   }
-  const c = rng.pick(PCT_CTX.filter((x) => x.whole.includes(b)).concat(PCT_CTX[4]));
+  const c = rng.pick(PCT_CTX.filter((x) => x.whole.includes(b)));
   const text = c.text(a, b).replace('@name', rng.pick(NAMES)).replace('@town', rng.pick(TOWNS));
   if (kind === 'fracDec') {
     return {

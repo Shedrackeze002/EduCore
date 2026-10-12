@@ -92,7 +92,7 @@ function makeDesign(kind: string, n: number): Design {
     }
     case 'quiltPinwheel': {
       const sq: P[] = [[-3, -3], [3, -3], [3, 3], [-3, 3]];
-      const tri: P[] = [[-3, -3], [0, -3], [-3, 0]];
+      const tri: P[] = [[-3, -3], [0, -3], [-3, -1.5]];
       return { name: 'quilt block', pieces: [{ pts: sq, color: 'brand' }, ...[0, 90, 180, 270].map((a) => ({ pts: rot(tri, a), color: 'accent' as Fill }))] };
     }
     case 'hexTriangles': {
@@ -107,11 +107,11 @@ function makeDesign(kind: string, n: number): Design {
       return { name: 'birdhouse design', pieces: [{ pts: [[-2.5, -2.5], [2.5, -2.5], [2.5, 1], [0, 3.3], [-2.5, 1]], color: 'brand' }, { pts: [[0.6, -1.2], [1.8, -1.2], [1.8, 0], [0.6, 0]], color: 'accent' }] };
     case 'sTile': {
       const sq: P[] = [[-3, -3], [3, -3], [3, 3], [-3, 3]];
-      return { name: 'tile', pieces: [{ pts: sq, color: 'brand' }, { pts: [[-3, -3], [0, -3], [-3, 0]], color: 'accent' }, { pts: [[3, 3], [0, 3], [3, 0]], color: 'accent' }] };
+      return { name: 'tile', pieces: [{ pts: sq, color: 'brand' }, { pts: [[-3, -3], [0, -3], [-3, -1.5]], color: 'accent' }, { pts: [[3, 3], [0, 3], [3, 1.5]], color: 'accent' }] };
     }
     case 'cornerTile': {
       const sq: P[] = [[-3, -3], [3, -3], [3, 3], [-3, 3]];
-      return { name: 'tile', pieces: [{ pts: sq, color: 'brand' }, { pts: [[-3, -3], [0, -3], [-3, 0]], color: 'accent' }] };
+      return { name: 'tile', pieces: [{ pts: sq, color: 'brand' }, { pts: [[-3, -3], [0, -3], [-3, -1.5]], color: 'accent' }] };
     }
     case 'snowflake':
       return { name: 'snowflake decoration', pieces: [{ pts: regular(6, 1.2, 90), color: 'accent' }, ...ring(RAY, 6, ['brand'], 90)] };
