@@ -27,6 +27,7 @@ function ns(x: number): string {
   const f = toFrac(x, 1000);
   return f && f.d !== 1 ? `(${f.n}/${f.d})` : fmt(x, 6);
 }
+const lead = (a: number) => (a === 1 ? '' : a === -1 ? '-' : nn(a));
 const sgn = (k: number) => (k === 0 ? '' : k > 0 ? ` + ${nn(k)}` : ` - ${nn(-k)}`);
 const pn = (x: number) => (x < 0 ? `(${nn(x)})` : nn(x));
 const units = (n: number, w = 'unit') => `${fmt(Math.abs(n))} ${w}${Math.abs(n) === 1 ? '' : 's'}`;
@@ -1775,7 +1776,7 @@ function lgMatch(rng: Rng): GenOutput {
     hints: [`The vertical asymptote is $x = ${L.h}$.`, `When $x - ${pn(L.h)} = 1$, the logarithm is $0$, so the graph passes through $(${L.h + 1},\\ ${L.k})$.`],
     solution: [
       `The vertical asymptote is $x = ${L.h}$, and the domain is $x > ${L.h}$.`,
-      `At $x = ${L.h + 1}$: $y = ${nn(L.a)}${logb(L.c)} 1${sgn(L.k)} = ${L.k}$, so the graph passes through $(${L.h + 1},\\ ${L.k})$.`,
+      `At $x = ${L.h + 1}$: $y = ${lead(L.a)}${logb(L.c)} 1${sgn(L.k)} = ${L.k}$, so the graph passes through $(${L.h + 1},\\ ${L.k})$.`,
       `$a = ${nn(L.a)}$ is ${L.a > 0 ? 'positive, so the graph rises from left to right' : 'negative, so the graph is reflected in the $x$-axis and falls from left to right'}.`,
       'The correct graph has that asymptote, passes through that point and has that direction.',
     ],
@@ -1800,9 +1801,9 @@ function lgXIntFull(rng: Rng): GenOutput {
     hints: ['Set $y = 0$ and isolate the logarithm.', 'Rewrite in exponential form, then solve the linear equation.'],
     solution: [
       `$0 = ${logTex(L)}$`,
-      `$${nn(L.a)}${logb(L.c)}(${argTex(L.b, L.h)}) = ${-L.k}$, so $${logb(L.c)}(${argTex(L.b, L.h)}) = ${o.e}$.`,
+      `$${lead(L.a)}${logb(L.c)}(${argTex(L.b, L.h)}) = ${-L.k}$, so $${logb(L.c)}(${argTex(L.b, L.h)}) = ${o.e}$.`,
       `$${argTex(L.b, L.h)} = ${bsub(L.c)}^{${o.e}} = ${ftex(ce)}$`,
-      L.b === 1 ? `$x = ${ftex(ce)} + ${pn(L.h)} = ${nn(x)}$` : `$x - ${pn(L.h)} = ${ftex(ce)} \\div ${pn(L.b)} = ${nn((ce.n / ce.d) / L.b)}$, so $x = ${nn(x)}$.`,
+      L.b === 1 ? `$x = ${ftex(ce)} + ${pn(L.h)} = ${nn(x)}$` : `$${innerTex(L.h)} = ${ftex(ce)} \\div ${pn(L.b)} = ${nn((ce.n / ce.d) / L.b)}$${L.h === 0 ? '' : `, so $x = ${nn(x)}$`}.`,
     ],
   };
 }
