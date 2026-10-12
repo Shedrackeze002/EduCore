@@ -1,5 +1,5 @@
 /** Math 31 Unit 8 — Antiderivatives and Integrals: antiderivatives, Riemann sums, the fundamental theorem and substitution (I1, I2, I3). */
-import { fixedChoice, mc, part, skill, type GenOutput } from '../../helpers.ts';
+import { fixedChoice, mc, part, retry, skill, type GenOutput } from '../../helpers.ts';
 import { fmt, fmtFixed, fracLatex, toFrac } from '../../../math/numbers.ts';
 import type { Rng } from '../../../rng.ts';
 import type { AnswerSpec, GridSpec, Part, PlaneFigure, PlaneSegment, SkillDef } from '../../../types.ts';
@@ -73,11 +73,11 @@ export function expTex(m: number): string {
 /** True when the LaTeX has a top-level + or - (so it needs brackets after an integral sign). */
 export function isSum(s: string): boolean {
   let depth = 0;
-  for (let i = 1; i < s.length; i++) {
+  for (let i = 0; i < s.length; i++) {
     const c = s[i];
     if (c === '(' || c === '{' || c === '[') depth++;
     else if (c === ')' || c === '}' || c === ']') depth--;
-    else if (depth === 0 && (c === '+' || c === '-') && s[i - 1] === ' ') return true;
+    else if (i > 0 && depth === 0 && (c === '+' || c === '-') && s[i - 1] === ' ') return true;
   }
   return false;
 }
@@ -266,7 +266,7 @@ export function niceGrid(x0: number, x1: number, y0: number, y1: number, xStep?:
 }
 
 /** The plot area in pixels, as the plane figure draws it (380 px wide). */
-function plotBox(g: GridSpec): { w: number; h: number } {
+export function plotBox(g: GridSpec): { w: number; h: number } {
   const xs = g.xStep ?? g.step ?? 1;
   const ys = g.yStep ?? g.step ?? 1;
   const xr = g.xMax - g.xMin;
@@ -317,12 +317,20 @@ export function curve(f: (x: number) => number, x0: number, x1: number, g: GridS
  * -1 falling), `gap` pixels apart, kept a few pixels clear of the boundary.
  */
 export function hatch(lo: (x: number) => number, hi: (x: number) => number, a: number, b: number, g: GridSpec, dir: 1 | -1 = 1, gap = 11): PlaneSegment[] {
+  return hatchWhere((x, y, padX, padY) => x > a + padX && x < b - padX && y > Math.max(lo(x), g.yMin) + padY && y < Math.min(hi(x), g.yMax) - padY, a, b, g, dir, gap);
+}
+
+/**
+ * Hatching of any region a < x < b given by a test `inside(x, y, padX, padY)`; padX and padY are the
+ * data distances of a few pixels, for keeping the lines clear of the boundary.
+ */
+export function hatchWhere(test: (x: number, y: number, padX: number, padY: number) => boolean, a: number, b: number, g: GridSpec, dir: 1 | -1 = 1, gap = 11): PlaneSegment[] {
   const { w, h } = plotBox(g);
   const sx = w / (g.xMax - g.xMin);
   const sy = h / (g.yMax - g.yMin);
   const padX = 2.5 / sx;
   const padY = 3 / sy;
-  const inside = (x: number, y: number) => x > a + padX && x < b - padX && y > Math.max(lo(x), g.yMin) + padY && y < Math.min(hi(x), g.yMax) - padY;
+  const inside = (x: number, y: number) => test(x, y, padX, padY);
   const segs: PlaneSegment[] = [];
   const spacing = gap * Math.SQRT2;
   const [t0, t1] = dir === 1 ? [-w, h] : [0, w + h];
@@ -964,7 +972,7 @@ function riemannSteps(fn: RFn, a: number, b: number, n: number, kind: RKind): { 
     value,
     steps: [
       `$\\Delta x = \\dfrac{${b} - ${a}}{${n}} = ${dec(dx)}$`,
-      `The ${RNAME[kind]} ${kind === 'mid' ? 'points' : 'endpoints'} of the subintervals are $x = ${xs.map(dec).join(',\\ ')}$.`,
+      `The ${kind === 'mid' ? 'midpoints' : `${RNAME[kind]} endpoints`} of the subintervals are $x = ${xs.map(dec).join(',\\ ')}$.`,
       `$${S} = ${dec(dx)}\\left[${xs.map((x) => `f(${dec(x)})`).join(' + ')}\\right]$`,
       `$${S} ${approx ? '\\approx' : '='} ${dec(dx)}\\left(${hs.map((h) => dec(h)).join(' + ')}\\right) ${approx ? '\\approx' : '='} ${dec(dx)}(${dec(sum)}) ${approx ? '\\approx' : '='} ${dec(value)}$`,
     ],
@@ -1023,7 +1031,7 @@ const riemann = skill({
       const r = riemannSteps(fn, a, b, n, rk);
       const v = valuePart(r.value, { display: 'decimal', note: ' Round to the nearest hundredth if necessary.' });
       const S = `${RSYM[rk]}_{${n}}`;
-      const shown = v.note ? `${S} \\approx ${fmtFixed(r.value, 2)}` : `${S} = ${dec(r.value)}`;
+      const shown = v.note && isRounded(r.value) ? `${S} \\approx ${fmtFixed(r.value, 2)}` : `${S} = ${dec(r.value)}`;
       if (kind === 'compute') {
         return {
           prompt: `Estimate the area under $f(x) = ${fn.tex}$ on $[${a}, ${b}]$ with a ${RNAME[rk]} Riemann sum using $n = ${n}$ subintervals of equal width.${v.note}`,
@@ -1097,7 +1105,7 @@ const riemann = skill({
       ],
       solution: [
         `$\\Delta t = \\dfrac{${end} - 0}{${n}} = ${width}$`,
-        `The ${RNAME[rk]} ${rk === 'mid' ? 'points' : 'endpoints'} are $t = ${idx.map((i) => times[i]).join(',\\ ')}$, with values $${used.join(',\\ ')}$.`,
+        `The ${rk === 'mid' ? 'midpoints' : `${RNAME[rk]} endpoints`} are $t = ${idx.map((i) => times[i]).join(',\\ ')}$, with values $${used.join(',\\ ')}$.`,
         `Estimate $= ${width}(${used.join(' + ')}) = ${width}(${sum}) = ${fmt(total)}$`,
         `The ${ctx.total} is about ${fmt(total)} ${ctx.unit}.`,
       ],
@@ -1127,7 +1135,7 @@ function ftcSteps(terms: Term[], a: number, b: number): { F: string; Fa: number;
       `An antiderivative is $F(x) = ${F}$.`,
       `$F(${b}) = ${powSubTex(terms, b)} = ${tn(Fb)}$`,
       a === 0 ? '$F(0) = 0$' : `$F(${a}) = ${powSubTex(terms, a)} = ${tn(Fa)}$`,
-      `$\\displaystyle\\int_{${a}}^{${b}} = F(${b}) - F(${a}) = ${tn(Fb)} - ${par(Fa)} = ${tn(value)}$`,
+      `$\\displaystyle\\int_{${a}}^{${b}} f(x)\\,dx = F(${b}) - F(${a}) = ${tn(Fb)} - ${par(Fa)} = ${tn(value)}$`,
     ],
   };
 }
@@ -1583,9 +1591,9 @@ interface Sub {
   dom?: string;
 }
 
-const uBase = (x: string) => (x.length > 1 ? `(${x})` : x);
+const uBase = (x: string) => `(${x})`;
 
-function subCase(rng: Rng, d: number, exactDu: boolean): Sub {
+function subCase(rng: Rng, exactDu: boolean): Sub {
   const fam = exactDu
     ? rng.pick(['chain', 'chain', 'exp', 'trig', 'lin', 'ln'] as const)
     : rng.pick(['chain', 'chain', 'sqrt', 'invsqrt', 'log', 'exp', 'xexp', 'trig', 'lin', 'ln'] as const);
@@ -1899,6 +1907,78 @@ const SUB_HINTS = [
   'Write $du = u\'(x)\\,dx$, replace everything in terms of $u$, integrate, then substitute back.',
 ];
 
+/** A total change from a rate that needs a substitution (level 3). */
+function substitutionApp(rng: Rng): GenOutput {
+  const ctx = rng.pick(['vel', 'growth', 'users'] as const);
+  if (ctx === 'vel') {
+    const [p, b] = rng.pick([[9, 4], [16, 3], [36, 8]] as const);
+    const k = rng.pick([3, 6]);
+    const c = k / 3;
+    const ub = p + b * b;
+    const value = c * (ub ** 1.5 - p ** 1.5);
+    const who = rng.pick(['A test car on a straight track', 'A drone flying in a straight line', 'An electric scooter on a straight bike path', 'A sled on a straight run']);
+    return {
+      prompt: `${who} starts at $t = 0$ with velocity $v(t) = ${cf(k)}t\\sqrt{t^{2} + ${p}}$ m/s, where $t$ is the time in seconds. Since $v(t) \\ge 0$, the distance travelled is $\\displaystyle\\int_0^{${b}} v(t)\\,dt$. How far does it travel in the first ${b} seconds?`,
+      parts: [part({ kind: 'numeric', value }, { suffix: 'm' })],
+      hints: ['Let $u$ be the expression under the square root; its derivative $2t$ is (up to a constant) the factor in front.', `With $u = t^{2} + ${p}$, the limits $t = 0$ and $t = ${b}$ become $u = ${p}$ and $u = ${ub}$.`],
+      solution: [
+        `Let $u = t^{2} + ${p}$. Then $du = 2t\\,dt$, so $t\\,dt = \\frac{1}{2}\\,du$.`,
+        `Change the limits: $t = 0$ gives $u = ${p}$; $t = ${b}$ gives $u = ${ub}$.`,
+        `$\\displaystyle\\int_0^{${b}} ${cf(k)}t\\sqrt{t^{2} + ${p}}\\,dt = ${cf(k / 2)}\\int_{${p}}^{${ub}} u^{1/2}\\,du = \\Big[${cf(c)}u^{3/2}\\Big]_{${p}}^{${ub}}$`,
+        `$= ${cdot(c)}(${ub ** 1.5} - ${p ** 1.5}) = ${fmt(value)}$`,
+        `It travels ${fmt(value)} m.`,
+      ],
+    };
+  }
+  if (ctx === 'growth') {
+    const o = retry(
+      () => ({ A: rng.pick([200, 300, 400, 500, 600]), r: rng.pick([0.1, 0.2, 0.25]), T: rng.pick([4, 5, 6, 8]) }),
+      ({ A, r, T }) => {
+        const v = (A / r) * (Math.exp(r * T) - 1);
+        return Math.abs(v - Math.floor(v) - 0.5) > 0.05;
+      },
+    );
+    const { A, r, T } = o;
+    const c = A / r;
+    const value = c * (Math.exp(r * T) - 1);
+    const what = rng.pick(['A bacteria culture in a lab at the University of Alberta grows', 'A population of yeast cells in a bakery starter grows', 'A colony of algae in a pond near Sylvan Lake grows']);
+    return {
+      prompt: `${what} at a rate of $P'(t) = ${A}e^{${fmt(r)}t}$ cells per hour, where $t$ is the time in hours. By how much does the population increase during the first ${T} hours? Round to the nearest whole number.`,
+      parts: [part({ kind: 'numeric', value, decimals: 0 }, { suffix: 'cells' })],
+      hints: ['The increase is the integral of the rate: $\\displaystyle\\int_0^{' + T + "} P'(t)\\,dt$.", `Substitute $u = ${fmt(r)}t$, so $dt = ${tn(1 / r)}\\,du$, and change the limits.`],
+      solution: [
+        `Increase $= \\displaystyle\\int_0^{${T}} ${A}e^{${fmt(r)}t}\\,dt$`,
+        `Let $u = ${fmt(r)}t$. Then $du = ${fmt(r)}\\,dt$, so $dt = ${tn(1 / r)}\\,du$; the limits become $u = 0$ and $u = ${fmt(r * T)}$.`,
+        `$= ${tn(c)}\\displaystyle\\int_0^{${fmt(r * T)}} e^{u}\\,du = ${tn(c)}\\left(e^{${fmt(r * T)}} - 1\\right) \\approx ${fmtFixed(value, 2)}$`,
+        `The population increases by about ${Math.round(value)} cells.`,
+      ],
+    };
+  }
+  const o = retry(
+    () => ({ A: rng.pick([2000, 3000, 4000, 6000]), pt: rng.pick([[9, 4], [16, 3], [4, 6], [25, 10]] as const) }),
+    ({ A, pt }) => {
+      const v = (A / 2) * Math.log((pt[1] ** 2 + pt[0]) / pt[0]);
+      return Math.abs(v - Math.floor(v) - 0.5) > 0.05;
+    },
+  );
+  const { A } = o;
+  const [p, T] = o.pt;
+  const ub = T * T + p;
+  const value = (A / 2) * Math.log(ub / p);
+  const app = rng.pick(['a new transit app in Edmonton', 'a local news podcast in Lethbridge', 'a hiking-trail app for Kananaskis Country']);
+  return {
+    prompt: `After launch, ${app} gains new users at a rate of $N'(t) = \\dfrac{${A}t}{t^{2} + ${p}}$ users per week, where $t$ is the time in weeks. How many new users does it gain in the first ${T} weeks? Round to the nearest whole number.`,
+    parts: [part({ kind: 'numeric', value, decimals: 0 }, { suffix: 'users' })],
+    hints: ['The total gained is $\\displaystyle\\int_0^{' + T + "} N'(t)\\,dt$. Look for a denominator whose derivative appears on top.", `Let $u = t^{2} + ${p}$, so $t\\,dt = \\frac{1}{2}\\,du$, and use $\\int \\frac{1}{u}\\,du = \\ln u$.`],
+    solution: [
+      `Let $u = t^{2} + ${p}$. Then $du = 2t\\,dt$, so $t\\,dt = \\frac{1}{2}\\,du$; the limits become $u = ${p}$ and $u = ${ub}$.`,
+      `$\\displaystyle\\int_0^{${T}} \\dfrac{${A}t}{t^{2} + ${p}}\\,dt = ${A / 2}\\int_{${p}}^{${ub}} \\dfrac{1}{u}\\,du = ${A / 2}\\left(\\ln ${ub} - \\ln ${p}\\right)$`,
+      `$= ${A / 2}\\ln ${tn(ub / p, true)} \\approx ${fmtFixed(value, 2)}$`,
+      `It gains about ${Math.round(value)} new users.`,
+    ],
+  };
+}
+
 const substitution = skill({
   id: 'm31-substitution',
   name: 'Integration by substitution',
@@ -1907,8 +1987,9 @@ const substitution = skill({
   lessonId: 'm31-8-4',
   calculator: true,
   gen(rng, d): GenOutput {
-    const kind = d === 1 ? rng.pick(['chooseU', 'swapMc', 'indef', 'indef'] as const) : d === 2 ? rng.pick(['indef', 'indef', 'def'] as const) : rng.pick(['def', 'defLimits', 'indefCond'] as const);
-    const S = subCase(rng, d, d === 1);
+    const kind = d === 1 ? rng.pick(['chooseU', 'swapMc', 'indef', 'indef'] as const) : d === 2 ? rng.pick(['indef', 'indef', 'def'] as const) : rng.pick(['def', 'defLimits', 'indefCond', 'app'] as const);
+    if (kind === 'app') return substitutionApp(rng);
+    const S = subCase(rng, d === 1);
 
     if (kind === 'chooseU') {
       const correct = `$u = ${S.u}$`;

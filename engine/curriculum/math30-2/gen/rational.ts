@@ -76,8 +76,8 @@ function groupFactors(fs: F[]): Array<{ f: F; n: number }> {
     if (g) g.n++;
     else groups.push({ f, n: 1 });
   }
-  // A monomial factor (x) is written first: 3x(x − 2).
-  return groups.sort((p, q) => (p.f.b === 0 ? 0 : 1) - (q.f.b === 0 ? 0 : 1));
+  // A monomial factor (x) is written first, then binomials from the largest root down: 3x(x − 2)(x + 2).
+  return groups.sort((p, q) => (p.f.b === 0 ? 0 : 1) - (q.f.b === 0 ? 0 : 1) || fRoot(q.f) - fRoot(p.f));
 }
 
 function uniqF(fs: F[]): F[] {
@@ -544,8 +544,8 @@ function equivalentForm(rng: Rng): GenOutput {
     hints: ['Factor the new denominator. What was the old denominator multiplied by?', 'Multiply the numerator by the same factor. The new expression is undefined wherever its denominator is zero.'],
     solution: [
       `Factor the new denominator: ${factorWhy(newDen, v)}.`,
-      `The old denominator $${slotTex(orig.den, v)}$ was multiplied by $${multTex}$. Multiply the numerator by the same factor: $${prodTex(1, [...orig.num.fs], v) === '1' ? '' : ''}${slotFac(newNum, v)} = ${newNumTex}$.`,
-      `The new denominator is zero when ${zeroText(newDen.fs, v).replace(/^Set each factor equal to zero: |^Set the factor equal to zero: /, '').replace(/\.$/, '')}, so ${npvTex(vals, v)}.`,
+      `The old denominator $${slotTex(orig.den, v)}$ was multiplied by $${multTex}$. Multiply the numerator by the same factor: $${slotFac(newNum, v)} = ${newNumTex}$.`,
+      `The new denominator $${slotFac(newDen, v)}$ is zero when ${vals.map((x) => `$${v} = ${niceNum(x)}$`).join(' or ')}, so ${npvTex(vals, v)}.`,
       `The two expressions are equal only for permissible values: the original is defined at $${v} = ${niceNum(extra[0])}$, but the new expression is not.`,
       `Missing numerator: $${newNumTex}$; ${npvTex(vals, v)}.`,
     ],
@@ -566,13 +566,14 @@ function oppositeSimplify(rng: Rng): GenOutput {
   const numShown = ptex([k * s, -k], v, true);
   const given = `\\dfrac{${numShown}}{${slotTex(den, v)}}`;
   const negK = k === 1 ? '-' : `-${k}`;
+  const negKWord = k === 1 ? '-1' : `-${k}`;
   const options = [opt(negRE(correct), v), opt(flipRE(correct), v), opt(negRootsRE(correct), v), opt(negRE(negRootsRE(correct)), v), opt(flipRE(negRE(correct)), v)];
   return {
     prompt: `Simplify $${given}$ and state the non-permissible values.`,
     parts: [part(formChoice(rng, opt(correct, v), options), { label: 'Simplified form' }), npvPart(vals)],
-    hints: ['$' + `${s} - ${v}` + '$ and $' + `${v} - ${s}` + '$ are opposites: $' + `${s} - ${v} = -(${v} - ${s})` + '$.', `Factor $${negK}$ out of the numerator so it matches a factor of the denominator, then divide out the common factor.`],
+    hints: ['$' + `${s} - ${v}` + '$ and $' + `${v} - ${s}` + '$ are opposites: $' + `${s} - ${v} = -(${v} - ${s})` + '$.', `Factor $${negKWord}$ out of the numerator so it matches a factor of the denominator, then divide out the common factor.`],
     solution: [
-      `Factor $${negK}$ out of the numerator so that its binomial matches the denominator: $${numShown} = ${negK}(${ptex(fP(xm(s)), v)})$.`,
+      `Factor $${negKWord}$ out of the numerator so that its binomial matches the denominator: $${numShown} = ${negK}(${ptex(fP(xm(s)), v)})$.`,
       `${needsFactor(den) ? `Factor the denominator: ${factorWhy(den, v)}. ` : ''}${zeroText(den.fs, v)} So ${npvTex(vals, v)}.`,
       `Divide out $(${ptex(fP(xm(s)), v)})$: $\\dfrac{${negK}(${ptex(fP(xm(s)), v)})}{${slotFac(den, v)}} = ${reTex(correct, v)}$.`,
       `Simplified: $${reTex(correct, v)}$, ${npvTex(vals, v)}.`,
@@ -598,17 +599,17 @@ function errorAnalysis(rng: Rng): GenOutput {
   let correctFinal = '';
   if (base === 'opposite') {
     const k = rng.int(1, 5);
-    const kk = k === 1 ? '' : `${k}`;
     expr = D(ptex([k * s, -k], v, true), `x^2 - ${s * s}`);
     const fac = `(x - ${s})(x + ${s})`;
-    const right = [`${expr} = ${D(`${kk}(${s} - x)`, fac)}`, `x \\ne -${s},\\ ${s}`, `${expr} = -${D(`${k}`, `x + ${s}`)}`];
+    const kTimes = (b: string) => (k === 1 ? b : `${k}(${b})`);
+    const right = [`${expr} = ${D(kTimes(`${s} - x`), fac)}`, `x \\ne -${s},\\ ${s}`, `${expr} = -${D(`${k}`, `x + ${s}`)}`];
     truth.push(...right);
     correctFinal = `$-${D(`${k}`, `x + ${s}`)}$, $x \\ne -${s},\\ ${s}$`;
     const steps = [`$${right[0]}$`, `$${right[1]}$`, `$${right[2]}$`];
     if (err === 1) {
-      steps[0] = `$${expr} = ${D(`${kk}(x - ${s})`, fac)}$`;
+      steps[0] = `$${expr} = ${D(kTimes(`x - ${s}`), fac)}$`;
       steps[2] = `$${expr} = ${D(`${k}`, `x + ${s}`)}$`;
-      explain = `Step 1 is wrong: $${ptex([k * s, -k], v, true)} = ${k === 1 ? '-' : `-${k}`}(x - ${s})$, not $${kk}(x - ${s})$. The sign was lost when the factor was rearranged.`;
+      explain = `Step 1 is wrong: $${ptex([k * s, -k], v, true)} = ${k === 1 ? '-' : `-${k}`}(x - ${s})$, not $${kTimes(`x - ${s}`)}$. The sign was lost when the factor was rearranged.`;
     } else if (err === 2) {
       steps[1] = `$x \\ne -${s}$`;
       explain = `Step 2 is wrong: the non-permissible values come from the original denominator $${fac}$, so $x \\ne ${s}$ as well. ${who} used only the simplified denominator.`;
@@ -847,7 +848,7 @@ function mulDivItem(rng: Rng, d: number): GenOutput {
   const given = `${showFrac(first)} ${sym} ${showFrac(second)}`;
   const steps: string[] = [];
   const toFactor = [first.num, first.den, second.num, second.den].filter(needsFactor);
-  if (toFactor.length) steps.push(`Factor: ${toFactor.map((x) => factorWhy(x, v)).join('; ')}. So the expression is $${facFrac(first)} ${sym} ${facFrac(second)}$.`);
+  if (toFactor.length) steps.push(`Factor: ${[...new Set(toFactor.map((x) => factorWhy(x, v)))].join('; ')}. So the expression is $${facFrac(first)} ${sym} ${facFrac(second)}$.`);
   const flipped = { num: second.den, den: second.num };
   if (op === 'div') steps.push(`Multiply by the reciprocal of the divisor: $${facFrac(first)} \\times ${facFrac(flipped)}$.`);
   steps.push(
@@ -927,16 +928,23 @@ function addTerms(terms: Term[], v: string): Sum {
     mults.push(prodTex(k, miss, v));
     N = padd(N, pscale(pmul(t.num, pprod(miss.map(fP))), k * t.sign));
     const multiTerm = t.num.filter((c) => c !== 0).length > 1;
+    // Written as k·x^j(numerator)(binomials): 4x(x − 4), 7(x + 5), 3x².
+    const missX = miss.filter((f) => f.b === 0).length;
+    const binTex = factorsTex(miss.filter((f) => f.b !== 0), v);
+    const xPow = (j: number) => (j === 0 ? '' : j === 1 ? v : `${v}^{${j}}`);
     let piece: string;
     let isSum = false;
-    if (!multiTerm && t.num.length === 1) {
-      const c = t.num[0] * k;
-      piece = miss.length ? `${c === 1 ? '' : c}${factorsTex(miss, v)}` : `${c}`;
+    if (!multiTerm) {
+      // A monomial numerator c·x^j.
+      const j = t.num.length - 1;
+      const c = t.num[j] * k;
+      const body = `${xPow(j + missX)}${binTex}`;
+      piece = `${c === 1 && body ? '' : c}${body}`;
     } else if (k === 1 && !miss.length) {
       piece = ptex(t.num, v);
-      isSum = multiTerm;
+      isSum = true;
     } else {
-      piece = `${k === 1 ? '' : k}${multiTerm ? `(${ptex(t.num, v)})` : ptex(t.num, v)}${factorsTex(miss, v)}`;
+      piece = `${k === 1 ? '' : k}${xPow(missX)}(${ptex(t.num, v)})${binTex}`;
     }
     const wrap = isSum && t.sign < 0 ? `(${piece})` : piece;
     pieces.push(i === 0 ? `${t.sign < 0 ? '-' : ''}${wrap}` : `${t.sign < 0 ? ' - ' : ' + '}${wrap}`);
@@ -1002,6 +1010,7 @@ function addSubItem(rng: Rng, d: number): GenOutput {
         factorStep = `Factor the denominator: $${big.shown} = ${prodTex(k, [xm(p)], v)}$ (common factor $${k}$).`;
       }
     }
+    if (!terms.every((tm) => inLowestTerms(tm.num, tm.den))) continue;
     const s = addTerms(terms, v);
     if (!inLowestTerms(s.N, s.lcd)) continue;
     if (d === 2 && s.N.length > 2 && s.N[s.N.length - 1] < 0) continue;
@@ -1100,6 +1109,8 @@ function times(k: number, inner: string): string {
   if (k === -1) return `-${body}`;
   return `${k}${body}`;
 }
+/** k·(inner) after a sign: a subtracted binomial keeps its brackets, as in − (x + 4). */
+const signedTimes = (neg: boolean, k: number, inner: string) => (neg && k === 1 && !oneTerm(inner) ? `(${inner})` : times(k, inner));
 /** \dfrac{top}{den} with a negative numeral moved in front. */
 function fracTerm(top: number | string, den: string) {
   return typeof top === 'number' && top < 0 ? `-\\dfrac{${-top}}{${den}}` : `\\dfrac{${top}}{${den}}`;
@@ -1136,9 +1147,10 @@ const rationalEquation = skill({
       eq = `\\dfrac{${a}}{${L}} = \\dfrac{${b}}{${R}}`;
       sols = [x0];
       steps.push(`Non-permissible values: $${v} \\ne ${[-p, -q].sort((m1, m2) => m1 - m2).map(niceNum).join(',\\ ')}$.`);
-      steps.push(`Multiply both sides by $(${L})(${R})$ (cross-multiply): $${times(a, R)} = ${times(b, L)}$.`);
+      const lcdTex = p === 0 ? `${v}(${R})` : q === 0 ? `${v}(${L})` : `(${L})(${R})`;
+      steps.push(`Multiply both sides by $${lcdTex}$ (cross-multiply): $${times(a, R)} = ${times(b, L)}$.`);
       steps.push(`Expand: $${ptex([a * q, a], v)} = ${ptex([b * p, b], v)}$.`);
-      steps.push(`Collect terms: $${ptex([0, a - b], v)} = ${b * p - a * q}$, so $${v} = ${x0}$.`);
+      steps.push(a - b === 1 ? `Collect terms: $${v} = ${x0}$.` : `Collect terms: $${ptex([0, a - b], v)} = ${b * p - a * q}$, so $${v} = ${x0}$.`);
       steps.push(`$${x0}$ is permissible, so the solution is $${v} = ${x0}$.`);
       hint2 = 'Cross-multiply, then solve the linear equation.';
     } else if (kind === 'monomial') {
@@ -1219,9 +1231,13 @@ const rationalEquation = skill({
       sols = roots;
       const quad: P = [C * p * q + A * q + B * p, -(C * (p + q) + A + B), C];
       steps.push(`Non-permissible values: $${v} \\ne ${Math.min(p, q)},\\ ${Math.max(p, q)}$. The LCD is $(${Lp})(${Lq})$.`);
-      steps.push(`Multiply every term by the LCD: $${times(A, Lq)} ${B < 0 ? '-' : '+'} ${times(Math.abs(B), Lp)} = ${times(C, `(${Lp})(${Lq})`)}$.`);
-      steps.push(`Expand and collect everything on one side: $${ptex(quad, v)} = 0$.`);
-      steps.push(`Factor: $${factoredQuadratic(C, roots, v)} = 0$, so ${xEq(roots, v)}.`);
+      steps.push(`Multiply every term by the LCD: $${times(A, Lq)} ${B < 0 ? '-' : '+'} ${signedTimes(B < 0, Math.abs(B), Lp)} = ${times(C, `(${Lp})(${Lq})`)}$.`);
+      if (C < 0) {
+        steps.push(`Expand and collect everything on one side: $${ptex(quad, v)} = 0$. Multiply both sides by $-1$: $${ptex(pscale(quad, -1), v)} = 0$.`);
+      } else {
+        steps.push(`Expand and collect everything on one side: $${ptex(quad, v)} = 0$.`);
+      }
+      steps.push(`Factor: $${factoredQuadratic(Math.abs(C), roots, v)} = 0$, so ${xEq(roots, v)}.`);
       steps.push('Neither value is non-permissible, so both are solutions.');
     } else if (kind === 'noSolution') {
       const p = rng.nonZero(-7, 7);
@@ -1259,11 +1275,12 @@ const rationalEquation = skill({
       const quad: P = [-A * p - B, A - k * q, k];
       const kv = k === 1 ? v : `${k}${v}`;
       steps.push(`Factor the denominator on the right: $${binom} = ${facTex}$${q === 0 ? '' : ' (a difference of squares)'}. Non-permissible values: $${v} \\ne ${Math.min(p, q)},\\ ${Math.max(p, q)}$.`);
-      steps.push(`Multiply every term by $${facTex}$: $${kv}${q === 0 ? `(${v})` : `(${Lq})`} ${A < 0 ? '-' : '+'} ${times(Math.abs(A), Lp)} = ${B}$.`);
+      const firstTerm = q === 0 ? `${k === 1 ? '' : k}${v}^2` : `${kv}(${Lq})`;
+      steps.push(`Multiply every term by $${facTex}$: $${firstTerm} ${A < 0 ? '-' : '+'} ${signedTimes(A < 0, Math.abs(A), Lp)} = ${B}$.`);
       steps.push(`Expand and collect: $${ptex(quad, v)} = 0$, which factors as $${factoredQuadratic(k, roots, v)} = 0$, so ${xEq(roots, v)}.`);
       steps.push(
         kind === 'allExtraneous'
-          ? `Both $${p}$ and $${q}$ are non-permissible, so both roots are extraneous. There is no solution.`
+          ? `Both $${Math.min(p, q)}$ and $${Math.max(p, q)}$ are non-permissible, so both roots are extraneous. There is no solution.`
           : `$${v} = ${p}$ is non-permissible, so it is extraneous: reject it. $${v} = ${s}$ is permissible, so the only solution is $${v} = ${s}$.`,
       );
     }
@@ -1292,11 +1309,12 @@ const TASKS = [
   'mow the grass on a soccer field',
   'enter a batch of survey data',
 ];
+/** A is the faster machine (generators give A the shorter time when the order matters). */
 const MACHINES = [
-  { task: 'fill a stock-watering tank', A: 'the older pump', B: 'the newer pump' },
-  { task: 'empty a flooded basement', A: 'the small pump', B: 'the large pump' },
-  { task: 'print the yearbooks', A: 'the old printer', B: 'the new printer' },
-  { task: 'clear a parking lot of snow', A: 'the small snowplow', B: 'the large snowplow' },
+  { task: 'fill a stock-watering tank', A: 'the newer pump', B: 'the older pump' },
+  { task: 'empty a flooded basement', A: 'the large pump', B: 'the small pump' },
+  { task: 'print the yearbooks', A: 'the new printer', B: 'the old printer' },
+  { task: 'clear a parking lot of snow', A: 'the large snowplow', B: 'the small snowplow' },
 ];
 
 const niceDecimal = (x: number) => Math.abs(x * 100 - Math.round(x * 100)) < 1e-9;
@@ -1314,15 +1332,17 @@ interface CostCtx {
   who: string;
   items: string;
   item: string;
+  /** Plural noun for the answer box. */
+  unit: string;
 }
 const COSTS: CostCtx[] = [
-  { who: 'A small business in Red Deer', items: 'custom phone cases', item: 'case' },
-  { who: 'A leadership class in Airdrie', items: 'hoodies with the school logo', item: 'hoodie' },
-  { who: 'A farm stand near Lacombe', items: 'jars of saskatoon berry jam', item: 'jar' },
-  { who: 'A bakery in Canmore', items: 'loaves of sourdough bread', item: 'loaf' },
-  { who: 'A screen-printing shop in Grande Prairie', items: 'printed T-shirts', item: 'T-shirt' },
-  { who: 'An artist at a comic expo in Edmonton', items: 'enamel pins', item: 'pin' },
-  { who: 'A robotics club in Medicine Hat', items: '3-D printed game pieces', item: 'piece' },
+  { who: 'A small business in Red Deer', items: 'custom phone cases', item: 'case', unit: 'cases' },
+  { who: 'A leadership class in Airdrie', items: 'school hoodies', item: 'hoodie', unit: 'hoodies' },
+  { who: 'A farm stand near Lacombe', items: 'jars of saskatoon berry jam', item: 'jar', unit: 'jars' },
+  { who: 'A bakery in Canmore', items: 'loaves of sourdough bread', item: 'loaf', unit: 'loaves' },
+  { who: 'A screen-printing shop in Grande Prairie', items: 'printed T-shirts', item: 'T-shirt', unit: 'T-shirts' },
+  { who: 'An artist at a comic expo in Edmonton', items: 'enamel pins', item: 'pin', unit: 'pins' },
+  { who: 'A robotics club in Medicine Hat', items: 'robot kits', item: 'kit', unit: 'kits' },
 ];
 
 /** Money in prose (outside maths): \$4.50, \$1200. */
@@ -1342,10 +1362,10 @@ function costNumbers(rng: Rng): { F: number; v: number; n: number } {
 }
 
 const TRAVEL = [
-  { fast: 'a cyclist', slow: 'a runner', where: 'on the Legacy Trail near Canmore', unit: 'km/h', k: [4, 6, 8, 10, 12], s: [8, 9, 10, 12, 14, 15], t: [0.5, 1, 1.5, 2] },
-  { fast: 'a car', slow: 'a loaded truck', where: 'on Highway 2 between Calgary and Edmonton', unit: 'km/h', k: [10, 15, 20, 25], s: [70, 75, 80, 85, 90], t: [1, 1.5, 2, 2.5, 3] },
-  { fast: 'a motorboat', slow: 'a canoe', where: 'across Sylvan Lake', unit: 'km/h', k: [6, 8, 10, 12, 15], s: [4, 5, 6, 8], t: [0.5, 1, 1.5, 2] },
-  { fast: 'a delivery drone', slow: 'a courier van', where: 'across Edmonton', unit: 'km/h', k: [10, 15, 20, 30], s: [30, 40, 45, 50, 60], t: [0.5, 1, 1.5] },
+  { fast: 'cyclist', slow: 'runner', where: 'on the Legacy Trail near Canmore', unit: 'km/h', k: [4, 6, 8, 10, 12], s: [8, 9, 10, 12, 14, 15], t: [0.5, 1, 1.5, 2] },
+  { fast: 'car', slow: 'loaded truck', where: 'on Highway 2 between Calgary and Edmonton', unit: 'km/h', k: [10, 15, 20, 25], s: [70, 75, 80, 85, 90], t: [1, 1.5, 2, 2.5, 3] },
+  { fast: 'motorboat', slow: 'canoe', where: 'across Sylvan Lake', unit: 'km/h', k: [6, 8, 10, 12, 15], s: [4, 5, 6, 8], t: [0.5, 1, 1.5, 2] },
+  { fast: 'delivery drone', slow: 'courier van', where: 'across Edmonton', unit: 'km/h', k: [10, 15, 20, 30], s: [30, 40, 45, 50, 60], t: [0.5, 1, 1.5] },
 ];
 
 const rationalApply = skill({
@@ -1373,6 +1393,7 @@ const rationalApply = skill({
       }
       const w = workPeople(rng);
       const t = (a * b) / (a + b);
+      const L = lcm(a, b);
       const exact = niceDecimal(t);
       const ask = exact ? 'Give the exact time in hours.' : 'Round to the nearest tenth of an hour.';
       const prompt =
@@ -1383,14 +1404,14 @@ const rationalApply = skill({
         prompt,
         parts: [numPart(t, exact ? { suffix: 'h' } : { suffix: 'h', decimals: 1 })],
         hints: [
-          kind === 'modelWork' ? 'Multiply every term by the LCD, $' + `${a * b}t` + '$ (or a smaller common multiple).' : 'In 1 hour, a worker who takes $a$ hours does $\\tfrac{1}{a}$ of the job. The rates add.',
-          `Solve $\\dfrac{1}{${a}} + \\dfrac{1}{${b}} = \\dfrac{1}{t}$ by multiplying every term by $${a * b}t$.`,
+          kind === 'modelWork' ? 'Clear the fractions: multiply every term by the lowest common denominator.' : 'In 1 hour, a worker who takes $a$ hours does $\\tfrac{1}{a}$ of the job. The rates add.',
+          `Solve $\\dfrac{1}{${a}} + \\dfrac{1}{${b}} = \\dfrac{1}{t}$ by multiplying every term by the LCD, $${L}t$.`,
         ],
         solution: [
           `Let $t$ be the time together, in hours. Each hour, ${w.A} does $\\tfrac{1}{${a}}$ of the job and ${w.B} does $\\tfrac{1}{${b}}$; together they do $\\tfrac{1}{t}$.`,
           `$\\dfrac{1}{${a}} + \\dfrac{1}{${b}} = \\dfrac{1}{t}$, with $t \\ne 0$.`,
-          `Multiply every term by $${a * b}t$: $${b}t + ${a}t = ${a * b}$, so $${a + b}t = ${a * b}$.`,
-          `$t = \\dfrac{${a * b}}{${a + b}} ${exact ? '=' : '\\approx'} ${exact ? fmt(t) : fmtFixed(t, 1)}$ h. Together they take ${exact ? '' : 'about '}${exact ? fmt(t) : fmtFixed(t, 1)} h.`,
+          `Multiply every term by the LCD, $${L}t$: $${L / a === 1 ? '' : L / a}t + ${L / b === 1 ? '' : L / b}t = ${L}$, so $${L / a + L / b}t = ${L}$.`,
+          `$t = \\dfrac{${L}}{${L / a + L / b}} ${exact ? '=' : '\\approx'} ${exact ? fmt(t) : fmtFixed(t, 1)}$ h. Together they take ${exact ? '' : 'about '}${exact ? fmt(t) : fmtFixed(t, 1)} h.`,
         ],
       };
     }
@@ -1404,11 +1425,11 @@ const rationalApply = skill({
       const D2 = s * t;
       const askFast = rng.chance(0.4);
       const ans = askFast ? s + k : s;
-      const sameLine = `In the same amount of time that ${ctx.fast} travels ${fmt(D1)} km ${ctx.where}, ${ctx.slow} travels ${fmt(D2)} km. ${cap(ctx.fast)} is ${k} km/h faster than ${ctx.slow}.`;
+      const sameLine = `In the same amount of time that a ${ctx.fast} travels ${fmt(D1)} km ${ctx.where}, a ${ctx.slow} travels ${fmt(D2)} km. The ${ctx.fast} is ${k} km/h faster than the ${ctx.slow}.`;
       const prompt =
         kind === 'modelTravel'
-          ? `${sameLine} If $s$ is the speed of ${ctx.slow} in km/h, the equation $\\dfrac{${fmt(D1)}}{s + ${k}} = \\dfrac{${fmt(D2)}}{s}$ models the equal travel times. Solve for $s$.`
-          : `${sameLine} What is the speed of ${askFast ? ctx.fast : ctx.slow}?`;
+          ? `${sameLine} If $s$ is the speed of the ${ctx.slow} in km/h, the equation $\\dfrac{${fmt(D1)}}{s + ${k}} = \\dfrac{${fmt(D2)}}{s}$ models the equal travel times. Solve for $s$.`
+          : `${sameLine} What is the speed of the ${askFast ? ctx.fast : ctx.slow}?`;
       return {
         prompt,
         parts: [numPart(kind === 'modelTravel' ? s : ans, { suffix: 'km/h' })],
@@ -1417,11 +1438,11 @@ const rationalApply = skill({
           `Let $s$ be the slower speed. Solve $\\dfrac{${fmt(D1)}}{s + ${k}} = \\dfrac{${fmt(D2)}}{s}$ by cross-multiplying.`,
         ],
         solution: [
-          `Let $s$ be the speed of ${ctx.slow} in km/h, so ${ctx.fast} travels at $s + ${k}$ km/h. Time is distance ÷ speed, and the times are equal.`,
+          `Let $s$ be the speed of the ${ctx.slow} in km/h, so the ${ctx.fast} travels at $s + ${k}$ km/h. Time is distance ÷ speed, and the times are equal.`,
           `$\\dfrac{${fmt(D1)}}{s + ${k}} = \\dfrac{${fmt(D2)}}{s}$, with $s \\ne 0,\\ -${k}$.`,
           `Cross-multiply: $${fmt(D1)}s = ${fmt(D2)}(s + ${k})$, so $${fmt(D1)}s = ${fmt(D2)}s + ${fmt(D2 * k)}$.`,
           `$${fmt(D1 - D2)}s = ${fmt(D2 * k)}$, so $s = ${fmt(s)}$.`,
-          kind === 'sameTime' && askFast ? `${cap(ctx.fast)} travels at $${s} + ${k} = ${s + k}$ km/h.` : `${cap(ctx.slow)} travels at ${s} km/h.`,
+          kind === 'sameTime' && askFast ? `The ${ctx.fast} travels at $${s} + ${k} = ${s + k}$ km/h.` : `The ${ctx.slow} travels at ${s} km/h.`,
         ],
       };
     }
@@ -1442,8 +1463,8 @@ const rationalApply = skill({
           hints: ['Substitute the number of items for $n$.', 'Divide the total cost by the number of items.'],
           solution: [
             `Substitute $n = ${m}$: $C(${m}) = \\dfrac{${F} + ${mnum(v)}(${m})}{${m}}$.`,
-            `The total cost is $${F} + ${fmt(v * m, 2)} = ${fmt(F + v * m, 2)}$ dollars.`,
-            `$C(${m}) = \\dfrac{${fmt(F + v * m, 2)}}{${m}} \\approx ${fmtFixed(C, 2)}$`,
+            `The total cost is $${F} + ${mnum(v * m)} = ${mnum(F + v * m)}$ dollars.`,
+            `$C(${m}) = \\dfrac{${mnum(F + v * m)}}{${m}} \\approx ${fmtFixed(C, 2)}$`,
             `The average cost is about ${money(Math.round(C * 100) / 100)} per ${ctx.item}.`,
           ],
         };
@@ -1454,7 +1475,7 @@ const rationalApply = skill({
           : `${ctx.who} makes ${ctx.items}. The fixed costs are ${money(F)}, and each ${ctx.item} costs ${money(v)} in materials. Write an equation for the average cost per ${ctx.item}, and use it to find how many ${ctx.items} must be made for the average cost to be ${money(Y)} per ${ctx.item}.`;
       return {
         prompt,
-        parts: [numPart(n, { suffix: ctx.items.split(' ').pop() })],
+        parts: [numPart(n, { suffix: ctx.unit })],
         hints: [
           kind === 'costBuild' ? 'Average cost = total cost ÷ number of items, and total cost = fixed costs + cost per item × number of items.' : 'Set the model equal to the target average cost.',
           `Solve $\\dfrac{${F} + ${mnum(v)}n}{n} = ${mnum(Y)}$ by multiplying both sides by $n$.`,
@@ -1479,6 +1500,8 @@ const rationalApply = skill({
         if (niceDecimal(t)) break;
       }
       const w = workPeople(rng);
+      // A machine named as the faster one gets the shorter time.
+      if (MACHINES.some((mc) => mc.A === w.A) && a > x) [a, x] = [x, a];
       return {
         prompt: `Working together, ${w.A} and ${w.B} can ${w.task} in ${fmt(t)} h. ${cap(w.A)} alone takes ${a} h. How long would ${w.B} take alone?`,
         parts: [numPart(x, { suffix: 'h' })],
@@ -1486,7 +1509,7 @@ const rationalApply = skill({
         solution: [
           `Let $x$ be the time alone, in hours ($x \\ne 0$). The rates add: $\\dfrac{1}{${a}} + \\dfrac{1}{x} = \\dfrac{1}{${fmt(t)}}$.`,
           `Multiply every term by $${fmt(t)} \\cdot ${a}x$: $${fmt(t)}x + ${fmt(a * t)} = ${a}x$.`,
-          `$${fmt(a - t)}x = ${fmt(a * t)}$, so $x = ${fmt(x)}$.`,
+          Math.abs(a - t - 1) < 1e-9 ? `Subtract $${fmt(t)}x$ from both sides: $x = ${fmt(a * t)}$.` : `$${fmt(a - t)}x = ${fmt(a * t)}$, so $x = ${fmt(x)}$.`,
           `${cap(w.B)} would take ${fmt(x)} h alone.`,
         ],
       };
@@ -1508,7 +1531,7 @@ const rationalApply = skill({
       const Y2 = v + F / n2;
       return {
         prompt: `${ctx.who} makes ${ctx.items}. The fixed costs are ${money(F)}, and each ${ctx.item} costs ${money(v)} to make. Right now the average cost is ${money(Y1)} per ${ctx.item}. How many more ${ctx.items} must be made to bring the average cost down to ${money(Y2)} per ${ctx.item}?`,
-        parts: [numPart(n2 - n1, { label: 'More items:' })],
+        parts: [numPart(n2 - n1, { suffix: `more ${ctx.unit}` })],
         hints: [`The average cost of $n$ items is $C(n) = \\dfrac{${F} + ${mnum(v)}n}{n}$.`, 'Solve $C(n) = $ each average cost to find the two numbers of items, then subtract.'],
         solution: [
           `The average cost of $n$ ${ctx.items} is $C(n) = \\dfrac{${F} + ${mnum(v)}n}{n}$ dollars.`,

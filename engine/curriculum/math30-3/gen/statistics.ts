@@ -58,8 +58,10 @@ export function toCents(x: number): string {
 }
 /** "= 12.4" when exact at `dp` places, otherwise "\approx 12.4". */
 export function eqR(x: number, dp: number): string {
-  return Math.abs(roundTo(x, dp) - x) < 1e-9 ? `= ${num(x, dp)}` : `\\approx ${group(fmtFixed(x, dp), '{,}')}`;
+  return Math.abs(roundTo(x, dp) - x) < 1e-9 ? `= ${num(x)}` : `\\approx ${group(fmtFixed(x, dp), '{,}')}`;
 }
+/** "about " before a value that had to be rounded to `dp` places. */
+export const about = (x: number, dp: number) => (Math.abs(roundTo(x, dp) - x) < 1e-9 ? '' : 'about ');
 /** "about " before a money amount that had to be rounded. */
 export const abt = (x: number) => (isCents(x) ? '' : 'about ');
 /** True when v sits close to a rounding boundary (x.xx5) at `dp` places. */
@@ -261,7 +263,7 @@ function cent2(rng: Rng): Out {
       ...meanSteps(c, vs, dp),
       ...medianSteps(c, vs),
       modeStep(c, vs),
-      `The mean is ${c.money ? `${abt(m)}${money(m)}` : `about ${vUnit(c, m, 1)}`}, the median is ${vUnit(c, md)} and the mode is ${vUnit(c, mo)}.`,
+      `The mean is ${c.money ? `${abt(m)}${money(m)}` : `${about(m, 1)}${vUnit(c, m, 1)}`}, the median is ${vUnit(c, md)} and the mode is ${vUnit(c, mo)}.`,
     ],
   };
 }
@@ -269,7 +271,7 @@ function cent2(rng: Rng): Out {
 interface Choose {
   measure: 'mean' | 'median' | 'mode';
   intro: (name: string, n: number) => string;
-  goal: string;
+  goal: (name: string) => string;
   values: (rng: Rng) => number[];
   unit: string;
   money?: boolean;
@@ -279,7 +281,7 @@ const CHOOSE: Choose[] = [
   {
     measure: 'mode',
     intro: (name, n) => `${name} manages a work-wear store in Fort McMurray. These are the sizes of the last ${n} pairs of steel-toed boots sold:`,
-    goal: `${'the manager'} wants to know which size to order the most of`,
+    goal: () => 'the manager wants to know which size of boot to order the most of',
     values: (rng) => {
       const sizes = range(7, 13, 0.5);
       const top = rng.pick(range(9, 11, 0.5));
@@ -291,7 +293,7 @@ const CHOOSE: Choose[] = [
   {
     measure: 'mode',
     intro: (name, n) => `${name} runs a tire shop in Lloydminster. These are the rim sizes, in inches, of the last ${n} sets of winter tires sold:`,
-    goal: 'the shop wants to know which size of winter tire to keep the most of in stock',
+    goal: () => 'the shop wants to know which size of winter tire to keep the most of in stock',
     values: (rng) => {
       const sizes = [15, 16, 17, 18, 20];
       const top = rng.pick([16, 17, 18]);
@@ -303,7 +305,7 @@ const CHOOSE: Choose[] = [
   {
     measure: 'median',
     intro: (name, n) => `${name} is a real-estate agent in Drumheller. These are the selling prices of the last ${n} homes sold in town:`,
-    goal: `${name} wants to tell a young couple the price of a typical home in town`,
+    goal: (name) => `${name} wants to tell a young couple the price of a typical home in town`,
     values: (rng) => {
       const n = rng.pick([7, 9]);
       const base = rng.sample(range(210, 330, 5), n - 1).map((k) => k * 1000);
@@ -315,7 +317,7 @@ const CHOOSE: Choose[] = [
   {
     measure: 'median',
     intro: (name, n) => `${name} owns a landscaping company in Okotoks. The ${n} people on the payroll, including the manager, earn these hourly wages:`,
-    goal: 'a job ad will state the wage that a typical worker at the company earns',
+    goal: () => 'a job ad will state the wage that a typical worker at the company earns',
     values: (rng) => {
       const n = rng.pick([7, 9]);
       return rng.shuffle([...rng.sample(range(17, 26, 0.5), n - 1), rng.int(55, 68)]);
@@ -326,14 +328,14 @@ const CHOOSE: Choose[] = [
   {
     measure: 'mean',
     intro: (name, n) => `${name} farms near Vulcan and recorded the litres of diesel the tractor used each day for ${n} days of seeding:`,
-    goal: `${name} wants to estimate how much diesel to order for the rest of seeding`,
+    goal: (name) => `${name} wants to estimate how much diesel to order for the rest of seeding`,
     values: (rng) => Array.from({ length: 8 }, () => rng.int(140, 190)),
     unit: 'L',
   },
   {
     measure: 'mean',
     intro: (name, n) => `${name} is a foreman on a sidewalk crew in Calgary and recorded the bags of concrete mix the crew used each day for ${n} days:`,
-    goal: `${name} wants to estimate the total number of bags needed for a 15-day job`,
+    goal: (name) => `${name} wants to estimate the total number of bags needed for a 15-day job`,
     values: (rng) => Array.from({ length: 8 }, () => rng.int(42, 64)),
     unit: 'bags',
   },
@@ -382,10 +384,10 @@ function chooseMeasure(rng: Rng): Out {
     value = sum(vs) / n;
     valuePart = numPart(value, { decimals: 1, label: 'Value:', suffix: ch.unit });
     steps = [`The values are close together, with no outliers.`, `Mean: $${vs.map(mx).join(' + ')} = ${num(sum(vs))}$, and $${num(sum(vs))} \\div ${n} ${eqR(value, 1)}$`];
-    close = `Use the mean: about ${fmtFixed(value, 1)} ${ch.unit} a day.`;
+    close = `Use the mean: ${about(value, 1)}${fmtFixed(value, 1)} ${ch.unit} a day.`;
   }
   return {
-    prompt: `${ch.intro(name, n)} ${vs.map(show).join(', ')}. ${cap(ch.goal)}. Which measure of central tendency is the best one to use, and what is its value?${ch.measure === 'mean' ? ' Round the value to the nearest tenth.' : ''}${ch.measure === 'median' ? ` ${CENT}` : ''}`,
+    prompt: `${ch.intro(name, n)} ${vs.map(show).join(', ')}. ${cap(ch.goal(name))}. Which measure of central tendency is the best one to use, and what is its value?${ch.measure === 'mean' ? ' Round the value to the nearest tenth.' : ''}${ch.measure === 'median' ? ` ${CENT}` : ''}`,
     parts: [part(mc(rng, reasons[ch.measure], distract), { label: 'Best measure:' }), valuePart],
     hints: [
       'The mean is pulled toward an outlier. The median is not. The mode is the most common value.',
@@ -434,8 +436,8 @@ function outlierItem(rng: Rng): Out {
     solution: [
       ...meanSteps(c, vs, dp),
       ...medianSteps(c, vs),
-      `The outlier ${vUnit(c, o)} pulls the mean ${dir} to ${c.money ? `${abt(m)}${money(m)}` : `about ${vUnit(c, m, 1)}`}, which is ${high ? 'higher' : 'lower'} than most of the data. The median, ${vUnit(c, md)}, sits among the typical values.`,
-      `The mean is ${c.money ? `${abt(m)}${money(m)}` : `about ${vUnit(c, m, 1)}`} and the median is ${vUnit(c, md)}. The median best describes ${c.typical}.`,
+      `The outlier ${vUnit(c, o)} pulls the mean ${dir} to ${c.money ? `${abt(m)}${money(m)}` : `${about(m, 1)}${vUnit(c, m, 1)}`}, which is ${high ? 'higher' : 'lower'} than most of the data. The median, ${vUnit(c, md)}, sits among the typical values.`,
+      `The mean is ${c.money ? `${abt(m)}${money(m)}` : `${about(m, 1)}${vUnit(c, m, 1)}`} and the median is ${vUnit(c, md)}. The median best describes ${c.typical}.`,
     ],
   };
 }
@@ -488,7 +490,7 @@ function missingValue(rng: Rng): Out {
   const { n, T, vs, need } = o;
   const S = sum(vs);
   return {
-    prompt: `${t.setup(name, n, T)} ${t.have} ${vs.join(', ')}. ${t.ask}`,
+    prompt: `${t.setup(name, n, T)} ${t.have} ${vs.map((v) => (t.unit === '%' ? `${v}%` : String(v))).join(', ')}. ${t.ask}`,
     parts: [numPart(need, { label: t.label, suffix: t.unit })],
     hints: [`For a mean of ${T} over ${n} values, the total of all ${n} values must be ${T} × ${n}.`, 'Subtract the total so far from the total needed.'],
     solution: [
@@ -523,6 +525,8 @@ const COURSES = [
   'construction technology course', 'pre-employment welding program', 'Math 30-3 course', 'automotive service course',
   'culinary arts course', 'pre-employment electrician program', 'cabinetmaking course', 'agriculture course',
 ];
+/** "a" or "an" before a word. */
+const an = (w: string) => `${/^[aeiou]/i.test(w) ? 'an' : 'a'} ${w}`;
 const COMPONENTS = ['Assignments', 'Quizzes', 'Unit tests', 'Shop projects', 'Lab work', 'Midterm exam'];
 
 const markTable = (names: string[], ws: number[], ms: number[]): Figure => ({
@@ -552,7 +556,7 @@ function courseMark(rng: Rng, k: 3 | 4): Out {
   const { ws, ms, W } = o;
   const plain = sum(ms) / k;
   return {
-    prompt: `The table shows how ${poss(name)} final mark in a ${course} is calculated, and ${poss(name)} mark in each part. What is ${poss(name)} final mark?${k === 4 ? ' Round to the nearest tenth of a percent.' : ''}`,
+    prompt: `The table shows how ${poss(name)} final mark in ${an(course)} is calculated, and ${poss(name)} mark in each part. What is ${poss(name)} final mark?${k === 4 ? ' Round to the nearest tenth of a percent.' : ''}`,
     figure: markTable(names, ws, ms),
     parts: [numPart(W, { decimals: k === 4 ? 1 : undefined, suffix: '%', label: 'Final mark:' })],
     hints: [
@@ -561,20 +565,20 @@ function courseMark(rng: Rng, k: 3 | 4): Out {
     ],
     solution: [
       `Weighted mean: ${wSum(ws, ms)}`,
-      `${wProd(ws, ms)} $${eqR(W, 1)}$`,
+      `${wProd(ws, ms).slice(0, -1)} ${eqR(W, 1)}$`,
       `(The plain mean of the marks, ${fmt(plain, 2)}%, is wrong here because the parts do not count equally.)`,
       `${poss(name)} final mark is ${k === 4 && !isWhole(W * 10) ? 'about ' : ''}${k === 4 ? fmtFixed(W, 1) : fmt(W)}%.`,
     ],
   };
 }
 
-interface Buy { intro: (name: string) => string; item: string; items: string; lo: number; hi: number; q: [number, number] }
+interface Buy { intro: (name: string, k: string) => string; item: string; items: string; lo: number; hi: number; q: [number, number] }
 const BUYS: Buy[] = [
-  { intro: (name) => `${name}, a framer in Airdrie, bought 2×4 studs from three suppliers`, item: 'stud', items: 'studs', lo: 3.89, hi: 5.49, q: [40, 160] },
-  { intro: (name) => `${name} bought bags of concrete mix for a fence job in Medicine Hat at three stores`, item: 'bag', items: 'bags', lo: 6.49, hi: 9.99, q: [10, 60] },
-  { intro: (name) => `${name} bought small square bales of hay for a farm near Ponoka from three neighbours`, item: 'bale', items: 'bales', lo: 6.5, hi: 11.5, q: [50, 300] },
-  { intro: (name) => `${name}, a cleaning contractor in Edmonton, bought boxes of nitrile gloves at three different prices`, item: 'box', items: 'boxes', lo: 11.99, hi: 18.99, q: [6, 40] },
-  { intro: (name) => `${name} bought fence posts for a pasture near Pincher Creek in three loads`, item: 'post', items: 'posts', lo: 7.25, hi: 12.75, q: [30, 150] },
+  { intro: (name, k) => `${name}, a framer in Airdrie, bought 2×4 studs from ${k} suppliers`, item: 'stud', items: 'studs', lo: 3.89, hi: 5.49, q: [40, 160] },
+  { intro: (name, k) => `${name} bought bags of concrete mix for a fence job in Medicine Hat at ${k} stores`, item: 'bag', items: 'bags', lo: 6.49, hi: 9.99, q: [10, 60] },
+  { intro: (name, k) => `${name} bought small square bales of hay for a farm near Ponoka from ${k} neighbours`, item: 'bale', items: 'bales', lo: 6.5, hi: 11.5, q: [50, 300] },
+  { intro: (name, k) => `${name}, a cleaning contractor in Edmonton, bought boxes of nitrile gloves at ${k} different prices`, item: 'box', items: 'boxes', lo: 11.99, hi: 18.99, q: [6, 40] },
+  { intro: (name, k) => `${name} bought fence posts for a pasture near Pincher Creek in ${k} loads`, item: 'post', items: 'posts', lo: 7.25, hi: 12.75, q: [30, 150] },
 ];
 
 function avgPrice(rng: Rng, d: 1 | 2): Out {
@@ -597,7 +601,7 @@ function avgPrice(rng: Rng, d: 1 | 2): Out {
   const { ps, qs, T, Q, A } = o;
   const desc = list(ps.map((p, i) => `${qs[i]} ${b.items} at ${money(p)} each`));
   return {
-    prompt: `${b.intro(name)}: ${desc}. What was the mean price per ${b.item}? ${CENT}`,
+    prompt: `${b.intro(name, k === 2 ? 'two' : 'three')}: ${desc}. What was the mean price per ${b.item}? ${CENT}`,
     parts: [moneyPart(A, `Mean price per ${b.item}: \\$`)],
     hints: [
       `The prices do not count equally: more ${b.items} were bought at some prices. Use the total cost and the total number of ${b.items}.`,
@@ -633,7 +637,7 @@ function gpa(rng: Rng): Out {
   const C = sum(cr);
   const P = sum(cr.map((c, i) => c * gp[i]));
   return {
-    prompt: `${name} is in a ${prog} at a college in Alberta. The college finds a term grade point average (GPA) as a weighted mean: each course’s grade points are weighted by its credits. Find ${poss(name)} GPA for the term, to the nearest hundredth.`,
+    prompt: `${name} is in ${an(prog)} at a college in Alberta. The college finds a term grade point average (GPA) as a weighted mean: each course’s grade points are weighted by its credits. Find ${poss(name)} GPA for the term, to the nearest hundredth.`,
     figure: { type: 'table', headers: ['Course', 'Credits', 'Grade points'], rows: cr.map((c, i) => [`Course ${i + 1}`, fmt(c), gp[i].toFixed(1)]) },
     parts: [numPart(G, { decimals: 2, label: 'GPA:' })],
     hints: ['Multiply each course’s grade points by its credits, and add the results.', `Then divide by the total number of credits. Do not divide by ${k}, the number of courses.`],
@@ -711,8 +715,6 @@ function percentTrim(rng: Rng, withMean = false): Out {
   const keep = s.slice(k, n - k);
   const T = sum(keep) / keep.length;
   const M = sum(vs) / n;
-  const ask = withMean ? 'Find the mean and the 2 trimmed means'.slice(0, 0) : '';
-  void ask;
   const prompt = withMean
     ? `${t.intro(n)} ${vs.join(', ')}. Find the mean and the ${p}% trimmed mean (remove the lowest ${p}% and the highest ${p}% of the values, then find the mean of the rest). Round both to the nearest tenth. Which one better describes a typical value?`
     : `${t.intro(n)} ${vs.join(', ')}. Find the ${p}% trimmed mean: remove the lowest ${p}% and the highest ${p}% of the values, then find the mean of the rest. Round to the nearest tenth.`;
@@ -742,8 +744,8 @@ function percentTrim(rng: Rng, withMean = false): Out {
       `Trimmed mean: $${num(sum(keep))} \\div ${keep.length} ${eqR(T, 1)}$`,
       ...(withMean ? [`Mean of all the values: $${num(sum(vs))} \\div ${n} ${eqR(M, 1)}$`] : []),
       withMean
-        ? `The mean is about ${fmtFixed(M, 1)} ${t.unit} and the ${p}% trimmed mean is about ${fmtFixed(T, 1)} ${t.unit}. The trimmed mean better describes a typical value, because the outlier ${s[high ? n - 1 : 0]} ${t.unit} pulls the mean ${high ? 'up' : 'down'}.`
-        : `The ${p}% trimmed mean is about ${fmtFixed(T, 1)} ${t.unit}.`,
+        ? `The mean is ${about(M, 1)}${fmtFixed(M, 1)} ${t.unit} and the ${p}% trimmed mean is ${about(T, 1)}${fmtFixed(T, 1)} ${t.unit}. The trimmed mean better describes a typical value, because the outlier ${s[high ? n - 1 : 0]} ${t.unit} pulls the mean ${high ? 'up' : 'down'}.`
+        : `The ${p}% trimmed mean is ${about(T, 1)}${fmtFixed(T, 1)} ${t.unit}.`,
     ],
   };
 }
@@ -769,7 +771,7 @@ function neededFinal(rng: Rng): Out {
   const names = [...rng.sample(COMPONENTS, ws.length), 'Final exam'];
   const goal = rng.pick([`a final mark of ${T}% to get into the next course`, `a final mark of at least ${T}% for a scholarship`, `a final mark of ${T}% to meet a program’s entrance requirement`]);
   return {
-    prompt: `${name} needs ${goal}. In a ${course}, the parts of the course count as shown in the table, and the final exam has not been written yet. What is the lowest mark ${name} can get on the final exam and still reach ${T}%?`,
+    prompt: `${name} needs ${goal}. In ${an(course)}, the parts of the course count as shown in the table, and the final exam has not been written yet. What is the lowest mark ${name} can get on the final exam and still reach ${T}%?`,
     figure: { type: 'table', headers: ['Part of the course', 'Weight', 'Mark'], rows: names.map((c, i) => [c, `${i < ws.length ? ws[i] : wf}%`, i < ws.length ? `${ms[i]}%` : '?']) },
     parts: [numPart(need, { suffix: '%', label: 'Final exam:' })],
     hints: [
@@ -812,7 +814,7 @@ function countsTwice(rng: Rng): Out {
       `Weights: 1 for each unit test and ${f} for the exam. The weights add to $${k} + ${f} = ${k + f}$.`,
       `Weighted total: $${ts.join(' + ')} + ${f}(${E}) = ${sum(ts) + f * E}$`,
       `Weighted mean: $${sum(ts) + f * E} \\div ${k + f} ${eqR(W, 1)}$`,
-      `(Dividing by ${k + 1} with the exam counted once would give about ${fmtFixed(plain, 1)}%, which is wrong.)`,
+      `(Dividing by ${k + 1} with the exam counted once would give ${about(plain, 1)}${fmtFixed(plain, 1)}%, which is wrong.)`,
       `${poss(name)} final mark is about ${fmtFixed(W, 1)}%.`,
     ],
   };

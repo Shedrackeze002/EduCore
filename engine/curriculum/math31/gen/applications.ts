@@ -1295,7 +1295,7 @@ const concavity = skill({
         const B = -3 * A * h;
         const C = rng.int(-9, 9);
         fTex = cubicTex(A, B, C, rng.int(-5, 5));
-        fppTex = `${linTex(6 * A, 2 * B)} = ${cf(6 * A)}${fac(h)}`;
+        fppTex = h === 0 ? linTex(6 * A, 0) : `${linTex(6 * A, 2 * B)} = ${cf(6 * A)}${fac(h)}`;
         roots = [h];
         lead = A;
         fpp = (x) => 6 * A * (x - h);
@@ -1304,7 +1304,7 @@ const concavity = skill({
         const b = rng.pick([2, 4, 6, -2, -4, -6]);
         const r = -b / 2;
         fTex = poly([[s, 'x^4'], [s * b, 'x^3'], [rng.int(-6, 6), 'x'], [rng.int(-5, 5), '']]);
-        fppTex = `${quadTex(12 * s, 6 * s * b, 0)} = ${cf(6 * s)}x(2x ${pm(b)})`;
+        fppTex = `${quadTex(12 * s, 6 * s * b, 0)} = ${cf(12 * s)}x${fac(r)}`;
         roots = [0, r].sort((u, w) => u - w);
         lead = s;
         fpp = (x) => 12 * s * x * x + 6 * s * b * x;
@@ -1371,7 +1371,7 @@ const concavity = skill({
         parts: [part({ kind: 'numbers', values: [0, r] }, { label: '$x =$' })],
         hints: concHints,
         solution: [
-          `$f'(x) = ${poly([[4 * s, 'x^3'], [3 * s * b, 'x^2'], [c, '']])}$ and $f''(x) = ${quadTex(12 * s, 6 * s * b, 0)} = ${cf(6 * s)}x(2x ${pm(b)})$`,
+          `$f'(x) = ${poly([[4 * s, 'x^3'], [3 * s * b, 'x^2'], [c, '']])}$ and $f''(x) = ${quadTex(12 * s, 6 * s * b, 0)} = ${cf(12 * s)}x${fac(r)}$`,
           `$f''(x) = 0$ at $x = 0$ and $x = ${r}$.`,
           `$f''$ is a quadratic with two distinct zeros, so it changes sign at both.`,
           `The points of inflection are at $x = ${[0, r].sort((u, w) => u - w).join('$ and $x = ')}$.`,
@@ -1395,8 +1395,8 @@ const concavity = skill({
         hints: ['Second derivative test: at a critical number $c$, $f\'\'(c) > 0$ means a local minimum (concave up), $f\'\'(c) < 0$ means a local maximum (concave down).', `Differentiate twice: $f''(x) = ${linTex(6 * c.A, 2 * c.B)}$.`],
         solution: [
           `$f'(x) = ${cubicDTex(c)}$ and $f''(x) = ${linTex(6 * c.A, 2 * c.B)}$`,
-          `$f''(${c.p}) = ${subst([[6 * c.A, 1], [2 * c.B, 0]], c.p)} = ${vp}$ ${vp < 0 ? '< 0' : '> 0'}: concave ${vp < 0 ? 'down, so a local maximum' : 'up, so a local minimum'}.`,
-          `$f''(${c.q}) = ${subst([[6 * c.A, 1], [2 * c.B, 0]], c.q)} = ${vq}$ ${vq < 0 ? '< 0' : '> 0'}: concave ${vq < 0 ? 'down, so a local maximum' : 'up, so a local minimum'}.`,
+          `$f''(${c.p}) = ${subst([[6 * c.A, 1], [2 * c.B, 0]], c.p)} = ${vp} ${vp < 0 ? '< 0' : '> 0'}$: concave ${vp < 0 ? 'down, so a local maximum' : 'up, so a local minimum'}.`,
+          `$f''(${c.q}) = ${subst([[6 * c.A, 1], [2 * c.B, 0]], c.q)} = ${vq} ${vq < 0 ? '< 0' : '> 0'}$: concave ${vq < 0 ? 'down, so a local maximum' : 'up, so a local minimum'}.`,
           `${opts[vp < 0 ? 0 : 1]}.`,
         ],
       };
@@ -1647,12 +1647,13 @@ const sTex = (m: Motion) => cubicTex(m.A, m.B, m.C, m.D, 't');
 const vTex = (m: Motion) => quadTex(3 * m.A, 2 * m.B, m.C, 't');
 const aTex = (m: Motion) => linTex(6 * m.A, 2 * m.B, 't');
 
-const MOVERS = [
-  'A particle moves along a horizontal line. Its position, in metres to the right of the origin, after $t$ seconds is',
-  'A bead slides along a straight wire. Its position, in metres from a fixed point, after $t$ seconds is',
-  'A robot vacuum moves back and forth along a straight hallway. Its position, in metres from the door, after $t$ seconds is',
-  'A drone moves along a straight vertical line. Its height above a platform, in metres, after $t$ seconds is',
-  'A cart moves along a straight track in a physics lab. Its position, in metres from the starting gate, after $t$ seconds is',
+/** Contexts for s(t); positions can be negative, so each one says which way is positive. */
+const MOVERS: Array<{ text: string; u: 'm' | 'cm' }> = [
+  { text: 'A particle moves along a horizontal line. Its position, in metres to the right of the origin, after $t$ seconds is', u: 'm' },
+  { text: 'A particle moves along a vertical line. Its position, in metres above the origin (negative values are below it), after $t$ seconds is', u: 'm' },
+  { text: 'A bead slides along a straight wire. Its position, in centimetres to the right of a fixed point $O$, after $t$ seconds is', u: 'cm' },
+  { text: 'A toy train runs back and forth on a straight track. Its position, in centimetres east of the station (negative values are west of it), after $t$ seconds is', u: 'cm' },
+  { text: 'A cart rolls back and forth on a straight track in a physics lab. Its position, in centimetres to the right of a marker on the track, after $t$ seconds is', u: 'cm' },
 ];
 
 const motion = skill({
@@ -1669,7 +1670,7 @@ const motion = skill({
         : d === 2
           ? rng.pick(['rest', 'positive', 'ballMax', 'speedAt'] as const)
           : rng.pick(['distance', 'distance', 'speedIntervals', 'impact'] as const);
-    const mover = rng.pick(MOVERS);
+    const { text: mover, u } = rng.pick(MOVERS);
     const vaHints = ['Velocity is the derivative of position: $v(t) = s\'(t)$. Acceleration is the derivative of velocity: $a(t) = v\'(t) = s\'\'(t)$.'];
 
     if (kind === 'velAt' || kind === 'accAt') {
@@ -1679,24 +1680,25 @@ const motion = skill({
         const v = vFn(m)(t0);
         return {
           prompt: `${mover} $s(t) = ${sTex(m)}$, for $t \\ge 0$. Find the velocity at $t = ${t0}$ s.`,
-          parts: [numPart(v, { suffix: 'm/s', label: `$v(${t0}) =$` })],
+          parts: [numPart(v, { suffix: `${u}/s`, label: `$v(${t0}) =$` })],
           hints: [...vaHints, `Differentiate $s(t)$, then substitute $t = ${t0}$.`],
-          solution: [`$v(t) = s'(t) = ${vTex(m)}$`, `$v(${t0}) = ${subst([[3 * m.A, 2], [2 * m.B, 1], [m.C, 0]], t0)} = ${v}$`, `The velocity at $t = ${t0}$ s is $${v}$ m/s.`],
+          solution: [`$v(t) = s'(t) = ${vTex(m)}$`, `$v(${t0}) = ${subst([[3 * m.A, 2], [2 * m.B, 1], [m.C, 0]], t0)} = ${v}$`, `The velocity at $t = ${t0}$ s is $${v}$ ${u}/s.`],
         };
       }
       const a = aFn(m)(t0);
       return {
         prompt: `${mover} $s(t) = ${sTex(m)}$, for $t \\ge 0$. Find the acceleration at $t = ${t0}$ s.`,
-        parts: [numPart(a, { suffix: 'm/s²', label: `$a(${t0}) =$` })],
+        parts: [numPart(a, { suffix: `${u}/s²`, label: `$a(${t0}) =$` })],
         hints: [...vaHints, 'Differentiate twice, then substitute.'],
-        solution: [`$v(t) = s'(t) = ${vTex(m)}$`, `$a(t) = v'(t) = ${aTex(m)}$`, `$a(${t0}) = ${subst([[6 * m.A, 1], [2 * m.B, 0]], t0)} = ${a}$`, `The acceleration at $t = ${t0}$ s is $${a}$ m/s².`],
+        solution: [`$v(t) = s'(t) = ${vTex(m)}$`, `$a(t) = v'(t) = ${aTex(m)}$`, `$a(${t0}) = ${subst([[6 * m.A, 1], [2 * m.B, 0]], t0)} = ${a}$`, `The acceleration at $t = ${t0}$ s is $${a}$ ${u}/s².`],
       };
     }
 
     if (kind === 'ballVel') {
-      const v0 = rng.pick([14.7, 19.6, 24.5, 15, 20, 25, 12]);
-      const h0 = rng.pick([0, 1.5, 2, 10, 20]);
-      const t0 = rng.pick([0.5, 1, 1.5, 2, 2.5, 3]);
+      const { v0, h0, t0 } = retry(
+        () => ({ v0: rng.pick([14.7, 19.6, 24.5, 15, 20, 12]), h0: rng.pick([0, 1.5, 2]), t0: rng.pick([0.5, 1, 1.5, 2, 2.5, 3]) }),
+        (o) => o.h0 + o.v0 * o.t0 - 4.9 * o.t0 * o.t0 > 0.5,
+      );
       const v = v0 - 9.8 * t0;
       const name = rng.pick(NAMES);
       const hT = `${h0 ? `${dec(h0)} + ` : ''}${dec(v0)}t - 4.9t^2`;
@@ -1733,20 +1735,26 @@ const motion = skill({
     }
 
     if (kind === 'ballMax') {
-      const k = rng.pick([1, 1.5, 2, 2.5, 3]);
+      const launch = rng.pick([
+        { text: 'A soccer ball is kicked straight up', ks: [1, 1.5, 2], h0s: [0, 0.5, 1] },
+        { text: 'A model rocket is launched straight up from a platform', ks: [2, 2.5, 3], h0s: [1, 1.5, 2] },
+        { text: 'A volleyball is bumped straight up', ks: [1, 1.5], h0s: [1, 1.5, 2] },
+        { text: 'A stone is thrown straight up from the edge of a coulee', ks: [1, 1.5, 2], h0s: [5, 12, 20] },
+      ]);
+      const ctx = launch.text;
+      const k = rng.pick(launch.ks);
       const v0 = 9.8 * k;
-      const h0 = rng.pick([0, 1, 1.5, 2, 5, 12]);
+      const h0 = rng.pick(launch.h0s);
       const hmax = h0 + 4.9 * k * k;
-      const ctx = rng.pick(['A ball is kicked straight up', 'A model rocket is launched straight up', 'A volleyball is bumped straight up', 'A stone is thrown straight up from the edge of a coulee']);
       return {
-        prompt: `${ctx}. Its height, in metres, after $t$ seconds is $h(t) = ${h0 ? `${dec(h0)} + ` : ''}${dec(v0)}t - 4.9t^2$. Find the time at which it reaches its maximum height, and the maximum height.`,
-        parts: [numPart(k, { label: 'Time', suffix: 's', display: 'decimal' }), numPart(hmax, { label: 'Maximum height', suffix: 'm', display: 'decimal' })],
+        prompt: `${ctx}. Its height, in metres, after $t$ seconds is $h(t) = ${h0 ? `${dec(h0)} + ` : ''}${dec(v0)}t - 4.9t^2$. Find the time at which it reaches its maximum height, and the maximum height to the nearest tenth of a metre.`,
+        parts: [numPart(k, { label: 'Time', suffix: 's', display: 'decimal' }), numPart(hmax, { label: 'Maximum height', suffix: 'm', decimals: 1 })],
         hints: ['At the highest point, the velocity is $0$ (the object stops rising and starts falling).', 'Solve $h\'(t) = 0$, then evaluate $h$ at that time.'],
         solution: [
           `$v(t) = h'(t) = ${dec(v0)} - 9.8t$`,
           `$v(t) = 0 \\Rightarrow t = \\dfrac{${dec(v0)}}{9.8} = ${dec(k)}$ s. Since $h''(t) = -9.8 < 0$, this is a maximum.`,
           `$h(${dec(k)}) = ${h0 ? `${dec(h0)} + ` : ''}${dec(v0)}(${dec(k)}) - 4.9(${dec(k)})^2 = ${dec(hmax)}$`,
-          `It reaches its maximum height of $${dec(hmax)}$ m at $t = ${dec(k)}$ s.`,
+          `It reaches its maximum height of $${dec(hmax)}${Math.abs(hmax * 10 - Math.round(hmax * 10)) < 1e-9 ? '' : ` \\approx ${fmtFixed(hmax, 1)}`}$ m at $t = ${dec(k)}$ s.`,
         ],
         calculator: true,
       };
@@ -1784,14 +1792,14 @@ const motion = skill({
       const disp = s(T) - s(0);
       return {
         prompt: `${mover} $s(t) = ${sTex(m)}$, for $t \\ge 0$. For the interval $0 \\le t \\le ${T}$, find the displacement and the total distance travelled.`,
-        parts: [numPart(disp, { label: 'Displacement', suffix: 'm' }), numPart(total, { label: 'Total distance', suffix: 'm' })],
+        parts: [numPart(disp, { label: 'Displacement', suffix: u }), numPart(total, { label: 'Total distance', suffix: u })],
         hints: ['Displacement is $s(\\text{end}) - s(\\text{start})$. Total distance adds the length of every leg, so you need the times where the object turns around ($v = 0$).', 'Find where $v(t) = 0$ inside the interval, then add $|s(t_{k+1}) - s(t_k)|$ for each leg.'],
         solution: [
           `$v(t) = ${vTex(m)} = ${factored2(3 * m.A, m.p, m.q, 't')}$, so the object turns around at $t = ${turns.join('$ and $t = ')}$ (where $v$ changes sign).`,
           `Positions: ${marks.map((t) => `$s(${t}) = ${s(t)}$`).join(', ')}.`,
-          `Displacement $= s(${T}) - s(0) = ${s(T)} - ${par(s(0))} = ${disp}$ m`,
-          `Total distance $= ${marks.slice(1).map((t, i) => `|${s(t)} - ${par(s(marks[i]))}|`).join(' + ')} = ${legs.join(' + ')} = ${total}$ m`,
-          `The displacement is $${disp}$ m and the total distance travelled is $${total}$ m.`,
+          `Displacement $= s(${T}) - s(0) = ${s(T)} - ${par(s(0))} = ${disp}$ ${u}`,
+          `Total distance $= ${marks.slice(1).map((t, i) => `|${s(t)} - ${par(s(marks[i]))}|`).join(' + ')} = ${legs.join(' + ')} = ${total}$ ${u}`,
+          `The displacement is $${disp}$ ${u} and the total distance travelled is $${total}$ ${u}.`,
         ],
       };
     }

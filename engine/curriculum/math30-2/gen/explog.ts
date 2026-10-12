@@ -66,11 +66,6 @@ function fracTex(x: number, d = false): string {
   if (f && f.d !== 1) return fracLatex(f, { dfrac: d });
   return nx(x);
 }
-/** Plain text for a number that may be a fraction (for answers students type). */
-function fracText(x: number): string | undefined {
-  const f = toFrac(x, 1000);
-  return f && f.d !== 1 ? `${f.n}/${f.d}` : undefined;
-}
 
 /** a·x + c in LaTeX. */
 function lin(a: number, c: number, v = 'x'): string {
@@ -197,7 +192,7 @@ function graphable(rng: Rng, opts: { growth?: boolean } = {}): ExpF {
   return g ? { a, bn: k, bd: 1 } : { a, bn: 1, bd: k };
 }
 
-const FEAT_GRID: GridSpec = { xMin: -4, xMax: 4, yMin: -1, yMax: 10 };
+const FEAT_GRID: GridSpec = { xMin: -6, xMax: 6, yMin: -1, yMax: 10 };
 
 function expGraph(f: ExpF, grid: GridSpec = FEAT_GRID, marks: number[] = [0]): PlaneFigure {
   const pts: PlanePoint[] = marks.map((x) => ({ x, y: expAt(f, x) })).filter((p) => p.y <= grid.yMax && p.y >= grid.yMin);
@@ -234,6 +229,7 @@ function featGrowthYint(rng: Rng): GenOutput {
 }
 
 function featEvaluate(rng: Rng, d: Difficulty): GenOutput {
+  const x = d === 1 ? rng.pick([1, 2, 2, 3]) : rng.pick([-1, -2, -2, -3]);
   const f = retry(
     () => {
       const g = rng.chance(0.5);
@@ -241,9 +237,8 @@ function featEvaluate(rng: Rng, d: Difficulty): GenOutput {
       const k = rng.pick([2, 3, 4, 5]);
       return g ? { a, bn: k, bd: 1 } : { a, bn: 1, bd: k };
     },
-    (f) => true && Math.abs(expAt(f, 2)) <= 2000,
+    (f) => Math.abs(expAt(f, x)) <= 2000,
   );
-  const x = d === 1 ? rng.pick([1, 2, 2, 3]) : rng.pick([-1, -2, -2, -3]);
   const v = expAt(f, x);
   const xs = x < 0 ? `(${x})` : `${x}`;
   const powV = expAt({ a: 1, bn: f.bn, bd: f.bd }, x);
@@ -251,7 +246,7 @@ function featEvaluate(rng: Rng, d: Difficulty): GenOutput {
     prompt: `For $y = ${expTex(f)}$, find the value of $y$ when $x = ${x}$.${toFrac(v, 1000)?.d !== 1 ? ' Give an exact answer (a fraction is fine).' : ''}`,
     parts: [numPart(v, { label: '$y =$' })],
     hints: [
-      `Substitute $x = ${x}$ and evaluate the power first, then multiply by $${nx(f.a)}$.`,
+      `Substitute $x = ${x}$ and evaluate the power first${f.a === 1 ? '' : `, then multiply by $${nx(f.a)}$`}.`,
       x < 0 ? 'A negative exponent means a reciprocal: $b^{-n} = \\dfrac{1}{b^n}$.' : 'Powers before multiplication (order of operations).',
     ],
     solution: [
@@ -400,7 +395,7 @@ function featMatchGraph(rng: Rng): GenOutput {
   const k = growth(f) ? f.bn : f.bd;
   const a2 = rng.pick([1, 2, 3].filter((v) => v !== f.a));
   const make = (a: number, up: boolean): ExpF => (up ? { a, bn: k, bd: 1 } : { a, bn: 1, bd: k });
-  const grid: GridSpec = { xMin: -3, xMax: 3, yMin: -1, yMax: 10 };
+  const grid: GridSpec = { xMin: -5, xMax: 5, yMin: -1, yMax: 10 };
   const opts = [
     { f, correct: true },
     { f: make(f.a, !growth(f)), correct: false },
@@ -1298,7 +1293,7 @@ function lawApprox(rng: Rng): GenOutput {
   return {
     prompt: `Given $\\log 2 \\approx 0.3010$ and $\\log 3 \\approx 0.4771$, use the laws of logarithms (not the LOG key) to find $\\log ${N}$. Give your answer to four decimal places.`,
     parts: [numPart(v, { decimals: 4 })],
-    hints: [`Factor $${N}$ into $2$s, $3$s${m ? ' and $5$s' : ''}.${m ? ' Use $\\log 5 = \\log \\dfrac{10}{2} = 1 - \\log 2$.' : ''}`, LAWS],
+    hints: [`Factor $${N}$ into ${m ? '$2$s, $3$s and $5$s' : '$2$s and $3$s'}.${m ? ' Use $\\log 5 = \\log \\dfrac{10}{2} = 1 - \\log 2$.' : ''}`, LAWS],
     solution: [
       `$${N} = ${parts.join(' \\times ')}$`,
       `$\\log ${N} = ${terms.join(' + ')}$ (product and power laws)`,
@@ -1426,15 +1421,15 @@ function modelInterest(rng: Rng, periodic: boolean): GenOutput {
       const A = P * (1 + i) ** n;
       return { P, r, per, t, i, n, A };
     },
-    (o) => clear(o.A, 2) && clear(o.A - o.P, 2) && Number.isFinite(o.i) && toFrac(o.i * 1e6, 1) !== null,
+    (o) => clear(o.A, 2) && clear(o.A - o.P, 2),
   );
-  const { P, r, per, t, i, n, A } = o;
+  const { P, r, per, t, n, A } = o;
   const name = rng.pick(NAMES);
   const what = rng.pick(SAVINGS);
   const iTex = per.k === 1 ? dec(r) : `\\dfrac{${dec(r)}}{${per.k}}`;
   const factor = `(1 + ${iTex})^{${n}}`;
   return {
-    prompt: `${name} invests ${money(P)} in ${what} that earns ${pct(r)} per year, compounded ${per.word}. ${INTEREST_FORMULA} ${periodic ? `What will the investment be worth after ${t} years, and how much interest will it have earned?` : `What will the investment be worth after ${t} years?`} ${CENT}`,
+    prompt: `${name} invests ${money(P)} in ${what} that earns ${pct(r)} per year, compounded ${per.word}. ${INTEREST_FORMULA} ${periodic ? `What will the investment be worth after ${t} years, and how much interest will it have earned? Give your answers to the nearest cent.` : `What will the investment be worth after ${t} years? ${CENT}`}`,
     parts: periodic ? [moneyPart(A, 'Amount: \\$'), moneyPart(roundTo(A, 2) - P, 'Interest earned: \\$')] : [moneyPart(A, 'Amount: \\$')],
     calculator: true,
     hints: [
@@ -1599,7 +1594,7 @@ function modelGrowth(rng: Rng, d: Difficulty): GenOutput {
   };
 }
 
-function modelDepreciation(rng: Rng): GenOutput {
+function modelDepreciation(rng: Rng, d: Difficulty): GenOutput {
   const o = retry(() => {
     const V0 = rng.int(36, 140) * 250;
     const r = rng.pick([12, 14, 15, 16, 18, 20, 22, 25]);
@@ -1609,15 +1604,18 @@ function modelDepreciation(rng: Rng): GenOutput {
   const { V0, r, t, V } = o;
   const name = rng.pick(NAMES);
   const item = rng.pick(['a used car', 'a new snowmobile', 'a pickup truck', 'a used camper trailer', 'a new quad', 'a delivery van for a bakery in Lethbridge']);
+  const lost = d >= 2;
+  const Vr = roundTo(V, 2);
   return {
-    prompt: `${name} buys ${item} for ${money(V0)}. Its value decreases by ${pct(r)} each year, so its value after $t$ years is $V = V_0(1 - r)^t$, where $V_0$ is the purchase price and $r$ is the rate of depreciation as a decimal. What will it be worth after ${t} years? ${CENT}`,
-    parts: [moneyPart(V, 'Value: \\$')],
+    prompt: `${name} buys ${item} for ${money(V0)}. Its value decreases by ${pct(r)} each year, so its value after $t$ years is $V = V_0(1 - r)^t$, where $V_0$ is the purchase price and $r$ is the rate of depreciation as a decimal. ${lost ? `What will it be worth after ${t} years, and how much value will it have lost? Give your answers to the nearest cent.` : `What will it be worth after ${t} years? ${CENT}`}`,
+    parts: lost ? [moneyPart(V, 'Value: \\$'), moneyPart(roundTo(V0 - Vr, 2), 'Value lost: \\$')] : [moneyPart(V, 'Value: \\$')],
     calculator: true,
-    hints: [`$1 - r = 1 - ${dec(r)} = ${fmt(1 - r / 100, 6)}$: each year the value keeps $${100 - r}\\%$.`, `$V = ${nx(V0)}(${fmt(1 - r / 100, 6)})^{${t}}$`],
+    hints: [`$1 - r = 1 - ${dec(r)} = ${fmt(1 - r / 100, 6)}$: each year the value keeps $${100 - r}\\%$.`, `$V = ${nx(V0)}(${fmt(1 - r / 100, 6)})^{${t}}$${lost ? '. The value lost is the purchase price minus the value.' : ''}`],
     solution: [
       `$1 - r = ${fmt(1 - r / 100, 6)}$`,
-      `$V = ${nx(V0)}(${fmt(1 - r / 100, 6)})^{${t}} = ${work(V)}$`,
-      `After ${t} years it is worth about ${money(roundTo(V, 2))}.`,
+      `$V = ${nx(V0)}(${fmt(1 - r / 100, 6)})^{${t}} ${approx(V, 4)}$, about ${money(Vr)}.`,
+      ...(lost ? [`Value lost: $${nx(V0)} - ${m2(Vr)} = ${m2(V0 - Vr)}$`] : []),
+      `After ${t} years it is worth about ${money(Vr)}${lost ? `, so it has lost ${money(roundTo(V0 - Vr, 2))} in value` : ''}.`,
     ],
   };
 }
@@ -1656,7 +1654,7 @@ function modelRegression(rng: Rng, d: Difficulty): GenOutput {
       prompt: `${c.text(eq)} Use the equation to interpolate ${c.what} ${when(x)}. Give your answer ${roundingPhrase(c.dec)}.`,
       parts: [numPart(y, { decimals: c.dec, suffix: c.unit === 'dollars' ? undefined : c.unit, label: c.unit === 'dollars' ? 'Price: \\$' : undefined })],
       calculator: true,
-      hints: [`${cap(when(x))} means $x = ${x}${c.start ? ` (${c.start + x} - ${c.start})` : ''}$.`, `Substitute into the regression equation: $y = ${fmtGroupTex(a, 2)}(${fmt(b)})^{${x}}$.`],
+      hints: [`${cap(when(x))} means $x = ${x}$${c.start ? ` ($${c.start + x} - ${c.start}$)` : ''}.`, `Substitute into the regression equation: $y = ${fmtGroupTex(a, 2)}(${fmt(b)})^{${x}}$.`],
       solution: [
         `$x = ${x}$`,
         `$y = ${fmtGroupTex(a, 2)}(${fmt(b)})^{${x}} = ${work(y, 3)}$`,
@@ -1685,7 +1683,7 @@ function modelRegression(rng: Rng, d: Difficulty): GenOutput {
         },
       ],
       calculator: true,
-      hints: [`$x = ${x}${c.start ? ` (${c.start + x} - ${c.start})` : ''}$, which is beyond the last data value $x = ${c.span}$.`, `$y = ${fmtGroupTex(a, 2)}(${fmt(b)})^{${x}}$`],
+      hints: [`$x = ${x}$${c.start ? ` ($${c.start + x} - ${c.start}$)` : ''}, which is beyond the last data value $x = ${c.span}$.`, `$y = ${fmtGroupTex(a, 2)}(${fmt(b)})^{${x}}$`],
       solution: [
         `$x = ${x}$`,
         `$y = ${fmtGroupTex(a, 2)}(${fmt(b)})^{${x}} = ${work(y, 3)}$, about ${c.unit === 'dollars' ? money(roundTo(y, 0)) : `$${fx(y, c.dec)}$ ${c.unit}`}.`,
@@ -1776,11 +1774,11 @@ const expModel = skill({
   gen(rng, d) {
     if (d === 1) {
       const k = rng.pick(['interest', 'half', 'growth', 'deprec'] as const);
-      return k === 'interest' ? modelInterest(rng, false) : k === 'half' ? modelHalfLife(rng, 1) : k === 'growth' ? modelGrowth(rng, 1) : modelDepreciation(rng);
+      return k === 'interest' ? modelInterest(rng, false) : k === 'half' ? modelHalfLife(rng, 1) : k === 'growth' ? modelGrowth(rng, 1) : modelDepreciation(rng, 1);
     }
     if (d === 2) {
       const k = rng.pick(['interest', 'half', 'regression', 'deprec'] as const);
-      return k === 'interest' ? modelInterest(rng, true) : k === 'half' ? modelHalfLife(rng, 2) : k === 'regression' ? modelRegression(rng, 2) : modelDepreciation(rng);
+      return k === 'interest' ? modelInterest(rng, true) : k === 'half' ? modelHalfLife(rng, 2) : k === 'regression' ? modelRegression(rng, 2) : modelDepreciation(rng, 2);
     }
     const k = rng.pick(['half', 'growth', 'regression', 'present', 'rate'] as const);
     if (k === 'half') return modelHalfLife(rng, 3);
@@ -1916,7 +1914,7 @@ function phItem(rng: Rng, d: Difficulty): GenOutput {
   }, (o) => clear(o.p1, 2) && o.p1 > 1);
   const { p0, R, p1 } = o;
   return {
-    prompt: `A sample of ${rng.pick(['pond water', 'well water from a farm near Vegreville', 'water from a creek in Kananaskis', 'rainwater'])} has a pH of ${fmt(p0)}. After an algae bloom, the water is ${R} times as acidic (its hydrogen ion concentration is ${R} times as great). ${PH} What is the new pH, ${roundingPhrase(2)}?`,
+    prompt: `A sample of ${rng.pick(['pond water', 'well water from a farm near Vegreville', 'water from a creek in Kananaskis', 'rainwater'])} has a pH of ${fmt(p0)}. After heavy acid rain, the water is ${R} times as acidic (its hydrogen ion concentration is ${R} times as great). ${PH} What is the new pH, ${roundingPhrase(2)}?`,
     parts: [numPart(p1, { label: 'pH', decimals: 2 })],
     calculator: true,
     hints: [`The new concentration is $${R} \\times 10^{-${fmt(p0)}}$.`, `Use the product law: $-\\log(${R} \\times 10^{-${fmt(p0)}}) = -\\log ${R} + ${fmt(p0)}$.`],

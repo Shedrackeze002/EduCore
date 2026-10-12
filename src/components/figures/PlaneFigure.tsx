@@ -11,7 +11,11 @@ function fmtTick(v: number): string {
 
 /** A tick at a multiple of pi: 0, π/2, π, 3π/2, −π. Falls back to a decimal for other values. */
 function piTick(v: number): string {
-  const f = toFrac(v / Math.PI, 12);
+  // Tick values are rounded to 6 decimals, so match the nearest twelfth of pi with a tolerance.
+  const k = (v / Math.PI) * 12;
+  const twelfths = Math.round(k);
+  if (Math.abs(k - twelfths) > 1e-4) return fmtTick(v);
+  const f = toFrac(twelfths / 12, 12);
   if (!f) return fmtTick(v);
   if (f.n === 0) return '0';
   const sign = f.n < 0 ? '−' : '';

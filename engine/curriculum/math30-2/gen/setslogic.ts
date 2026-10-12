@@ -42,14 +42,14 @@ export type Region = 'a' | 'b' | 'c' | 'ab' | 'ac' | 'bc' | 'abc' | 'n';
 const r3 = (x: number) => Math.round(x * 1000) / 1000;
 
 /** Approximate rendered width (px) of a 12px bold figure label. */
-function textWidth(t: string): number {
+export function textWidth(t: string): number {
   let w = 0;
   for (const ch of t) w += ch === ' ' || ch === ',' || ch === '.' ? 3.5 : ch === '(' || ch === ')' ? 4.5 : /[A-Z]/.test(ch) ? 8 : 7.2;
   return w;
 }
 
 /** An invisible anchor point whose label is centred at (x, y). */
-function textAt(x: number, y: number, text: string, ppu: number): PlanePoint {
+export function textAt(x: number, y: number, text: string, ppu: number): PlanePoint {
   const w = textWidth(text);
   return { x: r3(x - (8 + w / 2) / ppu), y: r3(y - 12.3 / ppu), label: text, color: 'muted', open: true };
 }
@@ -116,13 +116,37 @@ export function vennFigure(o: VennOpts): PlaneFigure {
     boxes.push({ x0: x - hw, x1: x + hw, y0: y - 10 / ppu, y1: y + 10 / ppu });
     boxes.push({ x0: pt.x - 7 / ppu, x1: pt.x + 7 / ppu, y0: pt.y - 7 / ppu, y1: pt.y + 7 / ppu });
   };
+  // Each label is drawn beside an invisible anchor dot that would knock a notch out of a circle it
+  // touches, so nudge each label (or block of lines) until its anchors and text stay clear of the circles.
+  const offLines = (p: P, px: number) => L.centres.every((c) => Math.abs(Math.hypot(p[0] - c[0], p[1] - c[1]) - L.r) > px / ppu);
+  const lineY = (cy: number, n: number, j: number) => cy + ((n - 1) / 2 - j) * 0.5;
+  const fits = (cx: number, cy: number, lines: string[], region: Region) =>
+    lines.every((t, j) => {
+      const y = lineY(cy, lines.length, j);
+      const hw = (textWidth(t) / 2 + 2) / ppu;
+      const hh = 8 / ppu;
+      const anchor: P = [cx - (8 + textWidth(t) / 2) / ppu, y - 12.3 / ppu];
+      const corners: P[] = [[cx - hw, y - hh], [cx + hw, y - hh], [cx - hw, y + hh], [cx + hw, y + hh]];
+      return offLines(anchor, 7) && corners.every((p) => regionAt(p, L) === region && offLines(p, 2.5) && p[0] > m + 0.1 && p[0] < L.w - m - 0.1 && p[1] > m + 0.1 && p[1] < L.h - m - 0.1);
+    });
+  const place = (at: P, lines: string[], region: Region) => {
+    let [x, y] = at;
+    search: for (let rad = 0; rad <= 0.6; rad += 0.05) {
+      for (let i = 0; i < (rad ? 16 : 1); i++) {
+        const cx = at[0] + rad * Math.cos((Math.PI * i) / 8);
+        const cy = at[1] + rad * Math.sin((Math.PI * i) / 8);
+        if (fits(cx, cy, lines, region)) {
+          [x, y] = [cx, cy];
+          break search;
+        }
+      }
+    }
+    lines.forEach((t, j) => put(x, lineY(y, lines.length, j), t));
+  };
   put(0.75, L.h - 0.62, o.universal ?? 'U');
-  o.sets.forEach((s, i) => put(L.labels[i][0], L.labels[i][1], s));
+  o.sets.forEach((s, i) => place(L.labels[i], [s], 'n'));
   for (const [k, v] of Object.entries(o.regions ?? {}) as Array<[Region, string | string[] | undefined]>) {
-    if (v === undefined) continue;
-    const lines = Array.isArray(v) ? v : [v];
-    const [x, y] = L.pos[k]!;
-    lines.forEach((t, j) => put(x, y + ((lines.length - 1) / 2 - j) * 0.5, t));
+    if (v !== undefined) place(L.pos[k]!, Array.isArray(v) ? v : [v], k);
   }
   const segments: PlaneSegment[] = [];
   if (o.shade?.length) {
@@ -817,22 +841,24 @@ const CTX2: Ctx2[] = [
 
 interface Ctx3 {
   group: string;
+  who: string;
   verb: string;
+  /** What the three sets are, e.g. "courses" in "take exactly one of the three courses". */
+  kind: string;
   names: [string, string, string];
   labels: [string, string, string];
 }
 
 const CTX3: Ctx3[] = [
-  { group: 'Grade 12 students at a school in PLACE', verb: 'take', names: ['Biology 30', 'Chemistry 30', 'Physics 30'], labels: ['Bio', 'Chem', 'Phys'] },
-  { group: 'students in an activities survey in PLACE', verb: 'belong to', names: ['the music club', 'a sports team', 'the art club'], labels: ['Music', 'Sports', 'Art'] },
-  { group: 'students surveyed about getting to school in PLACE', verb: 'sometimes', names: ['walk', 'bike', 'take the bus'], labels: ['Walk', 'Bike', 'Bus'] },
-  { group: 'people at a winter festival in PLACE', verb: 'tried', names: ['skating', 'cross-country skiing', 'snowshoeing'], labels: ['Skate', 'Ski', 'Shoe'] },
-  { group: 'customers at a pizza place in PLACE', verb: 'ordered', names: ['pepperoni', 'mushrooms', 'green peppers'], labels: ['Pep', 'Mush', 'Green'] },
+  { group: 'Grade 12 students at a school in PLACE', who: 'students', verb: 'take', kind: 'courses', names: ['Biology 30', 'Chemistry 30', 'Physics 30'], labels: ['Bio', 'Chem', 'Phys'] },
+  { group: 'students in an activities survey in PLACE', who: 'students', verb: 'belong to', kind: 'groups', names: ['the music club', 'a sports team', 'the art club'], labels: ['Music', 'Sports', 'Art'] },
+  { group: 'students at a high school in PLACE', who: 'students', verb: 'play', kind: 'sports', names: ['basketball', 'volleyball', 'badminton'], labels: ['Bball', 'Vball', 'Badm'] },
+  { group: 'people at a winter festival in PLACE', who: 'people', verb: 'tried', kind: 'activities', names: ['skating', 'cross-country skiing', 'snowshoeing'], labels: ['Skate', 'Ski', 'Shoe'] },
+  { group: 'customers at a pizza place in PLACE', who: 'customers', verb: 'ordered', kind: 'toppings', names: ['pepperoni', 'mushrooms', 'green peppers'], labels: ['Pep', 'Mush', 'Green'] },
+  { group: 'families in PLACE', who: 'families', verb: 'have', kind: 'pets', names: ['a dog', 'a cat', 'a fish'], labels: ['Dog', 'Cat', 'Fish'] },
 ];
 
 const fillPlace = (s: string, rng: Rng) => s.replace('PLACE', rng.pick(PLACES));
-/** "take Biology 30" style phrases for three-set contexts. */
-const verbPhrase = (c: Ctx3, i: number) => (c.verb === 'sometimes' ? `${c.names[i]}` : `${c.verb} ${c.names[i]}`);
 
 function vennD1(rng: Rng): GenOutput {
   const c = rng.pick(CTX2);
@@ -946,35 +972,34 @@ function vennD3(rng: Rng): GenOutput {
   const nAC = r.ac + r.abc;
   const nBC = r.bc + r.abc;
   const total = nA + r.b + r.c + r.bc + r.n;
-  const [A, B, C] = [0, 1, 2].map((i) => verbPhrase(c, i));
+  const [A, B, C] = c.names;
   const ask = rng.pick(['none', 'exactlyOne', 'onlyA', 'exactlyTwo'] as const);
   const q = {
-    none: { text: `How many of the ${total} ${c.verb === 'sometimes' ? 'students' : 'people'} are in none of the three groups?`, v: r.n },
-    exactlyOne: { text: 'How many are in exactly one of the three groups?', v: r.a + r.b + r.c },
-    onlyA: { text: `How many ${A} only (and neither of the other two)?`, v: r.a },
-    exactlyTwo: { text: 'How many are in exactly two of the three groups?', v: r.ab + r.ac + r.bc },
+    none: { text: `How many of the ${total} ${c.who} ${c.verb} none of the three ${c.kind}?`, v: r.n },
+    exactlyOne: { text: `How many ${c.verb} exactly one of the three ${c.kind}?`, v: r.a + r.b + r.c },
+    onlyA: { text: `How many ${c.verb} ${A} but neither of the other two ${c.kind}?`, v: r.a },
+    exactlyTwo: { text: `How many ${c.verb} exactly two of the three ${c.kind}?`, v: r.ab + r.ac + r.bc },
   }[ask];
-  const who = c.verb === 'sometimes' ? 'students' : 'people';
   return {
-    prompt: `A survey of ${total} ${group} found:\n\n- ${nA} ${A}, ${nB} ${B} and ${nC} ${C}\n- ${nAB} ${A} and ${B}\n- ${nAC} ${A} and ${C}\n- ${nBC} ${B} and ${C}\n- ${r.abc} ${c.verb === 'sometimes' ? 'use' : 'are in'} all three\n\n${q.text}`,
+    prompt: `A survey of ${total} ${group} found:\n\n- ${nA} ${c.verb} ${A}, ${nB} ${c.verb} ${B} and ${nC} ${c.verb} ${C}\n- ${nAB} ${c.verb} both ${A} and ${B}\n- ${nAC} ${c.verb} both ${A} and ${C}\n- ${nBC} ${c.verb} both ${B} and ${C}\n- ${r.abc} ${c.verb} all three\n\n${q.text}`,
     figure: vennFigure({ sets: [...c.labels], regions: { abc: String(r.abc) }, caption: `${c.labels[0]} = ${c.names[0]}, ${c.labels[1]} = ${c.names[1]}, ${c.labels[2]} = ${c.names[2]}` }),
     parts: [numPart(q.v, { label: 'Number:' })],
     hints: [
-      'Fill in the Venn diagram from the centre outward. The counts for two groups include the people in all three.',
-      `For example, ${A} and ${B} but not ${c.names[2]}: $${nAB} - ${r.abc} = ${r.ab}$. Then subtract the overlaps from each circle total.`,
+      `Fill in the Venn diagram from the centre outward. The ${nAB} who ${c.verb} both ${A} and ${B} include the ${r.abc} who ${c.verb} all three.`,
+      `For example, ${A} and ${B} but not ${C}: $${nAB} - ${r.abc} = ${r.ab}$. Then subtract the overlaps from each circle total.`,
     ],
     solution: [
       `Centre (all three): $${r.abc}$`,
       `Exactly two: ${c.labels[0]} and ${c.labels[1]} only $= ${nAB} - ${r.abc} = ${r.ab}$; ${c.labels[0]} and ${c.labels[2]} only $= ${nAC} - ${r.abc} = ${r.ac}$; ${c.labels[1]} and ${c.labels[2]} only $= ${nBC} - ${r.abc} = ${r.bc}$`,
       `Only ${c.labels[0]}: $${nA} - ${r.ab} - ${r.ac} - ${r.abc} = ${r.a}$; only ${c.labels[1]}: $${nB} - ${r.ab} - ${r.bc} - ${r.abc} = ${r.b}$; only ${c.labels[2]}: $${nC} - ${r.ac} - ${r.bc} - ${r.abc} = ${r.c}$`,
-      `In at least one group: $${r.a} + ${r.b} + ${r.c} + ${r.ab} + ${r.ac} + ${r.bc} + ${r.abc} = ${total - r.n}$, so none: $${total} - ${total - r.n} = ${r.n}$ ${who}.`,
+      `In at least one: $${r.a} + ${r.b} + ${r.c} + ${r.ab} + ${r.ac} + ${r.bc} + ${r.abc} = ${total - r.n}$, so none: $${total} - ${total - r.n} = ${r.n}$.`,
       ask === 'none'
-        ? `$${r.n}$ ${who} are in none of the groups.`
+        ? `$${r.n}$ ${c.who} ${c.verb} none of the three ${c.kind}.`
         : ask === 'exactlyOne'
-          ? `Exactly one group: $${r.a} + ${r.b} + ${r.c} = ${q.v}$ ${who}.`
+          ? `Exactly one: $${r.a} + ${r.b} + ${r.c} = ${q.v}$ ${c.who}.`
           : ask === 'onlyA'
-            ? `$${r.a}$ ${who} ${A} only.`
-            : `Exactly two groups: $${r.ab} + ${r.ac} + ${r.bc} = ${q.v}$ ${who}.`,
+            ? `$${r.a}$ ${c.who} ${c.verb} ${A} only.`
+            : `Exactly two: $${r.ab} + ${r.ac} + ${r.bc} = ${q.v}$ ${c.who}.`,
     ],
   };
 }
@@ -1171,7 +1196,7 @@ function condD2(rng: Rng): GenOutput {
     ? ['The converse is false, because a converse is never true when the original statement is true.', 'The converse is false, because the inverse is false.', 'You cannot tell whether a converse is true without a counterexample.']
     : ['The converse is true, because the original statement is true.', 'The converse is true, because no counterexample exists.', 'The converse is false, because every converse is false.'];
   return {
-    prompt: `The statement "${statementOf(c)}" is true.\n\nWrite its converse. Is the converse true?`,
+    prompt: `The statement "${statementOf(c).slice(0, -1)}" is true. Is its converse true? Choose the best answer.`,
     parts: [part(mc(rng, correct, wrong))],
     hints: ['Switch the hypothesis and the conclusion to write the converse.', 'Try to find a counterexample to the converse: something that satisfies its hypothesis but not its conclusion.'],
     solution: [`Converse: "${converseOf(c)}"`, c.conv ? 'No counterexample can be found: every case that satisfies the new hypothesis also satisfies the new conclusion.' : `Counterexample: ${c.ccx}.`, correct],
