@@ -528,7 +528,7 @@ $$${termTex(m[0], m[1])}(${termsTex(q)})$$`,
         prompt: `Expand and simplify:
 $$${termTex(m1[0], m1[1])}(${termsTex(q1)}) ${op} ${Math.abs(m2[0])}(${termsTex(q2)})$$`,
         parts: [exprPart(result)],
-        hints: [`Expand each product first. Treat the second one as $${m2[0]}(${termsTex(q2)})$ so the sign goes with the ${Math.abs(m2[0])}.`, 'Then collect like terms.'],
+        hints: [m2[0] < 0 ? `Expand each product first. Treat the second one as $${m2[0]}(${termsTex(q2)})$: the minus sign goes with the ${-m2[0]} and multiplies every term.` : 'Expand each product first, multiplying every term inside each bracket.', 'Then collect like terms.'],
         solution: [
           `First product: $${termTex(m1[0], m1[1])}(${termsTex(q1)}) = ${termsTex(p1)}$`,
           `Second product: $${m2[0]}(${termsTex(q2)}) = ${termsTex(p2)}$`,

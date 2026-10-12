@@ -598,7 +598,7 @@ const PROBLEMS: Record<Difficulty, Array<(rng: Rng, name: string) => Problem>> =
     },
   ],
   3: [
-    (rng, name) => {
+    (rng) => {
       const depth = -rng.pick([20, 30, 40, 50]);
       const m = rng.int(3, 8);
       const r = -rng.int(2, 9);
@@ -683,7 +683,9 @@ function problems(rng: Rng, d: Difficulty): Out {
     prompt: `${p.text}\n\n(a) Which equation models the problem?\n\n(b) Solve the equation.`,
     parts: [part(mc(rng, right, wrong), { label: '(a)' }), { ...p.part, label: `(b) ${p.part.label ?? ''}` }],
     hints: [
-      'Say the problem in words first, such as “start amount plus rate times the unknown equals the total”. Then turn each phrase into maths.',
+      d === 1
+        ? 'Say the problem in words first, such as “number of groups times the amount in each group equals the total”. Then turn each phrase into maths.'
+        : 'Say the problem in words first, such as “start amount plus rate times the unknown equals the total”. Then turn each phrase into maths.',
       d === 1 ? 'Undo the multiplying or dividing with the inverse operation.' : 'Undo the operations in reverse order: adding or subtracting first, then multiplying or dividing.',
     ],
     solution: [`(a) The equation is ${right}.`, ...p.steps, `Check in the problem: ${p.check}. ${works}`, `(b) ${p.say}`],

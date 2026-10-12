@@ -1,8 +1,8 @@
 /** Math 8 Unit 8 — Surface Area and Volume (SS2, SS3, SS4, SS5): views of objects made of cubes, nets, and the surface area and volume of prisms and cylinders. */
-import { fixedChoice, mc, mcFigures, numPart, skill } from '../../helpers.ts';
+import { fixedChoice, mc, mcFigures, numPart, retry, skill } from '../../helpers.ts';
 import { fmt, fmtFixed, roundTo } from '../../../math/numbers.ts';
 import type { Rng } from '../../../rng.ts';
-import type { AnswerSpec, CubesFigure, Difficulty, Figure, Part, PlaneFigure, PlanePoint, PlaneSegment, SkillDef, SolidFigure } from '../../../types.ts';
+import type { AnswerSpec, CubesFigure, Figure, Part, PlaneFigure, PlanePoint, PlaneSegment, SkillDef, SolidFigure } from '../../../types.ts';
 
 // ---------------------------------------------------------------------------
 // Text helpers
@@ -65,8 +65,8 @@ const UNIT_WORD: Record<string, string> = { mm: 'millimetre', cm: 'centimetre', 
 // Plane drawings: polygons, segments and labels placed clear of every line
 // ---------------------------------------------------------------------------
 
-type P = [number, number];
-type Color = 'brand' | 'accent' | 'muted';
+export type P = [number, number];
+export type Color = 'brand' | 'accent' | 'muted';
 const r3 = (x: number) => Math.round(x * 1000) / 1000;
 /** Width in px of the plot area of a plane figure (380 px wide, no axis titles). */
 const PLOT_W = 340;
@@ -118,6 +118,16 @@ function distPtSeg(p: P, a: P, b: P): number {
   return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
 }
 
+function inPoly(p: P, poly: P[]): boolean {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, yi] = poly[i];
+    const [xj, yj] = poly[j];
+    if (yi > p[1] !== yj > p[1] && p[0] < ((xj - xi) * (p[1] - yi)) / (yj - yi) + xi) inside = !inside;
+  }
+  return inside;
+}
+
 interface LabelReq {
   text: string;
   /** Candidate centres, given the scale in px per unit. */
@@ -128,7 +138,7 @@ interface LabelReq {
  * Collects filled polygons, segments and labels, then lays them out on a blank canvas. Each label is
  * drawn by an invisible point and placed where its text stays clear of every line.
  */
-class Drawing {
+export class Drawing {
   polys: Array<{ points: P[]; color: Color; fill: boolean }> = [];
   segs: PlaneSegment[] = [];
   labels: LabelReq[] = [];
@@ -157,11 +167,33 @@ class Drawing {
       text,
       cands: (ppu) => {
         const out: P[] = [];
-        for (const d of [minPx, minPx + 4, minPx + 9, minPx + 15, minPx + 22, minPx + 30])
-          for (const off of [0, 20, -20, 40, -40, 65, -65, 90, -90, 130, -130, 180]) {
+        const at = (off: number, d: number) => {
+          const a = ((dir + off) * Math.PI) / 180;
+          const w = textWidth(text) / 2;
+          // Push the centre out by the half-size of the text box in that direction.
+          const ext = Math.abs(Math.cos(a)) * (w + 2) + Math.abs(Math.sin(a)) * 7;
+          out.push([p[0] + (Math.cos(a) * (d + ext)) / ppu, p[1] + (Math.sin(a) * (d + ext)) / ppu]);
+        };
+        const ds = [minPx, minPx + 4, minPx + 9, minPx + 15, minPx + 22, minPx + 30, minPx + 40];
+        // Close to the preferred direction first (even a little further out), then anywhere around.
+        for (const off of [0, 20, -20, 40, -40]) for (const d of ds) at(off, d);
+        for (const d of ds) for (const off of [65, -65, 90, -90, 130, -130, 180]) at(off, d);
+        return out;
+      },
+    });
+    return this;
+  }
+
+  /** Label inside an angle at vertex p, along the direction `dir` (degrees) into the angle. */
+  angleLabel(text: string, p: P, dir: number, minPx = 14) {
+    this.labels.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (let d = minPx; d <= minPx + 60; d += 5)
+          for (const off of [0, 8, -8, 15, -15]) {
             const a = ((dir + off) * Math.PI) / 180;
             const w = textWidth(text) / 2;
-            // Push the centre out by the half-size of the text box in that direction.
             const ext = Math.abs(Math.cos(a)) * (w + 2) + Math.abs(Math.sin(a)) * 7;
             out.push([p[0] + (Math.cos(a) * (d + ext)) / ppu, p[1] + (Math.sin(a) * (d + ext)) / ppu]);
           }
@@ -213,16 +245,24 @@ class Drawing {
       const hw = (w / 2 + 2) / ppu;
       const hh = 7 / ppu;
       const cands = lab.cands(ppu);
+      // Take the first spot with no clash; if every spot clashes, the one with the fewest.
       let chosen = cands[0];
+      let best = Infinity;
       for (const c of cands) {
         const box = { x0: c[0] - hw, x1: c[0] + hw, y0: c[1] - hh, y1: c[1] + hh };
         const anchor: P = [c[0] - (8 + w / 2) / ppu, c[1] - 12.4 / ppu];
-        if (edges.some(([a, b]) => segHitsBox(a, b, box))) continue;
-        if (edges.some(([a, b]) => distPtSeg(anchor, a, b) < 6 / ppu)) continue;
         const pad = 3 / ppu;
-        if (boxes.some((o) => !(box.x1 + pad < o.x0 || o.x1 + pad < box.x0 || box.y1 + pad < o.y0 || o.y1 + pad < box.y0))) continue;
-        chosen = c;
-        break;
+        const bad =
+          3 * edges.filter(([a, b]) => segHitsBox(a, b, box)).length +
+          edges.filter(([a, b]) => distPtSeg(anchor, a, b) < 6 / ppu).length +
+          // The invisible anchor dot would show as a white spot on a shaded face.
+          this.polys.filter((pl) => pl.fill && inPoly(anchor, pl.points)).length +
+          3 * boxes.filter((o) => !(box.x1 + pad < o.x0 || o.x1 + pad < box.x0 || box.y1 + pad < o.y0 || o.y1 + pad < box.y0)).length;
+        if (bad < best) {
+          best = bad;
+          chosen = c;
+        }
+        if (bad === 0) break;
       }
       const box = { x0: chosen[0] - hw, x1: chosen[0] + hw, y0: chosen[1] - hh, y1: chosen[1] + hh };
       boxes.push(box);
@@ -233,11 +273,31 @@ class Drawing {
     return { points, boxes };
   }
 
+  /** Lay out the figure on a fixed grid of unit squares (no axes or numbers). */
+  buildGrid(xMin: number, xMax: number, yMin: number, yMax: number): PlaneFigure {
+    const placed = this.place(xMax - xMin);
+    return {
+      type: 'plane',
+      grid: { xMin, xMax, yMin, yMax, step: 1 },
+      hideTickLabels: true,
+      hideAxes: true,
+      polylines: this.polys.map((p) => ({ points: p.points.map(([x, y]) => [r3(x), r3(y)] as P), color: p.color, ...(p.fill && { fill: true }) })),
+      ...(this.segs.length && { segments: this.segs.map((s) => ({ ...s, from: [r3(s.from[0]), r3(s.from[1])] as P, to: [r3(s.to[0]), r3(s.to[1])] as P })) }),
+      ...(placed.points.length && { points: placed.points }),
+    };
+  }
+
   /** Lay out the figure on a blank canvas, at least `min` = [width, height] units. */
   build(opts: { margin?: number; caption?: string; min?: [number, number] } = {}): PlaneFigure {
     const m = opts.margin ?? 0.3;
     const g = this.bbox();
     let box = { x0: g.x0 - m, x1: g.x1 + m, y0: g.y0 - m, y1: g.y1 + m };
+    /** At least as wide as it is tall, so a tall drawing does not fill the page. */
+    const square = (b: Box) => {
+      const wd = b.x1 - b.x0;
+      const ht = b.y1 - b.y0;
+      return ht > wd ? { ...b, x0: b.x0 - (ht - wd) / 2, x1: b.x1 + (ht - wd) / 2 } : b;
+    };
     const grow = (b: Box) => {
       if (!opts.min) return b;
       const [mw, mh] = opts.min;
@@ -246,10 +306,11 @@ class Drawing {
       return { x0: Math.min(b.x0, cx - mw / 2), x1: Math.max(b.x1, cx + mw / 2), y0: Math.min(b.y0, cy - mh / 2), y1: Math.max(b.y1, cy + mh / 2) };
     };
     box = grow(box);
+    box = square(box);
     let placed = this.place(box.x1 - box.x0);
     for (let k = 0; k < 4; k++) {
       const all = [box, ...placed.boxes.map((b) => ({ x0: b.x0 - 0.1, x1: b.x1 + 0.1, y0: b.y0 - 0.1, y1: b.y1 + 0.1 }))];
-      const nb = grow({ x0: Math.min(...all.map((b) => b.x0)), x1: Math.max(...all.map((b) => b.x1)), y0: Math.min(...all.map((b) => b.y0)), y1: Math.max(...all.map((b) => b.y1)) });
+      const nb = square(grow({ x0: Math.min(...all.map((b) => b.x0)), x1: Math.max(...all.map((b) => b.x1)), y0: Math.min(...all.map((b) => b.y0)), y1: Math.max(...all.map((b) => b.y1)) }));
       if (Math.abs(nb.x1 - nb.x0 - (box.x1 - box.x0)) < 1e-6 && Math.abs(nb.y1 - nb.y0 - (box.y1 - box.y0)) < 1e-6) break;
       box = nb;
       placed = this.place(box.x1 - box.x0);
@@ -594,13 +655,14 @@ const views = skill({
     }
 
     if (mode === 'fill') {
-      const h = randomStructure(rng, { rows: [2, 3], cols: [2, 3], maxH: 3, cubes: [5, 12], empty: 0.25 });
+      let h: HMap;
+      do h = randomStructure(rng, { rows: [2, 3], cols: [2, 3], maxH: 3, cubes: [5, 12], empty: 0.25 });
+      while (h.length * h[0].length * Math.max(...h.flat()) - totalCubes(h) < 2);
       const R = h.length;
       const C = h[0].length;
       const H = Math.max(...h.flat());
       const t = totalCubes(h);
       const full = R * C * H;
-      if (full - t < 2) return views.generate(rng.int(1, 1e6), 3);
       const goal = rng.pick([
         `${who} wants to add cubes to turn this object into a rectangular prism`,
         `${who} wants to fill in the gaps so the object becomes a rectangular prism`,
@@ -645,7 +707,7 @@ const views = skill({
           if (ds.length === 3) break;
         }
         if (ds.length < 3) continue;
-        const opts = [{ md: '', figure: cubesFig(h) as Figure, correct: true, why: '' }, ...ds.map((x) => ({ md: '', figure: cubesFig(x.h) as Figure, why: x.why }))];
+        const opts = [{ md: '', figure: cubesFig(h) as Figure, correct: true, why: '' }, ...ds.map((x) => ({ md: '', figure: cubesFig(x.h) as Figure, correct: false, why: x.why }))];
         const shuffled = rng.shuffle(opts);
         const answer = mcFigures(rng, shuffled, true);
         const letter = letterOf(answer);
@@ -764,11 +826,12 @@ const HEXOMINOES: { nets: Cell[][]; nonNets: Cell[][] } = (() => {
 /** Non-nets students can reason about: at most 4 squares across or up, so nothing is a plain row of 5 or 6. */
 const NON_NETS = HEXOMINOES.nonNets.filter((c) => Math.max(...c.map((p) => p[0])) < 4 && Math.max(...c.map((p) => p[1])) < 4);
 
-const orient = (rng: Rng, cells: Cell[]) => rng.pick(variants(cells));
+/** A random turn or flip of the squares, wider than it is tall. */
+const orient = (rng: Rng, cells: Cell[]) => rng.pick(variants(cells).filter((v) => Math.max(...v.map((c) => c[0])) >= Math.max(...v.map((c) => c[1]))));
 
-function squaresDrawing(cells: Cell[]): Drawing {
+function squaresDrawing(cells: Cell[], fill = true): Drawing {
   const dr = new Drawing();
-  for (const [x, y] of cells) dr.poly(rectPts(x, y, 1, 1));
+  for (const [x, y] of cells) dr.poly(rectPts(x, y, 1, 1), 'brand', fill);
   return dr;
 }
 
@@ -879,6 +942,8 @@ interface PolyInfo {
   /** sides of the base */
   k: number;
   kind: 'prism' | 'pyramid';
+  /** Name of the base shape, when it is not the usual one (a square). */
+  base?: readonly [string, string];
 }
 
 const POLY_NAMES: Record<number, string> = { 3: 'triangular', 4: 'rectangular', 5: 'pentagonal', 6: 'hexagonal', 7: 'heptagonal', 8: 'octagonal' };
@@ -890,7 +955,7 @@ function fev(p: PolyInfo) {
 
 function fevSteps(p: PolyInfo, what: 'faces' | 'edges' | 'vertices'): string[] {
   const k = p.k;
-  const [one, many] = BASE_SHAPE[k];
+  const [one, many] = p.base ?? BASE_SHAPE[k];
   if (p.kind === 'prism') {
     if (what === 'faces') return [`A ${p.name} has $2$ ${many} (the ends) and one rectangle for each side of the end: $${k}$ rectangles.`, `Faces: $2 + ${k} = ${k + 2}$`];
     if (what === 'edges') return [`Each ${one} end has $${k}$ edges, and $${k}$ more edges join the two ends.`, `Edges: $${k} + ${k} + ${k} = ${3 * k}$`];
@@ -976,7 +1041,7 @@ const nets = skill({
           { shape: 'cube', p: { name: 'cube', k: 4, kind: 'prism' }, things: ['a number cube', 'an ice cube', 'a toy block'] },
           { shape: 'rectPrism', p: { name: 'rectangular prism', k: 4, kind: 'prism' }, things: ['a cereal box', 'a brick', 'a shipping box'] },
           { shape: 'triPrism', p: { name: 'triangular prism', k: 3, kind: 'prism' }, things: ['a doorstop wedge', 'a box for a chocolate bar', 'a ramp for a skateboard park'] },
-          { shape: 'squarePyramid', p: { name: 'square pyramid', k: 4, kind: 'pyramid' }, things: ['a roof on a gazebo', 'a glass paperweight', 'a tent with a square floor'] },
+          { shape: 'squarePyramid', p: { name: 'square pyramid', k: 4, kind: 'pyramid', base: ['square', 'squares'] }, things: ['a roof on a gazebo', 'a glass paperweight', 'a tent with a square floor'] },
         ] as const);
         const what = rng.pick(['faces', 'edges', 'vertices'] as const);
         const v = fev(so.p)[what];
@@ -1136,22 +1201,27 @@ const nets = skill({
     const cells = orient(rng, rng.pick(HEXOMINOES.nets));
     const faces = foldFaces(cells)!;
     const letters = rng.shuffle(FACE_LETTERS.split(''));
-    const dr = squaresDrawing(cells);
+    const dr = squaresDrawing(cells, false);
     cells.forEach(([x, y], i) => dr.centre(letters[i], [x + 0.5, y + 0.5]));
     const i0 = rng.int(0, 5);
     const opp = faces.indexOf(faces[i0] ^ 1);
     const others = letters.filter((_, i) => i !== i0 && i !== opp);
-    const adjacentNote = cells
+    const adj = cells
       .map((c, i) => (i !== i0 && Math.abs(c[0] - cells[i0][0]) + Math.abs(c[1] - cells[i0][1]) === 1 ? letters[i] : ''))
       .filter(Boolean);
+    const [ax, ay] = cells[i0];
+    const [bx, by] = cells[opp];
+    const inRow = (ax === bx && Math.abs(ay - by) === 2 && cells.some((c) => c[0] === ax && c[1] === (ay + by) / 2)) || (ay === by && Math.abs(ax - bx) === 2 && cells.some((c) => c[1] === ay && c[0] === (ax + bx) / 2));
     return {
       prompt: `${who} folds this net into a cube, ${rng.pick(['to make a game die', 'to make a puzzle box', 'for a craft project'])}. Which face will be **opposite** face ${letters[i0]}?`,
       figure: dr.build(),
       parts: [{ answer: mc(rng, `Face ${letters[opp]}`, rng.shuffle(others).map((l) => `Face ${l}`)) }],
-      hints: ['Faces that touch along an edge in the net are next to each other on the cube, so they cannot be opposite.', 'In a row of three squares, the first and the third squares end up opposite each other.'],
+      hints: ['Faces that touch along an edge in the net are next to each other on the cube, so they cannot be opposite.', 'In a straight row of three squares, the first and the third squares end up opposite each other.'],
       solution: [
-        `Face ${letters[i0]} touches ${listWords(adjacentNote)} in the net, so ${adjacentNote.length > 1 ? 'they are' : 'it is'} next to face ${letters[i0]} on the cube, not opposite it.`,
-        'Fold the net in your head with face ' + letters[i0] + ' as the bottom. Every face that folds up becomes a side. The face that ends up on top is the opposite face.',
+        `Face ${letters[i0]} touches ${listWords(adj.map((l) => `face ${l}`))} in the net. ${adj.length > 1 ? 'Those faces are' : 'That face is'} next to face ${letters[i0]} on the cube, so ${adj.length > 1 ? 'they are' : 'it is'} not opposite.`,
+        inRow
+          ? `Faces ${letters[i0]} and ${letters[opp]} are at the two ends of a straight row of three squares. When the middle square is the bottom, they fold up to face each other.`
+          : `Fold the net in your head with face ${letters[i0]} as the bottom. The faces next to it fold up to make the sides, and face ${letters[opp]} folds over to make the top.`,
         `Face ${letters[opp]} is opposite face ${letters[i0]}.`,
       ],
       answerDisplay: `Face ${letters[opp]}`,
@@ -1170,11 +1240,7 @@ const prismFig = (l: number, w: number, h: number, u: string): SolidFigure => ({
 });
 const cubeFig = (s: number, u: string): SolidFigure => ({ type: 'solid', shape: 'cube', labels: { l: `${fmt(s)} ${u}` } });
 /** Right triangular prism: legs a (upright) and b (bottom), sloped side c, length l. */
-const wedgeFig = (a: number, b: number, c: number | null, l: number, u: string): SolidFigure => ({
-  type: 'solid',
-  shape: 'triPrism',
-  labels: { a: `${fmt(a)} ${u}`, b: `${fmt(b)} ${u}`, ...(c !== null && { c: `${fmt(c)} ${u}` }), l: `${fmt(l)} ${u}` },
-});
+const wedgeFig = (a: number, b: number, c: number, l: number, u: string) => triPrismFig('left', b, a, { base: `${fmt(b)} ${u}`, height: `${fmt(a)} ${u}`, side: `${fmt(c)} ${u}`, length: `${fmt(l)} ${u}` });
 const cylFig = (r: number, h: number, u: string, useD: boolean): SolidFigure => ({
   type: 'solid',
   shape: 'cylinder',
@@ -1182,30 +1248,40 @@ const cylFig = (r: number, h: number, u: string, useD: boolean): SolidFigure => 
 });
 
 /**
- * A triangular prism with isosceles ends (a tent or a roof), drawn as an oblique sketch: the front
- * triangle, the sloped face you can see, and dashed hidden edges. Labels: base, height, sloped side, length.
+ * A triangular prism drawn as an oblique line sketch: the front triangle, the edges you can see and
+ * dashed hidden edges. `apex: 'mid'` gives isosceles ends (a tent or a roof) labelled with the base,
+ * the height and a sloped side; `apex: 'left'` gives right-triangle ends (a wedge) labelled with the
+ * two legs and the sloped side. The last label is the length of the prism.
  */
-function tentFig(b: number, h: number, s: number, L: number, u: string): PlaneFigure {
+function triPrismFig(apex: 'mid' | 'left', b: number, h: number, lab: { base: string; height: string; side: string; length: string }): PlaneFigure {
   const bw = 3;
   const hw = Math.max(1.4, Math.min(2.6, (3 * h) / b));
   const d: P = [1.6, 1.1];
   const A: P = [0, 0];
   const B: P = [bw, 0];
-  const C: P = [bw / 2, hw];
+  const C: P = [apex === 'mid' ? bw / 2 : 0, hw];
   const o = (p: P): P => [p[0] + d[0], p[1] + d[1]];
   const dr = new Drawing();
-  dr.poly([B, o(B), o(C), C]);
-  dr.poly([A, B, C]);
-  dr.seg(A, o(A), { dashed: true, color: 'muted' });
-  dr.seg(o(A), o(B), { dashed: true, color: 'muted' });
-  dr.seg(o(A), o(C), { dashed: true, color: 'muted' });
-  dr.seg(C, [bw / 2, 0], { dashed: true, color: 'muted' });
-  dr.label(`${fmt(b)} ${u}`, [bw / 2 - 0.4, 0], -90, 8);
-  dr.label(`${fmt(h)} ${u}`, [bw / 2, hw * 0.42], 0, 6);
-  dr.label(`${fmt(s)} ${u}`, [bw / 4, hw / 2], 150, 8);
-  dr.label(`${fmt(L)} ${u}`, [bw + d[0] / 2, d[1] / 2], -40, 8);
+  dr.poly([A, B, C], 'brand', false);
+  dr.line([B, o(B), o(C), C]);
+  for (const [p, q] of [[A, o(A)], [o(A), o(B)], [o(A), o(C)]] as Array<[P, P]>) dr.seg(p, q, { dashed: true, color: 'muted' });
+  dr.label(lab.base, [bw / 2, 0], -90, 6);
+  if (apex === 'mid') {
+    dr.seg(C, [bw / 2, 0], { dashed: true, color: 'muted' });
+    dr.line([[bw / 2 + 0.2, 0], [bw / 2 + 0.2, 0.2], [bw / 2, 0.2]], 'muted');
+    dr.label(lab.height, [bw / 2, hw * 0.2], 0, 6);
+    dr.label(lab.side, [bw / 4, hw / 2], 150, 6);
+  } else {
+    dr.line([[0.2, 0], [0.2, 0.2], [0, 0.2]], 'muted');
+    dr.label(lab.height, [0, hw / 2], 180, 6);
+    // Inside the triangle, below the hidden edge from the right angle.
+    dr.label(lab.side, [bw * 0.66, hw * 0.34], -125, 4);
+  }
+  dr.label(lab.length, [bw + d[0] / 2, d[1] / 2], -40, 6);
   return dr.build();
 }
+
+const tentFig = (b: number, h: number, s: number, L: number, u: string) => triPrismFig('mid', b, h, { base: `${fmt(b)} ${u}`, height: `${fmt(h)} ${u}`, side: `${fmt(s)} ${u}`, length: `${fmt(L)} ${u}` });
 
 /** Isosceles triangle ends [base, height, sloped side] with whole-number sides. */
 const ISO_ENDS: Array<[number, number, number]> = [
@@ -1369,10 +1445,14 @@ const saPrism = skill({
         { thing: 'closed glass display case', u: 'm', l: [1, 2], w: [0.4, 0.7], h: [0.5, 1] },
       ]);
       const pickD = (lo: number, hi: number) => (c.u === 'm' ? rng.int(lo * 10, hi * 10) / 10 : rng.int(lo * 2, hi * 2) / 2);
-      const l = pickD(c.l[0], c.l[1]);
-      const w = pickD(c.w[0], c.w[1]);
-      const h = pickD(c.h[0], c.h[1]);
-      if ([l, w, h].every(Number.isInteger)) return saPrism.generate(rng.int(1, 1e6), 2);
+      let l: number;
+      let w: number;
+      let h: number;
+      do {
+        l = pickD(c.l[0], c.l[1]);
+        w = pickD(c.w[0], c.w[1]);
+        h = pickD(c.h[0], c.h[1]);
+      } while ([l, w, h].every(Number.isInteger));
       const { SA, steps } = boxSteps(l, w, h, c.u);
       return {
         prompt: `A ${c.thing} is ${len(l, c.u)} long, ${len(w, c.u)} wide and ${len(h, c.u)} high. What is its surface area?`,
@@ -1420,7 +1500,7 @@ const saPrism = skill({
         if (q - Math.floor(q) < 0.12 || q - Math.floor(q) > 0.9) continue;
         const cans = Math.ceil(q);
         return {
-          prompt: `${who} is painting a ${c.thing} that is ${len(l, 'm')} long, ${len(w, 'm')} wide and ${len(h, 'm')} high. Every face is painted except the bottom. One small can of paint covers ${len(cover, 'm')}$^2$.\n\n(a) What area is painted?\n\n(b) How many cans of paint must ${who} buy?`,
+          prompt: `${who} is painting a ${c.thing} that is ${len(l, 'm')} long, ${len(w, 'm')} wide and ${len(h, 'm')} high. Every face is painted except the bottom. One small can of paint covers $${n(cover)}${sq('m')}$.\n\n(a) What area is painted?\n\n(b) How many cans of paint must ${who} buy?`,
           figure: prismFig(l, w, h, 'm'),
           parts: [xPart(SA, 'm²', '(a) Area painted'), numPart(cans, { label: '(b) Cans', suffix: 'cans' })],
           hints: ['The bottom is not painted, so add the areas of the other $5$ faces.', 'Divide the area by the area one can covers. A part of a can is not enough, so round up.'],
@@ -1434,10 +1514,10 @@ const saPrism = skill({
     const h = exact(h0 / 10);
     const s = exact(s0 / 10);
     const L = rng.pick([2, 2.5, 3, 3.5]);
-    const price = rng.pick([4.25, 5.5, 6.75, 7.2, 8.4, 9.15]);
     const tri = exact(b * h);
     const slopes = exact(2 * s * L);
     const A = exact(tri + slopes);
+    const price = retry(() => rng.pick([4.25, 5.5, 6.75, 7.2, 8.4, 9.15, 5.8, 6.3]), (p) => !nearHalf(A * p, 2));
     const cost = exact(A * price);
     return {
       prompt: `${who} is sewing a tent shaped like a triangular prism. The tent has no floor. Each triangular end has a base of ${len(b, 'm')}, a height of ${len(h, 'm')} and sloped sides of ${len(s, 'm')}. The tent is ${len(L, 'm')} long. The fabric costs ${cash(price)} per square metre.\n\n(a) How much fabric is needed?\n\n(b) What does the fabric cost, to the nearest cent?`,
@@ -1497,11 +1577,11 @@ const saCylinder = skill({
         const r = rng.int(2, 7);
         const h = rng.int(3, 15);
         if (rng.chance(0.45)) {
-          const c = rng.pick(['a can of soup', 'a can of tomatoes', 'a jar of peanut butter', 'a can of tennis balls']);
+          const [c, noun] = rng.pick([['a can of soup', 'can'], ['a can of tomatoes', 'can'], ['a jar of peanut butter', 'jar'], ['a can of tennis balls', 'can'], ['a bottle of vitamins', 'bottle']]);
           const A = 2 * Math.PI * r * h;
           if (nearHalf(A, 1)) continue;
           return {
-            prompt: `A paper label covers the curved surface of ${c}. The can has a radius of ${len(r, 'cm')} and a height of ${len(h, 'cm')}. What is the area of the label? Use the $\\pi$ key and round ${roundSq(1, 'cm')}.`,
+            prompt: `A paper label covers the curved surface of ${c}. The ${noun} has a radius of ${len(r, 'cm')} and a height of ${len(h, 'cm')}. What is the area of the label? Use the $\\pi$ key and round ${roundSq(1, 'cm')}.`,
             figure: cylFig(r, h, 'cm', false),
             parts: [rPart(A, 1, 'cm²')],
             hints: ['Unrolled, the label is a rectangle. Its length is the circumference of the can and its width is the height.', 'Area of the label $= 2\\pi r h$'],
@@ -1595,6 +1675,7 @@ const saCylinder = skill({
       const area = roundTo(SA, 1);
       const price = rng.pick([3.25, 4.5, 5.75, 6.4, 7.8]);
       const cost = exact(area * price);
+      if (nearHalf(cost, 2)) continue;
       return {
         prompt: `${who} is painting the outside of a closed ${c.thing}, including the top and the bottom. It is a cylinder with a diameter of ${len(dia, 'm')} and a height of ${len(h, 'm')}. Paint costs ${cash(price)} per square metre.\n\n(a) Find the surface area, rounded ${roundSq(1, 'm')}.\n\n(b) Use your rounded area to find the cost of the paint, to the nearest cent.`,
         figure: cylFig(r, h, 'm', true),
@@ -1689,10 +1770,9 @@ const volPrism = skill({
           solution: [`$V = ${l} \\times ${w} \\times ${h} = ${n(V)}${cu('cm')}$`, `Litres: $${n(V)} \\div 1000 = ${n(L)}$`, `The ${c.thing} holds $${n(L)}${un('L')}$.`],
         };
       }
-      const l = rng.int(16, 40) / 2;
+      const l = rng.int(8, 19) + 0.5;
       const w = rng.int(8, 24) / 2;
       const h = rng.int(6, 30) / 2;
-      if ([l, w, h].every(Number.isInteger)) return volPrism.generate(rng.int(1, 1e6), 2);
       const base = exact(l * w);
       const V = exact(base * h);
       const thing = rng.pick(['brick of modelling clay', 'block of butter', 'bar of soap', 'sponge']);
@@ -1711,9 +1791,8 @@ const volPrism = skill({
       const w = rng.int(4, 15);
       const h = rng.int(3, 20);
       const V = l * w * h;
-      const thing = rng.pick(['A sandbox', 'A box of printer paper', 'A raised garden bed', 'A gift box']);
-      const u = thing === 'A sandbox' || thing === 'A raised garden bed' ? 'dm' : 'cm';
-      const unit = u === 'dm' ? 'cm' : 'cm';
+      const thing = rng.pick(['A box of printer paper', 'A gift box', 'A tissue box', 'A toy box for a doll house', 'A lunch box']);
+      const unit = 'cm';
       return {
         prompt: `${thing} is a rectangular prism with a volume of $${n(V)}${cu(unit)}$. Its base is ${len(l, unit)} long and ${len(w, unit)} wide. How high is it?`,
         parts: [numPart(h, { suffix: unit })],
@@ -1778,12 +1857,20 @@ const volCylinder = skill({
     const who = rng.pick(NAMES);
     for (;;) {
       if (d === 1) {
-        const r = rng.int(2, 9);
-        const h = rng.int(3, 20);
+        const c = rng.pick([
+          { thing: 'a can of soup', r: [3, 4], h: [9, 12] },
+          { thing: 'a round cake pan', r: [10, 13], h: [4, 6] },
+          { thing: 'a pillar candle', r: [3, 6], h: [8, 20] },
+          { thing: 'a glass vase', r: [4, 8], h: [15, 30] },
+          { thing: 'a can of paint', r: [8, 9], h: [18, 20] },
+          { thing: 'a round tin of cookies', r: [9, 12], h: [7, 10] },
+        ]);
+        const r = rng.int(c.r[0], c.r[1]);
+        const h = rng.int(c.h[0], c.h[1]);
         const base = Math.PI * r * r;
         const V = base * h;
         if (nearHalf(V, 1)) continue;
-        const thing = rng.pick(['a can of soup', 'a round cake pan', 'a candle', 'a vase', 'a can of paint']);
+        const thing = c.thing;
         return {
           prompt: `${cap(thing)} is a cylinder with a radius of ${len(r, 'cm')} and a height of ${len(h, 'cm')}. What is its volume? Use the $\\pi$ key and round ${roundCu(1, 'cm')}.`,
           figure: cylFig(r, h, 'cm', false),
@@ -1829,8 +1916,8 @@ const volCylinder = skill({
       const mode = rng.pick(['height', 'glasses', 'compare'] as const);
       if (mode === 'height') {
         const c = rng.pick([
-          { thing: 'water tank', u: 'm', r: [0.5, 1.5], V: [1500, 6000], step: 0.1 },
-          { thing: 'rain barrel', u: 'm', r: [0.25, 0.4], V: [150, 300], step: 0.05 },
+          { thing: 'water tank', short: 'tank', u: 'm', r: [0.5, 1.5], V: [1500, 6000], step: 0.1 },
+          { thing: 'rain barrel', short: 'barrel', u: 'm', r: [0.25, 0.4], V: [150, 300], step: 0.05 },
         ]);
         const r = exact(c.r[0] + c.step * rng.int(0, Math.round((c.r[1] - c.r[0]) / c.step)));
         const litres = rng.int(c.V[0] / 50, c.V[1] / 50) * 50;
@@ -1839,10 +1926,10 @@ const volCylinder = skill({
         const h = m3 / base;
         if (nearHalf(h, 2) || h < 0.4 || h > 4) continue;
         return {
-          prompt: `A cylindrical ${c.thing} holds $${n(litres)}${un('L')}$ of water when full. Its radius is ${len(r, 'm')}. How tall is the tank? Use $1\\ \\text{m}^3 = 1000\\ \\text{L}$ and round to the nearest hundredth of a metre.`,
+          prompt: `A cylindrical ${c.thing} holds $${n(litres)}${un('L')}$ of water when full. Its radius is ${len(r, 'm')}. How tall is the ${c.short}? Use $1\\ \\text{m}^3 = 1000\\ \\text{L}$ and round to the nearest hundredth of a metre.`,
           parts: [rPart(h, 2, 'm')],
           hints: ['Change the capacity to cubic metres first.', 'From $V = \\pi r^2 h$, the height is $h = V \\div (\\pi r^2)$.'],
-          solution: [`Volume: $${n(litres)} \\div 1000 = ${n(m3)}${cu('m')}$`, `Area of base: $\\pi \\times ${n(r)}^2 \\approx ${nf(base, 4)}${sq('m')}$`, `$h = ${n(m3)} \\div ${nf(base, 4)} \\approx ${nf(h, 3)}$`, `The tank is about $${nf(h, 2)}${un('m')}$ tall.`],
+          solution: [`Volume: $${n(litres)} \\div 1000 = ${n(m3)}${cu('m')}$`, `Area of base: $\\pi \\times ${n(r)}^2 \\approx ${nf(base, 4)}${sq('m')}$`, `$h = ${n(m3)} \\div ${nf(base, 4)} \\approx ${nf(h, 3)}$`, `The ${c.short} is about $${nf(h, 2)}${un('m')}$ tall.`],
         };
       }
       if (mode === 'glasses') {
@@ -1872,7 +1959,6 @@ const volCylinder = skill({
       const diff = Math.abs(V1 - V2);
       if (diff < 30 || nearHalf(diff, 1)) continue;
       const big = V1 > V2 ? 'A' : 'B';
-      const names = rng.pick([['tall can', 'wide can'], ['blue container', 'red container'], ['first mug', 'second mug']]);
       return {
         prompt: `Can A has a radius of ${len(r1, 'cm')} and a height of ${len(h1, 'cm')}. Can B has a radius of ${len(r2, 'cm')} and a height of ${len(h2, 'cm')}. ${who} thinks the ${h1 > h2 ? 'taller' : 'shorter'} can holds more because ${h1 > h2 ? 'it is taller' : 'it is wider'}.\n\n(a) Which can holds more?\n\n(b) By how many cubic centimetres? Round ${roundCu(1, 'cm')}.`,
         parts: [{ label: '(a)', answer: fixedChoice(['Can A', 'Can B'], big === 'A' ? 0 : 1) }, rPart(diff, 1, 'cm³', '(b) Difference')],
@@ -1883,5 +1969,7 @@ const volCylinder = skill({
     }
   },
 });
+
+export { NAMES, cap, listWords, letterOf, LETTERS };
 
 export const SOLIDS_SKILLS: SkillDef[] = [views, nets, saPrism, saCylinder, volPrism, volCylinder];

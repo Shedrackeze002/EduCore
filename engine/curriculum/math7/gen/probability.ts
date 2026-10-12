@@ -330,7 +330,7 @@ function formsConvert(rng: Rng): Out {
   const toWord = to === 'ratio' ? 'a ratio' : to === 'percent' ? 'a percent' : 'a fraction in lowest terms';
   const prompt = `The probability ${ctx} is ${given}. ${to === 'ratio' ? 'Which ratio shows the same probability?' : `Write this probability as ${toWord}.`}`;
   const pv = (100 * a) / b;
-  const pcFrac = Number.isInteger(pv) ? `${fr(pv, 100)}` : `${fr(pctOf([a, b]), 100)} = ${fr(pv * 10, 1000)}`;
+  const pcFrac = Number.isInteger(pv) ? `${fr(pv, 100)}` : `\\frac{${pctOf([a, b])}}{100} = ${fr(Math.round(pv * 10), 1000)}`;
   const step1 = from === 'ratio'
     ? `A ratio of favourable : total gives the fraction $${fr(a * k, b * k)}$${k > 1 ? `, which simplifies to $${fr(a, b)}$` : ''}.`
     : from === 'percent'
@@ -634,7 +634,7 @@ function spaceList(rng: Rng, name: string): Out {
   const ds = [
     [...p.a.out, ...p.b.out].join(', '),
     p.b.out.map((_, j) => code(p, Math.min(j, p.a.out.length - 1), j)).join(', '),
-    codes.filter((c, k) => k < p.b.out.length || k % p.b.out.length !== p.b.out.length - 1).join(', '),
+    codes.filter((_, k) => k < p.b.out.length || k % p.b.out.length !== p.b.out.length - 1).join(', '),
   ];
   // Two coins: HT and TH are different outcomes.
   if (p.a.kind === 'coin' && p.b.kind === 'coin') ds.unshift('HH, HT, TT');
@@ -1121,7 +1121,7 @@ function expPredict(rng: Rng, name: string): Out {
   };
 }
 
-function expPooled(rng: Rng, name: string): Out {
+function expPooled(rng: Rng): Out {
   const e = experiment(rng);
   const i = rng.int(0, e.outcomes.length - 1);
   const [tn, td] = e.p[i];
@@ -1159,7 +1159,7 @@ const experimental = skill({
     if (d === 1) return expD1(rng, name);
     if (d === 2) return expD2(rng, name);
     const k = rng.pick(['size', 'predict', 'pooled'] as const);
-    return k === 'size' ? expSampleSize(rng, name) : k === 'predict' ? expPredict(rng, name) : expPooled(rng, name);
+    return k === 'size' ? expSampleSize(rng, name) : k === 'predict' ? expPredict(rng, name) : expPooled(rng);
   },
 });
 

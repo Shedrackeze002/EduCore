@@ -97,13 +97,14 @@ function segHitsBox(a: P, b: P, box: Box): boolean {
 
 function distSegBox(a: P, b: P, box: Box): number {
   if (segHitsBox(a, b, box)) return 0;
-  const corners: P[] = [
-    [box.x0, box.y0],
-    [box.x0, box.y1],
-    [box.x1, box.y0],
-    [box.x1, box.y1],
-  ];
-  return Math.min(...corners.map((c) => distPtSeg(c, a, b)), distPtBox(a, box), distPtBox(b, box));
+  return Math.min(
+    distPtSeg([box.x0, box.y0], a, b),
+    distPtSeg([box.x0, box.y1], a, b),
+    distPtSeg([box.x1, box.y0], a, b),
+    distPtSeg([box.x1, box.y1], a, b),
+    distPtBox(a, box),
+    distPtBox(b, box),
+  );
 }
 
 function distBoxBox(p: Box, q: Box): number {
@@ -139,6 +140,8 @@ export class Sketch {
   private extra: P[] = [];
   /** The smallest clearance (px) of any label in the last layout. */
   clearance = Infinity;
+  /** Whether a crowded label in the last layout had candidates outside the canvas (a wider margin may help). */
+  private cramped = false;
 
   seg(from: P, to: P, opts: { color?: Color; dashed?: boolean; arrowEnd?: boolean; arrowStart?: boolean } = {}) {
     this.segs.push({ from, to, ...opts });
@@ -205,14 +208,17 @@ export class Sketch {
     return this;
   }
 
-  /** Label inside the angle region from direction a0 counterclockwise to a1, near vertex v. */
-  angleLabel(v: P, a0: number, a1: number, text: string, minPx = 18) {
+  /** Label inside the angle region from direction a0 counterclockwise to a1, near vertex v (just beyond an arc of radius arcR, if given). */
+  angleLabel(v: P, a0: number, a1: number, text: string, minPx = 18, arcR?: number, maxR?: number) {
     const span = norm360(a1 - a0) || 360;
     this.pending.push({
       text,
       cands: (ppu) => {
         const out: P[] = [];
-        for (const rpx of [minPx, minPx + 6, minPx + 12, minPx + 19, minPx + 27, minPx + 36, minPx + 48, minPx + 62])
+        const m = Math.max(minPx, arcR === undefined ? 0 : arcR * ppu + 9);
+        // Stay well inside the arms of the angle, so the label cannot drift to another angle.
+        const radii = [m, m + 6, m + 12, m + 19, m + 27, m + 36, m + 48, m + 62].filter((rpx, i) => i === 0 || maxR === undefined || rpx <= maxR * ppu);
+        for (const rpx of radii)
           for (const t of [0.5, 0.42, 0.58, 0.34, 0.66, 0.26, 0.74, 0.18, 0.82]) out.push(at(v, a0 + t * span, rpx / ppu));
         return out;
       },
@@ -228,6 +234,19 @@ export class Sketch {
         const out: P[] = [];
         for (const dpx of [13, 16, 20, 25, 31, 38])
           for (const off of [0, 30, -30, 60, -60, 90, -90, 125, -125, 180]) out.push(at(p, a + off, dpx / ppu));
+        return out;
+      },
+    });
+    return this;
+  }
+
+  /** A title straight above (a = 90) or beside a shape, never inside it. */
+  titleLabel(p: P, text: string, a = 90) {
+    this.pending.push({
+      text,
+      cands: (ppu) => {
+        const out: P[] = [];
+        for (const dpx of [19, 23, 28, 34, 42, 52]) for (const sx of [0, -10, 10, -20, 20]) out.push(at(at(p, a, dpx / ppu), a - 90, sx / ppu));
         return out;
       },
     });
@@ -300,9 +319,14 @@ export class Sketch {
     const placed: Box[] = [...fixedBoxes];
     const anchors: PlanePoint[] = [];
     this.clearance = Infinity;
+    this.cramped = false;
+    // Scores only matter up to a few pixels, so obstacles further away than CAP are skipped.
+    const CAP = 12 / ppu;
+    const obs = this.obstacles.map(([a, b]) => ({ a, b, x0: Math.min(a[0], b[0]), x1: Math.max(a[0], b[0]), y0: Math.min(a[1], b[1]), y1: Math.max(a[1], b[1]) }));
     for (const lab of this.pending) {
       const wpx = textWidth(lab.text);
       let best: { c: P; score: number } | null = null;
+      let outside = false;
       for (const c of lab.cands(ppu)) {
         const hw = (wpx / 2 + 1.5) / ppu;
         const hh = 6.5 / ppu;
@@ -310,13 +334,21 @@ export class Sketch {
         const A: P = [c[0] - (8 + wpx / 2) / ppu, c[1] - 12.3 / ppu];
         let score: number;
         if (lab.fixed) score = 100;
-        else if (box.x0 < bounds.x0 || box.x1 > bounds.x1 || box.y0 < bounds.y0 || box.y1 > bounds.y1) score = -1000;
+        else if (box.x0 < bounds.x0 || box.x1 > bounds.x1 || box.y0 < bounds.y0 || box.y1 > bounds.y1) {
+          score = -1000;
+          outside = true;
+        }
         else {
-          let tc = Infinity;
-          let ac = Infinity;
-          for (const [a, b] of this.obstacles) {
-            tc = Math.min(tc, distSegBox(a, b, box));
-            ac = Math.min(ac, distPtSeg(A, a, b) - 5.5 / ppu);
+          let tc = CAP;
+          let ac = CAP;
+          const rx0 = Math.min(box.x0, A[0]) - CAP - 6 / ppu;
+          const rx1 = box.x1 + CAP;
+          const ry0 = Math.min(box.y0, A[1]) - CAP - 6 / ppu;
+          const ry1 = box.y1 + CAP;
+          for (const o of obs) {
+            if (o.x1 < rx0 || o.x0 > rx1 || o.y1 < ry0 || o.y0 > ry1) continue;
+            tc = Math.min(tc, distSegBox(o.a, o.b, box));
+            ac = Math.min(ac, distPtSeg(A, o.a, o.b) - 5.5 / ppu);
           }
           for (const pb of placed) {
             tc = Math.min(tc, distBoxBox(pb, box) - 2 / ppu);
@@ -333,6 +365,7 @@ export class Sketch {
       }
       const c = best!.c;
       if (!lab.fixed) this.clearance = Math.min(this.clearance, best!.score);
+      if (!lab.fixed && best!.score < 2 && outside) this.cramped = true;
       const hw = (wpx / 2 + 1.5) / ppu;
       const hh = 6.5 / ppu;
       placed.push({ x0: c[0] - hw, x1: c[0] + hw, y0: c[1] - hh, y1: c[1] + hh });
@@ -363,7 +396,17 @@ export class Sketch {
 
   /** A plain canvas (no axes, no grid lines) sized to fit the drawing. */
   build(opts: { margin?: number; caption?: string; minWidth?: number } = {}): PlaneFigure {
-    const m = opts.margin ?? 0.9;
+    // Widen the margin until every label has room (or give up after a few tries).
+    const m0 = opts.margin ?? 0.9;
+    let fig = this.layout(m0, opts);
+    for (const extra of [0.5, 1, 1.6, 2.4]) {
+      if (this.clearance >= 2 || !this.cramped) break;
+      fig = this.layout(m0 + extra, opts);
+    }
+    return fig;
+  }
+
+  private layout(m: number, opts: { caption?: string; minWidth?: number }): PlaneFigure {
     const pts: P[] = [
       ...this.segs.flatMap((s) => [s.from, s.to] as P[]),
       ...this.polys.flatMap((p) => p.points),
@@ -432,9 +475,13 @@ export function wedge(v: P, u: P, w: P): [number, number] {
 /** Arc (or right-angle mark) and optional label for the angle at v between the rays to u and w. */
 export function markAngle(s: Sketch, v: P, u: P, w: P, text: string | null, opts: { r?: number; right?: boolean; arc?: boolean } = {}) {
   const [a0, a1] = wedge(v, u, w);
+  // Narrow angles get a larger arc, so the label can sit just beyond it and still read as this angle.
+  const span = a1 - a0;
+  const r = Math.max(opts.r ?? 0.5, span < 35 ? 1.05 : span < 55 ? 0.75 : 0);
   if (opts.right) s.rightMark(v, a0, opts.r ?? 0.4);
-  else if (opts.arc ?? true) s.arc(v, opts.r ?? 0.5, a0, a1);
-  if (text) s.angleLabel(v, a0, a1, text, opts.right ? 24 : text.length > 3 ? 24 : 20);
+  else if (opts.arc ?? true) s.arc(v, r, a0, a1);
+  const arm = Math.min(dist(v, u), dist(v, w));
+  if (text) s.angleLabel(v, a0, a1, text, opts.right ? 24 : text.length > 3 ? 24 : 20, opts.right || opts.arc === false ? undefined : r, 0.8 * arm);
 }
 
 function signedArea(pts: P[]): number {
@@ -483,7 +530,8 @@ interface ShapeSpec {
 function drawShape(s: Sketch, spec: ShapeSpec, dx: number, color: Color) {
   const pts = spec.pts.map(([x, y]) => [x + dx, y] as P);
   const n = pts.length;
-  s.poly(pts, { color, fill: true });
+  // Shapes with angle labels inside are left unshaded so the labels stay clear.
+  s.poly(pts, { color, fill: !spec.angles?.some(Boolean) });
   const c = centroid(pts);
   pts.forEach((v, i) => {
     const lab = spec.angles?.[i];
@@ -508,7 +556,9 @@ function drawShape(s: Sketch, spec: ShapeSpec, dx: number, color: Color) {
   if (spec.title) {
     const top = Math.max(...pts.map((p) => p[1]));
     const xs = pts.map((p) => p[0]);
-    s.endLabel([(Math.min(...xs) + Math.max(...xs)) / 2, top + 0.15], 90, spec.title);
+    const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
+    s.include([cx, top + 1.2]);
+    s.titleLabel([cx, top], spec.title);
   }
 }
 
@@ -687,7 +737,7 @@ const SF_THINGS = [
   { thing: 'sticker', dim: 'wide' },
   { thing: 'photo', dim: 'wide' },
   { thing: 'school logo', dim: 'tall' },
-  { thing: 'drawing of a maple leaf', dim: 'wide' },
+  { thing: 'maple leaf decal', dim: 'wide' },
   { thing: 'map of the schoolyard', dim: 'wide' },
   { thing: 'poster', dim: 'tall' },
   { thing: 'hockey team crest', dim: 'tall' },
@@ -739,13 +789,13 @@ function scaleFactorGen(rng: Rng, d: Difficulty): GenOutput {
     const o = k.den === 2 ? 2 * rng.int(3, 15) : rng.int(3, 15);
     const img = o * kVal(k);
     return {
-      prompt: `A ${t.thing} is $${ms(o, uu)}$ ${t.dim}. ${name} makes a scale diagram of it with a scale factor of $${k.den === 1 ? k.num : '\\frac{1}{2}'}$. How ${t.dim} is the ${t.thing} in the scale diagram?`,
+      prompt: `A ${t.thing} is $${ms(o, uu)}$ ${t.dim}. ${name} makes a scale diagram of it with a scale factor of $${k.den === 1 ? k.num : '\\frac{1}{2}'}$. How ${t.dim} is the scale diagram?`,
       parts: [numPart(img, { suffix: uu })],
       hints: [`A scale factor of $${k.den === 1 ? k.num : '\\frac{1}{2}'}$ means every length is multiplied by $${k.den === 1 ? k.num : '\\frac{1}{2}'}$.`, 'Image length $=$ scale factor $\\times$ original length.'],
       solution: [
         'Image length $=$ scale factor $\\times$ original length.',
         k.den === 1 ? `$${k.num} \\times ${fmt(o)} = ${fmt(img)}$` : `$\\frac{1}{2} \\times ${fmt(o)} = ${fmt(o)} \\div 2 = ${fmt(img)}$`,
-        `The ${t.thing} is $${ms(img, uu)}$ ${t.dim} in the scale diagram${k.den === 1 ? '. It is an enlargement' : '. It is a reduction'}.`,
+        `The scale diagram is $${ms(img, uu)}$ ${t.dim}${k.den === 1 ? '. It is an enlargement' : '. It is a reduction'}.`,
       ],
       calculator: false,
     };
@@ -791,11 +841,11 @@ function scaleFactorGen(rng: Rng, d: Difficulty): GenOutput {
     }
     // Two dimensions from a decimal scale factor.
     const job = rng.pick([
-      { what: 'poster', verb: 'reduced', why: 'to make a flyer', u: 'cm', ks: [0.4, 0.6, 0.75, 0.8, 0.25] },
-      { what: 'photo', verb: 'enlarged', why: 'for the yearbook cover', u: 'cm', ks: [1.5, 2.5, 1.25, 1.2] },
-      { what: 'banner design', verb: 'enlarged', why: 'for the gym wall', u: 'cm', ks: [1.5, 2.5, 3.5, 1.2] },
-      { what: 'garden plan', verb: 'reduced', why: 'to fit in a notebook', u: 'cm', ks: [0.4, 0.6, 0.75, 0.8] },
-      { what: 'team logo', verb: 'enlarged', why: 'for a jersey', u: 'mm', ks: [1.5, 2.5, 1.25, 1.75] },
+      { what: 'poster', copy: 'flyer', verb: 'reduced', why: 'to make a flyer', u: 'cm', ks: [0.4, 0.6, 0.75, 0.8, 0.25] },
+      { what: 'photo', copy: 'yearbook cover photo', verb: 'enlarged', why: 'for the yearbook cover', u: 'cm', ks: [1.5, 2.5, 1.25, 1.2] },
+      { what: 'banner design', copy: 'gym wall banner', verb: 'enlarged', why: 'for the gym wall', u: 'cm', ks: [1.5, 2.5, 3.5, 1.2] },
+      { what: 'garden plan', copy: 'notebook copy', verb: 'reduced', why: 'to fit in a notebook', u: 'cm', ks: [0.4, 0.6, 0.75, 0.8] },
+      { what: 'team logo', copy: 'jersey logo', verb: 'enlarged', why: 'for a jersey', u: 'mm', ks: [1.5, 2.5, 1.25, 1.75] },
     ]);
     const k = rng.pick(job.ks);
     const [w, h] = retry(
@@ -805,13 +855,13 @@ function scaleFactorGen(rng: Rng, d: Difficulty): GenOutput {
     const a = roundTo(w * k, 2);
     const b = roundTo(h * k, 2);
     return {
-      prompt: `A ${job.what} is $${ms(w, job.u)}$ long and $${ms(h, job.u)}$ wide. ${name} has it ${job.verb} ${job.why} using a scale factor of $${fmt(k)}$. What are the length and width of the new ${job.what}?`,
+      prompt: `A ${job.what} is $${ms(w, job.u)}$ long and $${ms(h, job.u)}$ wide. ${name} has it ${job.verb} ${job.why} using a scale factor of $${fmt(k)}$. What are the length and width of the ${job.copy}?`,
       parts: [numPart(a, { label: 'Length', suffix: job.u }), numPart(b, { label: 'Width', suffix: job.u })],
       hints: ['Every length is multiplied by the same scale factor.', `Multiply each dimension by $${fmt(k)}$.`],
       solution: [
         `Length: $${fmt(k)} \\times ${w} = ${fmt(a)}$`,
         `Width: $${fmt(k)} \\times ${h} = ${fmt(b)}$`,
-        `The new ${job.what} is $${ms(a, job.u)}$ long and $${ms(b, job.u)}$ wide. ${k > 1 ? 'Both lengths grew, as they should in an enlargement.' : 'Both lengths shrank, as they should in a reduction.'}`,
+        `The ${job.copy} is $${ms(a, job.u)}$ long and $${ms(b, job.u)}$ wide. ${k > 1 ? 'Both lengths grew, as they should in an enlargement.' : 'Both lengths shrank, as they should in a reduction.'}`,
       ],
     };
   }
@@ -849,11 +899,11 @@ function scaleFactorGen(rng: Rng, d: Difficulty): GenOutput {
   if (kind === 1) {
     // Find the original from the image.
     const job = rng.pick([
-      { thing: 'model of a grain elevator', feat: 'the model', dim: 'tall', u: 'cm', ks: [0.02, 0.025, 0.04, 0.05], big: [15, 30] },
-      { thing: 'scale drawing of a canoe', feat: 'the drawing of the canoe', dim: 'long', u: 'cm', ks: [0.04, 0.05, 0.025], big: [4, 6] },
-      { thing: 'enlarged photo of a ladybug', feat: 'the ladybug in the photo', dim: 'long', u: 'mm', ks: [5, 8, 12, 15], big: [0.5, 0.8] },
-      { thing: 'enlarged drawing of a snowflake', feat: 'the snowflake in the drawing', dim: 'wide', u: 'mm', ks: [20, 25, 40], big: [0.2, 0.4] },
-      { thing: 'reduced copy of a mural', feat: 'the copy', dim: 'wide', u: 'cm', ks: [0.05, 0.04, 0.1], big: [3, 8] },
+      { thing: 'model of a grain elevator', real: 'grain elevator', feat: 'the model', dim: 'tall', u: 'cm', ks: [0.02, 0.025, 0.04, 0.05], big: [15, 30] },
+      { thing: 'scale drawing of a canoe', real: 'canoe', feat: 'the drawing of the canoe', dim: 'long', u: 'cm', ks: [0.04, 0.05, 0.025], big: [4, 6] },
+      { thing: 'enlarged photo of a ladybug', real: 'ladybug', feat: 'the ladybug in the photo', dim: 'long', u: 'mm', ks: [5, 8, 12, 15], big: [0.5, 0.8] },
+      { thing: 'enlarged drawing of a snowflake', real: 'snowflake', feat: 'the snowflake in the drawing', dim: 'wide', u: 'mm', ks: [20, 25, 40], big: [0.2, 0.4] },
+      { thing: 'reduced copy of a mural', real: 'mural', feat: 'the copy', dim: 'wide', u: 'cm', ks: [0.05, 0.04, 0.1], big: [3, 8] },
     ]);
     const k = rng.pick(job.ks);
     // Original sized in metres for the large objects and in millimetres for the small ones.
@@ -864,13 +914,13 @@ function scaleFactorGen(rng: Rng, d: Difficulty): GenOutput {
       );
       const img = roundTo(origM * 100 * k, 2);
       return {
-        prompt: `A ${job.thing} uses a scale factor of $${fmt(k)}$. ${cap(job.feat)} is $${ms(img, 'cm')}$ ${job.dim}. How ${job.dim} is the real object, in metres?`,
+        prompt: `A ${job.thing} uses a scale factor of $${fmt(k)}$. ${cap(job.feat)} is $${ms(img, 'cm')}$ ${job.dim}. How ${job.dim} is the real ${job.real}, in metres?`,
         parts: [numPart(origM, { suffix: 'm' })],
         hints: ['Image length $= k \\times$ original length, so original length $=$ image length $\\div k$.', 'Divide, then change centimetres to metres ($100\\ \\text{cm} = 1\\ \\text{m}$).'],
         solution: [
           `Original $= \\dfrac{\\text{image}}{k} = \\dfrac{${fmt(img)}}{${fmt(k)}} = ${fmt(roundTo(origM * 100, 2))}\\ \\text{cm}$`,
           `$${fmt(roundTo(origM * 100, 2))}\\ \\text{cm} = ${fmt(roundTo(origM * 100, 2))} \\div 100 = ${fmt(origM)}\\ \\text{m}$`,
-          `The real object is $${ms(origM, 'm')}$ ${job.dim}.`,
+          `The real ${job.real} is $${ms(origM, 'm')}$ ${job.dim}.`,
         ],
       };
     }
@@ -881,13 +931,13 @@ function scaleFactorGen(rng: Rng, d: Difficulty): GenOutput {
     const origMm = roundTo(origCm * 10, 2);
     const img = roundTo(origMm * k, 2);
     return {
-      prompt: `An ${job.thing} uses a scale factor of $${fmt(k)}$. ${cap(job.feat)} is $${ms(img, 'mm')}$ ${job.dim}. How ${job.dim} is the real object, in millimetres?`,
+      prompt: `An ${job.thing} uses a scale factor of $${fmt(k)}$. ${cap(job.feat)} is $${ms(img, 'mm')}$ ${job.dim}. How ${job.dim} is the real ${job.real}, in millimetres?`,
       parts: [numPart(origMm, { suffix: 'mm' })],
       hints: ['Image length $= k \\times$ original length, so original length $=$ image length $\\div k$.', `Divide $${fmt(img)}$ by $${fmt(k)}$.`],
       solution: [
         `Original $= \\dfrac{\\text{image}}{k} = \\dfrac{${fmt(img)}}{${fmt(k)}} = ${fmt(origMm)}$`,
-        `Check: the scale factor is greater than 1, so the real object should be smaller than the image. It is.`,
-        `The real object is $${ms(origMm, 'mm')}$ ${job.dim}.`,
+        `Check: the scale factor is greater than 1, so the real ${job.real} should be smaller than the image. It is.`,
+        `The real ${job.real} is $${ms(origMm, 'mm')}$ ${job.dim}.`,
       ],
     };
   }
@@ -1081,18 +1131,18 @@ function scaleDiagramGen(rng: Rng, d: Difficulty): GenOutput {
     const realM = roundTo(realCm / 100, 4);
     if (kind === 2) {
       return {
-        prompt: `A floor plan of a ${plan.thing} is drawn to a scale of $1 : ${n}$. A wall is $${ms(draw, 'cm')}$ long on the plan. How long is the real wall, in metres?`,
+        prompt: `A plan of a ${plan.thing} is drawn to a scale of $1 : ${n}$. One side of the ${plan.thing} is $${ms(draw, 'cm')}$ long on the plan. How long is that side of the real ${plan.thing}, in metres?`,
         figure: planFigure(draw, roundTo(draw * rng.pick([0.55, 0.65, 0.75]), 1), fl(draw, 'cm'), null),
         parts: [numPart(realM, { suffix: 'm' })],
         hints: [`$1 : ${n}$ means each length in real life is $${n}$ times the length on the plan.`, 'Multiply by the scale, then change centimetres to metres (divide by $100$).'],
-        solution: [`Real length: $${fmt(draw)} \\times ${n} = ${fmt(realCm)}\\ \\text{cm}$`, `$${fmt(realCm)}\\ \\text{cm} \\div 100 = ${fmt(realM)}\\ \\text{m}$`, `The real wall is $${ms(realM, 'm')}$ long.`],
+        solution: [`Real length: $${fmt(draw)} \\times ${n} = ${fmt(realCm)}\\ \\text{cm}$`, `$${fmt(realCm)}\\ \\text{cm} \\div 100 = ${fmt(realM)}\\ \\text{m}$`, `That side of the real ${plan.thing} is $${ms(realM, 'm')}$ long.`],
       };
     }
     return {
-      prompt: `${name} is drawing a plan of a ${plan.thing} to a scale of $1 : ${n}$. One wall of the ${plan.thing} is $${ms(realM, 'm')}$ long. How long should the wall be on the plan, in centimetres?`,
+      prompt: `${name} is drawing a plan of a ${plan.thing} to a scale of $1 : ${n}$. One side of the ${plan.thing} is $${ms(realM, 'm')}$ long. How long should that side be on the plan, in centimetres?`,
       parts: [numPart(draw, { suffix: 'cm' })],
       hints: ['Change the real length to centimetres first.', `Then divide by $${n}$.`],
-      solution: [`$${fmt(realM)}\\ \\text{m} = ${fmt(realM)} \\times 100 = ${fmt(realCm)}\\ \\text{cm}$`, `Plan length: $${fmt(realCm)} \\div ${n} = ${fmt(draw)}$`, `The wall should be $${ms(draw, 'cm')}$ long on the plan.`],
+      solution: [`$${fmt(realM)}\\ \\text{m} = ${fmt(realM)} \\times 100 = ${fmt(realCm)}\\ \\text{cm}$`, `Plan length: $${fmt(realCm)} \\div ${n} = ${fmt(draw)}$`, `That side should be $${ms(draw, 'cm')}$ long on the plan.`],
     };
   }
   // d = 3
@@ -1160,9 +1210,10 @@ function scaleDiagramGen(rng: Rng, d: Difficulty): GenOutput {
   if (kind === 2) {
     // Map distance and travel time.
     const trip = rng.pick([
-      { who: 'cycles', speeds: [12, 15, 16, 18, 20, 24] },
-      { who: 'walks', speeds: [4, 5, 6] },
-      { who: 'paddles a canoe', speeds: [4, 5, 6] },
+      { who: 'cycles', speeds: [12, 15, 16, 18, 20, 24], routes: ['the bike path from the school to the recreation centre', 'the gravel road from the farm to the town', 'the paved trail along the river'] },
+      { who: 'walks', speeds: [4, 5, 6], routes: ['the trail from the campground to the lookout', 'the hiking trail from the parking lot to the waterfall'] },
+      { who: 'paddles a canoe', speeds: [4, 5, 6], routes: ['the canoe route across the lake', 'the canoe route from the dock to the island'] },
+      { who: 'skis', speeds: [6, 8, 10, 12], routes: ['the cross-country ski trail between the two warming huts'] },
     ]);
     const v = rng.pick(trip.speeds);
     const n = rng.pick([25000, 50000, 100000]);
@@ -1175,15 +1226,15 @@ function scaleDiagramGen(rng: Rng, d: Difficulty): GenOutput {
       ([, km, min]) => Number.isInteger(min) && min >= 10 && km > 0,
       300,
     );
-    const route = rng.pick(ROUTES);
+    const route = rng.pick(trip.routes);
     return {
       prompt: `On a map with a scale of $1 : ${big(n)}$, ${route} is $${ms(dCm, 'cm')}$ long. ${name} ${trip.who} along it at an average speed of $${v}\\ \\text{km/h}$. How many minutes does the trip take?`,
       parts: [numPart(min, { suffix: 'min' })],
       hints: ['First use the scale to find the real distance in kilometres.', 'Time $=$ distance $\\div$ speed gives hours. Multiply by $60$ to get minutes.'],
       solution: [
         `Real distance: $${fmt(dCm)} \\times ${big(n)} = ${big(roundTo(dCm * n, 2))}\\ \\text{cm} = ${fmt(km)}\\ \\text{km}$`,
-        `Time: $${fmt(km)} \\div ${v} = ${fmt(roundTo(km / v, 6))}\\ \\text{h}$`,
-        `$${fmt(roundTo(km / v, 6))} \\times 60 = ${min}$`,
+        `Time in hours: $\\dfrac{${fmt(km)}}{${v}}\\ \\text{h}$`,
+        `Time in minutes: $\\dfrac{${fmt(km)}}{${v}} \\times 60 = ${min}$`,
         `The trip takes $${min}\\ \\text{min}$.`,
       ],
     };
@@ -1353,10 +1404,10 @@ function similarPolygonsGen(rng: Rng, d: Difficulty): GenOutput {
         () => [rng.int(3, 7), rng.int(2, 5)],
         ([a, b]) => a > b,
       );
-      const k = rng.pick([1.5, 2, 2.5, 0.5]);
+      const k = rng.pick([1.5, 2]);
       const ang1 = rng.pick([50, 60, 65, 70]);
       const ang2 = yes ? ang1 : ang1 + rng.pick([15, 20, 25]);
-      const angLabs = (t: number) => [`${t}°`, `${180 - t}°`, null, null];
+      const angLabs = (t: number) => [null, `${180 - t}°`, null, null];
       return {
         prompt: `Parallelogram A has sides of $${ms(a1, u)}$ and $${ms(b1, u)}$ and angles of $${ang1}^\\circ$ and $${180 - ang1}^\\circ$. Parallelogram B has sides of $${ms(a1 * k, u)}$ and $${ms(b1 * k, u)}$ and angles of $${ang2}^\\circ$ and $${180 - ang2}^\\circ$. Are the two parallelograms similar?`,
         figure: shapePair(
@@ -1382,7 +1433,7 @@ function similarPolygonsGen(rng: Rng, d: Difficulty): GenOutput {
         prompt: `Shape A is a square with sides of $${ms(s1, u)}$. Shape B is a rhombus with sides of $${ms(s2, u)}$ and angles of $${ang}^\\circ$ and $${180 - ang}^\\circ$. Are the two shapes similar?`,
         figure: shapePair(
           { pts: rectPts(s1, s1), sides: [fl(s1, u), fl(s1, u), null, null], angles: ['90°', null, null, null], title: 'A' },
-          { pts: parallelogramPts(s2, s2, ang), sides: [fl(s2, u), fl(s2, u), null, null], angles: [`${ang}°`, `${180 - ang}°`, null, null], title: 'B' },
+          { pts: parallelogramPts(s2, s2, ang), sides: [fl(s2, u), fl(s2, u), null, null], angles: [`${ang}°`, null, null, null], title: 'B' },
         ),
         parts: [{ answer: mc(rng, C_NO_ANGLES, [C_SIDES_ONLY, C_YES, C_NO_SIDES]) }],
         hints: SIM_HINTS,
@@ -1554,11 +1605,13 @@ function triSides(rng: Rng, mult = 1): number[] {
 /** Shadow figure: object and its shadow, with a person (or stick) and theirs to the right; sun rays dashed. */
 function shadowFigure(H: number, S: number, h: number, s: number, labs: { H: string; S: string; h: string; s: string }): PlaneFigure {
   const sk = new Sketch();
-  const scale = 8 / Math.max(H, S + s + 2);
+  // The small triangle is drawn larger so its labels fit; it keeps its shape, so the rays stay parallel.
+  const f = Math.max(1, (0.4 * H) / h);
+  const scale = 8 / Math.max(H, S + f * s + 2);
   const Hh = H * scale;
   const Ss = S * scale;
-  const hh = h * scale;
-  const ss = s * scale;
+  const hh = h * f * scale;
+  const ss = s * f * scale;
   const gap = Math.max(1.6, 0.25 * Ss);
   const x2 = Ss + gap;
   sk.seg([-0.6, 0], [x2 + ss + 0.8, 0], { color: 'muted' });
@@ -1578,9 +1631,11 @@ function shadowFigure(H: number, S: number, h: number, s: number, labs: { H: str
 /** Mirror figure: a person's eyes, a mirror on the ground and a tall object; the light path is dashed. */
 function mirrorFigure(e: number, d1: number, d2: number, H: number, labs: { e: string; d1: string; d2: string; H: string }): PlaneFigure {
   const sk = new Sketch();
-  const scale = 10 / Math.max(d1 + d2, H);
-  const E = e * scale;
-  const D1 = d1 * scale;
+  // The person's triangle is drawn larger so its labels fit; it keeps its shape, so the angles at the mirror stay equal.
+  const f = Math.max(1, (0.4 * H) / e);
+  const scale = 10 / Math.max(f * d1 + d2, H);
+  const E = e * f * scale;
+  const D1 = d1 * f * scale;
   const D2 = d2 * scale;
   const HH = H * scale;
   const M: P = [D1, 0];
@@ -1607,7 +1662,7 @@ function nestedFigure(t: number, shape: P[], labs: { AD: string; DB: string; DE:
   const D: P = [A[0] + t * (B[0] - A[0]), A[1] + t * (B[1] - A[1])];
   const E: P = [A[0] + t * (C[0] - A[0]), A[1] + t * (C[1] - A[1])];
   const s = new Sketch();
-  s.poly([A, B, C], { fill: true });
+  s.poly([A, B, C]);
   s.seg(D, E, { color: 'accent' });
   const cen = centroid([A, B, C]);
   s.sideLabel(A, D, labs.AD, cen);
@@ -1679,7 +1734,7 @@ function similarTrianglesGen(rng: Rng, d: Difficulty): GenOutput {
     const kind = rng.pick(['named', 'named', 'nested', 'nested', 'quad'] as const);
     if (kind === 'named') {
       const V = rng.pick(VERT_SETS);
-      const k = rng.pick([1.5, 2.5, 0.5, 0.75, 1.25, 0.8, 1.2, 0.6, 3.5]);
+      const k = rng.pick([1.5, 2.5, 0.5, 0.75, 1.25, 0.8, 1.2, 0.6]);
       const sA = triSides(rng, k === 0.75 || k === 1.25 ? 4 : 1);
       // A: side 0 = V0V1 (longest), side 1 = V1V2 (middle), side 2 = V2V0 (shortest).
       const s3 = [sA[2], sA[1], sA[0]];
@@ -1742,7 +1797,7 @@ function similarTrianglesGen(rng: Rng, d: Difficulty): GenOutput {
       const t = ad / ab;
       const apexAng = rng.int(30, 60);
       const baseAng = rng.int(50, 75);
-      const shape = aaPts(baseAng, 180 - apexAng - baseAng);
+      const shape = aaPts(baseAng, 180 - apexAng - baseAng).map(([x, y]) => [x * 6, y * 6] as P);
       // A = apex (third point), B and C at the base.
       const tri: P[] = [shape[2], shape[0], shape[1]];
       const [A, B, C, D, E] = V;

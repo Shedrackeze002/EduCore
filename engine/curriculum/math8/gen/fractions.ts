@@ -79,6 +79,13 @@ function areaModel(a: number, b: number, c: number, d: number): Figure {
   for (let j = 1; j < b; j++) segments.push({ from: [0, j * rh], to: [S, j * rh], color: 'muted' });
   const X = c * cw;
   const Y = a * rh;
+  // Hatch the overlap (the product) with diagonal lines so it stands out from the two shadings.
+  const h = 0.9;
+  for (let k = -Y + h / 2; k < X; k += h) {
+    const from: [number, number] = [Math.max(0, k), Math.max(0, -k)];
+    const to: [number, number] = [Math.min(X, Y + k), Math.min(Y, X - k)];
+    if (to[0] - from[0] > 0.15) segments.push({ from, to, color: 'brand' });
+  }
   return {
     type: 'plane',
     grid: { xMin: -0.4, xMax: S + 0.4, yMin: -0.4, yMax: S + 0.4, step: S + 0.8 },
@@ -89,7 +96,7 @@ function areaModel(a: number, b: number, c: number, d: number): Figure {
     ],
     segments,
     hideTickLabels: true,
-    caption: `Area model for ${a}/${b} × ${c}/${d}: a square cut into ${b} rows and ${d} columns, with ${c} columns and ${a} rows shaded`,
+    caption: `Area model for ${a}/${b} × ${c}/${d}: a square cut into ${b} rows and ${d} columns, with ${c} ${c === 1 ? 'column' : 'columns'} and ${a} ${a === 1 ? 'row' : 'rows'} shaded; the overlap is hatched`,
   };
 }
 
@@ -186,7 +193,7 @@ function mulD1(rng: Rng): Out {
   const r: Frac = { n: a * c, d: b * d };
   const { part, ask } = answerFor(r);
   return {
-    prompt: `The area model shows $${fr(a, b)} ${T} ${fr(c, d)}$. The square is cut into $${b}$ rows and $${d}$ columns. $${c}$ ${c === 1 ? 'column is' : 'columns are'} shaded one colour and $${a}$ ${a === 1 ? 'row is' : 'rows are'} shaded another colour. Find the product.${ask}`,
+    prompt: `The area model shows $${fr(a, b)} ${T} ${fr(c, d)}$. The square is cut into $${b}$ rows and $${d}$ columns. $${c}$ ${c === 1 ? 'column is' : 'columns are'} shaded one colour and $${a}$ ${a === 1 ? 'row is' : 'rows are'} shaded another colour. The overlap is hatched with lines. Find the product.${ask}`,
     figure: areaModel(a, b, c, d),
     parts: [part],
     hints: ['The overlap (shaded both ways) is the product. Count the small rectangles in the overlap and in the whole square.', MUL_HINT],
@@ -230,7 +237,7 @@ function mulD2(rng: Rng): Out {
       const d = rng.pick([3, 4, 5, 6, 8, 9, 10, 12]);
       return { x: { n: rng.pick(lowNums(b)), d: b }, y: { n: rng.pick(lowNums(d)), d } };
     },
-    ({ x, y }) => (gcd(x.n, y.d) > 1 || gcd(y.n, x.d) > 1) && x.n * y.n < x.d * y.d,
+    ({ x, y }) => (gcd(x.n, y.d) > 1 || gcd(y.n, x.d) > 1) && x.n * y.n < x.d * y.d && frac(x.n * y.n, x.d * y.d).d <= 36,
     300,
   );
   const r: Frac = { n: x.n * y.n, d: x.d * y.d };
@@ -281,14 +288,17 @@ function mulD3(rng: Rng): Out {
     ({ A, B }) => {
       if (B.d === 1) return true;
       const r = frac(improper(A).n * improper(B).n, A.d * B.d);
-      return r.d > 1 && A.d * B.d <= 30;
+      return r.d > 1 && A.d * B.d <= 30 && r.d <= 24;
     },
   );
   let Bm = B;
   if (B.d === 1) {
     // A proper fraction times a mixed number.
-    const d = rng.pick([2, 3, 4, 5, 6, 8]);
-    Bm = { w: 0, n: rng.pick(lowNums(d)), d };
+    Bm = retry(
+      () => { const d = rng.pick([2, 3, 4, 5, 6, 8]); return { w: 0, n: rng.pick(lowNums(d)), d }; },
+      (m) => { const r = frac(improper(A).n * m.n, A.d * m.d); return r.d > 1 && r.d <= 24; },
+      100,
+    );
   }
   const x = improper(A);
   const y = improper(Bm);
@@ -354,8 +364,7 @@ function divD1(rng: Rng): Out {
   }
   if (kind === 'sameDen') {
     const d = rng.pick([5, 6, 8, 9, 10, 12]);
-    const c = rng.int(1, 3);
-    const q = retry(() => rng.int(2, 5), (v) => c * v < d);
+    const { c, q } = retry(() => ({ c: rng.int(1, 3), q: rng.int(2, 5) }), (o) => o.c * o.q < d, 200);
     const a = c * q;
     return {
       prompt: `Find $${fr(a, d)} ${D} ${fr(c, d)}$.`,
@@ -413,7 +422,7 @@ function divD2(rng: Rng): Out {
         const d = rng.pick([2, 3, 4, 5, 6, 8, 9, 10]);
         return { x: { n: rng.pick(lowNums(b)), d: b }, y: { n: rng.pick(lowNums(d)), d } };
       },
-      (o) => o.x.d !== o.y.d && o.y.n > 1 && frac(o.x.n * o.y.d, o.x.d * o.y.n).d !== 1,
+      (o) => o.x.d !== o.y.d && o.y.n > 1 && frac(o.x.n * o.y.d, o.x.d * o.y.n).d !== 1 && frac(o.x.n * o.y.d, o.x.d * o.y.n).d <= 30,
       300,
     ));
   }
@@ -442,13 +451,16 @@ function divD3(rng: Rng): Out {
       if (B.d === 1) return true;
       const x = improper(A);
       const y = improper(B);
-      return fval(x) > fval(y) && x.n * y.d <= 300;
+      return fval(x) > fval(y) && x.n * y.d <= 300 && frac(x.n * y.d, x.d * y.n).d <= 24;
     },
   );
   let Bm = B;
   if (B.d === 1) {
-    const d = rng.pick([2, 3, 4, 6, 8]);
-    Bm = { w: 0, n: rng.pick(lowNums(d)), d };
+    Bm = retry(
+      () => { const d = rng.pick([2, 3, 4, 6, 8]); return { w: 0, n: rng.pick(lowNums(d)), d }; },
+      (m) => { const r = frac(improper(A).n * m.d, A.d * m.n); return r.d > 1 && r.d <= 24; },
+      100,
+    );
   }
   const x = improper(A);
   const y = improper(Bm);

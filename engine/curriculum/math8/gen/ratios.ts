@@ -63,6 +63,8 @@ function coprimePairs(max: number, minB = 1): Array<[number, number]> {
 // ---------------------------------------------------------------------------
 
 interface PairCtx {
+  /** Smallest count of each part that makes sense (a class has more than a few students). */
+  min?: number;
   a: string;
   b: string;
   whole: string;
@@ -71,7 +73,7 @@ interface PairCtx {
 
 const PAIRS: PairCtx[] = [
   { a: 'red marbles', b: 'blue marbles', whole: 'marbles', text: (x, y, n) => `${n} has a bag with $${x}$ red marbles and $${y}$ blue marbles.` },
-  { a: 'girls', b: 'boys', whole: 'students', text: (x, y, _n, t) => `A Grade 8 class in ${t} has $${x}$ girls and $${y}$ boys.` },
+  { min: 9, a: 'girls', b: 'boys', whole: 'students', text: (x, y, _n, t) => `A Grade 8 class in ${t} has $${x}$ girls and $${y}$ boys.` },
   { a: 'wins', b: 'losses', whole: 'games', text: (x, y, n) => `${n}’s hockey team played $${x + y}$ games. The team won $${x}$ games and lost $${y}$ games. There were no ties.` },
   { a: 'cats', b: 'dogs', whole: 'animals', text: (x, y, _n, t) => `An animal shelter in ${t} has $${x}$ cats and $${y}$ dogs.` },
   { a: 'chocolate chip cookies', b: 'oatmeal cookies', whole: 'cookies', text: (x, y, n) => `${n} baked $${x}$ chocolate chip cookies and $${y}$ oatmeal cookies for a bake sale.` },
@@ -87,7 +89,8 @@ function ratioFromCounts(rng: Rng): Out {
   const c = rng.pick(PAIRS);
   const name = rng.pick(NAMES);
   const town = rng.pick(TOWNS);
-  const [x, y] = rng.pick(coprimePairs(12, 2).filter(([p]) => p >= 2));
+  const lo = c.min ?? 2;
+  const [x, y] = rng.pick(coprimePairs(lo + 10, lo).filter(([p]) => p >= lo));
   const t = x + y;
   const ask = rng.pick(['ab', 'ba', 'aw', 'bw'] as const);
   const q = {
@@ -174,11 +177,12 @@ function partToWhole(rng: Rng): Out {
   let x: number;
   let y: number;
   if (percent) {
-    const t = rng.pick([10, 20, 25, 40, 50]);
+    const t = rng.pick(c.min ? [20, 25] : [10, 20, 25, 40, 50]);
     x = retry(() => rng.int(2, t - 2), (v) => (100 * v) % t === 0 && 2 * v !== t, 200);
     y = t - x;
   } else {
-    [x, y] = retry(() => [rng.int(3, 18), rng.int(3, 18)], ([p, q]) => p !== q && gcd(p, p + q) > 1);
+    const lo = c.min ?? 3;
+    [x, y] = retry(() => [rng.int(lo, lo + 15), rng.int(lo, lo + 15)], ([p, q]) => p !== q && gcd(p, p + q) > 1, 200);
   }
   const t = x + y;
   const askA = rng.chance(0.5);
@@ -654,7 +658,7 @@ function proportionTex(left: [number | string, number | string], right: [number 
 
 function solveD1(rng: Rng): Out {
   const v = rng.pick(VARS);
-  const [a, b] = rng.pick(coprimePairs(9).filter(([p, q]) => p + q > 3));
+  const [a, b] = rng.pick(coprimePairs(9).filter(([p, q]) => p + q > 3 && q > 1));
   const k = rng.int(2, 6);
   const top = rng.chance(0.55);
   const colon = rng.chance(0.3);
@@ -680,7 +684,7 @@ function solveD2(rng: Rng): Out {
   const v = rng.pick(VARS);
   const { a, b, m1, m2 } = retry(
     () => {
-      const [a, b] = rng.pick(coprimePairs(7).filter(([p, q]) => p + q > 3));
+      const [a, b] = rng.pick(coprimePairs(7).filter(([p, q]) => p + q > 3 && q > 1));
       return { a, b, m1: rng.int(2, 6), m2: rng.int(2, 7) };
     },
     (o) => o.m1 !== o.m2 && o.m2 % o.m1 !== 0 && o.m1 % o.m2 !== 0,
@@ -1005,11 +1009,10 @@ function problemsD3(rng: Rng): Out {
     const t1 = rng.pick([2, 3, 4]);
     const t2 = retry(() => rng.pick([1.5, 2.5, 3.5, 4.5, 5.5, 1.25, 2.25, 3.75, 4.25]), (v) => v !== t1);
     const d2 = s * t2;
-    const [A, B] = rng.sample(TOWNS, 2);
     const h = Math.floor(t2);
     const m = Math.round((t2 - h) * 60);
     return {
-      prompt: `${name}’s family drives $${s * t1}\\ ${tx('km')}$ in $${t1}$ hours on the way from ${A}. At the same speed, how many hours will it take to drive the next $${nm(d2)}\\ ${tx('km')}$ to ${B}? Give your answer in hours, as a decimal.`,
+      prompt: `On a summer road trip across Alberta, ${name}’s family drives $${s * t1}\\ ${tx('km')}$ in $${t1}$ hours. At the same speed, how many hours will it take to drive the next $${nm(d2)}\\ ${tx('km')}$? Give your answer in hours, as a decimal.`,
       parts: [exactNum(t2, 'h')],
       hints: ['Find the speed (a unit rate in km/h) first.', 'Time = distance ÷ speed.'],
       solution: [

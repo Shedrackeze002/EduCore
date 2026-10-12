@@ -601,7 +601,7 @@ function balanceSetup(rng: Rng, minBags = 1) {
       const m = rng.int(1, k === 3 ? 6 : 8);
       return { k, x, m, n: k * x + m };
     },
-    (s) => s.n <= 24 && s.n > s.m + 1,
+    (s) => s.n <= 24 && s.n > s.m + 1 && s.m !== s.k,
   );
 }
 
@@ -655,7 +655,7 @@ const preserveEquality = skill({
           hints: ['Think of the equation as a pan balance. The equals sign is the middle of the balance.', 'Whatever you do to one side, you must do to the other side.'],
           solution: [
             'An equation stays balanced (true) when you do the same operation to both sides.',
-            `${right} does the same thing to both sides, so the two sides stay equal.`,
+            `“${right}” changes both sides in the same way, so the two sides stay equal.`,
             'The other changes treat the sides differently, so the sides would no longer be equal.',
             `The answer is: ${right}.`,
           ],
@@ -1245,7 +1245,7 @@ const PROB2: Array<(rng: Rng, name: string, d: Difficulty) => ProbCtx> = [
     const per = rng.pick([2, 3, 4, 5]);
     const x = rng.int(15, 60);
     const goal = have + per * x;
-    const item = rng.pick(['chocolate bars', 'raffle tickets', 'cookies', 'car washes']);
+    const item = rng.pick(['chocolate bars', 'raffle tickets', 'cookies', 'bags of popcorn']);
     return {
       text: `${name}’s class has ${dollars(have)} saved for a trip. They earn ${dollars(per)} for each of the ${item} they sell. They need ${dollars(goal)} in total. Let $s$ be the number of ${item} they must sell.`,
       v: 's', eq: `${per}s + ${have} = ${goal}`, wrong: [`${have}s + ${per} = ${goal}`, `${per}s = ${goal} + ${have}`, `${per}(s + ${have}) = ${goal}`], x, suffix: item, ask: `How many ${item} must they sell?`,
@@ -1282,10 +1282,10 @@ const PROB3: Array<(rng: Rng, name: string) => ProbCtx> = [
     const w = rng.int(4, 12);
     const l = rng.int(w + 2, 30);
     const P = 2 * l + 2 * w;
-    const thing = rng.pick(['a rectangular garden', 'a rectangular dog run', 'a rectangular ice rink in a backyard']);
+    const [thing, short] = rng.pick([['a rectangular garden', 'garden'], ['a rectangular dog run', 'dog run'], ['a rectangular vegetable patch', 'vegetable patch'], ['a rectangular horse paddock', 'paddock']] as const);
     return {
       text: `${name} used $${P}\\ \\text{m}$ of fencing to go all the way around ${thing}. It is $${w}\\ \\text{m}$ wide. Let $l$ be its length in metres.`,
-      v: 'l', eq: `2l + ${2 * w} = ${P}`, wrong: [`l + ${w} = ${P}`, `2l + ${w} = ${P}`, `${2 * w}l + 2 = ${P}`], x: l, suffix: 'm', ask: 'How long is it?',
+      v: 'l', eq: `2l + ${2 * w} = ${P}`, wrong: [`l + ${w} = ${P}`, `2l + ${w} = ${P}`, `${2 * w}l + 2 = ${P}`], x: l, suffix: 'm', ask: `How long is the ${short}?`,
       steps: [`The perimeter is $2l + 2w$, and $2 \\times ${w} = ${2 * w}$, so the equation is $2l + ${2 * w} = ${P}$.`, ...twoStepSteps(2, 'l', 2 * w, P, l)],
       say: `The length is $${l}\\ \\text{m}$.`,
     };
@@ -1343,7 +1343,7 @@ const equationProblems = skill({
   lessonId: 'm7-6-4',
   gen(rng, d): GenOutput {
     const name = rng.pick(NAMES);
-    const c = d === 1 ? rng.pick(PROB1)(rng, name) : d === 2 ? rng.pick(PROB2)(rng, name, d) : rng.chance(0.75) ? rng.pick(PROB3)(rng, name) : rng.pick(PROB2)(rng, name, d);
+    const c = d === 1 ? rng.pick(PROB1)(rng, name) : d === 2 ? rng.pick(PROB2)(rng, name, d) : rng.chance(0.85) ? rng.pick(PROB3)(rng, name) : rng.pick(PROB2)(rng, name, d);
     return {
       prompt: `${c.text}\n\n(a) Which equation represents the situation?\n\n(b) Solve the equation. ${c.ask}`,
       parts: [

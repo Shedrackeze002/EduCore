@@ -888,7 +888,7 @@ function lShapeQuestion(rng: Rng): GenOutput {
 }
 
 /** Two perpendicular segments crossing at E, with ray EF splitting one right angle. */
-function perpAngleFigure(given: number, rot: number, showGiven: string, showX: string): PlaneFigure {
+export function perpAngleFigure(given: number, rot: number, showGiven: string, showX: string): PlaneFigure {
   const s = new Sketch();
   const E: P = [0, 0];
   const R = (a: number) => a + rot;
@@ -1144,7 +1144,7 @@ function angleRayOption(total: number, base: number, f: number): PlaneFigure {
 }
 
 /** Perpendicular bisector ℓ of AB through M, with P on ℓ and labels. */
-function perpBisFigure(rot: number, labels: { PA?: string; PB?: string; AM?: string; MB?: string; AB?: string }, showP = true): PlaneFigure {
+export function perpBisFigure(rot: number, labels: { PA?: string; PB?: string; AM?: string; MB?: string; AB?: string }, showP = true): PlaneFigure {
   const s = new Sketch();
   const R = (p: P) => turn(p, rot);
   const A: P = [-2.6, 0];
@@ -1179,7 +1179,7 @@ function perpBisFigure(rot: number, labels: { PA?: string; PB?: string; AM?: str
 }
 
 /** Angle ABC bisected by ray BD, with optional angle labels. */
-function angleBisFigure(total: number, base: number, labels: { ABD?: string; DBC?: string; ABC?: string }, extraRay?: { f: number; name: string }): PlaneFigure {
+export function angleBisFigure(total: number, base: number, labels: { ABD?: string; DBC?: string; ABC?: string }, extraRay?: { f: number; name: string }): PlaneFigure {
   const s = new Sketch();
   const B: P = [0, 0];
   const half = base + total / 2;

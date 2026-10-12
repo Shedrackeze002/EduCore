@@ -853,7 +853,7 @@ function opsD2(rng: Rng): Worked {
       v: q,
     };
   }
-  const k = rng.nonZero(-3, 3);
+  const k = rng.pick([-3, -2, 2, 3]);
   const c = rng.intExcept(-5, 8, [k]);
   const d = c - k;
   const a = rng.int(-10, 20);
@@ -871,7 +871,7 @@ function opsLong(rng: Rng): Worked {
   if (kind === 'bracketMix') {
     const a = rng.pick([-3, -2, 2, 3]);
     const b = rng.int(2, 6);
-    const k = rng.nonZero(-5, 5);
+    const k = rng.pick([-5, -4, -3, -2, 2, 3, 4, 5]);
     const c = rng.intExcept(1, 9, [k]);
     const d = c - k;
     const e = rng.int(2, 4);
@@ -1258,21 +1258,22 @@ function totalReached(rng: Rng): Out {
 
 function foldsNeeded(rng: Rng): Out {
   const goal = rng.pick([
-    { mm: 10, text: '$1\\ \\text{cm}$' },
-    { mm: 50, text: '$5\\ \\text{cm}$' },
-    { mm: 100, text: '$10\\ \\text{cm}$' },
-    { mm: 300, text: '$30\\ \\text{cm}$' },
-    { mm: 1000, text: '$1\\ \\text{m}$' },
+    { mm: 10, tex: '1\\ \\text{cm}' },
+    { mm: 50, tex: '5\\ \\text{cm}' },
+    { mm: 100, tex: '10\\ \\text{cm}' },
+    { mm: 300, tex: '30\\ \\text{cm}' },
+    { mm: 1000, tex: '1\\ \\text{m}' },
   ]);
+  const goalText = `$${goal.tex}$`;
   const tenths = goal.mm * 10;
   let n = 0;
   while (2 ** n <= tenths) n++;
   return {
-    prompt: `A sheet of paper is $0.1\\ \\text{mm}$ thick. Suppose you could fold it in half as many times as you like, and each fold doubles the thickness. What is the least number of folds that makes the stack thicker than ${goal.text}?`,
+    prompt: `A sheet of paper is $0.1\\ \\text{mm}$ thick. Suppose you could fold it in half as many times as you like, and each fold doubles the thickness. What is the least number of folds that makes the stack thicker than ${goalText}?`,
     parts: [val(n, undefined, 'folds')],
-    hints: [`After $n$ folds the thickness is $0.1 ${T} 2^{n}$ mm. Change ${goal.text} to millimetres first.`, `You need $2^{n} > ${N(tenths)}$. Try powers of $2$.`],
+    hints: [`After $n$ folds the thickness is $0.1 ${T} 2^{n}$ mm. Change ${goalText} to millimetres first.`, `You need $2^{n} > ${N(tenths)}$. Try powers of $2$.`],
     solution: [
-      `${goal.text} $= ${N(goal.mm)}\\ \\text{mm}$. Thickness after $n$ folds: $0.1 ${T} 2^{n}$ mm.`,
+      `$${goal.tex} = ${N(goal.mm)}\\ \\text{mm}$. Thickness after $n$ folds: $0.1 ${T} 2^{n}$ mm.`,
       `We need $0.1 ${T} 2^{n} > ${N(goal.mm)}$, so $2^{n} > ${N(tenths)}$.`,
       `$2^{${n - 1}} = ${N(2 ** (n - 1))}$ is too small, but $2^{${n}} = ${N(2 ** n)}$ is big enough: $0.1 ${T} ${N(2 ** n)} = ${fmt((2 ** n) / 10)}$ mm.`,
       `The least number of folds is $${n}$.`,
@@ -1303,7 +1304,7 @@ function cubeCount(rng: Rng): Out {
 function areaRatio(rng: Rng): Out {
   const b = rng.pick([2, 3]);
   const m = rng.int(3, 6);
-  const n = rng.int(m - (b === 2 ? 3 : 2), m - 1);
+  const n = rng.int(Math.max(1, m - (b === 2 ? 3 : 2)), m - 1);
   const ratio = b ** (2 * (m - n));
   const shape = { a: 'A', b: 'B' };
   return {

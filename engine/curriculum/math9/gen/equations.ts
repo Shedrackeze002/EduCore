@@ -104,7 +104,7 @@ const at = (a: Frac, b: Frac, x: Frac) => fracAdd(fracMul(a, x), b);
 
 /** "3(x) + 4" with the value substituted. */
 function subst(a: Frac, b: Frac, x: Frac, mode: Mode, constFirst = false): string {
-  const ax = a.n === a.d ? pnum(x, mode) : a.n === -a.d ? `-${pnum(x, mode)}` : `${num(a, mode)}${pnum(x, mode).startsWith('(') ? pnum(x, mode) : `(${num(x, mode)})`}`;
+  const ax = a.n === a.d ? pnum(x, mode) : a.n === -a.d ? (x.n >= 0 ? `-(${num(x, mode)})` : `-${pnum(x, mode)}`) : `${num(a, mode)}${pnum(x, mode).startsWith('(') ? pnum(x, mode) : `(${num(x, mode)})`}`;
   if (isZero(b)) return ax;
   if (constFirst) return `${num(b, mode)} ${ax.startsWith('-') ? `- ${ax.slice(1)}` : `+ ${ax}`}`;
   return `${ax} ${b.n < 0 ? `- ${num(negF(b), mode)}` : `+ ${num(b, mode)}`}`;
@@ -241,9 +241,9 @@ const equationBrackets = skill({
         x = retry(() => F(rng.nonZero(-12, 12), rng.pick([1, 2, 3])), (v) => !isInt(fracAdd(fracDiv(v, A), B)) && fracAdd(fracDiv(v, A), B).d <= 12);
       } else {
         mode = 'dec';
-        A = F(rng.pick([2, 4, 5, 8]));
+        A = F(rng.pick([2, 4, 6]));
         B = F(rng.nonZero(-40, 40), 10);
-        x = F(rng.intExcept(-20, 20, [0]));
+        x = F((A.n * rng.intExcept(-9, 9, [0])) / 2);
       }
       C = fracAdd(fracDiv(x, A), B);
       const xa = A.n < 0 ? `-\\dfrac{x}{${-A.n}}` : `\\dfrac{x}{${num(A, mode)}}`;
@@ -278,7 +278,7 @@ $$${lhs} = ${num(C, mode)}$$${note}`,
         B = F(rng.sign() * rng.pick([5, 15, 25, 12, 4, 8]), 10);
         A = fracMul(B, F(rng.intExcept(-9, 9, [0, 1, -1])));
       } else {
-        B = F(rng.sign() * rng.int(1, 5), rng.pick([3, 4, 5, 7]));
+        B = retry(() => F(rng.sign() * rng.int(1, 5), rng.pick([3, 4, 5, 7])), (v) => !isInt(v));
         A = F(rng.int(2, 9));
       }
       const x = fracDiv(A, B);
@@ -325,10 +325,21 @@ $$\\dfrac{${num(A, mode)}}{x} = ${bShown}$$${note}`,
         ([p, q, , s, t]) => !isInt(p) && !isInt(s) && fracValue(fracMul(p, q)) !== fracValue(fracMul(s, t)),
       );
     } else {
+      // Decimal multipliers; the solution is an integer and every number has at most two decimal places.
       mode = 'dec';
       [a, b, c, dd, e, f] = retry(
-        () => [F(rng.sign() * rng.pick([5, 15, 25]), 10), F(2 * rng.int(1, 3)), F(2 * rng.nonZero(-5, 5)), F(rng.pick([2, 4, 5, 15]), 10), F(rng.pick([2, 5, 10])), F(rng.nonZero(-10, 10))],
-        ([p, q, , s, t]) => fracValue(fracMul(p, q)) !== fracValue(fracMul(s, t)),
+        () => {
+          const p = F(rng.sign() * rng.pick([5, 15, 25]), 10);
+          const q = F(2 * rng.int(1, 3));
+          const r = F(2 * rng.nonZero(-5, 5));
+          const s2 = F(rng.pick([2, 5, 25]), 10);
+          const t = F(rng.pick([2, 4, 5, 10]));
+          const x0 = F(rng.intExcept(-8, 8, [0]));
+          // s2(t·x0 + u) = p(q·x0 + r)  =>  u = p(q·x0 + r)/s2 - t·x0
+          const u = fracSub(fracDiv(at(fracMul(p, q), fracMul(p, r), x0), s2), fracMul(t, x0));
+          return [p, q, r, s2, t, u];
+        },
+        ([p, q, , s2, t, u]) => fracValue(fracMul(p, q)) !== fracValue(fracMul(s2, t)) && isInt(u) && u.n !== 0 && Math.abs(u.n) <= 40 && fracMul(s2, t).d <= 10,
       );
     }
     const A = fracMul(a, b);
@@ -536,7 +547,7 @@ function ageOut(rng: Rng, d: Difficulty): Out {
     };
   }
   // Parent and child: (c + D) + t = n(c + t).
-  const [n1, n2] = rng.sample(NAMES, 2);
+  const n1 = rng.pick(NAMES);
   const [D, n, t, c] = retry(
     () => {
       const nn = rng.pick([2, 3]);
@@ -878,7 +889,10 @@ function solveIneq(a: Frac, b: Frac, c: Frac, dd: Frac, sym: Sym, mode: Mode, co
   const check = (t: Frac) => {
     const L = at(a, b, t);
     const R = at(c, dd, t);
-    return `Check with a value in the solution, $x = ${fracLatex(t)}$: $${subst(a, b, t, mode === 'dec' ? 'dec' : 'frac', constFirst)} = ${mode === 'dec' && (isInt(L) || terminates(L)) ? num(L, 'dec') : fracLatex(L)}$ and the right side is $${mode === 'dec' && (isInt(R) || terminates(R)) ? num(R, 'dec') : fracLatex(R)}$. Since $${fracLatex(L)} ${sym} ${fracLatex(R)}$ is true, the solution checks.`;
+    const m2: Mode = mode === 'dec' ? 'dec' : 'frac';
+    const show = (f: Frac) => (mode === 'dec' && (isInt(f) || terminates(f)) ? num(f, 'dec') : fracLatex(f));
+    const side = (p: Frac, q: Frac, v: Frac, cf: boolean) => (isZero(p) ? show(v) : `${subst(p, q, t, m2, cf)} = ${show(v)}`);
+    return `Check with a value in the solution, $x = ${fracLatex(t)}$: the left side is $${side(a, b, L, constFirst)}$ and the right side is $${side(c, dd, R, false)}$. Since $${show(L)} ${sym} ${show(R)}$ is true, the solution checks.`;
   };
   return { tex, steps, sym: out, b: bound, wrongB, reversed, check };
 }
@@ -941,7 +955,7 @@ const inequalitySolve = skill({
           b: bound,
           wrongB: F(a < 0 ? -a * c : c + a),
           reversed: a < 0,
-          check: (t) => `Check with a value in the solution, $x = ${fracLatex(t)}$: $${a < 0 ? '-' : ''}\\dfrac{${pnum(t)}}{${Math.abs(a)}} = ${fracLatex(F(t.n, a))}$, and $${fracLatex(F(t.n, a))} ${sym} ${c}$ is true.`,
+          check: (t) => `Check with a value in the solution, $x = ${fracLatex(t)}$: $${a < 0 ? '-' : ''}\\dfrac{${t.n}}{${Math.abs(a)}} = ${fracLatex(F(t.n, a))}$, and $${fracLatex(F(t.n, a))} ${sym} ${c}$ is true.`,
         };
       }
     } else if (d === 2) {
@@ -1001,35 +1015,41 @@ $$${s.tex}$$`,
 // 6.5 Problems with inequalities
 // ---------------------------------------------------------------------------
 
+/** A quotient to three decimals, with an ellipsis when it was cut short. */
+const approx = (x: number) => (Math.abs(x - Number(fmt(x, 3))) < 1e-9 ? fmt(x, 3) : `${fmt(x, 3)}\\ldots`);
+
 type Prob = { prompt: string; ineq: string; wrong: string[]; answer: number; suffix: string; steps: string[]; hints: string[] };
 
 function budgetProb(rng: Rng, d: Difficulty): Prob {
   const name = rng.pick(NAMES);
   const item = rng.pick([
-    { what: 'movie tickets', one: 'ticket', v: 't', price: [800, 1400] },
-    { what: 'games of bowling', one: 'game', v: 'g', price: [400, 750] },
-    { what: 'slices of pizza at the fundraiser', one: 'slice', v: 's', price: [250, 450] },
-    { what: 'rides at the fair', one: 'ride', v: 'r', price: [300, 600] },
+    { what: 'movie tickets', one: 'ticket', v: 't', price: [800, 1400], fee: 'a one-time online booking fee' },
+    { what: 'games of bowling', one: 'game', v: 'g', price: [400, 750], fee: 'a one-time shoe rental fee' },
+    { what: 'slices of pizza at the fundraiser', one: 'slice', v: 's', price: [250, 450], fee: 'a one-time charge for a drink' },
+    { what: 'rides at the fair', one: 'ride', v: 'r', price: [300, 600], fee: 'an admission fee' },
   ] as const);
   const price = 25 * rng.int(item.price[0] / 25, item.price[1] / 25);
   const fee = d === 1 ? 0 : 50 * rng.int(4, 20);
   const n = rng.int(3, 12);
-  const budget = retry(() => fee + price * n + 25 * rng.int(0, Math.floor((price - 25) / 25)), (bb) => bb % 100 === 0 || bb % 50 === 0 || bb % 25 === 0);
+  // A whole-dollar budget that buys exactly n items.
+  const budgets: number[] = [];
+  for (let c = Math.ceil((fee + price * n) / 100) * 100; c < fee + price * (n + 1); c += 100) budgets.push(c);
+  const budget = rng.pick(budgets);
   const v = item.v;
-  const feeText = fee ? ` There is also a one-time fee of ${money(fee)} (admission or shoe rental).` : '';
+  const feeText = fee ? ` There is also ${item.fee} of ${money(fee)}.` : '';
   const ineq = fee ? `${mnum(fee)} + ${mnum(price)}${v} \\le ${mnum(budget)}` : `${mnum(price)}${v} \\le ${mnum(budget)}`;
   const bound = (budget - fee) / price;
   const steps = [
     `Let $${v}$ be the number of ${item.what.split(' ')[0] === 'games' ? 'games' : item.what.split(' at ')[0]}. The cost must be at most ${money(budget)}: $${ineq}$`,
     ...(fee ? [`Subtract $${mnum(fee)}$ from both sides: $${mnum(price)}${v} \\le ${mnum(budget - fee)}$`] : []),
-    `Divide both sides by $${mnum(price)}$: $${v} \\le ${fmt(bound, 3)}${Number.isInteger(bound) ? '' : '\\ldots'}$`,
+    `Divide both sides by $${mnum(price)}$: $${v} \\le ${approx(bound)}$`,
     `$${v}$ must be a whole number, so the greatest value is $${n}$.`,
     `Check: ${n} ${n === 1 ? item.one : `${item.one}s`} cost ${money(fee + price * n)}, which is within ${money(budget)}; ${n + 1} would cost ${money(fee + price * (n + 1))}, which is too much.`,
   ];
   return {
     prompt: `${name} has ${money(budget)} to spend on ${item.what}. Each ${item.one} costs ${money(price)}.${feeText} What is the greatest number of ${item.one}s ${name} can buy?`,
     ineq,
-    wrong: [ineq.replace('\\le', '\\ge'), fee ? `${mnum(price)} + ${mnum(fee)}${v} \\le ${mnum(budget)}` : `${v} + ${mnum(price)} \\le ${mnum(budget)}`, ineq.replace('\\le', '<')],
+    wrong: [ineq.replace('\\le', '\\ge'), fee ? `${mnum(price)} + ${mnum(fee)}${v} \\le ${mnum(budget)}` : `${v} + ${mnum(price)} \\le ${mnum(budget)}`, ineq.replace('\\le', '<'), ...(fee ? [`${mnum(price)}${v} \\le ${mnum(budget)}`] : [])],
     answer: n,
     suffix: `${item.one}s`,
     steps,
@@ -1038,7 +1058,7 @@ function budgetProb(rng: Rng, d: Difficulty): Prob {
 }
 
 function scoreProb(rng: Rng, d: Difficulty): Prob {
-  const team = rng.pick(['The Lethbridge Hurricanes fan club team', 'The school hockey team', 'The Red Deer soccer club', 'Our basketball team']);
+  const team = rng.pick(['The Grade 9 volleyball team', 'The school hockey team', 'A soccer club in Red Deer', 'A ringette team in Airdrie']);
   const per = rng.pick([2, 3]);
   const have = d === 1 ? 0 : rng.int(8, 30);
   const need = retry(() => have + rng.int(10, 40), (t) => (t - have) % per !== 0 || rng.chance(0.3));
@@ -1048,14 +1068,14 @@ function scoreProb(rng: Rng, d: Difficulty): Prob {
   const steps = [
     `Let $w$ be the number of wins. The points must be at least ${need}: $${ineq}$`,
     ...(have ? [`Subtract $${have}$ from both sides: $${per}w \\ge ${need - have}$`] : []),
-    `Divide both sides by $${per}$: $w \\ge ${fmt(bound, 3)}${Number.isInteger(bound) ? '' : '\\ldots'}$`,
+    `Divide both sides by $${per}$: $w \\ge ${approx(bound)}$`,
     `$w$ must be a whole number, so the least value is $${w}$.`,
     `Check: ${w} wins give ${have + per * w} points (at least ${need}); ${w - 1} wins give only ${have + per * (w - 1)} points.`,
   ];
   return {
-    prompt: `${team} earns ${per} points for each win.${have ? ` It already has ${have} points.` : ''} It needs at least ${need} points to make the playoffs. What is the least number of ${have ? 'more ' : ''}wins it needs?`,
+    prompt: `${team} earns ${per} points for each win.${have ? ` It already has ${have} points.` : ''} It needs at least ${need} points to make the playoffs. What is the least number of ${have ? 'additional ' : ''}wins it needs?`,
     ineq,
-    wrong: [ineq.replace('\\ge', '\\le'), have ? `${per} + ${have}w \\ge ${need}` : `w + ${per} \\ge ${need}`, ineq.replace('\\ge', '>')],
+    wrong: [ineq.replace('\\ge', '\\le'), have ? `${per} + ${have}w \\ge ${need}` : `w + ${per} \\ge ${need}`, ineq.replace('\\ge', '>'), ...(have ? [`${per}w \\ge ${need}`] : [])],
     answer: w,
     suffix: 'wins',
     steps,
@@ -1067,8 +1087,8 @@ function planProb(rng: Rng): Prob {
   // Plan A: fee + rate·t < Plan B: flat. Strict, so a whole-number boundary is excluded.
   const name = rng.pick(NAMES);
   const fee = 500 * rng.int(3, 6);
-  const rate = rng.pick([5, 10, 20, 25]);
-  const flat = fee + rate * rng.int(20, 120) + (rng.chance(0.5) ? 0 : rng.int(1, rate - 1));
+  const rate = rng.pick([5, 10, 15, 20, 25, 30, 40]);
+  const flat = fee + 50 * rng.int(6, 30);
   const bound = (flat - fee) / rate;
   const t = Number.isInteger(bound) ? bound - 1 : Math.floor(bound);
   const ineq = `${mnum(fee)} + ${mnum(rate)}t < ${mnum(flat)}`;
@@ -1081,7 +1101,7 @@ function planProb(rng: Rng): Prob {
     steps: [
       `Let $t$ be the number of texts. Plan A must cost less than Plan B: $${ineq}$`,
       `Subtract $${mnum(fee)}$ from both sides: $${mnum(rate)}t < ${mnum(flat - fee)}$`,
-      `Divide both sides by $${mnum(rate)}$: $t < ${fmt(bound, 3)}$`,
+      `Divide both sides by $${mnum(rate)}$: $t < ${approx(bound)}$`,
       Number.isInteger(bound)
         ? `$t$ must be a whole number less than $${bound}$ (at exactly ${bound} texts the plans cost the same), so the greatest value is $${t}$.`
         : `$t$ must be a whole number, so the greatest value is $${t}$.`,
@@ -1103,7 +1123,7 @@ function averageProb(rng: Rng): Prob {
     ineq,
     wrong: [ineq.replace('\\ge', '\\le'), `\\dfrac{${sum}}{4} + m \\ge ${goal}`, ineq.replace('\\ge', '>')],
     answer: need,
-    suffix: 'marks',
+    suffix: '',
     steps: [
       `Let $m$ be the mark on the fourth test. The average is the sum of the four marks divided by 4: $${ineq}$`,
       `Multiply both sides by $4$: $${sum} + m \\ge ${4 * goal}$`,
@@ -1133,7 +1153,7 @@ a) Which inequality models the problem?
 b) Solve the problem.`,
         parts: [{ label: 'a)', answer: mc(rng, `$${p.ineq}$`, p.wrong.map((w) => `$${w}$`)) }, numPart(p.answer, { label: 'b)', suffix: p.suffix })],
         hints: p.hints,
-        solution: [...p.steps, `a) $${p.ineq}$; b) ${p.answer} ${p.suffix}.`],
+        solution: [...p.steps, `a) $${p.ineq}$; b) ${p.suffix ? `${p.answer} ${p.suffix}` : `$${p.answer}$`}.`],
       };
     }
     return {

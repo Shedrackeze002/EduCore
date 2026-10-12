@@ -99,6 +99,8 @@ interface Ctx {
   intro: string;
   /** The situation in words only (no equation). */
   words: string;
+  /** The situation without its numbers, for finding the rule from a table. */
+  scene: string;
   xv: string;
   yv: string;
   a: number;
@@ -134,6 +136,7 @@ const CTX: Array<(rng: Rng, name: string) => Ctx> = [
     const words = `${name}’s phone plan costs ${dollars(fee)} a month plus ${dollars(r)} for each gigabyte (GB) of data used.`;
     return {
       words,
+      scene: `${name} has a phone plan with a monthly fee plus a charge for each gigabyte (GB) of data used.`,
       intro: `${words} The equation $C = ${r}g + ${fee}$ gives the monthly cost $C$, in dollars, for $g$ GB of data.`,
       xv: 'g', yv: 'C', a: r, b: fee,
       xHead: 'Data, $g$ (GB)', yHead: 'Cost, $C$ (\\$)', xLabel: 'Data used (GB)', yLabel: 'Monthly cost ($)', xMax: 8,
@@ -151,6 +154,7 @@ const CTX: Array<(rng: Rng, name: string) => Ctx> = [
     const words = `A taxi in ${town} charges ${dollars(start)} to start plus ${dollars(r)} for each kilometre. ${name} takes a ride.`;
     return {
       words,
+      scene: `${name} takes a taxi in ${town}. The fare is a starting fee plus a charge for each kilometre.`,
       intro: `${words} The equation $F = ${r}d + ${start}$ gives the fare $F$, in dollars, for a ride of $d$ kilometres.`,
       xv: 'd', yv: 'F', a: r, b: start,
       xHead: 'Distance, $d$ (km)', yHead: 'Fare, $F$ (\\$)', xLabel: 'Distance (km)', yLabel: 'Fare ($)', xMax: 8,
@@ -168,6 +172,7 @@ const CTX: Array<(rng: Rng, name: string) => Ctx> = [
     const words = `${name} has ${dollars(start)} saved for ${goal} and adds ${dollars(r)} every week.`;
     return {
       words,
+      scene: `${name} is saving for ${goal} and adds the same amount every week.`,
       intro: `${words} The equation $S = ${r}w + ${start}$ gives the savings $S$, in dollars, after $w$ weeks.`,
       xv: 'w', yv: 'S', a: r, b: start,
       xHead: 'Week, $w$', yHead: 'Savings, $S$ (\\$)', xLabel: 'Time (weeks)', yLabel: 'Savings ($)', xMax: 8,
@@ -184,6 +189,7 @@ const CTX: Array<(rng: Rng, name: string) => Ctx> = [
     const words = `${name} lights a candle that is $${H}$ cm tall. It burns down $${r}$ cm every hour.`;
     return {
       words,
+      scene: `${name} lights a candle. It burns down at a steady rate.`,
       intro: `${words} The equation $h = ${H} - ${r}t$ gives the height $h$, in centimetres, after $t$ hours.`,
       xv: 't', yv: 'h', a: -r, b: H,
       xHead: 'Time, $t$ (h)', yHead: 'Height, $h$ (cm)', xLabel: 'Time (h)', yLabel: 'Height (cm)', xMax: H / r,
@@ -194,13 +200,14 @@ const CTX: Array<(rng: Rng, name: string) => Ctx> = [
       askX: (y) => `After how many hours is the candle $${y}$ cm tall?`,
     };
   },
-  (rng, name) => {
+  (rng) => {
     const r = rng.pick([2, 3]);
     const T0 = r === 2 ? -rng.pick([8, 10, 12, 14]) : -rng.pick([9, 12, 15]);
     const town = rng.pick(TOWNS);
     const words = `At 6 a.m. it was $${T0}^\\circ\\text{C}$ in ${town}. A warm chinook wind made the temperature rise $${r}^\\circ\\text{C}$ every hour.`;
     return {
       words,
+      scene: `One winter morning in ${town}, a warm chinook wind made the temperature rise steadily after 6 a.m.`,
       intro: `${words} The equation $T = ${r}h - ${-T0}$ gives the temperature $T$, in degrees Celsius, $h$ hours after 6 a.m.`,
       xv: 'h', yv: 'T', a: r, b: T0,
       xHead: 'Hours after 6 a.m., $h$', yHead: 'Temperature, $T$ (°C)', xLabel: 'Hours after 6 a.m.', yLabel: 'Temperature (°C)', xMax: 8,
@@ -218,6 +225,7 @@ const CTX: Array<(rng: Rng, name: string) => Ctx> = [
     const words = `${name} is scuba diving. ${name} starts ${where} and goes down $${r}$ m every minute.`;
     return {
       words,
+      scene: `${name} is scuba diving and goes down at a steady rate.`,
       intro: `${words} The equation $E = ${rhs(-r, start, 'm')}$ gives the elevation $E$, in metres, compared with the surface after $m$ minutes. (A negative elevation is below the surface.)`,
       xv: 'm', yv: 'E', a: -r, b: start,
       xHead: 'Time, $m$ (min)', yHead: 'Elevation, $E$ (m)', xLabel: 'Time (min)', yLabel: 'Elevation (m)', xMax: 6,
@@ -281,7 +289,7 @@ function linearTable(rng: Rng, d: Difficulty): Out {
   // d1: the first column is filled in as an example. d2: one column (or two, with a pattern question) is given.
   const shown = d === 1 ? [0] : withPattern ? rng.sample([0, 1, 2, 3, 4], 2) : [rng.int(0, 4)];
   const blank = xs.map((_, i) => !shown.includes(i));
-  const ask = xs.map((x, i) => i).filter((i) => blank[i]);
+  const ask = xs.map((_, i) => i).filter((i) => blank[i]);
   const parts: Part[] = ask.map((i) => numPart(ys[i], { label: `When $x = ${xs[i]}$, $y =$` }));
   const steps = ask.map((i) => `When $x = ${xs[i]}$: ${subst(a, b, xs[i])}`);
   const done = `The completed table: ${xs.map((x, i) => `$(${x},\\ ${ys[i]})$`).join(', ')}.`;
@@ -592,7 +600,7 @@ function equationContext(rng: Rng): Out {
   const right = `$${eqn(c.a, c.b, c.yv, c.xv)}$`;
   const opts = changeOptions(c.a, c.b, c.say, stepX);
   return {
-    prompt: `${c.words} The table shows some values.\n\n(a) Which equation describes the relation?\n\n(b) Which sentence describes the pattern?`,
+    prompt: `${c.scene} The table shows some values.\n\n(a) Which equation describes the relation?\n\n(b) Which sentence describes the pattern?`,
     figure: { type: 'table', horizontal: true, headers: [c.xHead, c.yHead], rows: xs.map((x, i) => [String(x), String(ys[i])]) },
     parts: [
       part(mc(rng, right, wrongEquations(c.a, c.b, xs[0], c.yv, c.xv)), { label: '(a)' }),

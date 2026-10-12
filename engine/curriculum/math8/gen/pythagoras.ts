@@ -26,7 +26,11 @@ const fl = (x: number | string, u: string) => `${typeof x === 'number' ? fmt(x) 
 /** Square units inside maths. */
 const sqU = (u: string) => `\\text{${u}}^2`;
 /** Thin-space grouping for numbers with five or more digits. */
-const big = (n: number) => (Math.abs(n) >= 10000 ? fmt(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,') : fmt(n));
+function big(n: number): string {
+  const [i, f] = fmt(n).split('.');
+  const g = Math.abs(n) >= 10000 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, '\\,') : i;
+  return f === undefined ? g : `${g}.${f}`;
+}
 const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
 /** "to the nearest tenth of a metre", "to the nearest inch" ... */
@@ -558,7 +562,7 @@ const AREA_SETUPS: Array<{ text: (n: number) => string; u: string; lo: number; h
   { text: (n) => `A square rug has an area of $${n}\\ \\text{m}^2$.`, u: 'm', lo: 3, hi: 15 },
   { text: (n) => `A square photo has an area of $${n}\\ \\text{cm}^2$.`, u: 'cm', lo: 80, hi: 240 },
   { text: (n) => `The floor of a square tent has an area of $${n}\\ \\text{m}^2$.`, u: 'm', lo: 5, hi: 20 },
-  { text: (n) => `A square bulletin board has an area of $${n}\\ \\text{dm}^2$.`, u: 'dm', lo: 30, hi: 99 },
+  { text: (n) => `A square bulletin board has an area of $${n}\\ \\text{cm}^2$.`, u: 'cm', lo: 300, hi: 900 },
 ];
 
 function estOrder(rng: Rng): GenOutput {
@@ -696,8 +700,8 @@ function hypSteps(a: number, b: number, c: number, dp: number | undefined, v = '
   const s = roundTo(sq(a) + sq(b), 6);
   return [
     `$${v}^2 = ${fmt(a)}^2 + ${fmt(b)}^2$`,
-    `$${v}^2 = ${fmt(sq(a))} + ${fmt(sq(b))} = ${fmt(s)}$`,
-    dp === undefined ? `$${v} = \\sqrt{${fmt(s)}} = ${fmt(c)}$` : `$${v} = \\sqrt{${fmt(s)}} \\approx ${fmtFixed(c, dp)}$`,
+    `$${v}^2 = ${big(sq(a))} + ${big(sq(b))} = ${big(s)}$`,
+    dp === undefined ? `$${v} = \\sqrt{${big(s)}} = ${fmt(c)}$` : `$${v} = \\sqrt{${big(s)}} \\approx ${fmtFixed(c, dp)}$`,
   ];
 }
 
@@ -707,8 +711,8 @@ function legSteps(c: number, a: number, b: number, dp: number | undefined, v = '
   return [
     `$${fmt(a)}^2 + ${v}^2 = ${fmt(c)}^2$`,
     `Subtract to get $${v}^2$ by itself: $${v}^2 = ${fmt(c)}^2 - ${fmt(a)}^2$`,
-    `$${v}^2 = ${fmt(sq(c))} - ${fmt(sq(a))} = ${fmt(s)}$`,
-    dp === undefined ? `$${v} = \\sqrt{${fmt(s)}} = ${fmt(b)}$` : `$${v} = \\sqrt{${fmt(s)}} \\approx ${fmtFixed(b, dp)}$`,
+    `$${v}^2 = ${big(sq(c))} - ${big(sq(a))} = ${big(s)}$`,
+    dp === undefined ? `$${v} = \\sqrt{${big(s)}} = ${fmt(b)}$` : `$${v} = \\sqrt{${big(s)}} \\approx ${fmtFixed(b, dp)}$`,
   ];
 }
 
@@ -1217,8 +1221,9 @@ const CONTEXTS: RtCtx[] = [
     ],
     make(rng, k) {
       if (k === 'hyp') return pickPair(rng.int(90, 110), rng.int(55, 75));
-      const D = rng.int(110, 130);
-      return fromHyp(D, rng.int(90, Math.min(105, D - 20)), 'vert');
+      const l = rng.int(95, 110);
+      const D = Math.round(Math.hypot(l, rng.int(55, 75)));
+      return fromHyp(D, l, 'vert');
     },
     hint: 'The length, the width and the diagonal form a right triangle. The diagonal is the hypotenuse.',
   },
@@ -1362,8 +1367,8 @@ function applyBaseball(rng: Rng): GenOutput {
   );
   const dg = s * Math.SQRT2;
   return {
-    prompt: `At the ball diamond in ${town}, the four bases form a square with sides of $${ms(s, 'm')}$. The catcher throws the ball straight from home plate to second base, which is the opposite corner of the square. How long is the throw? How much longer is it than the distance from home plate to first base? Round each answer to the nearest tenth of a metre.`,
-    figure: triFig({ R: '1', A: 'H', B: '2', rotate: 0, mirror: false }, s, s, { ra: fl(s, 'm'), rb: fl(s, 'm'), ab: 't' }),
+    prompt: `At the ball diamond in ${town}, the four bases form a square with sides of $${ms(s, 'm')}$. The catcher throws the ball straight from home plate to second base, which is the opposite corner of the square. In the diagram, $H$ is home plate, $F$ is first base and $S$ is second base. How long is the throw? How much longer is it than the distance from home plate to first base? Round each answer to the nearest tenth of a metre.`,
+    figure: triFig({ R: 'F', A: 'H', B: 'S', rotate: 0, mirror: false }, s, s, { ra: fl(s, 'm'), rb: fl(s, 'm'), ab: 't' }),
     parts: [numPart(dg, { decimals: 1, label: 'Throw', suffix: 'm' }), numPart(dg - s, { decimals: 1, label: 'Longer by', suffix: 'm' })],
     hints: ['Home plate, first base and second base form a right triangle. The throw is the hypotenuse.', `Both legs are $${ms(s, 'm')}$.`],
     solution: [
@@ -1477,9 +1482,9 @@ function rightTestSteps(s: number[], u: string): string[] {
   const right = Math.abs(sum - sq(c)) < 1e-6;
   return [
     `The longest side, $${ms(c, u)}$, is the only side that could be the hypotenuse.`,
-    `$a^2 + b^2 = ${fmt(a)}^2 + ${fmt(b)}^2 = ${fmt(sq(a))} + ${fmt(sq(b))} = ${fmt(sum)}$`,
-    `$c^2 = ${fmt(c)}^2 = ${fmt(sq(c))}$`,
-    right ? `$${fmt(sum)} = ${fmt(sq(c))}$, so $a^2 + b^2 = c^2$ and the triangle **is** a right triangle.` : `$${fmt(sum)} \\ne ${fmt(sq(c))}$, so the triangle is **not** a right triangle.`,
+    `$a^2 + b^2 = ${fmt(a)}^2 + ${fmt(b)}^2 = ${big(sq(a))} + ${big(sq(b))} = ${big(sum)}$`,
+    `$c^2 = ${fmt(c)}^2 = ${big(sq(c))}$`,
+    right ? `$${big(sum)} = ${big(sq(c))}$, so $a^2 + b^2 = c^2$ and the triangle **is** a right triangle.` : `$${big(sum)} \\ne ${big(sq(c))}$, so the triangle is **not** a right triangle.`,
   ];
 }
 
@@ -1492,8 +1497,8 @@ function testReasons(rng: Rng, s: number[], u: string): GenOutput {
   const sum = roundTo(sq(a) + sq(b), 6);
   const right = Math.abs(sum - sq(c)) < 1e-6;
   const correct = right
-    ? `Yes, because $${fmt(a)}^2 + ${fmt(b)}^2 = ${fmt(c)}^2$: $${fmt(sq(a))} + ${fmt(sq(b))} = ${fmt(sq(c))}$.`
-    : `No, because $${fmt(a)}^2 + ${fmt(b)}^2 = ${fmt(sum)}$, but $${fmt(c)}^2 = ${fmt(sq(c))}$.`;
+    ? `Yes, because $${fmt(a)}^2 + ${fmt(b)}^2 = ${fmt(c)}^2$: $${big(sq(a))} + ${big(sq(b))} = ${big(sq(c))}$.`
+    : `No, because $${fmt(a)}^2 + ${fmt(b)}^2 = ${big(sum)}$, but $${fmt(c)}^2 = ${big(sq(c))}$.`;
   const wrong = right
     ? [
         `No, because $${fmt(a)} + ${fmt(b)} = ${fmt(roundTo(a + b, 4))}$, not $${fmt(c)}$.`,
@@ -1516,7 +1521,8 @@ function testReasons(rng: Rng, s: number[], u: string): GenOutput {
 function testWhichSet(rng: Rng): GenOutput {
   const scale = rng.pick([1, 1, 2, 0.5]);
   const right = rightSet(rng, scale);
-  const added = right.map((x) => roundTo(x + rng.pick([1, 2]) * (scale < 1 ? 0.5 : 1), 2));
+  const plus = rng.pick([1, 2]) * (scale < 1 ? 0.5 : 1);
+  const added = right.map((x) => roundTo(x + plus, 2));
   const wrongs: number[][] = [];
   if (Math.abs(sq(added[0]) + sq(added[1]) - sq(added[2])) > 1e-6) wrongs.push(added);
   for (let i = 0; wrongs.length < 3 && i < 20; i++) {
@@ -1532,8 +1538,8 @@ function testWhichSet(rng: Rng): GenOutput {
     parts: [{ answer: mc(rng, md(right), wrongs.map(md)) }],
     hints: ['For each set, the longest side would be the hypotenuse.', 'Check whether the squares of the two shorter sides add up to the square of the longest side.'],
     solution: [
-      ...wrongs.map((w) => `$${fmt(w[0])}^2 + ${fmt(w[1])}^2 = ${fmt(roundTo(sq(w[0]) + sq(w[1]), 6))}$ but $${fmt(w[2])}^2 = ${fmt(sq(w[2]))}$: not a right triangle.`),
-      `$${fmt(a)}^2 + ${fmt(b)}^2 = ${fmt(sq(a))} + ${fmt(sq(b))} = ${fmt(roundTo(sq(a) + sq(b), 6))} = ${fmt(c)}^2$`,
+      ...wrongs.map((w) => `$${fmt(w[0])}^2 + ${fmt(w[1])}^2 = ${big(roundTo(sq(w[0]) + sq(w[1]), 6))}$ but $${fmt(w[2])}^2 = ${big(sq(w[2]))}$: not a right triangle.`),
+      `$${fmt(a)}^2 + ${fmt(b)}^2 = ${big(sq(a))} + ${big(sq(b))} = ${big(roundTo(sq(a) + sq(b), 6))} = ${fmt(c)}^2$`,
       `The right triangle has sides ${md(right)}.`,
     ],
   };
@@ -1558,7 +1564,7 @@ function testCorner(rng: Rng): GenOutput {
   const square = rng.chance(0.5);
   const diag = square ? c : c + rng.pick([-3, -2, -1, 1, 2, 3]);
   const sum = a * a + b * b;
-  const correct = square ? `Yes. $${a}^2 + ${b}^2 = ${sum} = ${diag}^2$, so the corner is a right angle.` : `No. For a right angle, the diagonal must be $\\sqrt{${sum}} = ${c}\\ \\text{cm}$, not $${diag}\\ \\text{cm}$.`;
+  const correct = square ? `Yes. $${a}^2 + ${b}^2 = ${big(sum)} = ${diag}^2$, so the corner is a right angle.` : `No. For a right angle, the diagonal must be $\\sqrt{${big(sum)}} = ${c}\\ \\text{cm}$, not $${diag}\\ \\text{cm}$.`;
   const wrong = square
     ? [`No. For a right angle, the diagonal must be $${a} + ${b} = ${a + b}\\ \\text{cm}$.`, `No. The diagonal must be the same length as the longer side.`, 'You cannot tell without a protractor.']
     : [`Yes. The diagonal is the longest side, so the corner is a right angle.`, `Yes. $${diag}\\ \\text{cm}$ is close to $${c}\\ \\text{cm}$, so the corner is square.`, `No. For a right angle, the diagonal must be $${a} + ${b} = ${a + b}\\ \\text{cm}$.`];
@@ -1567,9 +1573,9 @@ function testCorner(rng: Rng): GenOutput {
     parts: [{ answer: mc(rng, correct, wrong) }],
     hints: ['The two sides and the diagonal make a triangle. The diagonal is the longest side.', CONVERSE],
     solution: [
-      `For a right angle, the diagonal would be the hypotenuse: $${a}^2 + ${b}^2 = ${a * a} + ${b * b} = ${sum}$.`,
-      `$${diag}^2 = ${diag * diag}$`,
-      square ? `$${sum} = ${diag * diag}$, so the corner is a right angle.` : `$${sum} \\ne ${diag * diag}$, so the corner is not a right angle. The diagonal should be $\\sqrt{${sum}} = ${c}\\ \\text{cm}$.`,
+      `For a right angle, the diagonal would be the hypotenuse: $${a}^2 + ${b}^2 = ${big(a * a)} + ${big(b * b)} = ${big(sum)}$.`,
+      `$${diag}^2 = ${big(diag * diag)}$`,
+      square ? `$${big(sum)} = ${big(diag * diag)}$, so the corner is a right angle.` : `$${big(sum)} \\ne ${big(diag * diag)}$, so the corner is not a right angle. The diagonal should be $\\sqrt{${big(sum)}} = ${c}\\ \\text{cm}$.`,
     ],
   };
 }

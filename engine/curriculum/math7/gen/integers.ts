@@ -31,6 +31,8 @@ const dol = (x: number) => (x < 0 ? `${MINUS}\\$${-x}` : `\\$${x}`);
 /** Plain-text money for table cells (a leading - is drawn as a minus sign). */
 const cellD = (x: number) => (x < 0 ? `-$${-x}` : `$${x}`);
 const plural = (n: number, one: string, many: string) => (Math.abs(n) === 1 ? one : many);
+/** An integer answer: the student types the value, not the calculation. */
+const intPart = (v: number, opts: { label?: string; suffix?: string } = {}) => numPart(v, { ...opts, exact: false });
 
 /**
  * Integer counters on a blank canvas: positive (+1) counters in the top row, negative (−1) counters
@@ -90,7 +92,7 @@ function addRule(a: number, b: number): string[] {
   const small = Math.min(Math.abs(a), Math.abs(b));
   const diff = Math.abs(Math.abs(a) - Math.abs(b));
   return [
-    `The signs are different. $${small}$ zero pairs make $0$. Subtract the sizes: $${Math.max(Math.abs(a), Math.abs(b))} - ${small} = ${diff}$.`,
+    `The signs are different. $${small}$ zero ${plural(small, 'pair makes', 'pairs make')} $0$. Subtract the sizes: $${Math.max(Math.abs(a), Math.abs(b))} - ${small} = ${diff}$.`,
     `More counters are ${big > 0 ? 'positive' : 'negative'}, so the answer is ${big > 0 ? 'positive' : 'negative'}: $${sum} = ${sg(r)}$`,
   ];
 }
@@ -118,7 +120,7 @@ function addModel(rng: Rng): Out {
     return {
       prompt: `The counters model $${br(a)} + ${br(b)}$. ${COUNTER_KEY} What is the sum?`,
       figure: sign > 0 ? counters(p + q, 0, `${p} + ${q} positive counters`) : counters(0, p + q, `${p} + ${q} negative counters`),
-      parts: [numPart(a + b)],
+      parts: [intPart(a + b)],
       hints: ['A zero pair is one $+1$ counter and one $-1$ counter. Are there any zero pairs?', `All the counters are ${sign > 0 ? 'positive' : 'negative'}. Count them.`],
       solution: [
         `$${br(a)}$ is $${p}$ ${sign > 0 ? 'positive' : 'negative'} ${plural(p, 'counter', 'counters')} and $${br(b)}$ is $${q}$ more.`,
@@ -136,10 +138,10 @@ function addModel(rng: Rng): Out {
   return {
     prompt: `The counters model $${br(a)} + ${br(b)}$. ${COUNTER_KEY} What is the sum?`,
     figure: counters(p, q, `${p} positive and ${q} negative counters`),
-    parts: [numPart(r)],
+    parts: [intPart(r)],
     hints: ['A $+1$ counter and a $-1$ counter make a zero pair. A zero pair is worth $0$.', 'Match up as many zero pairs as you can and remove them. What is left?'],
     solution: [
-      `There are $${p}$ positive counters and $${q}$ negative counters.`,
+      `There ${p === 1 ? 'is' : 'are'} $${p}$ positive ${plural(p, 'counter', 'counters')} and $${q}$ negative ${plural(q, 'counter', 'counters')}.`,
       `Make $${Math.min(p, q)}$ zero ${plural(Math.min(p, q), 'pair', 'pairs')} and remove ${Math.min(p, q) === 1 ? 'it' : 'them'}. Each zero pair is worth $0$.`,
       `$${left}$ ${r > 0 ? 'positive' : 'negative'} ${plural(left, 'counter is', 'counters are')} left.`,
       `$${br(a)} + ${br(b)} = ${sg(r)}$`,
@@ -161,7 +163,7 @@ function addNumberLine(rng: Rng): Out {
   return {
     prompt: `Use the number line to find $${br(a)} + ${br(b)}$.`,
     figure: numberLine([{ value: a, label: 'start' }]),
-    parts: [numPart(r)],
+    parts: [intPart(r)],
     hints: [`Start at $${sg(a)}$.`, `Adding a ${b > 0 ? 'positive' : 'negative'} integer moves ${dir}. Move $${Math.abs(b)}$ steps ${dir}.`],
     solution: [
       `Start at $${sg(a)}$.`,
@@ -181,7 +183,7 @@ function addSymbols(rng: Rng): Out {
   );
   return {
     prompt: `Find $${br(a)} + ${br(b)}$.`,
-    parts: [numPart(a + b)],
+    parts: [intPart(a + b)],
     hints: ['Look at the signs. Are they the same or different?', ADD_HINT],
     solution: addRule(a, b),
   };
@@ -199,7 +201,7 @@ function addD3(rng: Rng): Out {
     return {
       prompt: `What integer goes in the box?\n\n$$${br(a)} + \\square = ${br(r)}$$`,
       figure: numberLine([{ value: a, label: 'start' }, { value: r, label: 'end' }]),
-      parts: [numPart(x, { label: '$\\square =$' })],
+      parts: [intPart(x, { label: '$\\square =$' })],
       hints: [`On the number line, start at $${sg(a)}$ and end at $${sg(r)}$.`, 'Count the steps from the start to the end. Moving right means you added a positive integer. Moving left means you added a negative integer.'],
       solution: [
         `Start at $${sg(a)}$ and end at $${sg(r)}$.`,
@@ -223,7 +225,7 @@ function addD3(rng: Rng): Out {
   const expr = vals.map(br).join(' + ');
   return {
     prompt: `Find $${expr}$.`,
-    parts: [numPart(r)],
+    parts: [intPart(r)],
     hints: ['You can add integers in any order. Group the positive integers and group the negative integers.', `Add each group, then add the two results. ${ADD_HINT}`],
     solution: [
       pos.length > 1 ? `Add the positive integers: $${pos.join(' + ')} = ${P}$.` : `The only positive integer is $${sg(P)}$.`,
@@ -256,14 +258,14 @@ const integerAdd = skill({
 function subTakeAway(rng: Rng): Out {
   const sign = rng.sign();
   const p = rng.int(4, 9);
-  const q = rng.int(1, p - 1);
+  const q = rng.int(2, p - 1);
   const a = sign * p;
   const b = sign * q;
   const word = sign > 0 ? 'positive' : 'negative';
   return {
     prompt: `The counters model $${br(a)}$. ${COUNTER_KEY} Use them to find $${br(a)} - ${br(b)}$.`,
     figure: sign > 0 ? counters(p, 0, `${p} positive counters`) : counters(0, p, `${p} negative counters`),
-    parts: [numPart(a - b)],
+    parts: [intPart(a - b)],
     hints: ['Subtracting means taking away.', `Take away $${q}$ ${word} ${plural(q, 'counter', 'counters')}. How many are left?`],
     solution: [
       `$${br(a)}$ is $${p}$ ${word} counters.`,
@@ -305,7 +307,7 @@ function subNumberLine(rng: Rng): Out {
   return {
     prompt: `Find $${br(a)} - ${br(b)}$. Use the number line to help.`,
     figure: numberLine([{ value: a, label: 'start' }]),
-    parts: [numPart(r)],
+    parts: [intPart(r)],
     hints: [SUB_HINT, `$${br(a)} - ${br(b)} = ${br(a)} + ${br(-b)}$. Start at $${sg(a)}$ and move $${Math.abs(b)}$ steps ${dir}.`],
     solution: [
       `Add the opposite: $${br(a)} - ${br(b)} = ${br(a)} + ${br(-b)}$`,
@@ -341,7 +343,7 @@ function subZeroPairs(rng: Rng): Out {
   return {
     prompt: `The counters model $${br(a)}$. ${COUNTER_KEY} Use the counters to find $${br(a)} - ${br(b)}$.`,
     figure: a > 0 ? counters(have, 0, `${have} positive counters`) : counters(0, have, `${have} negative counters`),
-    parts: [numPart(r)],
+    parts: [intPart(r)],
     hints: [`You need to take away ${Math.abs(b)} ${bWord} ${plural(Math.abs(b), 'counter', 'counters')}. Are there enough?`, 'Add zero pairs (one $+1$ and one $-1$) until you can take them away. A zero pair is worth $0$, so the value does not change.'],
     solution: steps,
   };
@@ -355,7 +357,7 @@ function subSymbols(rng: Rng): Out {
   );
   return {
     prompt: `Find $${br(a)} - ${br(b)}$.`,
-    parts: [numPart(a - b)],
+    parts: [intPart(a - b)],
     hints: [SUB_HINT, ADD_HINT],
     solution: subRule(a, b),
   };
@@ -371,7 +373,7 @@ function subD3(rng: Rng): Out {
     const x = a - r;
     return {
       prompt: `What integer goes in the box?\n\n$$${br(a)} - \\square = ${br(r)}$$`,
-      parts: [numPart(x, { label: '$\\square =$' })],
+      parts: [intPart(x, { label: '$\\square =$' })],
       hints: ['Subtracting an integer is the same as adding its opposite. What do you add to the first integer to get the answer?', `Find the move from $${sg(a)}$ to $${sg(r)}$ on a number line. The missing integer is the opposite of that move.`],
       solution: [
         `Subtracting the missing integer is the same as adding its opposite: $${br(a)} + (\\text{opposite}) = ${br(r)}$.`,
@@ -408,7 +410,7 @@ function subD3(rng: Rng): Out {
   steps.push(`$${expr} = ${sg(r)}$`);
   return {
     prompt: `Find $${expr}$.`,
-    parts: [numPart(r)],
+    parts: [intPart(r)],
     hints: [`${SUB_HINT} Rewrite every subtraction as an addition first.`, 'Then group the positive integers and the negative integers, and add.'],
     solution: steps,
   };
@@ -450,7 +452,7 @@ function problemD1(rng: Rng): Out {
     return {
       prompt: `At noon in ${town}, the temperature was ${deg(t)}. By evening, it had dropped $${dd}$ degrees. What was the temperature in the evening?`,
       figure: numberLine([{ value: t, label: 'noon' }]),
-      parts: [numPart(r, { suffix: '°C' })],
+      parts: [intPart(r, { suffix: '°C' })],
       hints: ['A drop of $' + dd + '$ degrees is a change of $' + -dd + '$.', `Find $${br(t)} + ${br(-dd)}$. Count down $${t}$ degrees to reach $0$, then keep going.`],
       solution: [`A drop of $${dd}$ degrees is $${sg(-dd)}$. Write the sum: $${br(t)} + ${br(-dd)}$.`, ...addRule(t, -dd), `The temperature in the evening was ${deg(r)}.`],
     };
@@ -462,7 +464,7 @@ function problemD1(rng: Rng): Out {
     return {
       prompt: `At 7 a.m. in ${town}, the temperature was ${deg(t)}. By noon, it had risen $${c}$ degrees. What was the temperature at noon?`,
       figure: numberLine([{ value: t, label: '7 a.m.' }]),
-      parts: [numPart(r, { suffix: '°C' })],
+      parts: [intPart(r, { suffix: '°C' })],
       hints: [`A rise of $${c}$ degrees is a change of $+${c}$.`, `Find $${br(t)} + ${br(c)}$. On the number line, start at $${t}$ and move $${c}$ steps right.`],
       solution: [`A rise of $${c}$ degrees is $+${c}$. Write the sum: $${br(t)} + ${br(c)}$.`, ...addRule(t, c), `The temperature at noon was ${deg(r)}.`],
     };
@@ -473,7 +475,7 @@ function problemD1(rng: Rng): Out {
     const r = f - g;
     return {
       prompt: `${PLUS_MINUS} In one game, ${name} was on the ice for $${f}$ even-strength ${plural(f, 'goal', 'goals')} by ${name}’s team and $${g}$ even-strength ${plural(g, 'goal', 'goals')} by the other team. What was ${name}’s plus-minus for the game?`,
-      parts: [numPart(r)],
+      parts: [intPart(r)],
       hints: [`Each goal for the team is $+1$ and each goal against is $-1$.`, `Find $${br(f)} + ${br(-g)}$.`],
       solution: [`Goals for: $${sg(f)}$. Goals against: $${sg(-g)}$.`, ...(f === 0 ? [`$0 + ${br(-g)} = ${sg(r)}$`] : addRule(f, -g)), `${name}’s plus-minus for the game was $${sg(r)}$.`],
     };
@@ -483,7 +485,7 @@ function problemD1(rng: Rng): Out {
     const r = a + b;
     return {
       prompt: `${GOLF} ${name} scored $${sg(a)}$ on the first nine holes and $${sg(b)}$ on the last nine holes. What was ${name}’s score for all 18 holes?`,
-      parts: [numPart(r)],
+      parts: [intPart(r)],
       hints: ['Add the two scores.', `Find $${br(a)} + ${br(b)}$. ${ADD_HINT}`],
       solution: [`Add the two scores: $${br(a)} + ${br(b)}$.`, ...addRule(a, b), `${name}’s score was $${sg(r)}$, which is ${Math.abs(r)} ${plural(r, 'stroke', 'strokes')} ${r < 0 ? 'under' : 'over'} par.`],
     };
@@ -494,7 +496,7 @@ function problemD1(rng: Rng): Out {
     const item = rng.pick(['a hockey stick', 'a new phone case', 'a pair of runners', 'a concert ticket', 'a video game']);
     return {
       prompt: `${name} has ${dol(B)} in a bank account. ${name} spends \\$${S} on ${item} with a debit card. The bank lets the balance go below \\$0. What is the new balance, in dollars?`,
-      parts: [numPart(B - S, { label: 'Balance, in dollars:' })],
+      parts: [intPart(B - S, { label: 'Balance, in dollars:' })],
       hints: ['Spending money is a negative change.', `Find $${br(B)} + ${br(-S)}$.`],
       solution: [`Spending \\$${S} is a change of $${sg(-S)}$: $${br(B)} + ${br(-S)}$.`, ...addRule(B, -S), `The new balance is ${dol(B - S)}. ${name} owes the bank \\$${S - B}.`],
     };
@@ -503,11 +505,11 @@ function problemD1(rng: Rng): Out {
   const up = rng.chance(0.5);
   const c = up ? rng.int(2, a - 2) : rng.int(2, 6);
   const r = up ? -a + c : -a - c;
-  const lake = rng.pick(['Sylvan Lake', 'Lake Louise', 'Gull Lake', 'Pigeon Lake']);
+  const lake = rng.pick(['Sylvan Lake', 'Cold Lake', 'Gull Lake', 'Pigeon Lake']);
   return {
     prompt: `A diver in ${lake} is at $${-a}\\ \\text{m}$, which means $${a}$ m below the surface. She swims ${up ? 'up' : 'down'} $${c}$ m. What integer gives her new position, in metres?`,
     figure: numberLine([{ value: -a, label: 'diver' }, { value: 0, label: 'surface' }]),
-    parts: [numPart(r, { suffix: 'm' })],
+    parts: [intPart(r, { suffix: 'm' })],
     hints: ['Up is a positive change. Down is a negative change.', `Find $${br(-a)} + ${br(up ? c : -c)}$.`],
     solution: [`${up ? 'Up' : 'Down'} $${c}$ m is $${sg(up ? c : -c)}$: $${br(-a)} + ${br(up ? c : -c)}$.`, ...addRule(-a, up ? c : -c), `Her new position is $${r}\\ \\text{m}$.`],
   };
@@ -525,7 +527,7 @@ function problemD2(rng: Rng): Out {
     const t2 = rng.int(1, 14);
     return {
       prompt: `A chinook is a warm wind that can blow into southern Alberta in winter. One morning in Calgary the temperature was ${deg(t1)}. After a chinook arrived, it was ${deg(t2)}. By how many degrees did the temperature rise?`,
-      parts: [numPart(t2 - t1, { suffix: 'degrees' })],
+      parts: [intPart(t2 - t1, { suffix: 'degrees' })],
       hints: ['The change is the new temperature minus the old temperature.', `Find $${br(t2)} - ${br(t1)}$. Subtracting a negative is the same as adding a positive.`],
       solution: [`Change = new $-$ old: $${br(t2)} - ${br(t1)}$`, ...subRule(t2, t1), `Check by counting: $${-t1}$ degrees up to $0$, then $${t2}$ more makes $${t2 - t1}$.`, `The temperature rose $${t2 - t1}$ degrees.`],
     };
@@ -539,7 +541,7 @@ function problemD2(rng: Rng): Out {
     const cold = hi === x ? tb : ta;
     return {
       prompt: `On a January morning, it was ${deg(x)} in ${ta} and ${deg(y)} in ${tb}. How many degrees warmer was it in ${warm} than in ${cold}?`,
-      parts: [numPart(hi - lo, { suffix: 'degrees' })],
+      parts: [intPart(hi - lo, { suffix: 'degrees' })],
       hints: ['Find the difference between the two temperatures: higher minus lower.', `Find $${br(hi)} - ${br(lo)}$ by adding the opposite.`],
       solution: [...diffSteps(hi, lo), `It was $${hi - lo}$ degrees warmer in ${warm}.`],
     };
@@ -551,7 +553,7 @@ function problemD2(rng: Rng): Out {
     const r = t - dd;
     return {
       prompt: `The temperature in ${town} was ${deg(t)} at sunset. A cold front made it drop $${dd}$ degrees overnight. What was the temperature in the morning?`,
-      parts: [numPart(r, { suffix: '°C' })],
+      parts: [intPart(r, { suffix: '°C' })],
       hints: ['A drop means subtract.', `Find $${br(t)} - ${br(dd)}$ by adding the opposite.`],
       solution: [`A drop means subtract: $${br(t)} - ${br(dd)}$`, ...subRule(t, dd), `The temperature in the morning was ${deg(r)}.`],
     };
@@ -565,7 +567,7 @@ function problemD2(rng: Rng): Out {
     ]);
     return {
       prompt: `Heights are measured from the surface of the water, which is $0$ m. At the same moment, ${c.low} and ${c.high}. How far above ${c.other} is ${c.what}?`,
-      parts: [numPart(above + below, { suffix: 'm' })],
+      parts: [intPart(above + below, { suffix: 'm' })],
       hints: ['Find the difference: higher position minus lower position.', `Find $${br(above)} - ${br(-below)}$.`],
       solution: [...diffSteps(above, -below), `${c.what.charAt(0).toUpperCase() + c.what.slice(1)} is $${above + below}$ m above ${c.other}.`],
     };
@@ -578,7 +580,7 @@ function problemD2(rng: Rng): Out {
     const winner = lo === a ? name : other;
     return {
       prompt: `${GOLF} At a tournament in ${rng.pick(TOWNS)}, ${name} finished at $${sg(a)}$ and ${other} finished at $${sg(b)}$. How many strokes better was ${winner}’s score?`,
-      parts: [numPart(hi - lo, { suffix: 'strokes' })],
+      parts: [intPart(hi - lo, { suffix: 'strokes' })],
       hints: ['The lower score is better. Find the difference between the scores.', `Find $${br(hi)} - ${br(lo)}$.`],
       solution: [...diffSteps(hi, lo), `${winner}’s score was $${hi - lo}$ strokes better.`],
     };
@@ -588,7 +590,7 @@ function problemD2(rng: Rng): Out {
     const now = 5 * rng.int(2, 30);
     return {
       prompt: `${name}’s bank account was overdrawn: the balance was ${dol(-owe)}. After a deposit, the balance is ${dol(now)}. How much money did ${name} deposit, in dollars?`,
-      parts: [numPart(now + owe, { label: 'Deposit, in dollars:' })],
+      parts: [intPart(now + owe, { label: 'Deposit, in dollars:' })],
       hints: ['The deposit is the change in the balance: new balance minus old balance.', `Find $${br(now)} - ${br(-owe)}$.`],
       solution: [`Change = new $-$ old: $${br(now)} - ${br(-owe)}$`, ...subRule(now, -owe), `${name} deposited \\$${now + owe}: \\$${owe} to pay back what was owed and \\$${now} more.`],
     };
@@ -598,7 +600,7 @@ function problemD2(rng: Rng): Out {
   const ch = end - start;
   return {
     prompt: `${PLUS_MINUS} At the start of December, ${name}’s season plus-minus was $${sg(start)}$. At the end of December, it was $${sg(end)}$. What was the change in ${name}’s plus-minus during December?`,
-    parts: [numPart(ch)],
+    parts: [intPart(ch)],
     hints: ['Change = new value minus old value.', `Find $${br(end)} - ${br(start)}$.`],
     solution: [`Change = new $-$ old: $${br(end)} - ${br(start)}$`, ...(start === 0 ? [`$${br(end)} - 0 = ${sg(end)}$`] : subRule(end, start)), `The change was $${sg(ch)}$: ${name}’s plus-minus went ${ch > 0 ? 'up' : 'down'} by $${Math.abs(ch)}$.`],
   };
@@ -612,7 +614,7 @@ function problemD3(rng: Rng): Out {
     let v = start;
     ch.forEach((c, j) => {
       const nv = v + c;
-      steps.push(`${labels[j]}: $${br(v)} + ${br(c)} = ${sg(nv)}$`);
+      steps.push(`${labels[j]}: $${v === 0 ? '0' : br(v)} + ${br(c)} = ${sg(nv)}$`);
       v = nv;
     });
     return { steps, end: v };
@@ -630,7 +632,7 @@ function problemD3(rng: Rng): Out {
     return {
       prompt: `At 6 a.m. in ${town}, the temperature was ${deg(t0)}. The table shows how the temperature changed during the day. What was the temperature at 10 p.m.?`,
       figure: { type: 'table', headers: ['Time', 'Change (°C)'], rows: times.map((tm, j) => [tm, lab(ch[j])]) },
-      parts: [numPart(end, { suffix: '°C' })],
+      parts: [intPart(end, { suffix: '°C' })],
       hints: ['Start at the 6 a.m. temperature and go down the table one row at a time.', 'Add each change. A negative change is a drop.'],
       solution: [`Start: ${deg(t0)}`, ...steps, `The temperature at 10 p.m. was ${deg(end)}.`],
     };
@@ -652,10 +654,10 @@ function problemD3(rng: Rng): Out {
     return {
       prompt: `${PLUS_MINUS} The table shows ${name}’s plus-minus in five games. (a) What is ${name}’s total plus-minus for the five games? (b) How much better was ${name}’s best game than ${name}’s worst game?`,
       figure: { type: 'table', headers: ['Game', 'Plus-minus'], rows: games.map((g, j) => [g, lab(vals[j])]) },
-      parts: [numPart(total, { label: '(a) Total:' }), numPart(best - worst, { label: '(b) Difference:' })],
+      parts: [intPart(total, { label: '(a) Total:' }), intPart(best - worst, { label: '(b) Difference:' })],
       hints: ['(a) Add all five integers. Group the positive ones and the negative ones.', '(b) Find the best (highest) and worst (lowest) games. Subtract: best $-$ worst.'],
       solution: [
-        `(a) Positive games: $${pos.join(' + ')} = ${P}$. Negative games: $${neg.map(br).join(' + ')} = ${Ng}$. ${vals.includes(0) ? 'A game at $0$ adds nothing. ' : ''}`,
+        `(a) Positive games: $${pos.join(' + ')} = ${P}$. Negative games: $${neg.map(br).join(' + ')} = ${Ng}$.${vals.includes(0) ? ' A game at $0$ adds nothing.' : ''}`,
         `Total: $${br(P)} + ${br(Ng)} = ${sg(total)}$`,
         `(b) Best game: $${sg(best)}$. Worst game: $${sg(worst)}$.`,
         `$${br(best)} - ${br(worst)} = ${br(best)} + ${br(-worst)} = ${sg(best - worst)}$`,
@@ -683,7 +685,7 @@ function problemD3(rng: Rng): Out {
     return {
       prompt: `${GOLF} The table shows ${name}’s scores for four rounds at a junior golf tournament. ${other}’s total score for the four rounds was $${sg(otherTotal)}$. (a) What was ${name}’s total score? (b) Who won? (c) By how many strokes?`,
       figure: { type: 'table', headers: ['Round', 'Score'], rows: rounds.map((r, j) => [r, lab(vals[j])]) },
-      parts: [numPart(total, { label: '(a) Total:' }), { label: '(b) Winner:', answer: fixedChoice([name, other], winner === name ? 0 : 1) }, numPart(hi - lo, { label: '(c) Strokes:' })],
+      parts: [intPart(total, { label: '(a) Total:' }), { label: '(b) Winner:', answer: fixedChoice([name, other], winner === name ? 0 : 1) }, intPart(hi - lo, { label: '(c) Strokes:' })],
       hints: ['(a) Add the four scores. Group the positive and the negative scores.', '(b) The lower total wins. (c) Subtract: higher total $-$ lower total.'],
       solution: [
         `(a) $${vals.map(br).join(' + ')}$. Positive: $${pos.join(' + ')} = ${P}$. Negative: $${neg.map(br).join(' + ')} = ${Ng}$.`,
@@ -711,7 +713,7 @@ function problemD3(rng: Rng): Out {
     return {
       prompt: `The table shows the changes to ${name}’s bank account in one month. The account started at ${dol(start)}. The bank lets the balance go below \\$0. What was the balance at the end of the month, in dollars?`,
       figure: { type: 'table', headers: ['Transaction', 'Change'], rows: labels.map((l, j) => [l, ch[j] < 0 ? cellD(ch[j]) : `+$${ch[j]}`]) },
-      parts: [numPart(end, { label: 'End balance, in dollars:' })],
+      parts: [intPart(end, { label: 'End balance, in dollars:' })],
       hints: ['Start with the starting balance and go down the table one row at a time.', 'Add each change. Money spent is a negative change; money received is positive.'],
       solution: [`Start: $${sg(start)}$`, ...steps, `The balance at the end of the month was ${dol(end)}.`],
     };
@@ -726,7 +728,7 @@ function problemD3(rng: Rng): Out {
   return {
     prompt: `${name} goes on a hike in the badlands near Drumheller. Heights are measured from the parking lot, which is at $0$ m. The table shows each change in height on the hike. Where does ${name} finish, compared with the parking lot? Write your answer as an integer.`,
     figure: { type: 'table', headers: ['Part of the hike', 'Change (m)'], rows: labels.map((l, j) => [l, lab(ch[j])]) },
-    parts: [numPart(end, { suffix: 'm' })],
+    parts: [intPart(end, { suffix: 'm' })],
     hints: ['Start at $0$ m and go down the table one row at a time.', 'Add each change. Going down is a negative change.'],
     solution: [`Start: $0$ m`, ...steps, `${name} finishes at $${end}\\ \\text{m}$, which is $${-end}$ m below the parking lot.`],
   };
