@@ -620,8 +620,8 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
   // A rectangle with a triangular notch cut out of the top.
   const W = 2 * rng.int(4, 8);
   const H = rng.int(4, 9);
-  const nb = 2 * rng.int(1, Math.floor(W / 2) - 2);
-  const depth = rng.int(1, H - 2);
+  const nb = 2 * rng.int(2, Math.floor(W / 2) - 2);
+  const depth = rng.int(2, Math.min(H - 2, nb - 1));
   const x0 = rng.int(1, W - nb - 1);
   const pts: P[] = [[0, 0], [W, 0], [W, H], [x0 + nb, H], [x0 + nb / 2, H - depth], [x0, H], [0, H]];
   const notch: P[] = [[x0, H], [x0 + nb, H], [x0 + nb / 2, H - depth]];
