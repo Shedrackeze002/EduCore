@@ -29,8 +29,6 @@ function whole(v: number, suffix?: string, label?: string): Part {
   return { label, suffix, answer: { kind: 'numeric', value: v, allowExpression: false } };
 }
 
-const PLACE = ['ones', 'tens', 'hundreds', 'thousands', 'ten thousands'];
-
 // Column layouts ---------------------------------------------------------------
 
 /** Digits of n spaced into W right-aligned columns (empty columns are \phantom{0}). */
