@@ -37,6 +37,9 @@ const numAns = (v: number, label?: string, suffix?: string): Part => numPart(v, 
 
 const OO_HINT = 'Work inside the parentheses first. Then multiply or divide. Then add or subtract, from left to right.';
 
+/** No negative numbers or zeros written in the expression. */
+const cleanTex = (tex: string) => tex !== '' && !/(^|[ (])-\d/.test(tex) && !/(^|[ (])0(?=[ )]|$)/.test(tex);
+
 interface Eval {
   tex: string;
   value: number;
@@ -65,6 +68,8 @@ function oneOutside(rng: Rng): Eval {
           return { tex: `(${A} - ${b}) ${D} ${c}`, value: a, steps: [`Parentheses first: $${A} - ${b} = ${a * c}$.`, `Then divide: $${a * c} ${D} ${c} = ${a}$.`] };
         }
         case 'a/(b+c)': {
+          // Grade 5 divides by a 1-digit number: keep b + c below 10.
+          if (b + c > 9) return { tex: '', value: -1, steps: [] };
           const A = a * (b + c);
           return { tex: `${A} ${D} (${b} + ${c})`, value: a, steps: [`Parentheses first: $${b} + ${c} = ${b + c}$.`, `Then divide: $${A} ${D} ${b + c} = ${a}$.`] };
         }
@@ -78,7 +83,7 @@ function oneOutside(rng: Rng): Eval {
         }
       }
     },
-    (e) => e.value > 0 && e.value <= 120,
+    (e) => e.value > 0 && e.value <= 120 && cleanTex(e.tex),
   );
 }
 
@@ -135,7 +140,7 @@ function twoOutside(rng: Rng): Eval {
           };
       }
     },
-    (e) => e.value > 0 && e.value <= 150 && !/\(-|\(0 /.test(e.tex) && !/ 0\)/.test(e.tex),
+    (e) => e.value > 0 && e.value <= 150 && cleanTex(e.tex),
   );
 }
 
@@ -235,7 +240,7 @@ function ooStory(rng: Rng): OoStory {
       answer: `There are $${r * (a - b)}$ plants left.`,
     };
   }
-  const [d, a, b] = [rng.int(3, 6), rng.int(2, 5), rng.int(1, 4)];
+  const [d, a, b] = [rng.int(3, 6), rng.int(2, 5), rng.int(2, 4)];
   return {
     text: `${name} trains for $${d}$ days at a pool in ${rng.pick(TOWNS)}. Each day ${name} swims $${a}$ laps of front crawl and $${b}$ laps of backstroke. How many laps does ${name} swim in all?`,
     right: `$${d} ${T} (${a} + ${b})$`, wrong: [`$${d} ${T} ${a} + ${b}$`, `$${d} + ${a} + ${b}$`, `$${d} + ${a} ${T} ${b}$`],
@@ -324,19 +329,19 @@ function writeD1(rng: Rng): Out {
     };
   }
   const b = rng.int(2, 15);
-  const options: Array<[string, number]> = [
-    [term(a, v), 1],
-    [frac(v, a), 1],
-    [`${term(a, v)} + ${b}`, 2],
-    [`${frac(v, a)} + ${b}`, 2],
-    [`${b} + ${term(a, v)}`, 2],
+  const options: Array<[string, number, string]> = [
+    [term(a, v), 1, `$${term(a, v)}$ is a product of a number and a variable`],
+    [frac(v, a), 1, `$${frac(v, a)}$ is a quotient of a variable and a number`],
+    [`${term(a, v)} + ${b}`, 2, ''],
+    [`${frac(v, a)} + ${b}`, 2, ''],
+    [`${b} + ${term(a, v)}`, 2, ''],
   ];
-  const [ex, n] = rng.pick(options);
+  const [ex, n, what] = rng.pick(options);
   return {
     prompt: `How many terms does the expression $${ex}$ have?`,
     parts: [numAns(n)],
     hints: ['Terms are separated by $+$ signs.', 'A number times a variable, a variable divided by a number, or a number on its own is one term.'],
-    solution: n === 1 ? [`$${ex}$ is one product or quotient with the variable. There is no $+$ sign.`, `It has $1$ term.`] : [`The $+$ sign separates $${ex.split(' + ')[0]}$ and $${ex.split(' + ')[1]}$.`, `It has $2$ terms.`],
+    solution: n === 1 ? [`${what}. There is no $+$ sign.`, `It has $1$ term.`] : [`The $+$ sign separates $${ex.split(' + ')[0]}$ and $${ex.split(' + ')[1]}$.`, `It has $2$ terms.`],
   };
 }
 
@@ -413,8 +418,8 @@ function writeD3(rng: Rng): Out {
   const b = rng.int(4, 15);
   const name = rng.pick(NAMES);
   const stories = [
-    { right: `A bowling game costs ${dollars(a)} and shoe rental costs ${dollars(b)}. The total cost for $n$ games.`, wrongs: [`A bowling game costs ${dollars(b)} and shoe rental costs ${dollars(a)}. The total cost for $n$ games.`, `${name} shares $n$ dollars among $${a}$ friends and adds ${dollars(b)}.`, `${name} has ${dollars(b)} and spends ${dollars(a)} on $n$ things.`] },
-    { right: `${name} has $${b}$ stamps and gets $${a}$ new stamps each week. The number of stamps after $n$ weeks.`, wrongs: [`${name} has $${a}$ stamps and gets $${b}$ new stamps each week. The number of stamps after $n$ weeks.`, `${name} has $${b}$ stamps and gives away $${a}$ stamps each week. The number of stamps after $n$ weeks.`, `${name} shares $${b}$ stamps among $n$ friends.`] },
+    { right: `Each bowling game costs ${dollars(a)}, and shoe rental costs ${dollars(b)}. The expression is the total cost, in dollars, of $n$ games.`, wrongs: [`Each bowling game costs ${dollars(b)}, and shoe rental costs ${dollars(a)}. The expression is the total cost, in dollars, of $n$ games.`, `${name} shares $n$ dollars among $${a}$ friends and adds ${dollars(b)}.`, `${name} has ${dollars(b)} and spends ${dollars(a)} on $n$ things.`] },
+    { right: `${name} has $${b}$ stamps and gets $${a}$ new stamps each week. The expression is the number of stamps after $n$ weeks.`, wrongs: [`${name} has $${a}$ stamps and gets $${b}$ new stamps each week. The expression is the number of stamps after $n$ weeks.`, `${name} has $${b}$ stamps and gives away $${a}$ stamps each week. The expression is the number of stamps after $n$ weeks.`, `${name} shares $${b}$ stamps equally among $n$ friends. The expression is the number of stamps each friend gets.`] },
   ];
   if (kind === 'match') {
     const st = rng.pick(stories);

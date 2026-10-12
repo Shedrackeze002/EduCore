@@ -43,7 +43,6 @@ function listWords(ws: string[], joiner = 'and'): string {
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const RF_RULE = '**Relative frequency** $= \\dfrac{\\text{frequency of the category}}{\\text{total number of data values}}$';
-const LOWEST = 'Write the fraction in lowest terms.';
 
 /** f/t as a decimal (t divides 100), with working by an equivalent fraction over 100. */
 function asHundredths(f: number, t: number): { dec: number; pct: number; steps: string[] } {
@@ -56,29 +55,24 @@ function asHundredths(f: number, t: number): { dec: number; pct: number; steps: 
   };
 }
 
-/** Totals that are factors of 100, so every relative frequency is an exact hundredth. */
-const NICE = [10, 20, 25, 50];
-
 interface Survey {
   setup: (n: number, who: string) => string;
   /** For students: what they were asked about. */
   topic?: string;
   head: string;
   cats: string[];
-  /** "students who walk" */
-  of: (c: string) => string;
   noun: string;
 }
 
 const SURVEYS: Survey[] = [
-  { setup: (n, t) => `${t} asked the $${n}$ students in a Grade 6 class how they get to school.`, head: 'How they get to school', topic: 'how they get to school', cats: ['Walk', 'Bus', 'Car', 'Bike'], of: (c) => ({ Walk: 'students who walk', Bus: 'students who take the bus', Car: 'students who come by car', Bike: 'students who ride a bike' })[c] ?? c, noun: 'students' },
-  { setup: (n) => `A Grade 6 class counted the colours of the next $${n}$ cars that drove past their school in Red Deer.`, head: 'Car colour', cats: ['White', 'Black', 'Grey', 'Red', 'Blue'], of: (c) => `${c.toLowerCase()} cars`, noun: 'cars' },
-  { setup: (n) => `A student in Grande Prairie watched a bird feeder and recorded the first $${n}$ birds that visited.`, head: 'Bird', cats: ['Chickadee', 'Sparrow', 'Blue jay', 'Woodpecker'], of: (c) => `${c.toLowerCase()}s`, noun: 'birds' },
-  { setup: (n) => `The school cafeteria in Airdrie counted the $${n}$ lunches it sold on Friday.`, head: 'Lunch', cats: ['Pizza', 'Soup', 'Wrap', 'Salad'], of: (c) => `${c.toLowerCase()} lunches`, noun: 'lunches' },
-  { setup: (n, t) => `${t} asked $${n}$ students which sport they would most like to play at the winter carnival.`, head: 'Sport', topic: 'which winter sport they would most like to play', cats: ['Hockey', 'Skating', 'Curling', 'Snowshoeing'], of: (c) => `students who chose ${c.toLowerCase()}`, noun: 'students' },
-  { setup: (n, t) => `${t} asked $${n}$ students which season they like best.`, head: 'Season', topic: 'which season they like best', cats: ['Winter', 'Spring', 'Summer', 'Fall'], of: (c) => `students who chose ${c.toLowerCase()}`, noun: 'students' },
-  { setup: (n, t) => `${t} asked $${n}$ students which pet they would most like to have.`, head: 'Pet', topic: 'which pet they would most like to have', cats: ['Dog', 'Cat', 'Fish', 'Bird'], of: (c) => `students who chose a ${c.toLowerCase()}`, noun: 'students' },
-  { setup: (n) => `A library in Camrose recorded the kind of book borrowed by each of $${n}$ students.`, head: 'Kind of book', cats: ['Mystery', 'Graphic novel', 'Science', 'Adventure'], of: (c) => `${c.toLowerCase()} books`, noun: 'books' },
+  { setup: (n, t) => `${t} asked the $${n}$ students in a Grade 6 class how they get to school.`, head: 'How they get to school', topic: 'how they get to school', cats: ['Walk', 'Bus', 'Car', 'Bike'], noun: 'students' },
+  { setup: (n) => `A Grade 6 class counted the colours of the next $${n}$ cars that drove past their school in Red Deer.`, head: 'Car colour', cats: ['White', 'Black', 'Grey', 'Red', 'Blue'], noun: 'cars' },
+  { setup: (n) => `A student in Grande Prairie watched a bird feeder and recorded the first $${n}$ birds that visited.`, head: 'Bird', cats: ['Chickadee', 'Sparrow', 'Blue jay', 'Woodpecker'], noun: 'birds' },
+  { setup: (n) => `The school cafeteria in Airdrie counted the $${n}$ lunches it sold on Friday.`, head: 'Lunch', cats: ['Pizza', 'Soup', 'Wrap', 'Salad'], noun: 'lunches' },
+  { setup: (n, t) => `${t} asked $${n}$ students which sport they would most like to play at the winter carnival.`, head: 'Sport', topic: 'which winter sport they would most like to play', cats: ['Hockey', 'Skating', 'Curling', 'Snowshoeing'], noun: 'students' },
+  { setup: (n, t) => `${t} asked $${n}$ students which season they like best.`, head: 'Season', topic: 'which season they like best', cats: ['Winter', 'Spring', 'Summer', 'Fall'], noun: 'students' },
+  { setup: (n, t) => `${t} asked $${n}$ students which pet they would most like to have.`, head: 'Pet', topic: 'which pet they would most like to have', cats: ['Dog', 'Cat', 'Fish', 'Bird'], noun: 'students' },
+  { setup: (n) => `A library in Camrose recorded the kind of book borrowed by each of $${n}$ students.`, head: 'Kind of book', cats: ['Mystery', 'Graphic novel', 'Science', 'Adventure'], noun: 'books' },
 ];
 
 /** Frequencies that add to `total`, each at least `min`. */

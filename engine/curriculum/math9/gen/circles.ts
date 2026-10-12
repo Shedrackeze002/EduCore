@@ -18,6 +18,7 @@ const dl = (x: number) => `${fmt(x)}°`;
 const angleName = (a: string, v: string, b: string) => `\\angle ${a}${v}${b}`;
 const safeRound = (x: number, dp: number) => Math.abs((Math.abs(x * 10 ** dp) % 1) - 0.5) > 0.06;
 const sq = (x: number) => roundTo(x * x, 6);
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 const UNITS = ['cm', 'm', 'mm'];
 
 /** Pythagorean triples [leg, leg, hypotenuse]. */
@@ -393,7 +394,7 @@ function chordGen(rng: Rng, d: Difficulty): GenOutput {
     { what: 'a circular hay field', chord: 'A straight fence', u: 'm' },
   ]);
   return {
-    prompt: `${ctx.chord} crosses ${ctx.what} from edge to edge. It is $${ms(2 * half, ctx.u)}$ long, and its closest point to the centre is $${ms(dd, ctx.u)}$ away. What is the diameter of ${ctx.what}?`,
+    prompt: `${ctx.chord} crosses ${ctx.what} from edge to edge. It is $${ms(2 * half, ctx.u)}$ long, and its closest point to the centre is $${ms(dd, ctx.u)}$ away. What is the diameter of ${ctx.what.replace(/^a /, 'the ')}?`,
     figure: chordFigure(r, dd, turn, { AB: fl(2 * half, ctx.u), OM: fl(dd, ctx.u), OA: 'r' }, { radius: true }),
     parts: [numPart(2 * r, { label: 'Diameter', suffix: ctx.u })],
     hints: ['The closest distance from the centre to a chord is along the perpendicular, which bisects the chord.', 'Use half the chord and the distance in the Pythagorean theorem to find the radius. Then double it.'],
@@ -784,7 +785,8 @@ function tangentGen(rng: Rng, d: Difficulty): GenOutput {
           const pt = rng.int(4, 30);
           return [r, pt, Math.hypot(r, pt)];
         },
-        ([r, pt, ot]) => pt > 0.6 * r && pt < 3.5 * r && safeRound(ot, 1) && !Number.isInteger(ot),
+        // The rounded OT is given for the other two kinds, so the value found from it must round safely too.
+        ([r, pt, ot]) => pt > 0.6 * r && pt < 3.5 * r && safeRound(ot, 1) && !Number.isInteger(ot) && (kind === 1 || safeRound(Math.sqrt(roundTo(ot, 1) ** 2 - (kind === 2 ? pt : r) ** 2), 1)),
       );
     }
     const labsFor = (k: number): TanLabels => (k === 0 ? { OP: fl(r, u), OT: fl(roundTo(ot, 3), u), PT: 'x' } : k === 1 ? { OP: fl(r, u), PT: fl(pt, u), OT: 'x' } : { PT: fl(pt, u), OT: fl(roundTo(ot, 3), u), OP: 'x' });
@@ -867,25 +869,23 @@ function tangentGen(rng: Rng, d: Difficulty): GenOutput {
   if (kind === 1) {
     // Distance from T to the nearest point of the circle.
     const ctx = rng.pick([
-      { intro: 'A circular pond has a radius of', from: 'a picnic table at $T$', line: 'A straight path from the table just touches the edge of the pond at $P$', u: 'm' },
-      { intro: 'A round hay bale, seen from the end, has a radius of', from: 'a fence post at $T$', line: 'A rope from the post just touches the bale at $P$', u: 'dm' },
-      { intro: 'A circular skating rink has a radius of', from: 'a light pole at $T$', line: 'A straight string of lights from the pole just touches the edge of the rink at $P$', u: 'm' },
+      { thing: 'A circular pond', from: 'a picnic table at $T$', who: 'the table', line: 'a straight path just touches the edge of the pond at $P$', seg: 'The path from the table to $P$', u: 'm', sc: 1 },
+      { thing: 'A round hay bale, seen from the end,', from: 'a fence post at $T$', who: 'the post', line: 'a tight rope just touches the bale at $P$', seg: 'The rope from the post to $P$', u: 'cm', sc: 10 },
+      { thing: 'A circular skating rink', from: 'a light pole at $T$', who: 'the pole', line: 'a straight string of lights just touches the edge of the rink at $P$', seg: 'The string of lights from the pole to $P$', u: 'm', sc: 1 },
     ]);
-    const uu = ctx.u === 'dm' ? 'cm' : ctx.u;
-    const sc = ctx.u === 'dm' ? 10 : 1;
-    const R2 = r * sc;
-    const PT2 = pt * sc;
-    const OT2 = ot * sc;
+    const R2 = r * ctx.sc;
+    const PT2 = pt * ctx.sc;
+    const OT2 = ot * ctx.sc;
     return {
-      prompt: `${ctx.intro} $${ms(R2, uu)}$, with centre $O$. ${ctx.line}. The path from $T$ to $P$ is $${ms(PT2, uu)}$ long. How far is ${ctx.from} from the nearest point on the edge? (Find the distance along $OT$ from $T$ to the circle.)`,
-      figure: tangentFigure(r, pt, dir, side, { OP: fl(R2, uu), PT: fl(PT2, uu) }),
-      parts: [numPart(OT2 - R2, { label: 'Distance', suffix: uu })],
+      prompt: `${ctx.thing} has a radius of $${ms(R2, ctx.u)}$ and centre $O$. From ${ctx.from}, ${ctx.line}. ${ctx.seg} is $${ms(PT2, ctx.u)}$ long. How far is ${ctx.who} from the nearest point on the edge? (Find the distance along $OT$ from $T$ to the circle.)`,
+      figure: tangentFigure(r, pt, dir, side, { OP: fl(R2, ctx.u), PT: fl(PT2, ctx.u) }),
+      parts: [numPart(OT2 - R2, { label: 'Distance', suffix: ctx.u })],
       hints: ['$TP$ is tangent at $P$, so $\\triangle OPT$ has a right angle at $P$. Find $OT$ with the Pythagorean theorem.', 'The nearest point of the circle lies on $OT$. Subtract the radius from $OT$.'],
       solution: [
         '$\\angle OPT = 90^\\circ$ (tangent $\\perp$ radius).',
         `$OT^2 = ${R2}^2 + ${PT2}^2 = ${R2 * R2} + ${PT2 * PT2} = ${OT2 * OT2}$, so $OT = ${OT2}$`,
         `The distance from $T$ to the circle is $OT - r = ${OT2} - ${R2} = ${OT2 - R2}$`,
-        `It is $${ms(OT2 - R2, uu)}$ from the nearest point on the edge.`,
+        `${cap(ctx.who)} is $${ms(OT2 - R2, ctx.u)}$ from the nearest point on the edge.`,
       ],
       calculator: true,
     };

@@ -28,11 +28,31 @@ function moveWords(dx: number, dy: number): string {
 
 const pointPart = (p: P, label: string): Part => part({ kind: 'point', x: p[0], y: p[1] }, { label, placeholder: '(x, y)' });
 
-/** The smallest square Cartesian plane, from -n to n with n at least 5, that holds the points with a margin. */
+/**
+ * A Cartesian plane that holds the points (and the origin) with a margin, 10 or 11 units wide in each
+ * direction so that every grid line gets its number.
+ */
 function planeFor(pts: P[], margin = 1): GridSpec {
-  const n = Math.max(5, ...pts.map((p) => Math.max(Math.abs(p[0]), Math.abs(p[1])) + margin));
-  return { xMin: -n, xMax: n, yMin: -n, yMax: n };
+  const axis = (vals: number[]): [number, number] => {
+    let lo = Math.min(0, ...vals) - margin;
+    let hi = Math.max(0, ...vals) + margin;
+    while (hi - lo < 10) {
+      if (-lo <= hi) lo--;
+      else hi++;
+    }
+    return [lo, hi];
+  };
+  const [xMin, xMax] = axis(pts.map((p) => p[0]));
+  const [yMin, yMax] = axis(pts.map((p) => p[1]));
+  return { xMin, xMax, yMin, yMax };
 }
+
+/** The points (with the origin) span at most 9 units across and up, so the plane needs no more than 11. */
+const fits = (pts: P[]) => {
+  const xs = [0, ...pts.map((p) => p[0])];
+  const ys = [0, ...pts.map((p) => p[1])];
+  return Math.max(...xs) - Math.min(...xs) <= 9 && Math.max(...ys) - Math.min(...ys) <= 9;
+};
 
 interface Poly {
   pts: P[];
@@ -133,8 +153,8 @@ const cartesianPoints = skill({
 
     if (mode === 'read') {
       const onAxis = rng.chance(0.15);
-      const x = onAxis && rng.chance(0.5) ? 0 : rng.nonZero(-6, 6);
-      const y = onAxis && x !== 0 ? 0 : rng.nonZero(-6, 6);
+      const x = onAxis && rng.chance(0.5) ? 0 : rng.nonZero(-5, 5);
+      const y = onAxis && x !== 0 ? 0 : rng.nonZero(-5, 5);
       const ctx = rng.pick([
         (w: string) => `On a map of a campground, ${w}'s tent is at point $P$.`,
         () => 'On a game board, a game piece is at point $P$.',
@@ -144,7 +164,7 @@ const cartesianPoints = skill({
       ])(who);
       return {
         prompt: `${ctx} What are the coordinates of point $P$?`,
-        figure: cartFigure({ points: [{ p: [x, y], label: 'P' }], grid: { xMin: -7, xMax: 7, yMin: -7, yMax: 7 } }),
+        figure: cartFigure({ points: [{ p: [x, y], label: 'P' }] }),
         parts: [pointPart([x, y], '$P$ =')],
         hints: ['Start at the origin, $(0,\\ 0)$. First count right or left along the $x$-axis, then up or down.', 'Right and up are positive. Left and down are negative. Write $(x,\\ y)$: the $x$-coordinate comes first.'],
         solution: [...readSteps('P', [x, y]), `The coordinates are $P${ptx(x, y)}$.`],
@@ -154,8 +174,8 @@ const cartesianPoints = skill({
 
     if (mode === 'locate') {
       for (;;) {
-        const x = rng.nonZero(-6, 6);
-        const y = rng.nonZero(-6, 6);
+        const x = rng.nonZero(-4, 4);
+        const y = rng.nonZero(-4, 4);
         if (Math.abs(x) === Math.abs(y)) continue;
         const target: P = [x, y];
         const fakes: P[] = rng.shuffle([[y, x], [neg(x), y], [x, neg(y)], [neg(x), neg(y)], [neg(y), neg(x)]] as P[]).slice(0, 3);
@@ -166,7 +186,7 @@ const cartesianPoints = skill({
         const answer = fixedChoice(LETTERS.map((L) => `Point $${L}$`), idx);
         return {
           prompt: `${rng.pick(MAP_CTX)(who)} Which point is at $${ptx(x, y)}$?`,
-          figure: cartFigure({ points: pts.map((p, i) => ({ p, label: LETTERS[i] })), grid: { xMin: -7, xMax: 7, yMin: -7, yMax: 7 } }),
+          figure: cartFigure({ points: pts.map((p, i) => ({ p, label: LETTERS[i] })), grid: { xMin: -5, xMax: 5, yMin: -5, yMax: 5 } }),
           parts: [{ answer }],
           hints: ['The first number is the $x$-coordinate: go right if it is positive, left if it is negative.', 'The second number is the $y$-coordinate: go up if it is positive, down if it is negative.'],
           solution: [
@@ -182,13 +202,13 @@ const cartesianPoints = skill({
     if (mode === 'vertex') {
       for (;;) {
         const shape = placeShape(rng, rng.int(-4, 1), rng.int(-4, 1), [...SHAPES, [[0, 0], [4, 0], [4, 3], [0, 3]], [[0, 0], [3, 0], [4, 3], [1, 3]]]);
-        if (new Set(shape.map(quadrant)).size < 3) continue;
+        if (new Set(shape.map(quadrant)).size < 3 || !fits(shape)) continue;
         const labels = LETTERS.slice(0, shape.length);
         const [i, j] = rng.sample(shape.map((_, k) => k), 2).sort((a, b) => a - b);
         const thing = rng.pick(['a garden bed', 'a flower bed', 'a parking lot', 'a skating rink', 'a sandbox', 'a playground']);
         return {
           prompt: `${who} drew ${thing} on a Cartesian plane. What are the coordinates of vertices $${labels[i]}$ and $${labels[j]}$?`,
-          figure: cartFigure({ polys: [{ pts: shape, color: 'brand', labels }], grid: planeFor(shape, 2) }),
+          figure: cartFigure({ polys: [{ pts: shape, color: 'brand', labels }] }),
           parts: [pointPart(shape[i], `$${labels[i]}$ =`), pointPart(shape[j], `$${labels[j]}$ =`)],
           hints: ['For each vertex, start at the origin. Count right or left to find $x$, then up or down to find $y$.', 'Points to the left of the $y$-axis have a negative $x$-coordinate. Points below the $x$-axis have a negative $y$-coordinate.'],
           solution: [
@@ -231,7 +251,7 @@ const cartesianPoints = skill({
         const x2 = rng.int(x1 + 2, Math.min(6, x1 + 8));
         const y1 = rng.int(-6, 2);
         const y2 = rng.int(y1 + 2, Math.min(6, y1 + 7));
-        if (x1 * x2 >= 0 && y1 * y2 >= 0) continue;
+        if ((x1 * x2 >= 0 && y1 * y2 >= 0) || !fits([[x1, y1], [x2, y2]])) continue;
         const rect: P[] = rng.pick([
           [[x1, y1], [x2, y1], [x2, y2], [x1, y2]],
           [[x2, y2], [x1, y2], [x1, y1], [x2, y1]],
@@ -273,7 +293,7 @@ const cartesianPoints = skill({
         if (rng.chance(0.5)) pts = pts.map(([x, y]) => [y, x] as P);
         const start = rng.int(0, 3);
         pts = [...pts.slice(start), ...pts.slice(0, start)];
-        if (pts.some((p) => Math.abs(p[0]) > 6 || Math.abs(p[1]) > 6)) continue;
+        if (!fits(pts)) continue;
         if (new Set(pts.map(quadrant).filter((q) => q > 0)).size < 3) continue;
         const why = [
           'All four sides are the same length and every corner is a right angle, so it is a **square**.',
@@ -284,7 +304,7 @@ const cartesianPoints = skill({
         const list = pts.map((p, i) => `$${LETTERS[i]}${ptx(p[0], p[1])}$`).join(', ');
         return {
           prompt: `${who} plots the points ${list} on a Cartesian plane and joins them in order: $A$ to $B$ to $C$ to $D$ and back to $A$. Which shape does ${who} make?`,
-          figure: cartFigure({ grid: { xMin: -7, xMax: 7, yMin: -7, yMax: 7 } }),
+          figure: cartFigure({ grid: planeFor(pts) }),
           parts: [{ answer: fixedChoice(SHAPE_NAMES.map((s) => s.charAt(0).toUpperCase() + s.slice(1)), kind) }],
           hints: ['Plot each point: the first number tells you how far to go right or left, the second how far up or down.', 'Join the points in order. Check which sides are parallel and whether the corners are right angles.'],
           solution: [
@@ -305,7 +325,7 @@ const cartesianPoints = skill({
       const y2 = rng.int(Math.max(1, y1 + 2), 6);
       const w = x2 - x1;
       const h = y2 - y1;
-      if (w === h || w > 10 || h > 10) continue;
+      if (w === h || w > 9 || h > 9) continue;
       const pts: P[] = [[x1, y2], [x2, y2], [x2, y1], [x1, y1]];
       const list = pts.map((p, i) => `$${LETTERS[i]}${ptx(p[0], p[1])}$`).join(', ');
       const [unit, ctx] = rng.pick([
@@ -386,7 +406,7 @@ function shapeAndImage(rng: Rng, f: (p: P) => P, lo = -5, hi = 2, pool = SHAPES)
   for (;;) {
     const pts = placeShape(rng, rng.int(lo, hi), rng.int(lo, hi), pool);
     const img = pts.map(f);
-    if ([...pts, ...img].some((p) => Math.abs(p[0]) > 6 || Math.abs(p[1]) > 6)) continue;
+    if (!fits([...pts, ...img])) continue;
     if (img.some((p) => pts.some((q) => samePt(p, q)))) continue;
     return { pts, img };
   }
@@ -509,7 +529,7 @@ const translateReflect = skill({
       for (;;) {
         const { pts, img } = shapeAndImage(rng, f, -6, 3);
         const mids = pts.map(reflectFirst ? R : T);
-        if (mids.some((p) => Math.abs(p[0]) > 7 || Math.abs(p[1]) > 7)) continue;
+        if (mids.some((p) => Math.abs(p[0]) > 8 || Math.abs(p[1]) > 8)) continue;
         const n = pts.length;
         const i = rng.int(0, n - 1);
         const L = LETTERS[i];
@@ -673,7 +693,7 @@ const rotate = skill({
         const pts = rightTriangle(rng);
         const r = rng.pick(['cw90', 'ccw90', 'r180'] as const);
         const img = pts.map(rotFn(r, pts[0]));
-        if ([...pts, ...img].some((p) => Math.abs(p[0]) > 6 || Math.abs(p[1]) > 6)) continue;
+        if (!fits([...pts, ...img])) continue;
         const i = rng.int(1, 2);
         const L = LETTERS[i];
         return {
@@ -697,7 +717,7 @@ const rotate = skill({
         const c = rng.int(0, n - 1);
         const r = rng.pick(['cw90', 'ccw90', 'r180', 'cw270', 'ccw270'] as const);
         const img = pts.map(rotFn(r, pts[c]));
-        if ([...pts, ...img].some((p) => Math.abs(p[0]) > 6 || Math.abs(p[1]) > 6)) continue;
+        if (!fits([...pts, ...img])) continue;
         const ask = rng.sample(pts.map((_, k) => k).filter((k) => k !== c), 2).sort();
         const C = LETTERS[c];
         return {
@@ -722,7 +742,7 @@ const rotate = skill({
         const turn = rng.pick(['cw', 'ccw', 'half'] as const);
         const r: Rot = turn === 'cw' ? 'cw90' : turn === 'ccw' ? 'ccw90' : 'r180';
         const img = pts.map(rotFn(r, pts[c]));
-        if ([...pts, ...img].some((p) => Math.abs(p[0]) > 6 || Math.abs(p[1]) > 6)) continue;
+        if (!fits([...pts, ...img])) continue;
         const set: Rot[] = rng.chance(0.5) ? ['cw90', 'r180', 'cw270'] : ['ccw90', 'r180', 'ccw270'];
         const idx = set.findIndex((x) => asQuarter(x) === turn);
         const choices = set.map((x) => `${ROT_TEXT[x]} about vertex $${LETTERS[c]}$`);
@@ -762,7 +782,7 @@ const rotate = skill({
       const dx = rng.nonZero(-4, 4);
       const dy = rng.chance(0.3) ? 0 : rng.nonZero(-4, 4);
       const fin = rot.map(([x, y]) => [x + dx, y + dy] as P);
-      if ([...pts, ...rot, ...fin].some((p) => Math.abs(p[0]) > 7 || Math.abs(p[1]) > 7)) continue;
+      if (!fits([...pts, ...fin]) || rot.some((p) => Math.abs(p[0]) > 8 || Math.abs(p[1]) > 8)) continue;
       const i = rng.int(1, 2);
       const L = LETTERS[i];
       const steps = rotateSteps('A', pts[0], L, pts[i], r);
