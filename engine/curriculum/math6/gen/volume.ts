@@ -145,7 +145,7 @@ const volumeUnits = skill({
       return {
         prompt: `${who} wants to measure the **volume** of ${it.thing}. Which unit is the best choice?`,
         parts: [{ answer: mc(rng, correct, [other, area, len]) }],
-        hints: ['Volume is measured in cubic units: little cubes that fill the space.', 'A cubic centimetre is about the size of a sugar cube. A cubic metre is a cube as tall as a door is wide... about as big as a large box you could sit in.'],
+        hints: ['Volume is measured in cubic units: cubes that fill the space.', 'A cubic centimetre is about the size of a sugar cube. A cubic metre is a cube $1\\ \\text{m}$ long, $1\\ \\text{m}$ wide and $1\\ \\text{m}$ high: big enough for a few students to sit inside.'],
         solution: [
           'Volume needs a cubic unit, so square units (for area) and plain centimetres or metres (for length) do not work.',
           it.u === 'cm'
@@ -259,13 +259,13 @@ const volumeUnits = skill({
     const per = rows * cols;
     const V = per * layers;
     const item = rng.pick([
-      { what: 'sugar cubes', box: 'a box' },
-      { what: 'number cubes', box: 'a game box' },
-      { what: 'wooden blocks', box: 'a toy chest' },
-      { what: 'bouillon cubes', box: 'a carton' },
+      { what: 'sugar cubes', box: 'a box', the: 'the box' },
+      { what: 'number cubes', box: 'a game box', the: 'the game box' },
+      { what: 'wooden blocks', box: 'a toy chest', the: 'the toy chest' },
+      { what: 'bouillon cubes', box: 'a carton', the: 'the carton' },
     ]);
     return {
-      prompt: `${who} packs ${item.what} into ${item.box} with no gaps. Each layer has $${rows}$ rows of $${cols}$ ${item.what}, and there are $${layers}$ layers. What is the volume of ${item.box === 'a box' ? 'the box' : `the ${item.box.split(' ').slice(1).join(' ')}`}, measured in ${item.what}?`,
+      prompt: `${who} packs ${item.what} into ${item.box} with no gaps, and the ${item.what} fill it exactly. Each layer has $${rows}$ rows of $${cols}$ ${item.what}, and there are $${layers}$ layers. What is the volume of ${item.the}, measured in ${item.what}?`,
       parts: [numPart(V, { label: 'Volume =', suffix: item.what })],
       hints: ['First find how many fit in one layer: rows × (number in each row).', 'Then multiply by the number of layers.'],
       solution: [
@@ -367,7 +367,7 @@ const volumePrism = skill({
     }
 
     if (mode === 'problem') {
-      const kind = rng.pick(['sandbox', 'aquarium', 'container', 'sandbox-half'] as const);
+      const kind = rng.pick(['sandbox', 'aquarium', 'container'] as const);
       if (kind === 'aquarium') {
         const l = rng.pick([40, 50, 60, 80]);
         const w = rng.pick([20, 30]);
@@ -407,7 +407,7 @@ const volumePrism = skill({
       // Sandbox: sand to a depth.
       const l = rng.int(2, 5);
       const w = rng.int(2, 4);
-      const depth = kind === 'sandbox-half' ? 0.5 : rng.pick([1, 2]) / 10 === 0.1 ? 0.5 : 1;
+      const depth = 0.5;
       const V = l * w * depth;
       return {
         prompt: `${who}'s school is building a sandbox shaped like a rectangular prism. It is $${l}\\ \\text{m}$ long and $${w}\\ \\text{m}$ wide. Sand will fill it to a depth of $${n(depth)}\\ \\text{m}$. How many cubic metres of sand are needed?`,
@@ -437,7 +437,7 @@ const volumePrism = skill({
         ['gift box', 'gift boxes'],
         ['planter', 'planters'],
       ]);
-      const unit = things[0] === 'planter' || things[0] === 'storage bin' ? u : 'cm';
+      const unit = 'cm';
       return {
         prompt: `${who} is choosing between two ${things[1]} shaped like rectangular prisms. Box A is $${a[0]}$ by $${a[1]}$ by $${a[2]}\\ \\text{${unit}}$. Box B is $${b[0]}$ by $${b[1]}$ by $${b[2]}\\ \\text{${unit}}$. How much greater is the volume of the larger box?`,
         parts: [volPart(diff, unit, 'Difference =')],
