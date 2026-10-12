@@ -47,6 +47,10 @@ hints and worked solutions, and appears in at least one lesson check.
 | Mathematics 20-1 | -1 (pre-calculus) | Algebra and Number AN1–AN6, Trigonometry T1–T3, Relations and Functions RF1–RF11. |
 | Mathematics 20-2 | -2 (foundations) | Measurement M1–M3, Geometry G1–G3, Number and Logic NL1–NL4, Statistics S1–S2, Relations and Functions RF1–RF2, and the Mathematics Research Project. |
 | Mathematics 20-3 | -3 (workplace and apprenticeship) | Measurement M1–M2, Geometry G1–G4, Number N1–N5, Algebra A1–A3, Statistics S1. |
+| Mathematics 30-1 | -1 (pre-calculus) | Trigonometry T1–T6, Relations and Functions RF1–RF14, Permutations, Combinations and Binomial Theorem PCBT1–PCBT4. |
+| Mathematics 30-2 | -2 (foundations) | Logical Reasoning LR1–LR3, Probability P1–P6, Relations and Functions RF1–RF8, and the Mathematics Research Project. |
+| Mathematics 30-3 | -3 (workplace and apprenticeship) | Measurement M1, Geometry G1–G3, Number N1–N3, Algebra A1, Statistics S1–S2, Probability P1. |
+| Mathematics 31 | calculus | Precalculus PC1, Limits L1–L2, Derivatives D1–D4, Derivative Applications DA1–DA4, Integrals I1–I3, Integral Applications IA1 (EduCore's grouping). |
 
 Alberta's Grade 10–12 courses are built on the WNCP *Common Curriculum Framework for Grades 10–12
 Mathematics* (2008), so Mathematics 10-3 corresponds to its *Apprenticeship and Workplace
@@ -89,6 +93,22 @@ triangles, scale and 3-D views, budgets, banking, interest and credit, slope and
 graphs, and puzzles) follow two CBE outlines [28], [29]. Alberta's *Outcomes with Assessment
 Standards* for each course [23]–[25] should be used for a final word-for-word check of the outcome
 wording, which this build could not do because their hosts were unreachable from the build
+environment.
+
+The Grade 12 courses follow the WNCP Grade 12 frameworks in the same way. Mathematics 30-1's strands
+(Relations and Functions; Permutations, Combinations and Binomial Theorem; Trigonometry) are
+confirmed by a Calgary Board of Education outline and by Alberta's assessment standards and
+exemplars for the course [30]. Mathematics 30-2 includes Alberta's own additions to the WNCP
+Foundations framework, rational expressions and equations and the laws of logarithms, alongside
+set theory and conditional statements, counting and probability, polynomial, exponential,
+logarithmic and sinusoidal models, and the research project [11], [31]. Mathematics 30-3 covers the
+limits of measurement, the sine and cosine laws, polygons, transformations, linear relations,
+statistics, probability, buying or leasing a vehicle and small business, as listed in
+Alberta-equivalent college outlines and Alberta's 2014 assessment standards [32], [33]. Mathematics
+31's units (precalculus, limits, derivatives and their applications, integrals and their
+applications) follow Alberta-equivalent college outlines [34]; its outcome codes are EduCore's
+grouping of those units. As with Grade 11, a word-for-word check of the outcome wording against
+Alberta's documents is still needed because their hosts were unreachable from the build
 environment.
 
 Workplace contexts state every rate in the question itself (GST, exchange rates, simplified
@@ -182,3 +202,13 @@ and hover details, and every level is also named in text, so colour is never the
 [28] Nelson Mandela High School (Calgary Board of Education), *Math 20-3 Course Outline*, Fall 2023. [nelsonmandela.cbe.ab.ca](https://nelsonmandela.cbe.ab.ca/documents/e080eab8-c565-5da2-8af9-4adbe3cef298/20-3%20Course%20Outline%20Fall%202023.pdf)
 
 [29] Dr. E. P. Scarlett High School (Calgary Board of Education), *Math 20-3 Course Outline*. [drepscarlett.cbe.ab.ca](https://drepscarlett.cbe.ab.ca/documents/05a24089-0e5a-5e21-834f-890fc4ca2463/Math%2020-3%20Course%20Ouline.pdf)
+
+[30] Alberta Education, *Mathematics 30-1 Assessment Standards and Exemplars*, 2015–2016. [education.alberta.ca](https://education.alberta.ca/media/563816/03-math30-1-standardexemp-2015-16_20150826.pdf)
+
+[31] Calgary Board of Education, *Mathematics 30-2 course planning document*. [eps.cbe.ab.ca](https://eps.cbe.ab.ca/documents/0a46715e-d6b3-57f8-9cfe-ef81d5a95011)
+
+[32] Alberta Education, *Mathematics 30-3 Outcomes with Assessment Standards*, 2014. [education.alberta.ca](https://education.alberta.ca/media/564033/math30_3_assessment_standards.pdf)
+
+[33] Keyano College, *MATH 30-3 Course Outline*, Winter 2018. [keyano.ca](https://www.keyano.ca/en/resourcesGeneral/academics/WIN18_MATH30-3_A.pdf)
+
+[34] Keyano College, *MATH 031 Course Outline*, Spring 2023. [keyano.ca](https://keyano.ca/en/resourcesGeneral/academics/SPR23_MATH031_A.pdf)

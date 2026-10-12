@@ -11,12 +11,14 @@ items ship or decisions change.
   graphs for data questions.
 - Grade 11: Math 20-1, 20-2 and 20-3 (every outcome of each), with list answers for equations
   with several solutions.
+- Grade 12: Math 30-1, 30-2, 30-3 and Math 31, with trigonometric, logarithmic and calculus
+  answers graded by equivalence (derivatives, identities, exact values).
 - Platform administration: admin console, teacher approval, account controls, audit log.
 
 ## Next, in order
 
-1. **Finish Alberta mathematics, every stream.** Math 30-1, 30-2, 30-3 and Math 31, then
-   Grades 5 to 9. No student is left without a course.
+1. **Finish Alberta mathematics: Grades 5 to 9.** Every high school stream is done; the middle
+   years come next. No student is left without a course.
 2. **Whiteboard and a dynamic present mode.**
    - A whiteboard opened from present mode and closed back to the slide; pressure-sensitive pen
      (Apple Pencil, styluses), mouse and touch, with palm rejection; boards can be saved to the

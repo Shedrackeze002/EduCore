@@ -51,6 +51,7 @@ export function QuestionView({ item, responses, onChange, result, locked, showAn
             showAnswer={showAnswers}
             onEnter={onEnter}
             autoFocus={autoFocus && i === 0}
+            functions={FUNCTION_COURSES.test(item.skillId)}
           />
         ))}
       </div>
@@ -74,6 +75,9 @@ function modeFor(spec: AnswerSpec): MathMode {
   }
 }
 
+/** Courses whose answers use sin, cos, tan, ln, log and e: Math 30-1, 30-2 and 31. */
+const FUNCTION_COURSES = /^(m301|m302|m31)-/;
+
 function PartInput({
   part,
   value,
@@ -83,6 +87,7 @@ function PartInput({
   showAnswer,
   onEnter,
   autoFocus,
+  functions,
 }: {
   part: Part;
   value: string;
@@ -92,6 +97,7 @@ function PartInput({
   showAnswer?: boolean;
   onEnter?: () => void;
   autoFocus?: boolean;
+  functions?: boolean;
 }) {
   const spec = part.answer;
   const status = result && !result.invalid ? (result.correct ? 'correct' : 'incorrect') : null;
@@ -166,6 +172,7 @@ function PartInput({
           placeholder={part.placeholder}
           onEnter={onEnter}
           autoFocus={autoFocus}
+          functions={functions}
           label={part.label ? <Markdown md={part.label} inline /> : undefined}
         />
       );

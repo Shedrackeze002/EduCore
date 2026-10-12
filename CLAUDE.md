@@ -16,7 +16,7 @@
 
 ## Curriculum content
 - Courses live in `engine/curriculum/<course>/` (outcomes, units, lessons, generators) and
-  `src/content/<course>/lessons/*.md`; see `docs/ARCHITECTURE.md` ("Adding Grades 5–12").
+  `src/content/<course>/lessons/*.md`; see `docs/ARCHITECTURE.md` ("Adding a course").
 - After adding or renaming a skill, run `npm run catalog` (the app loads skill names from the
   generated catalogue and each course's generators on demand).
 - Money: write `\$` in Markdown, keep money out of `$...$` maths, grade to the cent

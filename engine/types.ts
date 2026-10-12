@@ -26,7 +26,8 @@ export type ExprForm =
   | 'positive-exponents' // simplified, no negative or zero exponents, each base once
   | 'prime-factorization' // product of primes (powers allowed)
   | 'radical-form' // written with a radical sign, no fractional exponents
-  | 'exponent-form'; // written with rational exponents, no radical sign
+  | 'exponent-form' // written with rational exponents, no radical sign
+  | 'single-function'; // simplified trigonometry: at most one function call (2sec^2 x, 1 + cos x) and none in a denominator
 
 export interface Line {
   /** Ax + By + C = 0 */
@@ -53,6 +54,10 @@ export type AnswerSpec =
       unit?: string;
       /** How an exact non-integer answer is shown on review screens. By default metric amounts and percents show as decimals, other values as fractions. */
       display?: 'fraction' | 'decimal';
+      /** The exact answer in the syntax students type, such as '5pi/6' or '(sqrt(6) + sqrt(2))/4', for review screens and "show answers". */
+      exact?: string;
+      /** Accept sin, cos, tan, ln or log in the answer. Off by default: an exact value must be worked out, not typed as sin(5pi/12). */
+      allowFunctions?: boolean;
     }
   | {
       kind: 'numbers';
@@ -61,6 +66,9 @@ export type AnswerSpec =
       /** Rounding and tolerance apply to each value, as for a numeric answer. */
       decimals?: number;
       tolerance?: number;
+      /** Exact forms of the values, in the same order, for review screens (see the numeric answer). */
+      exact?: string[];
+      allowFunctions?: boolean;
     }
   | { kind: 'expression'; expected: string; form?: ExprForm; positiveVars?: boolean; radicalIndex?: number }
   | { kind: 'line'; line: Line; form: LineForm }
@@ -116,6 +124,8 @@ export interface GridSpec {
   /** Scale per grid line on each axis (for context graphs). */
   xStep?: number;
   yStep?: number;
+  /** Label the x-axis in multiples of pi (π/2, π, 3π/2); use an xStep such as Math.PI / 2 or Math.PI / 6. */
+  xPi?: boolean;
 }
 
 // ---------------------------------------------------------------------------

@@ -20,6 +20,58 @@ describe('parser', () => {
     expect(() => parseExpr('2 3')).toThrow();
     expect(() => parseExpr('(x+1')).toThrow();
     expect(() => parseExpr('x+')).toThrow();
+    expect(() => parseExpr('sin')).toThrow();
+    expect(() => parseExpr('ln(2, 3)')).toThrow();
+  });
+  it('reads trigonometric, log and exponential functions and the constant e', () => {
+    const at = (src: string, x: number) => evaluate(parseExpr(src), { x });
+    expect(at('sin^2 x + cos^2 x', 0.7)).toBeCloseTo(1);
+    expect(at('sin 2x', 0.3)).toBeCloseTo(Math.sin(0.6));
+    expect(at('2sinx cosx', 0.3)).toBeCloseTo(Math.sin(0.6));
+    expect(at('sin x^2', 1.2)).toBeCloseTo(Math.sin(1.44));
+    expect(at('2sin 3(x - pi/6) + 1', 1)).toBeCloseTo(2 * Math.sin(3 * (1 - Math.PI / 6)) + 1);
+    expect(at('2sin(x)(x + 1)', 1)).toBeCloseTo(2 * Math.sin(1) * 2);
+    expect(at('tan(x)sec^2(x)', 0.4)).toBeCloseTo(Math.tan(0.4) / Math.cos(0.4) ** 2);
+    expect(at('3e^(2x)', 0.5)).toBeCloseTo(3 * Math.E);
+    expect(at('2e', 0)).toBeCloseTo(2 * Math.E);
+    expect(at('xe^x', 1)).toBeCloseTo(Math.E);
+    expect(at('exp(x)ln x', 2)).toBeCloseTo(Math.exp(2) * Math.log(2));
+    expect(evaluate(parseExpr('log(1000)'))).toBeCloseTo(3);
+    expect(evaluate(parseExpr('ln(e^2)'))).toBeCloseTo(2);
+    expect(Number.isNaN(at('ln x', -1))).toBe(true);
+    expect(toLatex(parseExpr('sin(x)'))).toBe('\\sin\\left(x\\right)');
+    expect(toLatex(parseExpr('e^x'))).toBe('{e}^{x}');
+    expect(at('|x - 3|', 1)).toBe(2);
+    expect(at('2|x||x - 5|', 1)).toBe(8);
+    expect(at('abs(x) + |2x|', -1)).toBe(3);
+    expect(() => parseExpr('|x - 3')).toThrow();
+    expect(() => parseExpr('||')).toThrow();
+  });
+  it('rejects typed function calls where a value must be worked out', () => {
+    expect(gradePart({ kind: 'numeric', value: Math.sin((5 * Math.PI) / 12) }, 'sin(5pi/12)').invalid).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: Math.sin((5 * Math.PI) / 12) }, '(sqrt(6) + sqrt(2))/4').correct).toBe(true);
+    expect(gradePart({ kind: 'numeric', value: Math.log(5) / 2, allowFunctions: true }, 'ln(5)/2').correct).toBe(true);
+    expect(gradePart({ kind: 'numbers', values: [Math.PI / 6, (5 * Math.PI) / 6] }, 'pi/6, 5pi/6').correct).toBe(true);
+    expect(gradePart({ kind: 'numbers', values: [Math.PI / 6] }, 'asin(0.5)').correct).toBe(false);
+  });
+  it('checks that a trigonometric expression is simplified to one function', () => {
+    const one = { kind: 'expression' as const, expected: 'sec(x)', form: 'single-function' as const };
+    expect(gradePart(one, 'sec x').correct).toBe(true);
+    expect(gradePart(one, '1/cos(x)').correct).toBe(false);
+    expect(gradePart({ ...one, expected: '2cos^2(x)' }, '2cos^2 x').correct).toBe(true);
+    expect(gradePart({ ...one, expected: '1' }, 'sin^2 x + cos^2 x').correct).toBe(false);
+  });
+  it('reads a variable typed in the other case as the question variable', () => {
+    expect(gradePart({ kind: 'expression', expected: '1.8C + 32' }, '1.8c + 32').correct).toBe(true);
+    expect(gradePart({ kind: 'expression', expected: 'x + X' }, 'x + x').correct).toBe(false);
+  });
+  it('grades calculus-style answers by equivalence', () => {
+    const d = (expected: string) => ({ kind: 'expression' as const, expected });
+    expect(gradePart(d('2sin(x)cos(x)'), 'sin(2x)').correct).toBe(true);
+    expect(gradePart(d('e^x(x + 1)'), 'xe^x + e^x').correct).toBe(true);
+    expect(gradePart(d('1/x'), 'x^-1').correct).toBe(true);
+    expect(gradePart(d('sec^2(x)'), '1 + tan^2 x').correct).toBe(true);
+    expect(gradePart(d('cos(x)'), 'sin(x)').correct).toBe(false);
   });
 });
 

@@ -220,6 +220,12 @@ export function ArrowDiagram({ fig }: { fig: ArrowDiagramFigure }) {
   );
 }
 
+/** A table cell: plain text, or Markdown when it holds a formula ($\\dfrac{x}{2}$, $x^{2}$); a lone money "$12.50" stays text. */
+function Cell({ text }: { text: string }) {
+  if (/\$[^$]+\$/.test(text) && /\\[a-zA-Z]|\^|_/.test(text)) return <Markdown md={text} inline />;
+  return <>{text.replace(/^-/, '−')}</>;
+}
+
 export function TableFig({ fig }: { fig: TableFigure }) {
   if (fig.horizontal) {
     return (
@@ -233,7 +239,7 @@ export function TableFig({ fig }: { fig: TableFigure }) {
                 </th>
                 {fig.rows.map((row, c) => (
                   <td key={c} className="min-w-[48px] border-b border-l border-line px-3 py-2 font-mono">
-                    {row[r]?.replace('-', '−')}
+                    {row[r] === undefined ? null : <Cell text={row[r].replace('-', '−')} />}
                   </td>
                 ))}
               </tr>
@@ -261,7 +267,7 @@ export function TableFig({ fig }: { fig: TableFigure }) {
               {row.map((cell, c) => (
                 // Words (an item on a receipt, a day on a timecard) read better in the text font.
                 <td key={c} className={cn('border-t border-line px-4 py-1.5', /[A-Za-z]{3,}/.test(cell) ? 'text-left' : 'font-mono tabular-nums')}>
-                  {cell.replace(/^-/, '−')}
+                  <Cell text={cell} />
                 </td>
               ))}
             </tr>

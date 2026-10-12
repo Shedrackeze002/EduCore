@@ -1,8 +1,9 @@
 /** Canonical answers: what a correct response looks like for each answer spec. */
 import type { AnswerSpec, Item } from './types.ts';
-import { fmt, fmtFixed, toFrac, fracText } from './math/numbers.ts';
+import { fmt, fmtFixed, toFrac, fracText, fracLatex } from './math/numbers.ts';
 import { lineText, generalText, lineSlope, lineYIntercept, slopePointText, evalLineY } from './math/linear.ts';
 import { frac } from './math/numbers.ts';
+import { parseExpr, toLatex } from './math/expr.ts';
 
 /** A response string that the grader will accept for the spec (used for tests and "show answer"). Pass the part so a unit after the box is known. */
 export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }): string {
@@ -18,13 +19,14 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
     case 'numeric': {
       if (spec.undefinedValue) return 'undefined';
       if (spec.decimals !== undefined) return fmtFixed(spec.value, spec.decimals);
+      if (spec.exact) return spec.exact;
       const f = toFrac(spec.value, 1000);
       if (f && showDecimal(spec, f.d, unitOf(spec, part))) return fmt(spec.value, 6);
       if (f) return fracText(f);
-      return fmt(spec.value, 10);
+      return exactForm(spec.value) ?? fmt(spec.value, 10);
     }
     case 'numbers':
-      return spec.values.length ? spec.values.map((value) => canonicalResponse({ kind: 'numeric', value, decimals: spec.decimals })).join(', ') : 'none';
+      return spec.values.length ? spec.values.map((value, i) => canonicalResponse({ kind: 'numeric', value, decimals: spec.decimals, exact: spec.exact?.[i] })).join(', ') : 'none';
     case 'expression':
       return spec.expected;
     case 'line': {
@@ -45,7 +47,7 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
     case 'equation-fn':
       return `${spec.fnName}(${spec.variable}) = ${spec.expected}`;
     case 'point':
-      return `(${fmt(spec.x, 6)}, ${fmt(spec.y, 6)})`;
+      return `(${coord(spec.x, fracText, false)}, ${coord(spec.y, fracText, false)})`;
     case 'graph-line': {
       const l = spec.line;
       if (l.B === 0) {
@@ -76,6 +78,54 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
 
 export function canonicalResponses(item: Item): string[] {
   return item.parts.map((p) => canonicalResponse(p.answer, p));
+}
+
+/** A coordinate: a short decimal (2.5, -0.25), an exact fraction (5/11), or an exact radical or multiple of pi (-sqrt(3)/2). */
+function coord(v: number, write: (f: NonNullable<ReturnType<typeof toFrac>>) => string, latex: boolean): string {
+  const f = toFrac(v, 1000);
+  if (f && (f.d === 1 || (terminates(f.d) && Math.abs(v * 100 - Math.round(v * 100)) < 1e-9))) return fmt(v, 6);
+  if (f) return write(f);
+  const exact = exactForm(v);
+  if (exact) return latex ? latexOf(exact) : exact;
+  return fmt(v, 6);
+}
+
+/** LaTeX for an answer written in the syntax students type ('5pi/6', 'sqrt(3)/2'). */
+function latexOf(src: string): string {
+  try {
+    return toLatex(parseExpr(src));
+  } catch {
+    return src;
+  }
+}
+
+/** An exact form for a value that is not a fraction: a multiple of pi (5pi/6) or one radical (sqrt(3)/2, -2sqrt(3)/3). */
+export function exactForm(v: number): string | null {
+  if (!Number.isFinite(v) || v === 0) return null;
+  const sign = v < 0 ? '-' : '';
+  const p = toFrac(Math.abs(v) / Math.PI, 12);
+  if (p) return `${sign}${p.n === 1 ? '' : p.n}pi${p.d === 1 ? '' : `/${p.d}`}`;
+  for (let d = 1; d <= 12; d++) {
+    const w2 = (v * d) ** 2;
+    const m = Math.round(w2);
+    if (m < 2 || m > 10000 || Math.abs(w2 - m) > 1e-7 * m) continue;
+    let a = 1;
+    let b = m;
+    for (let k = Math.floor(Math.sqrt(m)); k >= 2; k--) {
+      if (m % (k * k) === 0) {
+        a = k;
+        b = m / (k * k);
+        break;
+      }
+    }
+    if (b === 1) continue;
+    let g = a;
+    for (let x = d; x; ) [g, x] = [x, g % x];
+    const num = a / g;
+    const den = d / g;
+    return `${sign}${num === 1 ? '' : num}sqrt(${b})${den === 1 ? '' : `/${den}`}`;
+  }
+  return null;
 }
 
 /** True when a fraction with this denominator is a terminating decimal. */
@@ -125,6 +175,7 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
       if (spec.undefinedValue) return 'undefined';
       const unit = spec.unit ? ` ${spec.unit}` : part?.suffix ? ` ${part.suffix}` : '';
       if (spec.decimals !== undefined) return `$${fmtFixed(spec.value, spec.decimals)}$${unit}`;
+      if (spec.exact) return `$${latexOf(spec.exact)}$${unit}`;
       const f = toFrac(spec.value, 1000);
       if (f && f.d !== 1) {
         if (showDecimal(spec, f.d, unitOf(spec, part))) return `$${fmt(spec.value, 6)}$${unit}`;
@@ -134,10 +185,11 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
         return `$${f.n < 0 ? '-' : ''}\\frac{${n}}{${f.d}}$${unit}`;
       }
       if (f) return `$${f.n}$${unit}`;
-      return `$${fmt(spec.value, 6)}$${unit}`;
+      const exact = exactForm(spec.value);
+      return `$${exact ? latexOf(exact) : fmt(spec.value, 6)}$${unit}`;
     }
     case 'numbers':
-      return spec.values.length ? spec.values.map((value) => answerMarkdown({ kind: 'numeric', value, decimals: spec.decimals })).join(' and ') : 'none';
+      return spec.values.length ? spec.values.map((value, i) => answerMarkdown({ kind: 'numeric', value, decimals: spec.decimals, exact: spec.exact?.[i] })).join(' and ') : 'none';
     case 'expression':
       return '`' + spec.expected + '`';
     case 'line':
@@ -145,7 +197,7 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
     case 'equation-fn':
       return '`' + canonicalResponse(spec) + '`';
     case 'point':
-      return `$(${fmt(spec.x, 4)},\\ ${fmt(spec.y, 4)})$`;
+      return `$(${coord(spec.x, fracLatex, true)},\\ ${coord(spec.y, fracLatex, true)})$`;
     case 'graph-line':
       return 'the line through ' + JSON.parse(canonicalResponse(spec)).map((p: number[]) => `$(${fmt(p[0], 3)}, ${fmt(p[1], 3)})$`).join(' and ');
     case 'graph-points':

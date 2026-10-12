@@ -159,7 +159,8 @@ export function roundTo(x: number, decimals: number): number {
 export function fmt(x: number, decimals = 4): string {
   if (!Number.isFinite(x)) return String(x);
   const r = roundTo(x, decimals);
-  const s = r.toFixed(decimals).replace(/\.?0+$/, '');
+  // Trim trailing zeros after the decimal point only: 2.50 -> 2.5, but 90 stays 90.
+  const s = decimals > 0 ? r.toFixed(decimals).replace(/\.?0+$/, '') : r.toFixed(0);
   return s === '-0' ? '0' : s;
 }
 

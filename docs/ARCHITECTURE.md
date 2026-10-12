@@ -30,9 +30,9 @@ work authoritatively. This keeps the server and the student's screen in exact ag
 | Module | Responsibility |
 |---|---|
 | `rng.ts` | Seeded random numbers (mulberry32). An item is fully described by `{skillId, seed, difficulty}`. |
-| `math/` | A forgiving expression parser (implicit multiplication, `sqrt`, roots, unicode), polynomial normalisation, linear-relation helpers. |
+| `math/` | A forgiving expression parser (implicit multiplication, `sqrt`, roots, `\|x\|`, sin/cos/tan/sec/csc/cot in radians, `ln`, `log`, `e`, unicode), polynomial normalisation, linear-relation helpers. |
 | `curriculum/` | Course metadata (units, lessons, outcomes) and one generator per skill. |
-| `grade.ts` | Grades every answer type: numbers, lists of numbers (roots and solutions in any order), expressions in a required form (expanded, factored, simplified radical, exponent form…), lines in a required form, points, graphs, choices, ordering. Gives specific messages such as "Factor completely". |
+| `grade.ts` | Grades every answer type: numbers (an exact value must be worked out, not typed as sin(5pi/12)), lists of numbers (roots and solutions in any order), expressions by equivalence, including derivatives and identities, in a required form (expanded, factored, simplified radical, exponent form, one trigonometric function…), lines in a required form, points, graphs, choices, ordering. Gives specific messages such as "Factor completely". |
 | `mastery.ts` | Bayesian Knowledge Tracing and mastery levels. |
 | `assemble.ts` | Builds an attempt from an assignment, regenerates items from references, grades a submission. |
 | `submit.ts` | `validateRefs` and `processSubmission`: the single code path used by the demo and the server. |
@@ -118,11 +118,11 @@ implementations exist:
 5. Teachers approve actions; `draftFromAction` turns them into practice, review, challenge or
    reteach assignments. Autopilot does this automatically for one practice set at a time.
 
-## Adding Grades 5–12
+## Adding a course
 
-The platform is course-agnostic: the Grade 10 courses (Math 10C, 10-3, 10-4) and the Grade 11
-courses (Math 20-1, 20-2, 20-3, 20-4) already run side by side. To add a course, for example
-Math 30-1:
+The platform is course-agnostic: every high school course (Math 10C, 10-3, 10-4; 20-1, 20-2,
+20-3, 20-4; 30-1, 30-2, 30-3 and 31) already runs side by side. To add a course, for example
+Math 30-1 (the steps it followed):
 
 1. Create `engine/curriculum/math30-1/course.ts` with outcomes, units and lessons (ids such as
    `m301-1-1`), following `math20-1/course.ts` or `math20-3/course.ts`.

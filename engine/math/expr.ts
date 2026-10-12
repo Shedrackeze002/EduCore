@@ -2,8 +2,9 @@
  * A small, forgiving math-expression parser built for student input.
  *
  * Supports: + - * / ^, parentheses (also [] and {}), implicit multiplication (2x, 3(x+1),
- * (x+1)(x-2), xy), sqrt / cbrt / root(n, x) / abs, pi, unicode symbols (√ ∛ π × ÷ − ² ³),
- * and equations (one "=").
+ * (x+1)(x-2), xy), sqrt / cbrt / root(n, x) / abs, the trigonometric functions (radians;
+ * sin^2(x) means (sin x)^2), ln / log (base 10) / exp, the constants pi and e, unicode symbols
+ * (√ ∛ π × ÷ − ² ³), and equations (one "=").
  */
 
 export type Node =
@@ -19,7 +20,10 @@ export type Node =
   | { t: 'fn'; name: FnName; args: Node[] }
   | { t: 'paren'; a: Node };
 
-export type FnName = 'sqrt' | 'cbrt' | 'root' | 'abs';
+export type FnName = 'sqrt' | 'cbrt' | 'root' | 'abs' | TrigName | 'ln' | 'log' | 'exp';
+export type TrigName = 'sin' | 'cos' | 'tan' | 'sec' | 'csc' | 'cot';
+const TRIG: readonly string[] = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot'];
+const RADICALS: readonly string[] = ['sqrt', 'cbrt', 'root', 'abs'];
 
 export class ParseError extends Error {
   constructor(
@@ -38,12 +42,23 @@ type Tok =
   | { k: 'op'; v: string; pos: number }
   | { k: 'end'; pos: number };
 
-const KNOWN: Array<[string, 'fn' | 'pi']> = [
+/** Names read as a unit before single letters; e on its own is Euler's number. */
+const KNOWN: Array<[string, 'fn' | 'pi' | 'e']> = [
   ['sqrt', 'fn'],
   ['cbrt', 'fn'],
   ['root', 'fn'],
   ['abs', 'fn'],
+  ['sin', 'fn'],
+  ['cos', 'fn'],
+  ['tan', 'fn'],
+  ['sec', 'fn'],
+  ['csc', 'fn'],
+  ['cot', 'fn'],
+  ['ln', 'fn'],
+  ['log', 'fn'],
+  ['exp', 'fn'],
   ['pi', 'pi'],
+  ['e', 'e'],
 ];
 
 export function normalizeInput(src: string): string {
@@ -94,7 +109,7 @@ function tokenize(input: string): Tok[] {
       const known = KNOWN.find(([name]) => lower.startsWith(name));
       if (known) {
         const [name, kind] = known;
-        out.push(kind === 'fn' ? { k: 'fn', v: name as FnName, pos: i } : { k: 'pi', pos: i });
+        out.push(kind === 'fn' ? { k: 'fn', v: name as FnName, pos: i } : kind === 'pi' ? { k: 'pi', pos: i } : { k: 'num', v: Math.E, raw: 'e', pos: i });
         i += name.length;
         continue;
       }
@@ -102,7 +117,7 @@ function tokenize(input: string): Tok[] {
       i++;
       continue;
     }
-    if ('+-*/^(),='.includes(c)) {
+    if ('+-*/^(),=|'.includes(c)) {
       out.push({ k: 'op', v: c, pos: i });
       i++;
       continue;
@@ -115,6 +130,8 @@ function tokenize(input: string): Tok[] {
 
 class Parser {
   private i = 0;
+  /** How many |…| bars are open: inside one, a bar closes it rather than starting a new one. */
+  private absDepth = 0;
   constructor(private toks: Tok[]) {}
 
   private peek(): Tok {
@@ -166,7 +183,7 @@ class Parser {
         continue;
       }
       const t = this.peek();
-      if (t.k === 'id' || t.k === 'fn' || t.k === 'pi' || (t.k === 'op' && t.v === '(')) {
+      if (t.k === 'id' || t.k === 'fn' || t.k === 'pi' || (t.k === 'num' && t.raw === 'e') || (t.k === 'op' && (t.v === '(' || (t.v === '|' && this.absDepth === 0)))) {
         const right = this.power();
         left = { t: 'mul', a: left, b: right, implicit: true };
         continue;
@@ -211,6 +228,13 @@ class Parser {
       case 'pi':
         return { t: 'pi' };
       case 'fn': {
+        // sin^2(x) and sin^2 x mean (sin x)^2.
+        if (TRIG.includes(t.v) && this.isOp('^')) {
+          this.next();
+          const exp = this.primary();
+          const arg = this.fnArgs(t);
+          return { t: 'pow', a: arg, b: exp };
+        }
         if (this.isOp('(')) {
           this.next();
           const args: Node[] = [this.sum()];
@@ -229,7 +253,8 @@ class Parser {
           return { t: 'fn', name: t.v, args };
         }
         if (t.v === 'root') throw new ParseError('Write root(index, number), e.g. root(4, 81).', t.pos);
-        // Prefix form without brackets: √12, sqrtx, √(x+1) handled above.
+        if (!RADICALS.includes(t.v)) return this.fnArgs(t);
+        // Prefix form without brackets: √12, sqrtx; √(x+1) is handled above.
         const nt = this.peek();
         if (nt.k === 'num' || nt.k === 'id' || nt.k === 'pi') {
           return { t: 'fn', name: t.v, args: [this.primary()] };
@@ -243,11 +268,42 @@ class Parser {
           this.expectOp(')');
           return { t: 'paren', a: inner };
         }
+        if (t.v === '|') {
+          if (this.isOp('|')) throw new ParseError('Empty absolute value bars.', t.pos);
+          this.absDepth++;
+          const inner = this.sum();
+          this.absDepth--;
+          if (!this.isOp('|')) throw new ParseError('An absolute value bar "|" is missing.', t.pos);
+          this.next();
+          return { t: 'fn', name: 'abs', args: [inner] };
+        }
         if (t.v === ')') throw new ParseError('There is an extra ")".', t.pos);
         throw new ParseError(`"${t.v}" is missing a number or variable.`, t.pos);
       case 'end':
         throw new ParseError('The expression ends too early.', t.pos);
     }
+  }
+
+  /**
+   * A trigonometric, log or exponential function applied to its argument: sin(2x), or without
+   * brackets the whole term that follows, as textbooks write it (sin 2x, sin 3(x - pi/6), ln x^2,
+   * sin x cos x).
+   */
+  private fnArgs(t: Extract<Tok, { k: 'fn' }>): Node {
+    if (this.isOp('(')) {
+      this.next();
+      const arg = this.sum();
+      this.expectOp(')');
+      return { t: 'fn', name: t.v, args: [arg] };
+    }
+    const nt = this.peek();
+    if (nt.k !== 'num' && nt.k !== 'id' && nt.k !== 'pi') throw new ParseError(`${t.v} needs something to act on.`, t.pos);
+    let arg = this.power();
+    // The term continues through letters and brackets: sin 3(x - pi/6) is sin(3(x - pi/6)).
+    for (let k = this.peek(); k.k === 'id' || k.k === 'pi' || (k.k === 'num' && k.raw === 'e') || (k.k === 'op' && k.v === '('); k = this.peek()) {
+      arg = { t: 'mul', a: arg, b: this.power(), implicit: true };
+    }
+    return { t: 'fn', name: t.v, args: [arg] };
   }
 }
 
@@ -354,6 +410,24 @@ export function evaluate(n: Node, env: Env = {}): number {
           if (!Number.isInteger(k) || k < 2) return NaN;
           return realPow(x, 1 / k);
         }
+        case 'sin':
+          return Math.sin(x);
+        case 'cos':
+          return Math.cos(x);
+        case 'tan':
+          return Math.abs(Math.cos(x)) < 1e-12 ? NaN : Math.tan(x);
+        case 'sec':
+          return Math.abs(Math.cos(x)) < 1e-12 ? NaN : 1 / Math.cos(x);
+        case 'csc':
+          return Math.abs(Math.sin(x)) < 1e-12 ? NaN : 1 / Math.sin(x);
+        case 'cot':
+          return Math.abs(Math.sin(x)) < 1e-12 ? NaN : Math.cos(x) / Math.sin(x);
+        case 'ln':
+          return x <= 0 ? NaN : Math.log(x);
+        case 'log':
+          return x <= 0 ? NaN : Math.log10(x);
+        case 'exp':
+          return Math.exp(x);
       }
     }
   }
@@ -449,8 +523,12 @@ export function toLatex(n: Node): string {
       const needsDot = !n.implicit || startsWithDigit(n.b) || n.b.t === 'neg';
       return needsDot ? `${l} \\cdot ${r}` : `${l}${r}`;
     }
-    case 'div':
-      return `\\frac{${toLatex(unparen(n.a))}}{${toLatex(unparen(n.b))}}`;
+    case 'div': {
+      const top = unparen(n.a);
+      // -3/4 and -sqrt(3)/2 read best with the minus sign in front of the fraction.
+      if (top.t === 'neg') return `-\\frac{${toLatex(unparen(top.a))}}{${toLatex(unparen(n.b))}}`;
+      return `\\frac{${toLatex(top)}}{${toLatex(unparen(n.b))}}`;
+    }
     case 'pow': {
       const base = prec(n.a) < 5 || n.a.t === 'fn' ? `\\left(${toLatex(n.a)}\\right)` : toLatex(n.a);
       return `{${base}}^{${toLatex(unparen(n.b))}}`;
@@ -466,6 +544,10 @@ export function toLatex(n: Node): string {
           return `\\sqrt[${toLatex(unparen(n.args[0]))}]{${arg}}`;
         case 'abs':
           return `\\left|${arg}\\right|`;
+        case 'exp':
+          return `e^{${arg}}`;
+        default:
+          return `\\${n.name}\\left(${arg}\\right)`;
       }
     }
   }
