@@ -2019,7 +2019,7 @@ function llExpand(rng: Rng): GenOutput {
   const c = rng.pick([B(2), B(3), B(5), B(10), B(7)]);
   const L = logb(c);
   const n = rng.pick([2, 3, 3]);
-  const vars = rng.pick([['x', 'y', 'z'], ['a', 'b', 'c'], ['m', 'n', 'p']]).slice(0, n);
+  const vars = rng.pick([['x', 'y', 'z'], ['u', 'v', 'w'], ['m', 'n', 'p']]).slice(0, n);
   const root = rng.pick([1, 1, 1, 2, 3]);
   const facs: Fac[] = vars.map((v, i) => ({ v, e: rng.pick([1, 2, 3, 4, 5]), num: n === 2 ? i === 0 : i < 2 }));
   if (root === 1 && rng.chance(0.4)) facs[1].e = 1 / 2;
@@ -2050,7 +2050,7 @@ function llExpand(rng: Rng): GenOutput {
 function llCondense(rng: Rng): GenOutput {
   const c = rng.pick([B(2), B(3), B(5), B(10), B(6)]);
   const L = logb(c);
-  const vars = rng.pick([['x', 'y', 'z'], ['a', 'b', 'c'], ['m', 'n', 'p']]);
+  const vars = rng.pick([['x', 'y', 'z'], ['u', 'v', 'w'], ['m', 'n', 'p']]);
   const n = rng.pick([2, 3]);
   const facs: Fac[] = vars.slice(0, n).map((v, i) => ({ v, e: rng.pick([1, 2, 3, 4]), num: i < n - 1 }));
   if (rng.chance(0.35)) facs[0].e = 1 / 2;
