@@ -40,14 +40,6 @@ function inchTex(x: number): string {
   const n = f.n - w * f.d;
   return w ? `${w}\\tfrac{${n}}{${f.d}}` : `\\tfrac{${n}}{${f.d}}`;
 }
-/** An inch value as students type it: 92 5/8. */
-function inchText(x: number): string {
-  const f = toFrac(x, 64);
-  if (!f || f.d === 1) return fmt(x);
-  const w = Math.floor(x + 1e-9);
-  const n = f.n - w * f.d;
-  return w ? `${w} ${n}/${f.d}` : `${n}/${f.d}`;
-}
 /** Inline maths for inches. */
 const IN = (x: number) => `$${inchTex(x)}\\ \\text{in}$`;
 /** A number in the unit's style: mixed numbers for inches. */

@@ -136,7 +136,7 @@ const yEq = (m: number, b: number) => `y = ${linTex(m, b)}`;
 function pointSlope(m: number, a: number, fa: number): string {
   if (m === 0) return `y = ${tn(fa)}`;
   const yPart = fa === 0 ? 'y' : `y ${fa < 0 ? '+' : '-'} ${tn(Math.abs(fa))}`;
-  const xs = a === 0 ? 'x' : `(${xm(a)})`;
+  const xs = a === 0 ? 'x' : m === 1 ? xm(a) : `(${xm(a)})`;
   const mPart = m === 1 ? '' : m === -1 ? '-' : tn(m);
   return `${yPart} = ${mPart}${xs}`;
 }
@@ -170,7 +170,9 @@ const cubicFn = (c: Cubic) => (x: number) => c.A * x ** 3 + c.B * x ** 2 + c.C *
 const cubicDFn = (c: Cubic) => (x: number) => 3 * c.A * x * x + 2 * c.B * x + c.C;
 const cubicTexOf = (c: Cubic, v = 'x') => cubicTex(c.A, c.B, c.C, c.D, v);
 const cubicDTex = (c: Cubic, v = 'x') => quadTex(3 * c.A, 2 * c.B, c.C, v);
-const cubicDFactored = (c: Cubic, v = 'x') => `${cf(3 * c.A)}${fac(c.p, v)}${fac(c.q, v)}`;
+/** k(x - p)(x - q) in LaTeX, with a bare x factor first: 6x(x - 4). */
+const factored2 = (k: number, p: number, q: number, v = 'x') => (q === 0 ? `${cf(k)}${fac(q, v)}${fac(p, v)}` : `${cf(k)}${fac(p, v)}${fac(q, v)}`);
+const cubicDFactored = (c: Cubic, v = 'x') => factored2(3 * c.A, c.p, c.q, v);
 const cubicSub = (c: Cubic, a: number) => subst([[c.A, 3], [c.B, 2], [c.C, 1], [c.D, 0]], a);
 
 /** Test points between and beyond sorted critical numbers (integers where possible). */
@@ -718,7 +720,7 @@ const tangentLine = skill({
       const b = c.fa - c.m * c.a;
       return {
         prompt: `Find the linearization $L(x)$ of $f(x) = ${c.fTex}$ at $x = ${tn(c.a)}$ (enter it as $y = \\dots$), then use it to estimate $${c.target}$ to the nearest thousandth.`,
-        parts: [linePart(c.m, b, '$L$:'), numPart(L, { decimals: 3, tolerance: 0.0006, label: 'Estimate $\\approx$' })],
+        parts: [linePart(c.m, b, 'Linearization'), numPart(L, { decimals: 3, tolerance: 0.0006, label: 'Estimate $\\approx$' })],
         hints: ['The linearization is the tangent line: $L(x) = f(a) + f\'(a)(x - a)$.', `Choose $x$ so that $f(x) = ${c.target}$, then evaluate $L(x)$.`],
         solution: [...approxSteps(c).slice(0, 2), `Simplified: $L(x) = ${linTex(c.m, b)}$`, approxSteps(c)[2], `$L(x) = ${linTex(c.m, b)}$ and $${c.target} \\approx ${fmtFixed(L, 3)}$`],
         answerDisplay: `$y = ${linTex(c.m, b)}$; $${fmtFixed(L, 3)}$`,
@@ -857,7 +859,7 @@ const extrema = skill({
         prompt: `Find the critical number of $f(x) = ${quadTex(a, b, c0)}$.`,
         parts: [part({ kind: 'numbers', values: [x0] }, { label: '$x =$' })],
         hints: critHints,
-        solution: [`$f'(x) = ${linTex(2 * a, b)}$`, `$${linTex(2 * a, b)} = 0 \\Rightarrow x = \\dfrac{${-b}}{${2 * a}} = ${tn(x0)}$`, `The critical number is $${tn(x0)}$.`],
+        solution: [`$f'(x) = ${linTex(2 * a, b)}$, which exists for every $x$.`, `$${linTex(2 * a, b)} = 0 \\Rightarrow ${tn(2 * a)}x = ${-b} \\Rightarrow x = ${tn(x0)}$`, `The critical number is $${tn(x0)}$.`],
       };
     }
 
@@ -874,7 +876,7 @@ const extrema = skill({
       const correct = askInc ? incSet : decSet;
       const wrong = askInc ? decSet : incSet;
       const flipped = k > 0 === askInc ? cup(iv(null, -q), iv(-p, null)) : iv(-q, -p);
-      const fp = `${cf(k)}${fac(p)}${fac(q)}`;
+      const fp = factored2(k, p, q);
       const ans = mc(rng, `$${correct}$`, [`$${wrong}$`, `$${flipped}$`, `$${iv(p, null)}$`, `$${iv(null, q)}$`]);
       const gd = (x: number) => k * (x - p) * (x - q);
       const { steps } = signSteps(gd, [p, q], "f'", 'increasing', 'decreasing');
@@ -1017,7 +1019,8 @@ const extrema = skill({
         hints: ['Closed interval method: evaluate $f$ at the critical numbers inside the interval and at both endpoints.', 'The largest of these values is the absolute maximum and the smallest is the absolute minimum.'],
         solution: [
           `$f'(x) = ${cubicDTex(c)} = ${cubicDFactored(c)}$, so the critical numbers are $${c.p}$ and $${c.q}$.`,
-          outside.length ? `Only ${inside.map((x) => `$${x}$`).join(' and ')} ${inside.length === 1 ? 'is' : 'are'} inside $(${lo}, ${hi})$; $${outside.join('$ and $')}$ ${outside.length === 1 ? 'is' : 'are'} not, so ${outside.length === 1 ? 'it is' : 'they are'} ignored.` : `Both critical numbers are inside $(${lo}, ${hi})$.`,
+          ...outside.map((x) => (x === lo || x === hi ? `$x = ${x}$ is an endpoint, so it is already on the list.` : `$x = ${x}$ is outside $[${lo}, ${hi}]$, so it is ignored.`)),
+          `Candidates: the endpoints $${lo}$ and $${hi}$ and the critical number${inside.length === 1 ? '' : 's'} ${inside.map((x) => `$${x}$`).join(' and ')}.`,
           `Values: ${cands.map((x) => `$f(${x}) = ${f(x)}$`).join(', ')}.`,
           `The absolute maximum value is $${mx}$ and the absolute minimum value is $${mn}$.`,
         ],
@@ -1711,7 +1714,7 @@ const motion = skill({
         prompt: `${mover} $s(t) = ${sTex(m)}$, for $t \\ge 0$. At what times is the object at rest? Separate your answers with commas.`,
         parts: [part({ kind: 'numbers', values: [m.p, m.q] }, { label: '$t =$', suffix: 's' })],
         hints: ['An object is at rest when its velocity is $0$.', 'Set $v(t) = s\'(t) = 0$ and factor.'],
-        solution: [`$v(t) = ${vTex(m)} = ${cf(3 * m.A)}${fac(m.p, 't')}${fac(m.q, 't')}$`, `$v(t) = 0$ when $t = ${m.p}$ or $t = ${m.q}$.`, `The object is at rest at $t = ${m.p}$ s and $t = ${m.q}$ s.`],
+        solution: [`$v(t) = ${vTex(m)} = ${factored2(3 * m.A, m.p, m.q, 't')}$`, `$v(t) = 0$ when $t = ${m.p}$ or $t = ${m.q}$.`, `The object is at rest at $t = ${m.p}$ s and $t = ${m.q}$ s.`],
       };
     }
 
@@ -1725,7 +1728,7 @@ const motion = skill({
         prompt: `${mover} $s(t) = ${sTex(m)}$, for $t \\ge 0$. During which time interval(s) is the object moving in the positive direction?`,
         parts: [part(ans)],
         hints: ['The object moves in the positive direction when $v(t) > 0$.', 'Find when $v(t) = 0$, then test the sign of $v$ on each interval (remember $t \\ge 0$).'],
-        solution: [`$v(t) = ${vTex(m)} = ${cf(3 * m.A)}${fac(m.p, 't')}${fac(m.q, 't')}$, which is $0$ at $t = ${m.p}$ and $t = ${m.q}$.`, ...steps.map((s) => s.replace(/\$f\$ is /, 'the object is ').replace(/\(-\\infty, /, '[0, ')), `The object moves in the positive direction on $${correct}$.`],
+        solution: [`$v(t) = ${vTex(m)} = ${factored2(3 * m.A, m.p, m.q, 't')}$, which is $0$ at $t = ${m.p}$ and $t = ${m.q}$.`, ...steps.map((s) => s.replace(/\$f\$ is /, 'the object is ').replace(/\(-\\infty, /, '[0, ')), `The object moves in the positive direction on $${correct}$.`],
       };
     }
 
@@ -1784,7 +1787,7 @@ const motion = skill({
         parts: [numPart(disp, { label: 'Displacement', suffix: 'm' }), numPart(total, { label: 'Total distance', suffix: 'm' })],
         hints: ['Displacement is $s(\\text{end}) - s(\\text{start})$. Total distance adds the length of every leg, so you need the times where the object turns around ($v = 0$).', 'Find where $v(t) = 0$ inside the interval, then add $|s(t_{k+1}) - s(t_k)|$ for each leg.'],
         solution: [
-          `$v(t) = ${vTex(m)} = ${cf(3 * m.A)}${fac(m.p, 't')}${fac(m.q, 't')}$, so the object turns around at $t = ${turns.join('$ and $t = ')}$ (where $v$ changes sign).`,
+          `$v(t) = ${vTex(m)} = ${factored2(3 * m.A, m.p, m.q, 't')}$, so the object turns around at $t = ${turns.join('$ and $t = ')}$ (where $v$ changes sign).`,
           `Positions: ${marks.map((t) => `$s(${t}) = ${s(t)}$`).join(', ')}.`,
           `Displacement $= s(${T}) - s(0) = ${s(T)} - ${par(s(0))} = ${disp}$ m`,
           `Total distance $= ${marks.slice(1).map((t, i) => `|${s(t)} - ${par(s(marks[i]))}|`).join(' + ')} = ${legs.join(' + ')} = ${total}$ m`,
@@ -1806,7 +1809,7 @@ const motion = skill({
         parts: [part(ans)],
         hints: ['An object speeds up when $v(t)$ and $a(t)$ have the same sign, and slows down when they have opposite signs.', 'Make one sign chart for $v$ and one for $a$ on $t \\ge 0$, then compare them interval by interval.'],
         solution: [
-          `$v(t) = ${cf(3 * m.A)}${fac(m.p, 't')}${fac(m.q, 't')}$: $v > 0$ on $${cup(iv(0, m.p, true), iv(m.q, null))}$ and $v < 0$ on $${iv(m.p, m.q)}$.`,
+          `$v(t) = ${factored2(3 * m.A, m.p, m.q, 't')}$: $v > 0$ on $${cup(iv(0, m.p, true), iv(m.q, null))}$ and $v < 0$ on $${iv(m.p, m.q)}$.`,
           `$a(t) = ${aTex(m)} = ${cf(6 * m.A)}${fac(h, 't')}$: $a < 0$ on $${iv(0, h, true)}$ and $a > 0$ on $${iv(h, null)}$.`,
           `Same signs (speeding up): $${upSet}$. Opposite signs (slowing down): $${downSet}$.`,
           `The object is ${askUp ? 'speeding up' : 'slowing down'} on $${correct}$.`,
