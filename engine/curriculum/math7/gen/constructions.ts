@@ -253,6 +253,12 @@ export class Sketch {
     return this;
   }
 
+  /** Text centred exactly at c. */
+  textAt(c: P, text: string) {
+    this.pending.push({ text, cands: () => [c], fixed: true });
+    return this;
+  }
+
   private place(bounds: Box, ppu: number, fixedBoxes: Box[]): PlanePoint[] {
     const placed: Box[] = [...fixedBoxes];
     const anchors: PlanePoint[] = [];

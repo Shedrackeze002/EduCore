@@ -3,10 +3,9 @@
  * Also exports the drawing kit and grid transformations used by Unit 8 (the Cartesian plane) and
  * Unit 9 (area).
  */
-import { fixedChoice, mcFigures, numPart, skill, type GenOutput } from '../../helpers.ts';
-import { fmt } from '../../../math/numbers.ts';
+import { fixedChoice, mcFigures, numPart, skill } from '../../helpers.ts';
 import type { Rng } from '../../../rng.ts';
-import type { AnswerSpec, Choice, Difficulty, Figure, GridSpec, PlaneFigure, PlanePoint, PlaneSegment, SkillDef } from '../../../types.ts';
+import type { AnswerSpec, Choice, Figure, GridSpec, PlaneFigure, PlanePoint, PlaneSegment, SkillDef } from '../../../types.ts';
 
 export const NAMES = [
   'Amara', 'Jordan', 'Priya', 'Mateo', 'Aiyana', 'Kwame', 'Mei', 'Hamid', 'Sofia', 'Liam', 'Fatima', 'Raj',
@@ -618,7 +617,7 @@ function turnSteps(t: Tile, img: Tile, c: P, turn: Turn, what = 'shape'): string
   const how =
     turn === 'half'
       ? 'It now points the opposite way. That is a half turn.'
-      : `It turned the way a clock's hands move${turn === 'cw' ? '' : ' backwards'}, by a quarter of a full turn.`;
+      : `It turned a quarter of a full turn, ${turn === 'cw' ? "the same way as a clock's hands (clockwise)" : "the opposite way to a clock's hands (counter-clockwise)"}.`;
   return [
     `Follow one corner. The line from $P$ to a corner of ${what} 1 points ${before}.`,
     `The line from $P$ to the matching corner of ${what} 2 points ${after}. ${how}`,
@@ -893,7 +892,7 @@ const symmetricShapes = skill({
       const bad = rng.sample(['circles', 'pentagons', 'octagons', 'overlap'], 3);
       const opts = [good, ...bad];
       const figs = opts.map((k) => tilingPicture(k, rng));
-      const answer = mcFigures(rng, opts.map((k, i) => ({ md: '', figure: figs[i] as Figure, correct: i === 0 })));
+      const answer = mcFigures(rng, opts.map((_, i) => ({ md: '', figure: figs[i] as Figure, correct: i === 0 })));
       const L = (k: string) => String.fromCharCode(65 + (answer.kind === 'mc' ? answer.choices.findIndex((c) => c.figure === figs[opts.indexOf(k)]) : 0));
       const why: Record<string, string> = {
         circles: 'leaves gaps between the circles',
@@ -1063,7 +1062,7 @@ const symmetricShapes = skill({
         const grid = commonPaper(sets);
         if (grid.xMax - grid.xMin > 18 || grid.yMax - grid.yMin > 18) continue;
         const figs = sets.map((st) => paperFigure(st.items, st.marks, grid));
-        const answer = mcFigures(rng, opts.map((o, i) => ({ md: '', figure: figs[i] as Figure, correct: i === 0 })));
+        const answer = mcFigures(rng, opts.map((_, i) => ({ md: '', figure: figs[i] as Figure, correct: i === 0 })));
         const L = (kind: string) => String.fromCharCode(65 + (answer.kind === 'mc' ? answer.choices.findIndex((ch) => ch.figure === figs[opts.findIndex((o) => o.kind === kind)]) : 0));
         return {
           prompt: `${who} reflects shape 1 in line $m$. Then ${who} rotates the mirror image ${TURN_TEXT[turn]} about point $P$. Which picture shows shape 2, where the shape ends up?`,

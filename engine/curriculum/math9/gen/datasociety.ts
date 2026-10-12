@@ -24,6 +24,11 @@ function frLow(n: number, d: number): string {
   const g = gcd(n, d) || 1;
   return d / g === 1 ? `${n / g}` : fr(n / g, d / g);
 }
+/** True when a value sits near a rounding boundary at one decimal place (x.x5). */
+function onEdge(v: number): boolean {
+  const t = Math.abs(v) * 10;
+  return Math.abs(t - Math.floor(t) - 0.5) < 0.06;
+}
 const lc = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 /** Money in prose: \$36.00. Never inside $...$. */
 const money = (x: number) => `\\$${fmtFixed(x, 2)}`;
@@ -543,7 +548,7 @@ const STATEMENTS: Array<{ k: Kind; text: string }> = [
   { k: 'subjective', text: 'Kai feels there is a $90\\%$ chance he will ace tomorrow’s test because he studied hard.' },
   { k: 'subjective', text: 'A coach thinks her team has about a $70\\%$ chance of winning the final.' },
   { k: 'subjective', text: 'Priya is almost certain she will be chosen for the school play.' },
-  { k: 'subjective', text: '“I would say there is a $50\\%$ chance my parents let me go to the concert,” says Owen.' },
+  { k: 'subjective', text: 'Owen guesses there is about a $50\\%$ chance his parents will let him go to the concert.' },
 ];
 const KINDS: Kind[] = ['theoretical', 'experimental', 'subjective'];
 
@@ -618,7 +623,7 @@ function statement(rng: Rng): Out {
 interface ExpCtx { text: (p: string, n: number) => string; ask: string; unit: string }
 const EXP_CTX: ExpCtx[] = [
   { text: (p, n) => `The probability that a seed from a packet of carrot seeds sprouts is ${p}. Leah plants $${n}$ seeds.`, ask: 'About how many seeds should she expect to sprout?', unit: 'seeds' },
-  { text: (p, n) => `A goalie stops ${p} of the shots she faces. In the next few games she will face $${n}$ shots.`, ask: 'About how many shots should she expect to stop?', unit: 'shots' },
+  { text: (p, n) => `The probability that a goalie stops a shot is ${p}. In the next few games she will face $${n}$ shots.`, ask: 'About how many shots should she expect to stop?', unit: 'shots' },
   { text: (p, n) => `The probability that a phone case from a factory has a defect is ${p}. A store orders $${n}$ cases.`, ask: 'About how many cases should the store expect to have a defect?', unit: 'cases' },
   { text: (p, n) => `The probability of winning a small prize at the ring-toss game is ${p}. On fair day, $${n}$ people play.`, ask: 'About how many small prizes should the fair expect to give out?', unit: 'prizes' },
   { text: (p, n) => `The probability that a flight from Calgary to Vancouver arrives on time is ${p}. An airline flies the route $${n}$ times this month.`, ask: 'About how many on-time arrivals should it expect?', unit: 'flights' },
@@ -654,31 +659,38 @@ const RATE_CTX = [
 
 function decideRates(rng: Rng): Out {
   const c = rng.pick(RATE_CTX);
-  const [ta, tb] = rng.sample(c.tot, 2);
-  const { fa, fb } = retry(() => ({ fa: rng.int(Math.ceil(ta * 0.6), Math.floor(ta * 0.95)), fb: rng.int(Math.ceil(tb * 0.6), Math.floor(tb * 0.95)) }), (o) => {
-    const pa = o.fa / ta;
-    const pb = o.fb / tb;
-    // The better rate has fewer successes, so counting alone gives the wrong answer; rates at least 3 points apart.
-    return Math.abs(pa - pb) >= 0.03 && (pa > pb ? o.fa < o.fb : o.fb < o.fa) && Number.isInteger((1000 * o.fa) / ta) && Number.isInteger((1000 * o.fb) / tb);
-  }, 2000);
+  // The option tried more often has more successes but a LOWER rate, so counting alone gives the wrong answer.
+  const pick = retry(
+    () => {
+      const [big, small] = rng.sample(c.tot, 2).sort((x, y) => y - x);
+      const fWorse = rng.int(Math.ceil(big * 0.6), Math.floor(big * 0.9));
+      const fBetter = rng.int(Math.ceil(small * 0.6), small - 1);
+      return { big, small, fWorse, fBetter };
+    },
+    (o) => o.big >= 1.2 * o.small && o.fBetter < o.fWorse && o.fBetter / o.small - o.fWorse / o.big >= 0.03 && !onEdge((100 * o.fBetter) / o.small) && !onEdge((100 * o.fWorse) / o.big),
+    3000,
+  );
+  const ok = pick.big >= 1.2 * pick.small && pick.fBetter < pick.fWorse && pick.fBetter / pick.small - pick.fWorse / pick.big >= 0.03;
+  const { big, small, fWorse, fBetter } = ok ? pick : { big: c.tot[c.tot.length - 1], small: c.tot[0], fWorse: Math.round(c.tot[c.tot.length - 1] * 0.7), fBetter: Math.round(c.tot[0] * 0.85) };
+  const betterIsA = rng.chance(0.5);
+  const [ta, fa, tb, fb] = betterIsA ? [small, fBetter, big, fWorse] : [big, fWorse, small, fBetter];
   const pa = (100 * fa) / ta;
   const pb = (100 * fb) / tb;
-  const best = pa > pb ? c.a : c.b;
-  const worst = pa > pb ? c.b : c.a;
-  const hiP = Math.max(pa, pb);
-  const loP = Math.min(pa, pb);
-  const correct = `${best}, because its experimental probability of success is higher (${fmt(hiP, 1)}% compared with ${fmt(loP, 1)}%).`;
+  const best = betterIsA ? c.a : c.b;
+  const worst = betterIsA ? c.b : c.a;
+  const show = (v: number) => `${Number.isInteger(v * 10) ? '=' : '\\approx'} ${fmt(v, 1)}`;
+  const correct = `${best}, because the experimental probability of success is higher (${fmt(Math.max(pa, pb), 1)}% compared with ${fmt(Math.min(pa, pb), 1)}%).`;
   return {
     prompt: `${c.intro}, ${c.a}: $${fa}$ ${c.verb} out of $${ta}$ ${c.of}. ${c.b}: $${fb}$ ${c.verb} out of $${tb}$ ${c.of}. Find each experimental probability of success as a percent, to the nearest tenth of a percent. Then decide ${c.goal}.`,
     parts: [numPart(pa, { label: c.a, suffix: '%', decimals: 1 }), numPart(pb, { label: c.b, suffix: '%', decimals: 1 }), { label: 'Decision', answer: mc(rng, correct, [
-      `${worst}, because it has more successes in total.`,
-      `${worst}, because it was tried more times.`,
+      `${worst}, because there were more successes in total.`,
+      `${worst}, because there were more attempts.`,
       'It makes no difference. Probability cannot help with this decision.',
     ]) }],
     hints: ['Experimental probability $=$ successes $\\div$ attempts. Change each to a percent.', 'Compare the percents, not the counts. The counts come from different numbers of attempts.'],
     solution: [
-      `${c.a}: $${fa} \\div ${ta} \\times 100 = ${fmt(pa, 1)}\\%$`,
-      `${c.b}: $${fb} \\div ${tb} \\times 100 = ${fmt(pb, 1)}\\%$`,
+      `${c.a}: $${fa} \\div ${ta} \\times 100 ${show(pa)}\\%$`,
+      `${c.b}: $${fb} \\div ${tb} \\times 100 ${show(pb)}\\%$`,
       `${best} has the higher probability of success, even though ${worst} has more successes in total.`,
       `Decision: ${correct}`,
     ],
