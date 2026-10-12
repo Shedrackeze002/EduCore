@@ -695,7 +695,7 @@ function halfTurnVertex(rng: Rng): Out {
 
 const D3_DESIGNS = ['pinQuilt', 'halfTile', 'diamondQuilt', 'star8', 'flower6', 'flower5', 'star5', 'star4', 'pinwheel4', 'pinwheel3', 'letterS', 'letterH', 'stepZ', 'plus', 'arrow', 'stripeFlag', 'cornerFlag', 'letterN', 'hexSlant'];
 
-function designContext(rng: Rng, sh: Shape, who: string): string {
+function designContext(sh: Shape, who: string): string {
   switch (sh.key) {
     case 'pinQuilt':
     case 'diamondQuilt':
@@ -722,7 +722,7 @@ function linesAndOrder(rng: Rng, key: string): Out {
   const { axes, order } = symOf(key);
   const who = rng.pick(NAMES);
   return {
-    prompt: `${designContext(rng, sh, who)} Look at the whole design, colours included. How many lines of symmetry does it have, and what is its order of rotation symmetry?`,
+    prompt: `${designContext(sh, who)} Look at the whole design, colours included. How many lines of symmetry does it have, and what is its order of rotation symmetry?`,
     figure: shapeFigure(sh),
     parts: [intPart(axes.length, { label: 'Lines of symmetry:' }), intPart(order, { label: 'Order of rotation symmetry:' })],
     hints: [
@@ -1062,4 +1062,3 @@ const symmetryPolygons = skill({
 });
 
 export const SYMMETRY_SKILLS: SkillDef[] = [symmetry, symmetryPolygons];
-

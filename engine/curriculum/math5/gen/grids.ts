@@ -411,7 +411,7 @@ const KIND_NAME: Record<Kind, string> = {
 
 const POLY_CONTEXTS = [
   (who: string, k: string) => `${who} drew this ${k} on a coordinate grid.`,
-  (who: string, k: string) => `On a grid map of a town, a park is shaped like this ${k}.`,
+  (who: string, k: string) => `On ${who}'s grid map of the town, a park is shaped like this ${k}.`,
   (who: string, k: string) => `${who} is planning a garden shaped like this ${k} on a grid.`,
   (who: string, k: string) => `${who} made this ${k} with an elastic band on a geoboard.`,
 ];

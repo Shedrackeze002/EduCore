@@ -441,7 +441,7 @@ function whichGraph(rng: Rng): Out {
       const f: Fn = { a: rng.int(1, 4), b: rng.int(1, 5) };
       return f;
     },
-    (f) => f.a * 4 + f.b + f.a + 1 <= 12,
+    (f) => (f.a + 1) * 4 + f.b <= 12,
     200,
   );
   const xs = range(0, 4);
@@ -466,7 +466,7 @@ function whichGraph(rng: Rng): Out {
 }
 
 function oddPoint(rng: Rng): Out {
-  const f: Fn = { a: rng.int(1, 3), b: rng.int(0, 4) };
+  const f: Fn = retry(() => ({ a: rng.int(1, 3), b: rng.int(0, 4) }), (q) => 4 * q.a + q.b <= 11);
   const xs = range(0, 4);
   const k = rng.int(1, 4);
   const good = val(f, xs[k]);

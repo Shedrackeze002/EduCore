@@ -24,8 +24,8 @@ const lenPart = (v: number, u: string, label?: string) => numPart(clean(v), { su
 /** Right triangles with whole or half-unit sides: [run, rise, slanted side]. */
 const TRIPLES: Array<[number, number, number]> = [
   [3, 4, 5], [4, 3, 5], [6, 8, 10], [8, 6, 10], [5, 12, 13], [12, 5, 13], [9, 12, 15], [12, 9, 15],
-  [1.5, 2, 2.5], [2, 1.5, 2.5], [4.5, 6, 7.5], [6, 4.5, 7.5], [2.5, 6, 6.5], [6, 2.5, 6.5], [3, 2.25, 3.75],
-].filter((t) => Number.isInteger(t[1] * 2)) as Array<[number, number, number]>;
+  [1.5, 2, 2.5], [2, 1.5, 2.5], [4.5, 6, 7.5], [6, 4.5, 7.5], [2.5, 6, 6.5], [6, 2.5, 6.5],
+];
 
 interface Dim {
   a: P;
@@ -203,13 +203,14 @@ const areaParallelogram = skill({
     const k = rng.int(3, 9);
     const A = p.b * p.h;
     const thing = rng.pick([
-      { ctx: `${who} is painting parallelogram-shaped parking spaces in a school parking lot in Lethbridge.`, what: 'parking spaces', verb: 'How many square metres of pavement will be painted?' },
-      { ctx: `${who} is making a banner from parallelogram-shaped pieces of felt.`, what: 'pieces', verb: 'What is the total area of the felt pieces?' },
-      { ctx: 'A patio is made of parallelogram-shaped paving stones.', what: 'stones', verb: 'What area do the stones cover?' },
+      { ctx: `${who} is painting parking spaces in a school parking lot in Lethbridge.`, what: 'parking spaces', verb: 'What total area will be painted?', unit: 'm' },
+      { ctx: `${who} is making a banner from pieces of felt.`, what: 'pieces', verb: 'What is the total area of the felt pieces?', unit: 'cm' },
+      { ctx: 'A patio is made of paving stones.', what: 'stones', verb: 'What area do the stones cover?', unit: 'cm' },
+      { ctx: `${who} is gluing tiles onto a picture frame.`, what: 'tiles', verb: 'What total area do the tiles cover?', unit: 'cm' },
     ]);
-    const unit = thing.what === 'parking spaces' ? 'm' : u;
+    const unit = thing.unit;
     return {
-      prompt: `${thing.ctx} Each one is a parallelogram like the one shown. There are $${k}$ ${thing.what}. ${thing.verb.replace('square metres', unit === 'm' ? 'square metres' : 'square centimetres')}`,
+      prompt: `${thing.ctx} Each one is a parallelogram like the one shown. There are $${k}$ ${thing.what}. ${thing.verb}`,
       figure: picFigure(paraPic(p, { base: lab(p.b, unit), height: lab(p.h, unit), side: lab(p.side, unit) })),
       parts: [areaPart(A * k, unit, 'Total area =')],
       hints: ['First find the area of one parallelogram: base × height. Use the dashed height, not the slanted side.', `Then multiply by the number of ${thing.what}, $${k}$.`],
@@ -425,17 +426,15 @@ const areaTriangle = skill({
       const A = (b * h) / 2;
       const i = rng.int(1, 3);
       const j = rng.pick([1, 2, 3].filter((k) => k !== i));
+      const s2 = new Sketch();
+      s2.seg([Math.min(...xs, 0) - 1, h], [Math.max(...xs, b) + 1, h], { color: 'muted', dashed: true });
+      tris.forEach((t, k) => {
+        s2.polyline([...t, t[0]], k === 0 ? 'brand' : k === 1 ? 'accent' : 'muted');
+        s2.endLabel(t[2], 90, String(k + 1));
+      });
       return {
-        prompt: `${who} drew three triangles for a geometry poster. Their top corners are all on a line parallel to their shared base. Triangle ${i} has an area of $${sq(A, u)}$. What is the area of triangle ${j}?`,
-        figure: picFigure({ outline: tris[0], dims: [] }) && (() => {
-          const s2 = new Sketch();
-          s2.seg([Math.min(...xs, 0) - 1, h], [Math.max(...xs, b) + 1, h], { color: 'muted', dashed: true });
-          tris.forEach((t, k) => {
-            s2.polyline([...t, t[0]], k === 0 ? 'brand' : k === 1 ? 'accent' : 'muted');
-            s2.endLabel(t[2], 90, String(k + 1));
-          });
-          return s2.build({ margin: 0.8 });
-        })(),
+        prompt: `${who} drew three triangles for a geometry poster. They share the same base, and their top corners are all on a dashed line parallel to the base. Triangle ${i} has an area of $${sq(A, u)}$. What is the area of triangle ${j}?`,
+        figure: s2.build({ margin: 0.8 }),
         parts: [areaPart(A, u, `Area of triangle ${j} =`)],
         hints: ['All three triangles have the same base. Is the height the same too?', 'The top corners are on a line parallel to the base, so they are all the same distance from the base.'],
         solution: [
@@ -494,7 +493,7 @@ const pieceCalc = (p: Piece) => (p.kind === 'triangle' ? `(${n(p.b)} \\times ${n
 
 function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Composite {
   const L = (x: number) => lab(x, u);
-  const v = (lo: number, hi: number) => (half && rng.chance(0.4) ? rng.int(lo * 2, hi * 2 - 1) / 2 + (rng.chance(0.5) ? 0 : 0) : rng.int(lo, hi));
+  const v = (lo: number, hi: number) => (half && rng.chance(0.4) ? rng.int(lo * 2, hi * 2 - 1) / 2 : rng.int(lo, hi));
   if (kind === 'house') {
     const w = 2 * rng.int(2, 6);
     const h1 = v(3, 8);
@@ -523,12 +522,10 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
       const h = rng.int(3, 8);
       const t = v(3, 9);
       const s1 = rng.int(1, 3);
-      const extra = rng.int(2, 6);
-      const B = s1 + t + extra - s1;
-      // Top side from (s1, h) to (s1 + t, h); bottom from (0, 0) to (B, 0) with B > t + s1 - s1.
-      if (B <= t) continue;
-      const pts: P[] = [[0, 0], [B, 0], [s1 + t, h], [s1, h]];
+      const B = t + rng.int(2, 6);
+      // Top side from (s1, h) to (s1 + t, h); bottom side from (0, 0) to (B, 0).
       if (s1 + t >= B) continue;
+      const pts: P[] = [[0, 0], [B, 0], [s1 + t, h], [s1, h]];
       const c = centroid(pts);
       return {
         name: 'a parallelogram and a triangle',
@@ -561,7 +558,7 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
         dashed: [[[0, 0], [dd, 0]], [[p, h1], [p, 0]], [[q, -h2], [q, 0]]],
         marks: [{ at: [p, 0], dir: 0 }, { at: [q, 0], dir: 180 }],
         dims: [
-          { a: [0, 0], b: [dd, 0], text: L(dd), away: [dd / 2, p < dd / 2 ? -1 : 1].map((x, i) => (i === 0 ? x : x)) as P },
+          { a: [0, 0], b: [dd, 0], text: L(dd), away: [dd / 2, 1] },
           { a: [p, 0], b: [p, h1], text: L(h1), away: [p - 1, h1 / 2] },
           { a: [q, 0], b: [q, -h2], text: L(h2), away: [q + 1, -h2 / 2] },
         ],
@@ -580,13 +577,13 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
       name: 'two parallelograms',
       pic: {
         outline: pts,
-        dashed: [[[a, 2 * h], [a, h]], [[a, h], [a, 0]]].slice(0, 0).concat([[[0, 2 * h], [0, h]], [[0, h], [0, 0]]] as Array<[P, P]>),
-        marks: [{ at: [0, h], dir: -90 }, { at: [0, 0], dir: 0 }].slice(1),
+        dashed: [[[s, 0], [s, h]], [[s, h], [s, 2 * h]]],
+        marks: [{ at: [s, 0], dir: 0 }, { at: [s, 2 * h], dir: -90 }],
         dims: [
           { a: [0, 0], b: [a, 0], text: L(a), away: c },
           { a: [0, 2 * h], b: [a, 2 * h], text: L(a), away: c },
-          { a: [0, 0], b: [0, h], text: L(h), away: [1, h / 2] },
-          { a: [0, h], b: [0, 2 * h], text: L(h), away: [1, 1.5 * h] },
+          { a: [s, 0], b: [s, h], text: L(h), away: [s - 1, h / 2] },
+          { a: [s, h], b: [s, 2 * h], text: L(h), away: [s - 1, 1.5 * h] },
         ],
       },
       cuts: [[[s, h], [a + s, h]]],
@@ -641,8 +638,7 @@ function makeComposite(rng: Rng, kind: string, u: string, half: boolean): Compos
     cuts: [],
     pieces: [{ kind: 'rectangle', b: W, h: H }],
     minus: [{ kind: 'triangle', b: nb, h: depth }],
-    name2: undefined,
-  } as Composite;
+  };
 }
 
 const COMP_CTX: Record<string, Array<(w: string) => string>> = {
