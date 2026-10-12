@@ -100,11 +100,6 @@ function subRule(a: number, b: number): string[] {
   return [`Subtracting is the same as adding the opposite. The opposite of $${sg(b)}$ is $${sg(-b)}$: $${br(a)} - ${br(b)} = ${br(a)} + ${br(-b)}$`, ...addRule(a, -b)];
 }
 
-/** Steps for a op b. */
-function opSteps(a: number, op: '+' | '-', b: number): string[] {
-  return op === '+' ? addRule(a, b) : subRule(a, b);
-}
-
 const nz = (rng: Rng, lo: number, hi: number) => rng.nonZero(lo, hi);
 const ADD_HINT = 'Same signs: add the sizes and keep the sign. Different signs: subtract the sizes and use the sign of the integer with the bigger size.';
 const SUB_HINT = 'To subtract an integer, add its opposite: change $-$ to $+$ and change the sign of the second integer.';

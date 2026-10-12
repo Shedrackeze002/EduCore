@@ -292,9 +292,9 @@ function psMultiplier(rng: Rng): GenOutput {
     solution: [
       `$${n} = ${primeFactorLatex(n)}$`,
       `${orList(oddP.map((p) => `$${p}$`)).replace(' or ', ' and ')} ${oddP.length === 1 ? 'appears' : 'appear'} an odd number of times. Multiply by ${oddP.length === 1 ? 'one more' : 'one more of each'}: $${m}$.`,
-      `$${n} \\times ${m} = ${N} = ${pfTex(newMap)}$, and every exponent is now even.`,
-      `$\\sqrt{${N}} = ${r}$, because $${r} \\times ${r} = ${N}$.`,
-      `Multiply by $${m}$ to get $${N}$, whose square root is $${r}$.`,
+      `$${n} \\times ${m} = ${big(N)} = ${pfTex(newMap)}$, and every exponent is now even.`,
+      `$\\sqrt{${big(N)}} = ${r}$, because $${r} \\times ${r} = ${big(N)}$.`,
+      `Multiply by $${m}$ to get $${big(N)}$, whose square root is $${r}$.`,
     ],
   };
 }
@@ -306,6 +306,7 @@ const PERIM_CTX = [
   { thing: 'square hockey practice area on a frozen pond', edge: 'boards', verb: 'go all the way around it' },
   { thing: 'square bulletin board', edge: 'border trim', verb: 'go around its edge' },
 ];
+const UNIT_PLURAL: Record<string, string> = { m: 'metres', cm: 'centimetres' };
 
 function psPerimeter(rng: Rng): GenOutput {
   const c = rng.pick(PERIM_CTX);
@@ -315,10 +316,10 @@ function psPerimeter(rng: Rng): GenOutput {
   const w = rootWork(k);
   if (rng.chance(0.5)) {
     return {
-      prompt: `A ${c.thing} has an area of $${big(n)}\\ ${sqU(u)}$. How long is each side? How much ${c.edge} is needed to ${c.verb}?`,
+      prompt: `A ${c.thing} has an area of $${big(n)}\\ ${sqU(u)}$. How long is each side? How many ${UNIT_PLURAL[u]} of ${c.edge} are needed to ${c.verb}?`,
       parts: [numPart(k, { label: 'Side', suffix: u }), numPart(4 * k, { label: cap(c.edge), suffix: u })],
       hints: ['The side length of a square is the square root of its area.', 'The perimeter of a square is $4$ times the side length.'],
-      solution: [`$s = \\sqrt{${n}}$`, ...w.steps, `Each side is $${ms(k, u)}$ long.`, `Perimeter: $4 \\times ${k} = ${4 * k}$, so $${ms(4 * k, u)}$ of ${c.edge} is needed.`],
+      solution: [`$s = \\sqrt{${n}}$`, ...w.steps, `Each side is $${ms(k, u)}$ long.`, `Perimeter: $4 \\times ${k} = ${4 * k}$, so $${ms(4 * k, u)}$ of ${c.edge} ${c.edge === 'boards' ? 'are' : 'is'} needed.`],
     };
   }
   return {
@@ -432,7 +433,7 @@ function estimateSteps(n: number): { steps: string[]; est: number } {
   };
 }
 
-function estBetween(rng: Rng, n: number): GenOutput {
+function estBetween(n: number): GenOutput {
   const k = Math.floor(Math.sqrt(n));
   return {
     prompt: `$\\sqrt{${n}}$ is between two consecutive whole numbers. What are they?`,
@@ -455,7 +456,7 @@ function estBetweenMc(rng: Rng, n: number): GenOutput {
   };
 }
 
-function estCloser(rng: Rng, n: number): GenOutput {
+function estCloser(n: number): GenOutput {
   const k = Math.floor(Math.sqrt(n));
   const a = n - k * k;
   const b = (k + 1) * (k + 1) - n;
@@ -472,7 +473,7 @@ function estCloser(rng: Rng, n: number): GenOutput {
   };
 }
 
-function estDecimal(rng: Rng, n: number, setup?: { text: string; u: string; noun: string }): GenOutput {
+function estDecimal(n: number, setup?: { text: string; u: string }): GenOutput {
   const { steps, est } = estimateSteps(n);
   const s = Math.sqrt(n);
   return {
@@ -611,14 +612,14 @@ const estimateSqrt = skill({
   gen(rng, d) {
     if (d === 1) {
       const n = nonSquare(rng, 5, 150);
-      return rng.chance(0.55) ? estBetween(rng, n) : estBetweenMc(rng, n);
+      return rng.chance(0.55) ? estBetween(n) : estBetweenMc(rng, n);
     }
     if (d === 2) {
       const kind = rng.pick(['closer', 'estimate', 'estimate', 'line'] as const);
       const n = nonSquare(rng, 10, 150);
-      if (kind === 'closer') return estCloser(rng, n);
+      if (kind === 'closer') return estCloser(n);
       if (kind === 'line') return estNumberLine(rng, n);
-      return estDecimal(rng, n);
+      return estDecimal(n);
     }
     const kind = rng.pick(['count', 'which', 'area', 'area', 'order'] as const);
     if (kind === 'count') return estCount(rng);
@@ -626,7 +627,7 @@ const estimateSqrt = skill({
     if (kind === 'order') return estOrder(rng);
     const c = rng.pick(AREA_SETUPS);
     const n = nonSquare(rng, c.lo, c.hi);
-    return estDecimal(rng, n, { text: c.text(n), u: c.u, noun: 'side' });
+    return estDecimal(n, { text: c.text(n), u: c.u });
   },
 });
 

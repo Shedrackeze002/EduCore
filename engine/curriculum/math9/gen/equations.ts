@@ -77,9 +77,9 @@ function solveSteps(a: Frac, b: Frac, c: Frac, d: Frac, mode: Mode, v = 'x'): { 
   }
   const x = fracDiv(D, A);
   if (!(A.n === A.d)) {
-    const neg = A.n < 0 ? ' (dividing both sides by a negative number is fine in an equation)' : '';
     const shown = mode === 'dec' && !isInt(x) && !terminates(x) ? fracLatex(x) : num(x, mode);
-    steps.push(`Divide both sides by $${num(A, mode)}$${neg}: $${v} = \\dfrac{${num(D, mode)}}{${num(A, mode)}} = ${shown}$`);
+    if (A.n === -A.d) steps.push(`Multiply both sides by $-1$: $${v} = ${shown}$`);
+    else steps.push(`Divide both sides by $${num(A, mode)}$: $${v} = \\dfrac{${num(D, mode)}}{${num(A, mode)}} = ${shown}$`);
   }
   return { x, steps };
 }
@@ -115,7 +115,8 @@ function checkLine(a: Frac, b: Frac, c: Frac, d: Frac, x: Frac, mode: Mode, lc =
   const L = at(a, b, x);
   const R = at(c, d, x);
   const show = (f: Frac) => (mode === 'dec' && (isInt(f) || terminates(f)) ? num(f, 'dec') : fracLatex(f));
-  return `Check: left side $= ${subst(a, b, x, mode, lc)} = ${show(L)}$; right side $= ${subst(c, d, x, mode, rc)} = ${show(R)}$. Both sides are equal, so the solution is correct.`;
+  const side = (p: Frac, q: Frac, v: Frac, cf: boolean) => (p.n === p.d && isZero(q) ? show(v) : `${subst(p, q, x, mode, cf)} = ${show(v)}`);
+  return `Check: left side $= ${side(a, b, L, lc)}$; right side $= ${side(c, d, R, rc)}$. Both sides are equal, so the solution is correct.`;
 }
 
 const NON_INT_NOTE = 'If the solution is not an integer, write it as a fraction or a decimal.';
@@ -161,7 +162,7 @@ const equationBothSides = skill({
     } else if (rng.chance(0.5)) {
       // Decimal coefficients (tenths); the solution is an integer or a half.
       mode = 'dec';
-      const [A10, C10] = retry(() => [rng.nonZero(-30, 30), rng.nonZero(-30, 30)], ([p, q]) => p !== q && p % 10 !== 0 && (p - q) % 10 !== 0 || (p !== q && q % 10 !== 0 && p % 10 !== 0));
+      const [A10, C10] = retry(() => [rng.nonZero(-30, 30), rng.nonZero(-30, 30)], ([p, q]) => p !== q && (p % 10 !== 0 || q % 10 !== 0));
       const x2 = rng.chance(0.7) ? 2 * rng.intExcept(-8, 8, [0]) : retry(() => rng.int(-15, 15), (v) => v % 2 !== 0);
       const B10 = rng.nonZero(-60, 60);
       a = F(A10, 10); c = F(C10, 10); b = F(B10, 10);
@@ -172,10 +173,10 @@ const equationBothSides = skill({
       const qs = rng.pick([[2, 3], [3, 4], [2, 5], [3, 6], [4, 6], [2, 4], [3, 2], [4, 3]]);
       const [A, C] = retry(() => [F(rng.nonZero(-5, 5), qs[0]), F(rng.nonZero(-5, 5), qs[1])], ([p, q]) => !isInt(p) && !isInt(q) && fracValue(p) !== fracValue(q));
       lcd = (qs[0] * qs[1]) / gcd(qs[0], qs[1]);
-      const x0 = F(lcd * rng.intExcept(-4, 4, [0]));
+      const kMax = Math.max(1, Math.floor(12 / lcd));
+      const x0 = F(lcd * rng.sign() * rng.int(1, kMax));
       a = A; c = C; b = F(rng.nonZero(-9, 9));
       dd = fracSub(at(a, b, x0), fracMul(c, x0));
-      if (!isInt(dd)) dd = F(Math.round(fracValue(dd)));
     }
     const eq = `${lin(a, b, mode)} = ${lin(c, dd, mode, rightConstFirst)}`;
     const steps: string[] = [];

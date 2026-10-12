@@ -24,8 +24,6 @@ const LETTERS = ['x', 'n', 'a', 'm', 'k', 'p', 't', 'y', 'b', 'w', 'c', 'r', 'g'
 const br = (n: number) => (n < 0 ? `(${n})` : `${n}`);
 /** a times v: 3n, or n when a = 1. */
 const term = (a: number, v: string) => (a === 1 ? v : `${a}${v}`);
-/** av + b or av - b. */
-const lin = (a: number, v: string, b: number) => (b === 0 ? term(a, v) : `${term(a, v)} ${b < 0 ? '-' : '+'} ${Math.abs(b)}`);
 /** Whole-dollar amount for Markdown text (outside maths). */
 const dollars = (x: number) => `\\$${x}`;
 const OK = '✓';
@@ -277,7 +275,7 @@ const expressionOrEquation = skill({
         const correct = rng.chance(0.5) ? `${a}${v} + ${b}` : `${b} + ${a}${v}`;
         return {
           prompt: `Which expression has a coefficient of $${a}$ and a constant term of $${b}$?`,
-          parts: [{ answer: mc(rng, `$${correct}$`, [`$${b}${v} + ${a}$`, `$${a}${v} = ${b}$`, `$${v} + ${a} + ${b}$`]) }],
+          parts: [{ answer: mc(rng, `$${correct}$`, [`$${term(b, v)} + ${a}$`, `$${a}${v} = ${b}$`, `$${v} + ${a} + ${b}$`]) }],
           hints: ['The coefficient multiplies the variable. The constant term is a number on its own.', 'An expression has no equals sign.'],
           solution: [
             `The coefficient $${a}$ must be written right in front of the variable: $${a}${v}$.`,
@@ -355,7 +353,7 @@ function evalCase(rng: Rng, d: Difficulty, v: string): EvalCase {
   const x = d === 1 ? rng.int(2, 10) : rng.int(3, 15);
   const sub = `Replace $${v}$ with $${x}$.`;
   if (d === 1) {
-    const kind = rng.pick(['ax+b', 'ax-b', 'b+ax', 'ax'] as const);
+    const kind = rng.weighted([['ax+b', 3], ['ax-b', 2], ['b+ax', 2], ['ax', 1]] as const);
     const a = rng.int(2, 9);
     if (kind === 'ax') {
       return { expr: `${a}${v}`, value: a * x, steps: [sub, `$${a}${v} = ${a} \\times ${x} = ${a * x}$`] };

@@ -1232,7 +1232,7 @@ function orderDecimals(rng: Rng): Out {
     hints: ['Give every number three decimal places by adding zeros at the end.', 'Compare the tenths first, then the hundredths, then the thousandths.'],
     solution: [
       `Write each number with three decimal places: ${nums.map((x) => `$${pad(x)}$`).join(', ')}.`,
-      w === 0 ? 'Now they are all thousandths, so compare them like whole numbers: ' + [...nums].sort((x, y) => cmp(x, y)).map((x) => `$${Number(digitsAfter(expand(x.n, x.d), 3))}$`).join(' < ') + ' thousandths.' : `The whole-number parts are all $${w}$, so compare the decimal parts place by place.`,
+      w === 0 ? `Now they are all thousandths, so compare them like whole numbers: $${[...nums].sort((x, y) => cmp(x, y)).map((x) => Number(digitsAfter(expand(x.n, x.d), 3))).join(' < ')}$ thousandths.` : `The whole-number parts are all $${w}$, so compare the decimal parts place by place.`,
       `From ${up ? 'least to greatest' : 'greatest to least'}: ${sorted.map((x) => `$${x.tex}$`).join(', ')}.`,
     ],
   };
@@ -1264,7 +1264,7 @@ function orderMixed(rng: Rng): Out {
     hints: ['Change each fraction to a decimal, so all the numbers are in the same form.', 'Then compare place by place. For a repeating decimal, write out a few digits.'],
     solution: [
       `Write the fractions as decimals: ${nums.filter((x) => x.isFrac).map(decLine).join(' and ')}.`,
-      `Compare all four as decimals: ${[...nums].sort((x, y) => cmp(x, y)).map((x) => { const e = expand(x.n, x.d); return `$${e.rep ? longTex(e, 4) : barTex(e)}$`; }).join(' < ')}.`,
+      `Compare all four as decimals: $${[...nums].sort((x, y) => cmp(x, y)).map((x) => { const e = expand(x.n, x.d); return e.rep ? longTex(e, 4) : barTex(e); }).join(' < ')}$.`,
       `From ${up ? 'least to greatest' : 'greatest to least'}: ${sorted.map((x) => `$${x.tex}$`).join(', ')}.`,
     ],
   };
@@ -1280,7 +1280,9 @@ function orderFive(rng: Rng): Out {
       const impN = (B + (rng.chance(0.5) ? 0 : -1)) * f2[1] + f2[0];
       const improper: Num = { tex: fr(impN, f2[1]), n: impN, d: f2[1], isFrac: true };
       const d1 = decNum(nearDecimal(rng, val(mixed)));
-      const d2 = decNum(`${B}.${rng.pick(['0', '1', '2'])}${rng.int(1, 9)}${rng.chance(0.5) ? rng.int(1, 9) : ''}`);
+      const d2 = rng.chance(0.5)
+        ? decNum(`${B}.${rng.pick(['0', '1', '2'])}${rng.int(1, 9)}${rng.chance(0.5) ? rng.int(1, 9) : ''}`)
+        : decNum(`${B - 1}.9${rng.int(0, 8)}${rng.chance(0.5) ? rng.int(1, 9) : ''}`);
       const whole: Num = { tex: String(B), n: B, d: 1, isFrac: false };
       return [whole, mixed, improper, d1, d2];
     },
@@ -1300,7 +1302,7 @@ function orderFive(rng: Rng): Out {
       `Mixed number: ${decLine(nums[1])}.`,
       `Improper fraction: $${imp.tex} = ${Math.floor(imp.n / imp.d)}${fr(imp.n % imp.d, imp.d)} = ${impE.rep ? longTex(impE, 4) : barTex(impE)}$.`,
       `The whole number is $${B} = ${B}.000$, and the decimals are $${nums[3].tex}$ and $${nums[4].tex}$.`,
-      `Compare: ${[...nums].sort((x, y) => cmp(x, y)).map((x) => { const e = expand(x.n, x.d); return `$${e.rep ? longTex(e, 4) : x.isFrac ? barTex(e) : x.tex}$`; }).join(' < ')}.`,
+      `Compare: $${[...nums].sort((x, y) => cmp(x, y)).map((x) => { const e = expand(x.n, x.d); return e.rep ? longTex(e, 4) : x.isFrac ? barTex(e) : x.tex; }).join(' < ')}$.`,
       `From ${word}: ${sorted.map((x) => `$${x.tex}$${ctx ? ` ${ctx.unit}` : ''}`).join(', ')}.`,
     ],
   };

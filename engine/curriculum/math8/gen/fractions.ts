@@ -654,7 +654,7 @@ function probD3(rng: Rng): Out {
     const { part, ask } = answerFor(left, 'ft', '(b)');
     const q = frac(L * p.d, p.n);
     return {
-      prompt: `${name} has a $${L}$ ft board for a shelf project. ${name} cuts as many pieces as possible that are each $${mtex(P)}$ ft long. (Ignore the width of the saw cuts.)\n\n(a) How many full pieces can ${name} cut?\n\n(b) How long is the leftover piece?${ask}`,
+      prompt: `${name} has ${L === 8 || L === 11 ? 'an' : 'a'} $${L}$ ft board for a shelf project. ${name} cuts as many pieces as possible that are each $${mtex(P)}$ ft long. (Ignore the width of the saw cuts.)\n\n(a) How many full pieces can ${name} cut?\n\n(b) How long is the leftover piece?${ask}`,
       parts: [numPart(k, { exact: false, suffix: 'pieces', label: '(a)' }), part],
       hints: [`Divide: $${L} ${D} ${mtex(P)}$. Only the whole-number part counts as full pieces.`, 'For the leftover, subtract the length of the full pieces from the board.'],
       solution: [
