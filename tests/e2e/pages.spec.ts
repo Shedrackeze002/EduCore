@@ -122,7 +122,8 @@ test('a Math 31 lesson reads calculus answers', async ({ page }) => {
   // The live preview typesets what the student typed, functions included.
   await expect(check.locator('.katex', { hasText: 'sin' }).first()).toBeVisible();
   await check.getByRole('button', { name: 'Check' }).click();
-  await expect(check.getByText(/Not quite|Close|Correct/).first()).toBeVisible();
+  // The check is drawn at random: a derivative is graded, while an f'(a) value asks for a number.
+  await expect(check.getByText(/Not quite|Correct|should be a number/).first()).toBeVisible();
   expect(await page.locator('.katex-error').count()).toBe(0);
   expect(errors).toEqual([]);
 });
