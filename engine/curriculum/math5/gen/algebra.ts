@@ -619,6 +619,12 @@ interface Equation {
   /** The first inverse operation, for "what do you do first?" questions. */
   first?: string;
   firstWrong?: string[];
+  /** For two-operation equations: the number on its own, which side has the variable, the variable side worked out for a value, and a step between sensible values to try. */
+  c?: number;
+  sideName?: string;
+  at?: (n: number) => string;
+  value?: (n: number) => number;
+  step?: number;
 }
 
 function oneStep(rng: Rng, v: string): Equation {
@@ -646,46 +652,52 @@ function twoStep(rng: Rng, v: string, big = false): Equation {
   const kind = rng.pick(['ax+b', 'ax-b', 'x/a+b', 'b+ax', 'x/a-b'] as const);
   const a = rng.int(2, 9);
   const b = rng.int(2, big ? 30 : 15);
-  const x = rng.int(2, big ? 15 : 10);
   const flip = big && rng.chance(0.5);
   const side = (lhs: string, c: number) => (flip ? `${c} = ${lhs}` : `${lhs} = ${c}`);
+  const sideName = flip ? 'right' : 'left';
   if (kind === 'ax+b' || kind === 'b+ax') {
+    const x = rng.int(2, big ? 15 : 10);
     const c = a * x + b;
     const lhs = kind === 'ax+b' ? `${term(a, v)} + ${b}` : `${b} + ${term(a, v)}`;
+    const at = (n: number) => (kind === 'ax+b' ? `${a} ${T} ${n} + ${b} = ${a * n} + ${b} = ${a * n + b}` : `${b} + ${a} ${T} ${n} = ${b} + ${a * n} = ${a * n + b}`);
     return {
-      v, x, tex: side(lhs, c),
+      v, x, tex: side(lhs, c), c, sideName, at, value: (n) => a * n + b, step: 1,
       steps: [`Undo the adding first: subtract $${b}$ from both sides. $${term(a, v)} = ${c} - ${b} = ${a * x}$.`, `Undo the multiplying: divide both sides by $${a}$. $${v} = ${a * x} ${D} ${a} = ${x}$.`],
-      check: `$${a} ${T} ${x} + ${b} = ${a * x} + ${b} = ${c}$ ${OK}`,
+      check: `$${at(x)}$ ${OK}`,
       first: `Subtract $${b}$ from both sides`, firstWrong: [`Divide both sides by $${a}$`, `Add $${b}$ to both sides`, `Multiply both sides by $${a}$`],
     };
   }
   if (kind === 'ax-b') {
-    const X = retry(() => x, (n) => a * n > b, 1);
-    const xx = a * X > b ? X : X + Math.ceil(b / a);
-    const c = a * xx - b;
+    const x = rng.int(Math.max(2, Math.floor(b / a) + 1), Math.max(Math.floor(b / a) + 1, big ? 15 : 10) + 1);
+    const c = a * x - b;
+    const at = (n: number) => `${a} ${T} ${n} - ${b} = ${a * n} - ${b} = ${a * n - b}`;
     return {
-      v, x: xx, tex: side(`${term(a, v)} - ${b}`, c),
-      steps: [`Undo the subtracting first: add $${b}$ to both sides. $${term(a, v)} = ${c} + ${b} = ${a * xx}$.`, `Undo the multiplying: divide both sides by $${a}$. $${v} = ${a * xx} ${D} ${a} = ${xx}$.`],
-      check: `$${a} ${T} ${xx} - ${b} = ${a * xx} - ${b} = ${c}$ ${OK}`,
+      v, x, tex: side(`${term(a, v)} - ${b}`, c), c, sideName, at, value: (n) => a * n - b, step: 1,
+      steps: [`Undo the subtracting first: add $${b}$ to both sides. $${term(a, v)} = ${c} + ${b} = ${a * x}$.`, `Undo the multiplying: divide both sides by $${a}$. $${v} = ${a * x} ${D} ${a} = ${x}$.`],
+      check: `$${at(x)}$ ${OK}`,
       first: `Add $${b}$ to both sides`, firstWrong: [`Divide both sides by $${a}$`, `Subtract $${b}$ from both sides`, `Multiply both sides by $${a}$`],
     };
   }
+  const q = rng.int(2, big ? 15 : 10);
+  const X = a * q;
   if (kind === 'x/a-b') {
-    const q = x + b;
-    const X = a * q;
+    const c = q;
+    const Q = q + b;
+    const XX = a * Q;
+    const at = (n: number) => `${n} ${D} ${a} - ${b} = ${n / a} - ${b} = ${n / a - b}`;
     return {
-      v, x: X, tex: side(`${frac(v, a)} - ${b}`, x),
-      steps: [`Undo the subtracting first: add $${b}$ to both sides. $${frac(v, a)} = ${x} + ${b} = ${q}$.`, `Undo the dividing: multiply both sides by $${a}$. $${v} = ${q} ${T} ${a} = ${X}$.`],
-      check: `$${X} ${D} ${a} - ${b} = ${q} - ${b} = ${x}$ ${OK}`,
+      v, x: XX, tex: side(`${frac(v, a)} - ${b}`, c), c, sideName, at, value: (n) => n / a - b, step: a,
+      steps: [`Undo the subtracting first: add $${b}$ to both sides. $${frac(v, a)} = ${c} + ${b} = ${Q}$.`, `Undo the dividing: multiply both sides by $${a}$. $${v} = ${Q} ${T} ${a} = ${XX}$.`],
+      check: `$${at(XX)}$ ${OK}`,
       first: `Add $${b}$ to both sides`, firstWrong: [`Multiply both sides by $${a}$`, `Subtract $${b}$ from both sides`, `Divide both sides by $${a}$`],
     };
   }
-  const X = a * x;
-  const c = x + b;
+  const c = q + b;
+  const at = (n: number) => `${n} ${D} ${a} + ${b} = ${n / a} + ${b} = ${n / a + b}`;
   return {
-    v, x: X, tex: side(`${frac(v, a)} + ${b}`, c),
-    steps: [`Undo the adding first: subtract $${b}$ from both sides. $${frac(v, a)} = ${c} - ${b} = ${x}$.`, `Undo the dividing: multiply both sides by $${a}$. $${v} = ${x} ${T} ${a} = ${X}$.`],
-    check: `$${X} ${D} ${a} + ${b} = ${x} + ${b} = ${c}$ ${OK}`,
+    v, x: X, tex: side(`${frac(v, a)} + ${b}`, c), c, sideName, at, value: (n) => n / a + b, step: a,
+    steps: [`Undo the adding first: subtract $${b}$ from both sides. $${frac(v, a)} = ${c} - ${b} = ${q}$.`, `Undo the dividing: multiply both sides by $${a}$. $${v} = ${q} ${T} ${a} = ${X}$.`],
+    check: `$${at(X)}$ ${OK}`,
     first: `Subtract $${b}$ from both sides`, firstWrong: [`Multiply both sides by $${a}$`, `Add $${b}$ to both sides`, `Divide both sides by $${a}$`],
   };
 }
@@ -703,17 +715,16 @@ function solveOut(eq: Equation, two: boolean): Out {
 
 function verifyOut(rng: Rng, eq: Equation): Out {
   const correct = rng.chance(0.5);
-  const offer = correct ? eq.x : retry(() => eq.x + rng.pick([-2, -1, 1, 2]) * (eq.tex.includes('dfrac') ? eq.x / Math.max(1, eq.x / 2) : 1), (n) => n > 0 && n !== eq.x && Number.isInteger(n), 50);
-  const off = Number.isInteger(offer) && offer > 0 && offer !== eq.x ? offer : eq.x + 1;
-  const shown = correct ? eq.x : off;
+  const shown = correct ? eq.x : retry(() => eq.x + rng.pick([-2, -1, 1, 2]) * (eq.step ?? 1), (n) => n > 0 && n !== eq.x, 50);
+  const val = eq.value ? eq.value(shown) : eq.c;
   return {
     prompt: `Is $${eq.v} = ${shown}$ the solution of $${eq.tex}$?`,
     parts: [{ answer: fixedChoice(['Yes', 'No'], correct ? 0 : 1) }],
-    hints: [`Substitute $${shown}$ for $${eq.v}$ in the left side of the equation.`, 'If both sides are equal, it is the solution.'],
+    hints: [`Substitute $${shown}$ for $${eq.v}$ in the ${eq.sideName ?? 'left'} side of the equation.`, 'If both sides are equal, it is the solution.'],
     solution: [
-      `The solution of $${eq.tex}$ is $${eq.v} = ${eq.x}$, and the check works: ${eq.check}`,
-      correct ? `So $${eq.v} = ${shown}$ makes both sides equal.` : `With $${eq.v} = ${shown}$ instead, the two sides are not equal.`,
-      correct ? 'Yes, it is the solution.' : 'No, it is not the solution.',
+      `Substitute $${eq.v} = ${shown}$ in the ${eq.sideName ?? 'left'} side: $${eq.at ? eq.at(shown) : shown}$.`,
+      correct ? `The other side is $${eq.c}$. Both sides are equal. ${OK}` : `The other side is $${eq.c}$, and $${val} \\neq ${eq.c}$. The sides are not equal.`,
+      correct ? 'Yes, it is the solution.' : `No, it is not the solution. (The solution is $${eq.v} = ${eq.x}$.)`,
     ],
   };
 }
@@ -847,13 +858,13 @@ function problemTwo(rng: Rng): Problem {
       check: `$${x} ${D} ${a} + ${b} = ${q} + ${b} = ${c}$ ${OK}`, answer: `There were $${x}$ apples in the bag.`,
     };
   }
-  const [a, x, b] = [rng.int(2, 4), rng.int(8, 25), rng.int(3, 12)];
+  const [a, x, b] = [rng.int(2, 5), rng.int(8, 20), rng.int(3, 12)];
   const c = a * x - b;
   return {
-    text: `${name} read the same number of pages on each of $${a}$ days. Then ${name} found that $${b}$ of those pages had been read before, so they did not count. ${name} counted $${c}$ new pages. How many pages did ${name} read each day?`,
-    v: 'p', eq: `${a}p - ${b} = ${c}`, wrong: [`${a}p + ${b} = ${c}`, `${b}p - ${a} = ${c}`, `${frac('p', a)} - ${b} = ${c}`], x, unit: 'pages',
-    steps: [`Let $p$ be the pages read each day. In $${a}$ days that is $${a}p$. Take away $${b}$: $${a}p - ${b} = ${c}$.`, `Add $${b}$ to both sides: $${a}p = ${c + b}$.`, `Divide both sides by $${a}$: $p = ${c + b} ${D} ${a} = ${x}$.`],
-    check: `$${a} ${T} ${x} - ${b} = ${a * x} - ${b} = ${c}$ ${OK}`, answer: `${name} read $${x}$ pages each day.`,
+    text: `${name}'s class buys $${a}$ cases of juice boxes. Every case has the same number of juice boxes. After the class drinks $${b}$ of them, there are $${c}$ juice boxes left. How many juice boxes are in each case?`,
+    v: 'j', eq: `${a}j - ${b} = ${c}`, wrong: [`${a}j + ${b} = ${c}`, `${b}j - ${a} = ${c}`, `${frac('j', a)} - ${b} = ${c}`], x, unit: 'juice boxes',
+    steps: [`Let $j$ be the number of juice boxes in each case. $${a}$ cases hold $${a}j$. Take away the $${b}$ they drank: $${a}j - ${b} = ${c}$.`, `Add $${b}$ to both sides: $${a}j = ${c + b}$.`, `Divide both sides by $${a}$: $j = ${c + b} ${D} ${a} = ${x}$.`],
+    check: `$${a} ${T} ${x} - ${b} = ${a * x} - ${b} = ${c}$ ${OK}`, answer: `There are $${x}$ juice boxes in each case.`,
   };
 }
 
@@ -872,7 +883,7 @@ const equationProblems = skill({
     const solution = [...p.steps, `Check: ${p.check}`, p.answer];
     if (d === 3) {
       return {
-        prompt: `${p.text}\n\nWrite an equation, solve it, and check your answer.`,
+        prompt: `${p.text}\n\nUse the letter $${p.v}$. Write an equation, solve it, and check your answer.`,
         parts: [numAns(p.x, `$${p.v} =$`, p.unit)],
         hints,
         solution,

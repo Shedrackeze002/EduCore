@@ -123,7 +123,7 @@ const SHARE: ShareCtx[] = [
   { one: 'sandwich', many: 'sandwiches', who: 'campers', whoOne: 'camper', of: 'of a sandwich' },
   { one: 'pan of brownies', many: 'pans of brownies', who: 'teams', whoOne: 'team', of: 'of a pan' },
   { one: 'loaf of bannock', many: 'loaves of bannock', who: 'families', whoOne: 'family', of: 'of a loaf' },
-  { one: 'cake', many: 'cakes', who: 'classes', whoOne: 'class', of: 'of a cake' },
+  { one: 'cake', many: 'cakes', who: 'groups', whoOne: 'group', of: 'of a cake' },
   { one: 'pie', many: 'pies', who: 'tables', whoOne: 'table', of: 'of a pie' },
   { one: 'sheet of stickers', many: 'sheets of stickers', who: 'students', whoOne: 'student', of: 'of a sheet' },
 ];
@@ -273,7 +273,7 @@ function shareD2(rng: Rng): Out {
 
 function shareD3(rng: Rng): Out {
   const kind = rng.pick(['compare', 'people', 'same'] as const);
-  const base = rng.pick(SHARE);
+  const base = rng.pick([SHARE[0], SHARE[1], SHARE[2], SHARE[7]]);
   if (kind === 'compare') {
     const c = { ...rng.pick([SHARE[0], SHARE[2], SHARE[5], SHARE[6]]), who: 'students', whoOne: 'student' };
     const opts: Array<[number, number]> = [[1, 2], [1, 4], [3, 4], [2, 5], [3, 5], [4, 5], [3, 8], [5, 8], [7, 8], [3, 10], [7, 10], [9, 10], [1, 5]];

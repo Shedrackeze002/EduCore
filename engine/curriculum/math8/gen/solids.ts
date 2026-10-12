@@ -1269,11 +1269,11 @@ function triPrismFig(apex: 'mid' | 'left', b: number, h: number, lab: { base: st
   dr.poly([A, B, C], 'brand', false);
   dr.line([B, o(B), o(C), C]);
   for (const [p, q] of [[A, o(A)], [o(A), o(B)], [o(A), o(C)]] as Array<[P, P]>) dr.seg(p, q, { dashed: true, color: 'muted' });
-  dr.label(lab.base, [bw / 2, 0], -90, 6);
+  dr.label(lab.base, [apex === 'mid' ? bw * 0.3 : bw / 2, 0], -90, 6);
   if (apex === 'mid') {
     dr.seg(C, [bw / 2, 0], { dashed: true, color: 'muted' });
     dr.line([[bw / 2 + 0.2, 0], [bw / 2 + 0.2, 0.2], [bw / 2, 0.2]], 'muted');
-    dr.label(lab.height, [bw / 2, hw * 0.2], 0, 6);
+    dr.label(lab.height, [bw / 2, hw * 0.42], 0, 6);
     dr.label(lab.side, [bw / 4, hw / 2], 150, 6);
   } else {
     dr.line([[0.2, 0], [0.2, 0.2], [0, 0.2]], 'muted');
