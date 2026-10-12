@@ -496,8 +496,8 @@ const firstPrinciples = skill({
       d === 1
         ? rng.pick(['fprimeA', 'fprimeA', 'stepPoly'] as const)
         : d === 2
-          ? rng.pick(['polyDeriv', 'polyDeriv', 'interpret', 'units', 'stepOther'] as const)
-          : rng.pick(['rational', 'root', 'cubic', 'slopeAt'] as const);
+          ? rng.pick(['polyDeriv', 'polyDeriv', 'interpret', 'units'] as const)
+          : rng.pick(['rational', 'root', 'cubic', 'slopeAt', 'stepOther'] as const);
     const defHint = "Use $f'(x) = \\displaystyle\\lim_{h \\to 0} \\frac{f(x + h) - f(x)}{h}$: expand, cancel the terms without $h$, divide by $h$, then let $h \\to 0$.";
 
     if (kind === 'fprimeA') {

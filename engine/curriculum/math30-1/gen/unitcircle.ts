@@ -2,7 +2,7 @@
 import { fixedChoice, mc, numPart, part, retry, skill, type GenOutput } from '../../helpers.ts';
 import { cosD, fmt, fmtFixed, frac, fracAdd, fracLatex, fracMul, gcd, isPerfectSquare, lcmAll, radicalSplit, sinD, type Frac } from '../../../math/numbers.ts';
 import type { Rng } from '../../../rng.ts';
-import type { PlaneFigure, PlanePoint, PlaneSegment, SkillDef } from '../../../types.ts';
+import type { Part, PlaneFigure, PlanePoint, PlaneSegment, SkillDef } from '../../../types.ts';
 
 // ---------------------------------------------------------------------------
 // Angles: degrees, radians as multiples of π, formatting
@@ -174,6 +174,10 @@ function exText(a: Ex): string {
 }
 /** True when the exact value contains a square root. */
 const hasRoot = (a: Ex) => [...a.keys()].some((r) => r !== 1);
+/** A numeric answer for an exact value (review screens show sums of radicals exactly too). */
+function exPart(v: Ex, opts: { label: string }): Part {
+  return part({ kind: 'numeric', value: exValue(v), allowExpression: true, display: 'fraction', ...(v.size > 1 ? { exact: exText(v) } : {}) }, opts);
+}
 /** Wrap a negative or fractional value in brackets for substitution. */
 function exParen(a: Ex): string {
   const l = exLatex(a);
@@ -582,7 +586,7 @@ export function unitCircleFigure(o: { theta: number; label?: string; arc?: boole
     [[-1, 0], P0[1] > 0 ? -135 : 135, '(−1, 0)'],
     [[0, -1], P0[0] > 0 ? -135 : -45, '(0, −1)'],
   ];
-  for (const [p, a, text] of axisPts) if (Math.hypot(p[0] - P0[0], p[1] - P0[1]) > 0.2) s.endLabel(p, a, text, 12);
+  for (const [p, a, text] of axisPts) if (Math.hypot(p[0] - P0[0], p[1] - P0[1]) > 0.2) s.endLabel(p, a, text, 20);
   return s.build({ margin: 0.3, caption: o.caption });
 }
 
@@ -1203,7 +1207,7 @@ const unitCirclePoint = skill({
       const pTex = giveX ? `\\left(${exLatex(X)},\\ y\\right)` : `\\left(x,\\ ${exLatex(Y)}\\right)`;
       return {
         prompt: `The point $P(\\theta) = ${pTex}$ lies on the unit circle, and the terminal arm of $\\theta$ is in quadrant ${ROMAN[q]}. Determine the exact value of $${uName}$. ${SQRT_NOTE}`,
-        parts: [numPart(exValue(uv), { display: 'fraction', label: `$${uName} =$` })],
+        parts: [exPart(uv, { label: `$${uName} =$` })],
         hints: ['Every point on the unit circle satisfies $x^2 + y^2 = 1$.', `Solve for $${uName}^2$, take the square root, and choose the sign for quadrant ${ROMAN[q]}.`],
         solution: [
           `Substitute into $x^2 + y^2 = 1$: $${giveX ? `${exParen(kv)}^2 + y^2` : `x^2 + ${exParen(kv)}^2`} = 1$`,
@@ -1325,7 +1329,7 @@ const exactTrig = skill({
       return {
         prompt: `Determine the exact value of $${fnAt(f, t, rad)}$. ${SQRT_NOTE}`,
         figure: unitCircleFigure({ theta: t, label: 'P(θ)' }),
-        parts: [numPart(exValue(value!), { display: 'fraction', label: `$${fnAt(f, t, rad)} =$` })],
+        parts: [exPart(value!, { label: `$${fnAt(f, t, rad)} =$` })],
         hints: [
           'Find the point $P(\\theta) = (x, y)$ on the unit circle.',
           '$\\sin\\theta = y$, $\\cos\\theta = x$, $\\tan\\theta = \\dfrac{y}{x}$, and the reciprocal ratios are $\\csc\\theta = \\dfrac{1}{y}$, $\\sec\\theta = \\dfrac{1}{x}$, $\\cot\\theta = \\dfrac{x}{y}$.',
@@ -1353,7 +1357,7 @@ const exactTrig = skill({
       }
       return {
         prompt: `Determine the exact value of $${lhs}$. ${SQRT_NOTE}`,
-        parts: [numPart(exValue(value), { display: 'fraction', label: `$${lhs} =$` })],
+        parts: [exPart(value, { label: `$${lhs} =$` })],
         hints: [
           deg < 0 || deg >= 360 ? 'Find a coterminal angle between $0$ and $2\\pi$ first.' : 'Find the quadrant and the reference angle, then the point $P(\\theta) = (x, y)$.',
           'Use $\\csc\\theta = \\dfrac{1}{y}$, $\\sec\\theta = \\dfrac{1}{x}$ and $\\cot\\theta = \\dfrac{x}{y}$ for the reciprocal ratios. Keep the signs of $x$ and $y$.',
@@ -1391,7 +1395,7 @@ const exactTrig = skill({
     const first = (x: Term) => `$\\${x.f} ${ang(x.t, rad, true)} = ${exLatex(x.raw)}$`;
     return {
       prompt: `Determine the exact value of $${expr}$. ${SQRT_NOTE}`,
-      parts: [numPart(exValue(result), { display: 'fraction', label: 'Value' })],
+      parts: [exPart(result, { label: 'Value' })],
       hints: [
         `Find each ratio separately from the point on the unit circle.${t1.sq || t2.sq ? ` Remember that $\\${(t1.sq ? t1 : t2).f}^2\\theta$ means $(\\${(t1.sq ? t1 : t2).f}\\theta)^2$.` : ''}`,
         'Substitute the exact values, then simplify. Keep radicals exact and rationalize denominators.',
@@ -1464,7 +1468,7 @@ const trigRatioValue = skill({
       const v = ratioXYR(f, ex(x), ex(y), ex(h))!;
       return {
         prompt: `The point $P(${x}, ${y})$ lies on the terminal arm of an angle $\\theta$ in standard position. Determine the exact value of $\\${f}\\theta$.`,
-        parts: [numPart(exValue(v), { display: 'fraction', label: `$\\${f}\\theta =$` })],
+        parts: [exPart(v, { label: `$\\${f}\\theta =$` })],
         hints: ['Find $r = \\sqrt{x^2 + y^2}$, the distance from the origin to $P$.', `$\\${f}\\theta = ${DEF_XYR[f]}$`],
         solution: [`$r = \\sqrt{(${x})^2 + (${y})^2} = \\sqrt{${h * h}} = ${h}$`, `$\\${f}\\theta = ${DEF_XYR[f]} = \\dfrac{${f === 'cot' ? x : h}}{${f === 'sec' ? x : y}} = ${exLatex(v)}$`],
         answerDisplay: `$\\${f}\\theta = ${exLatex(v)}$`,
@@ -1505,7 +1509,7 @@ const trigRatioValue = skill({
       steps.push(asked.map((g) => `$\\${g}\\theta = ${DEF_XYR[g]} = ${exLatex(vals[g])}$`).join(' and '));
       return {
         prompt: `Given $${givenTex}$ and ${where}, determine the exact values of $\\${asked[0]}\\theta$ and $\\${asked[1]}\\theta$. ${SQRT_NOTE}`,
-        parts: asked.map((g) => numPart(exValue(vals[g]), { display: 'fraction', label: `$\\${g}\\theta =$` })),
+        parts: asked.map((g) => exPart(vals[g], { label: `$\\${g}\\theta =$` })),
         hints: [
           `Write $\\${f}\\theta$ in terms of $x$, $y$ and $r$, and read off two of them with the correct signs.`,
           'Use $x^2 + y^2 = r^2$ for the third, then $\\sin\\theta = \\dfrac{y}{r}$, $\\cos\\theta = \\dfrac{x}{r}$, $\\tan\\theta = \\dfrac{y}{x}$ and their reciprocals.',

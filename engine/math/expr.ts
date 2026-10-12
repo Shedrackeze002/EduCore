@@ -117,7 +117,7 @@ function tokenize(input: string): Tok[] {
       i++;
       continue;
     }
-    if ('+-*/^(),='.includes(c)) {
+    if ('+-*/^(),=|'.includes(c)) {
       out.push({ k: 'op', v: c, pos: i });
       i++;
       continue;
@@ -130,6 +130,8 @@ function tokenize(input: string): Tok[] {
 
 class Parser {
   private i = 0;
+  /** How many |…| bars are open: inside one, a bar closes it rather than starting a new one. */
+  private absDepth = 0;
   constructor(private toks: Tok[]) {}
 
   private peek(): Tok {
@@ -181,7 +183,7 @@ class Parser {
         continue;
       }
       const t = this.peek();
-      if (t.k === 'id' || t.k === 'fn' || t.k === 'pi' || (t.k === 'num' && t.raw === 'e') || (t.k === 'op' && t.v === '(')) {
+      if (t.k === 'id' || t.k === 'fn' || t.k === 'pi' || (t.k === 'num' && t.raw === 'e') || (t.k === 'op' && (t.v === '(' || (t.v === '|' && this.absDepth === 0)))) {
         const right = this.power();
         left = { t: 'mul', a: left, b: right, implicit: true };
         continue;
@@ -265,6 +267,15 @@ class Parser {
           const inner = this.sum();
           this.expectOp(')');
           return { t: 'paren', a: inner };
+        }
+        if (t.v === '|') {
+          if (this.isOp('|')) throw new ParseError('Empty absolute value bars.', t.pos);
+          this.absDepth++;
+          const inner = this.sum();
+          this.absDepth--;
+          if (!this.isOp('|')) throw new ParseError('An absolute value bar "|" is missing.', t.pos);
+          this.next();
+          return { t: 'fn', name: 'abs', args: [inner] };
         }
         if (t.v === ')') throw new ParseError('There is an extra ")".', t.pos);
         throw new ParseError(`"${t.v}" is missing a number or variable.`, t.pos);

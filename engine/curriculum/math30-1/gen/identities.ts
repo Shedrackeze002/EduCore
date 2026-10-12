@@ -439,7 +439,7 @@ const identitySimplify = skill({
     }
     return {
       prompt: `Simplify $${s.q}$ to ${target}. ${SIMP_NOTE}`,
-      parts: [part({ kind: 'expression', expected: s.exp, form: 'positive-exponents' }, { label: 'Simplified:', placeholder: 'Your simplified expression' })],
+      parts: [part({ kind: 'expression', expected: s.exp, form: 'single-function' }, { label: 'Simplified:', placeholder: 'Your simplified expression' })],
       hints: SIMP_HINTS[s.hint],
       solution: [...chain(s.q, s.steps), `So $${s.q} = ${s.ans}$.`],
       answerDisplay: `$${s.ans}$`,
@@ -775,7 +775,7 @@ const sumDifference = skill({
         const ans = `\\${f} ${coefX(k)}`;
         return {
           prompt: `Write $${q}$ as a single trigonometric function. ${SIMP_NOTE.replace('$\\sin^2 x$ as `sin^2 x`', '$\\sin 2x$ as `sin 2x`')}`,
-          parts: [part({ kind: 'expression', expected: `${f}(${coefX(k)})`, form: 'positive-exponents' }, { label: 'Single function:', placeholder: 'For example: cos 9x' })],
+          parts: [part({ kind: 'expression', expected: `${f}(${coefX(k)})`, form: 'single-function' }, { label: 'Single function:', placeholder: 'For example: cos 9x' })],
           hints: SUM_HINTS,
           solution: [`This matches $${SUM_FORMULA[kind]}$ with $A = ${coefX(m)}$ and $B = ${coefX(n)}$.`, `So $${q} = \\${f}(${coefX(m)} ${kind[3]} ${coefX(n)}) = ${ans}$.`],
           answerDisplay: `$${ans}$`,
@@ -928,7 +928,7 @@ const doubleAngle = skill({
         const ans = `\\${form.f} ${res}`;
         return {
           prompt: `Write $${q}$ as a single trigonometric function. Type $\\sin 2x$ as \`sin 2x\`.`,
-          parts: [part({ kind: 'expression', expected: `${form.f}(${res})`, form: 'positive-exponents' }, { label: 'Single function:', placeholder: 'For example: sin 8x' })],
+          parts: [part({ kind: 'expression', expected: `${form.f}(${res})`, form: 'single-function' }, { label: 'Single function:', placeholder: 'For example: sin 8x' })],
           hints: DOUBLE_HINTS,
           solution: [`This matches $${form.name}$ with $A = ${A}$.`, `So $${q} = \\${form.f}\\left(2\\cdot${half ? '\\dfrac{x}{2}' : A}\\right) = ${ans}$.`],
           answerDisplay: `$${ans}$`,
@@ -982,7 +982,7 @@ const doubleAngle = skill({
       const target = 'a constant or a single trigonometric term';
       return {
         prompt: `Use identities to simplify $${s.q}$ to ${target}. ${SIMP_NOTE}`,
-        parts: [part({ kind: 'expression', expected: s.exp, form: 'positive-exponents' }, { label: 'Simplified:', placeholder: 'Your simplified expression' })],
+        parts: [part({ kind: 'expression', expected: s.exp, form: 'single-function' }, { label: 'Simplified:', placeholder: 'Your simplified expression' })],
         hints: [DOUBLE_HINTS[0], 'Replace each double angle with an expression in $\\sin x$ and $\\cos x$, choosing the form of $\\cos 2x$ that cancels the 1. Then factor and divide out common factors.'],
         solution: [...chain(s.q, s.steps), `So $${s.q} = ${s.ans}$.`],
         answerDisplay: `$${s.ans}$`,

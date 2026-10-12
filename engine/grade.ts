@@ -9,6 +9,7 @@ import {
   ParseError,
   containsNode,
   evaluate,
+  isConstant,
   parseEquation,
   parseExpr,
   splitPoint,
@@ -131,7 +132,10 @@ function stripUnits(s: string): string {
     .trim();
 }
 
-export function parseNumber(raw: string, allowExpression: boolean): { value: number; isPlain: boolean } | null {
+/** Functions a student must work out rather than type: an exact value is not "sin(5pi/12)". */
+const WORKED_OUT = new Set(['sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'ln', 'log', 'exp']);
+
+export function parseNumber(raw: string, allowExpression: boolean, allowFunctions = false): { value: number; isPlain: boolean } | null {
   let s = stripUnits(raw.replace(/\$/g, '').trim());
   if (!s) return null;
   if (GROUPED.test(s)) s = s.replace(/,/g, '');
@@ -144,6 +148,9 @@ export function parseNumber(raw: string, allowExpression: boolean): { value: num
   }
   const node = parseExpr(s);
   if (variablesOf(node).size > 0) throw new ParseError('Your answer should be a number, not an expression with variables.', 0);
+  if (!allowFunctions && containsNode(node, (x) => x.t === 'fn' && WORKED_OUT.has(x.name))) {
+    throw new ParseError('Work out the value: give a number or an exact form such as sqrt(3)/2 or 5pi/6, without sin, cos, tan, ln or log.', 0);
+  }
   const plain = isPlainNumber(node);
   if (!plain && !allowExpression) {
     throw new ParseError('Calculate the final value as a number (you can use a decimal or a fraction).', 0);
@@ -156,7 +163,7 @@ export function parseNumber(raw: string, allowExpression: boolean): { value: num
 /** A number, a negative number, or a simple fraction of numbers. */
 function isPlainNumber(n: Node): boolean {
   const u = unparen(n);
-  if (u.t === 'num') return true;
+  if (u.t === 'num') return u.raw !== 'e';
   if (u.t === 'neg') return isPlainNumber(u.a);
   if (u.t === 'div') {
     const a = unparen(u.a);
@@ -177,7 +184,7 @@ function gradeNumeric(spec: Extract<AnswerSpec, { kind: 'numeric' }>, response: 
   }
   if (['undefined', 'undef', 'und', 'dne'].includes(r)) return no();
   const allowExpr = spec.allowExpression ?? spec.decimals === undefined;
-  const parsed = parseNumber(response, allowExpr);
+  const parsed = parseNumber(response, allowExpr, spec.allowFunctions);
   if (!parsed) return invalid('Enter an answer.');
   const v = parsed.value;
   if (spec.tolerance !== undefined) {
@@ -207,7 +214,7 @@ function gradeNumbers(spec: Extract<AnswerSpec, { kind: 'numbers' }>, response: 
     .filter(Boolean);
   if (!pieces.length) return invalid('Enter an answer.');
   if (spec.values.length === 0) return no('Check whether any value works.');
-  const one = (value: number): Extract<AnswerSpec, { kind: 'numeric' }> => ({ kind: 'numeric', value, decimals: spec.decimals, tolerance: spec.tolerance });
+  const one = (value: number): Extract<AnswerSpec, { kind: 'numeric' }> => ({ kind: 'numeric', value, decimals: spec.decimals, tolerance: spec.tolerance, allowFunctions: spec.allowFunctions });
   const unmatched = [...spec.values];
   let wrong = 0;
   for (const piece of pieces) {
@@ -299,6 +306,8 @@ export function formIssue(n: Node, form: ExprForm, radicalIndex = 2): string | n
     }
     case 'positive-exponents':
       return exponentIssue(n);
+    case 'single-function':
+      return singleFunctionIssue(n);
     case 'prime-factorization':
       return primeFactorIssue(n);
     case 'radical-form':
@@ -309,6 +318,21 @@ export function formIssue(n: Node, form: ExprForm, radicalIndex = 2): string | n
       if (containsNode(n, (x) => x.t === 'fn')) return 'Write the answer using a rational exponent instead of a radical sign.';
       return null;
   }
+}
+
+/**
+ * A simplified trigonometric expression: at most one function (sin 2x, 2sec^2 x, 1 + cos x, or a
+ * constant) and no function in a denominator, so the unsimplified expression typed back is not accepted.
+ */
+function singleFunctionIssue(n: Node): string | null {
+  let calls = 0;
+  containsNode(n, (x) => {
+    if (x.t === 'fn' && WORKED_OUT.has(x.name)) calls++;
+    return false;
+  });
+  if (calls > 1) return 'Simplify further: the answer needs only one trigonometric function.';
+  if (containsNode(n, (x) => x.t === 'div' && containsNode(x.b, (y) => y.t === 'fn'))) return 'Simplify further: write the answer without a fraction.';
+  return null;
 }
 
 function isIntegerExponent(n: Node): boolean {

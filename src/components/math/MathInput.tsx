@@ -15,6 +15,7 @@ const KEYS: Array<{ label: string; insert: string; title: string; cursorBack?: n
   { label: '√', insert: 'sqrt()', title: 'Square root', cursorBack: 1 },
   { label: '∛', insert: 'cbrt()', title: 'Cube root', cursorBack: 1 },
   { label: 'ⁿ√', insert: 'root(, )', title: 'nth root: root(index, number)', cursorBack: 3 },
+  { label: '|x|', insert: 'abs()', title: 'Absolute value', cursorBack: 1 },
   { label: 'a/b', insert: '/', title: 'Fraction' },
   { label: '( )', insert: '()', title: 'Brackets', cursorBack: 1 },
   { label: 'π', insert: 'pi', title: 'Pi' },

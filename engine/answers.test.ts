@@ -28,6 +28,13 @@ describe('answerMarkdown', () => {
     expect(answerMarkdown({ kind: 'point', x: -2.5, y: 0.25 })).toBe('$(-2.5,\\ 0.25)$');
     expect(canonicalResponse({ kind: 'point', x: -1 / 3, y: 4 })).toBe('(-1/3, 4)');
   });
+  it('shows exact forms for multiples of pi and radicals', () => {
+    expect(answerMarkdown({ kind: 'numeric', value: (5 * Math.PI) / 6 })).toBe('$\\frac{5\\pi}{6}$');
+    expect(answerMarkdown({ kind: 'numeric', value: Math.sqrt(3) / 2 })).toBe('$\\frac{\\sqrt{3}}{2}$');
+    expect(canonicalResponse({ kind: 'numeric', value: (-2 * Math.sqrt(3)) / 3 })).toBe('-2sqrt(3)/3');
+    expect(canonicalResponse({ kind: 'numeric', value: 0.9659258262890683, exact: '(sqrt(6) + sqrt(2))/4' })).toBe('(sqrt(6) + sqrt(2))/4');
+    expect(answerMarkdown({ kind: 'numbers', values: [Math.PI / 6, (5 * Math.PI) / 6] })).toBe('$\\frac{\\pi}{6}$ and $\\frac{5\\pi}{6}$');
+  });
   it('follows the display a generator asks for', () => {
     expect(answerMarkdown({ ...num(1.2), display: 'fraction' }, { suffix: 'km' })).toBe('$1\\tfrac{1}{5}$ km');
     expect(answerMarkdown({ ...num(0.6), display: 'decimal' })).toBe('$0.6$');

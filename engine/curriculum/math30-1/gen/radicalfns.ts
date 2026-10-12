@@ -479,6 +479,7 @@ const sqrtOfFunction = skill({
       return {
         prompt: `Given $f(x) = ${polyTex(asc)}$, find the $x$-coordinates of all the invariant points of $y = f(x)$ and $y = \\sqrt{f(x)}$. Round to the nearest hundredth where necessary.`,
         parts: [part({ kind: 'numbers', values: all, decimals: 2 }, { label: '$x =$', placeholder: 'e.g. -3, 1.41' })],
+        calculator: true,
         hints: ['Invariant points occur where $f(x) = 0$ or $f(x) = 1$, because $\\sqrt{0} = 0$ and $\\sqrt{1} = 1$.', 'Solve both equations; use the quadratic formula if they do not factor.'],
         solution: [...steps, `The invariant points have $x \\approx ${all.map((x) => fmtFixed(x, 2).replace(/\.00$/, '')).join(',\\ ')}$.`],
       };

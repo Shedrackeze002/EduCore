@@ -146,24 +146,27 @@ export function radPlane(o: {
   asymptotes?: number[];
   dots?: PlanePoint[];
   caption?: string;
+  /** Use degrees on the x-axis (curves then take x in degrees). */
+  deg?: boolean;
 }): PlaneFigure {
   const pad = o.step / 2;
-  const grid: GridSpec = { xMin: r3(rv(o.x0 - pad)), xMax: r3(rv(o.x1 + pad)), yMin: o.yMin, yMax: o.yMax, xStep: rv(o.step), yStep: 1 };
+  const X = o.deg ? (d: number) => d : rv;
+  const grid: GridSpec = { xMin: r3(X(o.x0 - pad)), xMax: r3(X(o.x1 + pad)), yMin: o.yMin, yMax: o.yMax, xStep: X(o.step), yStep: 1, ...(o.deg ? { xLabel: 'x (degrees)' } : {}) };
   const ppx = 340 / (grid.xMax - grid.xMin);
   const ppy = 244.8 / (o.yMax - o.yMin);
   const labels: PlanePoint[] = [];
   const lab = o.label ?? o.step;
   for (let k = Math.ceil(o.x0 / lab - 1e-9); k * lab <= o.x1 + 1e-9; k++) {
-    const text = piLabel(k * lab);
-    labels.push({ x: r3(rv(k * lab) - (8 + textWidth(text) / 2) / ppx), y: r3(o.yMin - 22 / ppy), label: text, color: 'muted', open: true });
+    const text = o.deg ? `${fl(k * lab)}°` : piLabel(k * lab);
+    labels.push({ x: r3(X(k * lab) - (8 + textWidth(text) / 2) / ppx), y: r3(o.yMin - 22 / ppy), label: text, color: 'muted', open: true });
   }
   const yl = o.yLabel ?? 1;
   for (let k = Math.ceil(o.yMin / yl - 1e-9); k * yl <= o.yMax + 1e-9; k++) {
     const text = fl(k * yl);
     labels.push({ x: r3(grid.xMin - (14 + textWidth(text)) / ppx), y: r3(k * yl - 11.5 / ppy), label: text, color: 'muted', open: true });
   }
-  const lines: PlaneLine[] = (o.asymptotes ?? []).map((a) => ({ line: { A: 1, B: 0, C: -r3(rv(a)) }, dashed: true, color: 'muted' }));
-  const polylines = o.curves.flatMap((c) => curvePieces(c.f, grid, (c.breaks ?? []).map(rv)).map((points) => ({ points, color: c.color ?? 'brand' })));
+  const lines: PlaneLine[] = (o.asymptotes ?? []).map((a) => ({ line: { A: 1, B: 0, C: -r3(X(a)) }, dashed: true, color: 'muted' }));
+  const polylines = o.curves.flatMap((c) => curvePieces(c.f, grid, (c.breaks ?? []).map(X)).map((points) => ({ points, color: c.color ?? 'brand' })));
   return {
     type: 'plane',
     grid,
@@ -175,16 +178,11 @@ export function radPlane(o: {
   };
 }
 
-/** A graph with the x-axis in degrees (ordinary tick labels). */
-function degPlane(o: { x0: number; x1: number; step: number; yMin: number; yMax: number; curves: Curve[]; asymptotes?: number[] }): PlaneFigure {
-  const grid: GridSpec = { xMin: o.x0, xMax: o.x1, yMin: o.yMin, yMax: o.yMax, xStep: o.step, yStep: 1, xLabel: 'x (degrees)' };
-  const lines: PlaneLine[] = (o.asymptotes ?? []).map((a) => ({ line: { A: 1, B: 0, C: -a }, dashed: true, color: 'muted' }));
-  return {
-    type: 'plane',
-    grid,
-    polylines: o.curves.flatMap((c) => curvePieces(c.f, grid, c.breaks ?? []).map((points) => ({ points, color: c.color ?? 'brand' }))),
-    ...(lines.length ? { lines } : {}),
-  };
+/** A graph with the x-axis in degrees, labelled every `label` degrees. */
+function degPlane(o: { x0: number; x1: number; step: number; label?: number; yMin: number; yMax: number; curves: Curve[]; asymptotes?: number[] }): PlaneFigure {
+  const span = o.x1 - o.x0 + o.step;
+  const label = o.label ?? ((340 * o.step) / span >= 40 ? o.step : 2 * o.step);
+  return radPlane({ ...o, label, deg: true, yLabel: o.yMax - o.yMin > 11 ? 2 : 1 });
 }
 
 // ---------------------------------------------------------------------------
@@ -684,7 +682,7 @@ const sinusoidGraph = skill({
     const A = Math.abs(s.a);
     const x0 = -P / 4;
     const x1 = x0 + 2 * P;
-    const g = degPlane({ x0: x0 - step / 2, x1: x1 + step / 2, step, yMin: Math.min(s.d - A, 0) - 0.5, yMax: Math.max(s.d + A, 0) + 0.5, curves: [{ f: sinusFn(s, true) }] });
+    const g = degPlane({ x0, x1, step, yMin: Math.min(s.d - A, 0) - 0.5, yMax: Math.max(s.d + A, 0) + 0.5, curves: [{ f: sinusFn(s, true) }] });
     return {
       prompt: `The graph of a sinusoidal function is shown, with $x$ in degrees. Write it in the form $y = a\\${target} b(x - c) + d$ with $a > 0$, $b > 0$ and the least possible non-negative value of $c$. Give $a$, $b$, $c$ (in degrees) and $d$.`,
       figure: g,
@@ -718,7 +716,7 @@ const zerosIn = (x0: number, x1: number) => {
 };
 function tanGraph(x0: number, x1: number, deg: boolean): PlaneFigure {
   const asym = asymptotesIn(x0 - 45, x1 + 45);
-  if (deg) return degPlane({ x0: x0 - 22.5, x1: x1 + 22.5, step: 45, yMin: -4.5, yMax: 4.5, curves: [{ f: (x) => Math.tan(rv(x)), breaks: asym }], asymptotes: asymptotesIn(x0, x1) });
+  if (deg) return degPlane({ x0, x1, step: 45, label: 90, yMin: -4.5, yMax: 4.5, curves: [{ f: (x) => Math.tan(rv(x)), breaks: asym }], asymptotes: asymptotesIn(x0, x1) });
   return radPlane({ x0, x1, step: 45, label: 90, yMin: -4.5, yMax: 4.5, curves: [{ f: Math.tan, breaks: asym }], asymptotes: asymptotesIn(x0, x1) });
 }
 const TAN_WINDOWS: Array<[number, number]> = [

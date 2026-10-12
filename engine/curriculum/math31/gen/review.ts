@@ -68,9 +68,9 @@ const fnRev = skill({
   gen(rng, d): GenOutput {
     const kind =
       d === 1
-        ? rng.pick(['evalComp', 'compLinear', 'dqLinear'] as const)
+        ? rng.pick(['evalComp', 'compLinear'] as const)
         : d === 2
-          ? rng.pick(['compQuad', 'dqQuad', 'domainRoot', 'decompose'] as const)
+          ? rng.pick(['compQuad', 'dqQuad', 'dqQuad', 'domainRoot', 'decompose', 'dqLinear'] as const)
           : rng.pick(['dqCubic', 'dqRational', 'domainMixed', 'dqQuadEval'] as const);
     const [F, G] = rng.pick([['f', 'g'], ['f', 'g'], ['p', 'q'], ['u', 'v']] as const);
 
@@ -386,6 +386,25 @@ const EXACT: Array<[number, string]> = [
   [Math.sqrt(3), '\\sqrt{3}'],
   [Math.sqrt(3) / 3, '\\frac{\\sqrt{3}}{3}'],
 ];
+/** The same exact values as students type them. */
+const EXACT_TEXT: Array<[number, string]> = [
+  [0, '0'],
+  [0.5, '1/2'],
+  [Math.SQRT2 / 2, 'sqrt(2)/2'],
+  [Math.sqrt(3) / 2, 'sqrt(3)/2'],
+  [1, '1'],
+  [Math.sqrt(3), 'sqrt(3)'],
+  [Math.sqrt(3) / 3, 'sqrt(3)/3'],
+];
+function exactText(v: number): string {
+  const hit = EXACT_TEXT.find(([x]) => Math.abs(Math.abs(v) - x) < 1e-9);
+  if (!hit) return fmt(v);
+  return v < -1e-9 ? `-${hit[1]}` : hit[1];
+}
+/** A numeric part with an exact value, recording the exact form for review screens. */
+function exactPart(value: number, exact: string, label?: string, suffix?: string): Part {
+  return { label, suffix, answer: { kind: 'numeric', value, exact } };
+}
 function exactTex(v: number): string {
   const hit = EXACT.find(([x]) => Math.abs(Math.abs(v) - x) < 1e-9);
   if (!hit) return fmt(v);
@@ -423,7 +442,7 @@ function solveSpecial(f: Trig, v: number): Ang[] {
 }
 const listAngles = (as: Ang[]) => as.map((a) => `$x = ${angTex(a)}$`).join(', ');
 const solsPart = (as: Ang[]): Part =>
-  part({ kind: 'numbers', values: as.map(angVal) }, { label: '$x =$', placeholder: 'e.g. pi/6, 5pi/6' });
+  part({ kind: 'numbers', values: as.map(angVal), exact: as.map(angText) }, { label: '$x =$', placeholder: 'e.g. pi/6, 5pi/6' });
 const solsText = (as: Ang[]) => (as.length ? as.map((a) => `$${angTex(a)}$`).join(', ') : 'no solution');
 
 /** Explain the solutions of f(x) = v in [0, 2π). */
@@ -442,18 +461,18 @@ function solveSteps(f: Trig, v: number, sols: Ang[]): string[] {
 }
 
 /** Trig identity templates: expression, equivalent, distractors, a short reason. */
-const IDENTITIES: Array<{ e: string; ans: string; wrong: string[]; why: string[] }> = [
-  { e: '\\sin x \\cot x', ans: '\\cos x', wrong: ['\\sin x', '\\tan x', '\\dfrac{\\sin^2 x}{\\cos x}'], why: ['$\\cot x = \\dfrac{\\cos x}{\\sin x}$', '$\\sin x \\cdot \\dfrac{\\cos x}{\\sin x} = \\cos x$'] },
-  { e: '\\dfrac{1 - \\cos^2 x}{\\sin x}', ans: '\\sin x', wrong: ['\\cos x', '\\dfrac{1}{\\sin x}', '1 - \\cos x'], why: ['Pythagorean identity: $1 - \\cos^2 x = \\sin^2 x$', '$\\dfrac{\\sin^2 x}{\\sin x} = \\sin x$'] },
-  { e: '\\sec^2 x - \\tan^2 x', ans: '1', wrong: ['-1', '\\sec x - \\tan x', '0'], why: ['Pythagorean identity: $1 + \\tan^2 x = \\sec^2 x$', 'So $\\sec^2 x - \\tan^2 x = 1$'] },
-  { e: '\\tan x \\cos x', ans: '\\sin x', wrong: ['\\cos x', '1', '\\dfrac{\\sin x}{\\cos^2 x}'], why: ['$\\tan x = \\dfrac{\\sin x}{\\cos x}$', '$\\dfrac{\\sin x}{\\cos x} \\cdot \\cos x = \\sin x$'] },
-  { e: '\\dfrac{\\sin 2x}{\\sin x}', ans: '2\\cos x', wrong: ['2', '\\cos x', '2\\sin x'], why: ['Double-angle identity: $\\sin 2x = 2\\sin x \\cos x$', '$\\dfrac{2\\sin x \\cos x}{\\sin x} = 2\\cos x$'] },
-  { e: '\\cos^2 x - \\sin^2 x', ans: '\\cos 2x', wrong: ['1', '\\sin 2x', '-\\cos 2x'], why: ['Double-angle identity: $\\cos 2x = \\cos^2 x - \\sin^2 x$'] },
+const IDENTITIES: Array<{ e: string; ans: string; wrong: string[]; why: string[]; typed?: string }> = [
+  { typed: 'cos x', e: '\\sin x \\cot x', ans: '\\cos x', wrong: ['\\sin x', '\\tan x', '\\dfrac{\\sin^2 x}{\\cos x}'], why: ['$\\cot x = \\dfrac{\\cos x}{\\sin x}$', '$\\sin x \\cdot \\dfrac{\\cos x}{\\sin x} = \\cos x$'] },
+  { typed: 'sin x', e: '\\dfrac{1 - \\cos^2 x}{\\sin x}', ans: '\\sin x', wrong: ['\\cos x', '\\dfrac{1}{\\sin x}', '1 - \\cos x'], why: ['Pythagorean identity: $1 - \\cos^2 x = \\sin^2 x$', '$\\dfrac{\\sin^2 x}{\\sin x} = \\sin x$'] },
+  { typed: '1', e: '\\sec^2 x - \\tan^2 x', ans: '1', wrong: ['-1', '\\sec x - \\tan x', '0'], why: ['Pythagorean identity: $1 + \\tan^2 x = \\sec^2 x$', 'So $\\sec^2 x - \\tan^2 x = 1$'] },
+  { typed: 'sin x', e: '\\tan x \\cos x', ans: '\\sin x', wrong: ['\\cos x', '1', '\\dfrac{\\sin x}{\\cos^2 x}'], why: ['$\\tan x = \\dfrac{\\sin x}{\\cos x}$', '$\\dfrac{\\sin x}{\\cos x} \\cdot \\cos x = \\sin x$'] },
+  { typed: '2cos x', e: '\\dfrac{\\sin 2x}{\\sin x}', ans: '2\\cos x', wrong: ['2', '\\cos x', '2\\sin x'], why: ['Double-angle identity: $\\sin 2x = 2\\sin x \\cos x$', '$\\dfrac{2\\sin x \\cos x}{\\sin x} = 2\\cos x$'] },
+  { typed: 'cos 2x', e: '\\cos^2 x - \\sin^2 x', ans: '\\cos 2x', wrong: ['1', '\\sin 2x', '-\\cos 2x'], why: ['Double-angle identity: $\\cos 2x = \\cos^2 x - \\sin^2 x$'] },
   { e: '(\\sin x + \\cos x)^2', ans: '1 + \\sin 2x', wrong: ['1', '1 + 2\\sin x', '1 + \\cos 2x'], why: ['Expand: $\\sin^2 x + 2\\sin x \\cos x + \\cos^2 x$', '$\\sin^2 x + \\cos^2 x = 1$ and $2\\sin x \\cos x = \\sin 2x$', 'So the expression equals $1 + \\sin 2x$'] },
-  { e: '\\dfrac{1}{1 + \\tan^2 x}', ans: '\\cos^2 x', wrong: ['\\sec^2 x', '\\sin^2 x', '\\cot^2 x'], why: ['$1 + \\tan^2 x = \\sec^2 x$', '$\\dfrac{1}{\\sec^2 x} = \\cos^2 x$'] },
-  { e: '\\dfrac{1 - \\sin^2 x}{\\cos x}', ans: '\\cos x', wrong: ['\\sin x', '1 - \\sin x', '\\sec x'], why: ['$1 - \\sin^2 x = \\cos^2 x$', '$\\dfrac{\\cos^2 x}{\\cos x} = \\cos x$'] },
+  { typed: 'cos^2 x', e: '\\dfrac{1}{1 + \\tan^2 x}', ans: '\\cos^2 x', wrong: ['\\sec^2 x', '\\sin^2 x', '\\cot^2 x'], why: ['$1 + \\tan^2 x = \\sec^2 x$', '$\\dfrac{1}{\\sec^2 x} = \\cos^2 x$'] },
+  { typed: 'cos x', e: '\\dfrac{1 - \\sin^2 x}{\\cos x}', ans: '\\cos x', wrong: ['\\sin x', '1 - \\sin x', '\\sec x'], why: ['$1 - \\sin^2 x = \\cos^2 x$', '$\\dfrac{\\cos^2 x}{\\cos x} = \\cos x$'] },
   { e: '1 - 2\\sin^2 x', ans: '\\cos 2x', wrong: ['\\sin 2x', '\\cos^2 x', '-\\cos 2x'], why: ['Double-angle identity: $\\cos 2x = 1 - 2\\sin^2 x$'] },
-  { e: '\\dfrac{\\sin x}{\\tan x}', ans: '\\cos x', wrong: ['\\sin^2 x', '\\sec x', '\\dfrac{1}{\\cos x}'], why: ['$\\dfrac{\\sin x}{\\tan x} = \\sin x \\cdot \\dfrac{\\cos x}{\\sin x}$', '$= \\cos x$'] },
+  { typed: 'cos x', e: '\\dfrac{\\sin x}{\\tan x}', ans: '\\cos x', wrong: ['\\sin^2 x', '\\sec x', '\\dfrac{1}{\\cos x}'], why: ['$\\dfrac{\\sin x}{\\tan x} = \\sin x \\cdot \\dfrac{\\cos x}{\\sin x}$', '$= \\cos x$'] },
   { e: '\\csc x - \\sin x', ans: '\\cos x \\cot x', wrong: ['\\cos x \\tan x', '\\cos^2 x', '\\cot x'], why: ['$\\csc x - \\sin x = \\dfrac{1}{\\sin x} - \\sin x = \\dfrac{1 - \\sin^2 x}{\\sin x}$', '$= \\dfrac{\\cos^2 x}{\\sin x} = \\cos x \\cdot \\dfrac{\\cos x}{\\sin x} = \\cos x \\cot x$'] },
 ];
 
@@ -490,7 +509,7 @@ const trigLog = skill({
           : [`$${refWork(a)}.`, `$\\${f} ${angTex(refAng(a))} = ${exactTex(Math.abs(v))}$`, `In quadrant ${['', 'I', 'II', 'III', 'IV'][q]}, ${FN_WORD[f]} is ${v > 0 ? 'positive' : 'negative'}.`];
       return {
         prompt: `Find the exact value of $\\${f} ${angTex(a)}$.`,
-        parts: [numPart(v, { label: `$\\${f} ${angTex(a)} =$` })],
+        parts: [exactPart(v, exactText(v), `$\\${f} ${angTex(a)} =$`)],
         hints: ['Find the reference angle and the quadrant of the angle (or the point on the unit circle for an angle on an axis).', `Use the special triangles: $\\sin\\frac{\\pi}{6} = \\frac{1}{2}$, $\\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$, $\\sin\\frac{\\pi}{4} = \\cos\\frac{\\pi}{4} = \\frac{\\sqrt{2}}{2}$. Type a root as sqrt(3).`],
         solution: [...steps, `$\\${f} ${angTex(a)} = ${exact}$`],
         answerDisplay: `$${exact}$`,
@@ -505,7 +524,7 @@ const trigLog = skill({
         const tex = angTex({ n: f.n, d: f.d });
         return {
           prompt: `Convert $${degs}^\\circ$ to radians. Give an exact answer in terms of $\\pi$.`,
-          parts: [numPart((degs * Math.PI) / 180, { label: 'Angle $=$', suffix: 'rad' })],
+          parts: [exactPart((degs * Math.PI) / 180, angText({ n: f.n, d: f.d }), 'Angle $=$', 'rad')],
           hints: ['$180^\\circ = \\pi$ radians.', `Multiply by $\\dfrac{\\pi}{180^\\circ}$ and reduce the fraction.`],
           solution: [`$${degs}^\\circ \\times \\dfrac{\\pi}{180^\\circ} = \\dfrac{${degs}\\pi}{180}$`, `Reduce: $\\dfrac{${degs}}{180} = ${fracLatex(f)}$`, `$${degs}^\\circ = ${tex}$ rad`],
           answerDisplay: `$${tex}$ rad (type ${angText({ n: f.n, d: f.d })})`,
@@ -601,6 +620,14 @@ const trigLog = skill({
 
     if (kind === 'identity') {
       const t = rng.pick(IDENTITIES);
+      if (t.typed && rng.chance(0.5)) {
+        return {
+          prompt: `Simplify $${t.e}$ to a single trigonometric function (or a constant).`,
+          parts: [part({ kind: 'expression', expected: t.typed, form: 'single-function' }, { label: 'Simplified:' })],
+          hints: ['Write everything in terms of $\\sin x$ and $\\cos x$, or use a Pythagorean ($\\sin^2 x + \\cos^2 x = 1$) or double-angle identity.', 'Type your answer like sin x, 2cos x, cos^2 x or cos 2x.'],
+          solution: [...t.why, `The expression simplifies to $${t.ans}$.`],
+        };
+      }
       return {
         prompt: `Which expression is equivalent to $${t.e}$ (wherever both are defined)?`,
         parts: [part(mc(rng, `$${t.ans}$`, t.wrong.map((w) => `$${w}$`)))],
