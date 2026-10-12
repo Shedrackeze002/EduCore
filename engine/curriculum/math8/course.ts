@@ -3,8 +3,8 @@
  * Outcomes follow the Alberta Mathematics Kindergarten to Grade 9 Program of Studies (2007,
  * updated 2016), based on the WNCP Common Curriculum Framework for K–9 Mathematics. This is the
  * program in effect for 2026–27; Alberta is piloting a new Grades 7–9 mathematics curriculum for
- * mandatory use from September 2027. The outcome wording still needs a word-for-word check against
- * the program of studies once its host (curriculum.learnalberta.ca) is reachable.
+ * mandatory use from September 2027. Outcome wording checked against the program of studies on
+ * curriculum.learnalberta.ca (October 2026).
  */
 import type { CourseMeta, LessonMeta, Outcome, UnitMeta } from '../../types.ts';
 
@@ -17,13 +17,13 @@ export const OUTCOMES: Outcome[] = [
   { code: 'N6', strand: 'Number', text: 'Demonstrate an understanding of multiplying and dividing positive fractions and mixed numbers, concretely, pictorially and symbolically.' },
   { code: 'N7', strand: 'Number', text: 'Demonstrate an understanding of multiplication and division of integers, concretely, pictorially and symbolically.' },
   { code: 'PR1', strand: 'Patterns and Relations', text: 'Graph and analyze two-variable linear relations.' },
-  { code: 'PR2', strand: 'Patterns and Relations', text: 'Model and solve problems concretely, pictorially and symbolically, using linear equations of the form ax = b, x/a = b (a ≠ 0), ax + b = c, x/a + b = c (a ≠ 0) and a(x + b) = c, where a, b and c are integers.' },
+  { code: 'PR2', strand: 'Patterns and Relations', text: 'Model and solve problems concretely, pictorially and symbolically, using linear equations of the form: ax = b; x/a = b, a ≠ 0; ax + b = c; x/a + b = c, a ≠ 0; a(x + b) = c, where a, b and c are integers.' },
   { code: 'SS1', strand: 'Shape and Space', text: 'Develop and apply the Pythagorean theorem to solve problems.' },
   { code: 'SS2', strand: 'Shape and Space', text: 'Draw and construct nets for 3-D objects.' },
-  { code: 'SS3', strand: 'Shape and Space', text: 'Determine the surface area of right rectangular prisms, right triangular prisms and right cylinders to solve problems.' },
+  { code: 'SS3', strand: 'Shape and Space', text: 'Determine the surface area of: right rectangular prisms; right triangular prisms; right cylinders to solve problems.' },
   { code: 'SS4', strand: 'Shape and Space', text: 'Develop and apply formulas for determining the volume of right rectangular prisms, right triangular prisms and right cylinders.' },
   { code: 'SS5', strand: 'Shape and Space', text: 'Draw and interpret top, front and side views of 3-D objects composed of right rectangular prisms.' },
-  { code: 'SS6', strand: 'Shape and Space', text: 'Demonstrate an understanding of tessellation by explaining the properties of shapes that make tessellating possible, creating tessellations, and identifying tessellations in the environment.' },
+  { code: 'SS6', strand: 'Shape and Space', text: 'Demonstrate an understanding of the congruence of polygons.' },
   { code: 'SP1', strand: 'Statistics and Probability', text: 'Critique ways in which data is presented in circle graphs, line graphs, bar graphs and pictographs.' },
   { code: 'SP2', strand: 'Statistics and Probability', text: 'Solve problems involving the probability of independent events.' },
 ];
@@ -165,14 +165,14 @@ export const LESSONS: LessonMeta[] = [
     ['Use V = (area of base) × height for prisms', 'Find the volume of a cylinder'],
     60, ['volume', 'capacity']),
 
-  // ---------------- Unit 9: Tessellations ----------------
-  L('m8-9-1', 'm8-u9', '9.1', 'Exploring Tessellations', ['SS6'],
-    ['m8-tessellate'],
-    ['Explain why some shapes tessellate: the angles at each vertex add to 360°'],
-    60, ['tessellation', 'regular polygon']),
-  L('m8-9-2', 'm8-u9', '9.2', 'Creating Tessellations with Transformations', ['SS6'],
-    ['m8-tessellation-transform'],
-    ['Create tessellations by translating, rotating and reflecting shapes', 'Identify tessellations in the environment'],
+  // ---------------- Unit 9: Congruent Polygons ----------------
+  L('m8-9-1', 'm8-u9', '9.1', 'Congruent Polygons', ['SS6'],
+    ['m8-congruent-polygons'],
+    ['Decide whether two polygons are congruent by comparing corresponding sides and angles', 'Use a congruence statement to name corresponding parts and find missing measures'],
+    60, ['congruent', 'corresponding sides', 'corresponding angles', 'congruence statement']),
+  L('m8-9-2', 'm8-u9', '9.2', 'Congruence and Transformations', ['SS6'],
+    ['m8-congruence-transformations'],
+    ['Show that translations, rotations and reflections produce congruent images', 'Identify congruent polygons and the transformation that maps one onto the other'],
     60, []),
 
   // ---------------- Unit 10: Data Analysis and Probability ----------------
@@ -195,7 +195,7 @@ export const UNITS: UnitMeta[] = [
   { id: 'm8-u6', number: 6, title: 'Linear Relations', description: 'Tables of values, graphs and equations of linear relations.', outcomes: ['PR1'], lessons: [], color: 'orange' },
   { id: 'm8-u7', number: 7, title: 'Linear Equations', description: 'Modelling and solving one-step, two-step and distributive linear equations.', outcomes: ['PR2'], lessons: [], color: 'rose' },
   { id: 'm8-u8', number: 8, title: 'Surface Area and Volume', description: 'Views of objects, nets, and the surface area and volume of prisms and cylinders.', outcomes: ['SS2', 'SS3', 'SS4', 'SS5'], lessons: [], color: 'fuchsia' },
-  { id: 'm8-u9', number: 9, title: 'Tessellations', description: 'Shapes that tessellate and tessellations made with transformations.', outcomes: ['SS6'], lessons: [], color: 'indigo' },
+  { id: 'm8-u9', number: 9, title: 'Congruent Polygons', description: 'Congruent polygons, corresponding parts and congruence under transformations.', outcomes: ['SS6'], lessons: [], color: 'indigo' },
   { id: 'm8-u10', number: 10, title: 'Data Analysis and Probability', description: 'Critiquing graphs and the probability of independent events.', outcomes: ['SP1', 'SP2'], lessons: [], color: 'lime' },
 ];
 
@@ -207,7 +207,7 @@ export const MATH8: CourseMeta = {
   shortTitle: 'Math 8',
   grade: 8,
   subject: 'Mathematics',
-  description: 'Grade 8: squares, square roots and the Pythagorean theorem, percents, ratios, rates and proportional reasoning, multiplying and dividing fractions and integers, linear relations and equations, surface area and volume, tessellations, data and probability.',
+  description: 'Grade 8: squares, square roots and the Pythagorean theorem, percents, ratios, rates and proportional reasoning, multiplying and dividing fractions and integers, linear relations and equations, surface area and volume, congruent polygons, data and probability.',
   outcomes: OUTCOMES,
   units: UNITS,
   lessons: LESSONS,

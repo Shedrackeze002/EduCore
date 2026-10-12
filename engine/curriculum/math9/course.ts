@@ -3,33 +3,33 @@
  * Outcomes follow the Alberta Mathematics Kindergarten to Grade 9 Program of Studies (2007,
  * updated 2016), based on the WNCP Common Curriculum Framework for K–9 Mathematics. This is the
  * program in effect for 2026–27; Alberta is piloting a new Grades 7–9 mathematics curriculum for
- * mandatory use from September 2027. The outcome wording still needs a word-for-word check against
- * the program of studies once its host (curriculum.learnalberta.ca) is reachable.
+ * mandatory use from September 2027. Outcome wording checked against the program of studies on
+ * curriculum.learnalberta.ca (October 2026).
  */
 import type { CourseMeta, LessonMeta, Outcome, UnitMeta } from '../../types.ts';
 
 export const OUTCOMES: Outcome[] = [
-  { code: 'N1', strand: 'Number', text: 'Demonstrate an understanding of powers with integral bases (excluding base 0) and whole number exponents by representing repeated multiplication using powers, using patterns to show that a power with an exponent of zero is equal to one, and solving problems involving powers.' },
-  { code: 'N2', strand: 'Number', text: 'Demonstrate an understanding of operations on powers with integral bases (excluding base 0) and whole number exponents.' },
-  { code: 'N3', strand: 'Number', text: 'Demonstrate an understanding of rational numbers by comparing and ordering rational numbers, and solving problems that involve arithmetic operations on rational numbers.' },
+  { code: 'N1', strand: 'Number', text: 'Demonstrate an understanding of powers with integral bases (excluding base 0) and whole number exponents by: representing repeated multiplication, using powers; using patterns to show that a power with an exponent of zero is equal to one; solving problems involving powers.' },
+  { code: 'N2', strand: 'Number', text: 'Demonstrate an understanding of operations on powers with integral bases (excluding base 0) and whole number exponents: (a^m)(a^n) = a^(m + n); a^m ÷ a^n = a^(m − n), m > n; (a^m)^n = a^(mn); (ab)^m = a^m b^m; (a/b)^n = a^n / b^n, b ≠ 0.' },
+  { code: 'N3', strand: 'Number', text: 'Demonstrate an understanding of rational numbers by: comparing and ordering rational numbers; solving problems that involve arithmetic operations on rational numbers.' },
   { code: 'N4', strand: 'Number', text: 'Explain and apply the order of operations, including exponents, with and without technology.' },
   { code: 'N5', strand: 'Number', text: 'Determine the square root of positive rational numbers that are perfect squares.' },
   { code: 'N6', strand: 'Number', text: 'Determine an approximate square root of positive rational numbers that are non-perfect squares.' },
   { code: 'PR1', strand: 'Patterns and Relations', text: 'Generalize a pattern arising from a problem-solving context, using a linear equation, and verify by substitution.' },
   { code: 'PR2', strand: 'Patterns and Relations', text: 'Graph a linear relation, analyze the graph, and interpolate or extrapolate to solve problems.' },
-  { code: 'PR3', strand: 'Patterns and Relations', text: 'Model and solve problems, using linear equations of the form ax = b, x/a = b (a ≠ 0), ax + b = c, x/a + b = c (a ≠ 0), ax = b + cx, a(x + b) = c, ax + b = cx + d, a(bx + c) = d(ex + f) and a/x = b (x ≠ 0), where a, b, c, d, e and f are rational numbers.' },
+  { code: 'PR3', strand: 'Patterns and Relations', text: 'Model and solve problems, using linear equations of the form: ax = b; x/a = b, a ≠ 0; ax + b = c; x/a + b = c, a ≠ 0; ax = b + cx; a(x + b) = c; ax + b = cx + d; a(bx + c) = d(ex + f); a/x = b, x ≠ 0, where a, b, c, d, e and f are rational numbers.' },
   { code: 'PR4', strand: 'Patterns and Relations', text: 'Explain and illustrate strategies to solve single variable linear inequalities with rational coefficients within a problem-solving context.' },
   { code: 'PR5', strand: 'Patterns and Relations', text: 'Demonstrate an understanding of polynomials (limited to polynomials of degree less than or equal to 2).' },
   { code: 'PR6', strand: 'Patterns and Relations', text: 'Model, record and explain the operations of addition and subtraction of polynomial expressions, concretely, pictorially and symbolically (limited to polynomials of degree less than or equal to 2).' },
   { code: 'PR7', strand: 'Patterns and Relations', text: 'Model, record and explain the operations of multiplication and division of polynomial expressions (limited to polynomials of degree less than or equal to 2) by monomials, concretely, pictorially and symbolically.' },
-  { code: 'SS1', strand: 'Shape and Space', text: 'Solve problems and justify the solution strategy, using the circle properties: the perpendicular from the centre of a circle to a chord bisects the chord; the measure of the central angle is equal to twice the measure of the inscribed angle subtended by the same arc; the inscribed angles subtended by the same arc are congruent; a tangent to a circle is perpendicular to the radius at the point of tangency.' },
+  { code: 'SS1', strand: 'Shape and Space', text: 'Solve problems and justify the solution strategy, using the following circle properties: the perpendicular from the centre of a circle to a chord bisects the chord; the measure of the central angle is equal to twice the measure of the inscribed angle subtended by the same arc; the inscribed angles subtended by the same arc are congruent; a tangent to a circle is perpendicular to the radius at the point of tangency.' },
   { code: 'SS2', strand: 'Shape and Space', text: 'Determine the surface area of composite 3-D objects to solve problems.' },
   { code: 'SS3', strand: 'Shape and Space', text: 'Demonstrate an understanding of similarity of polygons.' },
   { code: 'SS4', strand: 'Shape and Space', text: 'Draw and interpret scale diagrams of 2-D shapes.' },
   { code: 'SS5', strand: 'Shape and Space', text: 'Demonstrate an understanding of line and rotation symmetry.' },
-  { code: 'SP1', strand: 'Statistics and Probability', text: 'Describe the effect of bias, use of language, ethics, cost, time and timing, privacy and cultural sensitivity on the collection of data.' },
+  { code: 'SP1', strand: 'Statistics and Probability', text: 'Describe the effect of: bias; use of language; ethics; cost; time and timing; privacy; cultural sensitivity on the collection of data.' },
   { code: 'SP2', strand: 'Statistics and Probability', text: 'Select and defend the choice of using either a population or a sample of a population to answer a question.' },
-  { code: 'SP3', strand: 'Statistics and Probability', text: 'Develop and implement a project plan for the collection, display and analysis of data by formulating a question for investigation, choosing a data collection method that includes social considerations, selecting a population or a sample, collecting the data, displaying the collected data in an appropriate manner, and drawing conclusions to answer the question.' },
+  { code: 'SP3', strand: 'Statistics and Probability', text: 'Develop and implement a project plan for the collection, display and analysis of data by: formulating a question for investigation; choosing a data collection method that includes social considerations; selecting a population or a sample; collecting the data; displaying the collected data in an appropriate manner; drawing conclusions to answer the question.' },
   { code: 'SP4', strand: 'Statistics and Probability', text: 'Demonstrate an understanding of the role of probability in society.' },
 ];
 

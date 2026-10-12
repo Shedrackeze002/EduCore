@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Check, Lock } from 'lucide-react';
+import { BookOpen, Check } from 'lucide-react';
 import { COURSES } from '@engine/curriculum/index.ts';
 import { api } from '@/data/index.ts';
 import { useCreateClass } from '@/data/hooks.ts';
@@ -9,7 +9,6 @@ import { cn } from '@/lib/cn.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { ApprovalNotice, needsApproval } from './ApprovalNotice.tsx';
 
-const UPCOMING = ['Grades 5 and 6'];
 /** Courses grouped by grade, youngest first. */
 const GRADES = [...new Set(COURSES.map((c) => c.grade))].sort((a, b) => a - b).map((grade) => ({ grade, courses: COURSES.filter((c) => c.grade === grade) }));
 
@@ -83,15 +82,6 @@ export default function NewClassPage() {
                 </div>
               </section>
             ))}
-            <div className="grid gap-3 sm:grid-cols-2">
-              {UPCOMING.map((t) => (
-                <div key={t} className="flex items-center gap-3 rounded-2xl border border-dashed border-line p-4 text-ink-3">
-                  <Lock className="h-4 w-4" />
-                  <span className="text-sm">{t}</span>
-                  <span className="ml-auto text-xs">Coming soon</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
         <Checkbox checked={publishFirst} onChange={setPublishFirst} label="Publish the first lesson now so students see something when they join" />

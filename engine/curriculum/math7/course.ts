@@ -3,8 +3,8 @@
  * Outcomes follow the Alberta Mathematics Kindergarten to Grade 9 Program of Studies (2007,
  * updated 2016), based on the WNCP Common Curriculum Framework for K–9 Mathematics. This is the
  * program in effect for 2026–27; Alberta is piloting a new Grades 7–9 mathematics curriculum for
- * mandatory use from September 2027. The outcome wording still needs a word-for-word check against
- * the program of studies once its host (curriculum.learnalberta.ca) is reachable.
+ * mandatory use from September 2027. Outcome wording checked against the program of studies on
+ * curriculum.learnalberta.ca (October 2026).
  */
 import type { CourseMeta, LessonMeta, Outcome, UnitMeta } from '../../types.ts';
 
@@ -12,23 +12,23 @@ export const OUTCOMES: Outcome[] = [
   { code: 'N1', strand: 'Number', text: 'Determine and explain why a number is divisible by 2, 3, 4, 5, 6, 8, 9 or 10, and why a number cannot be divided by 0.' },
   { code: 'N2', strand: 'Number', text: 'Demonstrate an understanding of the addition, subtraction, multiplication and division of decimals to solve problems (for more than 1-digit divisors or 2-digit multipliers, the use of technology is expected).' },
   { code: 'N3', strand: 'Number', text: 'Solve problems involving percents from 1% to 100%.' },
-  { code: 'N4', strand: 'Number', text: 'Demonstrate an understanding of the relationship between positive repeating decimals and positive fractions, and positive terminating decimals and positive fractions.' },
+  { code: 'N4', strand: 'Number', text: 'Demonstrate an understanding of the relationship between positive terminating decimals and positive fractions and between positive repeating decimals and positive fractions.' },
   { code: 'N5', strand: 'Number', text: 'Demonstrate an understanding of adding and subtracting positive fractions and mixed numbers, with like and unlike denominators, concretely, pictorially and symbolically (limited to positive sums and differences).' },
   { code: 'N6', strand: 'Number', text: 'Demonstrate an understanding of addition and subtraction of integers, concretely, pictorially and symbolically.' },
-  { code: 'N7', strand: 'Number', text: 'Compare and order positive fractions, positive decimals (to thousandths) and whole numbers by using benchmarks, place value, and equivalent fractions and/or decimals.' },
+  { code: 'N7', strand: 'Number', text: 'Compare and order positive fractions, positive decimals (to thousandths) and whole numbers by using: benchmarks; place value; equivalent fractions and/or decimals.' },
   { code: 'PR1', strand: 'Patterns and Relations', text: 'Demonstrate an understanding of oral and written patterns and their equivalent linear relations.' },
   { code: 'PR2', strand: 'Patterns and Relations', text: 'Create a table of values from a linear relation, graph the table of values, and analyze the graph to draw conclusions and solve problems.' },
-  { code: 'PR3', strand: 'Patterns and Relations', text: 'Demonstrate an understanding of preservation of equality by modelling preservation of equality, concretely, pictorially and symbolically, and applying preservation of equality to solve equations.' },
+  { code: 'PR3', strand: 'Patterns and Relations', text: 'Demonstrate an understanding of preservation of equality by: modelling preservation of equality, concretely, pictorially and symbolically; applying preservation of equality to solve equations.' },
   { code: 'PR4', strand: 'Patterns and Relations', text: 'Explain the difference between an expression and an equation.' },
   { code: 'PR5', strand: 'Patterns and Relations', text: 'Evaluate an expression, given the value of the variable(s).' },
   { code: 'PR6', strand: 'Patterns and Relations', text: 'Model and solve, concretely, pictorially and symbolically, problems that can be represented by one-step linear equations of the form x + a = b, where a and b are integers.' },
-  { code: 'PR7', strand: 'Patterns and Relations', text: 'Model and solve, concretely, pictorially and symbolically, problems that can be represented by linear equations of the form ax + b = c, ax = b and x/a = b, a ≠ 0, where a, b and c are whole numbers.' },
-  { code: 'SS1', strand: 'Shape and Space', text: 'Demonstrate an understanding of circles by describing the relationships among radius, diameter and circumference, relating circumference to pi, determining the sum of the central angles, constructing circles with a given radius or diameter, and solving problems involving the radii, diameters and circumferences of circles.' },
-  { code: 'SS2', strand: 'Shape and Space', text: 'Develop and apply a formula for determining the area of triangles, parallelograms and circles.' },
-  { code: 'SS3', strand: 'Shape and Space', text: 'Perform geometric constructions, including perpendicular line segments, parallel line segments, perpendicular bisectors and angle bisectors.' },
+  { code: 'PR7', strand: 'Patterns and Relations', text: 'Model and solve, concretely, pictorially and symbolically, problems that can be represented by linear equations of the form: ax + b = c; ax = b; x/a = b, a ≠ 0, where a, b and c are whole numbers.' },
+  { code: 'SS1', strand: 'Shape and Space', text: 'Demonstrate an understanding of circles by: describing the relationships among radius, diameter and circumference; relating circumference to pi; determining the sum of the central angles; constructing circles with a given radius or diameter; solving problems involving the radii, diameters and circumferences of circles.' },
+  { code: 'SS2', strand: 'Shape and Space', text: 'Develop and apply a formula for determining the area of: triangles; parallelograms; circles.' },
+  { code: 'SS3', strand: 'Shape and Space', text: 'Perform geometric constructions, including: perpendicular line segments; parallel line segments; perpendicular bisectors; angle bisectors.' },
   { code: 'SS4', strand: 'Shape and Space', text: 'Identify and plot points in the four quadrants of a Cartesian plane, using integral ordered pairs.' },
   { code: 'SS5', strand: 'Shape and Space', text: 'Perform and describe transformations (translations, rotations or reflections) of a 2-D shape in all four quadrants of a Cartesian plane (limited to integral number vertices).' },
-  { code: 'SP1', strand: 'Statistics and Probability', text: 'Demonstrate an understanding of central tendency and range by determining the measures of central tendency (mean, median, mode) and range, and determining the most appropriate measures of central tendency to report findings.' },
+  { code: 'SP1', strand: 'Statistics and Probability', text: 'Demonstrate an understanding of central tendency and range by: determining the measures of central tendency (mean, median, mode) and range; determining the most appropriate measures of central tendency to report findings.' },
   { code: 'SP2', strand: 'Statistics and Probability', text: 'Determine the effect on the mean, median and mode when an outlier is included in a data set.' },
   { code: 'SP3', strand: 'Statistics and Probability', text: 'Construct, label and interpret circle graphs to solve problems.' },
   { code: 'SP4', strand: 'Statistics and Probability', text: 'Express probabilities as ratios, fractions and percents.' },

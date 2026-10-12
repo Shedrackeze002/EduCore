@@ -1,5 +1,5 @@
 /**
- * Curriculum registry. New courses (grades 5–12) register here.
+ * Curriculum registry. Every course (Grades 5 to 12) registers here.
  *
  * Course outlines and the skill catalogue (names, lessons, outcomes) are small and always loaded.
  * Each course's question generators are large, so the browser loads them only when a page needs
@@ -19,12 +19,14 @@ import { MATH30_1 } from './math30-1/course.ts';
 import { MATH30_2 } from './math30-2/course.ts';
 import { MATH30_3 } from './math30-3/course.ts';
 import { MATH31 } from './math31/course.ts';
+import { MATH5 } from './math5/course.ts';
+import { MATH6 } from './math6/course.ts';
 import { MATH7 } from './math7/course.ts';
 import { MATH8 } from './math8/course.ts';
 import { MATH9 } from './math9/course.ts';
 
 /** Every course, youngest grade first (the order of course pickers and tabs). */
-export const COURSES: CourseMeta[] = [MATH7, MATH8, MATH9, MATH10C, MATH10_3, MATH10_4, MATH20_1, MATH20_2, MATH20_3, MATH20_4, MATH30_1, MATH30_2, MATH30_3, MATH31];
+export const COURSES: CourseMeta[] = [MATH5, MATH6, MATH7, MATH8, MATH9, MATH10C, MATH10_3, MATH10_4, MATH20_1, MATH20_2, MATH20_3, MATH20_4, MATH30_1, MATH30_2, MATH30_3, MATH31];
 
 /** Each course's generators, loaded on demand (a separate download per course in the browser). */
 const LOADERS: Record<string, () => Promise<SkillDef[]>> = {
@@ -39,6 +41,8 @@ const LOADERS: Record<string, () => Promise<SkillDef[]>> = {
   'math-30-2': () => import('./math30-2/skills.ts').then((m) => m.MATH30_2_SKILLS),
   'math-30-3': () => import('./math30-3/skills.ts').then((m) => m.MATH30_3_SKILLS),
   'math-31': () => import('./math31/skills.ts').then((m) => m.MATH31_SKILLS),
+  'math-5': () => import('./math5/skills.ts').then((m) => m.MATH5_SKILLS),
+  'math-6': () => import('./math6/skills.ts').then((m) => m.MATH6_SKILLS),
   'math-7': () => import('./math7/skills.ts').then((m) => m.MATH7_SKILLS),
   'math-8': () => import('./math8/skills.ts').then((m) => m.MATH8_SKILLS),
   'math-9': () => import('./math9/skills.ts').then((m) => m.MATH9_SKILLS),
