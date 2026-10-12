@@ -1507,7 +1507,17 @@ const definiteIntegral = skill({
       const avg = snap(r.value / b);
       const c = b / Math.sqrt(3);
       const v1 = valuePart(avg, { label: '(a) $f_{\\text{avg}} =$' });
-      const v2 = valuePart(c, { label: '(b) $c =$', tex: `\\dfrac{${b}}{\\sqrt{3}}`, exact: `${b}/sqrt(3)` });
+      // c = b/sqrt(3) = (b/3)sqrt(3)
+      const cTex = b % 3 === 0 ? `${cf(b / 3)}\\sqrt{3}` : `\\dfrac{${b}\\sqrt{3}}{3}`;
+      const cTyped = b % 3 === 0 ? `${b === 3 ? '' : b / 3}sqrt(3)` : `${b}sqrt(3)/3`;
+      const v2 = valuePart(c, { label: '(b) $c =$', tex: cTex, exact: cTyped });
+      const c2 = tn((avg - c0) / coef);
+      const solveC =
+        c0 === 0 && coef === 1
+          ? `$c^{2} = ${c2}$.`
+          : coef === 1
+            ? `$c^{2} + ${c0} = ${tn(avg)}$, so $c^{2} = ${c2}$.`
+            : `$${joinTerms([`${coef}c^{2}`, c0 ? tn(c0) : ''])} = ${tn(avg)}$, so $${coef}c^{2} = ${tn(avg - c0)}$ and $c^{2} = ${c2}$.`;
       const f = joinTerms(terms.map((t) => t.tex));
       return {
         prompt: `Let $f(x) = ${f}$ on $[0, ${b}]$. (a) Find the average value of $f$. (b) Find the number $c$ in $[0, ${b}]$ with $f(c) = f_{\\text{avg}}$.${v2.note}`,
@@ -1516,8 +1526,8 @@ const definiteIntegral = skill({
         solution: [
           ...r.steps.slice(0, 2),
           `(a) $f_{\\text{avg}} = \\dfrac{1}{${b}}(${tn(r.value)}) = ${tn(avg)}$`,
-          `$${joinTerms([powTex(coef, 2).replace('x', 'c'), c0 ? tn(c0) : ''])} = ${tn(avg)}$, so $${cf(coef)}c^{2} = ${tn(avg - c0)}$ and $c^{2} = ${tn((avg - c0) / coef)}$.`,
-          `(b) $c = \\sqrt{${tn((avg - c0) / coef)}} = ${v2.show}$ (the negative root is not in the interval).`,
+          solveC,
+          `(b) $c = ${b === 3 ? '' : `\\sqrt{${c2}} = `}${v2.show}$ (the negative root is not in the interval).`,
         ],
       };
     }

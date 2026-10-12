@@ -66,13 +66,13 @@ interface Reading {
 }
 const READINGS: Reading[] = [
   { what: 'the length of a steel bolt', u: 'mm', lo: 20, hi: 150, dps: [0, 1, 2], tool: 'a digital caliper' },
-  { what: 'the thickness of a brake rotor', u: 'mm', lo: 18, hi: 32, dps: [1, 2], tool: 'a micrometer' },
+  { what: 'the thickness of a brake rotor', u: 'mm', lo: 18, hi: 32, dps: [2], tool: 'a micrometer' },
   { what: 'the width of a door opening', u: 'cm', lo: 76, hi: 96, dps: [0, 1], tool: 'a tape measure' },
   { what: 'the length of a run of copper pipe', u: 'm', lo: 2, hi: 18, dps: [1, 2, 3], tool: 'a tape measure' },
   { what: 'the mass of a sack of canola seed', u: 'kg', lo: 18, hi: 26, dps: [1, 2], tool: 'a platform scale' },
   { what: 'the mass of yeast for a batch of bread', u: 'g', lo: 6, hi: 40, dps: [1, 2], tool: 'a digital scale' },
   { what: 'the volume of oil drained from a truck engine', u: 'L', lo: 4, hi: 14, dps: [1, 2], tool: 'a measuring jug' },
-  { what: 'the diameter of a drill bit', u: 'mm', lo: 3, hi: 13, dps: [1, 2, 3], tool: 'a micrometer' },
+  { what: 'the diameter of a drill bit', u: 'mm', lo: 3, hi: 13, dps: [1, 2], tool: 'a caliper' },
   { what: 'the length of a deck joist', u: 'm', lo: 2, hi: 6, dps: [2, 3], tool: 'a tape measure' },
   { what: 'the temperature of a proofing oven', u: '°C', lo: 26, hi: 40, dps: [0, 1], tool: 'a probe thermometer' },
 ];
@@ -755,13 +755,19 @@ function tolMaxMin(rng: Rng): GenOutput {
   const mx = clean(n + t);
   const mn = clean(n - t);
   const show = (x: number) => (c.u === 'in' ? inchTex(x) : fx(x, dp));
+  // Inches: write the nominal size with the tolerance's denominator before adding.
+  const den = c.u === 'in' ? Math.round(1 / t) : 1;
+  const whole = Math.floor(n + 1e-9);
+  const sameDen = c.u === 'in' && toFrac(n - whole, 64)!.d < den ? [`Write ${IN(n)} in ${den === 16 ? 'sixteenths' : 'eighths'}: $${whole}\\tfrac{${Math.round((n - whole) * den)}}{${den}}\\ \\text{in}$.`] : [];
+  const nShow = sameDen.length ? `${whole}\\tfrac{${Math.round((n - whole) * den)}}{${den}}` : show(n);
   return {
     prompt: `${c.story(who, N, T)} What are the greatest and least acceptable ${c.ask}?`,
     parts: [exactPart(mx, c.u, 'Greatest:'), exactPart(mn, c.u, 'Least:')],
     hints: ['The tolerance is how far a value may be above or below the nominal (target) value.', 'Add the tolerance to the nominal value for the greatest value. Subtract it for the least value.'],
     solution: [
-      `Greatest: $${show(n)} + ${c.u === 'in' ? inchTex(t) : fmt(t)} = ${show(mx)}$`,
-      `Least: $${show(n)} - ${c.u === 'in' ? inchTex(t) : fmt(t)} = ${show(mn)}$`,
+      ...sameDen,
+      `Greatest: $${nShow} + ${c.u === 'in' ? inchTex(t) : fmt(t)} = ${show(mx)}$`,
+      `Least: $${nShow} - ${c.u === 'in' ? inchTex(t) : fmt(t)} = ${show(mn)}$`,
       `Acceptable ${c.ask} are from ${V(mn, c.u, c.u === 'in' ? undefined : dp)} to ${V(mx, c.u, c.u === 'in' ? undefined : dp)}.`,
     ],
   };
@@ -781,11 +787,12 @@ function tolUnequal(rng: Rng): GenOutput {
   const up = rng.pick(p.up);
   const dn = retry(() => rng.pick(p.dn), (x) => x !== up);
   const dp = Math.max(...[up, dn].map((x) => (fmt(x).split('.')[1] ?? '').length));
-  const nomTex = `${fx(n, dp)}^{+${fx(up, dp)}}_{-${fx(dn, dp)}}\\ \\text{${p.u}}`;
+  const nomTex = `${fx(n, dp)}^{+${fx(up, dp)}}_{${dn === 0 ? '\\phantom{+}0' : `-${fx(dn, dp)}`}}\\ \\text{${p.u}}`;
   const mx = clean(n + up);
   const mn = clean(n - dn);
+  const under = dn === 0 ? 'but never under the nominal size' : `and up to $${fx(dn, dp)}\\ \\text{${p.u}}$ under the nominal size`;
   return {
-    prompt: `${who} reads a shop drawing. The ${p.dim} of ${p.what} is given as $${nomTex}$. This means the ${p.dim} may be up to $${fx(up, dp)}\\ \\text{${p.u}}$ over and up to $${fx(dn, dp)}\\ \\text{${p.u}}$ under the nominal size. What are the greatest and least acceptable values, and what is the tolerance range (greatest minus least)?`,
+    prompt: `${who} reads a shop drawing. The ${p.dim} of ${p.what} is given as $${nomTex}$. This means the ${p.dim} may be up to $${fx(up, dp)}\\ \\text{${p.u}}$ over ${under}. What are the greatest and least acceptable values, and what is the tolerance range (greatest minus least)?`,
     parts: [exactPart(mx, p.u, 'Greatest:'), exactPart(mn, p.u, 'Least:'), exactPart(up + dn, p.u, 'Range:')],
     hints: ['The top number is added to the nominal size. The bottom number is subtracted.', 'The tolerance range is the greatest value minus the least value.'],
     solution: [
@@ -962,22 +969,22 @@ function clearance(rng: Rng): GenOutput {
     (x) => x.minC > 0,
   );
   const what = rng.pick([
-    ['a bearing housing', 'a shaft'],
-    ['a hydraulic cylinder', 'a piston rod'],
-    ['a pulley', 'an axle'],
+    ['a bearing housing', 'a shaft', 'shaft'],
+    ['a hydraulic cylinder', 'a piston rod', 'rod'],
+    ['a pulley', 'an axle', 'axle'],
   ]);
   return {
-    prompt: `${who} is fitting ${what[1]} into ${what[0]}. The hole is ${Q(fx(r.hole, 2), 'mm')} $\\pm$ ${Q(fmt(r.th), 'mm')} in diameter, and ${what[1]} is ${Q(fx(r.shaft, 2), 'mm')} $\\pm$ ${Q(fmt(r.ts), 'mm')} in diameter. The **clearance** is the hole diameter minus the shaft diameter. What are the least and greatest possible clearances?`,
+    prompt: `${who} is fitting ${what[1]} into ${what[0]}. The hole is ${Q(fx(r.hole, 2), 'mm')} $\\pm$ ${Q(fmt(r.th), 'mm')} in diameter, and the ${what[2]} is ${Q(fx(r.shaft, 2), 'mm')} $\\pm$ ${Q(fmt(r.ts), 'mm')} in diameter. The **clearance** is the hole diameter minus the ${what[2]} diameter. What are the least and greatest possible clearances?`,
     parts: [exactPart(r.minC, 'mm', 'Least:'), exactPart(r.maxC, 'mm', 'Greatest:')],
     hints: [
-      'The clearance is smallest when the hole is as small as possible and the shaft is as large as possible.',
+      `The clearance is smallest when the hole is as small as possible and the ${what[2]} is as large as possible.`,
       'Find the least and greatest diameter of each part first, then subtract.',
     ],
     solution: [
       `Hole: least $${fx(r.hole, 2)} - ${fmt(r.th)} = ${fx(r.hole - r.th, 2)}$, greatest $${fx(r.hole, 2)} + ${fmt(r.th)} = ${fx(r.hole + r.th, 2)}$`,
-      `Shaft: least $${fx(r.shaft, 2)} - ${fmt(r.ts)} = ${fx(r.shaft - r.ts, 2)}$, greatest $${fx(r.shaft, 2)} + ${fmt(r.ts)} = ${fx(r.shaft + r.ts, 2)}$`,
-      `Least clearance (smallest hole, largest shaft): $${fx(r.hole - r.th, 2)} - ${fx(r.shaft + r.ts, 2)} = ${fx(r.minC, 2)}$`,
-      `Greatest clearance (largest hole, smallest shaft): $${fx(r.hole + r.th, 2)} - ${fx(r.shaft - r.ts, 2)} = ${fx(r.maxC, 2)}$`,
+      `${cap(what[2])}: least $${fx(r.shaft, 2)} - ${fmt(r.ts)} = ${fx(r.shaft - r.ts, 2)}$, greatest $${fx(r.shaft, 2)} + ${fmt(r.ts)} = ${fx(r.shaft + r.ts, 2)}$`,
+      `Least clearance (smallest hole, largest ${what[2]}): $${fx(r.hole - r.th, 2)} - ${fx(r.shaft + r.ts, 2)} = ${fx(r.minC, 2)}$`,
+      `Greatest clearance (largest hole, smallest ${what[2]}): $${fx(r.hole + r.th, 2)} - ${fx(r.shaft - r.ts, 2)} = ${fx(r.maxC, 2)}$`,
       `The clearance is between ${Q(fx(r.minC, 2), 'mm')} and ${Q(fx(r.maxC, 2), 'mm')}.`,
     ],
   };
@@ -988,11 +995,13 @@ function acceptPart(rng: Rng): GenOutput {
   const c = rng.pick(TOL);
   const who = rng.pick(NAMES);
   const n = nominal(rng, c);
-  const t = rng.pick(c.tols);
+  let t = rng.pick(c.tols);
   const dp = tolDp(c, t);
   const isIn = c.u === 'in';
+  // A tape measure reads sixteenths, so an inch tolerance of 1/8 in leaves room for a reading inside it.
+  if (isIn) t = 1 / 8;
   const mdp = isIn ? 0 : measDp(t, dp);
-  const step = isIn ? t / 2 : 10 ** -mdp;
+  const step = isIn ? 1 / 16 : 10 ** -mdp;
   const k = Math.round(t / step);
   const inside = rng.chance(0.4);
   const off = (inside ? rng.int(1, k - 1) : rng.int(k + 1, 2 * k + 1)) * rng.sign() * step;

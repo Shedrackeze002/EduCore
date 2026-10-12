@@ -989,7 +989,7 @@ function coneFig(R: number, H: number, hFrac: number): PlaneFigure {
       labels: [
         [[apex[0] + halfW / 2, top + 20], `${dec(R)} m`],
         [[dimX + 18 + textWidth(`${dec(H)} m`) / 2, (apex[1] + top) / 2], `${dec(H)} m`],
-        [[apex[0] + ww / 2, yw - 14], 'r'],
+        [[apex[0] + Math.max(ww / 2, 20), yw - 14], 'r'],
         [[dimL - 14, (apex[1] + yw) / 2], 'h'],
       ],
     },
