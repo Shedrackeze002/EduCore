@@ -20,7 +20,7 @@ export function canonicalResponse(spec: AnswerSpec, part?: { suffix?: string }):
       if (spec.undefinedValue) return 'undefined';
       if (spec.decimals !== undefined) return fmtFixed(spec.value, spec.decimals);
       if (spec.exact) return spec.exact;
-      const f = toFrac(spec.value, 1000);
+      const f = toFrac(spec.value, spec.fraction ? 100000 : 1000);
       if (f && spec.fraction === 'mixed' && f.d !== 1 && Math.abs(f.n) > f.d) {
         const n = Math.abs(f.n);
         return `${f.n < 0 ? '-' : ''}${Math.floor(n / f.d)} ${n % f.d}/${f.d}`;
@@ -180,7 +180,7 @@ export function answerMarkdown(spec: AnswerSpec, part?: { suffix?: string }): st
       const unit = spec.unit ? ` ${spec.unit}` : part?.suffix ? ` ${part.suffix}` : '';
       if (spec.decimals !== undefined) return `$${fmtFixed(spec.value, spec.decimals)}$${unit}`;
       if (spec.exact) return `$${latexOf(spec.exact)}$${unit}`;
-      const f = toFrac(spec.value, 1000);
+      const f = toFrac(spec.value, spec.fraction ? 100000 : 1000);
       if (f && f.d !== 1) {
         if (!spec.fraction && showDecimal(spec, f.d, unitOf(spec, part))) return `$${fmt(spec.value, 6)}$${unit}`;
         const n = Math.abs(f.n);

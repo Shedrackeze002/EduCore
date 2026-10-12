@@ -141,7 +141,7 @@ interface PatternCtx {
 
 const PATTERN_CTX: Array<(rng: Rng, name: string) => PatternCtx> = [
   () => ({
-    intro: 'A pattern of squares is made from toothpicks.',
+    intro: 'A pattern of squares is made from toothpicks. Each side of a small square is one toothpick.',
     figure: toothpickSquares(),
     a: 3, b: 1, noun: 'toothpicks', input: 'figure',
     at: (k) => `Figure ${k}`, suffix: 'toothpicks', inLabel: 'Figure',
@@ -152,7 +152,7 @@ const PATTERN_CTX: Array<(rng: Rng, name: string) => PatternCtx> = [
     what: 'the number of toothpicks in Figure $n$',
   }),
   () => ({
-    intro: 'A pattern of triangles is made from toothpicks.',
+    intro: 'A pattern of triangles is made from toothpicks. Each side of a small triangle is one toothpick.',
     figure: toothpickTriangles(),
     a: 2, b: 1, noun: 'toothpicks', input: 'figure',
     at: (k) => `Figure ${k}`, suffix: 'toothpicks', inLabel: 'Figure',

@@ -545,7 +545,7 @@ function makePair(rng: Rng, opts: { maxSize?: number; minSize?: number; allowDic
           a = colourEv(cols, false); b = letterEv(letters); break;
         }
         case 'twoSpin': a = numSpinner(rng.int(3, 4), 'A'); b = numSpinner(rng.int(3, 5), 'B'); break;
-        default: a = { ...coin(), act: 'flips a loonie', the: 'the loonie' }; b = { ...coin(), act: 'flips a quarter', the: 'the quarter' };
+        default: a = { ...coin(), act: 'flips a loonie', the: 'the loonie' }; b = { ...coin(), act: 'a quarter', the: 'the quarter' };
       }
       const A = a;
       const B = b;
@@ -637,7 +637,7 @@ function spaceList(rng: Rng, name: string): Out {
     codes.filter((_, k) => k < p.b.out.length || k % p.b.out.length !== p.b.out.length - 1).join(', '),
   ];
   // Two coins: HT and TH are different outcomes.
-  if (p.a.kind === 'coin' && p.b.kind === 'coin') ds.unshift('HH, HT, TT');
+  if (p.a.kind === 'coin' && p.b.kind === 'coin') ds.splice(0, ds.length, 'HH, HT, TT', 'HH, TT', 'HT, TH');
   return {
     prompt: `${p.text(name)}. Which list shows the whole sample space?${keyText(p) ? ` (${keyText(p)})` : ''}`,
     parts: [{ answer: mc(rng, correct, ds) }],

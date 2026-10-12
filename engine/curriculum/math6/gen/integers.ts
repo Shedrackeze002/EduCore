@@ -253,7 +253,7 @@ function negD2(rng: Rng): Out {
       parts: [intPart(v, { suffix: '°C' })],
       hints: [`Each line on this scale is $${scale.step}$ ${plural(scale.step, 'degree', 'degrees')}. Find $0$ first.`, 'Temperatures below $0$ are negative.'],
       solution: [
-        `The top of the red bar is ${v < 0 ? 'below' : 'above'} $0$, so the temperature is ${v < 0 ? 'negative' : 'positive'}.`,
+        `The top of the coloured bar is ${v < 0 ? 'below' : 'above'} $0$, so the temperature is ${v < 0 ? 'negative' : 'positive'}.`,
         `It is $${Math.abs(v)}$ degrees ${v < 0 ? 'below' : 'above'} $0$.`,
         `The temperature is ${deg(v)}.`,
       ],

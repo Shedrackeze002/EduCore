@@ -1556,7 +1556,7 @@ const percentOf = skill({
 
 const ITEMS: Array<[string, number, number]> = [
   ['a hoodie', 39.99, 69.99], ['a pair of running shoes', 79.99, 149.99], ['a backpack', 34.99, 59.99], ['a video game', 49.99, 79.99],
-  ['a hockey stick', 59.99, 129.99], ['a winter jacket', 89.99, 189.99], ['a basketball', 24.99, 44.99], ['headphones', 29.99, 89.99],
+  ['a hockey stick', 59.99, 129.99], ['a winter jacket', 89.99, 189.99], ['a basketball', 24.99, 44.99], ['a pair of headphones', 29.99, 89.99],
 ];
 
 const PROB_D1: Gen[] = [

@@ -23,6 +23,8 @@ const inside = (g: GridSpec, p: P) => p[0] > g.xMin && p[0] < g.xMax && p[1] > g
 
 /** An ordered pair in LaTeX: (-3, 4). */
 const ptx = (p: P) => `(${p[0]}, ${p[1]})`;
+/** A negative number in brackets, for sums and differences. */
+const br = (n: number) => (n < 0 ? `(${n})` : `${n}`);
 const units = (n: number) => `${Math.abs(n)} unit${Math.abs(n) === 1 ? '' : 's'}`;
 const LET = 'ABCD';
 const prime = (L: string) => `${L}′`;
@@ -219,7 +221,7 @@ function whichPoint(rng: Rng): GenOutput {
   const picks = rng.sample(wrong, 3);
   const all = rng.shuffle([target, ...picks]);
   const idx = all.findIndex((p) => same(p, target));
-  const why = (p: P) => (same(p, [y, x]) ? 'has the coordinates switched' : 'has the wrong sign');
+  const why = (p: P) => (Math.abs(p[0]) === Math.abs(y) ? 'has the coordinates switched' : 'has a sign that is wrong');
   return {
     prompt: `Which point has coordinates $${ptx(target)}$?`,
     figure: planeFigure(G5, [], all.map((p, i) => ({ p, label: LET[i] }))),
@@ -485,7 +487,7 @@ function translateFromCoords(rng: Rng): GenOutput {
     parts: [part({ kind: 'point', x: img[i][0], y: img[i][1] }, { label: `$${L}'$ =`, placeholder: '(x, y)' })],
     hints: ['Every vertex moves the same way. Use $A$ and $A\'$ to find the move.', 'Find the change in $x$ and the change in $y$ from $A$ to $A\'$. Then apply the same change to the other vertex.'],
     solution: [
-      `From $A${ptx(tri[0])}$ to $A'${ptx(img[0])}$: $x$ changes by $${img[0][0]} - (${tri[0][0]}) = ${a}$ and $y$ changes by $${img[0][1]} - (${tri[0][1]}) = ${b}$.`,
+      `From $A${ptx(tri[0])}$ to $A'${ptx(img[0])}$: $x$ changes by $${img[0][0]} - ${br(tri[0][0])} = ${a}$ and $y$ changes by $${img[0][1]} - ${br(tri[0][1])} = ${b}$.`,
       `So the translation is ${slideText(a, b)}.`,
       `$${L}${ptx(tri[i])}$: $x = ${tri[i][0]} ${a > 0 ? '+' : '-'} ${Math.abs(a)} = ${img[i][0]}$ and $y = ${tri[i][1]} ${b > 0 ? '+' : '-'} ${Math.abs(b)} = ${img[i][1]}$`,
       `$${L}'$ is at $${ptx(img[i])}$.`,

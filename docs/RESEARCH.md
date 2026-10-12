@@ -34,12 +34,19 @@ existing platforms shaped the design, and where the current version still has li
 
 ## The curriculum
 
-Lessons and skills follow the Alberta *Mathematics Grades 10–12 Program of Studies* [11]. Each
-outcome is broken into specific skills; each skill has a generator with three difficulty levels,
-hints and worked solutions, and appears in at least one lesson check.
+Lessons and skills follow Alberta's programs of study: the *Mathematics Kindergarten to Grade 6*
+curriculum (2022) for Grades 5 and 6 [35], the *Mathematics Kindergarten to Grade 9 Program of
+Studies* (2007, updated 2016) for Grades 7 to 9 [36], and the *Mathematics Grades 10–12 Program of
+Studies* [11]. Each outcome is broken into specific skills; each skill has a generator with three
+difficulty levels, hints and worked solutions, and appears in at least one lesson check.
 
 | Course | Stream | Outcomes |
 |---|---|---|
+| Mathematics 5 | Grade 5 | Number N1–N7, Algebra A1, Geometry G1, Coordinate Geometry CG1, Measurement M1, Patterns P1, Statistics S1 (the curriculum's learning outcomes, numbered by EduCore in the order listed). |
+| Mathematics 6 | Grade 6 | Number N1–N8, Algebra A1, Geometry G1, Coordinate Geometry CG1, Measurement M1–M2, Patterns P1, Statistics S1 (numbered the same way). |
+| Mathematics 7 | Grade 7 | Number N1–N7, Patterns and Relations PR1–PR7, Shape and Space SS1–SS5, Statistics and Probability SP1–SP6. |
+| Mathematics 8 | Grade 8 | Number N1–N7, Patterns and Relations PR1–PR2, Shape and Space SS1–SS6, Statistics and Probability SP1–SP2. |
+| Mathematics 9 | Grade 9 | Number N1–N6, Patterns and Relations PR1–PR7, Shape and Space SS1–SS5, Statistics and Probability SP1–SP4. |
 | Mathematics 10C | -1 and -2 (pre-calculus and foundations) | Measurement M1–M4, Algebra and Number A1–A5, Relations and Functions R1–R10, using the codes in the course syllabus. |
 | Mathematics 10-3 | -3 (workplace and apprenticeship) | Measurement M1–M4, Geometry G1–G6, Number N1–N2, Algebra A1. |
 | K&E Mathematics 10-4 | -4 (Knowledge and Employability) | Number N1–N2, Patterns and Relations PR1–PR2, Shape and Space SS1–SS4, Statistics and Probability SP1–SP2 (EduCore's grouping of the program's strands). |
@@ -110,6 +117,20 @@ applications) follow Alberta-equivalent college outlines [34]; its outcome codes
 grouping of those units. As with Grade 11, a word-for-word check of the outcome wording against
 Alberta's documents is still needed because their hosts were unreachable from the build
 environment.
+
+Grades 5 to 9 were checked word for word against the program of studies on new LearnAlberta
+(curriculum.learnalberta.ca) in October 2026 [35], [36]. Grades 5 and 6 follow Alberta's new K–6
+curriculum, in effect for Grades 4 to 6 since September 2023. It states learning outcomes under
+organizing ideas (Number, Algebra, Geometry, Coordinate Geometry, Measurement, Patterns,
+Statistics) with the knowledge, understanding, and skills and procedures for each; EduCore numbers
+the outcomes in the order listed, and every lesson stays within those skills and procedures. The
+K–6 outcomes are meant to be achieved without calculators, so no Grade 5 or 6 question needs one.
+Grades 7 to 9 follow the 2016 program of studies, which Alberta derived from the WNCP *Common
+Curriculum Framework for K–9 Mathematics* but changed in places: Grade 8 Shape and Space outcome 6,
+for example, is the congruence of polygons rather than the framework's tessellations. A new
+Grades 7 to 9 mathematics curriculum is in optional classroom piloting in 2026–27, with mandatory
+implementation planned for September 2027 [37]; it adds topics such as functions, irrational
+numbers, scientific notation and quadratic equations, so these courses will need updating then.
 
 Workplace contexts state every rate in the question itself (GST, exchange rates, simplified
 payroll deduction rates, overtime rules), so questions stay correct when official rates change.
@@ -212,3 +233,9 @@ and hover details, and every level is also named in text, so colour is never the
 [33] Keyano College, *MATH 30-3 Course Outline*, Winter 2018. [keyano.ca](https://www.keyano.ca/en/resourcesGeneral/academics/WIN18_MATH30-3_A.pdf)
 
 [34] Keyano College, *MATH 031 Course Outline*, Spring 2023. [keyano.ca](https://keyano.ca/en/resourcesGeneral/academics/SPR23_MATH031_A.pdf)
+
+[35] Alberta Education, *Mathematics (K–6)*, new LearnAlberta, 2022 (Grades 5 and 6). [curriculum.learnalberta.ca](https://curriculum.learnalberta.ca/curriculum/en/c/mat6)
+
+[36] Alberta Education, *Mathematics (7–9) Program of Studies*, implemented 2016-09-01. [curriculum.learnalberta.ca](https://curriculum.learnalberta.ca/curriculum/en/pos/MAT_79)
+
+[37] Government of Alberta, *K to 12 curriculum renewal: how we got here* and *Mathematics* (updated June 2026). [alberta.ca](https://www.alberta.ca/curriculum-how-we-got-here)

@@ -168,18 +168,27 @@ interface ThreeParts {
   intro: string;
   names: [string, string, string];
   whole: string;
-  unit?: string;
+  /** The part for one category, e.g. "votes for summer". */
+  who: (n: string) => string;
+  /** Everything except one category, e.g. "votes that were not for summer". */
+  not: (n: string) => string;
   range: [number, number];
   /** Shown as a bar graph instead of in the text. */
   graph?: { title: string; value: string };
 }
 
 const THREE: ThreeParts[] = [
-  { intro: 'A fruit bowl has', names: ['apples', 'pears', 'bananas'], whole: 'pieces of fruit', range: [2, 9] },
-  { intro: 'A class voted for a favourite season. The votes were', names: ['summer', 'winter', 'fall'], whole: 'votes', range: [3, 12], graph: { title: 'Favourite season', value: 'Number of votes' } },
-  { intro: 'A pet store has', names: ['hamsters', 'guinea pigs', 'rabbits'], whole: 'animals', range: [2, 9] },
-  { intro: 'A box of crayons has', names: ['red crayons', 'green crayons', 'yellow crayons'], whole: 'crayons', range: [3, 12] },
-  { intro: 'Students chose a field trip. The choices were', names: ['the zoo', 'the science centre', 'the farm'], whole: 'students', range: [4, 14], graph: { title: 'Field trip choices', value: 'Number of students' } },
+  { intro: 'A fruit bowl has', names: ['apples', 'pears', 'bananas'], whole: 'pieces of fruit', who: (n) => n, not: (n) => `pieces of fruit that are not ${n}`, range: [2, 9] },
+  {
+    intro: 'A class voted for a favourite season. The votes are', names: ['summer', 'winter', 'fall'], whole: 'votes',
+    who: (n) => `votes for ${n}`, not: (n) => `votes that are not for ${n}`, range: [3, 12], graph: { title: 'Favourite season', value: 'Number of votes' },
+  },
+  { intro: 'A pet store has', names: ['hamsters', 'guinea pigs', 'rabbits'], whole: 'animals', who: (n) => n, not: (n) => `animals that are not ${n}`, range: [2, 9] },
+  { intro: 'A box of crayons has', names: ['red crayons', 'green crayons', 'yellow crayons'], whole: 'crayons', who: (n) => n, not: (n) => `crayons that are not ${n.replace(' crayons', '')}`, range: [3, 12] },
+  {
+    intro: 'Each student chose a field trip. The choices are', names: ['the zoo', 'the science centre', 'the farm'], whole: 'students',
+    who: (n) => `students who chose ${n}`, not: (n) => `students who did not choose ${n}`, range: [4, 14], graph: { title: 'Field trip choices', value: 'Number of students' },
+  },
 ];
 
 interface Mix {
@@ -218,35 +227,38 @@ function ratioD3(rng: Rng): Out {
   const W = counts[0] + counts[1] + counts[2];
   const [i, j] = rng.sample([0, 1, 2], 2);
   const k = 3 - i - j;
-  const figure: Figure | undefined = t.graph ? { type: 'barChart', categories: t.names.map(cap), values: counts, valueLabel: t.graph.value, caption: t.graph.title } : undefined;
+  const top = 2 * Math.ceil((Math.max(...counts) + 1) / 2);
+  const figure: Figure | undefined = t.graph
+    ? { type: 'barChart', categories: t.names.map((n) => cap(n.replace(/^the /, ''))), values: counts, valueLabel: t.graph.value, max: top, step: 2, caption: t.graph.title }
+    : undefined;
   const list = `$${counts[0]}$ ${t.names[0]}, $${counts[1]}$ ${t.names[1]} and $${counts[2]}$ ${t.names[2]}`;
   const intro = t.graph ? `${t.intro} shown in the bar graph.` : `${t.intro} ${list}.`;
-  const kind = rng.pick(['notK', 'twoParts'] as const);
-  if (kind === 'notK') {
-    // Part-part where one part is "not k".
+  const sum = `$${counts[0]} + ${counts[1]} + ${counts[2]} = ${W}$`;
+  if (rng.chance(0.5)) {
+    // Part-whole, then a part-part ratio where one part is "everything except k".
     const rest = W - counts[k];
     return {
-      prompt: `${intro}\n\n(a) Complete the part-whole ratio of ${t.names[k]} to all the ${t.whole}: $${ratio(counts[k], '\\square')}$\n\n(b) Complete the part-part ratio of ${t.whole} that are **not** ${t.names[k]} to ${t.names[k]}: $${ratio('\\square', counts[k])}$`,
+      prompt: `${intro}\n\n(a) Complete the part-whole ratio of ${t.who(t.names[k])} to all the ${t.whole}: $${ratio(counts[k], '\\square')}$\n\n(b) Complete the part-part ratio of ${t.not(t.names[k])} to ${t.who(t.names[k])}: $${ratio('\\square', counts[k])}$`,
       figure,
       parts: [wholePart(W, '(a) $\\square =$'), wholePart(rest, '(b) $\\square =$')],
-      hints: [`First find the whole: add all three numbers.`, `For (b), the ${t.whole} that are not ${t.names[k]} are the whole minus the ${t.names[k]}.`],
+      hints: ['First find the whole: add all three numbers.', `For (b), take the ${t.who(t.names[k])} away from the whole.`],
       solution: [
-        `The whole is $${counts[0]} + ${counts[1]} + ${counts[2]} = ${W}$.`,
-        `(a) ${cap(t.names[k])} to all: $${ratio(counts[k], W)}$.`,
-        `(b) Not ${t.names[k]}: $${W} - ${counts[k]} = ${rest}$. The ratio is $${ratio(rest, counts[k])}$.`,
+        `The whole is ${sum}.`,
+        `(a) ${cap(t.who(t.names[k]))} to all the ${t.whole}: $${ratio(counts[k], W)}$.`,
+        `(b) ${cap(t.not(t.names[k]))}: $${W} - ${counts[k]} = ${rest}$. The ratio is $${ratio(rest, counts[k])}$.`,
         `The answers are (a) $${W}$ and (b) $${rest}$.`,
       ],
     };
   }
   return {
-    prompt: `${intro}\n\n(a) Complete the part-part ratio of ${t.names[i]} to ${t.names[j]}: $${ratio(counts[i], '\\square')}$\n\n(b) Write the part-whole ratio of ${t.names[i]} to all the ${t.whole} as a fraction.`,
+    prompt: `${intro}\n\n(a) Complete the part-part ratio of ${t.who(t.names[i])} to ${t.who(t.names[j])}: $${ratio(counts[i], '\\square')}$\n\n(b) Write the part-whole ratio of ${t.who(t.names[i])} to all the ${t.whole} as a fraction.`,
     figure,
     parts: [wholePart(counts[j], '(a) $\\square =$'), numPart(counts[i] / W, { exact: false, display: 'fraction', label: '(b)' })],
-    hints: ['A part-part ratio compares two parts. A part-whole ratio compares one part with the whole.', `The whole is all three numbers added: $${counts[0]} + ${counts[1]} + ${counts[2]}$.`],
+    hints: ['A part-part ratio compares two parts. A part-whole ratio compares one part with the whole.', 'The whole is all three numbers added together.'],
     solution: [
-      `(a) ${cap(t.names[i])} to ${t.names[j]}: $${ratio(counts[i], counts[j])}$, so the missing number is $${counts[j]}$.`,
-      `(b) The whole is $${counts[0]} + ${counts[1]} + ${counts[2]} = ${W}$.`,
-      `${cap(t.names[i])} to all: $${ratio(counts[i], W)}$, which is the fraction $${fr(counts[i], W)}$.`,
+      `(a) ${cap(t.who(t.names[i]))} to ${t.who(t.names[j])}: $${ratio(counts[i], counts[j])}$, so the missing number is $${counts[j]}$.`,
+      `(b) The whole is ${sum}.`,
+      `${cap(t.who(t.names[i]))} to all the ${t.whole}: $${ratio(counts[i], W)}$, which is the fraction $${fr(counts[i], W)}$.`,
       `The answers are (a) $${counts[j]}$ and (b) $${fr(counts[i], W)}$.`,
     ],
   };
@@ -281,31 +293,53 @@ function toHundredths(a: number, b: number): string[] {
 }
 
 interface PctCtx {
-  text: (a: number, b: number) => string;
+  text: (a: number, b: number, name: string, town: string) => string;
+  /** The part and the whole, for "the part-whole ratio of ... to ...". */
   part: string;
+  all: string;
+  /** The percentage question. */
+  ask: (name: string) => string;
   whole: number[];
 }
 
+const are = (a: number) => (a === 1 ? 'is' : 'are');
+
 const PCT_CTX: PctCtx[] = [
-  { text: (a, b) => `@name answered $${a}$ of $${b}$ questions correctly on a spelling quiz.`, part: 'questions answered correctly', whole: [10, 20, 25, 50] },
-  { text: (a, b) => `A hockey team in @town played $${b}$ games and won $${a}$ of them.`, part: 'games won', whole: [10, 20, 25] },
-  { text: (a, b) => `In a class of $${b}$ students, $${a}$ walk to school.`, part: 'students who walk', whole: [20, 25] },
-  { text: (a, b) => `@name planted $${b}$ seeds in the school garden. $${a}$ of them sprouted.`, part: 'seeds that sprouted', whole: [10, 20, 25, 50] },
-  { text: (a, b) => `A bag has $${b}$ beads. $${a}$ of them are red.`, part: 'beads that are red', whole: [4, 5, 10, 20, 25, 50] },
+  {
+    text: (a, b, name) => `${name} answered $${a}$ of $${b}$ questions correctly on a spelling quiz.`,
+    part: 'questions answered correctly', all: 'all the questions', ask: (name) => `What percentage of the questions did ${name} answer correctly?`, whole: [10, 20, 25, 50],
+  },
+  {
+    text: (a, b, _n, town) => `A hockey team in ${town} played $${b}$ games and won $${a}$ of them.`,
+    part: 'games won', all: 'all the games played', ask: () => 'What percentage of its games did the team win?', whole: [10, 20, 25],
+  },
+  {
+    text: (a, b) => `In a class of $${b}$ students, $${a}$ ${a === 1 ? 'walks' : 'walk'} to school.`,
+    part: 'students who walk', all: 'all the students', ask: () => 'What percentage of the class walks to school?', whole: [20, 25],
+  },
+  {
+    text: (a, b, name) => `${name} planted $${b}$ seeds in the school garden. $${a}$ of them sprouted.`,
+    part: 'seeds that sprouted', all: 'all the seeds', ask: () => 'What percentage of the seeds sprouted?', whole: [10, 20, 25, 50],
+  },
+  {
+    text: (a, b) => `A bag has $${b}$ beads. $${a}$ of them ${are(a)} red.`,
+    part: 'red beads', all: 'all the beads', ask: () => 'What percentage of the beads are red?', whole: [4, 5, 10, 20, 25, 50],
+  },
 ];
 
 const PCT_HINT = 'A percentage compares a part with a whole of $100$. "Percent" means "out of $100$".';
 
 function pctD1(rng: Rng): Out {
   const kind = rng.pick(['grid', 'grid', 'fracToPct', 'pctToDec', 'decToPct', 'pctToFrac'] as const);
-  const h = retry(() => rng.int(3, 97), (x) => x % 10 !== 0, 50);
+  const h = retry(() => rng.int(3, 97), (x) => x % 10 !== 0 && (kind !== 'grid' || x > 10), 50);
   if (kind === 'grid') {
+    const rows = Math.floor(h / 10);
     return {
       prompt: 'The grid has $100$ equal squares. What percentage of the grid is shaded?',
       figure: gridFigure(10, 10, h, `${h} of 100 squares shaded`),
       parts: [wholePart(h, undefined, '%')],
       hints: [PCT_HINT, 'Count the full shaded rows of $10$, then the extra squares.'],
-      solution: [`${Math.floor(h / 10)} full rows of $10$ make $${Math.floor(h / 10) * 10}$. There are $${h % 10}$ more squares. That is $${h}$ squares.`, `$${h}$ out of $100$ is $${fr(h, 100)} = ${pct(h)}$.`, `$${pct(h)}$ of the grid is shaded.`],
+      solution: [`$${rows}$ full ${rows === 1 ? 'row' : 'rows'} of $10$ ${rows === 1 ? 'makes' : 'make'} $${rows * 10}$ squares. There ${h % 10 === 1 ? 'is' : 'are'} $${h % 10}$ more. That is $${h}$ squares.`, `$${h}$ out of $100$ is $${fr(h, 100)} = ${pct(h)}$.`, `$${pct(h)}$ of the grid is shaded.`],
     };
   }
   if (kind === 'fracToPct') {
@@ -366,17 +400,18 @@ function pctD2(rng: Rng): Out {
     };
   }
   const c = rng.pick(PCT_CTX.filter((x) => x.whole.includes(b)));
-  const text = c.text(a, b).replace('@name', rng.pick(NAMES)).replace('@town', rng.pick(TOWNS));
+  const name = rng.pick(NAMES);
+  const text = c.text(a, b, name, rng.pick(TOWNS));
   if (kind === 'fracDec') {
     return {
-      prompt: `${text} Write the part-whole ratio of ${c.part} as a decimal number.`,
+      prompt: `${text} Write the part-whole ratio of ${c.part} to ${c.all} as a decimal number.`,
       parts: [numPart(H / 100, { exact: false, display: 'decimal' })],
       hints: [`As a fraction, the ratio is $${fr(a, b)}$.`, 'Make the denominator $100$, then write the hundredths as a decimal.'],
       solution: [`The ratio is $${ratio(a, b)}$, or $${fr(a, b)}$.`, ...toHundredths(a, b), `$${fr(H, 100)} = ${dec(H)}$`],
     };
   }
   return {
-    prompt: `${text} What percentage is that?`,
+    prompt: `${text} ${c.ask(name)}`,
     parts: [wholePart(H, undefined, '%')],
     hints: [PCT_HINT, `Write $${fr(a, b)}$ with denominator $100$.`],
     solution: [`The part-whole ratio is $${ratio(a, b)}$, or $${fr(a, b)}$.`, ...toHundredths(a, b), `$${fr(H, 100)} = ${pct(H)}$`],
@@ -385,15 +420,15 @@ function pctD2(rng: Rng): Out {
 
 function pctD3(rng: Rng): Out {
   const b = rng.pick([10, 20, 25, 50]);
-  const a = rng.int(1, b - 1);
+  const a = rng.int(2, b - 2);
   const H = (a * 100) / b;
   const kind = rng.pick(['rest', 'table'] as const);
   if (kind === 'table') {
     const c = rng.pick(PCT_CTX.filter((x) => x.whole.includes(b)));
-    const text = c.text(a, b).replace('@name', rng.pick(NAMES)).replace('@town', rng.pick(TOWNS));
+    const text = c.text(a, b, rng.pick(NAMES), rng.pick(TOWNS));
     return {
       prompt: `${text} Complete the table. Each column shows the same part-whole relationship.`,
-      figure: { type: 'table', headers: ['Ratio', 'Fraction', 'Decimal', 'Percentage'], rows: [[`$${ratio(a, b)}$`, `$${fr(a, b)}$`, '(a)', '(b)']] },
+      figure: { type: 'table', headers: ['Ratio', 'Fraction', 'Decimal', 'Percentage'], rows: [[ratio(a, b), `$${fr(a, b)}$`, '(a)', '(b)']] },
       parts: [numPart(H / 100, { exact: false, display: 'decimal', label: '(a) Decimal' }), wholePart(H, '(b) Percentage', '%')],
       hints: [`Change $${fr(a, b)}$ to hundredths first.`, 'Hundredths can be written as a decimal (two places after the point) and as a percentage (out of $100$).'],
       solution: [...toHundredths(a, b), `(a) $${fr(H, 100)} = ${dec(H)}$`, `(b) $${fr(H, 100)} = ${pct(H)}$`, `The answers are $${dec(H)}$ and $${pct(H)}$.`],

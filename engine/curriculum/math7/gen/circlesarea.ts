@@ -51,7 +51,7 @@ const sqRound = (dp: number, u: string) => (dp === 0 ? `to the nearest square ${
 /** True when v sits on (or very near) a ...5 rounding boundary at dp places. */
 function nearHalf(v: number, dp: number): boolean {
   const x = Math.abs(v) * 10 ** dp;
-  return Math.abs(x - Math.floor(x) - 0.5) < 0.03;
+  return Math.abs(x - Math.floor(x) - 0.5) < 0.05;
 }
 
 const PI_HINT = 'Use the $\\pi$ key on your calculator, and round only at the end.';
@@ -821,9 +821,9 @@ const circumference = skill({
       parts: [numPart(dist2, { decimals: 1, suffix: 'm' })],
       hints: ['In one turn, the bike moves forward one circumference of the wheel.', 'Find $C = \\pi d$, multiply by the number of turns, then change centimetres to metres (divide by 100).'],
       solution: [
-        `One turn: $C = \\pi \\times ${DD} \\approx ${nf(Math.PI * DD, 3)}\\ \\text{cm}$`,
-        `${turns} turns: $${turns} \\times ${nf(Math.PI * DD, 3)} \\approx ${nf(Math.PI * DD * turns, 1)}\\ \\text{cm}$`,
-        `In metres: $${nf(Math.PI * DD * turns, 1)} \\div 100 \\approx ${nf(dist2, 2)}$`,
+        `In one turn, the bike moves one circumference: $C = \\pi \\times ${DD}\\ \\text{cm}$.`,
+        `In ${turns} turns: $${turns} \\times \\pi \\times ${DD} = \\pi \\times ${n(turns * DD)} \\approx ${nf(Math.PI * DD * turns, 2)}\\ \\text{cm}$`,
+        `In metres: $${nf(Math.PI * DD * turns, 2)} \\div 100 \\approx ${nf(dist2, 2)}$`,
         `The bike moves about ${lenR(dist2, 'm')}.`,
       ],
     };
@@ -1259,8 +1259,8 @@ const areaCircle = skill({
         hints: ['The deck is the big circle (hot tub and deck) minus the small circle (hot tub).', `The big circle has radius $${r} + ${n(t)}$. Find both areas with $A = \\pi r^2$ and subtract.`],
         solution: [
           `Radius of the big circle: $${r} + ${n(t)} = ${n(R)}\\ \\text{m}$`,
-          `Big circle: $\\pi \\times ${n(R)}^2 \\approx ${nf(Math.PI * R * R, 2)}\\ \\text{m}^2$. Hot tub: $\\pi \\times ${r}^2 \\approx ${nf(Math.PI * r * r, 2)}\\ \\text{m}^2$`,
-          `Deck: $${nf(Math.PI * R * R, 2)} - ${nf(Math.PI * r * r, 2)} \\approx ${nf(A, 2)}$`,
+          `Big circle: $\\pi \\times ${n(R)}^2 \\approx ${nf(Math.PI * R * R, 3)}\\ \\text{m}^2$. Hot tub: $\\pi \\times ${r}^2 \\approx ${nf(Math.PI * r * r, 3)}\\ \\text{m}^2$`,
+          `Deck: $${nf(Math.PI * R * R, 3)} - ${nf(Math.PI * r * r, 3)} \\approx ${nf(A, 2)}$`,
           `The deck has an area of about ${arR(A, 'm', dpFor(A))}.`,
         ],
       };

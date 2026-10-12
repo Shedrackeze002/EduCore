@@ -181,18 +181,18 @@ const REASON: Record<Reason, string> = {
 };
 const WRONG_REASON = ['Population, because a sample is always biased.', 'Sample, because a census always gives wrong results.'];
 
-const POP_SAMPLE: Array<{ text: string; r: Reason }> = [
-  { text: 'the average height of the $26$ students in your class', r: 'small' },
-  { text: 'which evening the $12$ members of a book club can meet', r: 'small' },
-  { text: 'the shoe size of each player on the school basketball team, to order new team shoes', r: 'every' },
-  { text: 'the allergies of every student going on the Grade 9 overnight camping trip', r: 'every' },
-  { text: 'whether every parachute packed for a skydiving club’s jumps is safe', r: 'every' },
-  { text: 'the favourite breakfast cereal of teenagers in Canada', r: 'large' },
-  { text: 'the number of hours of sleep Alberta high school students get on school nights', r: 'large' },
-  { text: 'the opinion of Edmonton voters about a new transit line', r: 'large' },
-  { text: 'how long the light bulbs made in a factory last before burning out', r: 'destroy' },
-  { text: 'whether a batch of $5000$ granola bars from a bakery tastes right', r: 'destroy' },
-  { text: 'how much force it takes to break the hockey sticks made by a company', r: 'destroy' },
+const POP_SAMPLE: Array<{ text: string; r: Reason; why: string }> = [
+  { text: 'the average height of the $26$ students in your class', r: 'small', why: 'There are only $26$ students, and they are all in one room.' },
+  { text: 'which evening the $12$ members of a book club can meet', r: 'small', why: 'Only $12$ people need to be asked, and they meet together.' },
+  { text: 'the shoe size of each player on the school basketball team, to order new team shoes', r: 'every', why: 'Every player needs shoes that fit, so every size is needed.' },
+  { text: 'the allergies of every student going on the Grade 9 overnight camping trip', r: 'every', why: 'Missing even one student’s allergy could be dangerous.' },
+  { text: 'whether every parachute packed for a skydiving club’s jumps is safe', r: 'every', why: 'One unsafe parachute could cost a life, so each one must be checked.' },
+  { text: 'the favourite breakfast cereal of teenagers in Canada', r: 'large', why: 'There are millions of teenagers in Canada, far too many to ask.' },
+  { text: 'the number of hours of sleep Alberta high school students get on school nights', r: 'large', why: 'There are many thousands of high school students in Alberta.' },
+  { text: 'the opinion of Edmonton voters about a new transit line', r: 'large', why: 'Asking every voter in a large city would take too long and cost too much.' },
+  { text: 'how long the light bulbs made in a factory last before burning out', r: 'destroy', why: 'A bulb tested until it burns out cannot be sold.' },
+  { text: 'whether a batch of $5000$ granola bars from a bakery tastes right', r: 'destroy', why: 'A granola bar that is tasted cannot be sold.' },
+  { text: 'how much force it takes to break the hockey sticks made by a company', r: 'destroy', why: 'Each stick tested is broken, so only a few can be tested.' },
 ];
 
 function popOrSample(rng: Rng, d: Lvl, name: string): Out {
@@ -203,7 +203,7 @@ function popOrSample(rng: Rng, d: Lvl, name: string): Out {
       prompt: `${name} wants to collect data about ${s.text}. Should ${name} use the whole population (a census) or a sample?`,
       parts: [{ answer: fixedChoice(['The whole population (a census)', 'A sample'], pop ? 0 : 1) }],
       hints: ['A census collects data from every member of the population. A sample uses only part of it.', 'Use a sample when the population is very large or when testing destroys the items. Use the population when it is small or every member matters.'],
-      solution: [REASON[s.r].replace(/^(Population|Sample), because /, (_m, w: string) => `${w === 'Population' ? 'Use the population' : 'Use a sample'}: `), `The answer is **${pop ? 'the whole population (a census)' : 'a sample'}**.`],
+      solution: [s.why, REASON[s.r].replace(/^(Population|Sample), because /, (_m, w: string) => `${w === 'Population' ? 'Use the population' : 'Use a sample'}: `), `The answer is **${pop ? 'the whole population (a census)' : 'a sample'}**.`],
       answerDisplay: pop ? 'The whole population (a census)' : 'A sample',
     };
   }
@@ -213,7 +213,7 @@ function popOrSample(rng: Rng, d: Lvl, name: string): Out {
     prompt: `${name} wants to collect data about ${s.text}. Which choice and reason are best?`,
     parts: [{ answer: mc(rng, REASON[s.r], ds) }],
     hints: ['Is the population small or huge? Does every member matter? Does testing destroy what is tested?', 'A census collects data from every member; a sample uses part of the population.'],
-    solution: [`Think about ${s.text}.`, `The best answer: ${REASON[s.r]}`],
+    solution: [s.why, `The best answer: ${REASON[s.r]}`],
     answerDisplay: REASON[s.r],
   };
 }

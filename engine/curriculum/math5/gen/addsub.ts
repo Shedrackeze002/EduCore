@@ -77,8 +77,8 @@ function row(units: number | null, dp: number, W: number, deco: (c: number, d: s
   const ds = units === null ? [] : cols(units, dp);
   const out: string[] = [];
   for (let c = W - 1; c >= 0; c--) {
-    out.push(deco(c, c < ds.length ? String(ds[c]) : '\\phantom{0}'));
-    if (c === dp && dp > 0) out.push('.');
+    // The decimal point sits right after the ones digit; columns are a thin space apart.
+    out.push(deco(c, c < ds.length ? String(ds[c]) : '\\phantom{0}') + (c === dp && dp > 0 ? '.' : ''));
   }
   return out.join('\\,');
 }
@@ -297,28 +297,40 @@ function standardAlgorithm(rng: Rng, d: Difficulty): Out {
 
 /** A missing number: use the inverse operation. */
 function missingNumber(rng: Rng): Out {
-  const dp = rng.int(1, 2);
-  const da = rng.int(1, dp);
-  const x = decNum(rng, 1, dp);
-  const a = decNum(rng, 1, da) * 10 ** (dp - da);
   const plus = rng.chance(0.5);
-  // □ + a = t  or  □ - a = t
-  const t = plus ? x + a : x - a;
-  if (t <= 0) return missingNumber(rng);
+  // □ + a = t needs t − a (regrouping across zeros); □ − a = t needs t + a (carrying).
+  const { t, a, dt, da } = retry(
+    () => {
+      const dt = plus ? rng.int(0, 1) : rng.int(1, 3);
+      const da = plus ? rng.int(2, 3) : rng.intExcept(1, 3, [dt]);
+      return { t: decNum(rng, plus ? 2 : 1, dt), a: decNum(rng, 1, da), dt, da };
+    },
+    (c) => {
+      const dp = Math.max(c.dt, c.da);
+      const T = c.t * 10 ** (dp - c.dt);
+      const A = c.a * 10 ** (dp - c.da);
+      return (plus ? T > A : true) && regroups(T, A, plus ? '-' : '+', dp) >= 2;
+    },
+    200,
+  );
+  const dp = Math.max(dt, da);
+  const T = t * 10 ** (dp - dt);
+  const A = a * 10 ** (dp - da);
+  const x = plus ? T - A : T + A;
   const box = '\\boxed{\\phantom{0}}';
-  const eq = `${box} ${plus ? '+' : '-'} ${nm(a, dp)} = ${nm(t, dp)}`;
-  const { steps } = columnSteps(plus ? [t, a] : [t, a], plus ? '-' : '+', dp, [dpOf(t, dp), dpOf(a, dp)]);
+  const eq = `${box} ${plus ? '+' : '-'} ${nm(a, da)} = ${nm(t, dt)}`;
+  const { steps } = columnSteps([T, A], plus ? '-' : '+', dp, [dt, da]);
   return {
     prompt: `What number goes in the box?\n\n$$${eq}$$`,
     parts: [exactPart(x, dp)],
     hints: [
-      plus ? `Adding $${nm(a, dp)}$ gave $${nm(t, dp)}$. Undo it: subtract.` : `Subtracting $${nm(a, dp)}$ gave $${nm(t, dp)}$. Undo it: add.`,
-      `Find $${nm(t, dp)} ${plus ? '-' : '+'} ${nm(a, dp)}$ with the standard algorithm.`,
+      plus ? `Adding $${nm(a, da)}$ gave $${nm(t, dt)}$. Undo it: subtract.` : `Subtracting $${nm(a, da)}$ gave $${nm(t, dt)}$. Undo it: add.`,
+      `Find $${nm(t, dt)} ${plus ? '-' : '+'} ${nm(a, da)}$ with the standard algorithm.`,
     ],
     solution: [
-      plus ? `Subtraction undoes addition. The missing number is $${nm(t, dp)} - ${nm(a, dp)}$.` : `Addition undoes subtraction. The missing number is $${nm(t, dp)} + ${nm(a, dp)}$.`,
+      plus ? `Subtraction undoes addition. The missing number is $${nm(t, dt)} - ${nm(a, da)}$.` : `Addition undoes subtraction. The missing number is $${nm(t, dt)} + ${nm(a, da)}$.`,
       ...steps,
-      `Check: $${nm(x, dp)} ${plus ? '+' : '-'} ${nm(a, dp)} = ${nm(t, dp)}$. The missing number is $${nm(x, dp)}$.`,
+      `Check: $${nm(x, dp)} ${plus ? '+' : '-'} ${nm(a, da)} = ${nm(t, dt)}$. The missing number is $${nm(x, dp)}$.`,
     ],
   };
 }

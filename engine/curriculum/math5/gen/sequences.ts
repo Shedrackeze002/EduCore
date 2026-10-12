@@ -57,9 +57,11 @@ function seqTable(pos: number[], terms: Array<number | null>, heads: [string, st
 function seqGraph(pts: Array<[number, number]>, xMax: number, yStep: number, yTop?: number): Figure {
   const maxY = Math.max(...pts.map((p) => p[1]));
   const top = yTop ?? (Math.floor(maxY / yStep) + 1) * yStep;
+  // Equal steps draw square cells: widen the x-axis so the graph is not much taller than it is wide.
+  const xEnd = yStep === 1 ? Math.max(xMax, Math.ceil(top / 1.2)) : xMax;
   return {
     type: 'plane',
-    grid: { xMin: 0, xMax, yMin: 0, yMax: top, xStep: 1, yStep, xLabel: 'Position', yLabel: 'Term' },
+    grid: { xMin: 0, xMax: xEnd, yMin: 0, yMax: top, xStep: 1, yStep, xLabel: 'Position', yLabel: 'Term' },
     points: pts.map(([x, y]) => ({ x, y })),
   };
 }

@@ -1155,8 +1155,8 @@ function lookAlikes(rng: Rng, t: Tile): Array<{ tile: Tile; why: string }> {
   const big = Math.max(b.x1, b.y1) <= 3;
   const k = big ? 2 : 0.5;
   out.push({ tile: mapTile(t, (p) => [p[0] * k, p[1] * k]), why: big ? 'is the same shape but bigger' : 'is the same shape but smaller' });
-  if (b.x1 <= 3 && (b.y1 > 3 || rng.chance(0.5))) out.push({ tile: mapTile(t, (p) => [p[0] * 2, p[1]]), why: 'is stretched sideways' });
-  else if (b.y1 <= 3) out.push({ tile: mapTile(t, (p) => [p[0], p[1] * 2]), why: 'is stretched up and down' });
+  if (b.x1 <= 3 && (b.y1 > 3 || rng.chance(0.5))) out.push({ tile: mapTile(t, (p) => [p[0] * 2, p[1]]), why: 'is stretched in one direction' });
+  else if (b.y1 <= 3) out.push({ tile: mapTile(t, (p) => [p[0], p[1] * 2]), why: 'is stretched in one direction' });
   const moves: P[] = [[1, 0], [-1, 0], [0, 1], [0, -1]];
   const tries = rng.shuffle(t.pts.flatMap((_, i) => moves.map((mv) => ({ i, mv }))));
   let moved = 0;
@@ -1164,7 +1164,7 @@ function lookAlikes(rng: Rng, t: Tile): Array<{ tile: Tile; why: string }> {
     const pts = t.pts.map((p, j) => (j === i ? ([p[0] + mv[0], p[1] + mv[1]] as P) : p));
     if (!isSimple(pts) || congruent(pts, t.pts) || !inPoly(t.c, pts)) continue;
     if (out.some((o) => congruent(o.tile.pts, pts))) continue;
-    out.push({ tile: normTile({ pts, c: t.c }), why: 'has one corner in a different place, so its sides do not match' });
+    out.push({ tile: normTile({ pts, c: t.c }), why: 'has one corner in a different place' });
     if (++moved === 2) break;
   }
   return out.filter((o) => !congruent(o.tile.pts, t.pts));
@@ -1199,7 +1199,7 @@ function triangleFrom(a: number, b: number, c: number): P[] {
 }
 
 const TRI_SIDES: Array<[number, number, number]> = [
-  [4, 6, 8], [5, 7, 10], [3, 5, 7], [5, 8, 11], [4, 7, 9], [6, 8, 12], [5, 6, 9], [6, 9, 13], [4, 5, 8], [7, 9, 13],
+  [4, 6, 7], [5, 7, 8], [5, 6, 8], [4, 5, 6], [6, 7, 9], [5, 8, 9], [6, 8, 10], [7, 9, 11], [3, 5, 6], [6, 9, 10],
 ];
 
 /** Two congruent triangles drawn to scale: triangle 1, and triangle 2 turned (and maybe flipped) beside it. */

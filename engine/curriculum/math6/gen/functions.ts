@@ -35,7 +35,7 @@ function rhs(f: Fn, v = 'x'): string {
 function sub(f: Fn, x: number): string {
   const y = val(f, x);
   if (f.dec) return `${f.b} - ${f.a} \\times ${x} = ${f.b} - ${f.a * x} = ${y}`;
-  if (f.b === 0) return `${f.a} \\times ${x} = ${y}`;
+  if (f.b === 0) return f.a === 1 ? `${x}` : `${f.a} \\times ${x} = ${y}`;
   if (f.a === 1) return `${x} + ${f.b} = ${y}`;
   return `${f.a} \\times ${x} + ${f.b} = ${f.a * x} + ${f.b} = ${y}`;
 }
@@ -69,9 +69,11 @@ function yStepFor(ys: number[]): number | null {
 
 function fnGraph(pts: Array<[number, number]>, xMax: number, yStep: number, labels: [string, string], yTop?: number): Figure {
   const top = yTop ?? (Math.floor(Math.max(...pts.map((p) => p[1])) / yStep) + 1) * yStep;
+  // Equal steps draw square cells: widen the x-axis so the graph is not much taller than it is wide.
+  const xEnd = yStep === 1 ? Math.max(xMax, Math.ceil(top / 1.2)) : xMax;
   return {
     type: 'plane',
-    grid: { xMin: 0, xMax, yMin: 0, yMax: top, xStep: 1, yStep, xLabel: labels[0], yLabel: labels[1] },
+    grid: { xMin: 0, xMax: xEnd, yMin: 0, yMax: top, xStep: 1, yStep, xLabel: labels[0], yLabel: labels[1] },
     points: pts.map(([x, y]) => ({ x, y })),
   };
 }
@@ -128,7 +130,7 @@ const CONTEXTS: Array<(rng: Rng, name: string) => Ctx> = [
     const f = { a: rng.pick([12, 14, 15, 16, 18, 20]), b: 0 };
     return {
       f, story: `${name} rides a bike on a trail near Canmore at a steady speed of $${f.a}$ km each hour.`, iv: 't', dv: 'd',
-      ind: 'the time spent riding, in hours', dep: 'the distance travelled', constant: `the speed ($${f.a}$ km each hour)`,
+      ind: 'the number of hours of riding', dep: 'the distance travelled', constant: `the speed ($${f.a}$ km each hour)`,
       heads: ['Time, $t$ (h)', 'Distance, $d$ (km)'], axes: ['Time (h)', 'Distance (km)'], xs: range(0, 4), xUnit: 'h', yUnit: 'km', money: false,
       xSay: (x) => `$${x}$ h`, ySay: (y) => `$${y}$ km`,
       fwd: (x) => `How far will ${name} travel in $${x}$ hours?`, inv: (y) => `How many hours will it take ${name} to travel $${y}$ km?`, at: (x) => `after $${x}$ h`, xMax: 6,
@@ -138,7 +140,7 @@ const CONTEXTS: Array<(rng: Rng, name: string) => Ctx> = [
     const f = { a: rng.pick([80, 90, 100]), b: rng.pick([20, 30, 40, 50, 60]) };
     return {
       f, story: `A family is driving from Edmonton to Jasper. They have already driven $${f.b}$ km. From now on, they drive $${f.a}$ km each hour.`, iv: 't', dv: 'd',
-      ind: 'the time driving from now on, in hours', dep: 'the total distance driven', constant: `the distance driven each hour ($${f.a}$ km)`,
+      ind: 'the number of hours driven from now on', dep: 'the total distance driven', constant: `the distance driven each hour ($${f.a}$ km)`,
       heads: ['Time, $t$ (h)', 'Distance, $d$ (km)'], axes: ['Time (h)', 'Distance (km)'], xs: range(0, 3), xUnit: 'h', yUnit: 'km', money: false,
       xSay: (x) => `$${x}$ h`, ySay: (y) => `$${y}$ km`,
       fwd: (x) => `What total distance will the family have driven after $${x}$ more hours?`, inv: (y) => `After how many more hours will the family have driven $${y}$ km in total?`, at: (x) => `after $${x}$ more hours`, xMax: 4,
@@ -311,27 +313,28 @@ function variableStatement(rng: Rng): Out {
 }
 
 function describeRule(rng: Rng): Out {
-  const c = pickCtx(rng, (x) => !x.f.dec);
+  const c = pickCtx(rng, (x) => !x.f.dec && x.f.a > 1);
   const { a, b } = c.f;
   const xs = c.xs;
   const ys = xs.map((x) => val(c.f, x));
-  const indShort = c.ind.replace(/, in hours$/, '');
+  const indShort = c.ind;
   const depShort = c.dep;
   const correct = b === 0 ? `Multiply ${indShort} by $${a}$.` : `Multiply ${indShort} by $${a}$, then add $${b}$.`;
   const wrong = b === 0
     ? [`Add $${a}$ to ${indShort}.`, `Multiply ${depShort} by $${a}$.`, `Divide ${indShort} by $${a}$.`]
     : [`Add $${a}$ to ${indShort}.`, a !== b ? `Multiply ${indShort} by $${b}$, then add $${a}$.` : `Multiply ${indShort} by $${a + 1}$.`, `Multiply ${depShort} by $${a}$, then add $${b}$.`];
+  const tidy = (t: string) => t.replace(/\.\.$/, '.');
   return {
     prompt: `${c.story} The table of values shows the function. Which rule gives ${c.dep} from ${c.ind}?`,
     figure: fnTable(xs, ys, c.heads),
-    parts: [{ answer: mc(rng, correct, wrong) }],
+    parts: [{ answer: mc(rng, tidy(correct), wrong.map(tidy)) }],
     hints: ['The rule starts with the independent variable (first column) and gives the dependent variable (second column).', 'Test each rule on every row of the table, not just one row.'],
     solution: [
       `The independent variable is ${c.ind}, so the rule must start with it.`,
       `Test the rule on the rows: ${xs.slice(1, 4).map((x) => `$${sub(c.f, x)}$`).join(', ')}.`,
-      `Every row works. The rule is: ${correct}`,
+      `Every row works. The rule is: ${tidy(correct)}`,
     ],
-    answerDisplay: correct,
+    answerDisplay: tidy(correct),
   };
 }
 
@@ -422,7 +425,7 @@ function graphCtx(rng: Rng): { c: Ctx; ys: number[]; s: number } {
 function readGraph(rng: Rng): Out {
   const { c, ys, s } = graphCtx(rng);
   const pts = c.xs.map((x, i) => [x, ys[i]] as [number, number]);
-  const k = rng.int(0, pts.length - 1);
+  const k = rng.int(1, pts.length - 1);
   return {
     prompt: `${c.story} The graph shows this function as points in the Cartesian plane. Use the graph to find ${c.dep} ${c.at(c.xs[k])}.`,
     figure: fnGraph(pts, c.xs[c.xs.length - 1] + 1, s, c.axes),
@@ -549,13 +552,13 @@ function equationFromStory(rng: Rng): Out {
       ? [`$${c.dv} = ${a}${c.iv} - ${b}$`, `$${c.dv} = ${b} + ${a}${c.iv}$`, `$${c.iv} = ${b} - ${a}${c.dv}$`]
       : b === 0
         ? [`$${c.dv} = ${c.iv} + ${a}$`, `$${c.iv} = ${a}${c.dv}$`, `$${c.dv} = ${a + 1}${c.iv}$`]
-        : [`$${c.dv} = ${b}${c.iv} + ${a}$`, `$${c.dv} = ${c.iv} + ${a + b}$`, `$${c.iv} = ${a}${c.dv} + ${b}$`];
+        : [`$${c.dv} = ${b}${c.iv} + ${a}$`, `$${c.dv} = ${c.iv} + ${a + b}$`, `$${c.iv} = ${a === 1 ? '' : a}${c.dv} + ${b}$`, `$${c.dv} = ${a + 1}${c.iv} + ${b}$`];
     return {
       prompt: `${c.story} Let $${c.iv}$ be ${c.ind} and $${c.dv}$ be ${c.dep}. The table of values shows the function. Which equation represents the function?`,
       figure: fnTable(xs, ys, c.heads),
       parts: [{ answer: mc(rng, correct, wrong) }],
       hints: [`The dependent variable $${c.dv}$ goes on the left side of the equation.`, 'Test each equation with two rows of the table.'],
-      solution: [`$${c.dv}$ depends on $${c.iv}$, so the equation starts $${c.dv} =$.`, `From the story: ${c.f.dec ? `start at $${b}$ and subtract $${a}$ for each hour` : b === 0 ? `multiply $${c.iv}$ by $${a}$` : `multiply $${c.iv}$ by $${a}$, then add $${b}$`}.`, `Check: $${c.iv} = ${xs[2]}$ gives $${sub(c.f, xs[2])}$ ✓`, `The equation is ${correct}.`],
+      solution: [`$${c.dv}$ depends on $${c.iv}$, so the equation starts $${c.dv} =$.`, `From the story: ${c.f.dec ? `start at $${b}$ and subtract $${a}$ for each hour` : b === 0 ? `multiply $${c.iv}$ by $${a}$` : a === 1 ? `add $${b}$ to $${c.iv}$` : `multiply $${c.iv}$ by $${a}$, then add $${b}$`}.`, `Check: $${c.iv} = ${xs[2]}$ gives $${sub(c.f, xs[2])}$ ✓`, `The equation is ${correct}.`],
       answerDisplay: correct,
     };
   }
@@ -565,7 +568,7 @@ function equationFromStory(rng: Rng): Out {
     hints: [`How much does ${c.dep} change each time $${c.iv}$ goes up by $1$? That amount multiplies $${c.iv}$.`, c.f.dec ? `The candle starts at $${c.f.b}$ cm and loses $${c.f.a}$ cm each hour, so subtract $${c.f.a}${c.iv}$ from $${c.f.b}$.` : c.f.b === 0 ? `Nothing is there at the start, so there is nothing to add.` : `What amount is there at the start, before any change? Add it.`],
     solution: [
       `Make a quick table: ${xs.slice(0, 3).map((x) => `$${c.iv} = ${x}$ gives $${c.dv} = ${val(c.f, x)}$`).join(', ')}.`,
-      c.f.dec ? `Start at $${c.f.b}$ and subtract $${c.f.a}$ for each hour: $${c.f.b} - ${c.f.a}${c.iv}$.` : c.f.b === 0 ? `Multiply $${c.iv}$ by $${c.f.a}$: $${rhs(c.f, c.iv)}$.` : `Multiply $${c.iv}$ by $${c.f.a}$, then add the starting amount $${c.f.b}$: $${rhs(c.f, c.iv)}$.`,
+      c.f.dec ? `Start at $${c.f.b}$ and subtract $${c.f.a}$ for each hour: $${c.f.b} - ${c.f.a}${c.iv}$.` : c.f.b === 0 ? `Multiply $${c.iv}$ by $${c.f.a}$: $${rhs(c.f, c.iv)}$.` : c.f.a === 1 ? `Add the starting amount $${c.f.b}$ to $${c.iv}$: $${rhs(c.f, c.iv)}$.` : `Multiply $${c.iv}$ by $${c.f.a}$, then add the starting amount $${c.f.b}$: $${rhs(c.f, c.iv)}$.`,
       `The equation is $${c.dv} = ${rhs(c.f, c.iv)}$.`,
     ],
   };
