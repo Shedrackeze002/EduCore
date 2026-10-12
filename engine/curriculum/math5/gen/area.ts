@@ -975,6 +975,3 @@ const areaPerimeter = skill({
 });
 
 export const AREA_SKILLS: SkillDef[] = [areaUnits, rectangleArea, areaPerimeter];
-
-/** TEMP for lesson figures. */
-export const _areaInternals = { rectFig, polyFig, gridShape };

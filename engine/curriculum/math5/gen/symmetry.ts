@@ -452,9 +452,27 @@ interface DashedLine {
  * `choice` crops the figure to the drawing, for small answer-choice pictures.
  */
 function shapeFigure(sh: Shape, lines: DashedLine[] = [], caption = `A ${sh.name}`, choice = false): PlaneFigure {
-  const sym = symmetryOf(sh);
-  const c = sym.centre;
-  const R = Math.max(...vertices(sh).map((p) => Math.hypot(p[0] - c[0], p[1] - c[1])));
+  const c = symmetryOf(sh).centre;
+  const vs = vertices(sh);
+  // Dashed lines stop a little outside the shape's bounding box.
+  const box = {
+    x0: Math.min(...vs.map((p) => p[0])) - 0.7,
+    x1: Math.max(...vs.map((p) => p[0])) + 0.7,
+    y0: Math.min(...vs.map((p) => p[1])) - 0.7,
+    y1: Math.max(...vs.map((p) => p[1])) + 0.7,
+  };
+  const clip = (base: P, u: P): [number, number] => {
+    let t0 = -Infinity;
+    let t1 = Infinity;
+    for (const [b, d, lo, hi] of [[base[0], u[0], box.x0, box.x1], [base[1], u[1], box.y0, box.y1]]) {
+      if (Math.abs(d) < 1e-12) continue;
+      const a = (lo - b) / d;
+      const z = (hi - b) / d;
+      t0 = Math.max(t0, Math.min(a, z));
+      t1 = Math.min(t1, Math.max(a, z));
+    }
+    return [t0, t1];
+  };
   return render((k) => {
     const s = S * k;
     const px = (p: P): P => [p[0] * s, p[1] * s];
@@ -464,14 +482,12 @@ function shapeFigure(sh: Shape, lines: DashedLine[] = [], caption = `A ${sh.name
       const u: P = [Math.cos(rad(l.dir)), Math.sin(rad(l.dir))];
       const nrm: P = [-u[1], u[0]];
       const sh0 = l.shift ?? 0;
-      const half = Math.sqrt(Math.max((R + 0.5) ** 2 - sh0 * sh0, 1));
       const base: P = [c[0] + nrm[0] * sh0, c[1] + nrm[1] * sh0];
-      cv.seg(px([base[0] - u[0] * half, base[1] - u[1] * half]), px([base[0] + u[0] * half, base[1] + u[1] * half]), { color: 'accent', dashed: true });
+      const [t0, t1] = clip(base, u);
+      cv.seg(px([base[0] + u[0] * t0, base[1] + u[1] * t0]), px([base[0] + u[0] * t1, base[1] + u[1] * t1]), { color: 'accent', dashed: true });
     }
-    // The same box for every figure of this shape, whatever lines are drawn.
-    if (lines.length) for (const a of [0, 90, 180, 270]) cv.include(px([c[0] + (R + 0.6) * Math.cos(rad(a)), c[1] + (R + 0.6) * Math.sin(rad(a))]));
     // Answer-choice pictures share one square box, so no shape looks bigger than the others.
-    if (choice) for (const q of [-3.4, 3.4]) cv.include(px([q, q]));
+    if (choice) for (const q of [-3.85, 3.85]) cv.include(px([q, q]));
     return cv;
   }, caption, choice);
 }
@@ -1047,5 +1063,3 @@ const symmetryPolygons = skill({
 
 export const SYMMETRY_SKILLS: SkillDef[] = [symmetry, symmetryPolygons];
 
-/** For tests and lesson figures. */
-export const _symmetryInternals = { SHAPES, symOf, shapeFigure, labelledFigure };

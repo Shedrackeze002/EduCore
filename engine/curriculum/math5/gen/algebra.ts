@@ -816,7 +816,7 @@ function problemOne(rng: Rng): Problem {
 
 function problemTwo(rng: Rng): Problem {
   const name = rng.pick(NAMES);
-  const kind = rng.pick(['packs', 'tickets', 'saving', 'share', 'pages'] as const);
+  const kind = rng.pick(['packs', 'tickets', 'saving', 'share', 'cases'] as const);
   if (kind === 'packs') {
     const [a, x, b] = [rng.int(3, 6), rng.int(6, 12), rng.int(2, 9)];
     const c = a * x + b;

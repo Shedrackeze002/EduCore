@@ -140,11 +140,11 @@ interface MeasureCtx {
 
 const MEASURE: MeasureCtx[] = [
   { unit: 'm', text: (a, b, name) => `${name} cuts a $${a}$ m rope into $${b}$ equal pieces for a camping trip.`, ask: 'How long is each piece?', answer: (x) => `Each piece is $${x}$ m long.` },
-  { unit: 'L', Ls: [4, 8, 10], text: (a, b, name) => `${name} pours $${a}$ L of juice equally into $${b}$ jugs for a class party.`, ask: 'How much juice is in each jug?', answer: (x) => `Each jug has $${x}$ L of juice.` },
+  { unit: 'L', text: (a, b, name) => `${name} pours $${a}$ L of juice equally into $${b}$ jugs for a class party.`, ask: 'How much juice is in each jug?', answer: (x) => `Each jug has $${x}$ L of juice.` },
   { unit: 'kg', text: (a, b, name) => `${name} shares $${a}$ kg of birdseed equally among $${b}$ bird feeders.`, ask: 'How much birdseed goes in each feeder?', answer: (x) => `Each feeder gets $${x}$ kg of birdseed.` },
   { unit: 'm', text: (a, b, name) => `${name} cuts $${a}$ m of ribbon into $${b}$ equal pieces to wrap gifts.`, ask: 'How long is each piece?', answer: (x) => `Each piece is $${x}$ m long.` },
-  { unit: 'L', Ls: [4, 8, 10], text: (a, b, name) => `${name} shares $${a}$ L of water equally among $${b}$ water bottles before a soccer game.`, ask: 'How much water goes in each bottle?', answer: (x) => `Each bottle gets $${x}$ L of water.` },
-  { unit: 'km', Ls: [4, 6, 8, 10, 12], text: (a, b) => `A relay race is $${a}$ km long. It is split into $${b}$ equal parts, one for each runner.`, ask: 'How far does each runner go?', answer: (x) => `Each runner goes $${x}$ km.` },
+  { unit: 'L', text: (a, b, name) => `${name} shares $${a}$ L of water equally among $${b}$ water bottles before a soccer game.`, ask: 'How much water goes in each bottle?', answer: (x) => `Each bottle gets $${x}$ L of water.` },
+  { unit: 'km', text: (a, b) => `A relay race is $${a}$ km long. It is split into $${b}$ equal parts, one for each runner.`, ask: 'How far does each runner go?', answer: (x) => `Each runner goes $${x}$ km.` },
 ];
 
 /** Denominators that give terminating decimals with at most three decimal places. */

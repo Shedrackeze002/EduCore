@@ -316,9 +316,11 @@ const ADD_D3: Ctx[] = [
     };
   },
   (rng, name) => {
-    const L = rng.int(40, 99) / 10;
-    const p1 = retry(() => rng.int(55, 260) / 100, (x) => Math.round(x * 100) % 10 !== 0);
-    const p2 = retry(() => rng.int(55, 260) / 100, (x) => Math.round(x * 100) % 10 !== 0);
+    const L = rng.int(60, 99) / 10;
+    const [p1, p2] = retry(
+      () => [rng.int(55, 260) / 100, rng.int(55, 260) / 100],
+      ([x, y]) => Math.round(x * 100) % 10 !== 0 && Math.round(y * 100) % 10 !== 0 && x + y <= L - 0.5,
+    );
     const used = clean(p1 + p2);
     const left = clean(L - used);
     const what = rng.pick(['rope', 'ribbon', 'garden hose', 'fabric']);
@@ -741,7 +743,8 @@ function problemD2(rng: Rng, name: string): Out {
     { text: (p: string, n: number) => `A team pays ${p} per player for a skating party. There are $${n}$ players. What is the total cost?`, lo: 5, hi: 12 },
   ]);
   const n = twoDigit(rng, 12, 35);
-  const p = retry(() => 25 * rng.int(c.lo * 4, c.hi * 4) / 100, (x) => Math.round(x * 100) % 100 !== 0);
+  // A 3-digit price such as \$12.50 or \$8.75.
+  const p = retry(() => (c.lo >= 10 || rng.chance(0.5) ? rng.int(c.lo * 2, c.hi * 2) / 2 : rng.int(c.lo * 4, Math.min(c.hi, 9.75) * 4) / 4), (x) => x % 1 !== 0 && (x < 10 || (x * 10) % 1 === 0));
   const { steps, product } = multiplySteps(p, n);
   return {
     prompt: c.text(money(p), n),
