@@ -58,6 +58,12 @@ export type AnswerSpec =
       exact?: string;
       /** Accept sin, cos, tan, ln or log in the answer. Off by default: an exact value must be worked out, not typed as sin(5pi/12). */
       allowFunctions?: boolean;
+      /**
+       * The answer must be written as a fraction: 'lowest' = in lowest terms (improper fractions and
+       * mixed numbers allowed), 'mixed' = a mixed number or proper fraction in lowest terms. A
+       * whole-number value is written as a whole number.
+       */
+      fraction?: 'lowest' | 'mixed';
     }
   | {
       kind: 'numbers';
@@ -144,11 +150,12 @@ export type Figure =
   | ArrowDiagramFigure
   | TableFigure
   | BarChartFigure
-  | CircleGraphFigure;
+  | CircleGraphFigure
+  | CubesFigure;
 
 /** Every figure type, for checking figures written by hand in lesson files. */
 export const FIGURE_TYPES: ReadonlyArray<Figure['type']> = [
-  'rightTriangle', 'twoTriangles', 'solid', 'plane', 'numberLine', 'ruler', 'caliper', 'areaModel', 'arrowDiagram', 'table', 'barChart', 'circleGraph',
+  'rightTriangle', 'twoTriangles', 'solid', 'plane', 'numberLine', 'ruler', 'caliper', 'areaModel', 'arrowDiagram', 'table', 'barChart', 'circleGraph', 'cubes',
 ];
 
 export interface RightTriangleFigure {
@@ -240,7 +247,7 @@ export interface PlaneFigure {
   lines?: PlaneLine[];
   segments?: PlaneSegment[];
   /** Polyline graphs (e.g. distance-time). */
-  polylines?: Array<{ points: Array<[number, number]>; color?: 'brand' | 'accent' | 'muted'; label?: string }>;
+  polylines?: Array<{ points: Array<[number, number]>; color?: 'brand' | 'accent' | 'muted'; label?: string; fill?: boolean }>;
   /** Show rise/run triangle between two points. */
   riseRun?: { from: [number, number]; to: [number, number] };
   /** Hide numeric tick labels (for "describe the graph" questions). */
@@ -311,6 +318,19 @@ export interface BarChartFigure {
   step?: number;
   /** Print each bar's value above it. Leave off when the question asks students to read the graph. */
   showValues?: boolean;
+  caption?: string;
+}
+
+/**
+ * A structure built from unit cubes, drawn in isometric view from the front right.
+ * `heights[row][col]` is the number of cubes stacked on that square; row 0 is at the back and the
+ * last row is at the front, column 0 is on the left.
+ */
+export interface CubesFigure {
+  type: 'cubes';
+  heights: number[][];
+  /** Draw an arrow marking the front (for top, front and side view questions). */
+  showFront?: boolean;
   caption?: string;
 }
 

@@ -3,6 +3,12 @@ import { answerMarkdown, canonicalResponse } from './answers.ts';
 
 describe('answerMarkdown', () => {
   const num = (value: number) => ({ kind: 'numeric' as const, value });
+  it('shows a fraction answer in the form the question asks for', () => {
+    expect(answerMarkdown({ kind: 'numeric', value: 7 / 4, fraction: 'mixed' })).toBe('$1\\tfrac{3}{4}$');
+    expect(canonicalResponse({ kind: 'numeric', value: -7 / 4, fraction: 'mixed' })).toBe('-1 3/4');
+    expect(canonicalResponse({ kind: 'numeric', value: 7 / 4, fraction: 'lowest' })).toBe('7/4');
+    expect(canonicalResponse({ kind: 'numeric', value: 0.4, fraction: 'lowest' }, { suffix: 'kg' })).toBe('2/5');
+  });
   it('shows a measured amount as a mixed number with its unit', () => {
     expect(answerMarkdown(num(17 / 3), { suffix: 'cups' })).toBe('$5\\tfrac{2}{3}$ cups');
     expect(answerMarkdown(num(35 / 16), { suffix: 'in' })).toBe('$2\\tfrac{3}{16}$ in');

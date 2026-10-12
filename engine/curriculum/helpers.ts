@@ -101,7 +101,7 @@ export function part(answer: AnswerSpec, extra: Omit<Part, 'answer'> = {}): Part
 }
 
 /** One numeric part, rounded to `decimals` (or exact when undefined). */
-export function numPart(value: number, opts: { decimals?: number; suffix?: string; label?: string; exact?: boolean; tolerance?: number; display?: 'fraction' | 'decimal' } = {}): Part {
+export function numPart(value: number, opts: { decimals?: number; suffix?: string; label?: string; exact?: boolean; tolerance?: number; display?: 'fraction' | 'decimal'; fraction?: 'lowest' | 'mixed' } = {}): Part {
   return {
     label: opts.label,
     suffix: opts.suffix,
@@ -112,6 +112,7 @@ export function numPart(value: number, opts: { decimals?: number; suffix?: strin
       tolerance: opts.tolerance,
       allowExpression: opts.exact ?? opts.decimals === undefined,
       ...(opts.display && { display: opts.display }),
+      ...(opts.fraction && { fraction: opts.fraction }),
     },
   };
 }
