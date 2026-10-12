@@ -157,7 +157,7 @@ function ratioD2(rng: Rng): Out {
   }
   // Missing part-part term from the whole.
   return {
-    prompt: `There are $${W}$ ${c.noun} in all. $${A}$ of them are ${c.A}. The rest are ${c.B}. Complete the part-part ratio of ${c.A} to ${c.B}: $${ratio(A, '\\square')}$`,
+    prompt: `There are $${W}$ ${c.noun} in all. $${A}$ of them ${A === 1 ? 'is' : 'are'} ${c.A}. The rest are ${c.B}. Complete the part-part ratio of ${c.A} to ${c.B}: $${ratio(A, '\\square')}$`,
     parts: [wholePart(B, '$\\square =$')],
     hints: [`Find how many are ${c.B}: take the ${c.A} away from the whole.`, `$${W} - ${A} = ?$`],
     solution: [`The number of ${c.B} is $${W} - ${A} = ${B}$.`, `The ratio of ${c.A} to ${c.B} is $${ratio(A, B)}$.`, `The missing number is $${B}$.`],
@@ -392,7 +392,7 @@ function pctD2(rng: Rng): Out {
   if (kind === 'gridBoth') {
     const [rows, cols] = GRID[b];
     return {
-      prompt: `The picture has $${b}$ equal squares. $${a}$ of them are shaded.\n\n(a) Write the shaded part as a decimal number.\n\n(b) Write the shaded part as a percentage.`,
+      prompt: `The picture has $${b}$ equal squares. $${a}$ of them ${a === 1 ? 'is' : 'are'} shaded.\n\n(a) Write the shaded part as a decimal number.\n\n(b) Write the shaded part as a percentage.`,
       figure: gridFigure(rows, cols, a, `${a} of ${b} squares shaded`),
       parts: [numPart(H / 100, { exact: false, asDecimal: true, display: 'decimal', label: '(a)' }), wholePart(H, '(b)', '%')],
       hints: [`The shaded part is $${fr(a, b)}$ of the picture. Change it to hundredths.`, `Multiply the top and bottom by the same number to make the denominator $100$.`],
@@ -438,7 +438,7 @@ function pctD3(rng: Rng): Out {
   const ctx = rng.pick([
     { s: `${name}'s class has $${b}$ students. $${a}$ of them take the bus to school. The rest walk or bike.`, p: 'take the bus', q: 'do not take the bus' },
     { s: `${name} shot $${b}$ free throws at basketball practice and made $${a}$ of them.`, p: 'were made', q: 'were missed' },
-    { s: `A garden in ${rng.pick(TOWNS)} has $${b}$ plants. $${a}$ of them are carrots. The rest are beans.`, p: 'are carrots', q: 'are beans' },
+    { s: `A garden in ${rng.pick(TOWNS)} has $${b}$ plants. $${a}$ of them ${are(a)} carrots. The rest are beans.`, p: 'are carrots', q: 'are beans' },
   ]);
   const R = 100 - H;
   return {
