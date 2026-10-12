@@ -1052,6 +1052,7 @@ function sasContext(
     story: (p: number, q: number, ang: number) => string;
     ask: string;
     answer: (x: string) => string;
+    /** Side names opposite verts[0], verts[1] (length q) and verts[2] (length p). */
     names: [string, string, string];
   },
 ): GenOutput {
@@ -1073,11 +1074,11 @@ function sasContext(
     parts: [numPart(r.x, { decimals: o.dp, suffix: o.u })],
     hints: [
       'Sketch the triangle and mark what you know. Is the known angle between the two known sides?',
-      `It is, so use the cosine law: $${n0}^2 = ${n1}^2 + ${n2}^2 - 2(${n1})(${n2})\\cos ${o.verts[0]}$.`,
+      `It is, so use the cosine law: $${n0}^2 = ${n2}^2 + ${n1}^2 - 2(${n2})(${n1})\\cos ${o.verts[0]}$.`,
     ],
     solution: [
       `The known angle is between the two known sides (SAS), so use the cosine law.`,
-      ...cosSideSteps({ x: n0, p: n1, q: n2, pVal: r.p, qVal: r.q, K: o.verts[0], kAng: r.ang, value: r.x, dp: o.dp }),
+      ...cosSideSteps({ x: n0, p: n2, q: n1, pVal: r.p, qVal: r.q, K: o.verts[0], kAng: r.ang, value: r.x, dp: o.dp }),
       o.answer(ms(fmtFixed(r.x, o.dp), o.u)),
     ],
   };
@@ -1085,7 +1086,7 @@ function sasContext(
 
 const slough: Ctx = (rng) => {
   const who = rng.pick(NAMES);
-  const water = rng.pick(['a slough', 'a dugout', 'a small lake', 'a coulee']);
+  const water = rng.pick(['slough', 'dugout', 'small lake', 'coulee']);
   return sasContext(rng, {
     verts: ['S', 'P', 'Q'],
     names: ['PQ', 'SQ', 'SP'],
@@ -1093,8 +1094,8 @@ const slough: Ctx = (rng) => {
     u: 'm',
     dp: 1,
     story: (p, q, a) =>
-      `${who} is a surveyor measuring across ${water} on a farm near ${rng.pick(TOWNS)}. From point $S$, it is $${ms(p, 'm')}$ to point $P$ on one side and $${ms(q, 'm')}$ to point $Q$ on the other side. The angle between the two lines of sight, $\\angle PSQ$, is $${deg(a)}$.`,
-    ask: `How far is it across ${water} from $P$ to $Q$`,
+      `${who} is a surveyor measuring across a ${water} on a farm near ${rng.pick(TOWNS)}. From point $S$, it is $${ms(p, 'm')}$ to point $P$ on one side and $${ms(q, 'm')}$ to point $Q$ on the other side. The angle between the two lines of sight, $\\angle PSQ$, is $${deg(a)}$.`,
+    ask: `How far is it across the ${water} from $P$ to $Q$`,
     answer: (x) => `It is about $${x}$ from $P$ to $Q$.`,
   });
 };
@@ -1158,7 +1159,7 @@ const STATIONS = [
   { what: 'Two fire lookout towers', each: 'tower', a: 'A', b: 'B', c: 'F', target: 'a column of smoke', obj: 'The fire', u: 'km' as Unit, lo: 8, hi: 25, place: 'in the foothills west of Sundre' },
   { what: 'Two lifeguard towers', each: 'tower', a: 'A', b: 'B', c: 'S', target: 'a swimmer who needs help', obj: 'The swimmer', u: 'm' as Unit, lo: 80, hi: 260, place: 'on a beach at Sylvan Lake' },
   { what: 'Two gas-leak monitoring stations', each: 'station', a: 'A', b: 'B', c: 'L', target: 'a gas leak', obj: 'The leak', u: 'km' as Unit, lo: 2, hi: 9, place: 'at a gas plant near Fox Creek' },
-  { what: 'Two survey stations', each: 'station', a: 'A', b: 'B', c: 'T', target: 'a transmission tower across a river', obj: 'The tower', u: 'm' as Unit, lo: 150, hi: 600, place: 'on the bank of the North Saskatchewan River' },
+  { what: 'Two survey stations', each: 'station', a: 'A', b: 'B', c: 'T', target: 'a transmission tower on the far bank', obj: 'The tower', u: 'm' as Unit, lo: 150, hi: 600, place: 'on the bank of the North Saskatchewan River' },
 ];
 
 /** ASA: two stations a known distance apart sight the same object (third angle first). */
@@ -1329,23 +1330,23 @@ const navigation: Ctx = (rng) => {
 const towerHeight: Ctx = (rng) => {
   const who = rng.pick(NAMES);
   const t = rng.pick([
-    { thing: 'a communication tower', ref: 'the top of the tower' },
-    { thing: 'a grain elevator', ref: 'the top of the elevator' },
-    { thing: 'a wind turbine', ref: 'the hub of the turbine' },
-    { thing: 'a flare stack at a gas plant', ref: 'the top of the flare stack' },
+    { thing: 'a communication tower', ref: 'the top of the tower', lo: 40, hi: 150 },
+    { thing: 'a grain elevator', ref: 'the top of the elevator', lo: 20, hi: 45 },
+    { thing: 'a wind turbine', ref: 'the hub of the turbine', lo: 60, hi: 140 },
+    { thing: 'a flare stack at a gas plant', ref: 'the top of the flare stack', lo: 25, hi: 80 },
   ]);
   const r = retry(
     () => {
       const a = rng.int(18, 40);
       const b = a + rng.int(12, 30);
-      const dd = rng.int(25, 90);
+      const dd = rng.int(Math.round(t.lo / 2), t.hi);
       const bt = (dd * sinD(a)) / sinD(b - a);
       const h = bt * sinD(b);
       const bf = bt * cosD(b);
       return { a, b, dd, bt, h, bf };
     },
-    (x) => x.b <= 70 && safe(x.h, 1) && x.h < 160 && x.bf > 0.25 * x.dd && x.bf < 2.2 * x.dd,
-    300,
+    (x) => x.b <= 70 && safe(x.h, 1) && x.h >= t.lo && x.h <= t.hi && x.bf > 0.25 * x.dd && x.bf < 2.2 * x.dd,
+    500,
   );
   const { a, b, dd, bt, h, bf } = r;
   const A: P = [0, 0];
@@ -1384,7 +1385,7 @@ const lotPerimeter: Ctx = (rng) => {
   const r = retry(
     () => {
       const ang = triAngles(rng, rng.chance(0.4));
-      const len = rng.int(40, 120);
+      const len = rng.int(8, 40) * 10;
       const side = sidesFromAngles(ang, 2, len);
       return { ang, len, side, per: side[0] + side[1] + len };
     },
@@ -1394,7 +1395,7 @@ const lotPerimeter: Ctx = (rng) => {
   const { ang, len, side, per } = r;
   return {
     prompt: `${who} is fencing a triangular pasture $ABC$ near ${rng.pick(TOWNS)}. Side $AB$ runs along the road and is $${ms(len, 'm')}$ long. The corner angles are $\\angle A = ${deg(ang[0])}$ and $\\angle B = ${deg(ang[1])}$. How much fencing is needed to go all the way around the pasture, to the nearest tenth of a metre?`,
-    figure: triFigure({ pts: triPts(side, topVertex(rng, ang), rng.chance(0.5)), verts: ['A', 'B', 'C'], sides: ['a', 'b', fl(len, 'm')], angles: [degL(ang[0]), degL(ang[1]), null] }),
+    figure: triFigure({ pts: triPts(side, topVertex(rng, ang), rng.chance(0.5)), verts: ['A', 'B', 'C'], sides: [null, null, fl(len, 'm')], angles: [degL(ang[0]), degL(ang[1]), null] }),
     parts: [numPart(per, { decimals: 1, suffix: 'm' })],
     hints: [`Find $\\angle C$ first, so that $AB$ and $\\angle C$ are a matching pair.`, 'Use the sine law twice to find $BC$ and $AC$, then add all three sides. Round only at the end.'],
     solution: [
@@ -1460,7 +1461,7 @@ const trussRafter: Ctx = (rng) => {
   const side = [L, r1, r2];
   return {
     prompt: `${who} is building a truss for an uneven roof. The bottom chord $LR$ is $${ms(L, 'm')}$ long. Rafter $RT$ is $${ms(r1, 'm')}$ long and meets the bottom chord at $\\angle R = ${deg(al)}$. (a) How long is the other rafter, $LT$, to the nearest tenth of a metre? (b) What angle does rafter $LT$ make with the bottom chord, $\\angle L$, to the nearest tenth of a degree?`,
-    figure: triFigure({ pts: triPts(side, 0, false), verts: ['T', 'L', 'R'], sides: [fl(L, 'm'), fl(r1, 'm'), '?'], angles: [null, '?', degL(al)] }),
+    figure: triFigure({ pts: triPts(side, 0, false), verts: ['T', 'L', 'R'], sides: [fl(L, 'm'), fl(r1, 'm'), null], angles: [null, '?', degL(al)] }),
     parts: [numPart(r2, { decimals: 1, label: '(a) $LT =$', suffix: 'm' }), numPart(b2, { decimals: 1, label: '(b) $\\angle L =$', suffix: '°' })],
     hints: [
       '(a) The known angle $\\angle R$ is between the bottom chord and rafter $RT$: two sides and the contained angle.',

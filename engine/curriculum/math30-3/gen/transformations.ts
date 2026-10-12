@@ -256,11 +256,9 @@ function gridFigure(g: GridSpec, o: { shapes?: Shape[]; points?: Array<{ p: P; l
     sh.labels?.forEach((lab, i) => s.endLabel(sh.pts[i], dirOf(c, sh.pts[i]), lab));
   }
   for (const pt of o.points ?? []) s.endLabel(pt.p, 45, pt.label);
-  if (o.origin) s.endLabel([0, 0], 225, 'O');
   return s.buildGrid(g);
 }
 
-const G7: GridSpec = { xMin: -7, xMax: 7, yMin: -7, yMax: 7, step: 1 };
 const G8: GridSpec = { xMin: -8, xMax: 8, yMin: -8, yMax: 8, step: 1 };
 const inGrid = (g: GridSpec, [x, y]: P, margin = 0) => x >= g.xMin + margin && x <= g.xMax - margin && y >= g.yMin + margin && y <= g.yMax - margin;
 
@@ -471,7 +469,7 @@ const POINT_CTX = [
 function translatePoint(rng: Rng): Out {
   const { p, a, b } = retry(
     () => ({ p: [rng.int(-6, 6), rng.int(-6, 6)] as P, a: rng.nonZero(-6, 6), b: rng.nonZero(-6, 6) }),
-    (o) => inGrid(G7, o.p) && inGrid(G7, [o.p[0] + o.a, o.p[1] + o.b]) && o.p[0] !== 0 && o.p[1] !== 0,
+    (o) => inGrid(G8, o.p, 1) && inGrid(G8, [o.p[0] + o.a, o.p[1] + o.b], 1) && o.p[0] !== 0 && o.p[1] !== 0,
     200,
   );
   const T: Tr = { t: 'move', a, b };
@@ -479,7 +477,7 @@ function translatePoint(rng: Rng): Out {
   const asRule = rng.chance(0.4);
   return {
     prompt: `${rng.pick(POINT_CTX)} Point $P$ is translated ${asRule ? `by the rule $${ruleTex(T)}$` : `**${slideText(a, b)}**`}. What are the coordinates of its image, $P'$?`,
-    figure: gridFigure(G7, { points: [{ p, label: 'P' }] }),
+    figure: gridFigure(G8, { points: [{ p, label: 'P' }] }),
     parts: [pointAns(q, "$P'$ =")],
     hints: ['Read the coordinates of $P$ first: across for $x$, then up or down for $y$.', 'Right and left change $x$; up and down change $y$. Add for right or up, subtract for left or down.'],
     solution: [
@@ -502,7 +500,7 @@ function simplePoint(rng: Rng, kind: 'rx' | 'ry' | 'rot180'): Out {
       : [`The ${kind === 'rx' ? '$x$-axis' : '$y$-axis'} is the mirror. The image is the same distance from it, on the other side.`, kind === 'rx' ? 'Keep $x$. Change the sign of $y$.' : 'Change the sign of $x$. Keep $y$.'];
   return {
     prompt: `${rng.pick(POINT_CTX)} Find the image $P'$ after ${describe(T)}.`,
-    figure: gridFigure(G7, { points: [{ p, label: 'P' }] }),
+    figure: gridFigure(G8, { points: [{ p, label: 'P' }] }),
     parts: [pointAns(q, "$P'$ =")],
     hints,
     solution: [`$P$ is at $${ptx(p)}$.`, howTo(T), subst(T, p), `The image is $P'${ptx(q)}$.`],
@@ -757,7 +755,7 @@ function reverse(rng: Rng): Out {
     const T: Tr = rng.pick<Tr>([{ t: 'rot', deg: 90 }, { t: 'rot', deg: 270 }, { t: 'rot', deg: 270 }, { t: 'rv', k: rng.nonZero(-3, 3) }, { t: 'rh', k: rng.nonZero(-3, 3) }]);
     const p: P = [rng.nonZero(-6, 6), rng.nonZero(-6, 6)];
     const q = apply(T, p);
-    if (!inGrid(G7, q) || (q[0] === p[0] && q[1] === p[1])) continue;
+    if (!inGrid(G8, q, 1) || (q[0] === p[0] && q[1] === p[1])) continue;
     const inv = inverse(T);
     const cw = rng.chance(0.6);
     const ctx = rng.pick([
@@ -929,7 +927,7 @@ function dilateVertex(rng: Rng): Out {
     const Lb = labels[i];
     const ctx = rng.pick(['a floor plan of a room', 'a logo', 'a quilt block', 'a tile design', 'a garden bed on a site plan']);
     return {
-      prompt: `${cap(ctx.replace(/^a /, 'A '))} is drawn on a grid as $${labels.join('')}$. It is dilated about the origin $O$ by a scale factor of $${num(k)}$. What are the coordinates of $${Lb}'$?`,
+      prompt: `${cap(ctx.replace(/^a /, 'A '))} is drawn on a grid as $${labels.join('')}$. It is dilated about the origin by a scale factor of $${num(k)}$. What are the coordinates of $${Lb}'$?`,
       figure: gridFigure(G, { shapes: [{ pts, color: 'brand', labels }], origin: true }),
       parts: [pointAns(img[i], `$${Lb}'$ =`)],
       hints: ['A dilation about the origin multiplies both coordinates by the scale factor.', `Read the coordinates of $${Lb}$, then multiply each by $${num(k)}$.`],
@@ -962,7 +960,7 @@ function kFromGrid(rng: Rng): Out {
     const labels = [...LETTERS.slice(0, pts.length)];
     const word = k > 1 ? 'an enlargement' : 'a reduction';
     return {
-      prompt: `Shape $${labels.join('')}$ was dilated about the origin $O$ to give $${labels.map((l) => `${l}'`).join('')}$. What is the scale factor?`,
+      prompt: `Shape $${labels.join('')}$ was dilated about the origin to give $${labels.map((l) => `${l}'`).join('')}$. What is the scale factor?`,
       figure: gridFigure(G, { shapes: [{ pts, color: 'brand', labels }, { pts: img, color: 'accent', labels: primed(labels) }], origin: true }),
       parts: [numPart(k, { label: '$k =$' })],
       hints: ['For a dilation about the origin, each image coordinate is $k$ times the original coordinate.', `Divide a coordinate of $${labels[i]}'$ by the matching coordinate of $${labels[i]}$, or compare the lengths of matching sides.`],
@@ -1152,7 +1150,7 @@ function gridAreaItem(rng: Rng): Out {
     const A0 = w * h;
     const ctx = rng.pick(['a solar panel on a roof plan', 'a window on an elevation drawing', 'a sign on a storefront drawing', 'a garden bed on a landscape plan']);
     return {
-      prompt: `Rectangle $ABCD$ shows ${ctx}. Each grid square is $1\\ \\text{m}$ on a side. The rectangle is dilated about the origin $O$ by a scale factor of $${num(k)}$. Find the perimeter and the area of the image $A'B'C'D'$.`,
+      prompt: `Rectangle $ABCD$ shows ${ctx}. Each grid square is $1\\ \\text{m}$ on a side. The rectangle is dilated about the origin by a scale factor of $${num(k)}$. Find the perimeter and the area of the image $A'B'C'D'$.`,
       figure: gridFigure(G, { shapes: [{ pts, color: 'brand', labels }], origin: true }),
       parts: [numPart(clean(k * P0), { label: 'Perimeter', suffix: 'm' }), numPart(clean(k * k * A0), { label: 'Area', suffix: 'm²' })],
       hints: ['Find the length and width of $ABCD$ by counting squares.', `The perimeter is multiplied by $k$, and the area by $k^2$.`],
