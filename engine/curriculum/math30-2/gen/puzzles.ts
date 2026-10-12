@@ -29,7 +29,7 @@ const listOrCount = (xs: number[]) => (xs.length <= 12 ? xs.join(', ') : `${xs.s
 const PPU = 34;
 
 /** A grid of square cells drawn on a plane canvas, with text centred in cells. */
-function gridFigure(nRows: number, cell: number, texts: string[][], opts: { box?: number; colLabels?: string[]; rowLabels?: string[]; caption?: string } = {}): PlaneFigure {
+export function gridFigure(nRows: number, cell: number, texts: string[][], opts: { box?: number; colLabels?: string[]; rowLabels?: string[]; caption?: string } = {}): PlaneFigure {
   const side = nRows * cell;
   const x0 = 5 - side / 2;
   const y0 = 0.45;

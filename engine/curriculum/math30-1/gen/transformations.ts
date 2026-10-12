@@ -1328,7 +1328,8 @@ const inverseGraph = skill({
         (v) => (repeat ? new Set(v).size === 3 : new Set(v).size === 4) && v.some((y, i) => y !== xs[i]),
       );
       const f = xs.map((x, i) => [x, ys[i]] as Pt);
-      const set = (pts: Pt[]) => `$\\{${pts.map(([x, y]) => ptTex(x, y)).join(', ')}\\}$`;
+      // Each point is its own formula so a long set wraps on a phone.
+      const set = (pts: Pt[]) => `{${pts.map(([x, y]) => `$${ptTex(x, y)}$`).join(', ')}}`;
       const inv = f.map(([x, y]) => [y, x] as Pt);
       const wrong = [f.map(([x, y]) => [-x + 0, y] as Pt), f.map(([x, y]) => [x, -y + 0] as Pt), f.map(([x, y]) => [-y + 0, -x + 0] as Pt)];
       const dup = ys.find((y, i) => ys.indexOf(y) !== i);
