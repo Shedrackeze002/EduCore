@@ -585,6 +585,285 @@ const puzzles = skill({
   },
 });
 
-// __RESEARCH__
+// ---------------------------------------------------------------------------
+// Lesson 8.2 — The mathematics research project
+// ---------------------------------------------------------------------------
 
-export const PUZZLES_SKILLS: SkillDef[] = [puzzles];
+interface ResearchQ {
+  good: string;
+  broad: string;
+  opinion: string;
+  vague: string;
+}
+
+const RESEARCH_QS: ResearchQ[] = [
+  { good: 'Is there a relationship between daily screen time and hours of sleep for Grade 12 students at my school?', broad: 'How does technology affect people?', opinion: 'Is too much screen time bad for you?', vague: 'Why do teenagers love their phones?' },
+  { good: 'How has the number of transit riders per month in Calgary changed over the past ten years?', broad: 'What is public transportation?', opinion: 'Is taking the bus better than driving?', vague: 'Do people enjoy riding the bus?' },
+  { good: 'How is the rainfall in a growing season related to canola yield per hectare on farms near Camrose?', broad: 'What is farming like in Alberta?', opinion: 'Is canola the best crop to grow?', vague: 'Why do farmers choose canola?' },
+  { good: 'Do students at my school who work more than 15 hours a week have a lower average mark than students who work less?', broad: 'What are part-time jobs like?', opinion: 'Should high school students have jobs?', vague: 'How do jobs make students feel about school?' },
+  { good: 'How much electricity could solar panels on our school roof produce in each month of the year?', broad: 'What is solar energy?', opinion: 'Is solar power better than wind power?', vague: 'Why do people like solar panels?' },
+  { good: 'How has the total area burned by wildfires in Alberta each year changed over the past 20 years?', broad: 'What causes fires?', opinion: 'Are wildfires getting scarier?', vague: 'How do wildfires make communities feel?' },
+  { good: 'Is there a relationship between the price of a used pickup truck and its distance driven, for trucks advertised in Red Deer?', broad: 'How do cars work?', opinion: 'Are pickup trucks the best vehicles?', vague: 'Why do Albertans like trucks?' },
+];
+
+const SOURCES = [
+  { text: 'surveys 60 students at their school about how much they sleep', primary: true },
+  { text: 'times 30 cars passing through a school zone with a stopwatch and a measured distance', primary: true },
+  { text: 'counts the birds at a feeder every morning for a month', primary: true },
+  { text: 'measures the height of bean plants every day in a class experiment', primary: true },
+  { text: 'records the price of a litre of milk at five stores in their town', primary: true },
+  { text: 'downloads ten years of temperature records from a government weather website', primary: false },
+  { text: 'uses population tables published by Statistics Canada', primary: false },
+  { text: 'uses team statistics posted on a sports league website', primary: false },
+  { text: 'quotes the results of a survey reported in a newspaper article', primary: false },
+  { text: 'uses data tables from a published research study', primary: false },
+];
+
+const DATA_KINDS = [
+  { text: 'the number of minutes each student spends travelling to school', quant: true },
+  { text: 'the mass of each bag of flour leaving a mill in High River', quant: true },
+  { text: 'the number of goals scored by each team in a season', quant: true },
+  { text: 'the temperature at noon each day in January', quant: true },
+  { text: 'the price of each used bike for sale online', quant: true },
+  { text: 'each student’s favourite type of music', quant: false },
+  { text: 'the colour of each car in a parking lot', quant: false },
+  { text: 'the province or territory where each person was born', quant: false },
+  { text: 'whether each customer rated the service as poor, fair, good or excellent', quant: false },
+  { text: 'the brand of phone each student owns', quant: false },
+];
+
+function researchD1(rng: Rng): GenOutput {
+  const mode = rng.pick(['question', 'question', 'source', 'kind'] as const);
+  if (mode === 'question') {
+    const q = rng.pick(RESEARCH_QS);
+    return {
+      prompt: 'Which is the best research question for a mathematics research project?',
+      parts: [part(mc(rng, q.good, [q.broad, q.opinion, q.vague]))],
+      hints: ['A good research question is specific, and it can be answered by collecting and analyzing numerical data.', 'Rule out questions that are too broad, that ask for an opinion, or that cannot be measured.'],
+      solution: [
+        `"${q.broad}" is too broad: it has no clear focus and no data that would answer it.`,
+        `"${q.opinion}" asks for an opinion, and "${q.vague}" is about feelings or reasons that are hard to measure.`,
+        `"${q.good}" names a clear population and quantities that can be measured and compared.`,
+        `The best research question is: "${q.good}"`,
+      ],
+    };
+  }
+  if (mode === 'source') {
+    const wantPrimary = rng.chance(0.5);
+    const right = rng.pick(SOURCES.filter((x) => x.primary === wantPrimary));
+    const wrong = rng.sample(SOURCES.filter((x) => x.primary !== wantPrimary), 3);
+    const names = rng.sample(NAMES, 4);
+    const opts = [right, ...wrong].map((x, i) => `${names[i]} ${x.text}.`);
+    return {
+      prompt: `Which student is using **${wantPrimary ? 'primary' : 'secondary'}** data?`,
+      parts: [part(mc(rng, opts[0], opts.slice(1)))],
+      hints: ['Primary data are collected first-hand by the researcher. Secondary data were collected by someone else.', 'For each student, ask: did this student collect the data personally?'],
+      solution: [
+        'Primary data are collected by the researcher (surveys, counts, measurements, experiments). Secondary data come from someone else (websites, published tables, articles).',
+        `${opts[0]} This is ${wantPrimary ? 'collected first-hand, so it is primary' : 'collected by someone else, so it is secondary'} data.`,
+        `The other three students are using ${wantPrimary ? 'secondary' : 'primary'} data.`,
+        `The answer is ${names[0]}.`,
+      ],
+    };
+  }
+  const wantQuant = rng.chance(0.5);
+  const right = rng.pick(DATA_KINDS.filter((x) => x.quant === wantQuant));
+  const wrong = rng.sample(DATA_KINDS.filter((x) => x.quant !== wantQuant), 3);
+  return {
+    prompt: `Which data set is **${wantQuant ? 'quantitative (numerical)' : 'qualitative (categorical)'}**?`,
+    parts: [part(mc(rng, cap(right.text), wrong.map((x) => cap(x.text))))],
+    hints: ['Quantitative data are numbers you can measure or count. Qualitative data are categories or descriptions.', 'Ask whether it makes sense to find an average of the data.'],
+    solution: [
+      `${cap(right.text)}: ${wantQuant ? 'these are measured or counted numbers, so the data are quantitative' : 'these are categories, not measurements, so the data are qualitative'}.`,
+      `The other choices are ${wantQuant ? 'categories (qualitative)' : 'numbers (quantitative)'}.`,
+      `The answer is: ${right.text}.`,
+    ],
+  };
+}
+
+const BIAS_TYPES = {
+  sampling: 'Sampling bias: the sample does not represent the whole population.',
+  nonresponse: 'Non-response bias: the people who answered may differ from those who did not.',
+  response: 'Response bias: the wording or setting pushes people toward certain answers.',
+  measurement: 'Measurement bias: the measuring tool or method gives values that are consistently off.',
+};
+
+function biasScenarios(rng: Rng): Array<{ text: string; type: keyof typeof BIAS_TYPES; why: string; fix: string; bad: [string, string] }> {
+  const name = rng.pick(NAMES);
+  const place = rng.pick(PLACES);
+  return [
+    { text: `To find out whether residents of ${place} support building a new arena, ${name} surveys fans as they leave a hockey game.`, type: 'sampling', why: 'hockey fans are more likely than other residents to want an arena', fix: 'choose residents at random from the whole town', bad: ['survey fans at two hockey games instead of one', 'ask the fans to answer anonymously'] },
+    { text: `To estimate the typical height of Grade 12 students, ${name} measures only the players on the senior basketball team.`, type: 'sampling', why: 'basketball players tend to be taller than other students', fix: 'measure a random sample of all Grade 12 students', bad: ['measure each player twice and use the average', 'use a more accurate measuring tape'] },
+    { text: 'A survey asks students: "Don\'t you agree that the cafeteria should serve healthier food?"', type: 'response', why: 'the leading question suggests the answer "yes"', fix: 'reword it as a neutral question, such as asking students to rate the cafeteria food from 1 to 5', bad: ['give the same question to every grade', 'ask the question to students as they leave the cafeteria'] },
+    { text: `${name} asks classmates out loud, in front of the teacher, whether they have ever copied homework.`, type: 'response', why: 'people may not answer a sensitive question honestly when others can hear', fix: 'use an anonymous written survey', bad: ['ask the question to another class in the same way', 'ask the question twice to check the answers'] },
+    { text: 'A town in Alberta mails 2000 surveys about a new bike lane, and only 150 are returned, mostly from people who strongly oppose it.', type: 'nonresponse', why: 'the few people who replied may feel much more strongly than the people who did not', fix: 'follow up with the people who did not reply, or survey a smaller random sample in person', bad: ['use only the 150 replies, since they came from a random mailing', 'mail the same survey to 2000 different homes'] },
+    { text: 'A club emails a survey about meeting times to all 300 members; only 40 reply, and most of them already attend every meeting.', type: 'nonresponse', why: 'members who rarely attend did not reply, and they are the ones the meeting time might affect', fix: 'follow up with the members who did not reply', bad: ['ask the 40 who replied to answer again', 'count each reply from a regular attendee twice'] },
+    { text: `For a science fair, ${name} weighs every sample on a kitchen scale that reads 50 g too heavy.`, type: 'measurement', why: 'every mass is recorded 50 g too high', fix: 'check the scale against a known mass and correct the readings (subtract 50 g)', bad: ['weigh more samples on the same scale', 'weigh each sample twice and use the average'] },
+    { text: `${name} measures a hallway several times with a measuring tape that has the first 2 cm torn off, starting each measurement at the torn end.`, type: 'measurement', why: 'every length is recorded 2 cm too long', fix: 'subtract 2 cm from each measurement, or use an undamaged tape', bad: ['measure the hallway more times with the same tape', 'measure a longer hallway instead'] },
+  ];
+}
+
+const GRAPHS = [
+  { text: 'how the population of Airdrie changed each year from 2005 to 2025', best: 'Line graph', why: 'a line graph shows change over time' },
+  { text: 'the percent of a family’s monthly budget spent on housing, food, transportation and other costs', best: 'Circle graph', why: 'a circle graph shows how a whole is divided into parts' },
+  { text: 'the relationship between hours studied and test marks for 40 students', best: 'Scatter plot', why: 'a scatter plot shows the relationship between two numerical variables' },
+  { text: 'the number of students who chose each of five lunch options', best: 'Bar graph', why: 'a bar graph compares counts for separate categories' },
+  { text: 'how the heights of 120 Grade 12 students are distributed in 5 cm intervals', best: 'Histogram', why: 'a histogram shows how one numerical variable is distributed across intervals' },
+  { text: 'the relationship between the age of a used car and its price', best: 'Scatter plot', why: 'a scatter plot shows the relationship between two numerical variables' },
+  { text: 'the monthly rainfall in Lethbridge over the past two years', best: 'Line graph', why: 'a line graph shows change over time' },
+];
+
+function researchD2(rng: Rng): GenOutput {
+  const mode = rng.pick(['bias', 'bias', 'fix', 'graph', 'sample'] as const);
+  if (mode === 'bias' || mode === 'fix') {
+    const sc = rng.pick(biasScenarios(rng));
+    if (mode === 'bias') {
+      const correct = BIAS_TYPES[sc.type];
+      return {
+        prompt: `${sc.text}\n\nWhich kind of bias is the biggest problem here?`,
+        parts: [part(mc(rng, correct, Object.values(BIAS_TYPES).filter((t) => t !== correct)))],
+        hints: ['Bias is a problem in how data are collected that pushes the results in one direction.', 'Ask: who was asked (sampling), who answered (non-response), how they were asked (response), or how it was measured (measurement)?'],
+        solution: [`The problem: ${sc.why}.`, correct, `A better plan: ${sc.fix}.`],
+      };
+    }
+    return {
+      prompt: `${sc.text}\n\nWhich change would best reduce the bias?`,
+      parts: [part(mc(rng, `${cap(sc.fix)}.`, [...sc.bad.map((b) => `${cap(b)}.`), 'Collect the data the same way, but from more people.']))],
+      hints: ['First decide what is causing the bias.', 'A good fix removes the cause. Collecting more data the same way repeats the same bias.'],
+      solution: [`The problem: ${sc.why}.`, 'Asking more people in the same way would not remove the bias.', `The best change is to ${sc.fix}.`],
+    };
+  }
+  if (mode === 'graph') {
+    const g = rng.pick(GRAPHS);
+    const all = ['Line graph', 'Circle graph', 'Scatter plot', 'Bar graph', 'Histogram'];
+    return {
+      prompt: `A student wants to display ${g.text}. Which type of graph is best?`,
+      parts: [part(mc(rng, g.best, rng.shuffle(all.filter((x) => x !== g.best)).slice(0, 3)))],
+      hints: ['Ask what the graph needs to show: change over time, parts of a whole, a relationship, a comparison of categories, or a distribution.', 'Line: change over time. Circle: parts of a whole. Scatter: relationship between two variables. Bar: categories. Histogram: distribution of one numerical variable.'],
+      solution: [`The data are ${g.text}.`, `${cap(g.why)}.`, `The best choice is a ${g.best.toLowerCase()}.`],
+    };
+  }
+  const place = rng.pick(PLACES);
+  const n = rng.pick([40, 50, 60, 80, 100]);
+  const correct = `Use a random number generator to choose ${n} students from the school's full list of students.`;
+  return {
+    prompt: `A student council in ${place} wants to know what all ${rng.int(6, 15) * 100} students at the school think about a new schedule. Which sampling method is most likely to give a representative sample?`,
+    parts: [part(mc(rng, correct, [`Ask the first ${n} students who arrive at school one morning.`, `Post an online poll and use the first ${n} responses.`, `Ask ${n} students who are in the library at lunch.`]))],
+    hints: ['A representative sample looks like the whole population.', 'In a random sample, every member of the population has the same chance of being chosen.'],
+    solution: [
+      'Early arrivals, library users and volunteers who answer online polls are not typical of all students, so those samples are likely to be biased.',
+      'A random sample from the full list gives every student the same chance of being chosen.',
+      `The best method: ${correct}`,
+    ],
+  };
+}
+
+const LURKING = [
+  { a: 'the number of ice rinks in a town', b: 'the number of pharmacies in the town', c: 'the population of the town' },
+  { a: 'ice cream sales in a month', b: 'the number of sunburns treated in the month', c: 'the temperature and hours of sunshine' },
+  { a: 'the number of firefighters sent to a fire', b: 'the amount of damage the fire causes', c: 'the size of the fire' },
+  { a: 'shoe size of elementary students', b: 'reading level of the students', c: 'the age of the students' },
+  { a: 'the number of hockey arenas in a city', b: 'the number of traffic accidents in the city', c: 'the population of the city' },
+];
+
+function researchD3(rng: Rng): GenOutput {
+  const mode = rng.pick(['cause', 'outlier', 'margin', 'axis', 'claim'] as const);
+  if (mode === 'cause') {
+    const L = rng.pick(LURKING);
+    const correct = `${cap(L.a)} and ${L.b} are related, but one does not cause the other: both probably depend on ${L.c}.`;
+    return {
+      prompt: `A study finds a strong positive correlation between ${L.a} and ${L.b}. Which conclusion is best supported?`,
+      parts: [part(mc(rng, correct, [`Increasing ${L.a} causes ${L.b} to increase.`, `Increasing ${L.b} causes ${L.a} to increase.`, `There is no relationship between ${L.a} and ${L.b}.`]))],
+      hints: ['Correlation means two variables change together. It does not prove that one causes the other.', 'Look for a third variable that could make both go up together.'],
+      solution: ['A strong positive correlation means the two variables tend to rise together.', `But a third variable, ${L.c}, can raise both of them.`, `So the best conclusion is: ${correct}`],
+    };
+  }
+  if (mode === 'outlier') {
+    for (;;) {
+      const base = rng.int(38, 55);
+      const vals = rng.shuffle([...rng.sample(range(base, base + 14), 6), rng.int(180, 320)]);
+      const sorted = [...vals].sort((x, y) => x - y);
+      const mean = vals.reduce((s, x) => s + x, 0) / vals.length;
+      const median = sorted[3];
+      if (Math.abs(mean * 10 - Math.round(mean * 10)) > 1e-9) continue;
+      const what = rng.pick([
+        { what: 'annual salaries (in thousands of dollars) of the seven employees at a small business in', unit: 'thousand dollars' },
+        { what: 'selling prices (in thousands of dollars) of seven used trucks at a dealership in', unit: 'thousand dollars' },
+      ]);
+      const place = rng.pick(PLACES);
+      const correct = `The median, ${median}, because the outlier pulls the mean up to ${fmtNum(mean)}.`;
+      return {
+        prompt: `A student's project uses these ${what.what} ${place}:\n\n${vals.join(', ')}\n\nWhich value best represents a typical value in the data?`,
+        parts: [part(mc(rng, correct, [`The mean, ${fmtNum(mean)}, because it uses every value.`, `The range, ${sorted[6] - sorted[0]}, because it shows how spread out the data are.`, `The largest value, ${sorted[6]}, because it is the most important one.`]))],
+        hints: ['Look for an outlier: a value far from the others.', 'An outlier pulls the mean toward it, but it barely changes the median.'],
+        solution: [`In order: ${sorted.join(', ')}. The value ${sorted[6]} is an outlier.`, `Mean: $\\frac{${vals.reduce((s, x) => s + x, 0)}}{7} = ${fmtNum(mean)}$. Median (the middle value): ${median}.`, `Six of the seven values are below the mean, so it is not typical. ${correct}`],
+      };
+    }
+  }
+  if (mode === 'margin') {
+    const p = rng.int(46, 62);
+    const m = rng.pick([2, 3, 4, 5]);
+    const topic = rng.pick(['a proposal to build a new library', 'a plan to change school start times', 'a new recycling program', 'a bylaw to add more bike lanes']);
+    const place = rng.pick(PLACES);
+    const correct = `The percent of all residents who support it is likely between ${p - m}% and ${p + m}%.`;
+    return {
+      prompt: `A poll of residents of ${place} reports that ${p}% support ${topic}, with a margin of error of ${m} percentage points, 19 times out of 20. Which statement is the best interpretation?`,
+      parts: [part(mc(rng, correct, [`Exactly ${p}% of all residents support it.`, `The poll is wrong 19 times out of 20.`, `Between ${p - m}% and ${p + m}% of the people polled support it.`]))],
+      hints: ['The poll asked a sample; the margin of error describes how far the whole population could be from the sample result.', `Add and subtract ${m} percentage points from ${p}%.`],
+      solution: [
+        `The confidence interval is ${p}% $\\pm$ ${m}%, which is ${p - m}% to ${p + m}%.`,
+        '"19 times out of 20" is the confidence level: this method captures the true population percent about 95% of the time.',
+        `${correct}${p - m <= 50 ? ' Because the interval includes 50% or less, the poll does not show that a majority supports it.' : ''}`,
+      ],
+    };
+  }
+  if (mode === 'axis') {
+    for (;;) {
+      const base = rng.pick([50, 80, 90, 100, 200]);
+      const a = base + rng.int(1, 5);
+      const k = rng.int(2, 4);
+      const b = base + k * (a - base);
+      const pct = ((b - a) / a) * 100;
+      if (Math.abs(pct * 10 - Math.round(pct * 10)) < 1e-9 && pct === Math.round(pct)) continue;
+      const shown = (Math.round(pct * 10) / 10).toFixed(1);
+      const thing = rng.pick(['monthly sales (in thousands of units)', 'the number of members', 'average daily visitors']);
+      const correct = `About ${shown}%. The vertical axis starts at ${base}, which makes the change look much bigger than it is.`;
+      return {
+        prompt: `A company's bar graph shows ${thing} rising from ${a} last year to ${b} this year. The vertical axis starts at ${base}, so the second bar looks ${k} times as tall as the first. By about what percent did the value actually increase?`,
+        parts: [part(mc(rng, correct, [`About ${(k - 1) * 100}%, because the second bar is ${k} times as tall.`, `About ${k * 100}%, because the second bar is ${k} times as tall.`, `About ${b - a}%, because the value went up by ${b - a}.`]))],
+        hints: ['Use the actual values, not the heights of the bars.', 'Percent increase = (new − old) ÷ old × 100.'],
+        solution: [`Percent increase $= \\frac{${b} - ${a}}{${a}} \\times 100 \\approx ${shown}\\%$`, `The bars compare ${b} − ${base} = ${b - base} with ${a} − ${base} = ${a - base}, which is why one looks ${k} times as tall.`, correct],
+      };
+    }
+  }
+  const n = rng.int(12, 30);
+  const claims = [
+    { claim: `most Albertans prefer winter to summer`, sample: `${n} members of a ski club` },
+    { claim: `most Canadian teenagers play video games every day`, sample: `${n} people at a video game store` },
+    { claim: `most drivers in ${rng.pick(PLACES)} want lower parking fees`, sample: `${n} people parking downtown on one Saturday` },
+    { claim: `most students at the school want a longer lunch break`, sample: `${n} friends in the student's math class` },
+  ];
+  const c = rng.pick(claims);
+  const correct = `Not valid: the sample is small and is not representative of the population in the claim.`;
+  return {
+    prompt: `A student's project claims that ${c.claim}, based on a survey of ${c.sample}. Which is the best assessment of the claim?`,
+    parts: [part(mc(rng, correct, ['Valid: the survey asked real people, so the conclusion is reliable.', 'Valid, as long as more than half of the people surveyed agreed.', 'Not valid: surveys can never be used to make claims about a population.']))],
+    hints: ['Compare the people surveyed with the whole group the claim is about.', 'A sample must be large enough and chosen fairly (ideally at random) from the population.'],
+    solution: [`The claim is about a large population, but only ${c.sample} were asked.`, 'This small, self-selected group is likely to differ from the population, so the sample is biased.', `${correct} Surveys can support claims when the sample is random and large enough.`],
+  };
+}
+
+/** A number without float noise (up to one decimal place). */
+const fmtNum = (x: number) => String(Math.round(x * 10) / 10);
+
+const research = skill({
+  id: 'm302-research-project',
+  name: 'Planning a research project',
+  description: 'Choose a good research question and data sources, recognize bias, choose suitable displays, and evaluate claims based on data.',
+  outcomes: ['RP1'],
+  lessonId: 'm302-8-2',
+  format: 'mc',
+  gen: (rng, d) => (d === 1 ? researchD1(rng) : d === 2 ? researchD2(rng) : researchD3(rng)),
+});
+
+export const PUZZLES_SKILLS: SkillDef[] = [puzzles, research];
