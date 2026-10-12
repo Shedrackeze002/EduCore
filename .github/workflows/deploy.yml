@@ -14,6 +14,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Merges made through an app (such as Claude's GitHub connection) do not start push workflows,
+  # so a merged pull request into main deploys too. pull_request_target runs this workflow as it
+  # is on main and the build checks out main, never the pull request's own code.
+  pull_request_target:
+    types: [closed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -27,9 +33,13 @@ concurrency:
 
 jobs:
   build:
+    # A closed pull request deploys only when it was merged.
+    if: github.event_name != 'pull_request_target' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request_target' && 'main' || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
