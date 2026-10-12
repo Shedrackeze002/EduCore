@@ -31,7 +31,7 @@ const total = (h: HMap) => h.flat().reduce((s, v) => s + v, 0);
  * How many small triangles of each cube still show in the isometric drawing (front right view).
  * Follows the painter's order of the cubes figure: farther cubes first.
  */
-function cubeVisibility(h: HMap): number[] {
+function cubeVisibility(h: HMap): Array<{ x: number; y: number; z: number; shown: number }> {
   const cubes: Array<[number, number, number]> = [];
   h.forEach((r, y) => r.forEach((ht, x) => {
     for (let z = 0; z < ht; z++) cubes.push([x, y, z]);
@@ -53,23 +53,20 @@ function cubeVisibility(h: HMap): number[] {
   });
   const count = new Array<number>(cubes.length).fill(0);
   for (const i of owner.values()) count[i]++;
-  return count;
+  return cubes.map(([x, y, z], i) => ({ x, y, z, shown: count[i] }));
 }
 
-/** Every cube shows at least one whole face, so the cubes can be counted from the picture. */
-const allVisible = (h: HMap) => cubeVisibility(h).every((v) => v >= 2);
+/** The top cube of every stack shows in the picture, so each stack can be found. */
+const topsVisible = (h: HMap) => cubeVisibility(h).every((c) => c.z !== h[c.y][c.x] - 1 || c.shown >= 1);
 
-/** A structure of stacks (no floating cubes) in which every cube can be seen. */
-function visibleStacks(rng: Rng, rows: [number, number], cols: [number, number], maxH: number, cubes: [number, number]): HMap {
+/** A back row of stacks behind a front row one cube high. Every stack stands on the table. */
+function stepStacks(rng: Rng): HMap {
   for (;;) {
-    const r = rng.int(rows[0], rows[1]);
-    const c = rng.int(cols[0], cols[1]);
-    const h: HMap = Array.from({ length: r }, () => Array.from({ length: c }, () => rng.int(1, maxH)));
-    const t = total(h);
-    if (t < cubes[0] || t > cubes[1]) continue;
-    if (new Set(h.flat()).size < 2) continue;
-    if (!allVisible(h)) continue;
-    return h;
+    const cols = rng.int(2, 4);
+    const back = Array.from({ length: cols }, () => rng.int(1, 4));
+    if (new Set(back).size < 2) continue;
+    const h: HMap = [back, Array.from({ length: cols }, () => 1)];
+    if (topsVisible(h)) return h;
   }
 }
 
@@ -110,7 +107,7 @@ const volumeUnits = skill({
 
     if (mode === 'count') {
       const full = rng.chance(0.5);
-      const h: HMap = full ? prismHeights(rng.int(1, 2), rng.int(2, 4), rng.int(1, 3)) : [Array.from({ length: rng.int(3, 5) }, () => rng.int(1, 4))];
+      const h: HMap = full ? prismHeights(rng.int(1, 2), rng.int(2, 4), rng.int(2, 3)) : [Array.from({ length: rng.int(3, 5) }, () => rng.int(1, 4))];
       if (!full && new Set(h[0]).size < 2) h[0][0] = h[0][0] === 4 ? 3 : h[0][0] + 1;
       const t = total(h);
       const unit = rng.pick([
@@ -182,15 +179,24 @@ const volumeUnits = skill({
     }
 
     if (mode === 'stacks') {
-      const h = visibleStacks(rng, [2, 2], [2, 3], 4, [7, 16]);
+      const h = stepStacks(rng);
       const t = total(h);
-      const rowsText = h.map((r, i) => `${i === 0 ? 'Back row' : 'Front row'}: $${r.join(' + ')} = ${r.reduce((s, v) => s + v, 0)}$`);
+      const cols = h[0].length;
+      const backSum = h[0].reduce((s, v) => s + v, 0);
       return {
-        prompt: `${who} stacked cubes on a table to make this model. Each cube is $1\\ \\text{cm}^3$. Every stack goes down to the table, and every cube can be seen. What is the volume of the model?`,
+        prompt: `${who} stacked cubes on a table to make this model: a back row of stacks and a front row that is one cube high. Each cube is $1\\ \\text{cm}^3$. Every stack goes all the way down to the table, so some cubes in the back row are hidden behind the front row. What is the volume of the model?`,
         figure: cubesFig(h, true),
         parts: [numPart(t, { label: 'Volume =', suffix: 'cm³' })],
-        hints: ['Work one stack at a time. Count how many cubes are in each stack, from the table up.', 'Add the stacks in the back row and in the front row, then add the two rows.'],
-        solution: [...rowsText, `$${h.map((r) => r.reduce((s, v) => s + v, 0)).join(' + ')} = ${t}$`, `The volume is $${t}\\ \\text{cm}^3$.`],
+        hints: [
+          'Work one stack at a time. Each back stack reaches down to the table, so it has one cube hidden behind the front row.',
+          'Count the cubes in each back stack (including the hidden bottom cube), then add the front row.',
+        ],
+        solution: [
+          `Front row: $${cols}$ stacks of $1$ cube, so $${cols}$ cubes.`,
+          `Back row: the stacks have ${h[0].map((v) => `$${v}$`).join(', ')} cubes (each counts the hidden bottom cube): $${h[0].join(' + ')} = ${backSum}$.`,
+          `$${backSum} + ${cols} = ${t}$`,
+          `The volume is $${t}\\ \\text{cm}^3$.`,
+        ],
       };
     }
 
@@ -286,10 +292,10 @@ const prismFig = (l: string, w: string, h: string): SolidFigure => ({ type: 'sol
 const PRISM_CTX: Array<[string, (w: string) => string]> = [
   ['cm', (w) => `${w} has a box of crayons shaped like a rectangular prism.`],
   ['cm', () => 'A tissue box is a right rectangular prism.'],
-  ['cm', (w) => `${w} is building a wooden birdhouse base shaped like a rectangular prism.`],
+  ['cm', (w) => `${w} is building a wooden jewellery box shaped like a rectangular prism.`],
   ['m', () => 'A storage shed is shaped like a right rectangular prism.'],
   ['m', (w) => `${w}'s family rents a storage unit shaped like a rectangular prism.`],
-  ['m', () => 'A raised garden bed at a school in Medicine Hat is a rectangular prism.'],
+  ['m', () => 'The inside of a moving truck in Medicine Hat is a rectangular prism.'],
 ];
 
 const volumePrism = skill({
@@ -309,7 +315,7 @@ const volumePrism = skill({
       const big = mode === 'volume-big';
       const l = big ? rng.int(8, 15) : rng.int(3, 9);
       const w = big ? rng.int(4, 10) : rng.int(2, 6);
-      const h = big ? rng.pick([2, 3, 4, 5, 10]) : rng.int(2, 6);
+      const h = u === 'm' ? rng.int(2, 4) : big ? rng.pick([2, 3, 4, 5, 10]) : rng.int(2, 6);
       const V = l * w * h;
       return {
         prompt: `${ctx} Find its volume.`,
@@ -318,7 +324,7 @@ const volumePrism = skill({
         hints: ['Volume of a right rectangular prism = length × width × height.', 'Multiply two of the numbers first (length × width gives the area of the base), then multiply by the third.'],
         solution: [
           `Area of the base: $${l} \\times ${w} = ${l * w}$, so $${l * w}\\ \\text{${u}}^2$.`,
-          `$V = l \\times w \\times h = ${l * w} \\times ${h} = ${n(V)}$`,
+          `$V = (l \\times w) \\times h = ${l * w} \\times ${h} = ${n(V)}$`,
           `The volume is $${cu(V, u)}$.`,
         ],
       };
@@ -328,7 +334,7 @@ const volumePrism = skill({
       const l = rng.int(3, 9);
       const w = rng.int(2, 8);
       const B = l * w;
-      const h = rng.int(3, 12);
+      const h = u === 'm' ? rng.int(2, 4) : rng.int(3, 12);
       const V = B * h;
       return {
         prompt: `${ctx} The area of its base is $${B}\\ \\text{${u}}^2$ and its height is $${ms(h, u)}$. Find its volume.`,
@@ -346,7 +352,7 @@ const volumePrism = skill({
     if (mode === 'missing') {
       const l = rng.int(3, 10);
       const w = rng.int(2, 8);
-      const h = rng.int(2, 9);
+      const h = u === 'm' ? rng.int(2, 4) : rng.int(2, 9);
       const V = l * w * h;
       const which = rng.pick(['l', 'w', 'h'] as const);
       const known = which === 'l' ? [w, h] : which === 'w' ? [l, h] : [l, w];

@@ -50,7 +50,7 @@ interface Pic {
   more?: P[][];
 }
 
-function picFigure(pic: Pic): PlaneFigure {
+export function picFigure(pic: Pic): PlaneFigure {
   const s = new Sketch();
   const all = [...pic.outline, ...(pic.more ?? []).flat()];
   const b = bounds(all);
@@ -80,7 +80,7 @@ interface Para {
   lean: 1 | -1;
 }
 
-function paraPts(p: Para): P[] {
+export function paraPts(p: Para): P[] {
   const s = p.s * p.lean;
   return [[0, 0], [p.b, 0], [p.b + s, p.h], [s, p.h]];
 }
@@ -96,7 +96,7 @@ function makePara(rng: Rng, bMin: number, bMax: number, opts: { halfB?: boolean;
   }
 }
 
-function paraPic(p: Para, labels: { base?: string; height?: string; side?: string }, extra: Partial<Pic> = {}): Pic {
+export function paraPic(p: Para, labels: { base?: string; height?: string; side?: string }, extra: Partial<Pic> = {}): Pic {
   const pts = paraPts(p);
   const c = centroid(pts);
   const top: P = p.lean === 1 ? pts[3] : pts[2];
@@ -272,7 +272,7 @@ function triPts(t: Tri): P[] {
   return t.mirror ? pts.map(([x, y]) => [t.b - x, y] as P) : pts;
 }
 
-function triPic(t: Tri, labels: { base?: string; height?: string; side?: string }): Pic {
+export function triPic(t: Tri, labels: { base?: string; height?: string; side?: string }): Pic {
   const pts = triPts(t);
   const c = centroid(pts);
   const apex = pts[2];
@@ -292,7 +292,7 @@ function triPic(t: Tri, labels: { base?: string; height?: string; side?: string 
     const end: P = t.mirror ? pts[0] : pts[1];
     pic.extend!.push([end, foot]);
     pic.marks!.push({ at: foot, dir: t.mirror ? 0 : 90 });
-    if (labels.height) dims.push({ a: apex, b: foot, text: labels.height, away: [foot[0] + (t.mirror ? -1 : 1), t.h / 2] });
+    if (labels.height) dims.push({ a: apex, b: foot, text: labels.height, away: [foot[0] + (t.mirror ? 1 : -1), t.h / 2] });
   } else {
     pic.marks!.push({ at: foot, dir: t.mirror ? 90 : 0 });
     if (labels.height) dims.push({ a: apex, b: foot, text: labels.height, away: [foot[0] + (t.mirror ? 1 : -1), t.h / 2], within: pts });
@@ -392,6 +392,7 @@ const areaTriangle = skill({
     }
 
     if (mode === 'same-base' || mode === 'same-base-num') {
+      const u = 'cm';
       const b = rng.int(3, 8);
       const h = rng.int(3, 6);
       const xs = rng.shuffle([rng.int(-3, -1), rng.int(1, b - 1), b + rng.int(1, 3)]);
@@ -408,7 +409,7 @@ const areaTriangle = skill({
       s.sideLabel([0, 0], [b, 0], lab(b, u), [b / 2, 1]);
       s.seg([lineR[0] - 0.5, 0], [lineR[0] - 0.5, h], { color: 'accent', arrowEnd: true, arrowStart: true });
       s.sideLabel([lineR[0] - 0.5, 0], [lineR[0] - 0.5, h], lab(h, u), [0, h / 2]);
-      const figure = s.build({ margin: 0.8 });
+      const figure = s.build({ margin: 1.6 });
       const intro = `Triangles 1, 2 and 3 share the same base, $${ms(b, u)}$. Their top corners are all on a line parallel to the base, $${ms(h, u)}$ above it.`;
       if (mode === 'same-base') {
         const choices = ['Triangle 1', 'Triangle 2', 'Triangle 3', 'They all have the same area'];
@@ -436,7 +437,7 @@ const areaTriangle = skill({
       });
       return {
         prompt: `${who} drew three triangles for a geometry poster. They share the same base, and their top corners are all on a dashed line parallel to the base. Triangle ${i} has an area of $${sq(A, u)}$. What is the area of triangle ${j}?`,
-        figure: s2.build({ margin: 0.8 }),
+        figure: s2.build({ margin: 1.6 }),
         parts: [areaPart(A, u, `Area of triangle ${j} =`)],
         hints: ['All three triangles have the same base. Is the height the same too?', 'The top corners are on a line parallel to the base, so they are all the same distance from the base.'],
         solution: [
@@ -452,19 +453,20 @@ const areaTriangle = skill({
     const A = (t.b * t.h) / 2;
     const k = rng.int(3, 8);
     const it = rng.pick([
-      { ctx: `${who} is sewing $${k}$ triangular pennants for a sports day. Each pennant is the triangle shown.`, q: 'How much fabric is needed for all the pennants?' },
-      { ctx: `A craft club is cutting $${k}$ triangles like the one shown to make a quilt.`, q: 'What is the total area of the triangles?' },
-      { ctx: `${who} is painting $${k}$ triangles like the one shown on a mural.`, q: 'What total area will be painted?' },
+      { ctx: `${who} is sewing $${k}$ triangular pennants for a sports day. Each pennant is the triangle shown.`, q: 'How much fabric is needed for all the pennants?', u: 'cm' },
+      { ctx: `A craft club is cutting $${k}$ triangles like the one shown to make a quilt.`, q: 'What is the total area of the triangles?', u: 'cm' },
+      { ctx: `${who} is painting $${k}$ triangles like the one shown on a large wall mural.`, q: 'What total area will be painted?', u: 'm' },
     ]);
+    const u2 = it.u;
     return {
       prompt: `${it.ctx} ${it.q}`,
-      figure: picFigure(triPic(t, { base: lab(t.b, u), height: lab(t.h, u), side: t.side ? lab(t.side.len, u) : undefined })),
-      parts: [areaPart(A * k, u, 'Total area =')],
+      figure: picFigure(triPic(t, { base: lab(t.b, u2), height: lab(t.h, u2), side: t.side ? lab(t.side.len, u2) : undefined })),
+      parts: [areaPart(A * k, u2, 'Total area =')],
       hints: ['First find the area of one triangle: (base × height) ÷ 2. Use the height, not the slanted side.', `Then multiply by $${k}$.`],
       solution: [
-        `One triangle: $(${n(t.b)} \\times ${n(t.h)}) \\div 2 = ${n(A)}$, so $${sq(A, u)}$.`,
+        `One triangle: $(${n(t.b)} \\times ${n(t.h)}) \\div 2 = ${n(A)}$, so $${sq(A, u2)}$.`,
         `$${k}$ triangles: $${n(A)} \\times ${k} = ${n(A * k)}$`,
-        `The total area is $${sq(A * k, u)}$.`,
+        `The total area is $${sq(A * k, u2)}$.`,
       ],
     };
   },

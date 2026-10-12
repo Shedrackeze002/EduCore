@@ -611,7 +611,7 @@ function paperFor(items: Drawn[], marks: Marks, margin = 1): GridSpec {
 }
 
 /** Shapes, a dashed mirror line m and a centre of rotation P on grid paper. */
-function paperFigure(items: Drawn[], marks: Marks, grid: GridSpec = paperFor(items, marks)): PlaneFigure {
+export function paperFigure(items: Drawn[], marks: Marks, grid: GridSpec = paperFor(items, marks)): PlaneFigure {
   const s = new Sketch();
   for (const it of items) {
     if (it.outline) s.polyline([...it.tile.pts, it.tile.pts[0]], it.color);
@@ -718,7 +718,7 @@ function makePair(rng: Rng, t: Tile, kind: PairKind): Pair | null {
 // ---------------------------------------------------------------------------
 
 /** Right triangles in a grid of a-by-b rectangles; each rectangle is cut along a diagonal. */
-function triTess(a: number, b: number, cols: number, rows: number, diamond: boolean): P[][] {
+export function triTess(a: number, b: number, cols: number, rows: number, diamond: boolean): P[][] {
   const out: P[][] = [];
   for (let j = 0; j < rows; j++)
     for (let i = 0; i < cols; i++) {
@@ -749,7 +749,7 @@ function relation(x: P[], y: P[]): Rel | null {
   return null;
 }
 
-function tessFigure(tiles: P[][], one: number, two: number): PlaneFigure {
+export function tessFigure(tiles: P[][], one: number, two: number): PlaneFigure {
   const s = new Sketch();
   const loop = (t: P[]): P[] => [...t, t[0]];
   tiles.forEach((t, k) => {
@@ -820,7 +820,7 @@ function tilingPicture(kind: string, rng: Rng): PlaneFigure {
 }
 
 /** An eight-pointed star of 8 congruent diamonds, like the star at the centre of many star blankets. */
-function starFigure(one: number, two: number): PlaneFigure {
+export function starFigure(one: number, two: number): PlaneFigure {
   const s = new Sketch();
   const u = (k: number): P => [2 * Math.cos(rad(45 * k + 22.5)), 2 * Math.sin(rad(45 * k + 22.5))];
   const diamond = (k: number): P[] => [[0, 0], u(k), [u(k)[0] + u(k + 1)[0], u(k)[1] + u(k + 1)[1]], u(k + 1)].map(([x, y]) => [r3(x), r3(y)] as P);
@@ -1196,7 +1196,7 @@ const orientText = (k: number, flip: boolean) =>
   flip ? (k === 0 ? 'flipped over' : 'flipped over and turned') : k === 2 ? 'turned a half turn' : 'turned a quarter turn';
 
 /** A triangle with sides a = BC, b = CA, c = AB, drawn to scale with A at the origin and AB along the x-axis. */
-function triangleFrom(a: number, b: number, c: number): P[] {
+export function triangleFrom(a: number, b: number, c: number): P[] {
   const x = (b * b + c * c - a * a) / (2 * c);
   const y = Math.sqrt(b * b - x * x);
   return [[0, 0], [c, 0], [x, y]];
@@ -1224,7 +1224,7 @@ function trianglePair(rng: Rng) {
   return { t1, t2, len, flip, a2 };
 }
 
-function trianglePairFigure(t1: P[], t2: P[], labels1: Array<string | null>, labels2: Array<string | null>): PlaneFigure {
+export function trianglePairFigure(t1: P[], t2: P[], labels1: Array<string | null>, labels2: Array<string | null>): PlaneFigure {
   const s = new Sketch();
   s.polyline([...t1, t1[0]], 'brand').polyline([...t2, t2[0]], 'accent');
   const c1 = centroid(t1);

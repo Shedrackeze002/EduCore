@@ -128,6 +128,36 @@ test('a Math 31 lesson reads calculus answers', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test('a Grade 5 lesson loads its practice questions', async ({ page }) => {
+  const errors = trackErrors(page);
+  await signInDemo(page, 'Teacher');
+  await page.goto('/t/new-class');
+  await page.getByRole('button', { name: /Grade 5 Mathematics/ }).click();
+  await expect(page.getByLabel('Class name')).toHaveValue('Math 5');
+  await page.getByRole('button', { name: 'Create class' }).click();
+  await page.waitForURL(/\/t\/c\/c_/);
+  await page.goto(`${page.url().replace(/\/$/, '')}/lessons/m5-5-1`);
+  await expect(page.getByText('Improper Fractions and Mixed Numbers').first()).toBeVisible();
+  // The checks come from the Grade 5 generators, which load on demand.
+  await expect(page.getByText(/Check your understanding · /).first()).toBeVisible();
+  expect(await page.locator('.katex-error').count()).toBe(0);
+  expect(errors).toEqual([]);
+});
+
+test('a Grade 8 lesson draws structures of cubes', async ({ page }) => {
+  const errors = trackErrors(page);
+  await signInDemo(page, 'Teacher');
+  await page.goto('/t/new-class');
+  await page.getByRole('button', { name: /Grade 8 Mathematics/ }).click();
+  await page.getByRole('button', { name: 'Create class' }).click();
+  await page.waitForURL(/\/t\/c\/c_/);
+  await page.goto(`${page.url().replace(/\/$/, '')}/lessons/m8-8-1`);
+  await expect(page.getByText('Views of Three-Dimensional Objects').first()).toBeVisible();
+  await expect(page.locator('svg[aria-label*="cube"]').first()).toBeVisible();
+  expect(await page.locator('.katex-error').count()).toBe(0);
+  expect(errors).toEqual([]);
+});
+
 test('a teacher creates a Knowledge and Employability class and sees its graphs', async ({ page }) => {
   const errors = trackErrors(page);
   await signInDemo(page, 'Teacher');

@@ -62,7 +62,7 @@ interface Poly {
 }
 
 /** Polygons and points on a Cartesian plane with numbered axes and clear labels. */
-function cartFigure(o: { polys?: Poly[]; points?: Array<{ p: P; label: string; color?: Color }>; segs?: Array<[P, P]>; grid?: GridSpec }): PlaneFigure {
+export function cartFigure(o: { polys?: Poly[]; points?: Array<{ p: P; label: string; color?: Color }>; segs?: Array<[P, P]>; grid?: GridSpec }): PlaneFigure {
   const all: P[] = [...(o.polys ?? []).flatMap((pl) => pl.pts), ...(o.points ?? []).map((q) => q.p)];
   const grid = o.grid ?? planeFor(all.length ? all : [[0, 0]]);
   const s = new Sketch();
