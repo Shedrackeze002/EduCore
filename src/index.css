@@ -300,25 +300,39 @@
     font-size: 30px;
   }
 }
-/* Checks on slides: the question's diagram sits beside the question, so both stay large. */
-.deck-check [data-question]:has(> figure) {
+/* Checks on slides: the question's diagram fills the left half of the card and the question,
+   answer boxes, hints and buttons the right half, so both stay large. */
+.deck-check > div:has([data-question] > figure) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  /* The last row takes any height the diagram adds, so the question's rows stay together. */
+  grid-template-rows: auto auto auto auto 1fr;
   column-gap: 1.75rem;
-  row-gap: 1.25rem;
+  row-gap: 1rem;
   align-items: start;
 }
-.deck-check [data-question]:has(> figure) > * {
+.deck-check > div:has([data-question] > figure) > :first-child {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+.deck-check > div:has([data-question] > figure) [data-question] {
+  display: contents;
+}
+.deck-check > div:has([data-question] > figure) [data-question] > * {
   grid-column: 2;
   margin-top: 0 !important;
 }
-.deck-check [data-question]:has(> figure) > figure {
+.deck-check > div:has([data-question] > figure) [data-question] > figure {
   grid-column: 1;
-  grid-row: 1 / span 4;
+  grid-row: 2 / span 4;
   margin: 0;
 }
+.deck-check > div:has([data-question] > figure) > :last-child {
+  grid-column: 2;
+  margin-top: 0;
+}
 .deck-check .figure-svg {
-  max-height: 380px;
+  max-height: 290px;
 }
 .deck-text .prose-edu {
   font-size: 1em;
