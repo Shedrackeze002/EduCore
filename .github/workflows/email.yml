@@ -1,8 +1,9 @@
 name: Set up email
 
 # Forwards admin@gradileo.com to the owner's inbox with Cloudflare Email Routing
-# (scripts/cloudflare-email.mjs). Run it from the Actions tab. Running it again only adds what is
-# missing, and says whether the inbox has been verified.
+# (scripts/cloudflare-email.mjs). It runs when a change to the script (such as a new address in
+# ADDRESSES) reaches main, and from the Actions tab. Running it again only adds what is missing,
+# and says whether the inbox has been verified.
 #
 # Repository secrets (docs/SETUP.md, "Email at your domain"):
 #   CLOUDFLARE_EMAIL_TOKEN  a token with the Email Routing permissions
@@ -11,6 +12,11 @@ name: Set up email
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/cloudflare-email.mjs
+      - .github/workflows/email.yml
 
 permissions:
   contents: read
@@ -24,7 +30,14 @@ jobs:
         with:
           node-version: 22
       - name: Set up Email Routing
-        run: node scripts/cloudflare-email.mjs
+        # A copy of the repository without the email secrets skips the automatic run; a manual run
+        # says which secrets are missing.
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = push ] && { [ -z "$CLOUDFLARE_EMAIL_TOKEN" ] || [ -z "$EMAIL_FORWARD_TO" ]; }; then
+            echo "The email secrets are not set; skipping."
+            exit 0
+          fi
+          node scripts/cloudflare-email.mjs
         env:
           CLOUDFLARE_EMAIL_TOKEN: ${{ secrets.CLOUDFLARE_EMAIL_TOKEN }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -223,12 +223,14 @@ it on through Cloudflare's API.
 2. In GitHub, add the repository secrets `CLOUDFLARE_EMAIL_TOKEN` (the token) and
    `EMAIL_FORWARD_TO` (the inbox). The workflow never prints the inbox, so it stays private in a
    public repository. The workflow also uses the deploy secrets (3.1) to find the domain.
-3. Run **Actions → Set up email → Run workflow**. It turns on Email Routing, adds the inbox and
-   forwards each address in the script's `ADDRESSES` list to it.
+3. Run **Actions → Set up email → Run workflow** (it also runs by itself when a change to the
+   script reaches `main`). It turns on Email Routing, adds the inbox and forwards each address in
+   the script's `ADDRESSES` list to it.
 4. Cloudflare emails the inbox a verification link; nothing is forwarded until it is clicked.
    Run the workflow again to check that it says **Done**, then send a test message to the address.
 
-To add another address such as hello@, add it to `ADDRESSES` and run the workflow again.
+To add another address such as hello@, add it to `ADDRESSES`; the workflow runs once the change
+is merged.
 
 ---
 
