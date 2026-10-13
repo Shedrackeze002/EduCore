@@ -53,7 +53,7 @@ const video: Explainer = {
         { say: 'Canada officially uses the S I system, also called the metric system. Its base unit of length is the metre.', caption: 'Canada officially uses the SI system, also called the metric system. Its base unit of length is the metre.', show: 'si.2', focus: 'si.2' },
         { say: 'The other units are powers of ten. A millimetre is one thousandth of a metre, a centimetre is one hundredth of a metre, and a kilometre is a thousand metres.', show: ['si.0', 'si.1', 'si.3'], focus: ['si.0', 'si.1', 'si.3'] },
         { say: 'But the imperial system is still used every day. Lumber is sold in feet and inches, and many people give their height in feet and inches.', show: ['imp.0', 'imp.1'], focus: 'si' },
-        { say: 'Its units grew out of body measurements, so they are not powers of ten. Twelve inches make a foot, three feet make a yard, and 5280 feet make a mile.', show: ['imp.2', 'imp.3'], focus: ['imp.1', 'imp.2', 'imp.3'] },
+        { say: 'Its units grew out of body measurements, so they are not powers of ten. Twelve inches make a foot, three feet make a yard, and 5,280 feet make a mile.', show: ['imp.2', 'imp.3'], focus: ['imp.1', 'imp.2', 'imp.3'] },
         { say: 'You will also see symbols. A single mark means feet, and a double mark means inches, so five feet seven inches is written five, single mark, seven, double mark.', show: 'marks', focus: 'imp' },
       ],
     },
@@ -153,7 +153,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: "Let's sum up. S I units are powers of ten: ten millimetres make a centimetre, a hundred centimetres make a metre, and a thousand metres make a kilometre.", caption: "Let's sum up. SI units are powers of ten: ten millimetres make a centimetre, a hundred centimetres make a metre, and a thousand metres make a kilometre.", show: 'sum.0' },
-        { say: 'In imperial units, twelve inches make a foot, three feet make a yard, and 5280 feet make a mile.', show: 'sum.1' },
+        { say: 'In imperial units, twelve inches make a foot, three feet make a yard, and 5,280 feet make a mile.', show: 'sum.1' },
         { say: 'A referent is an everyday object about one unit long, like your little fingernail for a centimetre.', show: 'sum.2' },
         { say: 'And to compare the systems: an inch is about two and a half centimetres, a foot about thirty, and a mile about 1.6 kilometres. In part two, we use referents to estimate. See you there!', show: 'sum.3' },
       ],

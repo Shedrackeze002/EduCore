@@ -52,7 +52,7 @@ const video: Explainer = {
       lines: [
         { say: 'Convert 3.75 kilometres to metres.', show: 'q' },
         { say: 'One kilometre is a thousand metres. We start in kilometres, so we multiply by a thousand metres over one kilometre, with kilometres on the bottom.', show: 'm.0', focus: 'm.0' },
-        { say: 'The kilometres cancel, like factors, leaving metres. 3.75 times a thousand is 3750 metres.', show: 'm.1', focus: 'm.1' },
+        { say: 'The kilometres cancel, like factors, leaving metres. 3.75 times a thousand is 3,750 metres.', show: 'm.1', focus: 'm.1' },
         { say: 'This is called unit analysis. Write the units at every step, and cancel them. If the units you are left with are the ones you want, your setup is right.', show: 'def', focus: 'm' },
       ],
     },
@@ -66,8 +66,8 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Before you calculate, ask yourself: bigger or smaller? Converting to a smaller unit gives a bigger number, so you multiply. Converting to a larger unit gives a smaller number, so you divide.', show: 'tip' },
-        { say: 'Convert 4560 millimetres to metres. A metre is larger than a millimetre, so expect a smaller number.', show: 'q' },
-        { say: 'Multiply by one metre over a thousand millimetres. The millimetres cancel, and 4560 divided by a thousand is 4.56 metres. A smaller number, as expected.', show: 'm.0', focus: 'm.0' },
+        { say: 'Convert 4,560 millimetres to metres. A metre is larger than a millimetre, so expect a smaller number.', show: 'q' },
+        { say: 'Multiply by one metre over a thousand millimetres. The millimetres cancel, and 4,560 divided by a thousand is 4.56 metres. A smaller number, as expected.', show: 'm.0', focus: 'm.0' },
       ],
     },
     {
@@ -105,7 +105,7 @@ const video: Explainer = {
         { kind: 'math', id: 'm2', size: 'md', lines: ['89 \\div 12 = 7\\ \\text{R}\\ 5', '89\\text{ in} = 7\\text{ ft}\\ 5\\text{ in}'] },
       ],
       lines: [
-        { say: 'Imperial units are not powers of ten, so you need to know the facts: twelve inches in a foot, three feet in a yard, and 5280 feet in a mile.' },
+        { say: 'Imperial units are not powers of ten, so you need to know the facts: twelve inches in a foot, three feet in a yard, and 5,280 feet in a mile.' },
         { say: 'A student is five feet nine inches tall. How many inches is that?', show: 'q1' },
         { say: 'Five feet is five times twelve, which is sixty inches. Add the nine: 69 inches.', show: ['m1.0', 'm1.1'], focus: 'm1' },
         { say: 'Now the other way. A board is 89 inches long. How long is it in feet and inches?', show: 'q2' },
@@ -162,7 +162,7 @@ const video: Explainer = {
       lines: [
         { say: "Let's sum up. A conversion factor is a fraction equal to one. Choose the one that cancels the unit you start with.", show: 'sum.0' },
         { say: 'Converting to a smaller unit gives a bigger number, and to a larger unit, a smaller number.', show: 'sum.1' },
-        { say: 'S I steps are powers of ten. In imperial, learn the facts: twelve inches in a foot, three feet in a yard, and 5280 feet in a mile.', caption: 'SI steps are powers of ten. In imperial, learn the facts: twelve inches in a foot, three feet in a yard, and 5280 feet in a mile.', show: 'sum.2' },
+        { say: 'S I steps are powers of ten. In imperial, learn the facts: twelve inches in a foot, three feet in a yard, and 5,280 feet in a mile.', caption: 'SI steps are powers of ten. In imperial, learn the facts: twelve inches in a foot, three feet in a yard, and 5,280 feet in a mile.', show: 'sum.2' },
         { say: 'And for feet and inches, divide by twelve and use the remainder. In part two, we convert units of area and volume. See you there!', show: 'sum.3' },
       ],
     },

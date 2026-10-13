@@ -42,7 +42,7 @@ const video: Explainer = {
       lines: [
         { say: 'A ball has a diameter of 24 centimetres. Find its volume.', show: ['ball.shape', 'q'] },
         { say: 'The formula uses the radius, so halve the diameter: twelve centimetres.', show: ['ball.r', 'm.0'], focus: 'm.0' },
-        { say: 'Four thirds pi times twelve cubed is 2304 pi,', show: 'm.1', focus: 'm.1' },
+        { say: 'Four thirds pi times twelve cubed is 2,304 pi,', show: 'm.1', focus: 'm.1' },
         { say: 'about 7238.2 cubic centimetres.', show: 'm.2', focus: 'm.2' },
       ],
     },

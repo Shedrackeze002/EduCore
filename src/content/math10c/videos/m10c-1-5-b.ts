@@ -89,7 +89,7 @@ const video: Explainer = {
         { say: 'There is no top, so count the bottom only once: thirty times twenty is 600.', show: 'm.0', focus: 'm.0' },
         { say: 'The front and back: two times thirty times ten is 600.', show: 'm.1', focus: ['m.1', 'box.front-face'] },
         { say: 'The two ends: two times twenty times ten is 400.', show: 'm.2', focus: ['m.2', 'box.side-face'] },
-        { say: 'Altogether, 1600 square centimetres of cardboard.', show: 'm.3', focus: 'm.3' },
+        { say: 'Altogether, 1,600 square centimetres of cardboard.', show: 'm.3', focus: 'm.3' },
       ],
     },
     {

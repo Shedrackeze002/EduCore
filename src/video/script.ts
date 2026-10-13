@@ -254,6 +254,9 @@ export function itemPoints(item: DiagramItem): string[] {
 }
 
 /** Problems with a script: unknown ids, repeated ids, empty lines, unknown diagram points and parts. Empty when it is fine. */
+/** A four-digit whole number with no comma, not part of a longer number or a decimal. */
+const YEAR_LIKE = /(?<![\d.,])\d{4}(?![\d]|[.,]\d)/g;
+
 export function checkScript(x: Explainer): string[] {
   const problems: string[] = [];
   if (!x.scenes.length) problems.push('The script has no scenes.');
@@ -278,6 +281,8 @@ export function checkScript(x: Explainer): string[] {
     if (!s.lines.length) problems.push(`Scene ${si + 1} has no lines.`);
     s.lines.forEach((l, li) => {
       if (!l.say.trim()) problems.push(`Scene ${si + 1}, line ${li + 1} says nothing.`);
+      // The voice reads a bare four-digit whole number like a year (5280 as "fifty-two eighty").
+      for (const [n] of l.say.matchAll(YEAR_LIKE)) problems.push(`Scene ${si + 1}, line ${li + 1}: write ${n} as ${n[0]},${n.slice(1)} or in words, or it is read like a year.`);
       for (const target of [...asList(l.show), ...asList(l.hide), ...asList(l.focus)]) {
         const [el, part] = target.split('.');
         if (!ids.has(el)) problems.push(`Scene ${si + 1}, line ${li + 1}: no element "${target}".`);

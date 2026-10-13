@@ -43,8 +43,8 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Now both units change. A runner covers four hundred metres in 55 seconds. What is the speed in kilometres per hour?', show: 'q' },
-        { say: 'Chain the conversion factors, so that each unit you do not want cancels. One kilometre over a thousand metres cancels the metres, and 3600 seconds over one hour cancels the seconds.', show: 'm.0', focus: 'm.0' },
-        { say: 'Four hundred times 3600, divided by 55 times a thousand, is about 26.2 kilometres per hour.', show: 'm.1', focus: 'm.1' },
+        { say: 'Chain the conversion factors, so that each unit you do not want cancels. One kilometre over a thousand metres cancels the metres, and 3,600 seconds over one hour cancels the seconds.', show: 'm.0', focus: 'm.0' },
+        { say: 'Four hundred times 3,600, divided by 55 times a thousand, is about 26.2 kilometres per hour.', show: 'm.1', focus: 'm.1' },
       ],
     },
     {

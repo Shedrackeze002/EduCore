@@ -36,6 +36,7 @@ The first build downloads the Kokoro voice model and Whisper into `video/.cache/
 npx tsx video/build.ts m10c-2-1 m10c-2-1-b      # build these videos
 npx tsx video/build.ts m10c-2-1 --stills         # a picture of the end of each scene, no MP4
 npx tsx video/build.ts m10c-2-1 --stills --quick # the same, with the narration estimated
+npx tsx video/build.ts m10c-2-1 --thumbnail      # only the thumbnail, after a design change
 ```
 
 Options: `--voice af_heart` (a Kokoro voice), `--speed 1`, `--fps 30`, `--no-qa`. Narration is
@@ -47,8 +48,10 @@ minutes to render on four cores; frames where nothing moves are drawn once and r
 The voice is Kokoro (82M parameters, Apache 2.0), which runs on the CPU, so narration costs
 nothing however many videos we make. The default voice is `af_heart`. Kokoro reads numbers,
 decimals and units as written ("9.4 cm", "0.75"); write maths in words ("tan theta equals x over
-fifteen") and spell out letters with spaces ("triangle A B C"). After each build, listen to the
-lines that `pronunciation.txt` marks CHECK.
+fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit whole numbers
+with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
+script check refuses them. After each build, listen to the lines that `pronunciation.txt` marks
+CHECK.
 
 ## Writing a script
 
