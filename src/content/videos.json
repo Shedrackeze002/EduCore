@@ -147,5 +147,56 @@
         "working": "Adjacent and hypotenuse: **CAH**, so cosine. $\\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$."
       }
     ]
+  },
+  "m10c-2-2-b": {
+    "lessonId": "m10c-2-2",
+    "title": "The Sine and Cosine Ratios, Part 2: Finding Sides and Angles",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding a side with sine",
+        "t": 10.326
+      },
+      {
+        "title": "Finding the hypotenuse",
+        "t": 41.303
+      },
+      {
+        "title": "Finding an angle",
+        "t": 77.29
+      },
+      {
+        "title": "Watch out",
+        "t": 105.199
+      },
+      {
+        "title": "Your turn",
+        "t": 130.2
+      },
+      {
+        "title": "Summary",
+        "t": 158.481
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-2-b:q",
+        "t": 139.084,
+        "prompt": "A ramp is $4$ m long and makes an angle of ${12^\\circ}$ with the ground. How high does it rise?",
+        "choices": [
+          "$4\\sin 12^\\circ \\approx 0.83$ m",
+          "$4\\cos 12^\\circ \\approx 3.91$ m",
+          "$4\\tan 12^\\circ \\approx 0.85$ m",
+          "$\\dfrac{4}{\\sin 12^\\circ} \\approx 19.2$ m"
+        ],
+        "answer": 0,
+        "working": "The ramp is the **hypotenuse** and the rise is **opposite** the angle, so use sine: $h = 4\\sin 12^\\circ \\approx 0.83$ m."
+      }
+    ]
   }
 }
