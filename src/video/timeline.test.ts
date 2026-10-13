@@ -108,6 +108,54 @@ describe('stateAt', () => {
   });
 });
 
+describe('hiding a part', () => {
+  const x: Explainer = {
+    id: 'demo-2',
+    lessonId: 'demo-2',
+    title: 'Demo',
+    summary: 'A demo.',
+    scenes: [
+      {
+        layout: 'center',
+        main: [
+          {
+            kind: 'diagram',
+            id: 'd',
+            points: { A: [0, 0], B: [4, 0], C: [4, 3] },
+            items: [
+              { kind: 'line', id: 'ab', from: 'A', to: 'B' },
+              { kind: 'label', id: 'x', at: 'B', tex: 'x' },
+              { kind: 'label', id: 'v', at: 'B', tex: '4' },
+            ],
+          },
+          { kind: 'text', id: 't', md: 'Text' },
+        ],
+        lines: [
+          { say: 'One.', show: ['d.ab', 'd.x', 't'] },
+          { say: 'Two.', hide: 'd.x', show: 'd.v' },
+          { say: 'Three.', show: 'd.x', hide: 't.0' },
+        ],
+      },
+    ],
+  };
+  // The lines are spoken from 0.6 to 1.6, 1.95 to 2.95 and 3.3 to 4.3.
+  const tl = compile(x, { '0.0': 1, '0.1': 1, '0.2': 1 });
+
+  it('swaps one label for another, and can show it again', () => {
+    expect(checkScript(x)).toEqual([]);
+    expect(partShown(stateAt(tl, 1.9).els.d, 'x')).toBe(1);
+    const swapped = stateAt(tl, 2.9).els.d;
+    expect(partShown(swapped, 'x')).toBe(0);
+    expect(partShown(swapped, 'v')).toBeGreaterThan(0.9);
+    expect(partShown(swapped, 'ab')).toBe(1);
+    expect(partShown(stateAt(tl, 4.3).els.d, 'x')).toBeGreaterThan(0.9);
+  });
+
+  it('hides the whole element when it was shown whole', () => {
+    expect(stateAt(tl, 4.3).els.t).toBeUndefined();
+  });
+});
+
 describe('youtubeChapters', () => {
   const tl = (chapters: Array<{ title: string; t: number }>, duration: number) => ({ ...compile(script, durations), chapters, duration });
 
@@ -140,6 +188,30 @@ describe('checkScript', () => {
     expect(checkScript(script)).toEqual([]);
     const bad: Explainer = { ...script, scenes: [{ layout: 'center', main: [{ kind: 'text', id: 'a', md: 'x' }, { kind: 'text', id: 'a', md: 'y' }], lines: [{ say: ' ', show: 'b' }] }] };
     expect(checkScript(bad)).toEqual(['Scene 1: the id "a" is used twice.', 'Scene 1, line 1 says nothing.', 'Scene 1, line 1: no element "b".']);
+  });
+
+  it('checks the points and parts of a diagram', () => {
+    const bad: Explainer = {
+      ...script,
+      scenes: [
+        {
+          layout: 'center',
+          main: [
+            {
+              kind: 'diagram',
+              id: 'd',
+              points: { A: [0, 0] },
+              items: [
+                { kind: 'line', id: 'l', from: 'A', to: 'Z' },
+                { kind: 'label', id: 'l', at: 'A', tex: 'a' },
+              ],
+            },
+          ],
+          lines: [{ say: 'Hi.', show: 'd.m' }],
+        },
+      ],
+    };
+    expect(checkScript(bad)).toEqual(['Scene 1: diagram "d", part "l" uses no point "Z".', 'Scene 1: diagram "d" uses the part id "l" twice.', 'Scene 1, line 1: diagram "d" has no part "m".']);
   });
 });
 

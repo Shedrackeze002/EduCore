@@ -132,7 +132,8 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
           host: 'https://www.youtube-nocookie.com',
           width: '100%',
           height: '100%',
-          playerVars: { rel: 0, playsinline: 1 },
+          // Captions on from the start (the uploaded captions follow the script word for word).
+          playerVars: { rel: 0, playsinline: 1, cc_load_policy: 1, cc_lang_pref: 'en' },
           events: {
             // Watch the playing time once the player is ready (its methods work only from then).
             onReady: () => {

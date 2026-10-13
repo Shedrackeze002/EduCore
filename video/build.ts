@@ -22,7 +22,7 @@ import { chromium, type Page } from '@playwright/test';
 import { createServer } from 'vite';
 import { courseOfLesson, lessonById } from '../engine/curriculum/index.ts';
 import { captions, toSrt, toVtt } from '../src/video/captions.ts';
-import { checkScript, type Explainer } from '../src/video/script.ts';
+import { BRAND, checkScript, type Explainer } from '../src/video/script.ts';
 import { speechText } from '../src/video/words.ts';
 import { clock, compile, youtubeChapters, type Timeline } from '../src/video/timeline.ts';
 import { narrate, useCache, type Voice } from './lib/narrate.ts';
@@ -133,7 +133,7 @@ function youtubeText(x: Explainer, tl: Timeline): string {
   const course = courseOfLesson(x.lessonId);
   const where = lesson && course ? `${course.shortTitle} · Lesson ${lesson.number}` : x.lessonId;
   const chapters = youtubeChapters(tl);
-  const title = `${x.title} | ${where} | EduCore`;
+  const title = `${x.title} | ${where} | ${BRAND}`;
   return [
     `TITLE (${title.length}/100 characters)`,
     title,
@@ -141,13 +141,13 @@ function youtubeText(x: Explainer, tl: Timeline): string {
     'DESCRIPTION',
     `${x.summary}`,
     '',
-    `This explainer goes with ${where}${lesson ? `, "${lesson.title}"` : ''}, on EduCore.`,
+    `This explainer goes with ${where}${lesson ? `, "${lesson.title}"` : ''}, on ${BRAND}.`,
     ...(chapters ? ['', 'Chapters', ...chapters.map((c) => `${clock(c.t)} ${c.title}`)] : []),
     '',
-    `Practise this lesson with instant feedback on EduCore: ${SITE}`,
+    `Practise this lesson with instant feedback on ${BRAND}: ${SITE}`,
     '',
     'TAGS',
-    ['EduCore', 'math', course?.shortTitle, 'Alberta math', lesson?.title, 'explainer'].filter(Boolean).join(', '),
+    [BRAND, 'math', course?.shortTitle, 'Alberta math', lesson?.title, 'explainer'].filter(Boolean).join(', '),
     '',
     'Upload the captions (captions.srt, English) and the thumbnail (thumbnail.png) with the video.',
   ].join('\n');

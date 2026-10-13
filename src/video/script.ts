@@ -5,10 +5,14 @@
  * the frames, captions and thumbnail. Scripts live in src/content/<course>/videos/<lesson>.ts.
  *
  * Elements are addressed by id; a part of an element by "id.part": a line, bullet or table row by
- * its index ("steps.0"), a triangle's sides and angles by name ("tri.opp"). Showing an element
- * shows all of it; showing a part shows the element with just that part, so a list of parts can be
- * revealed one at a time.
+ * its index ("steps.0"), a triangle's sides and angles by name ("tri.opp"), a diagram's parts by
+ * their ids ("d.sight"). Showing an element shows all of it; showing a part shows the element with
+ * just that part, so a list of parts can be revealed one at a time. Hiding an element hides all of
+ * it; hiding a part that was shown on its own hides just that part (to swap one label for another).
  */
+
+/** The name on every frame, thumbnail and YouTube description. */
+export const BRAND = 'EduCore';
 
 /** Colours with a fixed meaning in every video (trigonometry uses the first four). */
 export type Tone = 'theta' | 'opp' | 'adj' | 'hyp' | 'brand' | 'good' | 'bad';
@@ -120,7 +124,60 @@ export interface TryEl {
   working?: string;
 }
 
-export type El = TitleEl | TextEl | MathEl | BulletsEl | CalloutEl | TableEl | TriangleEl | SimilarEl | CalcEl | TryEl;
+/** A colour for a diagram part: a fixed video colour, white ink, or muted grey. */
+export type DiagramTone = Tone | 'ink' | 'muted';
+
+/** Scenery drawn behind a diagram's lines (see DiagramThing). */
+export type ThingType = 'ground' | 'water' | 'cliff' | 'tower' | 'lighthouse' | 'building' | 'flagpole' | 'tree' | 'person' | 'boat';
+
+/** Where a label sits beside a point. */
+export type Place = 'above' | 'below' | 'left' | 'right' | 'above left' | 'above right' | 'below left' | 'below right';
+
+/**
+ * A part of a diagram. Every part has an id, so a line can show or emphasise it ("d.sight"), and
+ * names the points it uses. Parts are drawn in order, so list scenery first.
+ */
+export type DiagramItem =
+  /**
+   * A straight line from one point to another, drawn on from `from`. Its label sits beside its
+   * middle (or at `labelAt`, 0 to 1 along it), away from the middle of the diagram unless `labelSide`
+   * says which side, looking from `from` to `to`.
+   */
+  | { kind: 'line'; id: string; from: string; to: string; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number }
+  /**
+   * The angle at `at` between the directions to `from` and `to` (the smaller one), with a label on
+   * its bisector, or at `labelAt` (0 to 1 from `from` to `to`; beyond 1 places it outside, for an
+   * angle that contains a smaller one).
+   */
+  | { kind: 'angle'; id: string; at: string; from: string; to: string; tone?: DiagramTone; label?: string; /** Arc radius in pixels. */ r?: number; /** Label distance from the vertex in pixels. */ labelDist?: number; labelAt?: number }
+  /** A right-angle mark at `at`, between the directions to `from` and `to`. */
+  | { kind: 'right'; id: string; at: string; from: string; to: string }
+  /** A lightly shaded polygon, such as the triangle being solved. */
+  | { kind: 'region'; id: string; points: string[]; tone?: DiagramTone }
+  /** A label (TeX) beside a point; a point's name, with a dot when `dot` is set. */
+  | { kind: 'label'; id: string; at: string; tex: string; tone?: DiagramTone; place?: Place; dot?: boolean }
+  /**
+   * Scenery. Ground and water run across the diagram at the height of `at`. A cliff, tower,
+   * lighthouse, building, flagpole or tree stands on `at` and reaches `top`; a cliff or building
+   * extends to the `side` of that line. A person stands on `at` with their eyes at `top`. A boat
+   * floats at `at`.
+   */
+  | { kind: 'thing'; id: string; type: ThingType; at: string; top?: string; side?: 'left' | 'right'; /** Width in diagram units (cliff, building). */ width?: number };
+
+/**
+ * A diagram drawn to scale from named points (x to the right, y up, in any unit): lines, angles,
+ * labels and scenery such as a cliff and a boat. It fits the space it is given; `height` sets
+ * that space in stage pixels.
+ */
+export interface DiagramEl {
+  kind: 'diagram';
+  id: string;
+  points: Record<string, [number, number]>;
+  items: DiagramItem[];
+  height?: number;
+}
+
+export type El = TitleEl | TextEl | MathEl | BulletsEl | CalloutEl | TableEl | TriangleEl | SimilarEl | DiagramEl | CalcEl | TryEl;
 
 export interface Line {
   /** What the narrator says, written as it should be spoken. */
@@ -143,6 +200,8 @@ export interface Scene {
   chapter?: string;
   /** center: one column; split: a figure on the left and text on the right. */
   layout: 'center' | 'split';
+  /** Width of the left column of a split scene in stage pixels (540 by default), for wide figures. */
+  leftWidth?: number;
   main?: El[];
   left?: El[];
   right?: El[];
@@ -156,6 +215,8 @@ export interface Explainer {
   title: string;
   /** A shorter title for the thumbnail, when the title is long. */
   thumbnailTitle?: string;
+  /** The id of the figure to show on the thumbnail; the first triangle or diagram otherwise. */
+  thumbnail?: string;
   /** One or two sentences for the YouTube description. */
   summary: string;
   scenes: Scene[];
@@ -166,21 +227,49 @@ export const asList = (v: string | string[] | undefined): string[] => (v === und
 /** Every element of a scene. */
 export const sceneElements = (s: Scene): El[] => [...(s.main ?? []), ...(s.left ?? []), ...(s.right ?? [])];
 
-/** Problems with a script: unknown ids, repeated ids, empty lines. Empty when it is fine. */
+/** The points a diagram part uses. */
+export function itemPoints(item: DiagramItem): string[] {
+  switch (item.kind) {
+    case 'line':
+      return [item.from, item.to];
+    case 'angle':
+    case 'right':
+      return [item.at, item.from, item.to];
+    case 'region':
+      return item.points;
+    case 'label':
+      return [item.at];
+    case 'thing':
+      return item.top ? [item.at, item.top] : [item.at];
+  }
+}
+
+/** Problems with a script: unknown ids, repeated ids, empty lines, unknown diagram points and parts. Empty when it is fine. */
 export function checkScript(x: Explainer): string[] {
   const problems: string[] = [];
   if (!x.scenes.length) problems.push('The script has no scenes.');
   x.scenes.forEach((s, si) => {
     const ids = new Set<string>();
+    const diagrams = new Map<string, Set<string>>();
     for (const e of sceneElements(s)) {
       if (ids.has(e.id)) problems.push(`Scene ${si + 1}: the id "${e.id}" is used twice.`);
       ids.add(e.id);
+      if (e.kind !== 'diagram') continue;
+      const parts = new Set<string>();
+      for (const item of e.items) {
+        if (parts.has(item.id)) problems.push(`Scene ${si + 1}: diagram "${e.id}" uses the part id "${item.id}" twice.`);
+        parts.add(item.id);
+        for (const pt of itemPoints(item)) if (!(pt in e.points)) problems.push(`Scene ${si + 1}: diagram "${e.id}", part "${item.id}" uses no point "${pt}".`);
+      }
+      diagrams.set(e.id, parts);
     }
     if (!s.lines.length) problems.push(`Scene ${si + 1} has no lines.`);
     s.lines.forEach((l, li) => {
       if (!l.say.trim()) problems.push(`Scene ${si + 1}, line ${li + 1} says nothing.`);
       for (const target of [...asList(l.show), ...asList(l.hide), ...asList(l.focus)]) {
-        if (!ids.has(target.split('.')[0])) problems.push(`Scene ${si + 1}, line ${li + 1}: no element "${target}".`);
+        const [el, part] = target.split('.');
+        if (!ids.has(el)) problems.push(`Scene ${si + 1}, line ${li + 1}: no element "${target}".`);
+        else if (part !== undefined && diagrams.has(el) && !diagrams.get(el)!.has(part)) problems.push(`Scene ${si + 1}, line ${li + 1}: diagram "${el}" has no part "${part}".`);
       }
     });
   });

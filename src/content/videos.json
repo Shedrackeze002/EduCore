@@ -198,5 +198,209 @@
         "working": "The ramp is the **hypotenuse** and the rise is **opposite** the angle, so use sine: $h = 4\\sin 12^\\circ \\approx 0.83$ m."
       }
     ]
+  },
+  "m10c-2-3": {
+    "lessonId": "m10c-2-3",
+    "title": "Solving Right Triangles, Part 1: One Side and One Angle",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three tools",
+        "t": 16.771
+      },
+      {
+        "title": "Finding a missing leg",
+        "t": 40.408
+      },
+      {
+        "title": "One side and one angle",
+        "t": 75.301
+      },
+      {
+        "title": "Check with Pythagoras",
+        "t": 122.938
+      },
+      {
+        "title": "Your turn",
+        "t": 144.615
+      },
+      {
+        "title": "Summary",
+        "t": 177.924
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-3:q",
+        "t": 158.602,
+        "prompt": "In $\\triangle PQR$, $\\angle R = 90^\\circ$, $\\angle P = {50^\\circ}$ and $PQ = 10$. How long is $QR$, the side **opposite** $\\angle P$?",
+        "choices": [
+          "$10\\sin 50^\\circ \\approx 7.66$",
+          "$10\\cos 50^\\circ \\approx 6.43$",
+          "$10\\tan 50^\\circ \\approx 11.92$",
+          "$\\dfrac{10}{\\sin 50^\\circ} \\approx 13.05$"
+        ],
+        "answer": 0,
+        "working": "$PQ$ is the **hypotenuse** and $QR$ is **opposite** $\\angle P$, so use sine: $QR = 10\\sin 50^\\circ \\approx 7.66$."
+      }
+    ]
+  },
+  "m10c-2-3-b": {
+    "lessonId": "m10c-2-3",
+    "title": "Solving Right Triangles, Part 2: From Two Sides, and in Context",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two sides given",
+        "t": 11.404
+      },
+      {
+        "title": "Round at the end",
+        "t": 59.083
+      },
+      {
+        "title": "A ladder",
+        "t": 84.22
+      },
+      {
+        "title": "Your turn",
+        "t": 130.008
+      },
+      {
+        "title": "Summary",
+        "t": 162.17
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-3-b:q",
+        "t": 139.134,
+        "prompt": "A right triangle has legs of $5$ and $12$. What is the angle ${\\theta}$ **opposite** the side of length $5$?",
+        "choices": [
+          "$\\tan^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 22.6^\\circ$",
+          "$\\tan^{-1}\\left(\\tfrac{12}{5}\\right) \\approx 67.4^\\circ$",
+          "$\\sin^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 24.6^\\circ$",
+          "$\\cos^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 65.4^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$5$ is **opposite** $\\theta$ and $12$ is **adjacent**, so use tangent: $\\theta = \\tan^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 22.6^\\circ$. Neither leg is the hypotenuse, so sine and cosine do not fit."
+      }
+    ]
+  },
+  "m10c-2-4": {
+    "lessonId": "m10c-2-4",
+    "title": "Angles of Elevation and Depression",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Elevation and depression",
+        "t": 12.677
+      },
+      {
+        "title": "Finding a distance",
+        "t": 47.999
+      },
+      {
+        "title": "Using a clinometer",
+        "t": 85.672
+      },
+      {
+        "title": "Example: a flagpole",
+        "t": 115.844
+      },
+      {
+        "title": "Watch out",
+        "t": 149.905
+      },
+      {
+        "title": "Your turn",
+        "t": 164.96
+      },
+      {
+        "title": "Summary",
+        "t": 200.513
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-4:q",
+        "t": 177.319,
+        "prompt": "From the top of a $45$ m building, the angle of depression to a car is ${32^\\circ}$. How far is the car from the base of the building?",
+        "choices": [
+          "$\\dfrac{45}{\\tan 32^\\circ} \\approx 72.0$ m",
+          "$45\\tan 32^\\circ \\approx 28.1$ m",
+          "$45\\sin 32^\\circ \\approx 23.8$ m",
+          "$\\dfrac{45}{\\sin 32^\\circ} \\approx 84.9$ m"
+        ],
+        "answer": 0,
+        "working": "The angle of elevation from the car is also $32^\\circ$ (alternate angles). The height $45$ m is **opposite** it and the distance $x$ is **adjacent**, so $\\tan 32^\\circ = \\dfrac{45}{x}$ and $x = \\dfrac{45}{\\tan 32^\\circ} \\approx 72.0$ m."
+      }
+    ]
+  },
+  "m10c-2-4-b": {
+    "lessonId": "m10c-2-4",
+    "title": "Problems with Two Right Triangles",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Opposite sides of a tower",
+        "t": 14.744
+      },
+      {
+        "title": "Two boats on the same side",
+        "t": 61.606
+      },
+      {
+        "title": "A flagpole on a roof",
+        "t": 104.554
+      },
+      {
+        "title": "Add or subtract?",
+        "t": 142.647
+      },
+      {
+        "title": "Your turn",
+        "t": 161.645
+      },
+      {
+        "title": "Summary",
+        "t": 203.188
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-4-b:q",
+        "t": 174.847,
+        "prompt": "From $40$ m away, the angles of elevation to the bottom and the top of a sign on a roof are ${28^\\circ}$ and ${33^\\circ}$. How tall is the sign?",
+        "choices": [
+          "$4.7$ m",
+          "$47.2$ m",
+          "$3.5$ m",
+          "$26.0$ m"
+        ],
+        "answer": 0,
+        "working": "To the top: $40\\tan 33^\\circ \\approx 25.98$ m. To the bottom: $40\\tan 28^\\circ \\approx 21.27$ m. The triangles are stacked, so subtract: $25.98 - 21.27 \\approx 4.7$ m. (Subtracting the angles first, $40\\tan 5^\\circ \\approx 3.5$ m, is a common mistake.)"
+      }
+    ]
   }
 }
