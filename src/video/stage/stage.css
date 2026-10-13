@@ -108,6 +108,8 @@ body {
 
 .v-rich .katex {
   font-size: 1.08em;
+  /* Never break a formula across lines ("BC =" / "6."). */
+  white-space: nowrap;
 }
 
 .tone-theta {

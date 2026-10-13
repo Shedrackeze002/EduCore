@@ -106,8 +106,8 @@ export function Thumbnail({ x, label }: { x: Explainer; label: string }) {
         <div style={{ height: 10, width: 220, marginTop: 34, borderRadius: 5, background: `linear-gradient(90deg, ${TONES.brand}, ${TONES.adj})` }} />
       </div>
       {fig && (
-        <div style={{ position: 'absolute', right: 40, top: 110 }}>
-          {fig.kind === 'triangle' ? <TriangleView el={fig} st={FULL} w={540} h={500} labelSize={34} /> : <SimilarView el={fig} st={FULL} w={540} h={500} />}
+        <div style={{ position: 'absolute', right: 130, top: 110 }}>
+          {fig.kind === 'triangle' ? <TriangleView el={fig} st={FULL} w={500} h={480} labelSize={34} /> : <SimilarView el={fig} st={FULL} w={500} h={480} />}
         </div>
       )}
       <div style={{ position: 'absolute', left: 80, bottom: 60, display: 'flex', alignItems: 'center', gap: 16 }}>
