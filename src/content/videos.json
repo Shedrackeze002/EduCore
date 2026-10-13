@@ -1,4 +1,252 @@
 {
+  "m10c-1-1": {
+    "lessonId": "m10c-1-1",
+    "title": "Referents, Estimation and Units",
+    "duration": 263,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two systems",
+        "t": 16.244
+      },
+      {
+        "title": "Referents",
+        "t": 63.697
+      },
+      {
+        "title": "Comparing the systems",
+        "t": 101.087
+      },
+      {
+        "title": "Estimating",
+        "t": 131.869
+      },
+      {
+        "title": "Choosing a unit",
+        "t": 168.212
+      },
+      {
+        "title": "Your turn",
+        "t": 204.569
+      },
+      {
+        "title": "Summary",
+        "t": 230.746
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-1:q",
+        "t": 214.742,
+        "prompt": "Which is longer, $5\\text{ km}$ or $3\\text{ mi}$? Use $1\\text{ mi} \\approx 1.6\\text{ km}$.",
+        "choices": [
+          "$5\\text{ km}$",
+          "$3\\text{ mi}$",
+          "They are the same length."
+        ],
+        "answer": 0,
+        "working": "$3\\text{ mi} \\approx 3 \\times 1.6 = 4.8\\text{ km}$, so $5\\text{ km}$ is slightly longer."
+      }
+    ]
+  },
+  "m10c-1-2": {
+    "lessonId": "m10c-1-2",
+    "title": "Measuring with Rulers and Calipers, Part 1: Reading Rulers",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Precision",
+        "t": 15.709
+      },
+      {
+        "title": "A metric ruler",
+        "t": 38.065
+      },
+      {
+        "title": "Not starting at zero",
+        "t": 61.326
+      },
+      {
+        "title": "An imperial ruler",
+        "t": 85.129
+      },
+      {
+        "title": "Reading to a sixteenth",
+        "t": 104.604
+      },
+      {
+        "title": "Simplify the fraction",
+        "t": 125.855
+      },
+      {
+        "title": "Your turn",
+        "t": 150.495
+      },
+      {
+        "title": "Summary",
+        "t": 178.72
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-2:q",
+        "t": 158.967,
+        "prompt": "A bar ends 6 sixteenths past the 1 inch mark. How long is it, in lowest terms?",
+        "choices": [
+          "$1\\dfrac{6}{16}$ in",
+          "$1\\dfrac{3}{8}$ in",
+          "$1\\dfrac{1}{4}$ in",
+          "$1\\dfrac{3}{16}$ in"
+        ],
+        "answer": 1,
+        "working": "$\\dfrac{6}{16} = \\dfrac{3}{8}$ (divide both by 2), so the bar is $1\\dfrac{3}{8}$ in long."
+      }
+    ]
+  },
+  "m10c-1-2-b": {
+    "lessonId": "m10c-1-2",
+    "title": "Measuring with Rulers and Calipers, Part 2: The Vernier Caliper and Curved Lengths",
+    "duration": 241,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two scales",
+        "t": 14.12
+      },
+      {
+        "title": "Reading a vernier caliper",
+        "t": 30.462
+      },
+      {
+        "title": "Watch out",
+        "t": 67.469
+      },
+      {
+        "title": "Your turn",
+        "t": 83.19
+      },
+      {
+        "title": "Curved lengths",
+        "t": 111.75
+      },
+      {
+        "title": "Diameter from circumference",
+        "t": 144.586
+      },
+      {
+        "title": "Wrapping several times",
+        "t": 163.184
+      },
+      {
+        "title": "Your turn",
+        "t": 185.508
+      },
+      {
+        "title": "Summary",
+        "t": 216.656
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-2-b:q",
+        "t": 88.178,
+        "prompt": "What does this vernier caliper read?",
+        "choices": [
+          "$15.4\\text{ mm}$",
+          "$19\\text{ mm}$",
+          "$15\\text{ mm}$",
+          "$1.54\\text{ mm}$"
+        ],
+        "answer": 0,
+        "working": "The vernier 0 is just past $15\\text{ mm}$, and its 4 lines up: $15 + 0.4 = 15.4\\text{ mm}$."
+      },
+      {
+        "id": "m10c-1-2-b:q2",
+        "t": 195.13,
+        "prompt": "A string wrapped **3 times** around a jar is $66\\text{ cm}$ long. What is the jar’s diameter?",
+        "choices": [
+          "$7.0\\text{ cm}$",
+          "$21.0\\text{ cm}$",
+          "$22.0\\text{ cm}$",
+          "$69.1\\text{ cm}$"
+        ],
+        "answer": 0,
+        "working": "One circumference: $66 \\div 3 = 22\\text{ cm}$. Then $d = 22 \\div \\pi \\approx 7.0\\text{ cm}$."
+      }
+    ]
+  },
+  "m10c-1-3": {
+    "lessonId": "m10c-1-3",
+    "title": "Converting Within a Measurement System, Part 1: Conversion Factors",
+    "duration": 251,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A fraction equal to 1",
+        "t": 17.245
+      },
+      {
+        "title": "Unit analysis",
+        "t": 41.513
+      },
+      {
+        "title": "Bigger or smaller?",
+        "t": 73.349
+      },
+      {
+        "title": "Within SI",
+        "t": 106.578
+      },
+      {
+        "title": "Mixed imperial units",
+        "t": 132.938
+      },
+      {
+        "title": "Watch out",
+        "t": 170.651
+      },
+      {
+        "title": "Your turn",
+        "t": 193.546
+      },
+      {
+        "title": "Summary",
+        "t": 219.588
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-3:q",
+        "t": 200.795,
+        "prompt": "A shelf is $50\\text{ in}$ long. How long is it in feet and inches?",
+        "choices": [
+          "$4\\text{ ft}\\ 2\\text{ in}$",
+          "$4\\text{ ft}\\ 1\\text{ in}$",
+          "$4\\text{ ft}\\ 17\\text{ in}$",
+          "$5\\text{ ft}\\ 0\\text{ in}$"
+        ],
+        "answer": 0,
+        "working": "$50 \\div 12 = 4$ remainder $2$, so the shelf is $4\\text{ ft}\\ 2\\text{ in}$."
+      }
+    ]
+  },
   "m10c-2-1": {
     "lessonId": "m10c-2-1",
     "title": "The Tangent Ratio, Part 1: Naming the Sides",
