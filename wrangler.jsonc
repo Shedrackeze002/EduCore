@@ -1,0 +1,17 @@
+// Gradileo on Cloudflare: a Worker that serves the built app (dist/) at gradileo.com.
+// .github/workflows/deploy.yml builds the app and deploys it after the tests pass; see
+// docs/SETUP.md ("Hosting on Cloudflare").
+{
+  "name": "gradileo",
+  "compatibility_date": "2026-10-13",
+  "assets": {
+    "directory": "./dist",
+    // Every page of the single-page app is served index.html, and the app's router shows it.
+    "not_found_handling": "single-page-application"
+  },
+  // Cloudflare creates the DNS records and certificates for these domains.
+  "routes": [
+    { "pattern": "gradileo.com", "custom_domain": true },
+    { "pattern": "www.gradileo.com", "custom_domain": true }
+  ]
+}

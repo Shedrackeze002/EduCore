@@ -40,7 +40,9 @@ student demo in a second tab to watch notifications and submissions arrive live.
    The site appears at `https://<you>.github.io/EduCore/`.
 2. **Real accounts:** create a free Supabase project, push the database and functions, and add
    two repository variables. Follow [docs/SETUP.md](docs/SETUP.md).
-3. **Your own domain:** set the `CUSTOM_DOMAIN` variable and one DNS record (also in SETUP.md).
+3. **Your own domain:** Gradileo runs on Cloudflare at gradileo.com; add two repository secrets
+   and the deploy publishes there too. GitHub Pages with a custom domain also works (both in
+   SETUP.md).
 
 ## Documentation
 

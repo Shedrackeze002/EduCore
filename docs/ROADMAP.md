@@ -63,9 +63,8 @@ items ship or decisions change.
      storage keys, the student sign-in email domain, Supabase secret and project names, and the
      repository path. Demo accounts moved to `gradileo.demo`, and saved demo data is updated when
      it loads.
-   - Next, once the owner has bought gradileo.com and created the Gradileo YouTube channel: move
-     the site to Cloudflare (see Hosting), point the YouTube descriptions and emails at
-     gradileo.com, and optionally rename the GitHub repository.
+   - Next: move the site to Cloudflare (see Hosting), and the owner creates the Gradileo YouTube
+     channel before the videos are uploaded.
 1. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
@@ -115,10 +114,17 @@ items ship or decisions change.
   Cloudflare Registrar. Reasons: GitHub Pages' terms do not allow running a business or software
   service on it; Cloudflare serves static sites free without a bandwidth cap, from data centres in
   Kigali and Canada; and the domain lives in the same account.
-- The move: deploy from GitHub Actions (so CI still gates every deploy; repository secrets
-  `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`), build for the root path, serve the app for
-  every route, update the Supabase Site URL and redirect URLs, `ALLOWED_ORIGINS` and `APP_URL`,
-  set the video build's site link, and turn the old github.io address into a redirect.
+- The move, in two steps so the site never goes down:
+  1. Built: the deploy workflow also publishes to Cloudflare once the tests pass (a Worker serving
+     the built app, `wrangler.jsonc`, at gradileo.com and www.gradileo.com), while GitHub Pages
+     keeps serving the site as before. The owner bought the domain and added the secrets
+     `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+  2. Next, once gradileo.com works: make it the Supabase Site URL and set `APP_URL`, point the
+     video build's site link at it, turn the github.io site into a redirect to gradileo.com, and
+     restrict `ALLOWED_ORIGINS` (it is open today) to gradileo.com.
+  3. Last, the owner renames the GitHub repository to Gradileo (GitHub Pages does not redirect
+     the old project address, so this waits until gradileo.com is the main address), and the
+     repository path in the code follows.
 - Email: Cloudflare Email Routing can forward an address such as hello@gradileo.com for free;
   verify the domain with the email provider so reminders come from an address at gradileo.com.
 - Before investing further in the brand, check the Canadian (CIPO) and US (USPTO) trademark
