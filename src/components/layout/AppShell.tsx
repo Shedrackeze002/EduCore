@@ -4,6 +4,7 @@ import {
   BarChart3,
   BookOpen,
   ChevronsUpDown,
+  Clapperboard,
   ClipboardList,
   Compass,
   FilePenLine,
@@ -74,6 +75,7 @@ const ADMIN_NAV: NavItem[] = [
   { to: '/admin/classes', label: 'Classes', icon: School },
   { to: '/admin/requests', label: 'Course requests', icon: Inbox },
   { to: '/admin/edits', label: 'Lesson edits', icon: FilePenLine },
+  { to: '/admin/videos', label: 'Videos', icon: Clapperboard },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
   { to: '/admin/audit', label: 'Audit log', icon: ScrollText },
 ];

@@ -23,6 +23,7 @@ export const qk = {
   myLessonEdits: (lessonId: string) => ['myLessonEdits', lessonId] as const,
   adminLessonEdits: (status: string) => ['admin', 'lessonEdits', status] as const,
   adminCourseRequests: (status: string) => ['admin', 'courseRequests', status] as const,
+  videoLinks: ['videoLinks'] as const,
   liveAnswers: (questionId: string) => ['liveAnswers', questionId] as const,
   assignments: (classId: string) => ['assignments', classId] as const,
   assignment: (id: string) => ['assignment', id] as const,
@@ -329,6 +330,19 @@ export function useAdminDecideLessonEdit() {
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: qk.admin });
       void qc.invalidateQueries({ queryKey: ['lessonEdits'] });
+    },
+  });
+}
+
+/** Explainer videos' YouTube ids, by video id. */
+export const useVideoLinks = () => useQuery({ queryKey: qk.videoLinks, queryFn: () => api().listVideoLinks(), staleTime: 5 * 60_000, retry: false });
+export function useAdminSetVideoLink() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { videoId: string; youtubeId: string | null }) => api().adminSetVideoLink(v.videoId, v.youtubeId),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: qk.videoLinks });
+      void qc.invalidateQueries({ queryKey: qk.admin });
     },
   });
 }

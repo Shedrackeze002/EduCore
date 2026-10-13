@@ -181,6 +181,15 @@ with the script, `src/video/words.ts`) and the video's length, chapters and ques
 `src/content/videos.json`. The video tools live in their own package (`video/package.json`) so
 the app's install stays small. See `video/README.md`.
 
+Videos are hosted on EduCore's YouTube channel. After uploading one, an administrator pastes its
+link on the admin **Videos** page (`video_links`, written only by the audited
+`admin_set_video_link`). A lesson then shows its videos above the lesson (one tab per part), in
+YouTube's player loaded through the IFrame API (`src/features/lessons/ExplainerVideos.tsx`). The
+player watches the playing time and, when the video reaches a "Your turn" cue from the manifest
+during normal playback (`crossedCue`, so jumping past a question does not stop it), pauses and
+asks the question below the video; the student answers or skips, sees the working, and the video
+carries on.
+
 ## Security model (Supabase)
 
 - **Row-level security on every table.** Teachers see only their own classes and the students

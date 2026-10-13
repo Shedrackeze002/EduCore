@@ -9,6 +9,7 @@ import { ClassBoards } from '@/features/whiteboard/BoardView.tsx';
 import { Markdown } from '@/components/math/Markdown.tsx';
 import { PageSpinner } from '@/components/ui/index.ts';
 import { BlockView, VideoEmbed } from './LessonBlocks.tsx';
+import { ExplainerVideos } from './ExplainerVideos.tsx';
 import type { SectionSource } from './SuggestEdit.tsx';
 import { cn } from '@/lib/cn.ts';
 
@@ -172,6 +173,7 @@ export function LessonView({
       <LessonHeader lessonId={lessonId} actions={headerActions} />
       <div className="grid gap-8 xl:grid-cols-[1fr_240px]">
         <article className="min-w-0 space-y-8">
+          <ExplainerVideos lessonId={lessonId} />
           {content.intro.length > 0 && (
             <div className="space-y-4 text-[17px]">
               {content.intro.map((b, i) => (

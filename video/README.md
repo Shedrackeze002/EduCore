@@ -68,4 +68,5 @@ See `src/video/script.ts` for every element and option. In short:
 1. Upload `<id>.mp4` to the EduCore channel.
 2. Copy the title, description and tags from `youtube.txt`.
 3. Set `thumbnail.png` as the thumbnail and upload `captions.srt` as English captions.
-4. Record the video's YouTube link in EduCore, so lessons can show it.
+4. In EduCore, open **Admin console → Videos** and paste the video's YouTube link. Its lesson
+   then shows the video and pauses at each "Your turn" to ask the question.

@@ -14,6 +14,7 @@ test('the administrator opens every admin page from the account menu', async ({ 
     ['/admin/classes', 'Classes'],
     ['/admin/settings', 'Platform settings'],
     ['/admin/audit', 'Audit log'],
+    ['/admin/videos', 'Explainer videos'],
   ];
   for (const [path, heading] of pages) {
     await page.goto(path);
