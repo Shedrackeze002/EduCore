@@ -6,6 +6,8 @@
   request a review. Fix every valid finding, reply on each thread naming the fixing commit, and
   resolve it; explain in the thread when a finding is not worth changing.
 - Merge only when CI is green on the latest commit and the review findings are handled.
+- The owner has authorized merging every PR without asking: once CI is green and any review
+  findings are handled, merge (squash). Do not wait for a Copilot review that has not arrived.
 - Check `git status` before committing; never commit build output (`dist/`, `*.tsbuildinfo`).
 
 ## Backups
