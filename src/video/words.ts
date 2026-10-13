@@ -29,6 +29,8 @@ const PARTS: Record<string, number> = { half: 2, halves: 2, third: 3, thirds: 3,
 const SAME: Record<string, string> = {
   sign: 'sine', signs: 'sines', cosign: 'cosine', centimeters: 'centimetres', centimeter: 'centimetre', meters: 'metres', meter: 'metre',
   kilometers: 'kilometres', cm: 'centimetres', m: 'metres', km: 'kilometres', degree: 'degrees', '°': 'degrees', okay: 'ok', percent: '%',
+  // SOH CAH TOA as Whisper writes the spoken words.
+  soh: 'so', cah: 'ka', kah: 'ka', katoa: 'ka toa', sohcahtoa: 'so ka toa',
 };
 
 /** Lower case, no punctuation, numbers as digits, single letters joined ("a c" → "ac"). */
@@ -42,7 +44,7 @@ export function normalise(text: string): string[] {
     .replace(/\.(?!\d)/g, ' ')
     .split(/\s+/)
     .filter(Boolean)
-    .map((w) => SAME[w] ?? w);
+    .flatMap((w) => (SAME[w] ?? w).split(' '));
   const out: string[] = [];
   let num: number | null = null;
   const flush = () => {
