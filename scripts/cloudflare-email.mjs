@@ -1,14 +1,16 @@
 // Email at gradileo.com through Cloudflare Email Routing: mail sent to admin@gradileo.com is
 // forwarded to the owner's inbox. Run by .github/workflows/email.yml (see docs/SETUP.md, "Email at
-// your domain"). Running it again only adds what is missing and says whether the inbox is verified.
+// your domain"). Running it again only adds what is missing. Cloudflare forwards only to an inbox
+// whose owner has clicked its verification link, so a run waits for that click before it creates
+// the addresses.
 //
 // Environment (repository secrets):
 //   CLOUDFLARE_EMAIL_TOKEN  Account: Email Routing Addresses: Edit; Zone: Email Routing Rules: Edit
 //                           and Zone Settings: Edit
 //   CLOUDFLARE_API_TOKEN    the deploy token, used only to find the domain's zone (Zone: Read)
-//   CLOUDFLARE_ACCOUNT_ID   the Cloudflare account (defaults to the zone's account)
 //   EMAIL_FORWARD_TO        the inbox to forward to. The repository is public, so this stays in a
 //                           secret and is never printed.
+//   VERIFY_WAIT_MINUTES     how long to wait for the verification click (default 15)
 const DOMAIN = 'gradileo.com';
 // The addresses at the domain that forward to the inbox; add 'hello', 'support', … here.
 const ADDRESSES = ['admin'];
@@ -17,10 +19,12 @@ const API = 'https://api.cloudflare.com/client/v4';
 const SETTINGS = 'Zone Settings: Edit';
 const INBOXES = 'Email Routing Addresses: Edit';
 const RULES = 'Email Routing Rules: Edit';
+const POLL_SECONDS = 15;
 
 const env = process.env;
 const token = env.CLOUDFLARE_EMAIL_TOKEN;
 const inboxEmail = env.EMAIL_FORWARD_TO?.trim();
+const waitMinutes = Number(env.VERIFY_WAIT_MINUTES ?? 15);
 
 const hide = (text) =>
   inboxEmail
@@ -45,9 +49,25 @@ async function cf(method, path, { body, auth = token, permission } = {}) {
   if (res.ok && data.success) return data.result;
   const why = (data.errors ?? []).map((e) => `${e.code} ${e.message}`).join('; ') || res.statusText;
   const refused = (res.status === 401 || res.status === 403) && permission;
-  throw new Error(
+  const error = new Error(
     `${method} ${path}: ${res.status} ${why}.${refused ? ` The token needs ${permission}.` : ''}`,
   );
+  error.refused = refused;
+  throw error;
+}
+
+// What kind of token the email token is, to say how to fix a refusal (no ID is printed).
+async function tokenKind(account) {
+  const kinds = [
+    ['an account API token', `/accounts/${account}/tokens/verify`],
+    ['a user API token', '/user/tokens/verify'],
+  ];
+  for (const [kind, path] of kinds) {
+    const found = await cf('GET', path).catch(() => null);
+    const expires = found?.expires_on ? ` (expires ${found.expires_on.slice(0, 10)})` : '';
+    if (found) return { text: kind + expires, account: path.startsWith('/accounts') };
+  }
+  return { text: 'a token Cloudflare does not recognise', account: false };
 }
 
 const sameAddress = (a, b) => a.toLowerCase() === b.toLowerCase();
@@ -59,7 +79,7 @@ try {
     permission: 'Zone: Read',
   });
   if (!zone) throw new Error(`The token cannot see a Cloudflare zone named ${DOMAIN}.`);
-  const account = env.CLOUDFLARE_ACCOUNT_ID || zone.account.id;
+  const account = zone.account.id;
   const routing = `/zones/${zone.id}/email/routing`;
 
   // 2. Turn on Email Routing, which adds and locks the MX and SPF records it needs. (The body names
@@ -72,14 +92,42 @@ try {
   }
   console.log(`Email Routing is ${settings.enabled ? 'on' : 'off'} (status: ${settings.status}).`);
 
-  // 3. The inbox. Cloudflare forwards only to an inbox whose owner has clicked its verification link.
+  // 3. The inbox, an account-level destination address.
   const addresses = `/accounts/${account}/email/routing/addresses`;
-  const known = await cf('GET', `${addresses}?per_page=50`, { permission: INBOXES });
-  let inbox = known.find((a) => sameAddress(a.email, inboxEmail));
-  if (!inbox) {
-    inbox = await cf('POST', addresses, { body: { email: inboxEmail }, permission: INBOXES });
-    console.log('Added the inbox; Cloudflare has emailed it a verification link.');
+  let inbox;
+  try {
+    const known = await cf('GET', `${addresses}?per_page=50`, { permission: INBOXES });
+    inbox = known.find((a) => sameAddress(a.email, inboxEmail));
+    if (!inbox) {
+      inbox = await cf('POST', addresses, { body: { email: inboxEmail }, permission: INBOXES });
+      console.log('Added the inbox; Cloudflare has emailed it a verification link.');
+    }
+  } catch (error) {
+    if (!error.refused) throw error;
+    const kind = await tokenKind(account);
+    error.message += ` The email token is ${kind.text}. Give it Account → ${INBOXES}, with the account that owns ${DOMAIN} under Account Resources.`;
+    if (kind.account)
+      error.message +=
+        " If it already has that, Cloudflare's account tokens cannot use this part of Email Routing: create" +
+        ' the same token under My Profile → API Tokens (a user token) and put it in the CLOUDFLARE_EMAIL_TOKEN secret.';
+    throw error;
   }
+
+  // Forwarding needs a verified inbox, so wait for the link in Cloudflare's email to be clicked.
+  if (!inbox.verified && waitMinutes > 0) {
+    console.log(`Waiting up to ${waitMinutes} minutes for the link in Cloudflare's email to be clicked…`);
+    const deadline = Date.now() + waitMinutes * 60_000;
+    while (!inbox.verified && Date.now() < deadline) {
+      await new Promise((resolve) => setTimeout(resolve, POLL_SECONDS * 1000));
+      inbox = await cf('GET', `${addresses}/${inbox.id}`, { permission: INBOXES });
+    }
+  }
+  if (!inbox.verified)
+    throw new Error(
+      "The inbox is not verified yet: click the link in Cloudflare's email (resend it from Email " +
+        'Routing → Destination addresses), then run this workflow again.',
+    );
+  console.log('The inbox is verified.');
 
   // 4. A rule for each address, forwarding it to the inbox.
   const rules = await cf('GET', `${routing}/rules?per_page=50`, { permission: RULES });
@@ -102,30 +150,17 @@ try {
       forward?.type === 'forward' &&
       forward.value?.length === 1 &&
       sameAddress(forward.value[0], inbox.email);
-    try {
-      if (upToDate) console.log(`${address} already forwards to the inbox.`);
-      else if (current) {
-        await cf('PUT', `${routing}/rules/${current.id}`, { body: rule, permission: RULES });
-        console.log(`Updated ${address} to forward to the inbox.`);
-      } else {
-        await cf('POST', `${routing}/rules`, { body: rule, permission: RULES });
-        console.log(`Created ${address}, forwarding to the inbox.`);
-      }
-    } catch (error) {
-      if (!inbox.verified)
-        error.message += ' If Cloudflare needs the inbox verified first, click its link and run this again.';
-      throw error;
+    if (upToDate) console.log(`${address} already forwards to the inbox.`);
+    else if (current) {
+      await cf('PUT', `${routing}/rules/${current.id}`, { body: rule, permission: RULES });
+      console.log(`Updated ${address} to forward to the inbox.`);
+    } else {
+      await cf('POST', `${routing}/rules`, { body: rule, permission: RULES });
+      console.log(`Created ${address}, forwarding to the inbox.`);
     }
   }
 
-  if (inbox.verified)
-    console.log(`Done: mail to ${ADDRESSES.map((a) => `${a}@${DOMAIN}`).join(', ')} reaches the inbox.`);
-  else
-    console.log(
-      '::warning::The inbox is not verified yet, so nothing is forwarded until its owner clicks the link ' +
-        "in Cloudflare's verification email (resend it from Email Routing → Destination addresses). " +
-        'Then run this again to check.',
-    );
+  console.log(`Done: mail to ${ADDRESSES.map((a) => `${a}@${DOMAIN}`).join(', ')} reaches the inbox.`);
 } catch (error) {
   fail(error.message);
 }

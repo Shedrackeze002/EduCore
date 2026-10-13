@@ -215,8 +215,11 @@ an inbox you already have, free. It only receives mail; sending from the address
 service such as Resend (2.6). The *Set up email* workflow (`scripts/cloudflare-email.mjs`) turns
 it on through Cloudflare's API.
 
-1. Create a second Cloudflare API token (custom token) with these permissions, limited to your
-   account and the domain's zone, and an expiry a day or two away since it is used once:
+1. Create a second Cloudflare API token, as a user token (**My Profile → API Tokens → Create
+   Token**, custom token): Cloudflare does not list Email Routing among the products its account
+   API tokens support, and an account token was refused when adding the inbox. Give it these
+   permissions, limited to your account and the domain's zone, and an expiry a day or two away
+   since it is used once:
    - Account: **Email Routing Addresses: Edit**
    - Zone: **Email Routing Rules: Edit** and **Zone Settings: Edit** (this turns on Email Routing
      and adds its MX and SPF records)
@@ -226,8 +229,9 @@ it on through Cloudflare's API.
 3. Run **Actions → Set up email → Run workflow** (it also runs by itself when a change to the
    script reaches `main`). It turns on Email Routing, adds the inbox and forwards each address in
    the script's `ADDRESSES` list to it.
-4. Cloudflare emails the inbox a verification link; nothing is forwarded until it is clicked.
-   Run the workflow again to check that it says **Done**, then send a test message to the address.
+4. Cloudflare emails the inbox a verification link, and forwarding needs it clicked. The run
+   waits up to 15 minutes for the click, then creates the addresses and says **Done** (if it
+   times out, click the link and run the workflow again). Send a test message to the address.
 
 To add another address such as hello@, add it to `ADDRESSES`; the workflow runs once the change
 is merged.
