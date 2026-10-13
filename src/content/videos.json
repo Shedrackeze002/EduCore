@@ -1297,5 +1297,111 @@
         "working": "$84 = 2 \\times 42 = 2 \\times 2 \\times 21 = 2^2 \\times 3 \\times 7$."
       }
     ]
+  },
+  "m10c-3-1-b": {
+    "lessonId": "m10c-3-1",
+    "title": "Prime Factors, GCF and LCM, Part 2: GCF and LCM",
+    "duration": 247,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Greatest common factor",
+        "t": 16.323
+      },
+      {
+        "title": "Least common multiple",
+        "t": 66.139
+      },
+      {
+        "title": "GCF or LCM?",
+        "t": 93.676
+      },
+      {
+        "title": "The largest tile",
+        "t": 120.134
+      },
+      {
+        "title": "Flashing together",
+        "t": 154.712
+      },
+      {
+        "title": "Your turn",
+        "t": 187.683
+      },
+      {
+        "title": "Summary",
+        "t": 224.674
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-1-b:q",
+        "t": 200.153,
+        "prompt": "Hot dogs come in packs of $10$ and buns in packs of $8$. What is the smallest number of each you can buy to have the same number of hot dogs and buns?",
+        "choices": [
+          "$40$",
+          "$80$",
+          "$2$",
+          "$18$"
+        ],
+        "answer": 0,
+        "working": "$10 = 2 \\times 5$ and $8 = 2^3$, so $\\text{LCM} = 2^3 \\times 5 = 40$: four packs of hot dogs and five packs of buns."
+      }
+    ]
+  },
+  "m10c-3-2": {
+    "lessonId": "m10c-3-2",
+    "title": "Squares, Cubes and Their Roots, Part 1: Perfect Squares and Perfect Cubes",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Perfect squares",
+        "t": 20.9
+      },
+      {
+        "title": "Perfect cubes",
+        "t": 38.749
+      },
+      {
+        "title": "Look at the exponents",
+        "t": 53.986
+      },
+      {
+        "title": "Square, cube, both or neither?",
+        "t": 88.567
+      },
+      {
+        "title": "Your turn",
+        "t": 138.607
+      },
+      {
+        "title": "Summary",
+        "t": 163.571
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-2:q",
+        "t": 143.548,
+        "prompt": "Which of these is a perfect cube?",
+        "choices": [
+          "$2^3 \\times 5^3$",
+          "$2^2 \\times 5^2$",
+          "$2^3 \\times 5^2$",
+          "$2^6 \\times 5$"
+        ],
+        "answer": 0,
+        "working": "Every exponent in $2^3 \\times 5^3$ is divisible by 3: it is $(2 \\times 5)^3 = 10^3 = 1000$."
+      }
+    ]
   }
 }
