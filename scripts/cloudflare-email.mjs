@@ -56,7 +56,7 @@ async function cf(method, path, { body, auth = token, permission } = {}) {
   throw error;
 }
 
-// What kind of token the email token is, to say how to fix a refusal (no ID is printed).
+// What kind of token the email token is, to help fix a refusal (no ID is printed).
 async function tokenKind(account) {
   const kinds = [
     ['an account API token', `/accounts/${account}/tokens/verify`],
@@ -64,10 +64,9 @@ async function tokenKind(account) {
   ];
   for (const [kind, path] of kinds) {
     const found = await cf('GET', path).catch(() => null);
-    const expires = found?.expires_on ? ` (expires ${found.expires_on.slice(0, 10)})` : '';
-    if (found) return { text: kind + expires, account: path.startsWith('/accounts') };
+    if (found) return kind + (found.expires_on ? ` (expires ${found.expires_on.slice(0, 10)})` : '');
   }
-  return { text: 'a token Cloudflare does not recognise', account: false };
+  return 'a token Cloudflare does not recognise';
 }
 
 const sameAddress = (a, b) => a.toLowerCase() === b.toLowerCase();
@@ -105,11 +104,7 @@ try {
   } catch (error) {
     if (!error.refused) throw error;
     const kind = await tokenKind(account);
-    error.message += ` The email token is ${kind.text}. Give it Account → ${INBOXES}, with the account that owns ${DOMAIN} under Account Resources.`;
-    if (kind.account)
-      error.message +=
-        " If it already has that, Cloudflare's account tokens cannot use this part of Email Routing: create" +
-        ' the same token under My Profile → API Tokens (a user token) and put it in the CLOUDFLARE_EMAIL_TOKEN secret.';
+    error.message += ` The email token is ${kind}. Give it Account → ${INBOXES}, with the account that owns ${DOMAIN} under Account Resources.`;
     throw error;
   }
 

@@ -127,10 +127,11 @@ items ship or decisions change.
   3. Last, the owner renames the GitHub repository to Gradileo (GitHub Pages does not redirect
      the old project address, so this waits until gradileo.com is the main address), and the
      repository path in the code follows.
-- Email: built, the *Set up email* workflow forwards admin@gradileo.com to the owner's inbox with
-  Cloudflare Email Routing (docs/SETUP.md 3.3); the owner added the token and inbox as secrets
-  and clicks Cloudflare's verification link. Next: send from gradileo.com through Resend, which
-  also lets reminders come from an address at gradileo.com (and Gmail's "Send mail as").
+- Email: done. admin@gradileo.com forwards to the owner's inbox through Cloudflare Email Routing,
+  set up by the *Set up email* workflow (docs/SETUP.md 3.3; gradileo.com's MX and SPF records
+  point to Cloudflare). More addresses are a line in `scripts/cloudflare-email.mjs`. Next: send
+  from gradileo.com through Resend, which also lets reminders come from an address at
+  gradileo.com (and Gmail's "Send mail as").
 - Before investing further in the brand, check the Canadian (CIPO) and US (USPTO) trademark
   databases for "Gradileo" in classes 9, 41 and 42.
 
