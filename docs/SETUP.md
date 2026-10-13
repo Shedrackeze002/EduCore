@@ -12,8 +12,11 @@ Gradileo runs in three stages. You can stop at any stage and come back later.
 
 1. Push this repository to GitHub and merge into `main`.
 2. In the repository, open **Settings → Pages** and set **Source** to **GitHub Actions**.
-3. The **Deploy to GitHub Pages** workflow builds and publishes the site to
-   `https://<your-username>.github.io/EduCore/`.
+3. In `.github/workflows/deploy.yml`, delete the `MOVED_TO` line. Gradileo's own repository uses it
+   to redirect its old github.io address to gradileo.com; without it, the workflow publishes the
+   app to GitHub Pages instead.
+4. The **Deploy to GitHub Pages and Cloudflare** workflow builds and publishes the site to
+   `https://<your-username>.github.io/<repository>/`.
 
 The demo shows a sample Math 10C class with 16 students. Changes are stored only in that browser,
 and visitors can reset them from the account menu.
@@ -182,7 +185,9 @@ bandwidth limit and creates the domain's DNS records and certificates itself.
    `CLOUDFLARE_ACCOUNT_ID` (shown on the domain's overview page in Cloudflare, and in the
    dashboard's address).
 4. Merge or re-run the deploy. The *cloudflare* job builds the app for the root of the domain and
-   runs `wrangler deploy`; the site then appears at the domain.
+   runs `wrangler deploy`; the site then appears at the domain. To send visitors from a GitHub
+   Pages address to the domain, set `MOVED_TO` in the workflow to the domain
+   (`scripts/pages-redirect.mjs` keeps the page they asked for).
 5. In Supabase, add the domain to **Authentication → URL Configuration → Redirect URLs**
    (`https://<domain>/**`), and once the site works there, make it the **Site URL**. Set `APP_URL`
    (and `ALLOWED_ORIGINS`, if you restrict it) to the new address.

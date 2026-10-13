@@ -119,9 +119,11 @@ items ship or decisions change.
      the built app, `wrangler.jsonc`, at gradileo.com and www.gradileo.com), while GitHub Pages
      keeps serving the site as before. The owner bought the domain and added the secrets
      `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
-  2. Next, once gradileo.com works: make it the Supabase Site URL and set `APP_URL`, point the
-     video build's site link at it, turn the github.io site into a redirect to gradileo.com, and
-     restrict `ALLOWED_ORIGINS` (it is open today) to gradileo.com.
+  2. Built: gradileo.com is live (checked: the landing and sign-in pages, www, deep links and
+     assets). GitHub Pages now serves a redirect from the old address to the same page on
+     gradileo.com, keeping the path, query and sign-in tokens, and the video build links to
+     gradileo.com. The owner makes gradileo.com the Supabase Site URL; `APP_URL` is set to it, and
+     `ALLOWED_ORIGINS` (open today) is restricted to gradileo.com and www.gradileo.com.
   3. Last, the owner renames the GitHub repository to Gradileo (GitHub Pages does not redirect
      the old project address, so this waits until gradileo.com is the main address), and the
      repository path in the code follows.

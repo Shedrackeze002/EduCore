@@ -36,8 +36,10 @@ student demo in a second tab to watch notifications and submissions arrive live.
 
 ## Going live
 
-1. **GitHub Pages (demo):** push to `main` and set *Settings → Pages → Source* to *GitHub Actions*.
-   The site appears at `https://<you>.github.io/EduCore/`.
+1. **Gradileo** runs at [gradileo.com](https://gradileo.com) on Cloudflare, deployed by GitHub
+   Actions after the tests pass; its old github.io address redirects there. A copy of this
+   repository can run on GitHub Pages instead: push to `main`, set *Settings → Pages → Source* to
+   *GitHub Actions*, and remove `MOVED_TO` from the deploy workflow.
 2. **Real accounts:** create a free Supabase project, push the database and functions, and add
    two repository variables. Follow [docs/SETUP.md](docs/SETUP.md).
 3. **Your own domain:** Gradileo runs on Cloudflare at gradileo.com; add two repository secrets
@@ -61,7 +63,7 @@ student demo in a second tab to watch notifications and submissions arrive live.
 | `npm run test:e2e` | Browser tests of the teacher → student → teacher loop, every page, and phone layouts. |
 | `npm run test:db` | Database policy and reminder tests on any PostgreSQL 15+ server (`PGHOST`, `PGUSER`, …). |
 | `npm run functions:check` | Type-check the Supabase Edge Functions with Deno. |
-| `npm run build` | Production build for GitHub Pages. |
+| `npm run build` | Production build (Cloudflare or GitHub Pages). |
 | `npm run db:push` / `npm run functions:deploy` | Deploy the backend with the Supabase CLI. |
 
 ## Project layout

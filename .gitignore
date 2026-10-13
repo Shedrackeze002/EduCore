@@ -19,5 +19,6 @@ scripts/.tmp/
 video/out/
 video/.cache/
 
-# Cloudflare Wrangler state
+# Cloudflare Wrangler state, and the GitHub Pages redirect (scripts/pages-redirect.mjs)
 .wrangler/
+pages-redirect/

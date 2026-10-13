@@ -34,7 +34,7 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'video/out');
 const CACHE = path.join(ROOT, 'video/.cache');
 const MANIFEST = path.join(ROOT, 'src/content/videos.json');
-const SITE = 'https://shedrackeze002.github.io/EduCore/';
+const SITE = 'https://gradileo.com/';
 
 const args = process.argv.slice(2);
 const flag = (name: string) => args.includes(`--${name}`);
