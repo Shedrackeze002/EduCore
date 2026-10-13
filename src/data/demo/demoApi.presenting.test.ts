@@ -74,3 +74,47 @@ describe('demo presenting', () => {
     await expect(api.saveBoard({ classId, lessonId: 'm10c-1-1', title: 'Huge', pages: [huge] })).rejects.toThrow(/too large/);
   });
 });
+
+describe('demo live class questions', () => {
+  let api: Awaited<ReturnType<typeof freshApi>>;
+  let classId: string;
+  beforeEach(async () => {
+    api = await freshApi();
+    await api.signIn(DEMO_TEACHER_EMAIL, DEMO_PASSWORD);
+    classId = (await api.listMyClasses())[0].id;
+  });
+
+  it('runs a question from the teacher to the students and back', async () => {
+    let changes = 0;
+    const stop = api.subscribeLive(classId, () => changes++);
+    const q = await api.openLiveQuestion({ classId, lessonId: 'm10c-2-1', skillId: 'm4-label-sides', difficulty: 1, seed: 1234 });
+    expect(q.status).toBe('open');
+    expect(changes).toBe(1);
+    // Asking again closes the previous question: one open question per class.
+    const q2 = await api.openLiveQuestion({ classId, lessonId: 'm10c-2-1', skillId: 'm4-label-sides', difficulty: 2, seed: 99 });
+    expect((await api.currentLiveQuestion(classId))?.id).toBe(q2.id);
+
+    await api.signOut();
+    await api.signIn(DEMO_STUDENT_EMAIL, DEMO_PASSWORD);
+    expect((await api.currentLiveQuestion(classId))?.id).toBe(q2.id);
+    await expect(api.submitLiveAnswer(q.id, ['a'])).rejects.toThrow(/closed/);
+    await api.submitLiveAnswer(q2.id, ['a']);
+    await api.submitLiveAnswer(q2.id, ['b']);
+    const mine = await api.listLiveAnswers(q2.id);
+    expect(mine.map((a) => a.responses)).toEqual([['b']]);
+    await expect(api.openLiveQuestion({ classId, lessonId: null, skillId: 'm4-label-sides', difficulty: 1, seed: 1 })).rejects.toThrow();
+    await expect(api.closeLiveQuestion(q2.id)).rejects.toThrow();
+
+    await api.signOut();
+    await api.signIn(DEMO_TEACHER_EMAIL, DEMO_PASSWORD);
+    const added = await api.simulateLiveAnswers(q2.id);
+    expect(added).toBeGreaterThan(5);
+    const all = await api.listLiveAnswers(q2.id);
+    expect(all.length).toBe(added + 1);
+    expect(new Set(all.map((a) => a.studentId)).size).toBe(all.length);
+    await api.closeLiveQuestion(q2.id);
+    expect((await api.currentLiveQuestion(classId))?.status).toBe('closed');
+    expect(await api.simulateLiveAnswers(q2.id)).toBe(0);
+    stop();
+  });
+});

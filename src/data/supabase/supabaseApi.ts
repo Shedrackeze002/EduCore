@@ -25,6 +25,8 @@ import type {
   Board,
   BoardInput,
   LessonPrefs,
+  LiveAnswer,
+  LiveQuestion,
   Submission,
 } from '../types.ts';
 import {
@@ -43,6 +45,8 @@ import {
   toPublication,
   toResource,
   toBoard,
+  toLiveAnswer,
+  toLiveQuestion,
   toSubmission,
 } from './mappers.ts';
 import { STUDENT_EMAIL_DOMAIN } from '@/config.ts';
@@ -351,6 +355,62 @@ export class SupabaseApi implements DataApi {
   async deleteBoard(id: string) {
     const { error } = await this.client.from('boards').delete().eq('id', id);
     fail(error);
+  }
+
+  // ------------------------------------------------------------------ live class questions
+
+  async openLiveQuestion(input: { classId: string; lessonId: string | null; skillId: string; difficulty: 1 | 2 | 3; seed: number }): Promise<LiveQuestion> {
+    // One open question per class (a unique index enforces it): close the previous one first.
+    const closed = await this.client.from('live_questions').update({ status: 'closed', closed_at: new Date().toISOString() }).eq('class_id', input.classId).eq('status', 'open');
+    fail(closed.error);
+    const { data, error } = await this.client
+      .from('live_questions')
+      .insert({ class_id: input.classId, lesson_id: input.lessonId, skill_id: input.skillId, difficulty: input.difficulty, seed: input.seed })
+      .select()
+      .single();
+    fail(error);
+    return toLiveQuestion(data);
+  }
+
+  async closeLiveQuestion(id: string) {
+    const { error } = await this.client.from('live_questions').update({ status: 'closed', closed_at: new Date().toISOString() }).eq('id', id);
+    fail(error);
+  }
+
+  async currentLiveQuestion(classId: string): Promise<LiveQuestion | null> {
+    const since = new Date(Date.now() - 3 * 3600_000).toISOString();
+    const { data, error } = await this.client.from('live_questions').select('*').eq('class_id', classId).gte('created_at', since).order('created_at', { ascending: false }).limit(1).maybeSingle();
+    fail(error);
+    return data ? toLiveQuestion(data) : null;
+  }
+
+  async listLiveAnswers(questionId: string): Promise<LiveAnswer[]> {
+    // Row-level security returns every answer to the teacher and only their own to a student.
+    const { data, error } = await this.client.from('live_answers').select('*').eq('question_id', questionId);
+    fail(error);
+    return (data ?? []).map(toLiveAnswer);
+  }
+
+  async submitLiveAnswer(questionId: string, responses: string[]) {
+    const me = await this.uid();
+    const { data: q, error: qe } = await this.client.from('live_questions').select('class_id').eq('id', questionId).maybeSingle();
+    fail(qe);
+    if (!q) throw new Error('This question is not for your class.');
+    const { error } = await this.client
+      .from('live_answers')
+      .upsert({ question_id: questionId, class_id: q.class_id, student_id: me, responses: responses.slice(0, 20).map((r) => String(r ?? '').slice(0, 400)), answered_at: new Date().toISOString() });
+    if (error) throw new Error(/row-level security/i.test(error.message) ? 'Your teacher has closed this question.' : error.message);
+  }
+
+  subscribeLive(classId: string, cb: () => void) {
+    const channel = this.client
+      .channel(`live:${classId}:${Math.random().toString(36).slice(2)}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_questions', filter: `class_id=eq.${classId}` }, () => cb())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_answers', filter: `class_id=eq.${classId}` }, () => cb())
+      .subscribe();
+    return () => {
+      void this.client.removeChannel(channel);
+    };
   }
 
   // ------------------------------------------------------------------ assignments

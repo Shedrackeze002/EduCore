@@ -43,6 +43,7 @@ test('every student page loads without errors', async ({ page }) => {
     ['/s/learn/m10c-1-1', 'Referents, Estimation and Units'],
     ['/s/work', /Classwork|Work/],
     ['/s/progress', 'My progress'],
+    ['/s/live', 'Class question'],
   ] as const) {
     await page.goto(path);
     await expect(page.getByRole('heading', { name: heading }).first()).toBeVisible();
@@ -219,4 +220,36 @@ test('a teacher presents a lesson as slides that build step by step, with a whit
   await page.getByRole('button', { name: 'Exit presentation' }).click();
   await expect(page.getByText('Saved whiteboards')).toBeVisible();
   expect(errors).toEqual([]);
+});
+
+test('the teacher asks the class a live question and students answer on their own devices', async ({ context }) => {
+  // Two tabs share the demo's storage but each signs in on its own, like two devices.
+  const teacher = await context.newPage();
+  const student = await context.newPage();
+  const teacherErrors = trackErrors(teacher);
+  const studentErrors = trackErrors(student);
+  await signInDemo(teacher, 'Teacher');
+  await teacher.goto('/present/c_math10a/m10c-2-1');
+  await expect(teacher.locator('[aria-roledescription="slide"]')).toHaveAttribute('aria-label', /^Slide 1 of/);
+  await teacher.keyboard.press('o');
+  await teacher.getByRole('dialog', { name: 'All slides' }).getByRole('button', { name: /Your turn/ }).first().click();
+  await teacher.getByRole('button', { name: 'Ask the class on their devices' }).click();
+  await expect(teacher.getByText('Live · 0 answered')).toBeVisible();
+
+  await signInDemo(student, 'Student');
+  await student.getByRole('link', { name: /Answer now/ }).click();
+  await expect(student.getByRole('heading', { name: 'Class question' })).toBeVisible();
+  await student.locator('[data-question] button').first().click();
+  await student.getByRole('button', { name: 'Send answer' }).click();
+  await expect(student.getByText(/Answer sent/).first()).toBeVisible();
+
+  await expect(teacher.getByText('Live · 1 answered')).toBeVisible();
+  await teacher.getByRole('button', { name: /Add the sample class/ }).click();
+  await teacher.getByRole('button', { name: 'Stop and show results' }).click();
+  await expect(teacher.getByLabel('Answers by choice')).toBeVisible();
+  await expect(teacher.getByText(/correct ·/)).toBeVisible();
+
+  await expect(student.getByText(/Correct — well done!|Not quite/)).toBeVisible();
+  await expect(student.getByText('Worked solution')).toBeVisible();
+  expect([...teacherErrors, ...studentErrors]).toEqual([]);
 });

@@ -12,8 +12,10 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, typ
 import { useNavigate, useParams } from 'react-router-dom';
 import { BookOpen, ChevronLeft, ChevronRight, EyeOff, LayoutGrid, Maximize2, Minimize2, MonitorOff, PenLine, Settings2, Shuffle, SquarePen, Timer, X } from 'lucide-react';
 import { lessonById, unitById } from '@engine/curriculum/index.ts';
-import { Button, Menu, PageSpinner, Switch } from '@/components/ui/index.ts';
-import { useBoards, useLessonPrefs, useResources, useRoster, useSaveBoard, useSetHiddenBlocks } from '@/data/hooks.ts';
+import { Button, Menu, PageSpinner, Switch, useToast } from '@/components/ui/index.ts';
+import { useBoards, useCloseLiveQuestion, useLessonPrefs, useLiveAnswers, useLiveQuestion, useOpenLiveQuestion, useResources, useRoster, useSaveBoard, useSetHiddenBlocks } from '@/data/hooks.ts';
+import { freshSeed } from '@engine/rng.ts';
+import { LivePanel } from '@/features/live/LivePanel.tsx';
 import { inkCommit, inkDoc, inkRedo, inkUndo, type InkDoc } from '@/lib/ink.ts';
 import { getItem, setItem } from '@/lib/storage.ts';
 import { cn } from '@/lib/cn.ts';
@@ -22,7 +24,7 @@ import { InkToolbar, useInkTools } from '@/features/whiteboard/InkToolbar.tsx';
 import { Whiteboard } from '@/features/whiteboard/Whiteboard.tsx';
 import { useLessonContent } from './LessonView.tsx';
 import { PresentTimer } from './PresentTimer.tsx';
-import { buildSlides, fixedSlide, lastStep, presentedSlides, revealAt, type Slide } from './slides.ts';
+import { buildSlides, fixedSlide, lastStep, presentedSlides, revealAt, type Slide, type SlideItem } from './slides.ts';
 import { SlideView, type DeckLesson } from './deck/SlideView.tsx';
 import { SLIDE_H, SLIDE_W, useStageScale } from './deck/fit.tsx';
 import { Confetti } from './deck/Confetti.tsx';
@@ -122,6 +124,38 @@ export default function PresentMode() {
   const [blank, setBlank] = useState(false);
   const [confetti, setConfetti] = useState(0);
   const celebrate = useCallback(() => setConfetti((c) => c + 1), []);
+  const toast = useToast();
+
+  // Live class questions: one question at a time, shown on the slide it was asked from.
+  const live = useLiveQuestion(classId);
+  const openLive = useOpenLiveQuestion(classId);
+  const closeLive = useCloseLiveQuestion(classId);
+  const [liveSlot, setLiveSlot] = useState<{ key: string; slideId: string } | null>(null);
+  const liveOpen = live.data?.status === 'open' ? live.data : null;
+  const liveCount = useLiveAnswers(liveOpen?.id, true).data?.length ?? 0;
+  const ask = useCallback(
+    async (it: SlideItem, slideId: string) => {
+      if (it.block.type !== 'check') return;
+      try {
+        await openLive.mutateAsync({ lessonId, skillId: it.block.skillId, difficulty: it.block.difficulty, seed: freshSeed() });
+        setLiveSlot({ key: it.key, slideId });
+      } catch (e) {
+        toast({ kind: 'error', title: 'Could not send the question', body: (e as Error).message });
+      }
+    },
+    [openLive, lessonId, toast],
+  );
+  // After a reload, a question that is still open goes back on the slide it came from.
+  useEffect(() => {
+    if (liveSlot || !liveOpen) return;
+    for (const s of allSlides) {
+      const it = s.items.find((x) => x.block.type === 'check' && x.block.skillId === liveOpen.skillId && x.block.difficulty === liveOpen.difficulty);
+      if (it) {
+        setLiveSlot({ key: it.key, slideId: s.id });
+        return;
+      }
+    }
+  }, [liveSlot, liveOpen, allSlides]);
   const [notes, setNotes] = useState<Record<string, InkDoc>>({});
   const note = (slide && notes[slide.id]) || inkDoc();
   const editNote = useCallback((fn: (d: InkDoc) => InkDoc) => slide && setNotes((n) => ({ ...n, [slide.id]: fn(n[slide.id] ?? inkDoc()) })), [slide]);
@@ -262,6 +296,20 @@ export default function PresentMode() {
           <span className="hidden text-ink-3 md:inline"> · {meta.title}</span>
         </div>
         <div className="flex shrink-0 items-center gap-0.5">
+          {liveOpen && (
+            <button
+              type="button"
+              onClick={() => {
+                const k = liveSlot ? slides.findIndex((s) => s.id === liveSlot.slideId) : -1;
+                if (k >= 0) goTo(k, lastStep(slides[k]), k >= ix ? 1 : -1);
+              }}
+              className="mr-1 inline-flex h-9 items-center gap-2 rounded-lg bg-bad-soft px-3 text-sm font-semibold text-bad-ink"
+              title="A question is open on the students' devices"
+            >
+              <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-bad" />
+              Live · {liveCount} answered
+            </button>
+          )}
           <HeaderButton label="Slides" shortcut="O" icon={<LayoutGrid className="h-5 w-5" />} on={overview} onClick={() => setOverview(!overview)} />
           <HeaderButton label="Choose what to show" icon={<EyeOff className="h-5 w-5" />} on={editing} onClick={() => (setEditing(!editing), setDrawing(false))} />
           <HeaderButton label="Draw" shortcut="D" icon={<PenLine className="h-5 w-5" />} on={drawing} onClick={() => (setDrawing(!drawing), setEditing(false))} />
@@ -361,6 +409,31 @@ export default function PresentMode() {
                   onCheckResult={(correct) => correct && celebrate()}
                   endActions={endActions}
                   enterDelay={exiting ? 380 : 0}
+                  onAsk={(it) => void ask(it, slide.id)}
+                  live={
+                    liveSlot && live.data && liveSlot.slideId === slide.id
+                      ? {
+                          key: liveSlot.key,
+                          node: (
+                            <LivePanel
+                              question={live.data}
+                              classSize={roster.data?.length ?? 0}
+                              busy={openLive.isPending || closeLive.isPending}
+                              onShowResults={() => closeLive.mutate(live.data!.id)}
+                              onGreat={celebrate}
+                              onAskAgain={() => {
+                                const it = slide.items.find((x) => x.key === liveSlot.key);
+                                if (it) void ask(it, slide.id);
+                              }}
+                              onEnd={() => {
+                                if (live.data?.status === 'open') closeLive.mutate(live.data.id);
+                                setLiveSlot(null);
+                              }}
+                            />
+                          ),
+                        }
+                      : undefined
+                  }
                 />
               </Scaled>
             </div>

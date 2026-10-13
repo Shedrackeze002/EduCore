@@ -373,6 +373,55 @@ select _assert((select count(*) from lesson_prefs) = 0, 'other teachers see no p
 select _fails($$insert into boards (class_id, lesson_id, title) select class_id, 'm10c-1-1', 'Theirs' from ctx$$, 'other teachers cannot save boards to the class');
 reset role;
 
+-- ---------------------------------------------------------------- live class questions
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+insert into live_questions (class_id, lesson_id, skill_id, difficulty, seed) select class_id, 'm10c-1-1', 'm1-referents', 1, 42 from ctx;
+select _fails($$insert into live_questions (class_id, skill_id, difficulty, seed) select class_id, 'm1-referents', 1, 43 from ctx$$, 'only one open question per class');
+select _fails($$insert into live_questions (class_id, skill_id, difficulty, seed) select class_id, 'm1-referents', 4, 43 from ctx$$, 'difficulty is 1 to 3');
+reset role;
+create temp table lq as select id from live_questions limit 1;
+grant select on lq to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from live_questions) = 1, 'students see their class''s question');
+insert into live_answers (question_id, class_id, student_id, responses) select (select id from lq), class_id, '00000000-0000-0000-0000-0000000000b1', '["a"]' from ctx;
+update live_answers set responses = '["b"]', answered_at = now() where student_id = '00000000-0000-0000-0000-0000000000b1';
+select _assert((select responses ->> 0 from live_answers) = 'b', 'students change their answer while the question is open');
+select _fails($$insert into live_answers (question_id, class_id, student_id, responses) select (select id from lq), class_id, '00000000-0000-0000-0000-0000000000b2', '["a"]' from ctx$$, 'students cannot answer for someone else');
+select _fails($$insert into live_questions (class_id, skill_id, difficulty, seed) select class_id, 'm1-referents', 1, 7 from ctx$$, 'students cannot ask questions');
+-- Row-level security hides the question from a student's update, so nothing changes.
+update live_questions set status = 'closed';
+reset role;
+select _assert((select status from live_questions) = 'open', 'students cannot close questions');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b2","role":"authenticated"}', false);
+set role authenticated;
+insert into live_answers (question_id, class_id, student_id, responses) select (select id from lq), class_id, '00000000-0000-0000-0000-0000000000b2', '["c"]' from ctx;
+select _assert((select count(*) from live_answers) = 1, 'students see only their own answers');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from live_questions) = 0, 'other teachers see no live questions');
+select _assert((select count(*) from live_answers) = 0, 'other teachers see no live answers');
+select _fails($$insert into live_questions (class_id, skill_id, difficulty, seed) select class_id, 'm1-referents', 1, 9 from ctx$$, 'other teachers cannot ask the class');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from live_answers) = 2, 'the teacher sees every answer');
+update live_questions set status = 'closed', closed_at = now();
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$update live_answers set responses = '["a"]' where student_id = '00000000-0000-0000-0000-0000000000b1'$$, 'answers are locked once the question closes');
+select _fails($$insert into live_answers (question_id, class_id, student_id, responses) select (select id from lq), class_id, '00000000-0000-0000-0000-0000000000b9', '["a"]' from ctx$$, 'no new answers once the question closes');
+reset role;
+select _assert((select responses ->> 0 from live_answers where student_id = '00000000-0000-0000-0000-0000000000b1') = 'b', 'locked answer unchanged');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;

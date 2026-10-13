@@ -87,6 +87,16 @@ pen pressure sets the width, a stylus's eraser end erases, and palm rejection ig
 a pen is used, ignores broad contacts, and lets a pen replace a resting hand's stroke. Boards are
 saved to `boards` (teacher-only unless shared with the class).
 
+## Live class questions (`src/features/live/`)
+
+The teacher sends a "Your turn" question to the class (`live_questions`: skill, difficulty and
+seed, so every student gets the same question). Students answer on their own devices
+(`live_answers`, one row per student, changeable while the question is open). The teacher's
+screen regenerates the question and grades every answer with the engine (`results.ts`), so a
+student cannot claim a right answer by editing a request. Updates arrive through Supabase
+Realtime (in the demo, through `localStorage` events between tabs), with a slow poll as a
+fallback.
+
 ## Security model (Supabase)
 
 - **Row-level security on every table.** Teachers see only their own classes and the students
@@ -108,6 +118,9 @@ saved to `boards` (teacher-only unless shared with the class).
   Auth and rejected by every Edge Function.
 - **Presenting.** `lesson_prefs` (hidden slide parts) is visible to the class's teacher only;
   `boards` are visible to the teacher, and to enrolled students only when the teacher shares one.
+  Only the teacher opens and closes `live_questions` (at most one open per class); a student
+  writes only their own `live_answers`, only in their class and only while the question is open,
+  and reads only their own answers.
 - **Secrets** (MiniMax, Resend, cron secret) live in Edge Function secrets or Vault, never in the
   browser bundle.
 

@@ -19,6 +19,8 @@ import type {
   ClassSettings,
   Insight,
   LessonPrefs,
+  LiveAnswer,
+  LiveQuestion,
   NewStudentCredential,
   Profile,
   ProposedAction,
@@ -86,6 +88,19 @@ export interface DataApi {
   saveBoard(input: BoardInput): Promise<Board>;
   setBoardShared(id: string, shared: boolean): Promise<void>;
   deleteBoard(id: string): Promise<void>;
+
+  // Live class questions
+  /** Sends a question to the class; any question still open in the class is closed first. */
+  openLiveQuestion(input: { classId: string; lessonId: string | null; skillId: string; difficulty: 1 | 2 | 3; seed: number }): Promise<LiveQuestion>;
+  closeLiveQuestion(id: string): Promise<void>;
+  /** The class's most recent question from the last few hours, open or closed. */
+  currentLiveQuestion(classId: string): Promise<LiveQuestion | null>;
+  /** Teachers get every answer; students only their own. */
+  listLiveAnswers(questionId: string): Promise<LiveAnswer[]>;
+  /** A student's answer; it can be changed until the question closes. */
+  submitLiveAnswer(questionId: string, responses: string[]): Promise<void>;
+  /** Calls back when a live question or answer in the class changes. */
+  subscribeLive(classId: string, cb: () => void): () => void;
 
   // Assignments
   listAssignments(classId: string): Promise<Assignment[]>;

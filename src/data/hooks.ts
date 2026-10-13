@@ -1,4 +1,5 @@
 /** React Query hooks over the data API. Query keys are centralised in `qk`. */
+import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api } from './index.ts';
 import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
@@ -13,6 +14,8 @@ export const qk = {
   resources: (classId: string) => ['resources', classId] as const,
   lessonPrefs: (classId: string, lessonId: string) => ['lessonPrefs', classId, lessonId] as const,
   boards: (classId: string, lessonId: string) => ['boards', classId, lessonId] as const,
+  live: (classId: string) => ['live', classId] as const,
+  liveAnswers: (questionId: string) => ['liveAnswers', questionId] as const,
   assignments: (classId: string) => ['assignments', classId] as const,
   assignment: (id: string) => ['assignment', id] as const,
   submissions: (f: { classId?: string; assignmentId?: string; studentId?: string }) => ['submissions', f.classId ?? '', f.assignmentId ?? '', f.studentId ?? ''] as const,
@@ -128,6 +131,54 @@ export function useSetBoardShared(classId: string, lessonId: string) {
 export function useDeleteBoard(classId: string, lessonId: string) {
   const qc = useQueryClient();
   return useMutation({ mutationFn: (id: string) => api().deleteBoard(id), onSuccess: () => qc.invalidateQueries({ queryKey: qk.boards(classId, lessonId) }) });
+}
+
+// ------------------------------------------------------------------ live class questions
+
+/**
+ * The class's current live question, kept up to date in real time (with a slow poll in case the
+ * real-time connection drops).
+ */
+export function useLiveQuestion(classId: string | undefined) {
+  const qc = useQueryClient();
+  useEffect(() => {
+    if (!classId) return;
+    return api().subscribeLive(classId, () => {
+      void qc.invalidateQueries({ queryKey: qk.live(classId) });
+      void qc.invalidateQueries({ queryKey: ['liveAnswers'] });
+    });
+  }, [classId, qc]);
+  return useQuery({ queryKey: qk.live(classId ?? ''), queryFn: () => api().currentLiveQuestion(classId!), enabled: !!classId, refetchInterval: 15_000 });
+}
+
+export const useLiveAnswers = (questionId: string | undefined, poll = false) =>
+  useQuery({ queryKey: qk.liveAnswers(questionId ?? ''), queryFn: () => api().listLiveAnswers(questionId!), enabled: !!questionId, refetchInterval: poll ? 5_000 : false });
+
+export function useOpenLiveQuestion(classId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { lessonId: string | null; skillId: string; difficulty: 1 | 2 | 3; seed: number }) => api().openLiveQuestion({ classId, ...v }),
+    onSuccess: (q) => {
+      qc.setQueryData(qk.live(classId), q);
+      void qc.invalidateQueries({ queryKey: qk.live(classId) });
+    },
+  });
+}
+
+export function useCloseLiveQuestion(classId: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (id: string) => api().closeLiveQuestion(id), onSuccess: () => qc.invalidateQueries({ queryKey: qk.live(classId) }) });
+}
+
+export function useSubmitLiveAnswer(classId: string | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { questionId: string; responses: string[] }) => api().submitLiveAnswer(v.questionId, v.responses),
+    onSuccess: (_r, v) => {
+      void qc.invalidateQueries({ queryKey: qk.liveAnswers(v.questionId) });
+      if (classId) void qc.invalidateQueries({ queryKey: qk.live(classId) });
+    },
+  });
 }
 
 export function useSaveAssignment(classId: string) {

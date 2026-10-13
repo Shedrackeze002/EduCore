@@ -4,7 +4,7 @@
  * Interactive checks are the same activities as on the lesson page.
  */
 import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
-import { AlertTriangle, BookMarked, CheckCircle2, Clock, ExternalLink, Eye, EyeOff, Info, Lightbulb, ListChecks, PartyPopper, Sparkles, Target } from 'lucide-react';
+import { AlertTriangle, BookMarked, CheckCircle2, Clock, ExternalLink, Eye, EyeOff, Info, Lightbulb, ListChecks, PartyPopper, Smartphone, Sparkles, Target } from 'lucide-react';
 import type { Block } from '@/content/lessonParser.ts';
 import { skillInfo } from '@engine/curriculum/index.ts';
 import { Markdown } from '@/components/math/Markdown.tsx';
@@ -38,6 +38,10 @@ interface Props {
   endActions?: ReactNode;
   /** Wait before the first items build in, so they arrive after the slide transition. */
   enterDelay?: number;
+  /** Sends a question on this slide to the students' devices. */
+  onAsk?: (it: SlideItem) => void;
+  /** The live question running on this slide, shown in place of its question. */
+  live?: { key: string; node: ReactNode };
 }
 
 const ACCENT: Record<Slide['kind'], string> = {
@@ -84,7 +88,7 @@ function effectOf(b: Block): string {
   }
 }
 
-export function SlideView({ slide, reveal, index, total, lesson, still, editing, hidden, onToggle, onCheckResult, endActions, enterDelay = 0 }: Props) {
+export function SlideView({ slide, reveal, index, total, lesson, still, editing, hidden, onToggle, onCheckResult, endActions, enterDelay = 0, onAsk, live }: Props) {
   // Items already showing when the slide arrives build in one after another.
   const entering = useRef(true);
   const mountOrder = useRef<Map<number, number> | null>(null);
@@ -226,10 +230,21 @@ export function SlideView({ slide, reveal, index, total, lesson, still, editing,
       k,
       still ? (
         <div className="rounded-[28px] border-2 border-dashed border-line-strong p-10 text-[26px] text-ink-3">{skillInfo(b.skillId)?.name ?? 'Your turn'}</div>
+      ) : live?.key === it.key ? (
+        live.node
       ) : (
-        <div className="deck-check" style={{ zoom: pair ? 1.4 : 1.6 }}>
-          <CheckBlock skillId={b.skillId} difficulty={b.difficulty} onResult={onCheckResult} />
-        </div>
+        <>
+          <div className="deck-check" style={{ zoom: pair ? 1.4 : 1.6 }}>
+            <CheckBlock skillId={b.skillId} difficulty={b.difficulty} onResult={onCheckResult} />
+          </div>
+          {onAsk && !editing && (
+            <div className="mt-6 flex justify-end">
+              <button type="button" onClick={() => onAsk(it)} className="inline-flex items-center gap-3 rounded-2xl bg-brand px-7 py-4 text-[24px] font-semibold text-brand-ink shadow-card hover:bg-brand-700">
+                <Smartphone className="h-7 w-7" /> Ask the class on their devices
+              </button>
+            </div>
+          )}
+        </>
       ),
       'fx-rise',
     );
