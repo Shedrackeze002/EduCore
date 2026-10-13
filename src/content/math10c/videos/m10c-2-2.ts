@@ -99,9 +99,9 @@ const video: Explainer = {
       lines: [
         { say: 'With three ratios, how do you choose? Ask yourself two questions.', show: 'ask' },
         { say: 'Which side do I know, and which side do I want? Then pick the ratio that uses exactly those two sides.' },
-        { say: 'Opposite and hypotenuse: use sine.', show: 'tab.0', focus: 'tab.0' },
-        { say: 'Adjacent and hypotenuse: use cosine.', show: 'tab.1', focus: 'tab.1' },
-        { say: 'Opposite and adjacent: use tangent.', show: 'tab.2', focus: 'tab.2' },
+        { say: 'Opposite and hypotenuse means sine.', show: 'tab.0', focus: 'tab.0' },
+        { say: 'Adjacent and hypotenuse means cosine.', show: 'tab.1', focus: 'tab.1' },
+        { say: 'Opposite and adjacent means tangent.', show: 'tab.2', focus: 'tab.2' },
       ],
     },
     {
@@ -119,7 +119,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: "Your turn. You know the hypotenuse, and you want the side adjacent to theta. Which ratio do you use? Pause the video and try it.", show: 'q', wait: 5 },
-        { say: 'The answer is B, cosine. Adjacent and hypotenuse is C A H, so cosine.', show: 'q.answer' },
+        { say: 'The answer is B, cosine. Adjacent and hypotenuse is CAH, so cosine.', show: 'q.answer' },
       ],
     },
     {

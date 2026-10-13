@@ -10,11 +10,13 @@
  * an A that starts a sentence and is followed by a lower-case word ("A ramp is…") is the article.
  */
 export function speechText(say: string): string {
-  return say.replace(/\bA\b/g, (m, at: number) => {
+  const letters = say.replace(/\bA\b/g, (m, at: number) => {
     const sentenceStart = /(^|[.!?]\s+)$/.test(say.slice(0, at));
     const nextWord = /^\s+([a-z])/.test(say.slice(at + 1));
     return sentenceStart && nextWord ? m : 'Eh';
   });
+  // Mnemonics in capitals would be spelled out letter by letter ("S-O-H"); say them as words.
+  return letters.replace(/\bSOH CAH TOA\b/g, 'soh-cah-toa').replace(/\b(SOH|CAH|TOA)\b/g, (m) => m[0] + m.slice(1).toLowerCase());
 }
 
 const SMALL: Record<string, number> = {

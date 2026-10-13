@@ -26,6 +26,11 @@ describe('speechText', () => {
     expect(speechText('The answer is A.')).toBe('The answer is Eh.');
     expect(speechText('A cat and a dog, Ann and AB.')).toBe('A cat and a dog, Ann and AB.');
   });
+
+  it('says SOH CAH TOA as words, not letters', () => {
+    expect(speechText('Remember them with SOH CAH TOA.')).toBe('Remember them with soh-cah-toa.');
+    expect(speechText('SOH: sine. CAH: cosine. TOA: tangent.')).toBe('Soh: sine. Cah: cosine. Toa: tangent.');
+  });
 });
 
 describe('wer', () => {

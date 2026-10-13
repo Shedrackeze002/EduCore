@@ -96,5 +96,56 @@
         "working": "$\\tan 40^\\circ = \\dfrac{x}{10}$, so $x = 10\\tan 40^\\circ \\approx 8.4$ cm."
       }
     ]
+  },
+  "m10c-2-2": {
+    "lessonId": "m10c-2-2",
+    "title": "The Sine and Cosine Ratios, Part 1: SOH CAH TOA",
+    "duration": 158,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three ratios",
+        "t": 14.484
+      },
+      {
+        "title": "SOH CAH TOA",
+        "t": 43.683
+      },
+      {
+        "title": "Writing all three ratios",
+        "t": 64.138
+      },
+      {
+        "title": "Choosing the right ratio",
+        "t": 91.397
+      },
+      {
+        "title": "Your turn",
+        "t": 111.792
+      },
+      {
+        "title": "Summary",
+        "t": 132.089
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-2:q",
+        "t": 120.509,
+        "prompt": "You know the **hypotenuse** and want the side **adjacent** to ${\\theta}$. Which ratio do you use?",
+        "choices": [
+          "sine",
+          "cosine",
+          "tangent",
+          "none of them"
+        ],
+        "answer": 1,
+        "working": "Adjacent and hypotenuse: **CAH**, so cosine. $\\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$."
+      }
+    ]
   }
 }
