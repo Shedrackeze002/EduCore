@@ -30,6 +30,8 @@ export function revealTime(kind: El['kind']): number {
       return 1.1;
     case 'similar':
       return 0.9;
+    case 'diagram':
+      return 1;
     case 'math':
       return 0.8;
     default:
@@ -170,7 +172,7 @@ export function stateAt(tl: Timeline, t: number): FrameState {
   if (si < 0) si = tl.scenes.length - 1;
   const s = tl.scenes[si];
   const fade = q(Math.min(clamp01((t - s.start) / TIMING.fade), clamp01((s.end - t) / TIMING.fade)));
-  const shown: Record<string, { at: number; hiddenAt: number | null; whole: boolean; parts: Record<string, number> }> = {};
+  const shown: Record<string, { at: number; hiddenAt: number | null; whole: boolean; parts: Record<string, number>; partHidden: Record<string, number> }> = {};
   const focus: Record<string, Record<string, { on: number | null; off: number | null }>> = {};
   const timers: Record<string, { at: number; dur: number }> = {};
   for (const ev of s.events) {
@@ -179,13 +181,21 @@ export function stateAt(tl: Timeline, t: number): FrameState {
       const [el, part] = ev.target.split('.');
       const cur = shown[el];
       const fresh = !cur || cur.hiddenAt !== null;
-      const st = fresh ? { at: ev.t, hiddenAt: null, whole: false, parts: {} } : cur;
+      const st = fresh ? { at: ev.t, hiddenAt: null, whole: false, parts: {}, partHidden: {} } : cur;
       if (part === undefined) st.whole = true;
-      else if (!(part in st.parts)) st.parts[part] = ev.t;
+      else if (!(part in st.parts) || part in st.partHidden) {
+        st.parts[part] = ev.t;
+        delete st.partHidden[part];
+      }
       shown[el] = st;
     } else if (ev.kind === 'hide') {
-      const cur = shown[ev.target.split('.')[0]];
-      if (cur && cur.hiddenAt === null) cur.hiddenAt = ev.t;
+      const [el, part] = ev.target.split('.');
+      const cur = shown[el];
+      if (!cur || cur.hiddenAt !== null) continue;
+      // A part shown on its own can be hidden on its own; anything else hides the whole element.
+      if (part !== undefined && part in cur.parts && !cur.whole) {
+        if (!(part in cur.partHidden)) cur.partHidden[part] = ev.t;
+      } else cur.hiddenAt = ev.t;
     } else if (ev.kind === 'focus') {
       const f = (focus[ev.el] ??= {});
       for (const [part, v] of Object.entries(f)) if (v.on !== null && !ev.parts.includes(part)) f[part] = { on: null, off: ev.t };
@@ -201,7 +211,14 @@ export function stateAt(tl: Timeline, t: number): FrameState {
     const p = st.hiddenAt === null ? appear : appear * (1 - easeOut((t - st.hiddenAt) / TIMING.hide));
     if (p <= 0 && st.hiddenAt !== null) continue;
     const parts: Record<string, number> = {};
-    for (const [part, at] of Object.entries(st.parts)) parts[part] = q(easeOut((t - at) / reveal));
+    for (const [part, at] of Object.entries(st.parts)) {
+      const hid = st.partHidden[part];
+      if (hid === undefined) parts[part] = q(easeOut((t - at) / reveal));
+      else {
+        const v = easeOut((t - at) / reveal) * (1 - easeOut((t - hid) / TIMING.hide));
+        if (v > 0) parts[part] = q(v);
+      }
+    }
     const fs: Record<string, number> = {};
     for (const [part, v] of Object.entries(focus[el] ?? {})) {
       const e = v.on !== null ? easeInOut((t - v.on) / TIMING.focus) : v.off !== null ? 1 - easeInOut((t - v.off) / TIMING.focus) : 0;

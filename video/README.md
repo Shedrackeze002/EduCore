@@ -54,6 +54,12 @@ lines that `pronunciation.txt` marks CHECK.
 
 See `src/video/script.ts` for every element and option. In short:
 
+- Figures: `triangle` for a right triangle named from θ, and `diagram` for anything drawn from
+  points: lines, angles, right-angle marks, labels, shaded regions and scenery (ground, water, a
+  cliff, tower, lighthouse, building, flagpole, tree, person or boat). Name each part, then show
+  and emphasise parts as the narrator mentions them (`show: ['d.sight', 'd.elev']`); hiding a part
+  shown on its own swaps one label for another. Run `--stills --quick` to check the layout.
+
 - Keep each video to about three minutes. Split a long lesson into parts: `m10c-2-1` is part 1,
   `m10c-2-1-b` part 2, and so on.
 - Start with a title scene, give each later scene a `chapter` (these become YouTube chapters),
@@ -67,6 +73,11 @@ See `src/video/script.ts` for every element and option. In short:
 
 1. Upload `<id>.mp4` to the EduCore channel.
 2. Copy the title, description and tags from `youtube.txt`.
-3. Set `thumbnail.png` as the thumbnail and upload `captions.srt` as English captions.
-4. In EduCore, open **Admin console → Videos** and paste the video's YouTube link. Its lesson
+3. Set `thumbnail.png` as the thumbnail.
+4. Upload the captions: in YouTube Studio, **Subtitles → Add language → English → Upload file →
+   With timing**, and choose `captions.srt`. YouTube's automatic captions come from speech
+   recognition and get maths words wrong ("sign" for sine, "data" for theta) or arrive late; ours
+   follow the script word for word, timed to the narration. The lesson player shows captions from
+   the start.
+5. In EduCore, open **Admin console → Videos** and paste the video's YouTube link. Its lesson
    then shows the video and pauses at each "Your turn" to ask the question.

@@ -68,6 +68,8 @@ test('an administrator links an explainer video, and the lesson plays it and pau
   const section = page.getByRole('region', { name: 'Explainer video' });
   await expect(section.getByText(video.title)).toBeVisible();
   await expect(section.locator('[data-fake-youtube="dQw4w9WgXcQ"]')).toHaveCount(1);
+  // Captions are on from the start.
+  expect(await page.evaluate(() => (window as unknown as { __player: { opts: { playerVars: Record<string, unknown> } } }).__player.opts.playerVars)).toMatchObject({ cc_load_policy: 1, cc_lang_pref: 'en' });
   await page.evaluate((t) => {
     const p = (window as unknown as { __player: { seek(t: number): void; playVideo(): void } }).__player;
     p.seek(t);

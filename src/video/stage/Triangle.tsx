@@ -5,8 +5,8 @@ import { tex, TONES } from './tex.ts';
 
 type P = [number, number];
 
-const INK = 'rgb(244 243 255)';
-const INK3 = 'rgb(142 138 184)';
+export const INK = 'rgb(244 243 255)';
+export const INK3 = 'rgb(142 138 184)';
 const sub = (a: P, b: P): P => [a[0] - b[0], a[1] - b[1]];
 const add = (a: P, b: P): P => [a[0] + b[0], a[1] + b[1]];
 const mul = (a: P, k: number): P => [a[0] * k, a[1] * k];
@@ -22,7 +22,7 @@ const SIDE_TONE: Record<'opp' | 'adj' | 'hyp', string> = { opp: TONES.opp, adj: 
  * A label at a point. With a direction `n`, the label sits beside the point on that side (so a
  * side's label never covers the side, however long it is); without one, it is centred.
  */
-function Label({ at, n, html, color, opacity, scale = 1, size = 30 }: { at: P; n?: P; html: string; color: string; opacity: number; scale?: number; size?: number }) {
+export function Label({ at, n, html, color, opacity, scale = 1, size = 30 }: { at: P; n?: P; html: string; color: string; opacity: number; scale?: number; size?: number }) {
   if (opacity <= 0) return null;
   // Beside the point on the side of n: centred along an edge for a straight normal, by a corner for a slanted one.
   const side = (v: number) => (v > 0.35 ? 0 : v < -0.35 ? -100 : -50);
@@ -35,15 +35,18 @@ function Label({ at, n, html, color, opacity, scale = 1, size = 30 }: { at: P; n
   );
 }
 
-/** An angle arc at V between the directions to P1 and P2, and where its label fits inside the angle. */
-function arc(V: P, P1: P, P2: P, r: number, minLabel: number) {
+/**
+ * An angle arc at V between the directions to P1 and P2, and where its label fits inside the angle:
+ * the narrower the angle, the further out (`room` sets how much room the label needs).
+ */
+function arc(V: P, P1: P, P2: P, r: number, minLabel: number, room = 40) {
   const d1 = unit(sub(P1, V));
   const d2 = unit(sub(P2, V));
   const s = add(V, mul(d1, r));
   const e = add(V, mul(d2, r));
   const sweep = d1[0] * d2[1] - d1[1] * d2[0] > 0 ? 1 : 0;
   const half = Math.acos(Math.max(-1, Math.min(1, d1[0] * d2[0] + d1[1] * d2[1]))) / 2;
-  const dist = Math.max(minLabel, Math.min(220, 40 / Math.sin(half)));
+  const dist = Math.max(minLabel, Math.min(220, room / Math.sin(half)));
   return { d: `M${s[0]},${s[1]} A${r},${r} 0 0 ${sweep} ${e[0]},${e[1]}`, label: add(V, mul(unit(add(d1, d2)), dist)) };
 }
 
@@ -79,7 +82,8 @@ export function TriangleView({ el, st, w, h, labelSize = 30 }: { el: TriangleEl;
   const shown = (k: TriPart) => partShown(st, k);
   const focus = (k: TriPart) => st?.focus[k] ?? 0;
   const thetaArc = arc(A, C, B, 50, 82);
-  const otherArc = arc(B, A, C, 40, 68);
+  // The top angle is often narrow, and its label (such as 36.9°) wide: give it more room.
+  const otherArc = arc(B, A, C, 40, 68, 52);
   const labels = el.labels ?? {};
   const ground = A[1];
 

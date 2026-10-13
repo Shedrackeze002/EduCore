@@ -54,6 +54,11 @@ items ship or decisions change.
 
 ## Next, in order
 
+0. **Rename EduCore to Gradileo** (the owner's decision, after the Math 10C Unit 2 videos and
+   before any new work). Gradileo, from *gradient* and *Galileo* (gradileo.com, .net, .io, .app and
+   .academy were free when checked). The rename covers the app, logo, emails, documents, the
+   video stage, the YouTube text and channel, and the site address; all videos are rendered again
+   with the new name before they are uploaded.
 1. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
@@ -64,13 +69,18 @@ items ship or decisions change.
      at the pilot stage. The channel owner uploads; the build produces the files.
    - Built: the video pipeline (`video/`, scripts in `src/content/<course>/videos/`) and the pilot,
      four videos of about three minutes for Math 10C Unit 2 (lessons 2.1 and 2.2, two parts
-     each). Narration uses Kokoro, a free open-weight voice (`af_heart`). Waiting on the owner's
-     review of style and voice before the remaining videos.
+     each). Narration uses Kokoro, a free open-weight voice (`af_heart`).
+   - Decision: the owner approved the pilot's style and voice (13 Oct 2026), and asked for
+     captions; the build makes them from the script, they are uploaded with each video, and the
+     lesson player shows them from the start.
    - Built: the lesson player (YouTube's player above the lesson, pausing at each "Your turn" to ask
      the question in EduCore, from the cues in `src/content/videos.json`) and the admin **Videos**
      page where each video's YouTube link is recorded.
-   - Next: the remaining videos unit by unit (Math 10C Unit 2 lessons 2.3 and 2.4 first), each
-     lesson split into parts of about three minutes when it needs more.
+   - Built: Math 10C Unit 2 is complete, eight videos (lessons 2.1 to 2.4, two parts each). Lessons
+     2.3 and 2.4 brought a `diagram` element for figures drawn from points (angles of elevation and
+     depression, a cliff and a boat, a clinometer, two triangles sharing a side).
+   - Next: the remaining videos unit by unit (Math 10C Unit 1, then Units 3 to 8, then the other
+     courses), each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;

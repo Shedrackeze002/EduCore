@@ -168,7 +168,10 @@ Set `VITE_GITHUB_REPO` to send issues to another repository.
 Explainer videos are built from scripts in `src/content/<course>/videos/<id>.ts`, so they can be
 reviewed, versioned and rebuilt like lessons. A script is a list of scenes (a title, a figure and
 working side by side, a "Your turn" question, a summary); each narrated line shows, highlights or
-hides elements as it is spoken. `video/build.ts` voices every line with Kokoro, an open-weight
+hides elements as it is spoken. Figures are right triangles (`triangle`), similar triangles, and
+diagrams drawn to scale from named points (`diagram`: lines, angles, labels and scenery such as a
+cliff, the sea, a tower or a person), each part of which can be shown, emphasised or hidden as it is
+named. `video/build.ts` voices every line with Kokoro, an open-weight
 text-to-speech model that runs on the CPU (cached per line in `video/.cache`), so a video's timing
 comes from its narration (`compile` in `src/video/timeline.ts`). It then opens
 `video/stage.html` in Chromium through Vite and, for every frame, asks the stage to draw the state
@@ -184,7 +187,9 @@ the app's install stays small. See `video/README.md`.
 Videos are hosted on EduCore's YouTube channel. After uploading one, an administrator pastes its
 link on the admin **Videos** page (`video_links`, written only by the audited
 `admin_set_video_link`). A lesson then shows its videos above the lesson (one button per part), in
-YouTube's player loaded through the IFrame API (`src/features/lessons/ExplainerVideos.tsx`). The
+YouTube's player loaded through the IFrame API (`src/features/lessons/ExplainerVideos.tsx`), with
+captions on from the start (the captions uploaded with each video come from its script, so maths
+words are spelled right, unlike YouTube's automatic ones). The
 player watches the playing time and, when the video reaches a "Your turn" cue from the manifest
 during normal playback (`crossedCues`, so jumping past a question does not stop it), pauses and
 asks the question below the video; the student answers or skips, sees the working, and the video

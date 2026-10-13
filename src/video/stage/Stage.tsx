@@ -1,6 +1,7 @@
 /** One frame of an explainer video, drawn from the frame state; and the video's thumbnail. */
-import type { El, Explainer, TriangleEl, SimilarEl } from '../script.ts';
+import { BRAND, type DiagramEl, type El, type Explainer, type TriangleEl, type SimilarEl } from '../script.ts';
 import type { ElState, FrameState } from '../timeline.ts';
+import { DiagramView } from './Diagram.tsx';
 import { BulletsView, CalcView, CalloutView, MathView, TableView, TextView, TitleView, TryView } from './elements.tsx';
 import { rich, TONES } from './tex.ts';
 import { SimilarView, TriangleView } from './Triangle.tsx';
@@ -17,9 +18,12 @@ function Logo({ size = 30 }: { size?: number }) {
 
 type Area = 'left' | 'right' | 'main';
 
-function ElView({ el, st, area, crowded }: { el: El; st: ElState | undefined; area: Area; crowded: boolean }) {
+/** Width of a split scene's left column, unless the scene sets its own. */
+const LEFT = 540;
+
+function ElView({ el, st, area, crowded, leftWidth }: { el: El; st: ElState | undefined; area: Area; crowded: boolean; leftWidth: number }) {
   const center = area !== 'right';
-  const fig = area === 'left' ? { w: 540, h: crowded ? 380 : 560 } : { w: 1100, h: crowded ? 340 : 440 };
+  const fig = area === 'left' ? { w: leftWidth, h: crowded ? 380 : 560 } : { w: 1100, h: crowded ? 340 : 440 };
   switch (el.kind) {
     case 'title':
       return <TitleView el={el} st={st} />;
@@ -37,6 +41,8 @@ function ElView({ el, st, area, crowded }: { el: El; st: ElState | undefined; ar
       return <TriangleView el={el} st={st} {...fig} />;
     case 'similar':
       return <SimilarView el={el} st={st} {...fig} />;
+    case 'diagram':
+      return <DiagramView el={el} st={st} w={fig.w} h={el.height ?? fig.h} />;
     case 'calc':
       return <CalcView el={el} st={st} />;
     case 'try':
@@ -44,12 +50,12 @@ function ElView({ el, st, area, crowded }: { el: El; st: ElState | undefined; ar
   }
 }
 
-function Column({ els, state, area, className }: { els: El[] | undefined; state: FrameState; area: Area; className: string }) {
+function Column({ els, state, area, className, leftWidth = LEFT }: { els: El[] | undefined; state: FrameState; area: Area; className: string; leftWidth?: number }) {
   const list = els ?? [];
   return (
     <div className={className}>
       {list.map((el) => (
-        <ElView key={el.id} el={el} st={state.els[el.id]} area={area} crowded={list.length > 1} />
+        <ElView key={el.id} el={el} st={state.els[el.id]} area={area} crowded={list.length > 1} leftWidth={leftWidth} />
       ))}
     </div>
   );
@@ -63,7 +69,7 @@ export function Stage({ x, state, label }: { x: Explainer; state: FrameState; la
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <Logo />
           <span className="v-display" style={{ color: 'rgb(var(--v-ink))', fontSize: 19, fontWeight: 600 }}>
-            EduCore
+            {BRAND}
           </span>
           <span style={{ opacity: 0.6 }}>·</span>
           <span>{label}</span>
@@ -72,8 +78,8 @@ export function Stage({ x, state, label }: { x: Explainer; state: FrameState; la
       </div>
       <div className="v-body" style={{ opacity: state.fade }}>
         {scene.layout === 'split' ? (
-          <div className="v-split">
-            <Column els={scene.left} state={state} area="left" className="v-col v-center" />
+          <div className="v-split" style={scene.leftWidth ? { gridTemplateColumns: `${scene.leftWidth}px minmax(0, 1fr)` } : undefined}>
+            <Column els={scene.left} state={state} area="left" className="v-col v-center" leftWidth={scene.leftWidth} />
             <Column els={scene.right} state={state} area="right" className="v-col" />
           </div>
         ) : (
@@ -95,7 +101,7 @@ export function fullScene(x: Explainer, si: number): FrameState {
 }
 
 export function Thumbnail({ x, label }: { x: Explainer; label: string }) {
-  const fig = x.scenes.flatMap((s) => [...(s.left ?? []), ...(s.main ?? [])]).find((e): e is TriangleEl | SimilarEl => e.kind === 'triangle' || e.kind === 'similar');
+  const fig = x.scenes.flatMap((s) => [...(s.left ?? []), ...(s.main ?? [])]).find((e): e is TriangleEl | SimilarEl | DiagramEl => e.kind === 'triangle' || e.kind === 'similar' || e.kind === 'diagram');
   return (
     <div className="v-stage">
       <div style={{ position: 'absolute', left: 80, top: 86, width: fig ? 640 : 1100 }}>
@@ -107,13 +113,13 @@ export function Thumbnail({ x, label }: { x: Explainer; label: string }) {
       </div>
       {fig && (
         <div style={{ position: 'absolute', right: 130, top: 110 }}>
-          {fig.kind === 'triangle' ? <TriangleView el={fig} st={FULL} w={500} h={480} labelSize={34} /> : <SimilarView el={fig} st={FULL} w={500} h={480} />}
+          {fig.kind === 'triangle' ? <TriangleView el={fig} st={FULL} w={500} h={480} labelSize={34} /> : fig.kind === 'diagram' ? <DiagramView el={fig} st={FULL} w={500} h={480} /> : <SimilarView el={fig} st={FULL} w={500} h={480} />}
         </div>
       )}
       <div style={{ position: 'absolute', left: 80, bottom: 60, display: 'flex', alignItems: 'center', gap: 16 }}>
         <Logo size={52} />
         <span className="v-display" style={{ fontSize: 36, fontWeight: 700 }}>
-          EduCore
+          {BRAND}
         </span>
       </div>
     </div>
