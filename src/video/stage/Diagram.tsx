@@ -32,6 +32,7 @@ const PLACE: Record<Place, P> = {
   'above right': [0.71, -0.71],
   'below left': [-0.71, 0.71],
   'below right': [0.71, 0.71],
+  center: [0, 0],
 };
 
 /** Dark fills for scenery, so lines and labels in front of it stay readable. */
@@ -89,7 +90,7 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
         break;
       case 'region': {
         const c = toneColour(item.tone, TONES.brand);
-        svg.push(<polygon key={item.id} points={pts(item.points.map(at))} fill={c} fillOpacity={(0.1 + 0.08 * f) * k} stroke="none" />);
+        svg.push(<polygon key={item.id} points={pts(item.points.map(at))} fill={c} fillOpacity={((item.shade ?? 0.1) + 0.08 * f) * k} stroke="none" />);
         break;
       }
       case 'line': {

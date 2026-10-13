@@ -20,10 +20,15 @@ type Area = 'left' | 'right' | 'main';
 
 /** Width of a split scene's left column, unless the scene sets its own. */
 const LEFT = 540;
+/** The stage's content width (1280 less the margins), and the gap between split columns. */
+const BODY = 1136;
+const GAP = 48;
 
 function ElView({ el, st, area, crowded, leftWidth }: { el: El; st: ElState | undefined; area: Area; crowded: boolean; leftWidth: number }) {
   const center = area !== 'right';
-  const fig = area === 'left' ? { w: leftWidth, h: crowded ? 380 : 560 } : { w: 1100, h: crowded ? 340 : 440 };
+  // A figure fills its column: the left or right of a split scene, or the middle of a centred one.
+  const fig =
+    area === 'main' ? { w: 1100, h: crowded ? 340 : 440 } : { w: area === 'left' ? leftWidth : BODY - GAP - leftWidth, h: crowded ? 380 : 560 };
   switch (el.kind) {
     case 'title':
       return <TitleView el={el} st={st} />;
@@ -80,7 +85,7 @@ export function Stage({ x, state, label }: { x: Explainer; state: FrameState; la
         {scene.layout === 'split' ? (
           <div className="v-split" style={scene.leftWidth ? { gridTemplateColumns: `${scene.leftWidth}px minmax(0, 1fr)` } : undefined}>
             <Column els={scene.left} state={state} area="left" className="v-col v-center" leftWidth={scene.leftWidth} />
-            <Column els={scene.right} state={state} area="right" className="v-col" />
+            <Column els={scene.right} state={state} area="right" className="v-col" leftWidth={scene.leftWidth} />
           </div>
         ) : (
           <Column els={scene.main} state={state} area="main" className="v-col v-center" />

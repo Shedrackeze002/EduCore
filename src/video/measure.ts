@@ -3,20 +3,20 @@
  * caliper's two scales, and a grid of unit squares. Like the solids (`solids.ts`), each returns
  * points and named parts to put into a diagram with `figure`.
  */
-import type { DiagramItem } from './script.ts';
-import type { Part } from './solids.ts';
+import type { DiagramEl, DiagramItem } from './script.ts';
+import { figure, type Part } from './solids.ts';
 
 type P = [number, number];
 
 /**
  * A ruler, `length` units long (centimetres in mm, or inches in sixteenths), with a bar on it from
- * `start` to `end`.
+ * `start` to `end`. Its marks hang down from its top edge.
  *
  * Parts: `scale` (a group: the ruler, its marks and numbers), each mark `t<i>` (the i-th smallest
  * division from 0, so `t63` is 6.3 cm and `t43` is 2 11/16 in), `bar`, the bar's `start` and
- * `end` lines, and `reading` (the label `reading`, above the end).
+ * `end` lines, and the labels `reading` (above the end) and `start-reading` (above the start).
  */
-export function ruler(o: { name?: string; system: 'metric' | 'imperial'; length: number; start?: number; end?: number; reading?: string; division?: 16 | 8 | 4 }): Part {
+export function ruler(o: { name?: string; system: 'metric' | 'imperial'; length: number; start?: number; end?: number; reading?: string; startReading?: string; division?: 16 | 8 | 4; at?: P; scale?: number }): Part {
   const n = (s: string) => (o.name ? `${o.name}-${s}` : s);
   const metric = o.system === 'metric';
   const sub = metric ? 10 : (o.division ?? 16);
@@ -71,7 +71,13 @@ export function ruler(o: { name?: string; system: 'metric' | 'imperial'; length:
       { kind: 'line', id: n('end'), from: n('f1'), to: n('f0'), tone: 'theta', dashed: true },
     );
     if (o.reading) items.push({ kind: 'label', id: n('reading'), at: n('f1'), tex: o.reading, tone: 'theta', place: 'above' });
+    if (o.startReading) items.push({ kind: 'label', id: n('start-reading'), at: n('s1'), tex: o.startReading, tone: 'theta', place: 'above' });
   }
+  // `at` is the left end of the ruler's edge; `scale` is diagram units per ruler unit, so an inch
+  // ruler with scale 2.54 lines up with a centimetre ruler.
+  const [x0, y0] = o.at ?? [0, 0];
+  const k = o.scale ?? 1;
+  for (const [key, [x, y]] of Object.entries(points)) points[key] = [x0 + x * k, y0 + y * k];
   return { points, items };
 }
 
@@ -97,8 +103,8 @@ export function vernier(o: { name?: string; reading: number }): Part {
     [n('mb3')]: [from - 0.8, 4.2],
     [n('vb0')]: [o.reading - 0.6, 0],
     [n('vb1')]: [o.reading + 9.6, 0],
-    [n('vb2')]: [o.reading + 9.6, -4.2],
-    [n('vb3')]: [o.reading - 0.6, -4.2],
+    [n('vb2')]: [o.reading + 9.6, -4.6],
+    [n('vb3')]: [o.reading - 0.6, -4.6],
   };
   const main = n('main');
   const vern = n('vernier');
@@ -130,7 +136,11 @@ export function vernier(o: { name?: string; reading: number }): Part {
     { kind: 'line', id: n('match-main'), from: n(`m${whole + tenths}`), to: n(`mt${whole + tenths}`), tone: 'good', weight: 5, group: n('match') },
     { kind: 'line', id: n('match-vernier'), from: n(`v${tenths}`), to: n(`vt${tenths}`), tone: 'good', weight: 5, group: n('match') },
   );
-  if (tenths % 5 !== 0) items.push({ kind: 'label', id: n('match-label'), at: n(`vt${tenths}`), tex: String(tenths), tone: 'good', place: 'below', group: n('match') });
+  if (tenths % 5 !== 0) {
+    // Next to the 0, 5 or 10, the number goes on a lower row, clear of it.
+    points[n('ml')] = [o.reading + 0.9 * tenths, [1, 4, 6, 9].includes(tenths) ? -3.2 : -1.3];
+    items.push({ kind: 'label', id: n('match-label'), at: n('ml'), tex: String(tenths), tone: 'good', place: 'below', group: n('match') });
+  }
   return { points, items };
 }
 
@@ -160,4 +170,49 @@ export function unitSquare(o: { name?: string; at?: P; split: number; size?: num
   if (o.labels?.side) items.push({ kind: 'line', id: n('side'), from: n('A'), to: n('B'), tone: 'adj', label: o.labels.side, labelSide: 'right' });
   if (o.labels?.cells) items.push({ kind: 'line', id: n('cells'), from: n('A'), to: n('D'), tone: 'opp', label: o.labels.cells, labelSide: 'left' });
   return { points, items };
+}
+
+/**
+ * A circle of radius `r` about `at`, seen face on (the end of a log, a jar from above), with its
+ * diameter across the middle.
+ *
+ * Parts: `outline` (labelled `c`, the circumference), `fill`, and the `d` and `r` lines when labelled.
+ */
+export function circle(o: { name?: string; at?: P; r: number; labels?: { c?: string; d?: string; r?: string } }): Part {
+  const n = (s: string) => (o.name ? `${o.name}-${s}` : s);
+  const [x, y] = o.at ?? [0, 0];
+  const points: Record<string, P> = { [n('O')]: [x, y], [n('L')]: [x - o.r, y], [n('R')]: [x + o.r, y] };
+  const ring: string[] = [];
+  // Start at the top, so a label a little way along sits above and to the left.
+  for (let i = 0; i < 96; i++) {
+    const a = Math.PI / 2 + (i * Math.PI) / 48;
+    points[n(`c${i}`)] = [x + o.r * Math.cos(a), y + o.r * Math.sin(a)];
+    ring.push(n(`c${i}`));
+  }
+  const items: DiagramItem[] = [
+    { kind: 'region', id: n('fill'), points: ring, tone: 'brand' },
+    { kind: 'curve', id: n('outline'), points: ring, closed: true, tone: o.labels?.c ? 'theta' : undefined, ...(o.labels?.c ? { label: o.labels.c, labelAt: 0.12 } : {}) },
+  ];
+  if (o.labels?.d) items.push({ kind: 'line', id: n('d'), from: n('L'), to: n('R'), tone: 'adj', label: o.labels.d, labelSide: 'right' });
+  if (o.labels?.r) items.push({ kind: 'line', id: n('r'), from: n('O'), to: n('R'), tone: 'adj', label: o.labels.r, labelSide: 'right' });
+  return { points, items };
+}
+
+/**
+ * A 10 cm ruler with a 3 inch ruler drawn to the same scale below it, and a dashed line (`inch`,
+ * with its label) showing that 1 inch reaches 2.54 cm. Parts: `cm-scale`, `in-scale`, `inch`, and
+ * each ruler's marks (`cm-t25`, `in-t4`).
+ */
+export function inchAndCentimetre(id: string): DiagramEl {
+  return figure(id, [
+    ruler({ name: 'cm', system: 'metric', length: 10 }),
+    ruler({ name: 'in', system: 'imperial', length: 3, division: 4, at: [0, -2.6], scale: 2.54 }),
+    {
+      points: { i0: [2.54, -2.6], i1: [2.54, -1.15], il: [3.1, -1.85] },
+      items: [
+        { kind: 'line', id: 'inch', from: 'i0', to: 'i1', tone: 'theta', dashed: true },
+        { kind: 'label', id: 'inch-label', at: 'il', tex: '1\\text{ in} = 2.54\\text{ cm}', tone: 'theta', place: 'right', group: 'inch' },
+      ],
+    },
+  ]);
 }

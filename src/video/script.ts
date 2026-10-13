@@ -131,7 +131,7 @@ export type DiagramTone = Tone | 'ink' | 'muted';
 export type ThingType = 'ground' | 'water' | 'cliff' | 'tower' | 'lighthouse' | 'building' | 'flagpole' | 'tree' | 'person' | 'boat';
 
 /** Where a label sits beside a point. */
-export type Place = 'above' | 'below' | 'left' | 'right' | 'above left' | 'above right' | 'below left' | 'below right';
+export type Place = 'above' | 'below' | 'left' | 'right' | 'above left' | 'above right' | 'below left' | 'below right' | 'center';
 
 /**
  * A part of a diagram. Every part has an id, so a line can show or emphasise it ("d.sight"), and
@@ -158,9 +158,9 @@ export type DiagramItem = (
   | { kind: 'angle'; id: string; at: string; from: string; to: string; tone?: DiagramTone; label?: string; /** Arc radius in pixels. */ r?: number; /** Label distance from the vertex in pixels. */ labelDist?: number; labelAt?: number }
   /** A right-angle mark at `at`, between the directions to `from` and `to`. */
   | { kind: 'right'; id: string; at: string; from: string; to: string }
-  /** A lightly shaded polygon, such as the triangle being solved. */
-  | { kind: 'region'; id: string; points: string[]; tone?: DiagramTone }
-  /** A label (TeX) beside a point; a point's name, with a dot when `dot` is set. */
+  /** A shaded polygon, such as the triangle being solved; `shade` is its opacity (0.1 by default). */
+  | { kind: 'region'; id: string; points: string[]; tone?: DiagramTone; shade?: number }
+  /** A label (TeX) beside a point (or on it, with `place: 'center'`); a point's name, with a dot when `dot` is set. */
   | { kind: 'label'; id: string; at: string; tex: string; tone?: DiagramTone; place?: Place; dot?: boolean }
   /**
    * Scenery. Ground and water run across the diagram at the height of `at`. A cliff, tower,
