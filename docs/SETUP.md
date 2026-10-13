@@ -163,6 +163,32 @@ data entirely, delete the user in **Authentication → Users**.
 
 ## 3. Your own domain
 
+Gradileo itself runs on Cloudflare at gradileo.com (3.1). A school hosting its own copy can do the
+same with its domain, or keep GitHub Pages with a custom domain (3.2).
+
+### 3.1 Hosting on Cloudflare
+
+The deploy workflow also publishes the site as a Cloudflare Worker that serves the built app
+(`wrangler.jsonc`), once the tests have passed. Cloudflare serves static sites free without a
+bandwidth limit and creates the domain's DNS records and certificates itself.
+
+1. Add the domain to Cloudflare (or buy it through Cloudflare Registrar), and change the domain
+   names in `wrangler.jsonc` if it is not gradileo.com.
+2. Create an API token (**Manage Account → Account API tokens → Create Token**, custom token)
+   with these permissions, limited to your account and the domain's zone:
+   - Account: **Workers Scripts: Edit** and **Account Settings: Read**
+   - Zone: **Zone: Read** and **Workers Routes: Edit**
+3. In GitHub, add the repository secrets `CLOUDFLARE_API_TOKEN` (the token) and
+   `CLOUDFLARE_ACCOUNT_ID` (shown on the domain's overview page in Cloudflare, and in the
+   dashboard's address).
+4. Merge or re-run the deploy. The *cloudflare* job builds the app for the root of the domain and
+   runs `wrangler deploy`; the site then appears at the domain.
+5. In Supabase, add the domain to **Authentication → URL Configuration → Redirect URLs**
+   (`https://<domain>/**`), and once the site works there, make it the **Site URL**. Set `APP_URL`
+   (and `ALLOWED_ORIGINS`, if you restrict it) to the new address.
+
+### 3.2 GitHub Pages with a custom domain
+
 1. Buy a domain, or use a subdomain of your school's site such as
    `math.yourschool.ca`.
 2. Add a DNS record at your domain provider:

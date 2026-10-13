@@ -18,3 +18,6 @@ scripts/.tmp/
 # Explainer video builds
 video/out/
 video/.cache/
+
+# Cloudflare Wrangler state
+.wrangler/

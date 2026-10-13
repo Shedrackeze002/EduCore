@@ -1,8 +1,13 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages and Cloudflare
 
-# Builds the app and publishes it to GitHub Pages.
+# Builds the app, runs the tests, and publishes it to GitHub Pages and, once its secrets are set,
+# to Cloudflare at gradileo.com (wrangler.jsonc).
 #
 # Repository settings (Settings → Secrets and variables → Actions):
+#   Secrets (for Cloudflare)
+#     CLOUDFLARE_API_TOKEN    an API token with Workers Scripts: Edit (account) and Zone: Read and
+#                             Workers Routes: Edit (zone gradileo.com); see docs/SETUP.md
+#     CLOUDFLARE_ACCOUNT_ID   the Cloudflare account ID
 #   Variables (optional)
 #     VITE_SUPABASE_URL       Supabase project URL; overrides .env.production when set
 #     VITE_SUPABASE_ANON_KEY  the project's anon / publishable key (safe to expose)
@@ -36,7 +41,17 @@ jobs:
     # A closed pull request deploys only when it was merged.
     if: github.event_name != 'pull_request_target' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    outputs:
+      cloudflare: ${{ steps.cloudflare.outputs.ready }}
     steps:
+      # Secrets cannot be read in a job's condition, so the Cloudflare job asks this step.
+      - name: Check the Cloudflare secrets
+        id: cloudflare
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$TOKEN" ] && [ -n "$ACCOUNT" ]; then echo "ready=true" >> "$GITHUB_OUTPUT"; else echo "Cloudflare secrets are not set; only GitHub Pages will be updated."; fi
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request_target' && 'main' || github.ref }}
@@ -78,3 +93,43 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  cloudflare:
+    # Gradileo at gradileo.com: built for the root of the domain once the tests above have
+    # passed, then deployed as a Worker serving static assets (wrangler.jsonc).
+    needs: build
+    if: needs.build.outputs.cloudflare == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: cloudflare
+      url: https://gradileo.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request_target' && 'main' || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Choose the backend
+        run: |
+          : > .env.production.local
+          if [ -n "$URL" ]; then echo "VITE_SUPABASE_URL=$URL" >> .env.production.local; fi
+          if [ -n "$KEY" ]; then echo "VITE_SUPABASE_ANON_KEY=$KEY" >> .env.production.local; fi
+        env:
+          URL: ${{ vars.VITE_SUPABASE_URL }}
+          KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+      - name: Build for the root of gradileo.com
+        run: npm run build
+        env:
+          BASE_PATH: /
+      - name: Check the site is connected to its backend
+        run: node scripts/check-backend.mjs
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v4.1.3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: 4.142.0
+          command: deploy
