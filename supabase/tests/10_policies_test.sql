@@ -674,6 +674,7 @@ set role authenticated;
 select admin_set_video_link('m10c-2-1', null);
 reset role;
 select _assert((select count(*) from video_links) = 0, 'an administrator removes a link');
+select _assert((select count(*) from admin_audit_log where action = 'video_link_removed' and details ->> 'video' = 'm10c-2-1') = 1, 'removing a link is audited');
 
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
