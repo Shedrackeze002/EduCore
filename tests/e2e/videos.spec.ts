@@ -23,6 +23,8 @@ window.YT = {
     seek(t) { this.t = t; this.since = performance.now(); }
     getCurrentTime() { return this.now(); }
     getPlayerState() { return this.state; }
+    getPlaybackRate() { return 1; }
+    fail() { this.opts.events && this.opts.events.onError && this.opts.events.onError({ data: 150 }); }
     destroy() {}
   },
 };
@@ -72,11 +74,17 @@ test('an administrator links an explainer video, and the lesson plays it and pau
   await expect(section.getByText('Your turn: answer below to carry on')).toBeVisible({ timeout: 5000 });
   const question = section.getByRole('group', { name: 'Your turn' });
   await expect(question.getByText(/What is/)).toBeVisible();
+  // Focus moves to the question, so keyboard and screen-reader users know an answer is needed.
+  await expect(question).toBeFocused();
   expect(await page.evaluate(() => (window as unknown as { __player: { getPlayerState(): number } }).__player.getPlayerState())).toBe(2);
   await question.getByRole('button', { name: /^B/ }).click();
   await expect(question.getByText('Right!')).toBeVisible();
   await question.getByRole('button', { name: 'Carry on with the video' }).click();
   await expect(question).toHaveCount(0);
   expect(await page.evaluate(() => (window as unknown as { __player: { getPlayerState(): number } }).__player.getPlayerState())).toBe(1);
+
+  // A video YouTube cannot play (removed, private, not allowed elsewhere) offers a link instead.
+  await page.evaluate(() => (window as unknown as { __player: { fail(): void } }).__player.fail());
+  await expect(section.getByRole('link', { name: 'Watch on YouTube' })).toHaveAttribute('href', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
   expect(errors).toEqual([]);
 });

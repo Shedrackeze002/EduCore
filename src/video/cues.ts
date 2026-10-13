@@ -1,21 +1,24 @@
 /** When EduCore's video player stops to ask a question. */
 import type { Cue } from './timeline.ts';
 
-/** Longer than this between two checks of the playing time means the viewer jumped (seeked). */
-const MAX_STEP = 2;
+/** How far (in seconds) the playing time may drift from the clock before a change counts as a jump. */
+const DRIFT = 1;
 
 /**
- * The question the video has just reached, if any: a cue between the previous check and now,
- * during normal playback (not a jump), that has not been asked yet.
+ * The question the video has just reached, if any: a cue between the previous check and now that
+ * has not been asked yet, reached by playing rather than by jumping. Between two checks
+ * `elapsed` seconds apart, playing moves the video's time by about `elapsed × rate`; a change
+ * that differs from that by more than a second is a seek, however short, and a slow check
+ * (a busy or background tab) still counts as playing.
  */
-export function crossedCue(prev: number, now: number, cues: Cue[], asked: ReadonlySet<string>): Cue | null {
-  if (!(now > prev) || now - prev > MAX_STEP) return null;
+export function crossedCue(prev: number, now: number, cues: Cue[], asked: ReadonlySet<string>, elapsed: number, rate = 1): Cue | null {
+  if (!(now > prev) || Math.abs(now - prev - elapsed * rate) > DRIFT) return null;
   return cues.find((c) => c.t > prev && c.t <= now && !asked.has(c.id)) ?? null;
 }
 
-/** Whether a choice or typed answer is right. */
+/** Whether a choice or typed answer is right. Typed answers ignore spacing, case and the $ around maths. */
 export function isRight(cue: Cue, answer: number | string): boolean {
   if (typeof cue.answer === 'number') return answer === cue.answer;
-  const norm = (s: string) => s.toLowerCase().replace(/[\s$*\\{}]/g, '');
+  const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '').replace(/\$/g, '');
   return typeof answer === 'string' && norm(answer) === norm(cue.answer);
 }

@@ -3,7 +3,7 @@
  * video the player pauses and asks the question here, then carries on when the student has
  * answered (or skipped). The questions and their times come from the video build's manifest.
  */
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type RefObject } from 'react';
 import { ExternalLink, PlayCircle } from 'lucide-react';
 import { videosForLesson, type ExplainerVideo } from '@/content/videos.ts';
 import { useVideoLinks } from '@/data/hooks.ts';
@@ -18,11 +18,22 @@ interface YTPlayer {
   pauseVideo(): void;
   getCurrentTime(): number;
   getPlayerState(): number;
+  getPlaybackRate?(): number;
   destroy(): void;
 }
 
+interface YTPlayerOptions {
+  videoId: string;
+  host?: string;
+  width?: string;
+  height?: string;
+  playerVars?: Record<string, string | number>;
+  /** Called when the video cannot be played (removed, private, or not allowed in other sites). */
+  events?: { onError?: (e: { data: number }) => void };
+}
+
 interface YTApi {
-  Player: new (el: HTMLElement, options: { videoId: string; host?: string; width?: string; height?: string; playerVars?: Record<string, string | number> }) => YTPlayer;
+  Player: new (el: HTMLElement, options: YTPlayerOptions) => YTPlayer;
   PlayerState: { PLAYING: number };
 }
 
@@ -101,19 +112,30 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
     let alive = true;
     let timer = 0;
     let prev = 0;
+    let checkedAt = performance.now();
     loadYouTube()
       .then((YT) => {
         if (!alive || !host.current) return;
         // The API swaps this element for the player's iframe.
         const el = document.createElement('div');
         host.current.appendChild(el);
-        const p = new YT.Player(el, { videoId: youtubeId, host: 'https://www.youtube-nocookie.com', width: '100%', height: '100%', playerVars: { rel: 0, playsinline: 1 } });
+        const p = new YT.Player(el, {
+          videoId: youtubeId,
+          host: 'https://www.youtube-nocookie.com',
+          width: '100%',
+          height: '100%',
+          playerVars: { rel: 0, playsinline: 1 },
+          events: { onError: () => alive && setFailed(true) },
+        });
         player.current = p;
         timer = window.setInterval(() => {
           if (typeof p.getCurrentTime !== 'function') return;
           const now = p.getCurrentTime();
-          const cue = p.getPlayerState() === YT.PlayerState.PLAYING ? crossedCue(prev, now, video.cues, asked.current) : null;
+          const clock = performance.now();
+          const elapsed = (clock - checkedAt) / 1000;
+          const cue = p.getPlayerState() === YT.PlayerState.PLAYING ? crossedCue(prev, now, video.cues, asked.current, elapsed, p.getPlaybackRate?.() ?? 1) : null;
           prev = now;
+          checkedAt = clock;
           if (cue) {
             asked.current.add(cue.id);
             p.pauseVideo();
@@ -130,8 +152,12 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
     };
   }, [video, youtubeId]);
 
+  // Move focus to the question (from the player, where it may be), so keyboard and screen-reader
+  // users know an answer is needed.
   useEffect(() => {
-    if (ask) card.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (!ask) return;
+    card.current?.focus({ preventScroll: true });
+    card.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [ask]);
 
   return (
@@ -139,7 +165,7 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
       <div className="relative aspect-video bg-black">
         <div ref={host} className="absolute inset-0 [&>iframe]:h-full [&>iframe]:w-full" data-testid="explainer-player" />
         {failed && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4 text-center text-white">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/90 p-4 text-center text-white">
             <p>The video player could not be loaded here.</p>
             <a className="inline-flex items-center gap-1.5 font-semibold underline" href={`https://www.youtube.com/watch?v=${youtubeId}`} target="_blank" rel="noreferrer">
               Watch on YouTube <ExternalLink className="h-4 w-4" />
@@ -153,30 +179,28 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
         )}
       </div>
       {ask && (
-        <div ref={card}>
-          <CueQuestion
-            cue={ask}
-            onDone={() => {
-              setAsk(null);
-              player.current?.playVideo();
-            }}
-          />
-        </div>
+        <CueQuestion
+          focusRef={card}
+          cue={ask}
+          onDone={() => {
+            setAsk(null);
+            player.current?.playVideo();
+          }}
+        />
       )}
     </div>
   );
 }
 
-function CueQuestion({ cue, onDone }: { cue: Cue; onDone: () => void }) {
+function CueQuestion({ cue, onDone, focusRef }: { cue: Cue; onDone: () => void; focusRef: RefObject<HTMLDivElement | null> }) {
   const titleId = useId();
   const [picked, setPicked] = useState<number | null>(null);
   const [typed, setTyped] = useState('');
   const [checked, setChecked] = useState(false);
   const answered = cue.choices ? picked !== null : checked;
   const right = answered && isRight(cue, cue.choices ? picked! : typed);
-  const correct = typeof cue.answer === 'number' && cue.choices ? `${String.fromCharCode(65 + cue.answer)}` : String(cue.answer);
   return (
-    <div className="space-y-3 border-t border-line bg-brand-50/60 p-4 sm:p-5" role="group" aria-labelledby={titleId}>
+    <div ref={focusRef} tabIndex={-1} className="space-y-3 border-t border-line bg-brand-50/60 p-4 outline-none sm:p-5" role="group" aria-labelledby={titleId}>
       <div id={titleId} className="text-xs font-semibold uppercase tracking-wider text-brand-700">
         Your turn
       </div>
@@ -219,7 +243,17 @@ function CueQuestion({ cue, onDone }: { cue: Cue; onDone: () => void }) {
       )}
       {answered && (
         <div className={cn('rounded-xl px-3 py-2 text-[15px]', right ? 'bg-good-soft text-good-ink' : 'bg-bad-soft text-bad-ink')} role="status">
-          <span className="font-semibold">{right ? 'Right!' : `Not quite. The answer is ${correct}.`}</span>
+          <span className="font-semibold">
+            {right ? (
+              'Right!'
+            ) : typeof cue.answer === 'number' ? (
+              `Not quite. The answer is ${String.fromCharCode(65 + cue.answer)}.`
+            ) : (
+              <>
+                Not quite. The answer is <Markdown md={cue.answer} inline />.
+              </>
+            )}
+          </span>
           {cue.working && <Markdown md={cue.working} className="mt-1" />}
         </div>
       )}
