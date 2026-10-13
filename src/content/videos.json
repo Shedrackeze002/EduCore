@@ -296,5 +296,60 @@
         "working": "$5$ is **opposite** $\\theta$ and $12$ is **adjacent**, so use tangent: $\\theta = \\tan^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 22.6^\\circ$. Neither leg is the hypotenuse, so sine and cosine do not fit."
       }
     ]
+  },
+  "m10c-2-4": {
+    "lessonId": "m10c-2-4",
+    "title": "Angles of Elevation and Depression",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Elevation and depression",
+        "t": 12.677
+      },
+      {
+        "title": "Finding a distance",
+        "t": 47.999
+      },
+      {
+        "title": "Using a clinometer",
+        "t": 85.672
+      },
+      {
+        "title": "Example: a flagpole",
+        "t": 115.844
+      },
+      {
+        "title": "Watch out",
+        "t": 149.905
+      },
+      {
+        "title": "Your turn",
+        "t": 164.96
+      },
+      {
+        "title": "Summary",
+        "t": 200.513
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-4:q",
+        "t": 177.319,
+        "prompt": "From the top of a $45$ m building, the angle of depression to a car is ${32^\\circ}$. How far is the car from the base of the building?",
+        "choices": [
+          "$\\dfrac{45}{\\tan 32^\\circ} \\approx 72.0$ m",
+          "$45\\tan 32^\\circ \\approx 28.1$ m",
+          "$45\\sin 32^\\circ \\approx 23.8$ m",
+          "$\\dfrac{45}{\\sin 32^\\circ} \\approx 84.9$ m"
+        ],
+        "answer": 0,
+        "working": "The angle of elevation from the car is also $32^\\circ$ (alternate angles). The height $45$ m is **opposite** it and the distance $x$ is **adjacent**, so $\\tan 32^\\circ = \\dfrac{45}{x}$ and $x = \\dfrac{45}{\\tan 32^\\circ} \\approx 72.0$ m."
+      }
+    ]
   }
 }
