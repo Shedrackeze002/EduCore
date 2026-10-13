@@ -135,15 +135,21 @@ export type Place = 'above' | 'below' | 'left' | 'right' | 'above left' | 'above
 
 /**
  * A part of a diagram. Every part has an id, so a line can show or emphasise it ("d.sight"), and
- * names the points it uses. Parts are drawn in order, so list scenery first.
+ * names the points it uses. Parts are drawn in order, so list scenery first. A part in a `group`
+ * also appears, and is emphasised, with its group ("d.shape" shows every edge of a solid).
  */
-export type DiagramItem =
+export type DiagramItem = (
   /**
    * A straight line from one point to another, drawn on from `from`. Its label sits beside its
    * middle (or at `labelAt`, 0 to 1 along it), away from the middle of the diagram unless `labelSide`
-   * says which side, looking from `from` to `to`.
+   * says which side, looking from `from` to `to`. `weight` sets its thickness in pixels.
    */
-  | { kind: 'line'; id: string; from: string; to: string; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number }
+  | { kind: 'line'; id: string; from: string; to: string; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number; weight?: number }
+  /**
+   * A curve through points (the edge of a cylinder, a sphere's outline), drawn on in order, and
+   * joined back to the start when `closed`. Labels as for a line, `labelAt` measured along it.
+   */
+  | { kind: 'curve'; id: string; points: string[]; closed?: boolean; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number; weight?: number }
   /**
    * The angle at `at` between the directions to `from` and `to` (the smaller one), with a label on
    * its bisector, or at `labelAt` (0 to 1 from `from` to `to`; beyond 1 places it outside, for an
@@ -162,7 +168,8 @@ export type DiagramItem =
    * extends to the `side` of that line. A person stands on `at` with their eyes at `top`. A boat
    * floats at `at`.
    */
-  | { kind: 'thing'; id: string; type: ThingType; at: string; top?: string; side?: 'left' | 'right'; /** Width in diagram units (cliff, building). */ width?: number };
+  | { kind: 'thing'; id: string; type: ThingType; at: string; top?: string; side?: 'left' | 'right'; /** Width in diagram units (cliff, building). */ width?: number }
+) & { group?: string };
 
 /**
  * A diagram drawn to scale from named points (x to the right, y up, in any unit): lines, angles,
@@ -232,6 +239,8 @@ export function itemPoints(item: DiagramItem): string[] {
   switch (item.kind) {
     case 'line':
       return [item.from, item.to];
+    case 'curve':
+      return item.points;
     case 'angle':
     case 'right':
       return [item.at, item.from, item.to];
@@ -256,12 +265,15 @@ export function checkScript(x: Explainer): string[] {
       ids.add(e.id);
       if (e.kind !== 'diagram') continue;
       const parts = new Set<string>();
+      const groups = new Set<string>();
       for (const item of e.items) {
         if (parts.has(item.id)) problems.push(`Scene ${si + 1}: diagram "${e.id}" uses the part id "${item.id}" twice.`);
         parts.add(item.id);
+        if (item.group) groups.add(item.group);
         for (const pt of itemPoints(item)) if (!(pt in e.points)) problems.push(`Scene ${si + 1}: diagram "${e.id}", part "${item.id}" uses no point "${pt}".`);
       }
-      diagrams.set(e.id, parts);
+      // A line can show or emphasise a part by its id, or a group of parts by the group's name.
+      diagrams.set(e.id, new Set([...parts, ...groups]));
     }
     if (!s.lines.length) problems.push(`Scene ${si + 1} has no lines.`);
     s.lines.forEach((l, li) => {
