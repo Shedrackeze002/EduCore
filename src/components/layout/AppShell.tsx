@@ -208,7 +208,7 @@ function Sidebar({ role, classId, nav, isAdmin }: { role: ShellRole; classId?: s
       <div className="border-t border-line p-4 text-xs text-ink-3">
         <div className="flex items-center gap-2">
           {role === 'admin' ? <ShieldCheck className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
-          {role === 'admin' ? 'EduCore platform administration' : <CourseLabel classId={classId} role={role} />}
+          {role === 'admin' ? 'Gradileo platform administration' : <CourseLabel classId={classId} role={role} />}
         </div>
       </div>
     </div>
@@ -280,7 +280,7 @@ function CourseLabel({ classId, role }: { classId?: string; role: ShellRole }) {
   const { data: classes = [] } = useClasses();
   const student = useStudentClass().cls;
   const cls = role === 'student' ? student : (classes.find((c) => c.id === classId) ?? (classes.length === 1 ? classes[0] : undefined));
-  return <>{(cls && getCourse(cls.courseId)?.title) ?? 'EduCore Mathematics'}</>;
+  return <>{(cls && getCourse(cls.courseId)?.title) ?? 'Gradileo Mathematics'}</>;
 }
 
 function AdminBadge() {

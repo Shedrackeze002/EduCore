@@ -254,7 +254,7 @@ function ExamModeNotice({ label, maxExits, onMax, camera, consent, setConsent }:
       {camera && (
         <>
           <p>
-            Your camera must stay on while you work. EduCore does not record, save or send any video or pictures; your teacher only sees whether the camera stayed on. If you have questions, talk to your teacher, and share this notice with a parent or guardian.
+            Your camera must stay on while you work. Gradileo does not record, save or send any video or pictures; your teacher only sees whether the camera stayed on. If you have questions, talk to your teacher, and share this notice with a parent or guardian.
           </p>
           <Checkbox checked={consent} onChange={setConsent} label={<span className="text-sm">I understand and agree to keep my camera on</span>} />
         </>

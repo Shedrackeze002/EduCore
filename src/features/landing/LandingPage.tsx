@@ -113,7 +113,7 @@ export default function LandingPage() {
               Teach it once. <span className="text-brand">Practise until it sticks.</span> Know who needs help.
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-2">
-              EduCore is an all-in-one mastery platform: complete lessons, unlimited auto-graded practice, assignments with reminders, and an AI assistant that tells you exactly what each student needs next.
+              Gradileo is an all-in-one mastery platform: complete lessons, unlimited auto-graded practice, assignments with reminders, and an AI assistant that tells you exactly what each student needs next.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button size="lg" icon={<Presentation className="h-5 w-5" />} loading={busy === 'teacher'} onClick={() => tryDemo('teacher')}>
@@ -165,13 +165,13 @@ export default function LandingPage() {
 
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="text-3xl font-semibold sm:text-4xl">A week with EduCore</h2>
+          <h2 className="text-3xl font-semibold sm:text-4xl">A week with Gradileo</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-4">
             {[
               ['Publish', 'Open the next lesson to your class with one switch. Add your own videos and notes.'],
               ['Teach', 'Present the lesson in class. Students follow along and answer the built-in checks.'],
               ['Assign', 'Create classwork, homework or a quiz from the lesson’s skills in under a minute.'],
-              ['Respond', 'EduCore grades everything, updates mastery and suggests who needs reteaching, practice or a challenge.'],
+              ['Respond', 'Gradileo grades everything, updates mastery and suggests who needs reteaching, practice or a challenge.'],
             ].map(([t, b], i) => (
               <div key={t} className="relative rounded-2xl border border-line p-5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-bold text-brand-ink">{i + 1}</div>

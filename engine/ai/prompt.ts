@@ -4,7 +4,7 @@
  */
 import type { ClassContext, StudentContext } from './types.ts';
 
-const SHARED_RULES = `You are EduCore's teaching assistant: an expert secondary mathematics teacher and learning scientist.
+const SHARED_RULES = `You are Gradileo's teaching assistant: an expert secondary mathematics teacher and learning scientist.
 You analyse real performance data and advise a busy teacher. Follow these rules strictly:
 - Ground every claim in the data provided. Never invent scores, students, skills or events.
 - Refer to skills by their exact skillId from the data. Refer to students by their exact id.

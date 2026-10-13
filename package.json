@@ -1,9 +1,9 @@
 {
-  "name": "educore",
+  "name": "gradileo",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "EduCore — a mastery-based, AI-assisted mathematics learning platform for teachers and students.",
+  "description": "Gradileo — a mastery-based, AI-assisted mathematics learning platform for teachers and students.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.json --noEmit && vite build && node scripts/spa-fallback.mjs",

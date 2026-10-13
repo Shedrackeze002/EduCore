@@ -1,6 +1,6 @@
 # Architecture
 
-EduCore is a single-page React app with a shared TypeScript **learning engine**. The engine runs
+Gradileo is a single-page React app with a shared TypeScript **learning engine**. The engine runs
 in the browser for instant feedback and, unchanged, inside Supabase Edge Functions where it grades
 work authoritatively. This keeps the server and the student's screen in exact agreement.
 
@@ -156,7 +156,7 @@ same section replaces the older one, and reverting returns the section to the fi
 ## Course requests (`src/features/requests/`, `src/features/admin/AdminRequestsPage.tsx`)
 
 Students (on the onboarding page) and teachers (on the new-class page) can ask for a course or
-topic EduCore lacks. `request_course` stores it (at most 5 a day per person) and tells the
+topic Gradileo lacks. `request_course` stores it (at most 5 a day per person) and tells the
 administrators. In the admin inbox, approving a request opens GitHub's new-issue form prefilled by
 `courseIssueUrl` (title, grade, details and a build checklist; the person who asked appears only
 as "a student" or "a teacher", because the repository is public). The administrator pastes the
@@ -184,7 +184,7 @@ with the script, `src/video/words.ts`) and the video's length, chapters and ques
 `src/content/videos.json`. The video tools live in their own package (`video/package.json`) so
 the app's install stays small. See `video/README.md`.
 
-Videos are hosted on EduCore's YouTube channel. After uploading one, an administrator pastes its
+Videos are hosted on Gradileo's YouTube channel. After uploading one, an administrator pastes its
 link on the admin **Videos** page (`video_links`, written only by the audited
 `admin_set_video_link`). A lesson then shows its videos above the lesson (one button per part), in
 YouTube's player loaded through the IFrame API (`src/features/lessons/ExplainerVideos.tsx`), with

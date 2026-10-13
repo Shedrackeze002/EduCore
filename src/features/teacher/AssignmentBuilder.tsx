@@ -307,7 +307,7 @@ export default function AssignmentBuilder() {
               {d.type === 'lesson' && <LessonSelect courseId={course.id} value={d.content.lessonId} onChange={(lessonId) => setContent({ lessonId })} published={published} label="Lesson to read" />}
               {d.type === 'video' && (
                 <>
-                  <Input label="Video link" placeholder="https://www.youtube.com/watch?v=…" value={d.content.resourceUrl ?? ''} onChange={(e) => setContent({ resourceUrl: e.target.value })} hint="YouTube and Vimeo play inside EduCore; other links open in a new tab." />
+                  <Input label="Video link" placeholder="https://www.youtube.com/watch?v=…" value={d.content.resourceUrl ?? ''} onChange={(e) => setContent({ resourceUrl: e.target.value })} hint="YouTube and Vimeo play inside Gradileo; other links open in a new tab." />
                   {d.content.resourceUrl && videoEmbedUrl(d.content.resourceUrl) && <VideoEmbed url={d.content.resourceUrl} />}
                   <LessonSelect courseId={course.id} value={d.content.lessonId} onChange={(lessonId) => setContent({ lessonId })} published={published} label="Related lesson (optional)" optional />
                 </>

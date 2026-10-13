@@ -22,7 +22,7 @@ describe('course request issues', () => {
 
   it('never names the person who asked', () => {
     const body = courseIssueBody(req);
-    expect(body).toContain('a student on EduCore');
+    expect(body).toContain('a student on Gradileo');
     expect(body).not.toContain('Ada');
   });
 

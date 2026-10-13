@@ -1,6 +1,6 @@
-# Setting up EduCore
+# Setting up Gradileo
 
-EduCore runs in three stages. You can stop at any stage and come back later.
+Gradileo runs in three stages. You can stop at any stage and come back later.
 
 1. **Demo on GitHub Pages**: free, no accounts, everything runs in the visitor's browser.
 2. **Real classes with Supabase**: teacher and student accounts, shared data, reminders, AI.
@@ -78,7 +78,7 @@ rather than quietly publishing a demo-only site.
 
 ### 2.5 Turn on the AI assistant (MiniMax)
 
-The assistant works without a key using EduCore's offline analyst. For live analysis with
+The assistant works without a key using Gradileo's offline analyst. For live analysis with
 MiniMax, set the key as a server secret (it is never sent to browsers):
 
 ```bash
@@ -93,7 +93,7 @@ Notes:
 
 - At the time of writing, MiniMax documents `MiniMax-M3.1-Flash-Preview` as available through its
   M Plan (Token Plan) subscription. If your key does not include it, set `MINIMAX_MODEL` to a
-  model your key can use. If MiniMax is unreachable, EduCore falls back to the offline analyst
+  model your key can use. If MiniMax is unreachable, Gradileo falls back to the offline analyst
   and tells you, so teachers always get a report.
 - Analyses are limited to 60 per class per hour (`AI_INSIGHTS_PER_HOUR` changes this).
 - To try MiniMax in the **demo**, a teacher can paste a key in *Class settings → AI teaching
@@ -108,7 +108,7 @@ and parents who signed up with an email address:
 2. Set the function secrets:
 
    ```bash
-   supabase secrets set RESEND_API_KEY=<key> EMAIL_FROM="EduCore <reminders@yourschool.ca>" \
+   supabase secrets set RESEND_API_KEY=<key> EMAIL_FROM="Gradileo <reminders@yourschool.ca>" \
      APP_URL=https://<your-username>.github.io/EduCore EDUCORE_CRON_SECRET=<long random string>
    ```
 
@@ -145,7 +145,7 @@ the first administrator straight after connecting the site:
 3. Reload the site. **Admin console** now appears in the sidebar and the account menu.
 
 From then on, use the console to approve teachers (you are notified of each request) and to make
-other teachers administrators. EduCore always keeps at least one active administrator.
+other teachers administrators. Gradileo always keeps at least one active administrator.
 
 | Page | What it does |
 |---|---|
@@ -163,7 +163,7 @@ data entirely, delete the user in **Authentication → Users**.
 
 ## 3. Your own domain
 
-1. Buy a domain, for example `educore.ca`, or use a subdomain of your school's site such as
+1. Buy a domain, or use a subdomain of your school's site such as
    `math.yourschool.ca`.
 2. Add a DNS record at your domain provider:
    - Subdomain: a **CNAME** record pointing to `<your-username>.github.io`.

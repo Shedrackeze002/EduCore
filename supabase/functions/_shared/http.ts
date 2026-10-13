@@ -1,4 +1,4 @@
-/** HTTP helpers shared by the EduCore Edge Functions. */
+/** HTTP helpers shared by the Gradileo Edge Functions. */
 
 const allowed = (Deno.env.get('ALLOWED_ORIGINS') ?? '*').split(',').map((s) => s.trim()).filter(Boolean);
 

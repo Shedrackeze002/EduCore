@@ -305,7 +305,7 @@ function AddStudentsModal({ cls, onClose }: { cls: ClassRoom; onClose: () => voi
           />
           {tab === 'create' ? (
             <>
-              <p className="text-sm text-ink-3">Paste names from your class list, one per line. EduCore creates a username and a temporary password for each student, with no email needed.</p>
+              <p className="text-sm text-ink-3">Paste names from your class list, one per line. Gradileo creates a username and a temporary password for each student, with no email needed.</p>
               <Textarea rows={8} value={names} onChange={(e) => setNames(e.target.value)} placeholder={'Amara Okafor\nLiam Chen\nSofia Martinez'} aria-label="Student names" />
               {list.length > 0 && <div className="text-xs text-ink-3">{list.length} student{list.length === 1 ? '' : 's'} will be added.</div>}
             </>
@@ -342,7 +342,7 @@ function printCards(cls: ClassRoom, creds: NewStudentCredential[]) {
   const url = `${window.location.origin}${import.meta.env.BASE_URL}login`;
   const cards = creds
     .map(
-      (c) => `<div class="card"><div class="brand">EduCore · ${esc(cls.name)}</div><div class="name">${esc(c.fullName)}</div>
+      (c) => `<div class="card"><div class="brand">Gradileo · ${esc(cls.name)}</div><div class="name">${esc(c.fullName)}</div>
       <div class="row"><span>Username</span><b>${esc(c.username)}</b></div><div class="row"><span>Password</span><b>${esc(c.password)}</b></div>
       <div class="url">Sign in at ${esc(url)}</div></div>`,
     )

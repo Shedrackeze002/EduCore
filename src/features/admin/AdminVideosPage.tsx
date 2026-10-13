@@ -1,6 +1,6 @@
 /**
  * Explainer videos: every video built from the scripts in the repository, and its YouTube link.
- * After uploading a video to EduCore's channel, an administrator pastes the link here; the
+ * After uploading a video to Gradileo's channel, an administrator pastes the link here; the
  * lesson then shows the video, with its questions.
  */
 import { useMemo, useState } from 'react';
@@ -30,7 +30,7 @@ export default function AdminVideosPage() {
       <PageHeader
         eyebrow="Admin console"
         title="Explainer videos"
-        subtitle="Videos built from the scripts in the repository. Upload each one to EduCore's YouTube channel (with its captions and thumbnail), then paste its link here so its lesson shows it."
+        subtitle="Videos built from the scripts in the repository. Upload each one to Gradileo's YouTube channel (with its captions and thumbnail), then paste its link here so its lesson shows it."
       />
       {links.isLoading ? (
         <Skeleton className="h-48" />

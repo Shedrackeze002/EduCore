@@ -46,7 +46,7 @@ serve(async (req) => {
       if (userId === me.id) throw new HttpError(400, 'You cannot disable your own account.');
       if (target.platform_admin) {
         const { count } = await db.from('profiles').select('id', { count: 'exact', head: true }).eq('platform_admin', true).is('disabled_at', null).neq('id', userId);
-        if (!count) throw new HttpError(400, 'EduCore needs at least one administrator.');
+        if (!count) throw new HttpError(400, 'Gradileo needs at least one administrator.');
       }
       const { error } = await db.auth.admin.updateUserById(userId, { ban_duration: FOREVER });
       if (error) throw new Error(error.message);

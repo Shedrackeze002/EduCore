@@ -112,7 +112,7 @@ const video: Explainer = {
         { say: "Let's sum up. Choose the ratio that links the side you know and the side you want.", show: 'sum.0' },
         { say: 'When the unknown is on top, multiply. When it is on the bottom, as the hypotenuse often is, divide.', show: 'sum.1' },
         { say: 'The hypotenuse is always the longest side, so use that to check your answers.', show: 'sum.2' },
-        { say: 'And use the inverse ratios to find angles, in degree mode. Now practise these skills in your EduCore lesson. See you next time!', show: 'sum.3' },
+        { say: 'And use the inverse ratios to find angles, in degree mode. Now practise these skills in your lesson. See you next time!', show: 'sum.3' },
       ],
     },
   ],

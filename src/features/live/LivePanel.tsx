@@ -108,7 +108,7 @@ export function LivePanel({ question, classSize, onShowResults, onAskAgain, onEn
           {open ? (
             <div className="flex items-start gap-4 text-[24px] leading-snug text-ink-2">
               <Users className="mt-1 h-8 w-8 shrink-0 text-brand" />
-              <p>The question is on every student’s EduCore screen. Answers can change until the results are shown.</p>
+              <p>The question is on every student’s Gradileo screen. Answers can change until the results are shown.</p>
             </div>
           ) : results.choices ? (
             <div className="space-y-2.5" aria-label="Answers by choice">

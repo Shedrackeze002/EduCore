@@ -1,6 +1,6 @@
-# EduCore
+# Gradileo
 
-EduCore is a mastery-based learning platform for mathematics. Teachers publish lessons,
+Gradileo is a mastery-based learning platform for mathematics. Teachers publish lessons,
 present them in class, and assign work in one click. Students learn, practise and get
 feedback. An AI teaching assistant reads every answer and suggests the next step for each
 student and for the class.
@@ -17,7 +17,7 @@ It covers **every Alberta mathematics course from Grade 5 to Grade 12: Math 5, 6
 | **Mastery** | Bayesian Knowledge Tracing per student and skill with five levels: Not started, Attempted, Familiar, Proficient, Mastered. Spaced review is suggested when a skill may be fading. |
 | **Reminders** | Students are notified when work is assigned. Before the deadline, only students who have **not** submitted are reminded (24 h and 2 h by default, configurable). |
 | **AI assistant** | Powered by MiniMax (`MiniMax-M3.1-Flash-Preview`) with an offline analyst as a fallback. It reports strengths, gaps, likely misconceptions, areas of growth and suggested groups, and proposes actions the teacher approves with one click. An optional autopilot assigns targeted practice after graded work. |
-| **Admin console** | For running EduCore across a school or district: platform overview, every user and class, teacher approval, admin roles, password resets, disabling accounts, sign-up settings, an audit log, and an inbox of course requests from students and teachers, where approving one opens a GitHub issue for a build session. |
+| **Admin console** | For running Gradileo across a school or district: platform overview, every user and class, teacher approval, admin roles, password resets, disabling accounts, sign-up settings, an audit log, and an inbox of course requests from students and teachers, where approving one opens a GitHub issue for a build session. |
 | **Presenting** | Every lesson becomes a 16:9 slide deck that builds point by point, with transitions, worked examples revealed step by step and the lesson's interactive questions on "Your turn" slides. Draw on any slide or open a whiteboard (pen pressure, palm rejection) and save boards to the lesson; class timer, random student picker, blank screen, embedded videos and Desmos/GeoGebra activities. Live class questions go to every student's device, with the results on the slide. Teachers hide what they will not teach; students still see the whole lesson. |
 | **Self-paced study** | Students can sign up without a class code. A few questions (grade, plans, how mathematics feels) give a recommended course that follows Alberta's course sequences, an optional 6-question placement check shows whether they are ready or which skills to review, and a self-paced section opens with every lesson. The AI acts as tutor: it marks the next lesson, suggests practice and assigns targeted practice when a skill stays weak. Students can study several courses and join teachers' classes too; a class can ask the teacher to approve each student who uses its code. |
 | **Explainer videos** | Animated explainers built from scripts, like the lessons: labelled triangles and diagrams (a cliff and a boat, a lighthouse, a clinometer), maths written step by step, a calculator, and a "Your turn" question with a countdown, with natural narration from an open text-to-speech model, captions, thumbnails and YouTube chapters. Lessons show their videos in a player that pauses at each "Your turn" and asks the question; administrators link each upload on the Videos page. The first videos cover Math 10C Unit 2 (lessons 2.1 to 2.4); see [video/README.md](video/README.md). |
@@ -44,7 +44,7 @@ student demo in a second tab to watch notifications and submissions arrive live.
 
 ## Documentation
 
-- [docs/TEACHER_GUIDE.md](docs/TEACHER_GUIDE.md): a teacher's week with EduCore.
+- [docs/TEACHER_GUIDE.md](docs/TEACHER_GUIDE.md): a teacher's week with Gradileo.
 - [docs/SETUP.md](docs/SETUP.md): GitHub Pages, Supabase, MiniMax, email reminders and a custom domain.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how the pieces fit together, the security model, and how to add a course.
 - [docs/RESEARCH.md](docs/RESEARCH.md): the learning science and platforms behind the design, with sources.

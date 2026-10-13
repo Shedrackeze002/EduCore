@@ -1,6 +1,6 @@
 /**
  * The data API used by every screen. Two implementations exist:
- *  - DemoApi: everything runs in this browser (localStorage). Great for trying EduCore.
+ *  - DemoApi: everything runs in this browser (localStorage). Great for trying Gradileo.
  *  - SupabaseApi: real multi-user backend (Postgres + Auth + Edge Functions + cron).
  */
 import type { Integrity } from '@engine/integrity.ts';

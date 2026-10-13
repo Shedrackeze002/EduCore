@@ -1,6 +1,6 @@
 # Explainer videos
 
-EduCore's explainer videos are built from scripts, like the lessons. A script
+Gradileo's explainer videos are built from scripts, like the lessons. A script
 (`src/content/<course>/videos/<id>.ts`) is a list of scenes: each puts triangles, maths, tables,
 a calculator or a "Your turn" question on the stage, and the narrator's lines show and highlight
 them as they are spoken. The build voices every line, times the video from the narration, draws
@@ -71,7 +71,7 @@ See `src/video/script.ts` for every element and option. In short:
 
 ## Uploading to YouTube
 
-1. Upload `<id>.mp4` to the EduCore channel.
+1. Upload `<id>.mp4` to the Gradileo channel.
 2. Copy the title, description and tags from `youtube.txt`.
 3. Set `thumbnail.png` as the thumbnail.
 4. Upload the captions: in YouTube Studio, **Subtitles → Add language → English → Upload file →
@@ -79,5 +79,5 @@ See `src/video/script.ts` for every element and option. In short:
    recognition and get maths words wrong ("sign" for sine, "data" for theta) or arrive late; ours
    follow the script word for word, timed to the narration. The lesson player shows captions from
    the start.
-5. In EduCore, open **Admin console → Videos** and paste the video's YouTube link. Its lesson
+5. In Gradileo, open **Admin console → Videos** and paste the video's YouTube link. Its lesson
    then shows the video and pauses at each "Your turn" to ask the question.
