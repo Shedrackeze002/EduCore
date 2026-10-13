@@ -16,6 +16,7 @@ import { dueReminders } from '@engine/reminders.ts';
 import { draftFromAction } from '@engine/actions.ts';
 import { generateInsight, DEFAULT_MODEL } from '@engine/ai/index.ts';
 import type { SkillState } from '@engine/mastery.ts';
+import { exitCount, isLocked, mergeIntegrity, type Integrity } from '@engine/integrity.ts';
 import type { AiConfigStatus, DataApi, SignUpInput } from '../api.ts';
 import type {
   AdminAuditEntry,
@@ -880,24 +881,44 @@ export class DemoApi implements DataApi {
     return s;
   }
 
-  async saveProgress(submissionId: string, patch: { responses: Record<number, StoredResponse>; items?: ItemRef[]; blurCount?: number }) {
+  async saveProgress(submissionId: string, patch: { responses: Record<number, StoredResponse>; items?: ItemRef[]; integrity?: Integrity }) {
     const me = this.me();
     const s = this.db.submissions.find((x) => x.id === submissionId && x.studentId === me.id);
     if (!s || s.status !== 'in_progress') return;
+    const a = s.assignmentId ? this.db.assignments.find((x) => x.id === s.assignmentId) : undefined;
+    const wasLocked = !!a && isLocked(a.settings, s.integrity);
+    // As in the database: a locked attempt's answers cannot change, and exits only ever grow.
+    if (wasLocked && JSON.stringify(patch.responses) !== JSON.stringify(s.responses)) throw new Error('This attempt is locked. Your teacher can unlock it.');
     s.responses = patch.responses;
     if (patch.items) s.items = patch.items;
-    if (patch.blurCount !== undefined) s.integrity = { blurCount: patch.blurCount };
+    if (patch.integrity) s.integrity = mergeIntegrity(s.integrity, patch.integrity);
+    if (a && !wasLocked && isLocked(a.settings, s.integrity)) {
+      const c = this.db.classes.find((x) => x.id === a.classId);
+      this.notify(c?.teacherId ?? null, 'submission', `${me.fullName}'s attempt at ${a.title} is locked`, `They left exam mode ${exitCount(s.integrity)} times. You can unlock the attempt on the assignment page.`, `/t/c/${a.classId}/assignments/${a.id}`, a.id);
+    }
     this.persist();
   }
 
-  async submit(submissionId: string, patch: { responses: Record<number, StoredResponse>; items: ItemRef[]; blurCount?: number }) {
+  async unlockAttempt(submissionId: string) {
+    await this.ready;
+    const s = this.db.submissions.find((x) => x.id === submissionId);
+    if (!s) throw new Error('That attempt was not found.');
+    this.requireTeacherOf(s.classId);
+    if (s.status !== 'in_progress') throw new Error('Only an attempt in progress can be unlocked.');
+    s.integrity = { ...s.integrity, extraExits: exitCount(s.integrity) };
+    const a = this.db.assignments.find((x) => x.id === s.assignmentId);
+    this.notify(s.studentId, 'announcement', `Your teacher unlocked ${a?.title ?? 'your attempt'}`, 'You can carry on where you left off. Stay in full screen until you submit.', `/s/work/${s.assignmentId}/take`, s.assignmentId);
+    this.persist();
+  }
+
+  async submit(submissionId: string, patch: { responses: Record<number, StoredResponse>; items: ItemRef[]; integrity?: Integrity }) {
     const me = this.me();
     const s = this.db.submissions.find((x) => x.id === submissionId && x.studentId === me.id);
     if (!s) throw new Error('Submission not found.');
     if (s.status !== 'in_progress') return s;
     const a = s.assignmentId ? this.db.assignments.find((x) => x.id === s.assignmentId) ?? null : null;
     const now = nowIso();
-    s.integrity = { blurCount: patch.blurCount ?? s.integrity.blurCount };
+    s.integrity = mergeIntegrity(s.integrity, patch.integrity ?? s.integrity);
     if (a && !isQuestionType(a.type)) {
       Object.assign(s, { status: 'graded', submittedAt: now, score: 1, maxScore: 1, percent: 100, late: !!a.dueAt && new Date(now) > new Date(a.dueAt), responses: patch.responses });
       this.afterSubmit(s, a);
@@ -939,10 +960,10 @@ export class DemoApi implements DataApi {
 
   /** Tell the teacher about work that needs them: written answers to grade, or late work. */
   private afterSubmit(s: Submission, a: Assignment) {
-    if (!s.pendingManual && !s.late) return;
+    if (!s.pendingManual && !s.late && !s.integrity.autoSubmitted) return;
     const c = this.db.classes.find((x) => x.id === a.classId)!;
     const student = this.db.users.find((u) => u.id === s.studentId)!;
-    this.notify(c.teacherId, 'submission', `${student.fullName} submitted ${a.title}${s.late ? ' (late)' : ''}`, s.percent !== null && isQuestionType(a.type) ? `Score: ${Math.round(s.percent)}%${s.pendingManual ? ` · ${s.pendingManual} to grade` : ''}` : 'Completed.', s.pendingManual ? `/t/c/${c.id}/submissions/${s.id}` : `/t/c/${c.id}/assignments/${a.id}`, a.id);
+    this.notify(c.teacherId, 'submission', `${student.fullName} submitted ${a.title}${s.integrity.autoSubmitted ? ' (automatically, after leaving exam mode)' : s.late ? ' (late)' : ''}`, s.percent !== null && isQuestionType(a.type) ? `Score: ${Math.round(s.percent)}%${s.pendingManual ? ` · ${s.pendingManual} to grade` : ''}` : 'Completed.', s.pendingManual ? `/t/c/${c.id}/submissions/${s.id}` : `/t/c/${c.id}/assignments/${a.id}`, a.id);
   }
 
   /** If autopilot is on, let the AI assistant assign targeted practice for a weak skill. */

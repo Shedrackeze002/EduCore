@@ -11,10 +11,12 @@ import { adminClient, getCaller, notify, requireTeacherOf, str, type Caller, typ
 import { aiConfig, loadAnalystInput } from '../_shared/analyst.ts';
 import {
   buildItemRefs,
+  cleanIntegrity,
   draftFromAction,
   freshSeed,
   gradeSubmission,
   isQuestionType,
+  mergeIntegrity,
   processSubmission,
   TYPE_LABEL,
   validateRefs,
@@ -140,13 +142,14 @@ async function submit(db: Db, me: Caller, body: Record<string, unknown>): Promis
   const a = s.assignment_id ? await loadAssignment(db, s.assignment_id) : null;
   const now = new Date().toISOString();
   const responses = cleanResponses(body.responses);
-  const blurCount = Math.max(0, Math.min(10_000, Number(body.blurCount ?? s.integrity?.blurCount) || 0));
+  // Exam mode records only grow; the teacher's extra allowance comes from the stored record.
+  const integrity = mergeIntegrity(s.integrity, body.integrity ?? { ...cleanIntegrity(s.integrity), blurCount: Number(body.blurCount ?? 0) });
   const late = !!a?.due_at && new Date(now) > new Date(a.due_at);
 
   if (a && !isQuestionType(a.type as AssignmentType)) {
     const { data, error } = await db
       .from('submissions')
-      .update({ status: 'graded', submitted_at: now, score: 1, max_score: 1, percent: 100, late, responses, integrity: { blurCount } })
+      .update({ status: 'graded', submitted_at: now, score: 1, max_score: 1, percent: 100, late, responses, integrity })
       .eq('id', s.id)
       .select()
       .single();
@@ -178,7 +181,7 @@ async function submit(db: Db, me: Caller, body: Record<string, unknown>): Promis
     .update({
       items,
       responses,
-      integrity: { blurCount },
+      integrity,
       status: out.status,
       submitted_at: now,
       score: out.summary.score,
@@ -234,7 +237,7 @@ async function submit(db: Db, me: Caller, body: Record<string, unknown>): Promis
   }
 
   if (a) {
-    if (saved.pending_manual > 0 || saved.late) await tellTeacher(db, a, me, saved);
+    if (saved.pending_manual > 0 || saved.late || integrity.autoSubmitted) await tellTeacher(db, a, me, saved);
     background(autopilot(db, a.class_id, me.id));
   } else {
     // Self-paced students have no teacher: the AI tutor may assign targeted practice after their own
@@ -252,7 +255,7 @@ async function tellTeacher(db: Db, a: Row, me: Caller, s: Row) {
     {
       user_id: c.teacher_id,
       kind: 'submission',
-      title: `${me.full_name} submitted ${a.title}${s.late ? ' (late)' : ''}`,
+      title: `${me.full_name} submitted ${a.title}${s.integrity?.autoSubmitted ? ' (automatically, after leaving exam mode)' : s.late ? ' (late)' : ''}`,
       body: s.pending_manual > 0 ? `${score} · ${s.pending_manual} to grade` : score,
       link: s.pending_manual > 0 ? `/t/c/${c.id}/submissions/${s.id}` : `/t/c/${c.id}/assignments/${a.id}`,
       assignment_id: a.id,

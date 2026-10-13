@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api } from './index.ts';
+import type { Integrity } from '@engine/integrity.ts';
 import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, CourseRequestInput, CourseRequestStatus, LessonEditInput, LessonEditStatus, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
 
 export const qk = {
@@ -255,11 +256,17 @@ export function useDeleteAssignment(classId: string) {
   return useMutation({ mutationFn: (id: string) => api().deleteAssignment(id), onSuccess: () => qc.invalidateQueries({ queryKey: qk.assignments(classId) }) });
 }
 
+/** Teacher: unlock an attempt that exam mode locked. */
+export function useUnlockAttempt() {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (submissionId: string) => api().unlockAttempt(submissionId), onSuccess: () => qc.invalidateQueries({ queryKey: ['submissions'] }) });
+}
+
 export function useSubmit() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (v: { submissionId: string; responses: Record<number, StoredResponse>; items: ItemRef[]; blurCount?: number }) =>
-      api().submit(v.submissionId, { responses: v.responses, items: v.items, blurCount: v.blurCount }),
+    mutationFn: (v: { submissionId: string; responses: Record<number, StoredResponse>; items: ItemRef[]; integrity?: Integrity }) =>
+      api().submit(v.submissionId, { responses: v.responses, items: v.items, integrity: v.integrity }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['submissions'] });
       qc.invalidateQueries({ queryKey: ['mastery'] });

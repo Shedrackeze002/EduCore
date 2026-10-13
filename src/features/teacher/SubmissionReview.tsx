@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { ChevronLeft, ChevronRight, Clock, Eye, Lightbulb, Send } from 'lucide-react';
+import { CameraOff, ChevronLeft, ChevronRight, Clock, Eye, Lightbulb, Send, ShieldCheck } from 'lucide-react';
 import { isQuestionType, itemFromRef } from '@engine/assemble.ts';
+import { cameraOffCount, exitCount } from '@engine/integrity.ts';
 import { api } from '@/data/index.ts';
 import { qk, useAssignment, useProfile, useRoster, useSubmission, useSubmissions } from '@/data/hooks.ts';
 import type { Assignment, Submission } from '@/data/types.ts';
@@ -12,6 +13,11 @@ import { SkillsGate } from '@/components/SkillsGate.tsx';
 import { refSkillIds } from '@/lib/useSkills.ts';
 import { fmtDateTime } from '@/lib/dates.ts';
 import { cn } from '@/lib/cn.ts';
+
+const fmtTime = (iso: string) => {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? iso : d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', second: '2-digit' });
+};
 import { scoreCell, useClassId } from './shared.tsx';
 
 /** Waits for the attempt's question generators before showing the review. */
@@ -132,13 +138,46 @@ function Review() {
                 </dt>
                 <dd className="font-medium">{hints}</dd>
               </div>
-              <div className="flex justify-between">
-                <dt className="flex items-center gap-1.5 text-ink-3">
-                  <Eye className="h-4 w-4" /> Left the tab
-                </dt>
-                <dd className="font-medium">{s.integrity?.blurCount ?? 0}×</dd>
-              </div>
+              {a.data?.settings.lockdown ? (
+                <>
+                  <div className="flex justify-between">
+                    <dt className="flex items-center gap-1.5 text-ink-3">
+                      <ShieldCheck className="h-4 w-4" /> Left exam mode
+                    </dt>
+                    <dd className="font-medium">{exitCount(s.integrity)}×</dd>
+                  </div>
+                  {a.data.settings.camera && (
+                    <div className="flex justify-between">
+                      <dt className="flex items-center gap-1.5 text-ink-3">
+                        <CameraOff className="h-4 w-4" /> Camera turned off
+                      </dt>
+                      <dd className="font-medium">{s.integrity.camera ? `${cameraOffCount(s.integrity)}×` : 'Never on'}</dd>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex justify-between">
+                  <dt className="flex items-center gap-1.5 text-ink-3">
+                    <Eye className="h-4 w-4" /> Left the tab
+                  </dt>
+                  <dd className="font-medium">{s.integrity?.blurCount ?? 0}×</dd>
+                </div>
+              )}
             </dl>
+            {a.data?.settings.lockdown && (s.integrity.events?.length ?? 0) > 0 && (
+              <details className="mt-3 text-sm">
+                <summary className="cursor-pointer font-medium text-brand">Exam mode record</summary>
+                <ol className="mt-2 space-y-1 text-ink-2" aria-label="Exam mode record">
+                  {s.integrity.events!.map((e, i) => (
+                    <li key={i} className="flex justify-between gap-3">
+                      <span>{e.kind === 'tab' ? 'Switched tab or app' : e.kind === 'fullscreen' ? 'Left full screen' : 'Camera turned off'}</span>
+                      <span className="tabular-nums text-ink-3">{fmtTime(e.at)}</span>
+                    </li>
+                  ))}
+                </ol>
+                {s.integrity.autoSubmitted && <p className="mt-2 font-medium text-bad-ink">Submitted automatically at the exit limit.</p>}
+              </details>
+            )}
           </Card>
           {s.status !== 'in_progress' && <FeedbackCard key={s.id} s={s} />}
         </aside>

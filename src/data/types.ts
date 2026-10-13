@@ -2,6 +2,7 @@
 import type { AssignmentContent, AssignmentSettings, AssignmentType, StoredResponse } from '@engine/assemble.ts';
 import type { Difficulty, ItemRef } from '@engine/types.ts';
 import type { SkillState } from '@engine/mastery.ts';
+import type { Integrity } from '@engine/integrity.ts';
 import type { InsightData, ProposedAction } from '@engine/ai/types.ts';
 import type { BoardPage } from '@/lib/ink.ts';
 
@@ -254,7 +255,8 @@ export interface Submission {
   pendingManual: number;
   late: boolean;
   feedback: string | null;
-  integrity: { blurCount: number };
+  /** Tab switches and, in exam mode, exits from full screen and camera-off events. */
+  integrity: Integrity;
   masteryChanges?: Array<{ skillId: string; before: string; after: string; pBefore: number; pAfter: number }>;
 }
 

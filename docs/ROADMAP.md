@@ -46,16 +46,15 @@ items ship or decisions change.
   the lesson files and apply to every class (lessons and present mode); they can be reverted, and
   an edit stops applying if its section in the file changes.
 
+- Exam mode for quizzes and exams, when the teacher turns it on per assessment: full screen;
+  leaving it, switching tabs or apps and the camera turning off are recorded and shown to the
+  teacher; after a set number of exits the attempt locks until the teacher unlocks it, or is
+  submitted automatically. The camera option only checks that the camera is on: nothing is
+  recorded or stored, and students see a consent notice before they start.
+
 ## Next, in order
 
-1. **Lockdown for quizzes and exams — only when the teacher turns it on, per assessment.**
-   - Full-screen exam mode; leaving it or switching tabs is logged and shown to the teacher, with
-     optional lock or auto-submit after a set number of exits.
-   - Camera mode is a separate teacher choice. Decision: **no snapshots are stored**; the camera
-     only has to be on. Students and parents see a consent notice.
-   - A website cannot stop a student closing a tab; a Safe Exam Browser option can be added for
-     schools that need true lockdown.
-2. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
+1. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
      two minutes or longer depending on difficulty; harder lessons (expected mostly in Grades
@@ -63,7 +62,7 @@ items ship or decisions change.
    - Start with a pilot of about 3 videos for one unit to settle style and voice.
    - Decision: narration with a cloned human voice, a paid voice or a free voice, chosen by cost
      at the pilot stage. The channel owner uploads; the build produces the files.
-3. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
    for example "Draft with AI") and the AI drafts the questions from the course curriculum and
@@ -81,7 +80,7 @@ items ship or decisions change.
      the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
      marking guides. The teacher previews everything, regenerates or edits single questions, and
      publishes; nothing reaches students without the teacher's approval.
-4. **Other subjects**, once mathematics is complete.
+3. **Other subjects**, once mathematics is complete.
 
 ## Hosting
 
@@ -107,6 +106,8 @@ items ship or decisions change.
   check working) using the same AI provider as the teaching assistant; store placement results on
   the server (today they stay on the device); let a student leave a self-paced course; and email
   the AI tutor's weekly summary.
+- Exam mode, next steps: a Safe Exam Browser option for schools that need true lockdown, a
+  per-class default for exam mode, and a live view of who is locked during an exam.
 - Lesson edits, next steps: let administrators edit the lesson introduction (before the first
   section) as well as sections, and export approved edits as a pull request so they can be folded
   into the lesson files.

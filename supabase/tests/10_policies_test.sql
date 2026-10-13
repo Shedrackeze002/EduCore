@@ -610,6 +610,46 @@ select _assert((select count(*) from lesson_edits where status = 'approved') = 0
 select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a2' and title like 'Your lesson edit%') = 3, 'the author is told about each decision');
 select _assert((select count(*) from admin_audit_log where action like 'lesson_edit_%') = 3, 'decisions are audited');
 
+-- ---------------------------------------------------------------- exam mode
+insert into assignments (class_id, title, type, content, settings, status)
+select class_id, 'Locked exam', 'exam', '{"sections":[{"skillId":"m1-referents","count":1,"difficulty":1}],"custom":[]}', '{"lockdown":true,"maxExits":2,"onMaxExits":"lock","attempts":1}', 'published' from ctx;
+insert into submissions (assignment_id, class_id, student_id, seed, items)
+select a.id, a.class_id, '00000000-0000-0000-0000-0000000000b1', 1, '[{"skillId":"m1-referents","seed":5,"difficulty":1}]' from assignments a where a.title = 'Locked exam';
+create temp table ex as select id from submissions where assignment_id = (select id from assignments where title = 'Locked exam');
+grant select on ex to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+update submissions set integrity = '{"blurCount":1,"events":[{"at":"t1","kind":"tab"}],"extraExits":50}' where id = (select id from ex);
+update submissions set integrity = '{"blurCount":0,"events":[]}' where id = (select id from ex);
+reset role;
+select _assert(not ((select integrity from submissions where id = (select id from ex)) ? 'extraExits'), 'students cannot give themselves extra exits');
+select _assert((select jsonb_array_length(integrity -> 'events') = 1 and (integrity ->> 'blurCount')::int = 1 from submissions where id = (select id from ex)), 'exits cannot be erased');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+update submissions set integrity = '{"blurCount":2,"events":[{"at":"t1","kind":"tab"},{"at":"t2","kind":"fullscreen"}]}' where id = (select id from ex);
+select _fails($$update submissions set responses = '{"0":{"answers":["x"],"hintsUsed":0}}' where id = (select id from ex)$$, 'a locked attempt''s answers cannot change');
+reset role;
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a1' and title = 'Sam Student''s attempt at Locked exam is locked') = 1, 'the teacher is told when an attempt locks');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select unlock_attempt((select id from ex))$$, 'only the class''s teacher can unlock an attempt');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select unlock_attempt((select id from ex));
+reset role;
+select _assert((select (integrity ->> 'extraExits')::int from submissions where id = (select id from ex)) = 2, 'unlocking allows as many exits again');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000b1' and title = 'Your teacher unlocked Locked exam') = 1, 'the student is told about the unlock');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+update submissions set responses = '{"0":{"answers":["x"],"hintsUsed":0}}', integrity = '{"blurCount":2,"events":[{"at":"t1","kind":"tab"},{"at":"t2","kind":"fullscreen"}]}' where id = (select id from ex);
+reset role;
+select _assert((select responses -> '0' -> 'answers' ->> 0 = 'x' and (integrity ->> 'extraExits')::int = 2 from submissions where id = (select id from ex)), 'after the unlock the student carries on and keeps the allowance');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;

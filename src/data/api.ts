@@ -3,6 +3,7 @@
  *  - DemoApi: everything runs in this browser (localStorage). Great for trying EduCore.
  *  - SupabaseApi: real multi-user backend (Postgres + Auth + Edge Functions + cron).
  */
+import type { Integrity } from '@engine/integrity.ts';
 import type {
   AdminAuditEntry,
   AdminClassRow,
@@ -131,8 +132,10 @@ export interface DataApi {
   getSubmission(id: string): Promise<Submission | null>;
   startSubmission(assignmentId: string): Promise<Submission>;
   startPractice(classId: string, skillIds: string[]): Promise<Submission>;
-  saveProgress(submissionId: string, patch: { responses: Record<number, StoredResponse>; items?: ItemRef[]; blurCount?: number }): Promise<void>;
-  submit(submissionId: string, patch: { responses: Record<number, StoredResponse>; items: ItemRef[]; blurCount?: number }): Promise<Submission>;
+  saveProgress(submissionId: string, patch: { responses: Record<number, StoredResponse>; items?: ItemRef[]; integrity?: Integrity }): Promise<void>;
+  submit(submissionId: string, patch: { responses: Record<number, StoredResponse>; items: ItemRef[]; integrity?: Integrity }): Promise<Submission>;
+  /** Teacher: unlock an attempt that exam mode locked; the student may leave it as many times again. */
+  unlockAttempt(submissionId: string): Promise<void>;
   gradeManual(submissionId: string, itemIndex: number, score01: number, comment?: string): Promise<Submission>;
   returnSubmission(submissionId: string, feedback: string): Promise<Submission>;
 

@@ -9,6 +9,7 @@ import { createClient, type SupabaseClient, type RealtimeChannel } from '@supaba
 import { freshSeed } from '@engine/rng.ts';
 import { getCourse } from '@engine/curriculum/index.ts';
 import { isQuestionType, type StoredResponse } from '@engine/assemble.ts';
+import type { Integrity } from '@engine/integrity.ts';
 import type { AiConfigStatus, DataApi, SignUpInput } from '../api.ts';
 import type {
   AdminOverview,
@@ -537,17 +538,22 @@ export class SupabaseApi implements DataApi {
     return toSubmission(data);
   }
 
-  async saveProgress(submissionId: string, patch: { responses: Record<number, StoredResponse>; items?: ItemRef[]; blurCount?: number }) {
+  async saveProgress(submissionId: string, patch: { responses: Record<number, StoredResponse>; items?: ItemRef[]; integrity?: Integrity }) {
     const row: Record<string, unknown> = { responses: patch.responses };
     if (patch.items) row.items = patch.items;
-    if (patch.blurCount !== undefined) row.integrity = { blurCount: patch.blurCount };
+    if (patch.integrity) row.integrity = patch.integrity;
     const { error } = await this.client.from('submissions').update(row).eq('id', submissionId).eq('status', 'in_progress');
     fail(error);
   }
 
-  async submit(submissionId: string, patch: { responses: Record<number, StoredResponse>; items: ItemRef[]; blurCount?: number }) {
-    const res = await this.invoke<{ submission: Record<string, unknown> }>('grade-submission', { action: 'submit', submissionId, ...patch });
+  async submit(submissionId: string, patch: { responses: Record<number, StoredResponse>; items: ItemRef[]; integrity?: Integrity }) {
+    const res = await this.invoke<{ submission: Record<string, unknown> }>('grade-submission', { action: 'submit', submissionId, responses: patch.responses, items: patch.items, integrity: patch.integrity, blurCount: patch.integrity?.blurCount });
     return toSubmission(res.submission);
+  }
+
+  async unlockAttempt(submissionId: string) {
+    const { error } = await this.client.rpc('unlock_attempt', { p_submission_id: submissionId });
+    fail(error);
   }
 
   async gradeManual(submissionId: string, itemIndex: number, score01: number, comment?: string) {
