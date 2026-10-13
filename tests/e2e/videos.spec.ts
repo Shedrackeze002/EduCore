@@ -16,6 +16,8 @@ window.YT = {
       this.t = 0; this.state = -1; this.since = 0; this.opts = opts;
       el.setAttribute('data-fake-youtube', opts.videoId);
       window.__player = this;
+      // Like YouTube, the player is ready a moment after it is made.
+      setTimeout(() => opts.events && opts.events.onReady && opts.events.onReady({ target: this }), 50);
     }
     now() { return this.state === 1 ? this.t + (performance.now() - this.since) / 1000 : this.t; }
     playVideo() { if (this.state !== 1) { this.since = performance.now(); this.state = 1; } }

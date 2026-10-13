@@ -28,8 +28,12 @@ interface YTPlayerOptions {
   width?: string;
   height?: string;
   playerVars?: Record<string, string | number>;
-  /** Called when the video cannot be played (removed, private, or not allowed in other sites). */
-  events?: { onError?: (e: { data: number }) => void };
+  events?: {
+    /** Called once the player's methods can be used. */
+    onReady?: () => void;
+    /** Called when the video cannot be played (removed, private, or not allowed in other sites). */
+    onError?: (e: { data: number }) => void;
+  };
 }
 
 interface YTApi {
@@ -96,7 +100,8 @@ export function ExplainerVideos({ lessonId }: { lessonId: string }) {
           </div>
         )}
       </div>
-      <CuePlayer key={v.id} video={v} youtubeId={links.data[v.id]} />
+      {/* A new upload for the same video starts a fresh player (no stale error or question). */}
+      <CuePlayer key={`${v.id}:${links.data[v.id]}`} video={v} youtubeId={links.data[v.id]} />
     </section>
   );
 }
@@ -115,7 +120,7 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
     let alive = true;
     let timer = 0;
     let prev = 0;
-    let checkedAt = performance.now();
+    let checkedAt = 0;
     loadYouTube()
       .then((YT) => {
         if (!alive || !host.current) return;
@@ -128,11 +133,19 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
           width: '100%',
           height: '100%',
           playerVars: { rel: 0, playsinline: 1 },
-          events: { onError: () => alive && setFailed(true) },
+          events: {
+            // Watch the playing time once the player is ready (its methods work only from then).
+            onReady: () => {
+              if (!alive) return;
+              prev = p.getCurrentTime();
+              checkedAt = performance.now();
+              timer = window.setInterval(check, 200);
+            },
+            onError: () => alive && setFailed(true),
+          },
         });
         player.current = p;
-        timer = window.setInterval(() => {
-          if (typeof p.getCurrentTime !== 'function') return;
+        function check() {
           const now = p.getCurrentTime();
           const clock = performance.now();
           const elapsed = (clock - checkedAt) / 1000;
@@ -145,7 +158,7 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
             queue.current = reached.slice(1);
             setAsk(reached[0]);
           }
-        }, 200);
+        }
       })
       .catch(() => alive && setFailed(true));
     return () => {

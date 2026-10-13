@@ -34,6 +34,9 @@ export default function AdminVideosPage() {
       />
       {links.isLoading ? (
         <Skeleton className="h-48" />
+      ) : links.error ? (
+        // Without the links every video would look unlinked, inviting an administrator to overwrite them.
+        <p className="rounded-xl bg-bad-soft px-4 py-3 text-bad-ink">Could not load the video links: {(links.error as Error).message}</p>
       ) : !VIDEOS.length ? (
         <EmptyState icon={<Clapperboard className="h-6 w-6" />} title="No videos yet">
           Build videos with video/build.ts; they appear here once their scripts are merged.
