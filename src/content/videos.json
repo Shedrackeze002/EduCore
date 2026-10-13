@@ -49,5 +49,52 @@
         "working": "From $\\angle P$, the **opposite** side is $QR = 5$ and the **adjacent** side is $PR = 12$, so $\\tan P = \\dfrac{5}{12} \\approx 0.42$."
       }
     ]
+  },
+  "m10c-2-1-b": {
+    "lessonId": "m10c-2-1",
+    "title": "The Tangent Ratio, Part 2: Finding Sides and Angles",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Recap",
+        "t": 0
+      },
+      {
+        "title": "Finding a side",
+        "t": 24.133
+      },
+      {
+        "title": "Unknown on the bottom",
+        "t": 54.722
+      },
+      {
+        "title": "Finding an angle",
+        "t": 97.084
+      },
+      {
+        "title": "Your turn",
+        "t": 132.637
+      },
+      {
+        "title": "Summary",
+        "t": 159.946
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-1-b:q",
+        "t": 143.581,
+        "prompt": "In a right triangle, ${\\theta} = 40^\\circ$ and the **adjacent** side is $10$ cm. Which expression gives the **opposite** side $x$?",
+        "choices": [
+          "$\\dfrac{10}{\\tan 40^\\circ}$",
+          "$10\\tan 40^\\circ$",
+          "$\\dfrac{\\tan 40^\\circ}{10}$",
+          "$10 + \\tan 40^\\circ$"
+        ],
+        "answer": 1,
+        "working": "$\\tan 40^\\circ = \\dfrac{x}{10}$, so $x = 10\\tan 40^\\circ \\approx 8.4$ cm."
+      }
+    ]
   }
 }
