@@ -1,14 +1,18 @@
 /** When EduCore's video player stops to ask a question. */
 import type { Cue } from './timeline.ts';
 
-/** How far (in seconds) the playing time may drift from the clock before a change counts as a jump. */
-const DRIFT = 1;
+/**
+ * How far (in seconds) the playing time may drift from the clock before a change counts as a jump.
+ * Checks are 0.2 s apart and the player's time follows the clock closely, so half a second
+ * separates jitter from a seek (YouTube's own seek steps are 5 or 10 seconds).
+ */
+const DRIFT = 0.5;
 
 /**
  * The question the video has just reached, if any: a cue between the previous check and now that
  * has not been asked yet, reached by playing rather than by jumping. Between two checks
  * `elapsed` seconds apart, playing moves the video's time by about `elapsed × rate`; a change
- * that differs from that by more than a second is a seek, however short, and a slow check
+ * that differs from that by more than half a second is a seek, and a slow check
  * (a busy or background tab) still counts as playing.
  */
 export function crossedCue(prev: number, now: number, cues: Cue[], asked: ReadonlySet<string>, elapsed: number, rate = 1): Cue | null {

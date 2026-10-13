@@ -659,6 +659,7 @@ reset role;
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
 set role authenticated;
 select _fails($$select admin_set_video_link('m10c-2-1', 'not an id')$$, 'a YouTube id is checked');
+select _fails($$select admin_set_video_link('', null)$$, 'a video id is checked, also when removing a link');
 select admin_set_video_link('m10c-2-1', 'dQw4w9WgXcQ');
 select admin_set_video_link('m10c-2-1', 'abcdefghijk');
 reset role;

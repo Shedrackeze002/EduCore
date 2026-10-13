@@ -24,6 +24,8 @@ describe('crossedCue', () => {
   it('does not stop when the viewer jumps past a question, even a little, or goes back', () => {
     expect(crossedCue(10, 60, cues, new Set(), 0.2)).toBeNull();
     expect(crossedCue(29, 31.5, cues, new Set(), 0.2)).toBeNull();
+    expect(crossedCue(29.6, 30.4, cues, new Set(), 0.0)).toBeNull();
+    expect(crossedCue(29.5, 30.5, cues, new Set(), 0.2)).toBeNull();
     expect(crossedCue(31, 29, cues, new Set(), 0.2)).toBeNull();
   });
 });

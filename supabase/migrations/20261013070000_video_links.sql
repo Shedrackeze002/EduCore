@@ -22,6 +22,9 @@ create or replace function public.admin_set_video_link(p_video_id text, p_youtub
 returns void language plpgsql security definer set search_path = '' as $$
 begin
   perform public.admin_require();
+  if p_video_id is null or p_video_id !~ '^[a-z0-9-]{3,40}$' then
+    raise exception 'That video was not found.';
+  end if;
   if p_youtube_id is null or trim(p_youtube_id) = '' then
     delete from public.video_links where video_id = p_video_id;
     perform public.admin_log('video_link_removed', null, jsonb_build_object('video', p_video_id));
