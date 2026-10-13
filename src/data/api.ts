@@ -187,4 +187,9 @@ export interface DataApi {
   // Course requests (any signed-in user)
   requestCourse(input: CourseRequestInput): Promise<CourseRequest>;
   listMyCourseRequests(): Promise<CourseRequest[]>;
+
+  // Explainer videos: the YouTube id an administrator recorded for each video (by script id)
+  listVideoLinks(): Promise<Record<string, string>>;
+  /** Administrators: record a video's YouTube id, or remove it with null. */
+  adminSetVideoLink(videoId: string, youtubeId: string | null): Promise<void>;
 }

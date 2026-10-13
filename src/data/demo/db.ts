@@ -67,6 +67,8 @@ export interface DemoDB {
   courseRequests?: Array<Omit<CourseRequest, 'requester'> & { requesterId: string }>;
   /** Teachers' suggested lesson edits (added later). */
   lessonEdits?: Array<Omit<LessonEdit, 'author'> & { authorId: string }>;
+  /** Explainer videos' YouTube ids, by video id (added later). */
+  videoLinks?: Record<string, string>;
 }
 
 export interface DemoJoinRequest {

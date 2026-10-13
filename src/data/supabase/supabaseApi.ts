@@ -787,6 +787,17 @@ export class SupabaseApi implements DataApi {
     fail(error);
   }
 
+  async listVideoLinks() {
+    const { data, error } = await this.client.from('video_links').select('video_id, youtube_id');
+    fail(error);
+    return Object.fromEntries(((data ?? []) as Array<{ video_id: string; youtube_id: string }>).map((r) => [r.video_id, r.youtube_id]));
+  }
+
+  async adminSetVideoLink(videoId: string, youtubeId: string | null) {
+    const { error } = await this.client.rpc('admin_set_video_link', { p_video_id: videoId, p_youtube_id: youtubeId });
+    fail(error);
+  }
+
   async requestCourse(input: CourseRequestInput) {
     const { data, error } = await this.client.rpc('request_course', { p_kind: input.kind, p_title: input.title, p_grade: input.grade, p_details: input.details });
     fail(error);

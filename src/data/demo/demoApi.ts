@@ -61,6 +61,7 @@ import { buildSeed, DEMO_PASSWORD, DEMO_TEACHER_EMAIL } from './seed.ts';
 import { buildAnalystInput } from './analyst.ts';
 import { simulatedResponses } from './liveSim.ts';
 import { uid, joinCode as makeJoinCode, friendlyPassword } from '@/lib/ids.ts';
+import { YOUTUBE_ID } from '@/video/youtube.ts';
 
 const SESSION_KEY = 'educore-demo-session';
 const COLORS = ['#6a43e3', '#2a78d6', '#0c8c4a', '#b45309', '#d03b3b', '#c2417a', '#0e7c86', '#7a5af8'];
@@ -133,6 +134,7 @@ export class DemoApi implements DataApi {
     this.db.joinRequests ??= [];
     this.db.courseRequests ??= [];
     this.db.lessonEdits ??= [];
+    this.db.videoLinks ??= {};
     // Demos saved before self-paced study: every class was a teacher's class.
     for (const c of this.db.classes) c.kind ??= 'teacher';
     if (!existing || !existing.audit) saveDb(this.db);
@@ -143,7 +145,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [], courseRequests: [], lessonEdits: [] };
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [], courseRequests: [], lessonEdits: [], videoLinks: {} };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -1426,6 +1428,23 @@ export class DemoApi implements DataApi {
     const e = this.db.lessonEdits!.find((x) => x.id === id && x.authorId === me.id && x.status === 'pending');
     if (!e) throw new Error('That suggestion was not found or has already been reviewed.');
     Object.assign(e, { status: 'withdrawn', decidedAt: nowIso() });
+    this.persist();
+  }
+
+  async listVideoLinks(): Promise<Record<string, string>> {
+    await this.ready;
+    return { ...this.db.videoLinks };
+  }
+
+  async adminSetVideoLink(videoId: string, youtubeId: string | null) {
+    await this.ready;
+    this.requireAdmin();
+    if (!/^[a-z0-9-]{3,40}$/.test(videoId)) throw new Error('That video was not found.');
+    const id = youtubeId?.trim() || null;
+    if (id && !YOUTUBE_ID.test(id)) throw new Error('That is not a YouTube video id.');
+    if (id) this.db.videoLinks![videoId] = id;
+    else delete this.db.videoLinks![videoId];
+    this.audit(id ? 'video_link_set' : 'video_link_removed', null, id ? { video: videoId, youtube: id } : { video: videoId });
     this.persist();
   }
 

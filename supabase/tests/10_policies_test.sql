@@ -650,10 +650,37 @@ update submissions set responses = '{"0":{"answers":["x"],"hintsUsed":0}}', inte
 reset role;
 select _assert((select responses -> '0' -> 'answers' ->> 0 = 'x' and (integrity ->> 'extraExits')::int = 2 from submissions where id = (select id from ex)), 'after the unlock the student carries on and keeps the allowance');
 
+-- ---------------------------------------------------------------- explainer video links
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select admin_set_video_link('m10c-2-1', 'dQw4w9WgXcQ')$$, 'only administrators link videos');
+select _fails($$insert into video_links (video_id, youtube_id) values ('m10c-2-1', 'dQw4w9WgXcQ')$$, 'video links are written only through the function');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select admin_set_video_link('m10c-2-1', 'not an id')$$, 'a YouTube id is checked');
+select _fails($$select admin_set_video_link('', null)$$, 'a video id is checked, also when removing a link');
+select admin_set_video_link('m10c-2-1', 'dQw4w9WgXcQ');
+select admin_set_video_link('m10c-2-1', 'abcdefghijk');
+reset role;
+select _assert((select youtube_id from video_links where video_id = 'm10c-2-1') = 'abcdefghijk', 'an administrator links a video and can change the link');
+select _assert((select count(*) from admin_audit_log where action = 'video_link_set') = 2, 'linking videos is audited');
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select youtube_id from video_links where video_id = 'm10c-2-1') = 'abcdefghijk', 'students see the links');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select admin_set_video_link('m10c-2-1', null);
+reset role;
+select _assert((select count(*) from video_links) = 0, 'an administrator removes a link');
+select _assert((select count(*) from admin_audit_log where action = 'video_link_removed' and details ->> 'video' = 'm10c-2-1') = 1, 'removing a link is audited');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;
 select _fails($$select count(*) from classes$$, 'anon has no table access');
+select _fails($$select count(*) from video_links$$, 'anon cannot read video links');
 select _fails($$select send_due_reminders()$$, 'anon cannot run the scheduler');
 reset role;
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);

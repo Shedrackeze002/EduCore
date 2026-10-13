@@ -66,10 +66,10 @@ items ship or decisions change.
      four videos of about three minutes for Math 10C Unit 2 (lessons 2.1 and 2.2, two parts
      each). Narration uses Kokoro, a free open-weight voice (`af_heart`). Waiting on the owner's
      review of style and voice before the remaining videos.
-   - Next: the lesson player (YouTube embed that pauses at each "Your turn" and asks the question
-     in EduCore, using the cues in `src/content/videos.json`) and an admin page to record each
-     video's YouTube link.
-   - Then: the remaining videos unit by unit (Math 10C Unit 2 lessons 2.3 and 2.4 first), each
+   - Built: the lesson player (YouTube's player above the lesson, pausing at each "Your turn" to ask
+     the question in EduCore, from the cues in `src/content/videos.json`) and the admin **Videos**
+     page where each video's YouTube link is recorded.
+   - Next: the remaining videos unit by unit (Math 10C Unit 2 lessons 2.3 and 2.4 first), each
      lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
