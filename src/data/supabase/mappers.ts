@@ -23,6 +23,7 @@ import type {
   Submission,
 } from '../types.ts';
 import { parsePages } from '@/lib/ink.ts';
+import { cleanIntegrity } from '@engine/integrity.ts';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Row = Record<string, any>;
@@ -152,7 +153,7 @@ export const toSubmission = (r: Row): Submission => ({
   pendingManual: r.pending_manual ?? 0,
   late: r.late,
   feedback: r.feedback,
-  integrity: r.integrity ?? { blurCount: 0 },
+  integrity: cleanIntegrity(r.integrity),
   masteryChanges: r.mastery_changes ?? undefined,
 });
 

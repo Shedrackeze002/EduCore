@@ -6,6 +6,7 @@ import { AlertTriangle, ArrowLeft, ArrowRight, Check, Clock, Eye, RefreshCw, Sen
 import { itemFromRef, TYPE_LABEL, type StoredResponse } from '@engine/assemble.ts';
 import { gradeItem, type ItemResult } from '@engine/grade.ts';
 import { freshSeed } from '@engine/rng.ts';
+import { cleanIntegrity, exitCount, isLocked, mustSubmit, type Integrity, type IntegrityEventKind } from '@engine/integrity.ts';
 import type { ItemRef } from '@engine/types.ts';
 import { skillInfo } from '@engine/curriculum/index.ts';
 import { SkillsGate } from '@/components/SkillsGate.tsx';
@@ -18,6 +19,7 @@ import { FocusShell } from '@/components/layout/AppShell.tsx';
 import { Button, Modal, PageSpinner, useToast } from '@/components/ui/index.ts';
 import { HintPanel, QuestionView, SolutionPanel } from '@/components/question/QuestionView.tsx';
 import { cn } from '@/lib/cn.ts';
+import { endExamMode, ExamMode } from './ExamMode.tsx';
 
 const MAX_TRIES = 3;
 
@@ -93,44 +95,88 @@ function Player({ assignment, submission }: { assignment: NonNullable<ReturnType
     return r;
   });
   const [confirm, setConfirm] = useState(false);
-  const [blur, setBlur] = useState(submission.integrity?.blurCount ?? 0);
+  const [integrity, setIntegrity] = useState<Integrity>(() => cleanIntegrity(submission.integrity));
   const startedAt = useRef(Date.now());
+  const examMode = !!assignment.settings.lockdown;
+  const locked = examMode && isLocked(assignment.settings, integrity);
+  const done = useRef(false);
+
+  // Exam mode: record an exit (a tab switch and leaving full screen at the same moment count once).
+  const record = useCallback((kind: IntegrityEventKind) => {
+    if (done.current) return;
+    setIntegrity((i) => {
+      const events = i.events ?? [];
+      const last = events[events.length - 1];
+      const exit = kind !== 'camera';
+      const twin = exit && last && last.kind !== 'camera' && Date.now() - new Date(last.at).getTime() < 1500;
+      const blurCount = i.blurCount + (kind === 'tab' ? 1 : 0);
+      if (!examMode || twin) return { ...i, blurCount };
+      return { ...i, blurCount, events: [...events, { at: new Date().toISOString(), kind }].slice(-200) };
+    });
+  }, [examMode]);
 
   const item = useMemo(() => itemFromRef(items[idx], assignment.content, assignment.id), [items, idx, assignment]);
   const resp: StoredResponse = responses[idx] ?? { answers: [], hintsUsed: 0 };
   const result = results[idx];
   const checked = !!resp.checked;
 
-  // Integrity: count tab switches during quizzes and exams.
+  // Integrity: count tab switches during quizzes and exams (and anything in exam mode).
   useEffect(() => {
-    if (assignment.type !== 'quiz' && assignment.type !== 'exam') return;
-    const onVis = () => document.visibilityState === 'hidden' && setBlur((b) => b + 1);
+    if (assignment.type !== 'quiz' && assignment.type !== 'exam' && !examMode) return;
+    const onVis = () => document.visibilityState === 'hidden' && record('tab');
     document.addEventListener('visibilitychange', onVis);
     return () => document.removeEventListener('visibilitychange', onVis);
-  }, [assignment.type]);
+  }, [assignment.type, examMode, record]);
+
+  // A locked attempt carries on by itself once the teacher unlocks it.
+  useEffect(() => {
+    if (!locked) return;
+    const t = setInterval(() => {
+      api()
+        .getSubmission(submission.id)
+        .then((fresh) => {
+          const extra = fresh ? cleanIntegrity(fresh.integrity).extraExits : undefined;
+          if (extra !== undefined) setIntegrity((i) => (extra === i.extraExits ? i : { ...i, extraExits: extra }));
+        })
+        .catch(() => undefined);
+    }, 4000);
+    return () => clearInterval(t);
+  }, [locked, submission.id]);
 
   // Autosave
   const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      api().saveProgress(submission.id, { responses, items, blurCount: blur }).catch(() => undefined);
+      api().saveProgress(submission.id, { responses, items, integrity }).catch(() => undefined);
     }, 700);
     return () => clearTimeout(saveTimer.current);
-  }, [responses, items, blur, submission.id]);
+  }, [responses, items, integrity, submission.id]);
 
   const update = (patch: Partial<StoredResponse>) => setResponses((r) => ({ ...r, [idx]: { ...(r[idx] ?? { answers: [], hintsUsed: 0 }), ...patch } }));
 
-  const doSubmit = useCallback(async () => {
+  const doSubmit = useCallback(async (finalIntegrity?: Integrity) => {
     try {
-      await submitM.mutateAsync({ submissionId: submission.id, responses, items, blurCount: blur });
+      done.current = true;
+      await submitM.mutateAsync({ submissionId: submission.id, responses, items, integrity: finalIntegrity ?? integrity });
+      endExamMode(submission.id);
       await qc.invalidateQueries({ queryKey: ['submissions'] });
       toast({ kind: 'success', title: 'Submitted!', body: instant || assignment.settings.feedback === 'after_submit' ? 'Your results are ready.' : 'Results will appear after the due date.' });
       navigate(`/s/work/${assignment.id}`, { replace: true });
     } catch (e) {
+      done.current = false;
       toast({ kind: 'error', title: 'Could not submit', body: (e as Error).message });
     }
-  }, [submitM, submission.id, responses, items, blur, qc, toast, instant, assignment, navigate]);
+  }, [submitM, submission.id, responses, items, integrity, qc, toast, instant, assignment, navigate]);
+
+  // Exam mode set to submit at the limit.
+  const limitSubmitted = useRef(false);
+  useEffect(() => {
+    if (!examMode || limitSubmitted.current || !mustSubmit(assignment.settings, integrity)) return;
+    limitSubmitted.current = true;
+    toast({ kind: 'info', title: 'Submitted automatically', body: `You left exam mode ${exitCount(integrity)} times.` });
+    void doSubmit({ ...integrity, autoSubmitted: true });
+  }, [examMode, assignment.settings, integrity, doSubmit, toast]);
 
   // Timer
   const limitMs = assignment.settings.timeLimitMinutes ? assignment.settings.timeLimitMinutes * 60_000 : null;
@@ -191,6 +237,19 @@ function Player({ assignment, submission }: { assignment: NonNullable<ReturnType
 
   return (
     <FocusShell>
+      {examMode && (
+        <ExamMode
+          submissionId={submission.id}
+          settings={assignment.settings}
+          label={TYPE_LABEL[assignment.type].toLowerCase()}
+          integrity={integrity}
+          locked={locked}
+          onEvent={record}
+          onCameraStarted={() => setIntegrity((i) => (i.camera ? i : { ...i, camera: true }))}
+          onSubmitNow={() => void doSubmit()}
+          submitting={submitM.isPending}
+        />
+      )}
       <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-4xl items-center gap-3 px-4">
           <button type="button" onClick={() => navigate(`/s/work/${assignment.id}`)} className="rounded-lg p-2 text-ink-2 hover:bg-surface-2" aria-label="Save and exit">
@@ -285,7 +344,11 @@ function Player({ assignment, submission }: { assignment: NonNullable<ReturnType
             )}
           </div>
         </div>
-        {blur > 0 && (assignment.type === 'quiz' || assignment.type === 'exam') && <p className="mt-3 text-center text-xs text-ink-3">You left this page {blur} time{blur > 1 ? 's' : ''}. Your teacher can see this.</p>}
+        {examMode ? (
+          exitCount(integrity) > 0 && <p className="mt-3 text-center text-xs text-ink-3">You left exam mode {exitCount(integrity)} time{exitCount(integrity) > 1 ? 's' : ''}. Your teacher can see this.</p>
+        ) : (
+          integrity.blurCount > 0 && (assignment.type === 'quiz' || assignment.type === 'exam') && <p className="mt-3 text-center text-xs text-ink-3">You left this page {integrity.blurCount} time{integrity.blurCount > 1 ? 's' : ''}. Your teacher can see this.</p>
+        )}
       </main>
 
       <footer className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
@@ -319,7 +382,7 @@ function Player({ assignment, submission }: { assignment: NonNullable<ReturnType
             <Button variant="ghost" onClick={() => setConfirm(false)}>
               Keep working
             </Button>
-            <Button loading={submitM.isPending} onClick={doSubmit} icon={<Send className="h-4 w-4" />}>
+            <Button loading={submitM.isPending} onClick={() => doSubmit()} icon={<Send className="h-4 w-4" />}>
               Submit
             </Button>
           </>

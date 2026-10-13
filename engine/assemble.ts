@@ -55,6 +55,14 @@ export interface AssignmentSettings {
   /** For practice: allow "try a similar question" after a miss. */
   retrySimilar: boolean;
   calculator: boolean;
+  /** Exam mode (quizzes and exams): full screen; leaving it or switching tabs is logged. */
+  lockdown?: boolean;
+  /** Exam mode: exits allowed before `onMaxExits` happens (null: no limit, exits are only logged). */
+  maxExits?: number | null;
+  /** Exam mode: lock the attempt until the teacher unlocks it, or submit it. */
+  onMaxExits?: 'lock' | 'submit';
+  /** Exam mode: the camera must be on. Nothing is recorded or saved. */
+  camera?: boolean;
 }
 
 export const DEFAULT_SETTINGS: Record<AssignmentType, AssignmentSettings> = {

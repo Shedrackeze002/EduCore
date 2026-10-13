@@ -48,3 +48,59 @@ test('teacher assigns a quiz, the student is notified, completes it, and the tea
 
   expect(errors).toEqual([]);
 });
+
+test('exam mode records exits, locks the attempt at the limit, and the teacher unlocks it', async ({ context }) => {
+  const teacher = await context.newPage();
+  const student = await context.newPage();
+  const teacherErrors = trackErrors(teacher);
+  const studentErrors = trackErrors(student);
+  const title = `Exam mode quiz ${Date.now() % 100000}`;
+
+  // The teacher turns on exam mode: lock after 2 exits.
+  await signInDemo(teacher, 'Teacher');
+  await teacher.goto('/t/c/c_math10a/assignments/new?type=quiz&lesson=m10c-1-1');
+  await teacher.getByLabel('Title').fill(title);
+  await teacher.getByRole('switch', { name: /Exam mode/ }).click();
+  await teacher.getByLabel('Exits allowed').selectOption('2');
+  await teacher.getByRole('button', { name: 'Publish & notify students' }).click();
+  await teacher.waitForURL(/\/assignments\/a_/);
+  const assignmentId = teacher.url().split('/assignments/')[1];
+
+  // The student reads the notice, starts in full screen, and leaves it twice.
+  await signInDemo(student, 'Student');
+  await student.goto(`/s/work/${assignmentId}`);
+  await expect(student.getByLabel('Exam mode').getByText(/After 2 exits, it locks until your teacher unlocks it/)).toBeVisible();
+  await student.getByRole('button', { name: /^Start/ }).click();
+  await student.waitForURL(/\/take$/);
+  await student.getByRole('button', { name: 'Start in full screen' }).click();
+  await expect.poll(() => student.evaluate(() => !!document.fullscreenElement)).toBe(true);
+  await student.evaluate(() => document.exitFullscreen());
+  await expect(student.getByRole('heading', { name: 'You left full screen' })).toBeVisible();
+  await expect(student.getByText(/1 more exit and the quiz locks/)).toBeVisible();
+  await student.getByRole('button', { name: 'Return to full screen' }).click();
+  await student.waitForTimeout(1700);
+  await student.evaluate(() => {
+    Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+    delete (document as unknown as { visibilityState?: string }).visibilityState;
+  });
+  await expect(student.getByRole('heading', { name: 'This attempt is locked' })).toBeVisible();
+
+  // The teacher sees the lock and unlocks the attempt; the student carries on and submits.
+  await teacher.reload();
+  await teacher.getByRole('button', { name: /^Unlock .*attempt/ }).click();
+  await expect(teacher.getByText(/can carry on/)).toBeVisible();
+  await expect(student.getByRole('heading', { name: 'This attempt is locked' })).toHaveCount(0, { timeout: 15_000 });
+  for (let i = 0; i < 12; i++) {
+    const finish = student.getByRole('button', { name: 'Finish' });
+    if (await finish.isVisible()) break;
+    await student.getByRole('button', { name: /Save & next/ }).click();
+  }
+  await student.getByRole('button', { name: 'Finish' }).click();
+  await student.getByRole('dialog', { name: 'Submit your work?' }).getByRole('button', { name: 'Submit' }).click();
+  await student.waitForURL(/\/s\/work\/a_[^/]+$/);
+
+  await teacher.reload();
+  await expect(teacher.getByText('Left exam mode 2×')).toBeVisible();
+  expect([...teacherErrors, ...studentErrors]).toEqual([]);
+});

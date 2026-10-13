@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { ArrowUpDown, BellRing, CalendarPlus, ChevronRight, Download, Eye, Lightbulb, MoreHorizontal, Pencil, Send, Sparkles, Trash2, Wand2 } from 'lucide-react';
+import { ArrowUpDown, BellRing, CalendarPlus, CameraOff, ChevronRight, Download, Eye, Lightbulb, Lock, MoreHorizontal, Pencil, Send, Sparkles, Trash2, Wand2 } from 'lucide-react';
 import { TYPE_LABEL, gradeSubmission, isQuestionType } from '@engine/assemble.ts';
+import { cameraOffCount, exitCount, isLocked } from '@engine/integrity.ts';
 import { SkillsGate } from '@/components/SkillsGate.tsx';
 import { refSkillIds } from '@/lib/useSkills.ts';
 import { api } from '@/data/index.ts';
-import { useAssignment, useDeleteAssignment, useEvents, usePublishAssignment, useRoster, useSaveAssignment, useSubmissions } from '@/data/hooks.ts';
+import { useAssignment, useDeleteAssignment, useEvents, usePublishAssignment, useRoster, useSaveAssignment, useSubmissions, useUnlockAttempt } from '@/data/hooks.ts';
 import type { Assignment, Profile, SkillEvent, Submission } from '@/data/types.ts';
 import { Avatar, Badge, Button, Card, CardBody, CardHeader, EmptyState, IconButton, Input, Menu, MenuItem, Modal, PageHeader, PageSpinner, ProgressBar, StatTile, Tabs, useToast } from '@/components/ui/index.ts';
 import { Markdown } from '@/components/math/Markdown.tsx';
@@ -279,6 +280,8 @@ function ExtendModal({ a, classId, onClose }: { a: Assignment; classId: string; 
 
 function StudentTable({ rows, a, classId }: { rows: RosterRow[]; a: Assignment; classId: string }) {
   const [sort, setSort] = useState<Sort>('status');
+  const unlock = useUnlockAttempt();
+  const toast = useToast();
   const questions = isQuestionType(a.type);
   const sorted = [...rows].sort((x, y) => {
     if (sort === 'name') return x.student.fullName.localeCompare(y.student.fullName);
@@ -327,7 +330,32 @@ function StudentTable({ rows, a, classId }: { rows: RosterRow[]; a: Assignment; 
                     </Link>
                   </td>
                   <td className="px-3 py-2.5">
-                    <StatusBadge status={r.status} />
+                    <span className="flex flex-wrap items-center gap-1.5">
+                      <StatusBadge status={r.status} />
+                      {r.open && a.settings.lockdown && isLocked(a.settings, r.open.integrity) && (
+                        <>
+                          <Badge tone="bad" icon={<Lock className="h-3 w-3" />}>
+                            Locked
+                          </Badge>
+                          <Button
+                            size="xs"
+                            variant="secondary"
+                            loading={unlock.isPending}
+                            aria-label={`Unlock ${r.student.fullName}'s attempt`}
+                            onClick={async () => {
+                              try {
+                                await unlock.mutateAsync(r.open!.id);
+                                toast({ kind: 'success', title: `${r.student.fullName} can carry on`, body: 'Their attempt is unlocked.' });
+                              } catch (e) {
+                                toast({ kind: 'error', title: 'Could not unlock', body: (e as Error).message });
+                              }
+                            }}
+                          >
+                            Unlock
+                          </Button>
+                        </>
+                      )}
+                    </span>
                   </td>
                   {questions && (
                     <td className="px-3 py-2.5 text-right">
@@ -351,11 +379,7 @@ function StudentTable({ rows, a, classId }: { rows: RosterRow[]; a: Assignment; 
                             {hints}
                           </Badge>
                         )}
-                        {(r.best?.integrity?.blurCount ?? 0) >= 3 && (
-                          <Badge tone="info" icon={<Eye className="h-3 w-3" />}>
-                            Left tab {r.best!.integrity.blurCount}×
-                          </Badge>
-                        )}
+                        <IntegrityBadges s={r.best ?? r.open} examMode={!!a.settings.lockdown} />
                       </span>
                     </td>
                   )}
@@ -473,3 +497,32 @@ function SkillBreakdown({ a, rows, classId }: { a: Assignment; rows: RosterRow[]
   );
 }
 
+
+/** Tab switches, or in exam mode the exits, camera-off events and automatic submission. */
+export function IntegrityBadges({ s, examMode }: { s: Submission | null; examMode: boolean }) {
+  if (!s) return null;
+  const i = s.integrity;
+  if (!examMode)
+    return i.blurCount >= 3 ? (
+      <Badge tone="info" icon={<Eye className="h-3 w-3" />}>
+        Left tab {i.blurCount}×
+      </Badge>
+    ) : null;
+  const exits = exitCount(i);
+  const camera = cameraOffCount(i);
+  return (
+    <>
+      {exits > 0 && (
+        <Badge tone={exits >= 3 ? 'warn' : 'info'} icon={<Eye className="h-3 w-3" />}>
+          Left exam mode {exits}×
+        </Badge>
+      )}
+      {camera > 0 && (
+        <Badge tone="warn" icon={<CameraOff className="h-3 w-3" />}>
+          Camera off {camera}×
+        </Badge>
+      )}
+      {i.autoSubmitted && <Badge tone="bad">Submitted automatically</Badge>}
+    </>
+  );
+}

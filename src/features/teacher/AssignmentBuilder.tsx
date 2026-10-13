@@ -354,6 +354,7 @@ export default function AssignmentBuilder() {
                 <Switch checked={d.settings.retrySimilar} onChange={(retrySimilar) => setSettings({ retrySimilar })} label="Try a similar question" description="After a miss, students can try a fresh version (up to 3 times)." />
                 <Switch checked={!!d.content.shuffle} onChange={(shuffle) => setContent({ shuffle })} label="Shuffle question order" description="Each student sees the questions in a different order." />
                 <Switch checked={d.settings.calculator} onChange={(calculator) => setSettings({ calculator })} label="Calculator allowed" description="Shown to students on the start screen." />
+                {(d.type === 'quiz' || d.type === 'exam') && <ExamModeSettings settings={d.settings} setSettings={setSettings} />}
               </CardBody>
             </Card>
           )}
@@ -421,6 +422,7 @@ export default function AssignmentBuilder() {
               <Row label="For">{d.assignedTo === 'all' ? `Whole class (${roster.data?.length ?? 0})` : `${d.assignedTo.length} student${d.assignedTo.length === 1 ? '' : 's'}`}</Row>
               <Row label="Reminders">{d.reminderHours.length ? [...d.reminderHours].sort((a, b) => b - a).map(hoursLabel).join(', ') : 'Off'}</Row>
               {questionType && <Row label="Feedback">{d.settings.feedback === 'instant' ? 'Instant' : d.settings.feedback === 'after_submit' ? 'After submit' : 'After due date'}</Row>}
+              {questionType && d.settings.lockdown && <Row label="Exam mode">{d.settings.maxExits ? `${d.settings.onMaxExits === 'submit' ? 'Submits' : 'Locks'} after ${d.settings.maxExits} ${d.settings.maxExits === 1 ? 'exit' : 'exits'}` : 'Exits logged'}{d.settings.camera ? ' · camera on' : ''}</Row>}
             </dl>
             {showErrors && errors.length > 0 && (
               <div className="space-y-1 rounded-xl bg-bad-soft p-3 text-sm text-bad-ink">
@@ -921,5 +923,43 @@ function PreviewModal({ content, title, onClose }: { content: AssignmentContent;
         ))}
       </div>
     </Modal>
+  );
+}
+
+/** Exam mode (lockdown) for quizzes and exams: off unless the teacher turns it on. */
+function ExamModeSettings({ settings, setSettings }: { settings: AssignmentSettings; setSettings: (patch: Partial<AssignmentSettings>) => void }) {
+  return (
+    <div className="space-y-4 rounded-2xl border border-line p-4 md:col-span-2">
+      <Switch
+        checked={!!settings.lockdown}
+        onChange={(lockdown) => setSettings(lockdown ? { lockdown, maxExits: settings.maxExits ?? 3, onMaxExits: settings.onMaxExits ?? 'lock' } : { lockdown })}
+        label="Exam mode"
+        description="Opens in full screen. Leaving full screen or switching tabs is recorded and shown to you. A website cannot stop a student closing the tab, so treat it as a strong deterrent, not a guarantee."
+      />
+      {settings.lockdown && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Select label="Exits allowed" value={settings.maxExits ?? 0} onChange={(e) => setSettings({ maxExits: Number(e.target.value) || null })}>
+            <option value={0}>No limit (record only)</option>
+            {[1, 2, 3, 5].map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </Select>
+          <Select label="At the limit" value={settings.onMaxExits ?? 'lock'} onChange={(e) => setSettings({ onMaxExits: e.target.value as 'lock' | 'submit' })} disabled={!settings.maxExits}>
+            <option value="lock">Lock until I unlock it</option>
+            <option value="submit">Submit the attempt</option>
+          </Select>
+          <div className="sm:col-span-2">
+            <Switch
+              checked={!!settings.camera}
+              onChange={(camera) => setSettings({ camera })}
+              label="Camera must be on"
+              description="Students see a consent notice first. Nothing is recorded, saved or sent: you only see whether the camera stayed on."
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

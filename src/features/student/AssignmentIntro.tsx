@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { ArrowRight, BookOpen, CheckCircle2, Clock, Eye, Lightbulb, ListChecks, RotateCcw, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowRight, BookOpen, CheckCircle2, Clock, Eye, Lightbulb, ListChecks, RotateCcw, ShieldCheck, Sparkles, TrendingUp } from 'lucide-react';
 import { isQuestionType, TYPE_LABEL } from '@engine/assemble.ts';
 import { LEVEL_LABEL, type MasteryLevel } from '@engine/mastery.ts';
 import { skillInfo, lessonById } from '@engine/curriculum/index.ts';
 import { api } from '@/data/index.ts';
 import { qk, useAssignment, useSubmissions } from '@/data/hooks.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
-import { Badge, Button, Card, CardBody, EmptyState, PageHeader, PageSpinner, useToast } from '@/components/ui/index.ts';
+import { Badge, Button, Card, CardBody, Checkbox, EmptyState, PageHeader, PageSpinner, useToast } from '@/components/ui/index.ts';
 import { Markdown } from '@/components/math/Markdown.tsx';
 import { ReviewList } from '@/components/question/ReviewList.tsx';
 import { MasterySwatch } from '@/components/mastery/Mastery.tsx';
@@ -28,6 +28,7 @@ export default function AssignmentIntro() {
   const toast = useToast();
   const [busy, setBusy] = useState(false);
   const [review, setReview] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   const mine = useMemo(() => (subs.data ?? []).filter((s) => s.studentId === me.id), [subs.data, me.id]);
   if (a.isLoading || subs.isLoading) return <PageSpinner />;
@@ -136,6 +137,7 @@ export default function AssignmentIntro() {
                 </li>
               </ul>
             )}
+            {qType && as.settings.lockdown && <ExamModeNotice label={TYPE_LABEL[as.type].toLowerCase()} maxExits={as.settings.maxExits ?? null} onMax={as.settings.onMaxExits ?? 'lock'} camera={!!as.settings.camera} consent={consent} setConsent={setConsent} />}
             {best && (
               <div className="rounded-xl bg-surface-2 p-3">
                 <div className="text-xs text-ink-3">{qType ? 'Your best result' : 'Status'}</div>
@@ -157,7 +159,7 @@ export default function AssignmentIntro() {
             )}
             {qType ? (
               open ? (
-                <Button className="w-full" size="lg" onClick={() => navigate('take')}>
+                <Button className="w-full" size="lg" onClick={() => navigate('take')} disabled={!!as.settings.lockdown && !!as.settings.camera && !consent}>
                   Continue <ArrowRight className="h-4 w-4" />
                 </Button>
               ) : attemptsLeft > 0 && !closed ? (
@@ -165,6 +167,7 @@ export default function AssignmentIntro() {
                   className="w-full"
                   size="lg"
                   loading={busy}
+                  disabled={!!as.settings.lockdown && !!as.settings.camera && !consent}
                   onClick={async () => {
                     setBusy(true);
                     try {
@@ -232,6 +235,29 @@ export default function AssignmentIntro() {
           </div>
           {review && <ReviewList items={best.items} responses={best.responses} content={as.content} assignmentId={as.id} showSolutions={as.settings.showSolutions} />}
         </div>
+      )}
+    </div>
+  );
+}
+
+/** What exam mode means, shown before a student starts; with the camera option, their consent. */
+function ExamModeNotice({ label, maxExits, onMax, camera, consent, setConsent }: { label: string; maxExits: number | null; onMax: 'lock' | 'submit'; camera: boolean; consent: boolean; setConsent: (v: boolean) => void }) {
+  return (
+    <div className="space-y-2 rounded-xl border border-brand-200 bg-brand-50/60 p-3 text-sm text-ink-2" aria-label="Exam mode">
+      <div className="flex items-center gap-2 font-semibold text-brand-800">
+        <ShieldCheck className="h-4 w-4" /> Exam mode
+      </div>
+      <p>
+        This {label} opens in full screen. Leaving full screen or switching to another tab or app is recorded and shown to your teacher.
+        {maxExits ? ` After ${maxExits} ${maxExits === 1 ? 'exit' : 'exits'}, it ${onMax === 'submit' ? 'is submitted automatically' : 'locks until your teacher unlocks it'}.` : ''}
+      </p>
+      {camera && (
+        <>
+          <p>
+            Your camera must stay on while you work. EduCore does not record, save or send any video or pictures; your teacher only sees whether the camera stayed on. If you have questions, talk to your teacher, and share this notice with a parent or guardian.
+          </p>
+          <Checkbox checked={consent} onChange={setConsent} label={<span className="text-sm">I understand and agree to keep my camera on</span>} />
+        </>
       )}
     </div>
   );

@@ -123,6 +123,23 @@ student's note) and the teacher approves, which enrols the student, or declines.
 student is notified. Mastery belongs to the student, so what they studied on their own counts in
 the class straight away.
 
+## Exam mode (`engine/integrity.ts`, `src/features/player/ExamMode.tsx`)
+
+Teachers can turn on exam mode for a quiz or exam. The student reads what it means (and, with
+the camera option, agrees to keep the camera on) before starting. The attempt runs in full screen;
+leaving full screen, switching tabs or apps, coming back to an attempt the device left, and the
+camera turning off are recorded as events in the attempt's integrity record. With a limit, the
+attempt either locks (the teacher unlocks it from the assignment page, which allows as many exits
+again) or is submitted automatically. The camera is only checked to be on: nothing is recorded,
+saved or sent, and the student sees a small preview. Teachers see exits, camera-off events, locks
+and automatic submissions on the assignment page and the full record on each submission.
+
+`engine/integrity.ts` holds the rules the app, the demo and `grade-submission` share: records are
+cleaned and merged so exits only grow and the teacher's extra allowance (`extraExits`) comes from
+the stored record. A website cannot stop a student closing a tab, so exam mode is a strong
+deterrent rather than a guarantee; a Safe Exam Browser option can be added for schools that need
+true lockdown.
+
 ## Teacher lesson edits (`src/content/edits.ts`, `src/features/lessons/SuggestEdit.tsx`)
 
 Lessons stay in their Markdown files; approved teacher edits are a layer on top, stored in
@@ -178,6 +195,10 @@ Set `VITE_GITHUB_REPO` to send issues to another repository.
   create and change them; only the student and the class's teacher can see a request, and the
   teacher sees the requester's name through `class_join_requests` before they are enrolled. The
   older `join_class` refuses classes that ask for approval, so it cannot skip the teacher.
+- **Exam mode.** `submissions_guard` keeps a student's integrity record from going backwards: a
+  save cannot remove exits, lower the tab count or change `extraExits`, and a locked attempt's
+  answers cannot change. Only the class's teacher can unlock an attempt (`unlock_attempt`), and the
+  teacher is notified when one locks.
 - **Lesson edits** are read-only to clients: everyone reads approved edits, authors read their
   own suggestions and administrators read all. Only `suggest_lesson_edit` (approved teachers,
   at most 20 waiting), `withdraw_lesson_edit` and `admin_decide_lesson_edit` change them, at most
