@@ -451,6 +451,70 @@ select _assert((select count(*) from classes where kind = 'self') = 0, 'teachers
 reset role;
 select _fails($$insert into classes (teacher_id, name, course_id, kind) values (null, 'Bad', 'math-10c', 'teacher')$$, 'a teacher''s class needs a teacher');
 
+-- ---------------------------------------------------------------- join requests
+-- The teacher asks for approval; Sneaky (not in the class, studying on their own) uses the code.
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+update classes set settings = settings || '{"joinApproval": true}' where id = (select class_id from ctx);
+reset role;
+select _assert((select settings -> 'joinApproval' from classes where id = (select class_id from ctx)) = 'true'::jsonb, 'the teacher turns on approval');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b9","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select join_class((select join_code from ctx))$$, 'the older join function does not skip approval');
+select _assert((select request_to_join((select lower(join_code) from ctx), 'Hi, I am in Block A') ->> 'status') = 'pending', 'a code sends a request when the class asks for approval');
+select _assert((select request_to_join((select join_code from ctx), 'Again') ->> 'status') = 'pending', 'asking twice is harmless');
+select _assert((select count(*) from classes where id = (select class_id from ctx)) = 0, 'not in the class before approval');
+select _assert((select teacher_name from my_join_requests()) = 'Ms T. Teacher' and (select count(*) from my_join_requests()) = 1, 'the student sees their request with the teacher''s name');
+select _fails($$insert into join_requests (class_id, student_id) select class_id, '00000000-0000-0000-0000-0000000000b9' from ctx$$, 'requests are made only through the functions');
+select _fails($$update join_requests set status = 'approved'$$, 'students cannot approve their own request');
+select _fails($$select class_join_requests((select class_id from ctx))$$, 'students cannot list a class''s requests');
+select _fails($$select decide_join_request((select id from join_requests limit 1), true)$$, 'students cannot decide requests');
+select _fails($$select request_to_join('ZZZZZZ')$$, 'unknown codes are rejected');
+reset role;
+select _assert(not has_function_privilege('authenticated', 'public.add_join_request(public.classes, uuid, text, text)', 'execute'), 'the internal helper is not callable by users');
+select _assert((select message from join_requests) = 'Hi, I am in Block A', 'the first message is kept while the request is pending');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a1' and title = 'Sneaky asked to join Math 10C') = 1, 'the teacher is told once');
+create temp table jr as select id from join_requests;
+grant select on jr to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from join_requests) = 0, 'other teachers do not see the requests');
+select _fails($$select class_join_requests((select class_id from ctx))$$, 'other teachers cannot list the requests');
+select _fails($$select decide_join_request((select id from jr), true)$$, 'other teachers cannot decide');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select full_name from class_join_requests((select class_id from ctx))) = 'Sneaky', 'the teacher sees who is asking');
+select decide_join_request((select id from jr), true);
+select decide_join_request((select id from jr), false);
+select _assert((select count(*) from class_join_requests((select class_id from ctx))) = 0, 'an approved request is no longer pending');
+reset role;
+select _assert(exists (select 1 from enrollments where class_id = (select class_id from ctx) and student_id = '00000000-0000-0000-0000-0000000000b9'), 'approval enrols the student');
+select _assert((select status from join_requests) = 'approved', 'a decided request cannot be decided again');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000b9' and title = 'You joined Math 10C') = 1, 'the student is told');
+select _assert((select count(*) from classes c join enrollments e on e.class_id = c.id where e.student_id = '00000000-0000-0000-0000-0000000000b9' and c.kind = 'self') = 1, 'the student keeps their self-paced course');
+
+-- Signing up with the code sends a request; the teacher declines it; asking again renews it.
+insert into auth.users (id, email, raw_user_meta_data)
+select '00000000-0000-0000-0000-0000000000b8', 'max@home.ca', jsonb_build_object('full_name', 'Max Roy', 'role', 'student', 'join_code', join_code) from ctx;
+select _assert(not exists (select 1 from enrollments where student_id = '00000000-0000-0000-0000-0000000000b8'), 'signing up with the code does not skip approval');
+select _assert((select status from join_requests where student_id = '00000000-0000-0000-0000-0000000000b8') = 'pending', 'signing up with the code sends a request');
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select decide_join_request((select id from join_requests where student_id = '00000000-0000-0000-0000-0000000000b8'), false);
+reset role;
+select _assert((select status from join_requests where student_id = '00000000-0000-0000-0000-0000000000b8') = 'declined', 'the teacher declines');
+select _assert(not exists (select 1 from enrollments where student_id = '00000000-0000-0000-0000-0000000000b8'), 'a declined student is not enrolled');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000b8' and title like '%was declined') = 1, 'the student is told about the decline');
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b8","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select request_to_join((select join_code from ctx)) ->> 'status') = 'pending', 'a student may ask again after a decline');
+reset role;
+select _assert((select status from join_requests where student_id = '00000000-0000-0000-0000-0000000000b8') = 'pending', 'asking again renews the request');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;

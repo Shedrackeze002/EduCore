@@ -33,6 +33,39 @@ export interface ClassSettings {
   emailReminders: boolean;
   /** IANA time zone used for due times in notifications and emails. */
   timezone?: string;
+  /** Students who use the class code send a request the teacher approves (off for older classes). */
+  joinApproval?: boolean;
+}
+
+/** What happened when a student used a class code. */
+export interface JoinResult {
+  status: 'joined' | 'pending';
+  classId: string;
+  className: string;
+  teacherName: string | null;
+}
+
+/** A student's request to join a teacher's class, as the student sees it. */
+export interface MyJoinRequest {
+  id: string;
+  classId: string;
+  className: string;
+  section: string | null;
+  courseId: string;
+  teacherName: string | null;
+  status: 'pending' | 'approved' | 'declined';
+  createdAt: string;
+  decidedAt: string | null;
+}
+
+/** A pending request to join a class, as the teacher sees it. */
+export interface ClassJoinRequest {
+  id: string;
+  studentId: string;
+  fullName: string;
+  email: string;
+  message: string | null;
+  createdAt: string;
 }
 
 export interface ClassRoom {

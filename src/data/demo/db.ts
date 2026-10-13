@@ -59,6 +59,18 @@ export interface DemoDB {
   lessonPrefs?: LessonPrefs[];
   liveQuestions?: LiveQuestion[];
   liveAnswers?: LiveAnswer[];
+  /** Requests to join classes that ask for approval (added later). */
+  joinRequests?: DemoJoinRequest[];
+}
+
+export interface DemoJoinRequest {
+  id: string;
+  classId: string;
+  studentId: string;
+  status: 'pending' | 'approved' | 'declined';
+  message: string | null;
+  createdAt: string;
+  decidedAt: string | null;
 }
 
 export const DB_KEY = 'educore-demo-db-v1';

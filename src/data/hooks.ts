@@ -15,6 +15,8 @@ export const qk = {
   lessonPrefs: (classId: string, lessonId: string) => ['lessonPrefs', classId, lessonId] as const,
   boards: (classId: string, lessonId: string) => ['boards', classId, lessonId] as const,
   live: (classId: string) => ['live', classId] as const,
+  joinRequests: (classId: string) => ['joinRequests', classId] as const,
+  myJoinRequests: ['myJoinRequests'] as const,
   liveAnswers: (questionId: string) => ['liveAnswers', questionId] as const,
   assignments: (classId: string) => ['assignments', classId] as const,
   assignment: (id: string) => ['assignment', id] as const,
@@ -63,7 +65,7 @@ export const useAiStatus = () => useQuery({ queryKey: qk.aiStatus, queryFn: () =
 
 export function useCreateClass() {
   const qc = useQueryClient();
-  return useMutation({ mutationFn: (v: { name: string; section?: string | null; courseId: string }) => api().createClass(v), onSuccess: () => qc.invalidateQueries({ queryKey: qk.classes }) });
+  return useMutation({ mutationFn: (v: { name: string; section?: string | null; courseId: string; joinApproval?: boolean }) => api().createClass(v), onSuccess: () => qc.invalidateQueries({ queryKey: qk.classes }) });
 }
 
 /** A student starts studying a course on their own (a self-paced section with the AI as tutor). */
@@ -74,6 +76,34 @@ export function useStartSelfPaced() {
     onSuccess: async (c) => {
       await qc.invalidateQueries({ queryKey: qk.classes });
       await qc.invalidateQueries({ queryKey: qk.publications(c.id) });
+    },
+  });
+}
+
+/** A student's requests to join teachers' classes. */
+export const useMyJoinRequests = (enabled = true) => useQuery({ queryKey: qk.myJoinRequests, queryFn: () => api().listMyJoinRequests(), enabled });
+
+/** A class's pending join requests (teacher). */
+export const useJoinRequests = (classId: string | undefined) => useQuery({ queryKey: qk.joinRequests(classId ?? ''), queryFn: () => api().listJoinRequests(classId!), enabled: !!classId });
+
+export function useRequestToJoin() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { code: string; message?: string }) => api().requestToJoin(v.code, v.message),
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: qk.classes });
+      await qc.invalidateQueries({ queryKey: qk.myJoinRequests });
+    },
+  });
+}
+
+export function useDecideJoinRequest(classId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { requestId: string; approve: boolean }) => api().decideJoinRequest(v.requestId, v.approve),
+    onSettled: async () => {
+      await qc.invalidateQueries({ queryKey: qk.joinRequests(classId) });
+      await qc.invalidateQueries({ queryKey: qk.roster(classId) });
     },
   });
 }

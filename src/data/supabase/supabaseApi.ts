@@ -18,6 +18,7 @@ import type {
   ClassSettings,
   Insight,
   ItemRef,
+  JoinResult,
   NewStudentCredential,
   PlatformSettings,
   Profile,
@@ -38,9 +39,11 @@ import {
   toAssignment,
   toAuditEntry,
   toClass,
+  toClassJoinRequest,
   toEvent,
   toInsight,
   toMastery,
+  toMyJoinRequest,
   toNotification,
   toProfile,
   toPublication,
@@ -213,13 +216,13 @@ export class SupabaseApi implements DataApi {
     return data ? toClass(data) : null;
   }
 
-  async createClass(input: { name: string; section?: string | null; courseId: string }) {
+  async createClass(input: { name: string; section?: string | null; courseId: string; joinApproval?: boolean }) {
     const id = await this.uid();
     const me = await this.getCurrentUser();
     if (me?.role === 'teacher' && me.teacherStatus !== 'approved') throw new Error('Your teacher account is waiting for approval.');
     const { data, error } = await this.client
       .from('classes')
-      .insert({ teacher_id: id, name: input.name.trim(), section: input.section?.trim() || null, course_id: input.courseId, settings: { timezone: browserTimeZone() } })
+      .insert({ teacher_id: id, name: input.name.trim(), section: input.section?.trim() || null, course_id: input.courseId, settings: { timezone: browserTimeZone(), ...(input.joinApproval ? { joinApproval: true } : {}) } })
       .select()
       .single();
     fail(error);
@@ -250,6 +253,30 @@ export class SupabaseApi implements DataApi {
     const { data, error } = await this.client.rpc('join_class', { p_code: code.trim().toUpperCase() });
     fail(error);
     return toClass(data);
+  }
+
+  async requestToJoin(code: string, message?: string): Promise<JoinResult> {
+    const { data, error } = await this.client.rpc('request_to_join', { p_code: code.trim().toUpperCase(), p_message: message?.trim() || null });
+    fail(error);
+    const r = data as { status: string; classId: string; className: string; teacherName: string | null };
+    return { status: r.status === 'pending' ? 'pending' : 'joined', classId: r.classId, className: r.className, teacherName: r.teacherName ?? null };
+  }
+
+  async listMyJoinRequests() {
+    const { data, error } = await this.client.rpc('my_join_requests');
+    fail(error);
+    return ((data ?? []) as Record<string, unknown>[]).map(toMyJoinRequest);
+  }
+
+  async listJoinRequests(classId: string) {
+    const { data, error } = await this.client.rpc('class_join_requests', { p_class_id: classId });
+    fail(error);
+    return ((data ?? []) as Record<string, unknown>[]).map(toClassJoinRequest);
+  }
+
+  async decideJoinRequest(requestId: string, approve: boolean) {
+    const { error } = await this.client.rpc('decide_join_request', { p_request_id: requestId, p_approve: approve });
+    fail(error);
   }
 
   async startSelfPaced(courseId: string) {

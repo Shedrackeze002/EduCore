@@ -116,6 +116,13 @@ skill stays weak. Skills missed on the placement check are kept on the device an
 practice on the home page. A student can study several courses and join teachers' classes; the
 course switcher in the shell remembers the current one.
 
+**Joining a teacher's class.** A class can ask for approval (`settings.joinApproval`, on by default
+for new classes). Then a class code, used on the Join page or at sign-up, creates a pending
+`join_requests` row and tells the teacher; the Students page lists the requests (with the
+student's note) and the teacher approves, which enrols the student, or declines. Either way the
+student is notified. Mastery belongs to the student, so what they studied on their own counts in
+the class straight away.
+
 ## Security model (Supabase)
 
 - **Row-level security on every table.** Teachers see only their own classes and the students
@@ -144,6 +151,10 @@ course switcher in the shell remembers the current one.
   constraint). Only `start_self_paced` creates self-paced sections, for the calling student only;
   their join codes do not work, the student cannot rename them, and they are left out of the
   admin class list.
+- **Join requests** are read-only to clients. `request_to_join`, `decide_join_request` and sign-up
+  create and change them; only the student and the class's teacher can see a request, and the
+  teacher sees the requester's name through `class_join_requests` before they are enrolled. The
+  older `join_class` refuses classes that ask for approval, so it cannot skip the teacher.
 - **Secrets** (MiniMax, Resend, cron secret) live in Edge Function secrets or Vault, never in the
   browser bundle.
 

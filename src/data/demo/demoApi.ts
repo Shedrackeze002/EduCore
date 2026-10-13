@@ -30,7 +30,10 @@ import type {
   Board,
   BoardInput,
   ClassRoom,
+  ClassJoinRequest,
   ClassSettings,
+  JoinResult,
+  MyJoinRequest,
   Insight,
   ItemRef,
   LessonPrefs,
@@ -120,6 +123,7 @@ export class DemoApi implements DataApi {
     this.db.lessonPrefs ??= [];
     this.db.liveQuestions ??= [];
     this.db.liveAnswers ??= [];
+    this.db.joinRequests ??= [];
     // Demos saved before self-paced study: every class was a teacher's class.
     for (const c of this.db.classes) c.kind ??= 'teacher';
     if (!existing || !existing.audit) saveDb(this.db);
@@ -130,7 +134,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [] };
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [] };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -242,7 +246,11 @@ export class DemoApi implements DataApi {
         this.notify(a.id, 'admin', 'New teacher waiting for approval', `${u.fullName} (${u.email}) signed up as a teacher.`, '/admin/users?status=pending');
       }
     }
-    if (cls) this.db.enrollments.push({ classId: cls.id, studentId: u.id, joinedAt: nowIso() });
+    if (cls && cls.settings.joinApproval) this.addJoinRequest(cls, u, null);
+    else if (cls) {
+      this.db.enrollments.push({ classId: cls.id, studentId: u.id, joinedAt: nowIso() });
+      this.notify(cls.teacherId, 'announcement', `${u.fullName} joined ${cls.name}`, 'A new student joined using the class code.', `/t/c/${cls.id}/students`);
+    }
     this.persist();
     sessionSet(u.id);
     this.authListeners.forEach((l) => l(strip(u)));
@@ -284,7 +292,7 @@ export class DemoApi implements DataApi {
     return this.db.classes.find((c) => c.id === id) ?? null;
   }
 
-  async createClass(input: { name: string; section?: string | null; courseId: string }) {
+  async createClass(input: { name: string; section?: string | null; courseId: string; joinApproval?: boolean }) {
     const me = this.me();
     if (me.role !== 'teacher') throw new Error('Only teachers can create classes.');
     if ((me.teacherStatus ?? 'approved') !== 'approved' || me.disabled) throw new Error('Your teacher account is waiting for approval.');
@@ -296,7 +304,7 @@ export class DemoApi implements DataApi {
       section: input.section?.trim() || null,
       courseId: input.courseId,
       joinCode: makeJoinCode(),
-      settings: { reminderHours: [24, 2], aiAutopilot: false, emailReminders: false, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
+      settings: { reminderHours: [24, 2], aiAutopilot: false, emailReminders: false, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, ...(input.joinApproval ? { joinApproval: true } : {}) },
       createdAt: nowIso(),
       archived: false,
     };
@@ -326,12 +334,87 @@ export class DemoApi implements DataApi {
     const me = this.me();
     const c = this.db.classes.find((x) => x.joinCode === code.trim().toUpperCase() && !x.archived && x.kind !== 'self');
     if (!c) throw new Error('That class code was not found.');
-    if (!this.db.enrollments.some((e) => e.classId === c.id && e.studentId === me.id)) {
+    const enrolled = this.db.enrollments.some((e) => e.classId === c.id && e.studentId === me.id);
+    if (c.settings.joinApproval && !enrolled) throw new Error('This class asks for your teacher’s approval. Send a request from the Join a class page.');
+    if (!enrolled) {
       this.db.enrollments.push({ classId: c.id, studentId: me.id, joinedAt: nowIso() });
       this.notify(c.teacherId, 'announcement', `${me.fullName} joined ${c.name}`, 'A new student joined using the class code.', `/t/c/${c.id}/students`);
       this.persist();
     }
     return c;
+  }
+
+  async requestToJoin(code: string, message?: string): Promise<JoinResult> {
+    await this.ready;
+    const me = this.me();
+    if (me.role !== 'student') throw new Error('Only students can join a class with a code.');
+    const c = this.db.classes.find((x) => x.joinCode === code.trim().toUpperCase() && !x.archived && x.kind !== 'self');
+    if (!c) throw new Error('That class code was not found.');
+    const teacherName = this.db.users.find((u) => u.id === c.teacherId)?.fullName ?? null;
+    const result = (status: JoinResult['status']): JoinResult => ({ status, classId: c.id, className: c.name, teacherName });
+    if (this.db.enrollments.some((e) => e.classId === c.id && e.studentId === me.id)) return result('joined');
+    if (c.settings.joinApproval) {
+      this.addJoinRequest(c, me, message ?? null);
+      this.persist();
+      return result('pending');
+    }
+    this.db.enrollments.push({ classId: c.id, studentId: me.id, joinedAt: nowIso() });
+    this.notify(c.teacherId, 'announcement', `${me.fullName} joined ${c.name}`, 'A new student joined using the class code.', `/t/c/${c.id}/students`);
+    this.persist();
+    return result('joined');
+  }
+
+  /** Records (or renews) a pending request and tells the teacher. */
+  private addJoinRequest(c: ClassRoom, student: { id: string; fullName: string }, message: string | null) {
+    const msg = message?.trim().slice(0, 300) || null;
+    const existing = this.db.joinRequests!.find((r) => r.classId === c.id && r.studentId === student.id);
+    if (existing?.status === 'pending') return;
+    if (existing) Object.assign(existing, { status: 'pending', message: msg, createdAt: nowIso(), decidedAt: null });
+    else this.db.joinRequests!.push({ id: uid('jr'), classId: c.id, studentId: student.id, status: 'pending', message: msg, createdAt: nowIso(), decidedAt: null });
+    this.notify(c.teacherId, 'announcement', `${student.fullName} asked to join ${c.name}`, 'Approve or decline the request on the Students page.', `/t/c/${c.id}/students`);
+  }
+
+  async listMyJoinRequests(): Promise<MyJoinRequest[]> {
+    await this.ready;
+    const me = this.me();
+    return this.db
+      .joinRequests!.filter((r) => r.studentId === me.id)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, 20)
+      .flatMap((r) => {
+        const c = this.db.classes.find((x) => x.id === r.classId);
+        if (!c) return [];
+        return [{ id: r.id, classId: c.id, className: c.name, section: c.section, courseId: c.courseId, teacherName: this.db.users.find((u) => u.id === c.teacherId)?.fullName ?? null, status: r.status, createdAt: r.createdAt, decidedAt: r.decidedAt }];
+      });
+  }
+
+  async listJoinRequests(classId: string): Promise<ClassJoinRequest[]> {
+    await this.ready;
+    this.requireTeacherOf(classId);
+    return this.db
+      .joinRequests!.filter((r) => r.classId === classId && r.status === 'pending')
+      .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+      .flatMap((r) => {
+        const u = this.db.users.find((x) => x.id === r.studentId);
+        return u ? [{ id: r.id, studentId: u.id, fullName: u.fullName, email: u.email, message: r.message, createdAt: r.createdAt }] : [];
+      });
+  }
+
+  async decideJoinRequest(requestId: string, approve: boolean): Promise<void> {
+    await this.ready;
+    const r = this.db.joinRequests!.find((x) => x.id === requestId);
+    if (!r) throw new Error('That request was not found.');
+    const c = this.requireTeacherOf(r.classId);
+    if (r.status !== 'pending') return;
+    r.status = approve ? 'approved' : 'declined';
+    r.decidedAt = nowIso();
+    if (approve) {
+      if (!this.db.enrollments.some((e) => e.classId === c.id && e.studentId === r.studentId)) this.db.enrollments.push({ classId: c.id, studentId: r.studentId, joinedAt: nowIso() });
+      this.notify(r.studentId, 'announcement', `You joined ${c.name}`, 'Your teacher approved your request. The class is now in your course list.', '/s');
+    } else {
+      this.notify(r.studentId, 'announcement', `Your request to join ${c.name} was declined`, 'Check the class code with your teacher. You can keep studying on your own in the meantime.', '/s/join');
+    }
+    this.persist();
   }
 
   async startSelfPaced(courseId: string): Promise<ClassRoom> {

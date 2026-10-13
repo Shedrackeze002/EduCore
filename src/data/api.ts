@@ -16,7 +16,10 @@ import type {
   Board,
   BoardInput,
   ClassRoom,
+  ClassJoinRequest,
   ClassSettings,
+  JoinResult,
+  MyJoinRequest,
   Insight,
   LessonPrefs,
   LiveAnswer,
@@ -64,10 +67,15 @@ export interface DataApi {
   // Classes and people
   listMyClasses(): Promise<ClassRoom[]>;
   getClass(id: string): Promise<ClassRoom | null>;
-  createClass(input: { name: string; section?: string | null; courseId: string }): Promise<ClassRoom>;
+  createClass(input: { name: string; section?: string | null; courseId: string; joinApproval?: boolean }): Promise<ClassRoom>;
   updateClass(id: string, patch: { name?: string; section?: string | null; settings?: Partial<ClassSettings>; archived?: boolean }): Promise<ClassRoom>;
   regenerateJoinCode(id: string): Promise<ClassRoom>;
   joinClass(code: string): Promise<ClassRoom>;
+  /** Use a class code: join straight away, or send the teacher a request when the class asks for approval. */
+  requestToJoin(code: string, message?: string): Promise<JoinResult>;
+  listMyJoinRequests(): Promise<MyJoinRequest[]>;
+  listJoinRequests(classId: string): Promise<ClassJoinRequest[]>;
+  decideJoinRequest(requestId: string, approve: boolean): Promise<void>;
   /** A student's own self-paced class for a course (made the first time); every lesson is open. */
   startSelfPaced(courseId: string): Promise<ClassRoom>;
   listRoster(classId: string): Promise<Profile[]>;

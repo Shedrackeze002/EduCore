@@ -12,6 +12,7 @@ import { relative } from '@/lib/dates.ts';
 import { cn } from '@/lib/cn.ts';
 import { downloadText, masteryMap, toCsv } from '../shared/derive.ts';
 import { pct, scoreCell, useClassId } from './shared.tsx';
+import { JoinRequestsCard } from './JoinRequests.tsx';
 
 type Sort = 'name' | 'mastery' | 'average' | 'missing' | 'active';
 
@@ -89,6 +90,7 @@ export default function StudentsPage() {
           </Button>
         }
       />
+      <JoinRequestsCard classId={classId} />
       {(roster.data ?? []).length === 0 ? (
         <EmptyState icon={<UserRound className="h-6 w-6" />} title="No students yet" action={<Button onClick={() => setAdding(true)}>Add students</Button>}>
           Create accounts for your students in one step, or share the class code <strong className="font-mono">{cls.data.joinCode}</strong> so they can sign up and join.

@@ -9,6 +9,7 @@ import { api } from '@/data/index.ts';
 import { qk, useAnnouncements, useAssignments, useClass, useInsights, useMastery, usePublications, useRoster, useSetPublished, useSubmissions } from '@/data/hooks.ts';
 import type { Assignment, Profile, Submission } from '@/data/types.ts';
 import { Avatar, Badge, Button, Card, CardBody, CardHeader, EmptyState, Input, PageHeader, PageSpinner, ProgressBar, StatTile, Textarea, useToast } from '@/components/ui/index.ts';
+import { JoinRequestsBanner } from './JoinRequests.tsx';
 import { InsightCompact } from '@/features/ai/InsightReport.tsx';
 import { Markdown } from '@/components/math/Markdown.tsx';
 import { dueLabel, relative } from '@/lib/dates.ts';
@@ -91,6 +92,7 @@ export default function ClassOverview() {
           </>
         }
       />
+      <JoinRequestsBanner classId={c.id} />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatTile label="Students" value={roster.data?.length ?? 0} icon={<Users className="h-4 w-4" />} hint={<Link className="text-brand hover:underline" to={`/t/c/${classId}/students`}>Manage roster</Link>} />

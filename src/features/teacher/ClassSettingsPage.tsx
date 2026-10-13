@@ -79,32 +79,40 @@ export default function ClassSettingsPage() {
 
       <Card>
         <CardHeader title="Join code" subtitle="Students who sign up themselves enter this code to join." icon={<KeyRound className="h-5 w-5" />} />
-        <CardBody className="flex flex-wrap items-center gap-4 pt-4">
-          <div className="font-mono text-3xl font-bold tracking-[0.25em] text-brand-800">{c.joinCode}</div>
-          <div className="flex flex-1 flex-wrap justify-end gap-2">
-            <Button
-              variant="secondary"
-              icon={<Copy className="h-4 w-4" />}
-              onClick={() => {
-                navigator.clipboard?.writeText(joinLink(c.joinCode));
-                toast({ kind: 'success', title: 'Join link copied' });
-              }}
-            >
-              Copy join link
-            </Button>
-            <Button
-              variant="ghost"
-              icon={<RefreshCw className="h-4 w-4" />}
-              onClick={async () => {
-                if (!window.confirm('Create a new code? The old code will stop working. Students already in the class are not affected.')) return;
-                const next = await api().regenerateJoinCode(classId);
-                qc.setQueryData(qk.class(classId), next);
-                toast({ kind: 'success', title: `New code: ${next.joinCode}` });
-              }}
-            >
-              New code
-            </Button>
+        <CardBody className="space-y-5 pt-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="font-mono text-3xl font-bold tracking-[0.25em] text-brand-800">{c.joinCode}</div>
+            <div className="flex flex-1 flex-wrap justify-end gap-2">
+              <Button
+                variant="secondary"
+                icon={<Copy className="h-4 w-4" />}
+                onClick={() => {
+                  navigator.clipboard?.writeText(joinLink(c.joinCode));
+                  toast({ kind: 'success', title: 'Join link copied' });
+                }}
+              >
+                Copy join link
+              </Button>
+              <Button
+                variant="ghost"
+                icon={<RefreshCw className="h-4 w-4" />}
+                onClick={async () => {
+                  if (!window.confirm('Create a new code? The old code will stop working. Students already in the class are not affected.')) return;
+                  const next = await api().regenerateJoinCode(classId);
+                  qc.setQueryData(qk.class(classId), next);
+                  toast({ kind: 'success', title: `New code: ${next.joinCode}` });
+                }}
+              >
+                New code
+              </Button>
+            </div>
           </div>
+          <Switch
+            checked={!!c.settings.joinApproval}
+            onChange={(joinApproval) => update.mutate({ settings: { joinApproval } })}
+            label="Approve students before they join"
+            description="Students who use the code send you a request, and you approve or decline it on the Students page. Students you add yourself join straight away."
+          />
         </CardBody>
       </Card>
 

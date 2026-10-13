@@ -33,14 +33,18 @@ items ship or decisions change.
   the course before, and study in a self-paced section where every lesson is open and the AI
   acts as tutor (study coach and autopilot practice). Students can study several courses and
   switch between them.
+- Join requests (second part of item 1): a class can ask the teacher to approve students who use
+  its code; the teacher approves or declines on the Students page, and students see where their
+  requests stand.
 
 ## Next, in order
 
 1. **Student self-sign-up, AI course placement and course requests.**
    - Done: onboarding, recommendation, placement check and self-paced sections (see above).
-   - Next: **join requests.** A student asks to join a teacher's class (by code or from a link);
-     the teacher approves or declines, and the student keeps their self-paced progress.
-   - Then: **course requests.** Missing topics become course requests in an admin inbox; requests
+   - Done: **join requests.** Classes can ask for approval (on by default for new classes); a
+     class code then sends the teacher a request with an optional note, the teacher approves or
+     declines on the Students page, and the student keeps their self-paced progress.
+   - Next: **course requests.** Missing topics become course requests in an admin inbox; requests
      the admin approves become GitHub issues for a build session.
    - Later: an AI tutor chat inside lessons for self-paced students (explain a step, give a hint,
      check working), using the same AI provider as the teaching assistant.
