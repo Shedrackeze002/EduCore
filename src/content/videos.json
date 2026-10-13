@@ -249,5 +249,52 @@
         "working": "$PQ$ is the **hypotenuse** and $QR$ is **opposite** $\\angle P$, so use sine: $QR = 10\\sin 50^\\circ \\approx 7.66$."
       }
     ]
+  },
+  "m10c-2-3-b": {
+    "lessonId": "m10c-2-3",
+    "title": "Solving Right Triangles, Part 2: From Two Sides, and in Context",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two sides given",
+        "t": 11.404
+      },
+      {
+        "title": "Round at the end",
+        "t": 59.083
+      },
+      {
+        "title": "A ladder",
+        "t": 84.22
+      },
+      {
+        "title": "Your turn",
+        "t": 130.008
+      },
+      {
+        "title": "Summary",
+        "t": 162.17
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-3-b:q",
+        "t": 139.134,
+        "prompt": "A right triangle has legs of $5$ and $12$. What is the angle ${\\theta}$ **opposite** the side of length $5$?",
+        "choices": [
+          "$\\tan^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 22.6^\\circ$",
+          "$\\tan^{-1}\\left(\\tfrac{12}{5}\\right) \\approx 67.4^\\circ$",
+          "$\\sin^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 24.6^\\circ$",
+          "$\\cos^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 65.4^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$5$ is **opposite** $\\theta$ and $12$ is **adjacent**, so use tangent: $\\theta = \\tan^{-1}\\left(\\tfrac{5}{12}\\right) \\approx 22.6^\\circ$. Neither leg is the hypotenuse, so sine and cosine do not fit."
+      }
+    ]
   }
 }
