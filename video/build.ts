@@ -2,7 +2,7 @@
  * Builds explainer videos from their scripts (src/content/<course>/videos/<id>.ts):
  *
  *   npx tsx video/build.ts m10c-2-1 [more ids] [--voice af_heart] [--speed 1] [--fps 30]
- *                                   [--stills] [--quick] [--no-qa]
+ *                                   [--stills] [--quick] [--no-qa] [--thumbnail]
  *
  * For each video it voices every line (Kokoro, cached in video/.cache), lays out the timeline from
  * the narration, renders every frame of video/stage.html in Chromium, and writes to video/out/<id>/:
@@ -13,12 +13,13 @@
  * --stills  saves a picture of the end of each scene instead of the MP4 (for checking the design).
  * --quick   estimates the narration from the words instead of voicing it (with --stills).
  * --no-qa   skips the Whisper pronunciation check.
+ * --thumbnail  makes only the thumbnail (after a change to the script's figures or the design).
  */
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { chromium, type Page } from '@playwright/test';
+import { chromium, type Browser, type Page } from '@playwright/test';
 import { createServer } from 'vite';
 import { courseOfLesson, lessonById } from '../engine/curriculum/index.ts';
 import { captions, toSrt, toVtt } from '../src/video/captions.ts';
@@ -173,6 +174,15 @@ function updateManifest(x: Explainer, tl: Timeline) {
   writeFileSync(MANIFEST, `${JSON.stringify(sorted, null, 2)}\n`);
 }
 
+/** The video's thumbnail, 1280×720, as thumbnail.png in its folder. */
+async function thumbnail(browser: Browser, base: string, id: string, dir: string) {
+  const thumb = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+  await thumb.goto(`${base}video/stage.html`);
+  await thumb.evaluate((i) => (window as unknown as { __stage: StageApi }).__stage.thumbnail(i), id);
+  await thumb.screenshot({ path: path.join(dir, 'thumbnail.png') });
+  await thumb.close();
+}
+
 async function main() {
   if (!ids.length) throw new Error('Name at least one video, for example: npx tsx video/build.ts m10c-2-1');
   useCache(CACHE);
@@ -188,6 +198,11 @@ async function main() {
       if (problems.length) throw new Error(`${id}:\n${problems.join('\n')}`);
       const dir = path.join(OUT, id);
       mkdirSync(dir, { recursive: true });
+      if (flag('thumbnail')) {
+        await thumbnail(browser, base, id, dir);
+        log(`${id}: thumbnail in ${path.relative(ROOT, dir)}`);
+        continue;
+      }
       log(`${id}: voicing ${x.scenes.reduce((n, s) => n + s.lines.length, 0)} lines with ${voice.name}`);
       const { durations, clips } = await voiceLines(x);
       const tl = compile(x, durations);
@@ -221,12 +236,7 @@ async function main() {
         if (!flag('no-qa')) await qa(x, tl, clips, path.join(dir, 'pronunciation.txt'));
       }
       await page.close();
-
-      const thumb = await browser.newPage({ viewport: { width: 1280, height: 720 } });
-      await thumb.goto(`${base}video/stage.html`);
-      await thumb.evaluate((i) => (window as unknown as { __stage: StageApi }).__stage.thumbnail(i), id);
-      await thumb.screenshot({ path: path.join(dir, 'thumbnail.png') });
-      await thumb.close();
+      await thumbnail(browser, base, id, dir);
       log(`${id}: done, in ${path.relative(ROOT, dir)}`);
     }
   } finally {

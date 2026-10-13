@@ -32,6 +32,7 @@ const PLACE: Record<Place, P> = {
   'above right': [0.71, -0.71],
   'below left': [-0.71, 0.71],
   'below right': [0.71, 0.71],
+  center: [0, 0],
 };
 
 /** Dark fills for scenery, so lines and labels in front of it stay readable. */
@@ -71,16 +72,17 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
   const left = Math.max(0, ox - 40);
   const right = Math.min(w, ox + (x1 - x0) * S + 40);
 
-  const shown = (id: string) => partShown(st, id);
-  const focus = (id: string) => st?.focus[id] ?? 0;
+  // A part appears, and is emphasised, on its own or with its group.
+  const shown = (item: DiagramItem) => Math.max(partShown(st, item.id), item.group ? partShown(st, item.group) : 0);
+  const focus = (item: DiagramItem) => Math.max(st?.focus[item.id] ?? 0, item.group ? (st?.focus[item.group] ?? 0) : 0);
 
   const svg: ReactElement[] = [];
   const labels: ReactElement[] = [];
 
   for (const item of el.items) {
-    const k = shown(item.id);
+    const k = shown(item);
     if (k <= 0) continue;
-    const f = focus(item.id);
+    const f = focus(item);
     const fadeLabel = clamp01((k - 0.5) / 0.5);
     switch (item.kind) {
       case 'thing':
@@ -88,7 +90,7 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
         break;
       case 'region': {
         const c = toneColour(item.tone, TONES.brand);
-        svg.push(<polygon key={item.id} points={pts(item.points.map(at))} fill={c} fillOpacity={(0.1 + 0.08 * f) * k} stroke="none" />);
+        svg.push(<polygon key={item.id} points={pts(item.points.map(at))} fill={c} fillOpacity={((item.shade ?? 0.1) + 0.08 * f) * k} stroke="none" />);
         break;
       }
       case 'line': {
@@ -96,7 +98,7 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
         const b = at(item.to);
         const c = toneColour(item.tone, INK);
         const e = add(a, mul(sub(b, a), clamp01(k / 0.85)));
-        const width = (item.dashed ? 2.5 : 3.5) + 4 * f;
+        const width = (item.weight ?? (item.dashed ? 2.5 : 3.5)) + 4 * f;
         svg.push(
           <line
             key={item.id}
@@ -115,6 +117,48 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
           const d = unit(sub(b, a));
           const nl: P = [d[1], -d[0]];
           const m = add(a, mul(sub(b, a), item.labelAt ?? 0.5));
+          const side = item.labelSide ?? ((m[0] - G[0]) * nl[0] + (m[1] - G[1]) * nl[1] >= 0 ? 'left' : 'right');
+          const n: P = side === 'left' ? nl : [-nl[0], -nl[1]];
+          labels.push(<Label key={item.id} at={add(m, mul(n, 14))} n={n} html={tex(item.label)} color={c} opacity={fadeLabel} scale={1 + 0.14 * f} size={28} />);
+        }
+        break;
+      }
+      case 'curve': {
+        const q = item.points.map(at);
+        if (item.closed) q.push(q[0]);
+        const c = toneColour(item.tone, INK);
+        // Draw it on: the points up to the length reached so far, and part of the next segment.
+        const seg = q.slice(1).map((b, i) => Math.hypot(b[0] - q[i][0], b[1] - q[i][1]));
+        const total = seg.reduce((n, l) => n + l, 0);
+        let rest = total * clamp01(k / 0.85);
+        const drawn: P[] = [q[0]];
+        for (let i = 0; i < seg.length && rest > 0; i++) {
+          const t = Math.min(1, rest / (seg[i] || 1));
+          drawn.push(add(q[i], mul(sub(q[i + 1], q[i]), t)));
+          rest -= seg[i];
+        }
+        const width = (item.weight ?? (item.dashed ? 2.5 : 3.5)) + 4 * f;
+        svg.push(
+          <polyline
+            key={item.id}
+            points={pts(drawn)}
+            fill="none"
+            stroke={c}
+            strokeWidth={width}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray={item.dashed ? '12 10' : undefined}
+            style={f > 0 ? { filter: `drop-shadow(0 0 ${10 * f}px ${c})` } : undefined}
+          />,
+        );
+        if (item.label) {
+          // The point `labelAt` of the way along the curve, and the direction there.
+          let d = total * (item.labelAt ?? 0.5);
+          let i = 0;
+          while (i < seg.length - 1 && d > seg[i]) d -= seg[i++];
+          const m = add(q[i], mul(sub(q[i + 1], q[i]), clamp01(d / (seg[i] || 1))));
+          const dir = unit(sub(q[i + 1], q[i]));
+          const nl: P = [dir[1], -dir[0]];
           const side = item.labelSide ?? ((m[0] - G[0]) * nl[0] + (m[1] - G[1]) * nl[1] >= 0 ? 'left' : 'right');
           const n: P = side === 'left' ? nl : [-nl[0], -nl[1]];
           labels.push(<Label key={item.id} at={add(m, mul(n, 14))} n={n} html={tex(item.label)} color={c} opacity={fadeLabel} scale={1 + 0.14 * f} size={28} />);

@@ -190,6 +190,15 @@ describe('checkScript', () => {
     expect(checkScript(bad)).toEqual(['Scene 1: the id "a" is used twice.', 'Scene 1, line 1 says nothing.', 'Scene 1, line 1: no element "b".']);
   });
 
+  it('asks for a comma in a four-digit whole number, which the voice would read like a year', () => {
+    const say = (text: string): Explainer => ({ ...script, scenes: [{ layout: 'center', main: [{ kind: 'text', id: 'a', md: 'x' }], lines: [{ say: text }] }] });
+    expect(checkScript(say('A mile is 5280 feet, and an hour is 3600 seconds.'))).toEqual([
+      'Scene 1, line 1: write 5280 as 5,280 or in words, or it is read like a year.',
+      'Scene 1, line 1: write 3600 as 3,600 or in words, or it is read like a year.',
+    ]);
+    expect(checkScript(say('A mile is 5,280 feet: about 3141.6, 0.3048 or 7.41666, and 12000 or 26.2.'))).toEqual([]);
+  });
+
   it('checks the points and parts of a diagram', () => {
     const bad: Explainer = {
       ...script,

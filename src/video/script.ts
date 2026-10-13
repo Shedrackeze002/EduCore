@@ -131,19 +131,25 @@ export type DiagramTone = Tone | 'ink' | 'muted';
 export type ThingType = 'ground' | 'water' | 'cliff' | 'tower' | 'lighthouse' | 'building' | 'flagpole' | 'tree' | 'person' | 'boat';
 
 /** Where a label sits beside a point. */
-export type Place = 'above' | 'below' | 'left' | 'right' | 'above left' | 'above right' | 'below left' | 'below right';
+export type Place = 'above' | 'below' | 'left' | 'right' | 'above left' | 'above right' | 'below left' | 'below right' | 'center';
 
 /**
  * A part of a diagram. Every part has an id, so a line can show or emphasise it ("d.sight"), and
- * names the points it uses. Parts are drawn in order, so list scenery first.
+ * names the points it uses. Parts are drawn in order, so list scenery first. A part in a `group`
+ * also appears, and is emphasised, with its group ("d.shape" shows every edge of a solid).
  */
-export type DiagramItem =
+export type DiagramItem = (
   /**
    * A straight line from one point to another, drawn on from `from`. Its label sits beside its
    * middle (or at `labelAt`, 0 to 1 along it), away from the middle of the diagram unless `labelSide`
-   * says which side, looking from `from` to `to`.
+   * says which side, looking from `from` to `to`. `weight` sets its thickness in pixels.
    */
-  | { kind: 'line'; id: string; from: string; to: string; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number }
+  | { kind: 'line'; id: string; from: string; to: string; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number; weight?: number }
+  /**
+   * A curve through points (the edge of a cylinder, a sphere's outline), drawn on in order, and
+   * joined back to the start when `closed`. Labels as for a line, `labelAt` measured along it.
+   */
+  | { kind: 'curve'; id: string; points: string[]; closed?: boolean; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number; weight?: number }
   /**
    * The angle at `at` between the directions to `from` and `to` (the smaller one), with a label on
    * its bisector, or at `labelAt` (0 to 1 from `from` to `to`; beyond 1 places it outside, for an
@@ -152,9 +158,9 @@ export type DiagramItem =
   | { kind: 'angle'; id: string; at: string; from: string; to: string; tone?: DiagramTone; label?: string; /** Arc radius in pixels. */ r?: number; /** Label distance from the vertex in pixels. */ labelDist?: number; labelAt?: number }
   /** A right-angle mark at `at`, between the directions to `from` and `to`. */
   | { kind: 'right'; id: string; at: string; from: string; to: string }
-  /** A lightly shaded polygon, such as the triangle being solved. */
-  | { kind: 'region'; id: string; points: string[]; tone?: DiagramTone }
-  /** A label (TeX) beside a point; a point's name, with a dot when `dot` is set. */
+  /** A shaded polygon, such as the triangle being solved; `shade` is its opacity (0.1 by default). */
+  | { kind: 'region'; id: string; points: string[]; tone?: DiagramTone; shade?: number }
+  /** A label (TeX) beside a point (or on it, with `place: 'center'`); a point's name, with a dot when `dot` is set. */
   | { kind: 'label'; id: string; at: string; tex: string; tone?: DiagramTone; place?: Place; dot?: boolean }
   /**
    * Scenery. Ground and water run across the diagram at the height of `at`. A cliff, tower,
@@ -162,7 +168,8 @@ export type DiagramItem =
    * extends to the `side` of that line. A person stands on `at` with their eyes at `top`. A boat
    * floats at `at`.
    */
-  | { kind: 'thing'; id: string; type: ThingType; at: string; top?: string; side?: 'left' | 'right'; /** Width in diagram units (cliff, building). */ width?: number };
+  | { kind: 'thing'; id: string; type: ThingType; at: string; top?: string; side?: 'left' | 'right'; /** Width in diagram units (cliff, building). */ width?: number }
+) & { group?: string };
 
 /**
  * A diagram drawn to scale from named points (x to the right, y up, in any unit): lines, angles,
@@ -232,6 +239,8 @@ export function itemPoints(item: DiagramItem): string[] {
   switch (item.kind) {
     case 'line':
       return [item.from, item.to];
+    case 'curve':
+      return item.points;
     case 'angle':
     case 'right':
       return [item.at, item.from, item.to];
@@ -245,6 +254,9 @@ export function itemPoints(item: DiagramItem): string[] {
 }
 
 /** Problems with a script: unknown ids, repeated ids, empty lines, unknown diagram points and parts. Empty when it is fine. */
+/** A four-digit whole number with no comma, not part of a longer number or a decimal. */
+const YEAR_LIKE = /(?<![\d.,])\d{4}(?![\d]|[.,]\d)/g;
+
 export function checkScript(x: Explainer): string[] {
   const problems: string[] = [];
   if (!x.scenes.length) problems.push('The script has no scenes.');
@@ -256,16 +268,21 @@ export function checkScript(x: Explainer): string[] {
       ids.add(e.id);
       if (e.kind !== 'diagram') continue;
       const parts = new Set<string>();
+      const groups = new Set<string>();
       for (const item of e.items) {
         if (parts.has(item.id)) problems.push(`Scene ${si + 1}: diagram "${e.id}" uses the part id "${item.id}" twice.`);
         parts.add(item.id);
+        if (item.group) groups.add(item.group);
         for (const pt of itemPoints(item)) if (!(pt in e.points)) problems.push(`Scene ${si + 1}: diagram "${e.id}", part "${item.id}" uses no point "${pt}".`);
       }
-      diagrams.set(e.id, parts);
+      // A line can show or emphasise a part by its id, or a group of parts by the group's name.
+      diagrams.set(e.id, new Set([...parts, ...groups]));
     }
     if (!s.lines.length) problems.push(`Scene ${si + 1} has no lines.`);
     s.lines.forEach((l, li) => {
       if (!l.say.trim()) problems.push(`Scene ${si + 1}, line ${li + 1} says nothing.`);
+      // The voice reads a bare four-digit whole number like a year (5280 as "fifty-two eighty").
+      for (const [n] of l.say.matchAll(YEAR_LIKE)) problems.push(`Scene ${si + 1}, line ${li + 1}: write ${n} as ${n[0]},${n.slice(1)} or in words, or it is read like a year.`);
       for (const target of [...asList(l.show), ...asList(l.hide), ...asList(l.focus)]) {
         const [el, part] = target.split('.');
         if (!ids.has(el)) problems.push(`Scene ${si + 1}, line ${li + 1}: no element "${target}".`);

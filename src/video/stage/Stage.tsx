@@ -20,10 +20,15 @@ type Area = 'left' | 'right' | 'main';
 
 /** Width of a split scene's left column, unless the scene sets its own. */
 const LEFT = 540;
+/** The stage's content width (1280 less the margins), and the gap between split columns. */
+const BODY = 1136;
+const GAP = 48;
 
 function ElView({ el, st, area, crowded, leftWidth }: { el: El; st: ElState | undefined; area: Area; crowded: boolean; leftWidth: number }) {
   const center = area !== 'right';
-  const fig = area === 'left' ? { w: leftWidth, h: crowded ? 380 : 560 } : { w: 1100, h: crowded ? 340 : 440 };
+  // A figure fills its column: the left or right of a split scene, or the middle of a centred one.
+  const fig =
+    area === 'main' ? { w: 1100, h: crowded ? 340 : 440 } : { w: area === 'left' ? leftWidth : BODY - GAP - leftWidth, h: crowded ? 380 : 560 };
   switch (el.kind) {
     case 'title':
       return <TitleView el={el} st={st} />;
@@ -80,7 +85,7 @@ export function Stage({ x, state, label }: { x: Explainer; state: FrameState; la
         {scene.layout === 'split' ? (
           <div className="v-split" style={scene.leftWidth ? { gridTemplateColumns: `${scene.leftWidth}px minmax(0, 1fr)` } : undefined}>
             <Column els={scene.left} state={state} area="left" className="v-col v-center" leftWidth={scene.leftWidth} />
-            <Column els={scene.right} state={state} area="right" className="v-col" />
+            <Column els={scene.right} state={state} area="right" className="v-col" leftWidth={scene.leftWidth} />
           </div>
         ) : (
           <Column els={scene.main} state={state} area="main" className="v-col v-center" />
@@ -100,23 +105,38 @@ export function fullScene(x: Explainer, si: number): FrameState {
   return { scene: si, fade: 1, chapter: s.chapter ?? null, els };
 }
 
+/** How many times wider than tall a diagram's points spread. */
+function aspect(d: DiagramEl) {
+  const pts = Object.values(d.points);
+  const span = (k: 0 | 1) => Math.max(...pts.map((p) => p[k])) - Math.min(...pts.map((p) => p[k]));
+  return span(0) / Math.max(span(1), 1e-6);
+}
+
 export function Thumbnail({ x, label }: { x: Explainer; label: string }) {
   const isFigure = (e: El): e is TriangleEl | SimilarEl | DiagramEl => e.kind === 'triangle' || e.kind === 'similar' || e.kind === 'diagram';
   const figures = x.scenes.flatMap((s) => [...(s.left ?? []), ...(s.main ?? [])]).filter(isFigure);
   const fig = (x.thumbnail && figures.find((e) => e.id === x.thumbnail)) || figures[0];
   const title = x.thumbnailTitle ?? x.title;
+  // A wide, flat diagram (a ruler, a pair of lengths) goes under the title, across the thumbnail;
+  // anything else sits to the right of it.
+  const wide = fig?.kind === 'diagram' && aspect(fig) > 2.4;
   // A long title takes a smaller size, so it stays clear of the figure.
   const size = fig ? (title.length > 22 ? 76 : 88) : 104;
   return (
     <div className="v-stage">
-      <div style={{ position: 'absolute', left: 80, top: 86, width: fig ? 640 : 1100 }}>
+      {wide && (
+        <div style={{ position: 'absolute', left: 60, top: 330 }}>
+          <DiagramView el={fig} st={FULL} w={1160} h={280} />
+        </div>
+      )}
+      <div style={{ position: 'absolute', left: 80, top: 86, width: fig && !wide ? 640 : 1100 }}>
         <div className="v-display" style={{ color: TONES.brand, fontSize: 30, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
           {label}
         </div>
         <h1 className="v-display v-rich" style={{ fontSize: size, lineHeight: 1.04, fontWeight: 800, margin: '22px 0 0' }} dangerouslySetInnerHTML={{ __html: rich(title) }} />
         <div style={{ height: 10, width: 220, marginTop: 34, borderRadius: 5, background: `linear-gradient(90deg, ${TONES.brand}, ${TONES.adj})` }} />
       </div>
-      {fig && (
+      {fig && !wide && (
         <div style={{ position: 'absolute', right: 130, top: 110 }}>
           {fig.kind === 'triangle' ? <TriangleView el={fig} st={FULL} w={500} h={480} labelSize={34} /> : fig.kind === 'diagram' ? <DiagramView el={fig} st={FULL} w={500} h={480} /> : <SimilarView el={fig} st={FULL} w={500} h={480} />}
         </div>

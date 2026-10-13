@@ -1,0 +1,12 @@
+import { describe, expect, it } from 'vitest';
+import { checkScript, type Explainer } from './script.ts';
+
+// Every explainer video script in the repository, checked the way the build checks it.
+const scripts = import.meta.glob<{ default: Explainer }>('/src/content/*/videos/*.ts', { eager: true });
+
+describe('video scripts', () => {
+  it.each(Object.entries(scripts))('%s is a valid script named after its file', (file, mod) => {
+    expect(checkScript(mod.default)).toEqual([]);
+    expect(file.endsWith(`/${mod.default.id}.ts`)).toBe(true);
+  });
+});
