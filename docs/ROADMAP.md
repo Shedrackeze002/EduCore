@@ -62,6 +62,15 @@ items ship or decisions change.
    - Start with a pilot of about 3 videos for one unit to settle style and voice.
    - Decision: narration with a cloned human voice, a paid voice or a free voice, chosen by cost
      at the pilot stage. The channel owner uploads; the build produces the files.
+   - Built: the video pipeline (`video/`, scripts in `src/content/<course>/videos/`) and the pilot,
+     four videos of about three minutes for Math 10C Unit 2 (lessons 2.1 and 2.2, two parts
+     each). Narration uses Kokoro, a free open-weight voice (`af_heart`). Waiting on the owner's
+     review of style and voice before the remaining videos.
+   - Next: the lesson player (YouTube embed that pauses at each "Your turn" and asks the question
+     in EduCore, using the cues in `src/content/videos.json`) and an admin page to record each
+     video's YouTube link.
+   - Then: the remaining videos unit by unit (Math 10C Unit 2 lessons 2.3 and 2.4 first), each
+     lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;

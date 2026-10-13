@@ -1,0 +1,14 @@
+{
+  "name": "educore-video",
+  "private": true,
+  "type": "module",
+  "description": "Builds EduCore's explainer videos: narration, frames, MP4, captions and thumbnails. See README.md.",
+  "scripts": {
+    "build": "tsx build.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "3.8.1",
+    "kokoro-js": "1.2.1"
+  }
+}

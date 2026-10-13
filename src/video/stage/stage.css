@@ -1,0 +1,155 @@
+/* The explainer video stage: 1280×720 CSS pixels, captured at 1.5× for 1080p. */
+:root {
+  --v-ink: 244 243 255;
+  --v-ink-2: 201 198 232;
+  --v-ink-3: 142 138 184;
+  --v-theta: 255 209 102;
+  --v-opp: 255 138 76;
+  --v-adj: 77 163 255;
+  --v-hyp: 244 114 182;
+  --v-brand: 167 139 250;
+  --v-good: 52 211 153;
+  --v-bad: 248 113 113;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #0d0c24;
+  overflow: hidden;
+}
+
+.v-stage {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  color: rgb(var(--v-ink));
+  font-family: 'Inter Variable', system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 700px at 30% 20%, rgb(56 38 140 / 0.55), transparent 60%),
+    radial-gradient(900px 600px at 90% 100%, rgb(20 70 140 / 0.35), transparent 60%),
+    linear-gradient(160deg, #15123a 0%, #0d0c24 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+.v-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.v-display {
+  font-family: 'Lexend Variable', 'Inter Variable', system-ui, sans-serif;
+}
+
+.v-header {
+  position: absolute;
+  top: 26px;
+  left: 56px;
+  right: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  color: rgb(var(--v-ink-3));
+}
+
+.v-chapter {
+  border: 1px solid rgb(var(--v-brand) / 0.35);
+  background: rgb(var(--v-brand) / 0.12);
+  color: rgb(var(--v-ink-2));
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 15px;
+}
+
+.v-body {
+  position: absolute;
+  top: 92px;
+  bottom: 44px;
+  left: 72px;
+  right: 72px;
+}
+
+.v-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 26px;
+  height: 100%;
+  min-width: 0;
+}
+
+.v-center {
+  align-items: center;
+  text-align: center;
+}
+
+.v-split {
+  display: grid;
+  grid-template-columns: 540px minmax(0, 1fr);
+  gap: 48px;
+  height: 100%;
+}
+
+.v-rich strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.v-rich em {
+  color: rgb(var(--v-ink-2));
+}
+
+.v-rich .katex {
+  font-size: 1.08em;
+}
+
+.tone-theta {
+  color: rgb(var(--v-theta));
+  font-weight: 700;
+}
+.tone-opp {
+  color: rgb(var(--v-opp));
+  font-weight: 700;
+}
+.tone-adj {
+  color: rgb(var(--v-adj));
+  font-weight: 700;
+}
+.tone-hyp {
+  color: rgb(var(--v-hyp));
+  font-weight: 700;
+}
+.tone-brand {
+  color: rgb(var(--v-brand));
+  font-weight: 700;
+}
+.tone-good {
+  color: rgb(var(--v-good));
+  font-weight: 700;
+}
+.tone-bad {
+  color: rgb(var(--v-bad));
+  font-weight: 700;
+}
+
+.v-math .katex-display {
+  margin: 0;
+}
+
+.v-card {
+  border-radius: 22px;
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: 0 20px 50px -24px rgb(0 0 0 / 0.6);
+}
+
+.v-mono {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}

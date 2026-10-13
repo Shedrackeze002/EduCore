@@ -163,6 +163,24 @@ as "a student" or "a teacher", because the repository is public). The administra
 issue link, and later marks the request built; the person who asked is notified at each step.
 Set `VITE_GITHUB_REPO` to send issues to another repository.
 
+## Explainer videos (`src/video/`, `video/`)
+
+Explainer videos are built from scripts in `src/content/<course>/videos/<id>.ts`, so they can be
+reviewed, versioned and rebuilt like lessons. A script is a list of scenes (a title, a figure and
+working side by side, a "Your turn" question, a summary); each narrated line shows, highlights or
+hides elements as it is spoken. `video/build.ts` voices every line with Kokoro, an open-weight
+text-to-speech model that runs on the CPU (cached per line in `video/.cache`), so a video's timing
+comes from its narration (`compile` in `src/video/timeline.ts`). It then opens
+`video/stage.html` in Chromium through Vite and, for every frame, asks the stage to draw the state
+at that moment (`stateAt`) and captures it; the stage is a pure function of that state (React,
+KaTeX and SVG, in the app's fonts), so frames are deterministic and a frame that has not changed
+is reused rather than redrawn. FFmpeg encodes 1080p H.264 with loudness-normalised AAC. The build
+also writes captions (SRT and WebVTT) from the script, a thumbnail, the YouTube title and
+description with chapters, a pronunciation report (Whisper's transcript of each line compared
+with the script, `src/video/words.ts`) and the video's length, chapters and question cues in
+`src/content/videos.json`. The video tools live in their own package (`video/package.json`) so
+the app's install stays small. See `video/README.md`.
+
 ## Security model (Supabase)
 
 - **Row-level security on every table.** Teachers see only their own classes and the students
