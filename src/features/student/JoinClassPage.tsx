@@ -5,6 +5,7 @@ import { KeyRound } from 'lucide-react';
 import { api } from '@/data/index.ts';
 import { qk } from '@/data/hooks.ts';
 import { Button, Card, Input, PageHeader, useToast } from '@/components/ui/index.ts';
+import { chooseStudentClass } from '../shared/useStudentClass.ts';
 
 export default function JoinClassPage() {
   const [code, setCode] = useState('');
@@ -25,6 +26,7 @@ export default function JoinClassPage() {
             setError(null);
             try {
               const c = await api().joinClass(code);
+              chooseStudentClass(c.id);
               await qc.invalidateQueries({ queryKey: qk.classes });
               toast({ kind: 'success', title: `You joined ${c.name}` });
               navigate('/s');

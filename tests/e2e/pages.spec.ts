@@ -44,6 +44,7 @@ test('every student page loads without errors', async ({ page }) => {
     ['/s/work', /Classwork|Work/],
     ['/s/progress', 'My progress'],
     ['/s/live', 'Class question'],
+    ['/s/welcome', 'Find your course'],
   ] as const) {
     await page.goto(path);
     await expect(page.getByRole('heading', { name: heading }).first()).toBeVisible();
@@ -252,4 +253,54 @@ test('the teacher asks the class a live question and students answer on their ow
   await expect(student.getByText(/Correct — well done!|Not quite/)).toBeVisible();
   await expect(student.getByText('Worked solution')).toBeVisible();
   expect([...teacherErrors, ...studentErrors]).toEqual([]);
+});
+
+test('a student signs up without a class code, is placed in a course and studies on their own', async ({ page }) => {
+  const errors = trackErrors(page);
+  await page.goto('/signup');
+  await page.getByLabel('Full name').fill('Ada Learner');
+  await page.getByLabel('Email').fill(`ada.${Date.now() % 100000}@example.ca`);
+  await page.getByLabel('Password').fill('secret12');
+  await page.getByRole('button', { name: 'Create account' }).click();
+
+  // Onboarding: grade, plans and how mathematics feels lead to a recommended course.
+  await page.waitForURL(/\/s\/welcome$/);
+  await page.getByRole('button', { name: '10', exact: true }).click();
+  await page.getByRole('button', { name: /University: science/ }).click();
+  await page.getByRole('button', { name: 'Okay, with some gaps' }).click();
+  await page.getByRole('button', { name: 'See my recommendation' }).click();
+  await expect(page.getByRole('heading', { name: 'Grade 10 Mathematics (Math 10C)' })).toBeVisible();
+  await expect(page.getByText(/keeps university and college options open/)).toBeVisible();
+
+  // The placement check uses Math 9 skills; skipping every question suggests starting earlier.
+  await page.getByRole('button', { name: 'Take the placement check' }).click();
+  await expect(page.getByText('Placement check · Math 9')).toBeVisible();
+  for (let i = 0; i < 6; i++) await page.getByRole('button', { name: 'I have not learned this yet' }).click();
+  await expect(page.getByText('Start earlier')).toBeVisible();
+  await page.getByRole('button', { name: 'Start Math 10C anyway' }).click();
+
+  // A self-paced section opens with every lesson, the next one marked, and the skills to review.
+  await page.waitForURL(/\/s$/);
+  await expect(page.getByText(/Self-paced with your AI tutor/)).toBeVisible();
+  await expect(page.getByText('Review from Math 9')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Announcements' })).toHaveCount(0);
+  await page.goto('/s/learn');
+  await expect(page.getByText('Next', { exact: true })).toBeVisible();
+
+  // The course switcher adds another course.
+  await page.getByRole('button', { name: 'Switch course' }).first().click();
+  await page.getByRole('button', { name: 'Add a course' }).click();
+  await page.waitForURL(/\/s\/welcome$/);
+  await page.getByRole('button', { name: '12', exact: true }).click();
+  await page.getByRole('button', { name: /University: science/ }).click();
+  await page.getByRole('button', { name: 'Yes', exact: true }).click();
+  await page.getByRole('button', { name: 'Going well' }).click();
+  await page.getByRole('button', { name: 'See my recommendation' }).click();
+  await page.getByRole('button', { name: 'Skip the check and start' }).click();
+  await page.waitForURL(/\/s$/);
+  await expect(page.getByText('Grade 12 Mathematics (Math 30-1) · Self-paced with your AI tutor')).toBeVisible();
+  await page.getByRole('button', { name: 'Switch course' }).first().click();
+  await expect(page.getByRole('button', { name: /^Math 10C.*Self-paced/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^Math 30-1.*Self-paced/ })).toBeVisible();
+  expect(errors).toEqual([]);
 });

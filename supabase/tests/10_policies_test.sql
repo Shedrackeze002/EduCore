@@ -422,6 +422,35 @@ select _fails($$insert into live_answers (question_id, class_id, student_id, res
 reset role;
 select _assert((select responses ->> 0 from live_answers where student_id = '00000000-0000-0000-0000-0000000000b1') = 'b', 'locked answer unchanged');
 
+-- ---------------------------------------------------------------- self-paced study
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b9","role":"authenticated"}', false);
+set role authenticated;
+select start_self_paced('math-20-1', array['m201-1-1', 'm201-1-2']);
+select start_self_paced('math-20-1', array['m201-1-2', 'm201-1-3']);
+select _assert((select count(*) from classes where kind = 'self') = 1, 'one self-paced class per course');
+select _assert((select teacher_id is null and settings ->> 'aiAutopilot' = 'true' from classes where kind = 'self'), 'self-paced classes have no teacher and the AI autopilot on');
+select _assert((select count(*) from publications) = 3, 'every lesson passed is published, again on later calls');
+select _fails($$select start_self_paced('../etc', array[]::text[])$$, 'unknown course names are rejected');
+-- Only a class's teacher may update it, so a student's update changes nothing.
+update classes set name = 'Mine' where kind = 'self';
+reset role;
+select _assert((select name from classes where kind = 'self') = 'Self-paced', 'students cannot change their self-paced class directly');
+create temp table selfc as select id, join_code from classes where kind = 'self';
+grant select on selfc to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select join_class((select join_code from selfc))$$, 'a self-paced class cannot be joined with its code');
+select _assert((select count(*) from classes where kind = 'self') = 0, 'students do not see other students'' self-paced classes');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select start_self_paced('math-10c', array[]::text[])$$, 'teachers do not study self-paced');
+select _assert((select count(*) from classes where kind = 'self') = 0, 'teachers do not see self-paced classes');
+reset role;
+select _fails($$insert into classes (teacher_id, name, course_id, kind) values (null, 'Bad', 'math-10c', 'teacher')$$, 'a teacher''s class needs a teacher');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;

@@ -4,9 +4,9 @@ import { BookOpen, ChevronDown, Lock, PlayCircle } from 'lucide-react';
 import { getCourse, lessonById } from '@engine/curriculum/index.ts';
 import { useMastery, usePublications } from '@/data/hooks.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
-import { Card, EmptyState, PageHeader, PageSpinner, ProgressRing } from '@/components/ui/index.ts';
+import { Button, Card, EmptyState, PageHeader, PageSpinner, ProgressRing } from '@/components/ui/index.ts';
 import { MasteryBar, MasteryLegend } from '@/components/mastery/Mastery.tsx';
-import { lessonMastery, masteryMap, unitMastery } from '../shared/derive.ts';
+import { lessonMastery, masteryMap, selfPacedLessons, unitMastery } from '../shared/derive.ts';
 import { useStudentClass } from '../shared/useStudentClass.ts';
 import { cn } from '@/lib/cn.ts';
 
@@ -20,13 +20,21 @@ export default function LearnPage() {
   const course = cls ? getCourse(cls.courseId) : undefined;
   const [open, setOpen] = useState<string | null>(null);
   if (isLoading || pubs.isLoading) return <PageSpinner />;
-  if (!cls || !course) return <EmptyState title="Join a class to see your lessons" />;
+  if (!cls || !course)
+    return (
+      <EmptyState icon={<BookOpen className="h-6 w-6" />} title="Choose a course to see its lessons" action={<Button to="/s/welcome">Find my course</Button>}>
+        Or join your teacher’s class with a class code.
+      </EmptyState>
+    );
+  const self = cls.kind === 'self';
   const units = course.units.filter((u) => u.lessons.some((l) => published.has(l)));
-  const current = open ?? units[units.length - 1]?.id ?? null;
+  // Self-paced students start at the unit of their next lesson; class students at the latest unit.
+  const next = self ? selfPacedLessons(course.id, map).next : undefined;
+  const current = open ?? (next ? course.units.find((u) => u.lessons.includes(next))?.id : undefined) ?? units[units.length - 1]?.id ?? null;
 
   return (
     <div>
-      <PageHeader title="Learn" subtitle={`${course.title} · ${published.size} of ${course.lessons.length} lessons available`} />
+      <PageHeader title="Learn" subtitle={self ? `${course.title} · Self-paced: every lesson is open, and your next one is marked` : `${course.title} · ${published.size} of ${course.lessons.length} lessons available`} />
       <MasteryLegend className="mb-5" />
       {units.length === 0 && <EmptyState icon={<BookOpen className="h-6 w-6" />} title="No lessons yet">Your teacher hasn’t published any lessons yet.</EmptyState>}
       <div className="space-y-4">
@@ -51,10 +59,13 @@ export default function LearnPage() {
                     const avail = published.has(lid);
                     const lm = lessonMastery(lid, map);
                     return avail ? (
-                      <Link key={lid} to={`/s/learn/${lid}`} className="flex items-center gap-4 border-b border-line px-5 py-3.5 last:border-0 hover:bg-surface-2/60">
+                      <Link key={lid} to={`/s/learn/${lid}`} className={cn('flex items-center gap-4 border-b border-line px-5 py-3.5 last:border-0 hover:bg-surface-2/60', lid === next && 'bg-brand-50/50')}>
                         <span className="w-10 text-sm font-semibold text-ink-3">{l.number}</span>
                         <div className="min-w-0 flex-1">
-                          <div className="font-medium">{l.title}</div>
+                          <div className="font-medium">
+                            {l.title}
+                            {lid === next && <span className="ml-2 rounded-full bg-brand px-2 py-0.5 align-middle text-[11px] font-semibold text-brand-ink">Next</span>}
+                          </div>
                           <MasteryBar className="mt-1.5 max-w-xs" counts={lm.counts} total={l.skills.length} />
                         </div>
                         <span className="hidden text-sm text-ink-3 sm:block">{lm.percent}%</span>

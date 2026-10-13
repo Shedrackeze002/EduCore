@@ -37,7 +37,10 @@ export interface ClassSettings {
 
 export interface ClassRoom {
   id: string;
-  teacherId: string;
+  /** No teacher for a student's self-paced class. */
+  teacherId: string | null;
+  /** A teacher's class, or a student's own self-paced class for a course. */
+  kind: 'teacher' | 'self';
   name: string;
   section: string | null;
   courseId: string;

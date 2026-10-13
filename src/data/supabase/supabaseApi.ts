@@ -7,6 +7,7 @@
  */
 import { createClient, type SupabaseClient, type RealtimeChannel } from '@supabase/supabase-js';
 import { freshSeed } from '@engine/rng.ts';
+import { getCourse } from '@engine/curriculum/index.ts';
 import { isQuestionType, type StoredResponse } from '@engine/assemble.ts';
 import type { AiConfigStatus, DataApi, SignUpInput } from '../api.ts';
 import type {
@@ -247,6 +248,12 @@ export class SupabaseApi implements DataApi {
 
   async joinClass(code: string) {
     const { data, error } = await this.client.rpc('join_class', { p_code: code.trim().toUpperCase() });
+    fail(error);
+    return toClass(data);
+  }
+
+  async startSelfPaced(courseId: string) {
+    const { data, error } = await this.client.rpc('start_self_paced', { p_course_id: courseId, p_lesson_ids: getCourse(courseId)?.lessons.map((l) => l.id) ?? [] });
     fail(error);
     return toClass(data);
   }

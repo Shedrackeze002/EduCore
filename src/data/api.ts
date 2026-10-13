@@ -68,6 +68,8 @@ export interface DataApi {
   updateClass(id: string, patch: { name?: string; section?: string | null; settings?: Partial<ClassSettings>; archived?: boolean }): Promise<ClassRoom>;
   regenerateJoinCode(id: string): Promise<ClassRoom>;
   joinClass(code: string): Promise<ClassRoom>;
+  /** A student's own self-paced class for a course (made the first time); every lesson is open. */
+  startSelfPaced(courseId: string): Promise<ClassRoom>;
   listRoster(classId: string): Promise<Profile[]>;
   getProfile(id: string): Promise<Profile | null>;
   removeStudent(classId: string, studentId: string): Promise<void>;

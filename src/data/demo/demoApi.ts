@@ -9,7 +9,7 @@
 import { freshSeed } from '@engine/rng.ts';
 import { buildItemRefs, DEFAULT_SETTINGS, isQuestionType, TYPE_LABEL, type StoredResponse } from '@engine/assemble.ts';
 import { processSubmission, validateRefs } from '@engine/submit.ts';
-import { getSkill, loadSkills } from '@engine/curriculum/index.ts';
+import { getCourse, getSkill, loadSkills } from '@engine/curriculum/index.ts';
 import { Rng } from '@engine/rng.ts';
 import { refSkillIds } from '@/lib/useSkills.ts';
 import { dueReminders } from '@engine/reminders.ts';
@@ -120,6 +120,8 @@ export class DemoApi implements DataApi {
     this.db.lessonPrefs ??= [];
     this.db.liveQuestions ??= [];
     this.db.liveAnswers ??= [];
+    // Demos saved before self-paced study: every class was a teacher's class.
+    for (const c of this.db.classes) c.kind ??= 'teacher';
     if (!existing || !existing.audit) saveDb(this.db);
     const me = this.meOrNull();
     for (const n of this.db.notifications) if (!me || n.userId === me.id) this.seenNotifications.add(n.id);
@@ -161,7 +163,9 @@ export class DemoApi implements DataApi {
     return this.db.enrollments.filter((e) => e.classId === classId).map((e) => e.studentId);
   }
 
-  private notify(userId: string, kind: NotificationKind, title: string, body: string, link: string | null, assignmentId: string | null = null) {
+  private notify(userId: string | null, kind: NotificationKind, title: string, body: string, link: string | null, assignmentId: string | null = null) {
+    // A self-paced class has no teacher to tell.
+    if (!userId) return;
     const n: AppNotification = { id: uid('n'), userId, kind, title, body, link, createdAt: nowIso(), readAt: null, assignmentId };
     this.db.notifications.push(n);
     const me = this.meOrNull();
@@ -217,7 +221,7 @@ export class DemoApi implements DataApi {
     if (input.password.length < 6) throw new Error('Use a password with at least 6 characters.');
     let cls: ClassRoom | undefined;
     if (input.role === 'student' && input.joinCode) {
-      cls = this.db.classes.find((c) => c.joinCode === input.joinCode!.trim().toUpperCase() && !c.archived);
+      cls = this.db.classes.find((c) => c.joinCode === input.joinCode!.trim().toUpperCase() && !c.archived && c.kind !== 'self');
       if (!cls) throw new Error('That class code was not found. Check it with your teacher.');
     }
     const u: DemoUser = {
@@ -287,6 +291,7 @@ export class DemoApi implements DataApi {
     const c: ClassRoom = {
       id: uid('c'),
       teacherId: me.id,
+      kind: 'teacher',
       name: input.name.trim(),
       section: input.section?.trim() || null,
       courseId: input.courseId,
@@ -319,7 +324,7 @@ export class DemoApi implements DataApi {
 
   async joinClass(code: string) {
     const me = this.me();
-    const c = this.db.classes.find((x) => x.joinCode === code.trim().toUpperCase() && !x.archived);
+    const c = this.db.classes.find((x) => x.joinCode === code.trim().toUpperCase() && !x.archived && x.kind !== 'self');
     if (!c) throw new Error('That class code was not found.');
     if (!this.db.enrollments.some((e) => e.classId === c.id && e.studentId === me.id)) {
       this.db.enrollments.push({ classId: c.id, studentId: me.id, joinedAt: nowIso() });
@@ -327,6 +332,36 @@ export class DemoApi implements DataApi {
       this.persist();
     }
     return c;
+  }
+
+  async startSelfPaced(courseId: string): Promise<ClassRoom> {
+    await this.ready;
+    const me = this.me();
+    if (me.role !== 'student') throw new Error('Self-paced study is for students.');
+    const course = getCourse(courseId);
+    if (!course) throw new Error('That course was not found.');
+    const mine = new Set(this.db.enrollments.filter((e) => e.studentId === me.id).map((e) => e.classId));
+    let c = this.db.classes.find((x) => x.kind === 'self' && mine.has(x.id) && x.courseId === courseId && !x.archived);
+    if (!c) {
+      c = {
+        id: uid('c'),
+        teacherId: null,
+        kind: 'self',
+        name: 'Self-paced',
+        section: null,
+        courseId,
+        joinCode: makeJoinCode(),
+        settings: { reminderHours: [], aiAutopilot: true, emailReminders: false, timezone: 'America/Edmonton' },
+        createdAt: nowIso(),
+        archived: false,
+      };
+      this.db.classes.push(c);
+      this.db.enrollments.push({ classId: c.id, studentId: me.id, joinedAt: nowIso() });
+    }
+    const published = new Set(this.db.publications.filter((p) => p.classId === c!.id).map((p) => p.lessonId));
+    for (const l of course.lessons) if (!published.has(l.id)) this.db.publications.push({ classId: c.id, lessonId: l.id, publishedAt: nowIso() });
+    this.persist();
+    return { ...c };
   }
 
   async listRoster(classId: string) {
@@ -806,7 +841,8 @@ export class DemoApi implements DataApi {
     }
     if (a) this.afterSubmit(s, a);
     this.persist();
-    if (a) await this.autopilot(s.classId, me.id);
+    // After practice too: self-paced students have no teacher, so the AI tutor assigns their practice.
+    await this.autopilot(s.classId, me.id);
     return { ...s };
   }
 
@@ -832,7 +868,7 @@ export class DemoApi implements DataApi {
     const a: Assignment = { id: uid('a'), classId, ...draft, openAt: null, allowLate: true, status: 'published', createdAt: nowIso(), publishedAt: nowIso(), createdBy: 'ai' };
     this.db.assignments.push(a);
     const student = this.db.users.find((u) => u.id === studentId)!;
-    this.notify(studentId, 'assignment', `New practice: ${a.title}`, 'Your teacher’s assistant picked this practice set to help you master a tricky skill.', `/s/work/${a.id}`, a.id);
+    this.notify(studentId, 'assignment', `New practice: ${a.title}`, `${c.kind === 'self' ? 'Your AI tutor' : 'Your teacher’s assistant'} picked this practice set to help you master a tricky skill.`, `/s/work/${a.id}`, a.id);
     this.notify(c.teacherId, 'insight', `Autopilot assigned practice to ${student.fullName}`, `${a.title}. ${action.rationale}`, `/t/c/${classId}/assignments/${a.id}`, a.id);
     this.db.insights.push({ id: uid('i'), classId, studentId, createdAt: nowIso(), source: res.source, model: res.model, data: { ...res.data, actions: res.data.actions.map((x) => (x.id === action.id ? { ...x, status: 'done' } : x)) }, error: res.error ?? null });
     this.persist();
@@ -1086,7 +1122,9 @@ export class DemoApi implements DataApi {
     this.requireAdmin();
     const q = (f.search ?? '').trim().toLowerCase();
     const name = (id: string) => this.db.users.find((u) => u.id === id)?.fullName ?? 'Unknown';
+    // Teachers' classes, as in the database's admin list; self-paced classes belong to one student.
     const list = this.db.classes
+      .filter((c): c is ClassRoom & { teacherId: string } => c.kind !== 'self' && !!c.teacherId)
       .filter((c) => !q || c.name.toLowerCase().includes(q) || name(c.teacherId).toLowerCase().includes(q))
       .map((c): AdminClassRow => {
         const times = [
