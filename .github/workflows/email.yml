@@ -1,0 +1,32 @@
+name: Set up email
+
+# Forwards admin@gradileo.com to the owner's inbox with Cloudflare Email Routing
+# (scripts/cloudflare-email.mjs). Run it from the Actions tab. Running it again only adds what is
+# missing, and says whether the inbox has been verified.
+#
+# Repository secrets (docs/SETUP.md, "Email at your domain"):
+#   CLOUDFLARE_EMAIL_TOKEN  a token with the Email Routing permissions
+#   EMAIL_FORWARD_TO        the inbox; the repository is public, so it stays in a secret
+#   CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID, the deploy secrets, find the domain.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Set up Email Routing
+        run: node scripts/cloudflare-email.mjs
+        env:
+          CLOUDFLARE_EMAIL_TOKEN: ${{ secrets.CLOUDFLARE_EMAIL_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          EMAIL_FORWARD_TO: ${{ secrets.EMAIL_FORWARD_TO }}
