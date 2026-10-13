@@ -63,8 +63,9 @@ items ship or decisions change.
      storage keys, the student sign-in email domain, Supabase secret and project names, and the
      repository path. Demo accounts moved to `gradileo.demo`, and saved demo data is updated when
      it loads.
-   - Next: move the site to Cloudflare (see Hosting), and the owner creates the Gradileo YouTube
-     channel before the videos are uploaded.
+   - Done: the site moved to gradileo.com on Cloudflare, with email at admin@gradileo.com (see
+     Hosting), and the owner is setting up the Gradileo YouTube channel. Last: the owner renames the
+     GitHub repository (Hosting, step 3).
 1. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
@@ -122,8 +123,9 @@ items ship or decisions change.
   2. Built: gradileo.com is live (checked: the landing and sign-in pages, www, deep links and
      assets). GitHub Pages now serves a redirect from the old address to the same page on
      gradileo.com, keeping the path, query and sign-in tokens, and the video build links to
-     gradileo.com. The owner makes gradileo.com the Supabase Site URL; `APP_URL` is set to it, and
-     `ALLOWED_ORIGINS` (open today) is restricted to gradileo.com and www.gradileo.com.
+     gradileo.com. Done: gradileo.com is the Supabase Site URL and a sign-in redirect address (with
+     www), `APP_URL` is set to it, and `ALLOWED_ORIGINS` is gradileo.com and www.gradileo.com
+     (checked: the Edge Functions answer those two and refuse other sites, including github.io).
   3. Last, the owner renames the GitHub repository to Gradileo (GitHub Pages does not redirect
      the old project address, so this waits until gradileo.com is the main address), and the
      repository path in the code follows.
