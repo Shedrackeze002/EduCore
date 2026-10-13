@@ -28,7 +28,7 @@ export function QuestionView({ item, responses, onChange, result, locked, showAn
     onChange(next);
   };
   return (
-    <div className="space-y-5">
+    <div className="space-y-5" data-question="">
       {header}
       <div className="flex items-start gap-3">
         <Markdown md={item.prompt} className="min-w-0 flex-1 text-[17px] leading-[1.65]" sanitize={item.id.startsWith('custom:')} />

@@ -26,10 +26,13 @@ import type {
   Announcement,
   AppNotification,
   Assignment,
+  Board,
+  BoardInput,
   ClassRoom,
   ClassSettings,
   Insight,
   ItemRef,
+  LessonPrefs,
   NewStudentCredential,
   NotificationKind,
   Profile,
@@ -106,6 +109,8 @@ export class DemoApi implements DataApi {
     for (const u of this.db.users) if (u.avatarColor === '#d68a00') u.avatarColor = '#b45309';
     this.db.settings ??= { teacherSignup: 'open' };
     this.db.audit ??= [];
+    this.db.boards ??= [];
+    this.db.lessonPrefs ??= [];
     if (!existing || !existing.audit) saveDb(this.db);
     const me = this.meOrNull();
     for (const n of this.db.notifications) if (!me || n.userId === me.id) this.seenNotifications.add(n.id);
@@ -114,7 +119,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [] };
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [] };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -395,6 +400,67 @@ export class DemoApi implements DataApi {
     if (!r) return;
     this.requireTeacherOf(r.classId);
     this.db.resources = this.db.resources.filter((x) => x.id !== id);
+    this.persist();
+  }
+
+  // ------------------------------------------------------------------ presenting
+
+  async getLessonPrefs(classId: string, lessonId: string): Promise<LessonPrefs> {
+    await this.ready;
+    this.requireTeacherOf(classId);
+    return this.db.lessonPrefs!.find((p) => p.classId === classId && p.lessonId === lessonId) ?? { classId, lessonId, hidden: [] };
+  }
+
+  async setHiddenBlocks(classId: string, lessonId: string, hidden: string[]): Promise<LessonPrefs> {
+    this.requireTeacherOf(classId);
+    const prefs: LessonPrefs = { classId, lessonId, hidden: [...new Set(hidden)].slice(0, 500) };
+    this.db.lessonPrefs = [...this.db.lessonPrefs!.filter((p) => !(p.classId === classId && p.lessonId === lessonId)), prefs];
+    this.persist();
+    return prefs;
+  }
+
+  async listBoards(classId: string, lessonId: string): Promise<Board[]> {
+    await this.ready;
+    const me = this.me();
+    const teacher = this.db.classes.some((c) => c.id === classId && c.teacherId === me.id);
+    const enrolled = this.db.enrollments.some((e) => e.classId === classId && e.studentId === me.id);
+    return this.db.boards!
+      .filter((b) => b.classId === classId && b.lessonId === lessonId && (teacher || (enrolled && b.shared)))
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  }
+
+  async saveBoard(input: BoardInput): Promise<Board> {
+    this.requireTeacherOf(input.classId);
+    const title = input.title.trim().slice(0, 120) || 'Whiteboard';
+    // The demo keeps everything in this browser's storage, which holds only a few megabytes.
+    if (JSON.stringify(input.pages).length > 800_000) throw new Error('This board is too large to save in the demo. Clear some ink or split it into two boards.');
+    const now = nowIso();
+    const existing = input.id ? this.db.boards!.find((b) => b.id === input.id && b.classId === input.classId) : undefined;
+    if (existing) {
+      Object.assign(existing, { title, pages: input.pages, shared: input.shared ?? existing.shared, updatedAt: now });
+      this.persist();
+      return { ...existing };
+    }
+    if (this.db.boards!.length >= 30) throw new Error('The demo keeps up to 30 saved boards. Delete one to save another.');
+    const b: Board = { id: uid('wb'), classId: input.classId, lessonId: input.lessonId, title, pages: input.pages, shared: input.shared ?? false, createdAt: now, updatedAt: now };
+    this.db.boards!.push(b);
+    this.persist();
+    return { ...b };
+  }
+
+  async setBoardShared(id: string, shared: boolean) {
+    const b = this.db.boards!.find((x) => x.id === id);
+    if (!b) throw new Error('Board not found.');
+    this.requireTeacherOf(b.classId);
+    b.shared = shared;
+    this.persist();
+  }
+
+  async deleteBoard(id: string) {
+    const b = this.db.boards!.find((x) => x.id === id);
+    if (!b) return;
+    this.requireTeacherOf(b.classId);
+    this.db.boards = this.db.boards!.filter((x) => x.id !== id);
     this.persist();
   }
 

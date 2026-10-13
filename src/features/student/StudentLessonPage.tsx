@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { PlayCircle } from 'lucide-react';
 import { skillInfo, lessonById } from '@engine/curriculum/index.ts';
-import { useMastery, usePublications, useResources } from '@/data/hooks.ts';
+import { useBoards, useMastery, usePublications, useResources } from '@/data/hooks.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { Button, Card, CardBody, EmptyState, PageSpinner } from '@/components/ui/index.ts';
 import { MasteryChip } from '@/components/mastery/Mastery.tsx';
@@ -16,6 +16,7 @@ export default function StudentLessonPage() {
   const { cls } = useStudentClass();
   const pubs = usePublications(cls?.id);
   const res = useResources(cls?.id);
+  const boards = useBoards(cls?.id, lessonId);
   const mastery = useMastery({ studentId: me.id });
   const map = useMemo(() => masteryMap(mastery.data ?? []), [mastery.data]);
   const meta = lessonById(lessonId);
@@ -25,6 +26,7 @@ export default function StudentLessonPage() {
     <LessonView
       lessonId={lessonId}
       resources={(res.data ?? []).filter((r) => r.lessonId === lessonId)}
+      boards={(boards.data ?? []).filter((b) => b.shared)}
       headerActions={
         <Button to={`/s/practice?skills=${meta.skills.join(',')}`} icon={<PlayCircle className="h-4 w-4" />}>
           Practise this lesson

@@ -1,7 +1,7 @@
 /** React Query hooks over the data API. Query keys are centralised in `qk`. */
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api } from './index.ts';
-import type { AdminUserFilter, Assignment, ClassSettings, ItemRef, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
+import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
 
 export const qk = {
   me: ['me'] as const,
@@ -11,6 +11,8 @@ export const qk = {
   profile: (id: string) => ['profile', id] as const,
   publications: (classId: string) => ['publications', classId] as const,
   resources: (classId: string) => ['resources', classId] as const,
+  lessonPrefs: (classId: string, lessonId: string) => ['lessonPrefs', classId, lessonId] as const,
+  boards: (classId: string, lessonId: string) => ['boards', classId, lessonId] as const,
   assignments: (classId: string) => ['assignments', classId] as const,
   assignment: (id: string) => ['assignment', id] as const,
   submissions: (f: { classId?: string; assignmentId?: string; studentId?: string }) => ['submissions', f.classId ?? '', f.assignmentId ?? '', f.studentId ?? ''] as const,
@@ -88,6 +90,44 @@ export function useAddResource(classId: string) {
 export function useDeleteResource(classId: string) {
   const qc = useQueryClient();
   return useMutation({ mutationFn: (id: string) => api().deleteResource(id), onSuccess: () => qc.invalidateQueries({ queryKey: qk.resources(classId) }) });
+}
+
+export const useLessonPrefs = (classId: string | undefined, lessonId: string | undefined) =>
+  useQuery({ queryKey: qk.lessonPrefs(classId ?? '', lessonId ?? ''), queryFn: () => api().getLessonPrefs(classId!, lessonId!), enabled: !!classId && !!lessonId });
+
+/** Hides or shows lesson blocks on the slides; the change shows at once and is saved behind it. */
+export function useSetHiddenBlocks(classId: string, lessonId: string) {
+  const qc = useQueryClient();
+  const key = qk.lessonPrefs(classId, lessonId);
+  return useMutation({
+    mutationFn: (hidden: string[]) => api().setHiddenBlocks(classId, lessonId, hidden),
+    onMutate: async (hidden) => {
+      await qc.cancelQueries({ queryKey: key });
+      const before = qc.getQueryData<LessonPrefs>(key);
+      qc.setQueryData<LessonPrefs>(key, { classId, lessonId, hidden });
+      return { before };
+    },
+    onError: (_e, _v, ctx) => qc.setQueryData(key, ctx?.before),
+    onSettled: () => qc.invalidateQueries({ queryKey: key }),
+  });
+}
+
+export const useBoards = (classId: string | undefined, lessonId: string | undefined) =>
+  useQuery({ queryKey: qk.boards(classId ?? '', lessonId ?? ''), queryFn: () => api().listBoards(classId!, lessonId!), enabled: !!classId && !!lessonId });
+
+export function useSaveBoard(classId: string, lessonId: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (b: Omit<BoardInput, 'classId' | 'lessonId'>) => api().saveBoard({ ...b, classId, lessonId }), onSuccess: () => qc.invalidateQueries({ queryKey: qk.boards(classId, lessonId) }) });
+}
+
+export function useSetBoardShared(classId: string, lessonId: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (v: { id: string; shared: boolean }) => api().setBoardShared(v.id, v.shared), onSuccess: () => qc.invalidateQueries({ queryKey: qk.boards(classId, lessonId) }) });
+}
+
+export function useDeleteBoard(classId: string, lessonId: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (id: string) => api().deleteBoard(id), onSuccess: () => qc.invalidateQueries({ queryKey: qk.boards(classId, lessonId) }) });
 }
 
 export function useSaveAssignment(classId: string) {

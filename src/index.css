@@ -291,6 +291,178 @@
   fill: rgb(var(--ink-3));
 }
 
+/* ---------------------------------------------------------------------------
+   Present mode: slides, builds (elements appearing) and transitions
+--------------------------------------------------------------------------- */
+@layer components {
+  /* In a layer, so a slide can set a larger size with a utility class. */
+  .deck-text {
+    font-size: 30px;
+  }
+}
+/* Checks on slides: the question's diagram fills the left half of the card and the question,
+   answer boxes, hints and buttons the right half, so both stay large. */
+.deck-check > div:has([data-question] > figure) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  /* The last row takes any height the diagram adds, so the question's rows stay together. */
+  grid-template-rows: auto auto auto auto 1fr;
+  column-gap: 1.75rem;
+  row-gap: 1rem;
+  align-items: start;
+}
+.deck-check > div:has([data-question] > figure) > :first-child {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+.deck-check > div:has([data-question] > figure) [data-question] {
+  display: contents;
+}
+.deck-check > div:has([data-question] > figure) [data-question] > * {
+  grid-column: 2;
+  margin-top: 0 !important;
+}
+.deck-check > div:has([data-question] > figure) [data-question] > figure {
+  grid-column: 1;
+  grid-row: 2 / span 4;
+  margin: 0;
+}
+.deck-check > div:has([data-question] > figure) > :last-child {
+  grid-column: 2;
+  margin-top: 0;
+}
+.deck-check .figure-svg {
+  max-height: 290px;
+}
+.deck-text .prose-edu {
+  font-size: 1em;
+  line-height: 1.5;
+}
+.deck-text .prose-edu ul {
+  list-style: none;
+  padding-left: 0;
+}
+.deck-text .prose-edu ul > li {
+  position: relative;
+  padding-left: 1.25em;
+}
+.deck-text .prose-edu ul > li::before {
+  content: '';
+  position: absolute;
+  left: 0.2em;
+  top: 0.58em;
+  width: 0.4em;
+  height: 0.4em;
+  border-radius: 9999px;
+  background: rgb(var(--deck-accent, var(--brand)));
+}
+.deck-text .prose-edu ol {
+  padding-left: 1.3em;
+}
+.deck-text .prose-edu table {
+  font-size: 0.82em;
+}
+.deck-text .prose-edu .katex {
+  font-size: 1.05em;
+}
+.build-wait {
+  visibility: hidden;
+}
+.build-in {
+  animation-duration: 560ms;
+  animation-timing-function: cubic-bezier(0.2, 0.75, 0.25, 1);
+  animation-fill-mode: both;
+}
+.fx-rise {
+  animation-name: fx-rise;
+}
+.fx-fly {
+  animation-name: fx-fly;
+}
+.fx-zoom {
+  animation-name: fx-zoom;
+}
+.fx-pop {
+  animation-name: fx-pop;
+  animation-duration: 650ms;
+}
+.fx-wipe {
+  animation-name: fx-wipe;
+  animation-duration: 750ms;
+}
+.fx-alert {
+  animation-name: fx-alert;
+  animation-duration: 900ms;
+}
+@keyframes fx-rise {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fx-fly {
+  from { opacity: 0; transform: translateX(-80px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fx-zoom {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fx-pop {
+  0% { opacity: 0; transform: scale(0.5); }
+  60% { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes fx-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes fx-alert {
+  0% { opacity: 0; transform: scale(0.9); }
+  30% { opacity: 1; transform: none; }
+  45% { transform: translateX(-10px); }
+  60% { transform: translateX(10px); }
+  75% { transform: translateX(-6px); }
+  90% { transform: translateX(3px); }
+  100% { opacity: 1; transform: none; }
+}
+.deck-bar {
+  transform-origin: left center;
+  animation: deck-bar 700ms 200ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+@keyframes deck-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.deck-float {
+  animation: deck-float 7s ease-in-out infinite;
+}
+@keyframes deck-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(4deg); }
+}
+.tx {
+  animation-duration: 620ms;
+  animation-timing-function: cubic-bezier(0.22, 0.8, 0.24, 1);
+  animation-fill-mode: both;
+}
+.tx-push-in-next { animation-name: tx-push-in-next; }
+.tx-push-out-next { animation-name: tx-push-out-next; }
+.tx-push-in-prev { animation-name: tx-push-in-prev; }
+.tx-push-out-prev { animation-name: tx-push-out-prev; }
+.tx-zoom-in { animation-name: tx-zoom-in; }
+.tx-zoom-out { animation-name: tx-zoom-out; }
+.tx-rise-in { animation-name: tx-rise-in; }
+.tx-fade-in { animation-name: tx-fade-in; }
+.tx-fade-out { animation-name: tx-fade-out; }
+@keyframes tx-push-in-next { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes tx-push-out-next { from { transform: none; } to { transform: translateX(-100%); } }
+@keyframes tx-push-in-prev { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes tx-push-out-prev { from { transform: none; } to { transform: translateX(100%); } }
+@keyframes tx-zoom-in { from { opacity: 0; transform: scale(1.12); } to { opacity: 1; transform: none; } }
+@keyframes tx-zoom-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(0.88); } }
+@keyframes tx-rise-in { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes tx-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tx-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
 /* Print: login cards and reports */
 @media print {
   .no-print {

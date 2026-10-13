@@ -175,3 +175,48 @@ test('a teacher creates a Knowledge and Employability class and sees its graphs'
   expect(await page.locator('.katex-error').count()).toBe(0);
   expect(errors).toEqual([]);
 });
+
+test('a teacher presents a lesson as slides that build step by step, with a whiteboard', async ({ page }) => {
+  const errors = trackErrors(page);
+  await signInDemo(page, 'Teacher');
+  await page.goto('/present/c_math10a/m10c-2-1');
+  const slide = page.locator('[aria-roledescription="slide"]');
+  await expect(slide).toHaveAttribute('aria-label', /^Slide 1 of \d+: The Tangent Ratio$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'The Tangent Ratio' })).toBeVisible();
+
+  // Next reveals one piece at a time before moving on.
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await expect(slide).toHaveAttribute('aria-label', /Naming the sides/);
+  const waiting = slide.locator('.build-wait');
+  const before = await waiting.count();
+  expect(before).toBeGreaterThan(0);
+  await page.keyboard.press('ArrowRight');
+  await expect(waiting).toHaveCount(before - 1);
+
+  // The whiteboard opens over the slide, saves to the lesson and closes back to the same slide.
+  await page.keyboard.press('w');
+  const board = page.getByRole('dialog', { name: 'Whiteboard' });
+  await expect(board).toBeVisible();
+  const canvas = board.getByRole('img', { name: /Whiteboard, page 1/ });
+  const box = (await canvas.boundingBox())!;
+  await page.mouse.move(box.x + 100, box.y + 100);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 300, box.y + 200, { steps: 8 });
+  await page.mouse.up();
+  await board.getByRole('button', { name: 'Save to lesson' }).click();
+  await expect(board.getByRole('button', { name: 'Saved' })).toBeVisible();
+  await board.getByRole('button', { name: 'Back to slide' }).click();
+  await expect(board).toBeHidden();
+  await expect(slide).toHaveAttribute('aria-label', /Naming the sides/);
+
+  // The slide overview jumps to a "Your turn" slide with the lesson's interactive question.
+  await page.keyboard.press('o');
+  await page.getByRole('dialog', { name: 'All slides' }).getByRole('button', { name: /Your turn/ }).first().click();
+  await expect(slide.locator('[data-question]')).toBeVisible();
+
+  // The saved board is listed on the lesson page.
+  await page.getByRole('button', { name: 'Exit presentation' }).click();
+  await expect(page.getByText('Saved whiteboards')).toBeVisible();
+  expect(errors).toEqual([]);
+});

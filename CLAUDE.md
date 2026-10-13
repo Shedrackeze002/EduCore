@@ -8,6 +8,11 @@
 - Merge only when CI is green on the latest commit and the review findings are handled.
 - Check `git status` before committing; never commit build output (`dist/`, `*.tsbuildinfo`).
 
+## Backups
+- Before a major redesign or rewrite, commit and push a checkpoint of the working version first
+  (say in the message that it is a checkpoint), so the change can be undone if the owner does
+  not like it. Tell the owner which commit holds the backup.
+
 ## Checks before pushing
 - `npm run typecheck`, `npm test`, `npm run build && node scripts/check-backend.mjs`
 - `npx playwright test` (in the cloud container set

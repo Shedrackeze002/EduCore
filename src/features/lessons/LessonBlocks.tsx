@@ -98,7 +98,7 @@ export function ExampleBlock({ block, large, presenter }: { block: Extract<Block
 }
 
 /** An embedded, ungraded practice question generated fresh from a skill. */
-export function CheckBlock({ skillId, difficulty }: { skillId: string; difficulty: Difficulty }) {
+export function CheckBlock({ skillId, difficulty, onResult }: { skillId: string; difficulty: Difficulty; onResult?: (correct: boolean) => void }) {
   const loaded = useSkillsReady([skillId]);
   const skill = loaded === 'ready' ? getSkill(skillId) : undefined;
   const [seed, setSeed] = useState(() => freshSeed());
@@ -115,6 +115,7 @@ export function CheckBlock({ skillId, difficulty }: { skillId: string; difficult
       return;
     }
     setResult(r);
+    onResult?.(r.correct);
   };
   const again = () => {
     setSeed(freshSeed());

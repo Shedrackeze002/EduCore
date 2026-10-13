@@ -1,14 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ExternalLink, FileText, Link2, Plus, Presentation, Target, Trash2, Video } from 'lucide-react';
+import { ExternalLink, FileText, Link2, PenLine, Plus, Presentation, Target, Trash2, Video } from 'lucide-react';
 import { lessonById } from '@engine/curriculum/index.ts';
 import { LEVELS, type MasteryLevel } from '@engine/mastery.ts';
-import { useAddResource, useDeleteResource, useMastery, usePublications, useResources, useRoster, useSetPublished } from '@/data/hooks.ts';
-import type { Resource } from '@/data/types.ts';
+import { useAddResource, useBoards, useDeleteBoard, useDeleteResource, useMastery, usePublications, useResources, useRoster, useSetBoardShared, useSetPublished } from '@/data/hooks.ts';
+import type { Board, Resource } from '@/data/types.ts';
 import { Button, Card, CardBody, CardHeader, EmptyState, IconButton, Input, Modal, PageHeader, Switch, Tabs, Textarea, useToast } from '@/components/ui/index.ts';
 import { MasteryBar, MasteryLegend } from '@/components/mastery/Mastery.tsx';
 import { LessonView } from '@/features/lessons/LessonView.tsx';
 import { videoEmbedUrl } from '@/features/lessons/LessonBlocks.tsx';
+import { BoardPageCanvas, BoardViewer } from '@/features/whiteboard/BoardView.tsx';
+import { fmtDate } from '@/lib/dates.ts';
 import { masteryMap, skillLabel, stateOf } from '../shared/derive.ts';
 import { AssignMenu } from './CurriculumPage.tsx';
 import { useClassId } from './shared.tsx';
@@ -92,9 +94,49 @@ export default function TeacherLessonPage() {
         </Card>
       </div>
 
+      <SavedBoards classId={classId} lessonId={lessonId} />
+
       <LessonView lessonId={lessonId} resources={mine} />
       <AddResourceModal open={adding} onClose={() => setAdding(false)} classId={classId} lessonId={lessonId} />
     </div>
+  );
+}
+
+function SavedBoards({ classId, lessonId }: { classId: string; lessonId: string }) {
+  const boards = useBoards(classId, lessonId);
+  const share = useSetBoardShared(classId, lessonId);
+  const del = useDeleteBoard(classId, lessonId);
+  const [open, setOpen] = useState<Board | null>(null);
+  const list = boards.data ?? [];
+  if (!list.length) return null;
+  return (
+    <Card>
+      <CardHeader title="Saved whiteboards" subtitle="Boards saved while presenting. Share one and students see it with this lesson." icon={<PenLine className="h-5 w-5" />} />
+      <CardBody className="grid gap-3 pt-4 sm:grid-cols-2 xl:grid-cols-3">
+        {list.map((b) => (
+          <div key={b.id} className="rounded-2xl border border-line p-2">
+            <button type="button" className="block w-full" onClick={() => setOpen(b)} aria-label={`View ${b.title}`}>
+              {b.pages[0] && <BoardPageCanvas page={b.pages[0]} label={`${b.title}, first page`} />}
+            </button>
+            <div className="flex items-center gap-2 px-1.5 pt-2">
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-medium">{b.title}</div>
+                <div className="text-xs text-ink-3">
+                  {b.pages.length} page{b.pages.length === 1 ? '' : 's'} · {fmtDate(b.updatedAt)}
+                </div>
+              </div>
+              <IconButton label="Delete board" className="h-8 w-8" onClick={() => window.confirm(`Delete “${b.title}”?`) && del.mutate(b.id)}>
+                <Trash2 className="h-4 w-4" />
+              </IconButton>
+            </div>
+            <div className="px-1.5 pb-1 pt-2">
+              <Switch checked={b.shared} onChange={(v) => share.mutate({ id: b.id, shared: v })} label={<span className="text-sm">{b.shared ? 'Shared with students' : 'Only you can see it'}</span>} />
+            </div>
+          </div>
+        ))}
+      </CardBody>
+      <BoardViewer board={open} onClose={() => setOpen(null)} />
+    </Card>
   );
 }
 
