@@ -1,7 +1,8 @@
 name: Deploy to GitHub Pages and Cloudflare
 
-# Builds the app, runs the tests, and publishes it to GitHub Pages and, once its secrets are set,
-# to Cloudflare at gradileo.com (wrangler.jsonc).
+# Runs the tests and publishes the app to Cloudflare at gradileo.com (wrangler.jsonc), once its
+# secrets are set. GitHub Pages now serves a redirect from the old address to the same page on
+# gradileo.com (MOVED_TO below); a copy that should serve the app on GitHub Pages removes MOVED_TO.
 #
 # Repository settings (Settings → Secrets and variables → Actions):
 #   Secrets (for Cloudflare)
@@ -41,6 +42,8 @@ jobs:
     # A closed pull request deploys only when it was merged.
     if: github.event_name != 'pull_request_target' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    env:
+      MOVED_TO: https://gradileo.com
     outputs:
       cloudflare: ${{ steps.cloudflare.outputs.ready }}
     steps:
@@ -73,16 +76,21 @@ jobs:
           URL: ${{ vars.VITE_SUPABASE_URL }}
           KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       - name: Build
+        if: env.MOVED_TO == ''
         run: npm run build
         env:
           BASE_PATH: ${{ vars.BASE_PATH || (vars.CUSTOM_DOMAIN && '/') || format('/{0}/', github.event.repository.name) }}
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
       - name: Check the site is connected to its backend
+        if: env.MOVED_TO == ''
         run: node scripts/check-backend.mjs
+      - name: Redirect the old address to the new one
+        if: env.MOVED_TO != ''
+        run: node scripts/pages-redirect.mjs "$MOVED_TO" "/${{ github.event.repository.name }}/"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ${{ env.MOVED_TO != '' && 'pages-redirect' || 'dist' }}
 
   deploy:
     needs: build
