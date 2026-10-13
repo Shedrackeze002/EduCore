@@ -32,6 +32,13 @@ export function NotificationsBridge() {
       qc.invalidateQueries({ queryKey: qk.notifications });
       if (n.kind === 'submission') qc.invalidateQueries({ queryKey: ['submissions'] });
       if (n.kind === 'assignment') qc.invalidateQueries({ queryKey: ['assignments'] });
+      // Joins and join requests arrive as announcements: refresh class lists and requests.
+      if (n.kind === 'announcement') {
+        qc.invalidateQueries({ queryKey: qk.classes });
+        qc.invalidateQueries({ queryKey: qk.myJoinRequests });
+        qc.invalidateQueries({ queryKey: ['joinRequests'] });
+        qc.invalidateQueries({ queryKey: ['roster'] });
+      }
       toast({ kind: 'info', title: n.title, body: n.body, action: n.link ? { label: 'Open', onClick: () => navRef.current(n.link!) } : undefined });
       try {
         if ('Notification' in window && Notification.permission === 'granted' && document.visibilityState !== 'visible') {

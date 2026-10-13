@@ -14,6 +14,7 @@ import { dueLabel, greeting, relative } from '@/lib/dates.ts';
 import { courseMastery, masteryMap, recommendedSkills, selfPacedLessons, skillLabel, sortByDue, studentWork, type StudentWork } from '../shared/derive.ts';
 import { useStudentClass } from '../shared/useStudentClass.ts';
 import { clearReviewSkills, reviewSkills } from './review.ts';
+import { MyRequests } from './JoinClassPage.tsx';
 import { TypeIcon } from '../shared/TypeIcon.tsx';
 import { cn } from '@/lib/cn.ts';
 
@@ -132,6 +133,7 @@ export default function StudentHome() {
         </div>
 
         <div className="min-w-0 space-y-6">
+          <MyRequests pendingOnly className="" />
           <PlacementReview classId={cls.id} map={map} />
           {coach?.studentNote && (
             <Card className="border-brand-200 bg-gradient-to-br from-brand-50 to-surface">
@@ -253,6 +255,7 @@ function GetStarted({ name }: { name: string }) {
         <h1 className="text-2xl font-semibold sm:text-[28px]">Welcome, {name}</h1>
         <p className="mt-1 text-ink-3">Choose how you want to learn. You can do both.</p>
       </div>
+      <MyRequests pendingOnly className="" />
       <div className="grid gap-4 sm:grid-cols-2">
         <Link to="/s/welcome" className="card group flex flex-col gap-3 p-6 transition hover:border-brand-300">
           <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700">

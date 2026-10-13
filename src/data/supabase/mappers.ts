@@ -6,8 +6,10 @@ import type {
   Announcement,
   AppNotification,
   Assignment,
+  ClassJoinRequest,
   ClassRoom,
   Insight,
+  MyJoinRequest,
   Profile,
   Publication,
   Resource,
@@ -249,4 +251,25 @@ export const toAuditEntry = (r: Row): AdminAuditEntry => ({
   actorName: r.actor_name,
   targetName: r.target_name,
   details: r.details ?? {},
+});
+
+export const toMyJoinRequest = (r: Row): MyJoinRequest => ({
+  id: r.id,
+  classId: r.class_id,
+  className: r.class_name,
+  section: r.section ?? null,
+  courseId: r.course_id,
+  teacherName: r.teacher_name ?? null,
+  status: r.status === 'approved' || r.status === 'declined' ? r.status : 'pending',
+  createdAt: r.created_at,
+  decidedAt: r.decided_at ?? null,
+});
+
+export const toClassJoinRequest = (r: Row): ClassJoinRequest => ({
+  id: r.id,
+  studentId: r.student_id,
+  fullName: r.full_name,
+  email: r.email ?? '',
+  message: r.message ?? null,
+  createdAt: r.created_at,
 });

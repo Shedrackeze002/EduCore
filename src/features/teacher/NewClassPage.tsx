@@ -18,6 +18,7 @@ export default function NewClassPage() {
   const [section, setSection] = useState('');
   const [courseId, setCourseId] = useState(COURSES[0].id);
   const [publishFirst, setPublishFirst] = useState(true);
+  const [joinApproval, setJoinApproval] = useState(true);
   const create = useCreateClass();
   const navigate = useNavigate();
   const toast = useToast();
@@ -26,7 +27,7 @@ export default function NewClassPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      const c = await create.mutateAsync({ name: name.trim() || 'My class', section: section.trim() || null, courseId });
+      const c = await create.mutateAsync({ name: name.trim() || 'My class', section: section.trim() || null, courseId, joinApproval });
       if (publishFirst) {
         const course = COURSES.find((x) => x.id === courseId)!;
         await api().setPublished(c.id, course.lessons[0].id, true);
@@ -84,7 +85,10 @@ export default function NewClassPage() {
             ))}
           </div>
         </div>
-        <Checkbox checked={publishFirst} onChange={setPublishFirst} label="Publish the first lesson now so students see something when they join" />
+        <div className="space-y-3">
+          <Checkbox checked={publishFirst} onChange={setPublishFirst} label="Publish the first lesson now so students see something when they join" />
+          <Checkbox checked={joinApproval} onChange={setJoinApproval} label="Approve students who join with the class code (you can change this in class settings)" />
+        </div>
         <div className="flex justify-end gap-2">
           <Button variant="ghost" to="/t?all">
             Cancel

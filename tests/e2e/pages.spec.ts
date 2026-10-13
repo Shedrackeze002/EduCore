@@ -304,3 +304,46 @@ test('a student signs up without a class code, is placed in a course and studies
   await expect(page.getByRole('button', { name: /^Math 30-1.*Self-paced/ })).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('a student asks to join a class with its code and the teacher approves', async ({ context }) => {
+  const teacher = await context.newPage();
+  const student = await context.newPage();
+  const teacherErrors = trackErrors(teacher);
+  const studentErrors = trackErrors(student);
+
+  // A new class asks for approval by default.
+  await signInDemo(teacher, 'Teacher');
+  await teacher.goto('/t/new-class');
+  await teacher.getByRole('button', { name: /Grade 9 Mathematics/ }).click();
+  await expect(teacher.getByText(/Approve students who join with the class code/)).toBeVisible();
+  await teacher.getByRole('button', { name: 'Create class' }).click();
+  await teacher.waitForURL(/\/t\/c\/c_/);
+  const code = ((await teacher.getByRole('button', { name: /Join code/ }).textContent()) ?? '').replace('Join code', '').trim();
+  expect(code).toMatch(/^[A-Z0-9]{6}$/);
+
+  // The student signs up with the code: a request goes to the teacher instead of joining.
+  await student.goto(`/signup?code=${code}`);
+  await student.getByLabel('Full name').fill('Ada Learner');
+  await student.getByLabel('Email').fill(`ada.j${Date.now() % 100000}@example.ca`);
+  await student.getByLabel('Password').fill('secret12');
+  await student.getByRole('button', { name: 'Create account' }).click();
+  await student.waitForURL(/\/s$/);
+  await expect(student.getByText('Waiting for your teacher')).toBeVisible();
+  await expect(student.getByText('Waiting for approval')).toBeVisible();
+
+  // The teacher sees the request on the class overview and approves it on the Students page.
+  await teacher.reload();
+  await teacher.getByRole('link', { name: /waiting for you to approve/ }).click();
+  await expect(teacher.getByText('1 student wants to join')).toBeVisible();
+  await teacher.getByRole('button', { name: 'Approve Ada Learner' }).click();
+  await expect(teacher.getByText('Student added to the class')).toBeVisible();
+  await expect(teacher.getByRole('link', { name: /Ada Learner/ })).toBeVisible();
+
+  // The student is now in the class.
+  await student.reload();
+  await expect(student.getByText(/Grade 9 Mathematics/).first()).toBeVisible();
+  await expect(student.getByText('Waiting for your teacher')).toHaveCount(0);
+  await student.goto('/s/join');
+  await expect(student.getByText('Approved')).toBeVisible();
+  expect([...teacherErrors, ...studentErrors]).toEqual([]);
+});
