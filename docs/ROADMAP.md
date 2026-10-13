@@ -51,7 +51,25 @@ items ship or decisions change.
    - Start with a pilot of about 3 videos for one unit to settle style and voice.
    - Decision: narration with a cloned human voice, a paid voice or a free voice, chosen by cost
      at the pilot stage. The channel owner uploads; the build produces the files.
-6. **Other subjects**, once mathematics is complete.
+6. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+   teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
+   on), the question formats and every other setting, then presses one button (name to settle;
+   for example "Draft with AI") and the AI drafts the questions from the course curriculum and
+   the class.
+   - Question formats: single choice, multiple choice (several answers), short answers graded by
+     the engine (numbers, expressions, equations, points), open-ended written answers, and
+     "solve it on the canvas" questions where students work on a whiteboard and show their steps
+     (this needs a new canvas answer type built on the whiteboard's ink, graded by the teacher
+     with an AI-suggested mark).
+   - Settings: the units, lessons or outcomes to cover, number of questions, difficulty mix,
+     marks, time limit, attempts, dates, feedback and every other option the builder already has.
+   - "Based on the class": weight the questions towards the skills the class has not yet
+     mastered, using the mastery data.
+   - Auto-graded questions come from the engine's generators (fresh numbers for each student);
+     the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
+     marking guides. The teacher previews everything, regenerates or edits single questions, and
+     publishes; nothing reaches students without the teacher's approval.
+7. **Other subjects**, once mathematics is complete.
 
 ## Hosting
 
