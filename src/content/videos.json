@@ -1,8 +1,8 @@
 {
   "m10c-1-1": {
     "lessonId": "m10c-1-1",
-    "title": "Referents, Estimation and Units",
-    "duration": 263,
+    "title": "Referents, Estimation and Units, Part 1: Units and Referents",
+    "duration": 200,
     "voice": "af_heart",
     "chapters": [
       {
@@ -11,37 +11,72 @@
       },
       {
         "title": "Two systems",
-        "t": 16.244
+        "t": 18.381
       },
       {
         "title": "Referents",
-        "t": 63.697
+        "t": 66.779
       },
       {
         "title": "Comparing the systems",
-        "t": 101.087
-      },
-      {
-        "title": "Estimating",
-        "t": 131.869
-      },
-      {
-        "title": "Choosing a unit",
-        "t": 168.212
+        "t": 104.169
       },
       {
         "title": "Your turn",
-        "t": 204.569
+        "t": 134.951
       },
       {
         "title": "Summary",
-        "t": 230.746
+        "t": 163.6
       }
     ],
     "cues": [
       {
         "id": "m10c-1-1:q",
-        "t": 214.742,
+        "t": 145.601,
+        "prompt": "A phone is about $4\\text{ in}$ wide. About how many centimetres is that? Use $1\\text{ in} \\approx 2.5\\text{ cm}$.",
+        "choices": [
+          "about $10\\text{ cm}$",
+          "about $1.6\\text{ cm}$",
+          "about $4\\text{ cm}$",
+          "about $48\\text{ cm}$"
+        ],
+        "answer": 0,
+        "working": "$4 \\times 2.5 = 10\\text{ cm}$. An inch is longer than a centimetre, so there are more centimetres than inches."
+      }
+    ]
+  },
+  "m10c-1-1-b": {
+    "lessonId": "m10c-1-1",
+    "title": "Referents, Estimation and Units, Part 2: Estimating and Choosing Units",
+    "duration": 138,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Estimating",
+        "t": 12.454
+      },
+      {
+        "title": "Choosing a unit",
+        "t": 48.797
+      },
+      {
+        "title": "Your turn",
+        "t": 85.154
+      },
+      {
+        "title": "Summary",
+        "t": 111.331
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-1-b:q",
+        "t": 95.327,
         "prompt": "Which is longer, $5\\text{ km}$ or $3\\text{ mi}$? Use $1\\text{ mi} \\approx 1.6\\text{ km}$.",
         "choices": [
           "$5\\text{ km}$",
@@ -191,7 +226,7 @@
   "m10c-1-3": {
     "lessonId": "m10c-1-3",
     "title": "Converting Within a Measurement System, Part 1: Conversion Factors",
-    "duration": 251,
+    "duration": 255,
     "voice": "af_heart",
     "chapters": [
       {
@@ -208,33 +243,33 @@
       },
       {
         "title": "Bigger or smaller?",
-        "t": 73.349
+        "t": 74.135
       },
       {
         "title": "Within SI",
-        "t": 106.578
+        "t": 108.813
       },
       {
         "title": "Mixed imperial units",
-        "t": 132.938
+        "t": 135.173
       },
       {
         "title": "Watch out",
-        "t": 170.651
+        "t": 173.617
       },
       {
         "title": "Your turn",
-        "t": 193.546
+        "t": 196.512
       },
       {
         "title": "Summary",
-        "t": 219.588
+        "t": 222.554
       }
     ],
     "cues": [
       {
         "id": "m10c-1-3:q",
-        "t": 200.795,
+        "t": 203.761,
         "prompt": "A shelf is $50\\text{ in}$ long. How long is it in feet and inches?",
         "choices": [
           "$4\\text{ ft}\\ 2\\text{ in}$",
@@ -244,6 +279,571 @@
         ],
         "answer": 0,
         "working": "$50 \\div 12 = 4$ remainder $2$, so the shelf is $4\\text{ ft}\\ 2\\text{ in}$."
+      }
+    ]
+  },
+  "m10c-1-3-b": {
+    "lessonId": "m10c-1-3",
+    "title": "Converting Within a Measurement System, Part 2: Area and Volume Units",
+    "duration": 160,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square units",
+        "t": 13.801
+      },
+      {
+        "title": "Square the factor",
+        "t": 36.992
+      },
+      {
+        "title": "Cubic units",
+        "t": 65.245
+      },
+      {
+        "title": "A volume conversion",
+        "t": 89.72
+      },
+      {
+        "title": "Your turn",
+        "t": 104.196
+      },
+      {
+        "title": "Summary",
+        "t": 132.01
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-3-b:q",
+        "t": 109.824,
+        "prompt": "How many square inches are in $3\\text{ ft}^2$?",
+        "choices": [
+          "$36\\text{ in}^2$",
+          "$108\\text{ in}^2$",
+          "$432\\text{ in}^2$",
+          "$144\\text{ in}^2$"
+        ],
+        "answer": 2,
+        "working": "$1\\text{ ft}^2 = 12^2 = 144\\text{ in}^2$, so $3\\text{ ft}^2 = 3 \\times 144 = 432\\text{ in}^2$."
+      }
+    ]
+  },
+  "m10c-1-4": {
+    "lessonId": "m10c-1-4",
+    "title": "Converting Between SI and Imperial Units, Part 1: Conversion Factors",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Key relationships",
+        "t": 19.203
+      },
+      {
+        "title": "Method 1: unit fractions",
+        "t": 53.337
+      },
+      {
+        "title": "Method 2: proportion",
+        "t": 75.644
+      },
+      {
+        "title": "Two steps",
+        "t": 103.672
+      },
+      {
+        "title": "Your turn",
+        "t": 130.436
+      },
+      {
+        "title": "Summary",
+        "t": 162.542
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-4:q",
+        "t": 141.258,
+        "prompt": "A board is $8\\text{ ft}$ long. How long is it in metres? Use $1\\text{ ft} = 0.3048\\text{ m}$.",
+        "choices": [
+          "$2.44\\text{ m}$",
+          "$26.25\\text{ m}$",
+          "$24.4\\text{ m}$",
+          "$0.24\\text{ m}$"
+        ],
+        "answer": 0,
+        "working": "$8\\,\\text{ft} \\times \\dfrac{0.3048\\text{ m}}{1\\text{ ft}} \\approx 2.44\\text{ m}$. A metre is longer than a foot, so the number gets smaller."
+      }
+    ]
+  },
+  "m10c-1-4-b": {
+    "lessonId": "m10c-1-4",
+    "title": "Converting Between SI and Imperial Units, Part 2: Rates and Reasonable Answers",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Converting a rate",
+        "t": 13.25
+      },
+      {
+        "title": "Two units at once",
+        "t": 43.065
+      },
+      {
+        "title": "Friendly numbers",
+        "t": 73.41
+      },
+      {
+        "title": "Is it reasonable?",
+        "t": 93.099
+      },
+      {
+        "title": "Your turn",
+        "t": 132.528
+      },
+      {
+        "title": "Summary",
+        "t": 157.197
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-4-b:q",
+        "t": 139.076,
+        "prompt": "Which is the best estimate of $50\\text{ mi}$ in kilometres?",
+        "choices": [
+          "$80\\text{ km}$",
+          "$31\\text{ km}$",
+          "$50\\text{ km}$",
+          "$8\\text{ km}$"
+        ],
+        "answer": 0,
+        "working": "$50 \\times 1.6 = 80$. A mile is longer than a kilometre, so there are more kilometres than miles."
+      }
+    ]
+  },
+  "m10c-1-5": {
+    "lessonId": "m10c-1-5",
+    "title": "Surface Area of Prisms and Cylinders, Part 1: Prisms",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Surface area and nets",
+        "t": 16.551
+      },
+      {
+        "title": "A rectangular prism",
+        "t": 40.23
+      },
+      {
+        "title": "A triangular prism",
+        "t": 76.573
+      },
+      {
+        "title": "Its net",
+        "t": 93.1
+      },
+      {
+        "title": "Any right prism",
+        "t": 127.842
+      },
+      {
+        "title": "Your turn",
+        "t": 156.779
+      },
+      {
+        "title": "Summary",
+        "t": 185.692
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-5:q",
+        "t": 165.292,
+        "prompt": "A box is $10\\text{ cm}$ long, $4\\text{ cm}$ wide and $3\\text{ cm}$ high. What is its surface area?",
+        "choices": [
+          "$164\\text{ cm}^2$",
+          "$120\\text{ cm}^2$",
+          "$82\\text{ cm}^2$",
+          "$124\\text{ cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$SA = 2(10 \\times 4 + 10 \\times 3 + 4 \\times 3) = 2(40 + 30 + 12) = 164\\text{ cm}^2$."
+      }
+    ]
+  },
+  "m10c-1-5-b": {
+    "lessonId": "m10c-1-5",
+    "title": "Surface Area of Prisms and Cylinders, Part 2: Cylinders",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Unroll a can",
+        "t": 13.258
+      },
+      {
+        "title": "The formula",
+        "t": 33.288
+      },
+      {
+        "title": "A closed cylinder",
+        "t": 51.591
+      },
+      {
+        "title": "Which surfaces count?",
+        "t": 78.116
+      },
+      {
+        "title": "An open box",
+        "t": 110.039
+      },
+      {
+        "title": "Your turn",
+        "t": 134.769
+      },
+      {
+        "title": "Summary",
+        "t": 169.253
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-5-b:q",
+        "t": 145.398,
+        "prompt": "A can with radius $3\\text{ cm}$ and height $10\\text{ cm}$ has **no lid**. How much metal is it made of, to the nearest tenth?",
+        "choices": [
+          "$216.8\\text{ cm}^2$",
+          "$245.0\\text{ cm}^2$",
+          "$188.5\\text{ cm}^2$",
+          "$122.5\\text{ cm}^2$"
+        ],
+        "answer": 0,
+        "working": "One circle and the curved surface: $\\pi(3)^2 + 2\\pi(3)(10) = 9\\pi + 60\\pi = 69\\pi \\approx 216.8\\text{ cm}^2$."
+      }
+    ]
+  },
+  "m10c-1-6": {
+    "lessonId": "m10c-1-6",
+    "title": "Surface Area of Pyramids, Cones and Spheres, Part 1: Slant Height and Pyramids",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Height and slant height",
+        "t": 16.105
+      },
+      {
+        "title": "Finding a slant height",
+        "t": 37.758
+      },
+      {
+        "title": "Surface area of a pyramid",
+        "t": 68.072
+      },
+      {
+        "title": "Given the height",
+        "t": 94.709
+      },
+      {
+        "title": "Your turn",
+        "t": 124.618
+      },
+      {
+        "title": "Summary",
+        "t": 153.121
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-6:q",
+        "t": 133.797,
+        "prompt": "A square pyramid has a base of $6\\text{ cm}$ and a height of $4\\text{ cm}$. What is its slant height?",
+        "choices": [
+          "$5\\text{ cm}$",
+          "$7.2\\text{ cm}$",
+          "$4\\text{ cm}$",
+          "$2.6\\text{ cm}$"
+        ],
+        "answer": 0,
+        "working": "Half the base is $3$, so $s = \\sqrt{4^2 + 3^2} = \\sqrt{25} = 5\\text{ cm}$."
+      }
+    ]
+  },
+  "m10c-1-6-b": {
+    "lessonId": "m10c-1-6",
+    "title": "Surface Area of Pyramids, Cones and Spheres, Part 2: Cones and Spheres",
+    "duration": 165,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "A right cone",
+        "t": 0
+      },
+      {
+        "title": "A cone given its height",
+        "t": 40.246
+      },
+      {
+        "title": "A sphere",
+        "t": 67.075
+      },
+      {
+        "title": "A dome",
+        "t": 91.065
+      },
+      {
+        "title": "Your turn",
+        "t": 115.863
+      },
+      {
+        "title": "Summary",
+        "t": 142.734
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-6-b:q",
+        "t": 124.405,
+        "prompt": "A ball has a radius of $5\\text{ cm}$. What is its surface area, to the nearest tenth?",
+        "choices": [
+          "$314.2\\text{ cm}^2$",
+          "$78.5\\text{ cm}^2$",
+          "$523.6\\text{ cm}^2$",
+          "$157.1\\text{ cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$SA = 4\\pi(5)^2 = 100\\pi \\approx 314.2\\text{ cm}^2$."
+      }
+    ]
+  },
+  "m10c-1-7": {
+    "lessonId": "m10c-1-7",
+    "title": "Volume of Prisms, Cylinders, Pyramids and Cones, Part 1: Prisms and Cylinders",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "V = Bh",
+        "t": 14.171
+      },
+      {
+        "title": "A rectangular prism",
+        "t": 35.079
+      },
+      {
+        "title": "A cylinder",
+        "t": 60.601
+      },
+      {
+        "title": "A triangular prism",
+        "t": 84.945
+      },
+      {
+        "title": "Your turn",
+        "t": 114.166
+      },
+      {
+        "title": "Summary",
+        "t": 144.689
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-7:q",
+        "t": 123.789,
+        "prompt": "A cylinder has radius $3\\text{ cm}$ and height $10\\text{ cm}$. What is its volume, to the nearest tenth?",
+        "choices": [
+          "$282.7\\text{ cm}^3$",
+          "$188.5\\text{ cm}^3$",
+          "$1131.0\\text{ cm}^3$",
+          "$90.0\\text{ cm}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\pi(3)^2(10) = 90\\pi \\approx 282.7\\text{ cm}^3$."
+      }
+    ]
+  },
+  "m10c-1-7-b": {
+    "lessonId": "m10c-1-7",
+    "title": "Volume of Prisms, Cylinders, Pyramids and Cones, Part 2: Pyramids and Cones",
+    "duration": 162,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One third",
+        "t": 15.376
+      },
+      {
+        "title": "A square pyramid",
+        "t": 41.134
+      },
+      {
+        "title": "Using one third",
+        "t": 60.212
+      },
+      {
+        "title": "A cone given its slant height",
+        "t": 79.326
+      },
+      {
+        "title": "Your turn",
+        "t": 113.769
+      },
+      {
+        "title": "Summary",
+        "t": 142.041
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-7-b:q",
+        "t": 123.194,
+        "prompt": "A cone has radius $3\\text{ cm}$ and height $4\\text{ cm}$. What is its volume, to the nearest tenth?",
+        "choices": [
+          "$37.7\\text{ cm}^3$",
+          "$113.1\\text{ cm}^3$",
+          "$47.1\\text{ cm}^3$",
+          "$12.6\\text{ cm}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\tfrac13\\pi(3)^2(4) = 12\\pi \\approx 37.7\\text{ cm}^3$."
+      }
+    ]
+  },
+  "m10c-1-8": {
+    "lessonId": "m10c-1-8",
+    "title": "Spheres, Composite Objects and Unknown Dimensions, Part 1: Spheres and Unknown Dimensions",
+    "duration": 187,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Volume of a sphere",
+        "t": 15.526
+      },
+      {
+        "title": "A ball",
+        "t": 42.788
+      },
+      {
+        "title": "An unknown height",
+        "t": 61.708
+      },
+      {
+        "title": "An unknown radius",
+        "t": 87.693
+      },
+      {
+        "title": "Your turn",
+        "t": 130.967
+      },
+      {
+        "title": "Summary",
+        "t": 161.189
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-8:q",
+        "t": 139.332,
+        "prompt": "A sphere has a volume of $36\\pi\\text{ cm}^3$. What is its radius?",
+        "choices": [
+          "$3\\text{ cm}$",
+          "$5.2\\text{ cm}$",
+          "$9\\text{ cm}$",
+          "$27\\text{ cm}$"
+        ],
+        "answer": 0,
+        "working": "$36\\pi = \\tfrac43\\pi r^3$, so $r^3 = 36 \\times \\tfrac34 = 27$ and $r = \\sqrt[3]{27} = 3\\text{ cm}$."
+      }
+    ]
+  },
+  "m10c-1-8-b": {
+    "lessonId": "m10c-1-8",
+    "title": "Spheres, Composite Objects and Unknown Dimensions, Part 2: Composite Objects",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Volume of a silo",
+        "t": 17.611
+      },
+      {
+        "title": "Surface area of the silo",
+        "t": 45.869
+      },
+      {
+        "title": "A block with a hole",
+        "t": 76.155
+      },
+      {
+        "title": "A routine",
+        "t": 117.562
+      },
+      {
+        "title": "Your turn",
+        "t": 143.526
+      },
+      {
+        "title": "Summary",
+        "t": 181.97
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-1-8-b:q",
+        "t": 157.771,
+        "prompt": "A cylinder with radius $2\\text{ m}$ and height $6\\text{ m}$ has a cone with the same radius and height $3\\text{ m}$ on top. What is the total volume, to the nearest tenth?",
+        "choices": [
+          "$88.0\\text{ m}^3$",
+          "$113.1\\text{ m}^3$",
+          "$75.4\\text{ m}^3$",
+          "$100.5\\text{ m}^3$"
+        ],
+        "answer": 0,
+        "working": "Cylinder: $\\pi(2)^2(6) = 24\\pi$. Cone: $\\tfrac13\\pi(2)^2(3) = 4\\pi$. Total $28\\pi \\approx 88.0\\text{ m}^3$."
       }
     ]
   },
