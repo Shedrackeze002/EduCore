@@ -7,6 +7,7 @@ import type {
   AppNotification,
   Assignment,
   ClassJoinRequest,
+  CourseRequest,
   ClassRoom,
   Insight,
   MyJoinRequest,
@@ -272,4 +273,18 @@ export const toClassJoinRequest = (r: Row): ClassJoinRequest => ({
   email: r.email ?? '',
   message: r.message ?? null,
   createdAt: r.created_at,
+});
+
+export const toCourseRequest = (r: Row): CourseRequest => ({
+  id: r.id,
+  kind: r.kind === 'topic' ? 'topic' : 'course',
+  title: r.title,
+  grade: r.grade ?? null,
+  details: r.details ?? null,
+  status: r.status,
+  adminNote: r.admin_note ?? null,
+  issueUrl: r.issue_url ?? null,
+  createdAt: r.created_at,
+  decidedAt: r.decided_at ?? null,
+  ...(r.requester_id ? { requester: { id: r.requester_id, name: r.requester_name ?? 'Unknown', role: r.requester_role === 'teacher' ? 'teacher' : 'student' } } : {}),
 });

@@ -8,6 +8,7 @@ import { Button, Card, CardBody, Checkbox, Input, PageHeader, useToast } from '@
 import { cn } from '@/lib/cn.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { ApprovalNotice, needsApproval } from './ApprovalNotice.tsx';
+import { CourseRequestCard } from '@/features/requests/CourseRequestCard.tsx';
 
 /** Courses grouped by grade, youngest first. */
 const GRADES = [...new Set(COURSES.map((c) => c.grade))].sort((a, b) => a - b).map((grade) => ({ grade, courses: COURSES.filter((c) => c.grade === grade) }));
@@ -98,6 +99,7 @@ export default function NewClassPage() {
           </Button>
         </div>
       </form>
+      <CourseRequestCard who="teacher" className="mt-8" />
     </div>
   );
 }

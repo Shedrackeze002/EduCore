@@ -5,6 +5,7 @@ import type {
   Assignment,
   Board,
   ClassRoom,
+  CourseRequest,
   Insight,
   LessonPrefs,
   LiveAnswer,
@@ -61,6 +62,8 @@ export interface DemoDB {
   liveAnswers?: LiveAnswer[];
   /** Requests to join classes that ask for approval (added later). */
   joinRequests?: DemoJoinRequest[];
+  /** Requests for courses or topics EduCore does not have yet (added later). */
+  courseRequests?: Array<Omit<CourseRequest, 'requester'> & { requesterId: string }>;
 }
 
 export interface DemoJoinRequest {

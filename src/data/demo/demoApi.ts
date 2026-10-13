@@ -32,6 +32,9 @@ import type {
   ClassRoom,
   ClassJoinRequest,
   ClassSettings,
+  CourseRequest,
+  CourseRequestInput,
+  CourseRequestStatus,
   JoinResult,
   MyJoinRequest,
   Insight,
@@ -124,6 +127,7 @@ export class DemoApi implements DataApi {
     this.db.liveQuestions ??= [];
     this.db.liveAnswers ??= [];
     this.db.joinRequests ??= [];
+    this.db.courseRequests ??= [];
     // Demos saved before self-paced study: every class was a teacher's class.
     for (const c of this.db.classes) c.kind ??= 'teacher';
     if (!existing || !existing.audit) saveDb(this.db);
@@ -134,7 +138,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [] };
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [], courseRequests: [] };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -1297,6 +1301,66 @@ export class DemoApi implements DataApi {
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
       .slice(0, limit)
       .map((r) => ({ id: r.id, createdAt: r.createdAt, action: r.action, actorName: name(r.actorId), targetName: name(r.targetUser), details: r.details }));
+  }
+
+  async adminListCourseRequests(status?: CourseRequestStatus): Promise<CourseRequest[]> {
+    await this.ready;
+    this.requireAdmin();
+    return this.db
+      .courseRequests!.filter((r) => !status || r.status === status)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, 200)
+      .map(({ requesterId, ...r }) => {
+        const u = this.db.users.find((x) => x.id === requesterId);
+        return { ...r, requester: { id: requesterId, name: u?.fullName ?? 'Unknown', role: u?.role ?? 'student' } };
+      });
+  }
+
+  async adminUpdateCourseRequest(id: string, patch: { status: CourseRequestStatus; note?: string | null; issueUrl?: string | null }) {
+    await this.ready;
+    this.requireAdmin();
+    const r = this.db.courseRequests!.find((x) => x.id === id);
+    if (!r) throw new Error('That request was not found.');
+    const url = patch.issueUrl?.trim() || null;
+    if (url && !/^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/issues\/[0-9]+$/.test(url)) throw new Error('Paste the link of a GitHub issue, like https://github.com/owner/repo/issues/12.');
+    const before = r.status;
+    r.status = patch.status;
+    r.adminNote = patch.note?.trim().slice(0, 1000) || null;
+    r.issueUrl = url;
+    r.decidedAt = patch.status === 'new' ? null : patch.status === before ? r.decidedAt : nowIso();
+    if (patch.status !== before) {
+      this.audit(`course_request_${patch.status}`, r.requesterId, { title: r.title });
+      const title = { approved: `Your request is planned: ${r.title}`, done: `Now on EduCore: ${r.title}`, declined: `Your request was not taken up: ${r.title}`, new: '' }[patch.status];
+      const body = r.adminNote ?? { approved: 'Thank you. We will build it and tell you when it is ready.', done: 'The course or topic you asked for is ready.', declined: 'Thank you for asking. It is not planned for now.', new: '' }[patch.status];
+      if (title) this.notify(r.requesterId, 'announcement', title, body, null);
+    }
+    this.persist();
+  }
+
+  async requestCourse(input: CourseRequestInput): Promise<CourseRequest> {
+    await this.ready;
+    const me = this.me();
+    const title = input.title.trim();
+    if (input.kind !== 'course' && input.kind !== 'topic') throw new Error('Choose a course or a topic.');
+    if (title.length < 3 || title.length > 120) throw new Error('Give the course or topic a name (3 to 120 characters).');
+    if (input.grade !== null && (input.grade < 1 || input.grade > 12)) throw new Error('Choose a grade from 1 to 12.');
+    const today = this.db.courseRequests!.filter((r) => r.requesterId === me.id && Date.now() - new Date(r.createdAt).getTime() < 86_400_000);
+    if (today.length >= 5) throw new Error('You have sent 5 requests today. Please try again tomorrow.');
+    const r = { id: uid('cr'), requesterId: me.id, kind: input.kind, title, grade: input.grade, details: input.details.trim().slice(0, 2000) || null, status: 'new' as const, adminNote: null, issueUrl: null, createdAt: nowIso(), decidedAt: null };
+    this.db.courseRequests!.push(r);
+    for (const a of this.db.users.filter((x) => x.platformAdmin && !x.disabled)) this.notify(a.id, 'admin', `New ${r.kind} request: ${title}`, `${me.fullName} (${me.role}) asked for it.`, '/admin/requests');
+    this.persist();
+    const { requesterId: _r, ...out } = r;
+    return out;
+  }
+
+  async listMyCourseRequests(): Promise<CourseRequest[]> {
+    await this.ready;
+    const me = this.me();
+    return this.db
+      .courseRequests!.filter((r) => r.requesterId === me.id)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .map(({ requesterId: _r, ...r }) => r);
   }
 
   // ------------------------------------------------------------------ scheduler

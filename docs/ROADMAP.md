@@ -27,37 +27,31 @@ items ship or decisions change.
   were right, each choice's share or the common wrong answers, without names. Students see
   whether they were right and the worked solution when the teacher shows the results.
 
-- Self-sign-up and course placement (first part of item 1 below): students who sign up without
-  a class code answer a few questions (grade, plans, calculus, how mathematics feels), get a
-  recommended course that follows Alberta's sequences, can take a 6-question placement check on
-  the course before, and study in a self-paced section where every lesson is open and the AI
-  acts as tutor (study coach and autopilot practice). Students can study several courses and
-  switch between them.
-- Join requests (second part of item 1): a class can ask the teacher to approve students who use
-  its code; the teacher approves or declines on the Students page, and students see where their
-  requests stand.
+- Student self-sign-up, AI course placement and course requests:
+  - Students who sign up without a class code answer a few questions (grade, plans, calculus, how
+    mathematics feels), get a recommended course that follows Alberta's sequences, can take a
+    6-question placement check on the course before, and study in a self-paced section where every
+    lesson is open and the AI acts as tutor (study coach and autopilot practice). Students can
+    study several courses and switch between them.
+  - Join requests: a class can ask the teacher to approve students who use its code (on by default
+    for new classes); the teacher approves or declines on the Students page, and the student keeps
+    their self-paced progress.
+  - Course requests: students and teachers ask for a missing course or topic; requests land in the
+    admin inbox, and approving one opens a prefilled GitHub issue for a build session (the issue
+    link is saved and the person who asked is told when it is planned and when it is built).
 
 ## Next, in order
 
-1. **Student self-sign-up, AI course placement and course requests.**
-   - Done: onboarding, recommendation, placement check and self-paced sections (see above).
-   - Done: **join requests.** Classes can ask for approval (on by default for new classes); a
-     class code then sends the teacher a request with an optional note, the teacher approves or
-     declines on the Students page, and the student keeps their self-paced progress.
-   - Next: **course requests.** Missing topics become course requests in an admin inbox; requests
-     the admin approves become GitHub issues for a build session.
-   - Later: an AI tutor chat inside lessons for self-paced students (explain a step, give a hint,
-     check working), using the same AI provider as the teaching assistant.
-2. **Teacher edit suggestions with admin approval.** Teachers suggest changes on a lesson page;
+1. **Teacher edit suggestions with admin approval.** Teachers suggest changes on a lesson page;
    approved edits are stored in the database as a layer over the lesson files.
-3. **Lockdown for quizzes and exams — only when the teacher turns it on, per assessment.**
+2. **Lockdown for quizzes and exams — only when the teacher turns it on, per assessment.**
    - Full-screen exam mode; leaving it or switching tabs is logged and shown to the teacher, with
      optional lock or auto-submit after a set number of exits.
    - Camera mode is a separate teacher choice. Decision: **no snapshots are stored**; the camera
      only has to be on. Students and parents see a consent notice.
    - A website cannot stop a student closing a tab; a Safe Exam Browser option can be added for
      schools that need true lockdown.
-4. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
+3. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
      two minutes or longer depending on difficulty; harder lessons (expected mostly in Grades
@@ -65,7 +59,7 @@ items ship or decisions change.
    - Start with a pilot of about 3 videos for one unit to settle style and voice.
    - Decision: narration with a cloned human voice, a paid voice or a free voice, chosen by cost
      at the pilot stage. The channel owner uploads; the build produces the files.
-5. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+4. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
    for example "Draft with AI") and the AI drafts the questions from the course curriculum and
@@ -83,7 +77,7 @@ items ship or decisions change.
      the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
      marking guides. The teacher previews everything, regenerates or edits single questions, and
      publishes; nothing reaches students without the teacher's approval.
-6. **Other subjects**, once mathematics is complete.
+5. **Other subjects**, once mathematics is complete.
 
 ## Hosting
 
@@ -105,8 +99,12 @@ items ship or decisions change.
   (`SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD`) are not set, so
   migrations are applied by hand and recorded in `supabase_migrations.schema_migrations`. Add the
   secrets so merges apply migrations and redeploy the Edge Functions on their own.
-- Self-paced study, next steps: store placement results on the server (today they stay on the
-  device), let a student leave a self-paced course, and email the AI tutor's weekly summary.
+- Self-paced study, next steps: an AI tutor chat inside lessons (explain a step, give a hint,
+  check working) using the same AI provider as the teaching assistant; store placement results on
+  the server (today they stay on the device); let a student leave a self-paced course; and email
+  the AI tutor's weekly summary.
+- Course requests, next step: create the GitHub issue automatically from an Edge Function with a
+  repository token (today the administrator submits GitHub's prefilled form and pastes the link).
 - Live class questions, next steps: a teacher-only list of who has and has not answered (never on
   the projector), an optional countdown per question, and counting live answers as practice
   evidence for mastery.

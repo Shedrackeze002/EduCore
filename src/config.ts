@@ -20,3 +20,6 @@ export const BACKEND: 'demo' | 'supabase' = SUPABASE_CONFIGURED && getItem('educ
 
 export const APP_NAME = 'EduCore';
 export const SUPPORT_EMAIL = (env.VITE_SUPPORT_EMAIL as string | undefined) || '';
+
+/** The GitHub repository where approved course requests become issues for a build session. */
+export const GITHUB_REPO = (env.VITE_GITHUB_REPO as string | undefined)?.trim() || 'Shedrackeze002/EduCore';

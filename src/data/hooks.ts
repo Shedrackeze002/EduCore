@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api } from './index.ts';
-import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
+import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, CourseRequestInput, CourseRequestStatus, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
 
 export const qk = {
   me: ['me'] as const,
@@ -17,6 +17,8 @@ export const qk = {
   live: (classId: string) => ['live', classId] as const,
   joinRequests: (classId: string) => ['joinRequests', classId] as const,
   myJoinRequests: ['myJoinRequests'] as const,
+  myCourseRequests: ['myCourseRequests'] as const,
+  adminCourseRequests: (status: string) => ['admin', 'courseRequests', status] as const,
   liveAnswers: (questionId: string) => ['liveAnswers', questionId] as const,
   assignments: (classId: string) => ['assignments', classId] as const,
   assignment: (id: string) => ['assignment', id] as const,
@@ -305,6 +307,16 @@ export const useSetTeacherStatus = () => useAdminMutation((v: { userId: string; 
 export const useSetPlatformAdmin = () => useAdminMutation((v: { userId: string; on: boolean }) => api().adminSetPlatformAdmin(v.userId, v.on));
 export const useSetUserDisabled = () => useAdminMutation((v: { userId: string; disabled: boolean }) => api().adminSetUserDisabled(v.userId, v.disabled));
 export const useResetPassword = () => useAdminMutation((userId: string) => api().adminResetPassword(userId));
+export const useAdminCourseRequests = (status?: CourseRequestStatus) => useQuery({ queryKey: qk.adminCourseRequests(status ?? 'all'), queryFn: () => api().adminListCourseRequests(status) });
+export const useAdminUpdateCourseRequest = () =>
+  useAdminMutation((v: { id: string; status: CourseRequestStatus; note?: string | null; issueUrl?: string | null }) => api().adminUpdateCourseRequest(v.id, v));
+
+export const useMyCourseRequests = () => useQuery({ queryKey: qk.myCourseRequests, queryFn: () => api().listMyCourseRequests() });
+export function useRequestCourse() {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (input: CourseRequestInput) => api().requestCourse(input), onSuccess: () => qc.invalidateQueries({ queryKey: qk.myCourseRequests }) });
+}
+
 export function useSaveAdminSettings() {
   const qc = useQueryClient();
   return useMutation({

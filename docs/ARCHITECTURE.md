@@ -123,6 +123,16 @@ student's note) and the teacher approves, which enrols the student, or declines.
 student is notified. Mastery belongs to the student, so what they studied on their own counts in
 the class straight away.
 
+## Course requests (`src/features/requests/`, `src/features/admin/AdminRequestsPage.tsx`)
+
+Students (on the onboarding page) and teachers (on the new-class page) can ask for a course or
+topic EduCore lacks. `request_course` stores it (at most 5 a day per person) and tells the
+administrators. In the admin inbox, approving a request opens GitHub's new-issue form prefilled by
+`courseIssueUrl` (title, grade, details and a build checklist; the person who asked appears only
+as "a student" or "a teacher", because the repository is public). The administrator pastes the
+issue link, and later marks the request built; the person who asked is notified at each step.
+Set `VITE_GITHUB_REPO` to send issues to another repository.
+
 ## Security model (Supabase)
 
 - **Row-level security on every table.** Teachers see only their own classes and the students
@@ -155,6 +165,9 @@ the class straight away.
   create and change them; only the student and the class's teacher can see a request, and the
   teacher sees the requester's name through `class_join_requests` before they are enrolled. The
   older `join_class` refuses classes that ask for approval, so it cannot skip the teacher.
+- **Course requests** are read-only to clients: people see their own, administrators see all
+  through `admin_course_requests`, and only `request_course` and `admin_update_course_request`
+  change them (issue links must be GitHub issue URLs; every decision is audited).
 - **Secrets** (MiniMax, Resend, cron secret) live in Edge Function secrets or Vault, never in the
   browser bundle.
 

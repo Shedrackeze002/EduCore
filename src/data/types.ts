@@ -37,6 +37,32 @@ export interface ClassSettings {
   joinApproval?: boolean;
 }
 
+export type CourseRequestStatus = 'new' | 'approved' | 'declined' | 'done';
+
+/** A request for a course or topic EduCore does not have yet. */
+export interface CourseRequest {
+  id: string;
+  kind: 'course' | 'topic';
+  title: string;
+  grade: number | null;
+  details: string | null;
+  status: CourseRequestStatus;
+  adminNote: string | null;
+  /** The GitHub issue opened for the build session, once approved. */
+  issueUrl: string | null;
+  createdAt: string;
+  decidedAt: string | null;
+  /** Who asked (administrator views only). */
+  requester?: { id: string; name: string; role: Role };
+}
+
+export interface CourseRequestInput {
+  kind: 'course' | 'topic';
+  title: string;
+  grade: number | null;
+  details: string;
+}
+
 /** What happened when a student used a class code. */
 export interface JoinResult {
   status: 'joined' | 'pending';

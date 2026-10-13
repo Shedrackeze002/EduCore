@@ -47,6 +47,7 @@ const AdminUsers = lazy(() => import('./features/admin/AdminUsersPage.tsx'));
 const AdminClasses = lazy(() => import('./features/admin/AdminClassesPage.tsx'));
 const AdminSettings = lazy(() => import('./features/admin/AdminSettingsPage.tsx'));
 const AdminAudit = lazy(() => import('./features/admin/AdminAuditPage.tsx'));
+const AdminRequests = lazy(() => import('./features/admin/AdminRequestsPage.tsx'));
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 20_000, retry: 1, refetchOnWindowFocus: true } },
@@ -111,6 +112,7 @@ export default function App() {
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="classes" element={<AdminClasses />} />
                     <Route path="settings" element={<AdminSettings />} />
+                    <Route path="requests" element={<AdminRequests />} />
                     <Route path="audit" element={<AdminAudit />} />
                   </Route>
 

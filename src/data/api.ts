@@ -17,6 +17,9 @@ import type {
   BoardInput,
   ClassRoom,
   ClassJoinRequest,
+  CourseRequest,
+  CourseRequestInput,
+  CourseRequestStatus,
   ClassSettings,
   JoinResult,
   MyJoinRequest,
@@ -163,4 +166,10 @@ export interface DataApi {
   adminGetSettings(): Promise<PlatformSettings>;
   adminSetSettings(patch: Partial<PlatformSettings>): Promise<PlatformSettings>;
   adminAuditLog(limit?: number): Promise<AdminAuditEntry[]>;
+  adminListCourseRequests(status?: CourseRequestStatus): Promise<CourseRequest[]>;
+  adminUpdateCourseRequest(id: string, patch: { status: CourseRequestStatus; note?: string | null; issueUrl?: string | null }): Promise<void>;
+
+  // Course requests (any signed-in user)
+  requestCourse(input: CourseRequestInput): Promise<CourseRequest>;
+  listMyCourseRequests(): Promise<CourseRequest[]>;
 }

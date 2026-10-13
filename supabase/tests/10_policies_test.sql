@@ -515,6 +515,48 @@ select _assert((select request_to_join((select join_code from ctx)) ->> 'status'
 reset role;
 select _assert((select status from join_requests where student_id = '00000000-0000-0000-0000-0000000000b8') = 'pending', 'asking again renews the request');
 
+-- ---------------------------------------------------------------- course requests
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select request_course('course', 'AP Calculus BC', 12, 'For students who want to write the AP exam.');
+select _fails($$select request_course('course', 'AB', 12, null)$$, 'a request needs a real name');
+select _fails($$select request_course('lesson', 'Matrices', 11, null)$$, 'only courses and topics can be requested');
+select _fails($$select request_course('topic', 'Matrices', 13, null)$$, 'grades go from 1 to 12');
+select _fails($$insert into course_requests (requester_id, kind, title) values ('00000000-0000-0000-0000-0000000000b1', 'topic', 'Matrices')$$, 'requests are made only through the function');
+select _fails($$select admin_course_requests()$$, 'only administrators see the inbox');
+select _fails($$select admin_update_course_request((select id from course_requests limit 1), 'done', null, null)$$, 'only administrators update requests');
+select request_course('topic', 'Matrices', 11, null);
+select request_course('topic', 'Vectors', 12, null);
+select request_course('topic', 'Complex numbers', 12, null);
+select request_course('topic', 'Conic sections', 12, null);
+select _fails($$select request_course('topic', 'Proofs', 12, null)$$, 'at most 5 requests a day');
+select _assert((select count(*) from course_requests) = 5, 'the student sees their own requests');
+reset role;
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a1' and title = 'New course request: AP Calculus BC') = 1, 'administrators are told about new requests');
+create temp table cr as select id from course_requests where title = 'AP Calculus BC';
+grant select on cr to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b2","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from course_requests) = 0, 'students do not see other people''s requests');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select admin_course_requests()$$, 'teachers who are not administrators do not see the inbox');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select requester_name from admin_course_requests('new') where title = 'AP Calculus BC') = 'Sam Student', 'the administrator sees who asked');
+select _fails($$select admin_update_course_request((select id from cr), 'approved', null, 'https://evil.example/x')$$, 'issue links must point to a GitHub issue');
+select admin_update_course_request((select id from cr), 'approved', null, 'https://github.com/Shedrackeze002/EduCore/issues/42');
+select admin_update_course_request((select id from cr), 'approved', 'Planned for the spring.', 'https://github.com/Shedrackeze002/EduCore/issues/42');
+reset role;
+select _assert((select status = 'approved' and issue_url like '%/issues/42' and admin_note = 'Planned for the spring.' from course_requests where id = (select id from cr)), 'the administrator approves with the issue link');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000b1' and title = 'Your request is planned: AP Calculus BC') = 1, 'the student is told once when the request is approved');
+select _assert((select count(*) from admin_audit_log where action = 'course_request_approved') = 1, 'the decision is audited');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;
