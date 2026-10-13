@@ -19,6 +19,8 @@ import type {
   CourseRequestInput,
   CourseRequestStatus,
   Insight,
+  LessonEditInput,
+  LessonEditStatus,
   ItemRef,
   JoinResult,
   NewStudentCredential,
@@ -43,6 +45,7 @@ import {
   toClass,
   toClassJoinRequest,
   toCourseRequest,
+  toLessonEdit,
   toEvent,
   toInsight,
   toMastery,
@@ -740,6 +743,41 @@ export class SupabaseApi implements DataApi {
 
   async adminUpdateCourseRequest(id: string, patch: { status: CourseRequestStatus; note?: string | null; issueUrl?: string | null }) {
     const { error } = await this.client.rpc('admin_update_course_request', { p_id: id, p_status: patch.status, p_note: patch.note ?? null, p_issue_url: patch.issueUrl ?? null });
+    fail(error);
+  }
+
+  async adminListLessonEdits(status?: LessonEditStatus) {
+    const { data, error } = await this.client.rpc('admin_lesson_edits', { p_status: status ?? null });
+    fail(error);
+    return ((data ?? []) as Array<Record<string, unknown>>).map(toLessonEdit);
+  }
+
+  async adminDecideLessonEdit(id: string, status: 'approved' | 'declined' | 'reverted', note?: string | null) {
+    const { error } = await this.client.rpc('admin_decide_lesson_edit', { p_id: id, p_status: status, p_note: note ?? null });
+    fail(error);
+  }
+
+  async listApprovedLessonEdits(lessonId: string) {
+    const { data, error } = await this.client.from('lesson_edits').select('id, lesson_id, section_title, base_hash, markdown, status, created_at, decided_at').eq('lesson_id', lessonId).eq('status', 'approved');
+    fail(error);
+    return ((data ?? []) as Array<Record<string, unknown>>).map(toLessonEdit);
+  }
+
+  async listMyLessonEdits(lessonId: string) {
+    const me = await this.uid();
+    const { data, error } = await this.client.from('lesson_edits').select('*').eq('lesson_id', lessonId).eq('author_id', me).order('created_at', { ascending: false }).limit(50);
+    fail(error);
+    return ((data ?? []) as Array<Record<string, unknown>>).map(toLessonEdit);
+  }
+
+  async suggestLessonEdit(input: LessonEditInput) {
+    const { data, error } = await this.client.rpc('suggest_lesson_edit', { p_lesson_id: input.lessonId, p_section_title: input.sectionTitle, p_base_hash: input.baseHash, p_original: input.original, p_markdown: input.markdown, p_reason: input.reason });
+    fail(error);
+    return toLessonEdit(data);
+  }
+
+  async withdrawLessonEdit(id: string) {
+    const { error } = await this.client.rpc('withdraw_lesson_edit', { p_id: id });
     fail(error);
   }
 

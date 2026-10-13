@@ -1,30 +1,45 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { BookOpen, Clock, ExternalLink, FileText, Target, Video } from 'lucide-react';
-import { courseOfLesson, lessonById, unitById } from '@engine/curriculum/index.ts';
-import { loadLesson } from '@/content/index.ts';
-import type { LessonContent } from '@/content/lessonParser.ts';
+import { BookOpen, Clock, ExternalLink, FileText, PencilLine, Target, Video } from 'lucide-react';
+import { courseOfLesson, lessonById, skillInfo, unitById } from '@engine/curriculum/index.ts';
+import { loadLessonSource } from '@/content/index.ts';
+import { applyEdits, type EditedLesson } from '@/content/edits.ts';
+import { useApprovedLessonEdits } from '@/data/hooks.ts';
 import type { Board, Resource } from '@/data/types.ts';
 import { ClassBoards } from '@/features/whiteboard/BoardView.tsx';
 import { Markdown } from '@/components/math/Markdown.tsx';
 import { PageSpinner } from '@/components/ui/index.ts';
 import { BlockView, VideoEmbed } from './LessonBlocks.tsx';
+import type { SectionSource } from './SuggestEdit.tsx';
 import { cn } from '@/lib/cn.ts';
 
+/**
+ * A lesson's content with approved teacher edits applied (they are part of the lesson for every
+ * class). `sources` gives each section's current Markdown, for suggesting a further edit.
+ */
 export function useLessonContent(lessonId: string | undefined) {
-  const [content, setContent] = useState<LessonContent | null>(null);
+  const [lesson, setLesson] = useState<EditedLesson | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const edits = useApprovedLessonEdits(lessonId);
+  // Without approved edits (or if they cannot be loaded) the lesson is the file as it is.
+  const ready = !edits.isPending || edits.isError;
+  const key = (edits.data ?? []).map((e) => `${e.id}:${e.baseHash}`).join(',');
   useEffect(() => {
-    if (!lessonId) return;
+    if (!lessonId || !ready) return;
     let alive = true;
-    setContent(null);
-    loadLesson(lessonId)
-      .then((c) => alive && (c ? setContent(c) : setError('This lesson has no content yet.')))
+    loadLessonSource(lessonId)
+      .then((raw) => {
+        if (!alive) return;
+        if (!raw) return setError('This lesson has no content yet.');
+        setLesson(applyEdits(raw, (edits.data ?? []).map((e) => ({ baseHash: e.baseHash, markdown: e.markdown })), (id) => !!skillInfo(id)));
+      })
       .catch((e) => alive && setError((e as Error).message));
     return () => {
       alive = false;
     };
-  }, [lessonId]);
-  return { content, error };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonId, ready, key]);
+  useEffect(() => setLesson(null), [lessonId]);
+  return { content: lesson?.content ?? null, sources: lesson?.sources ?? [], error };
 }
 
 export function LessonHeader({ lessonId, actions }: { lessonId: string; actions?: ReactNode }) {
@@ -117,8 +132,23 @@ export function TeacherResources({ resources }: { resources: Resource[] }) {
   );
 }
 
-export function LessonView({ lessonId, resources = [], boards = [], footer, headerActions }: { lessonId: string; resources?: Resource[]; boards?: Board[]; footer?: ReactNode; headerActions?: ReactNode }) {
-  const { content, error } = useLessonContent(lessonId);
+export function LessonView({
+  lessonId,
+  resources = [],
+  boards = [],
+  footer,
+  headerActions,
+  onSuggest,
+}: {
+  lessonId: string;
+  resources?: Resource[];
+  boards?: Board[];
+  footer?: ReactNode;
+  headerActions?: ReactNode;
+  /** Teachers: show "Suggest an edit" on each section. */
+  onSuggest?: (source: SectionSource) => void;
+}) {
+  const { content, sources, error } = useLessonContent(lessonId);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -151,7 +181,21 @@ export function LessonView({ lessonId, resources = [], boards = [], footer, head
           )}
           {content.sections.map((s, i) => (
             <section key={i} id={`sec-${i}`} className="scroll-mt-24 space-y-4">
-              <h2 className="text-xl font-semibold sm:text-2xl">{s.title}</h2>
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-xl font-semibold sm:text-2xl">{s.title}</h2>
+                {onSuggest && sources[i] && (
+                  <>
+                    {sources[i].edited && (
+                      <span className="rounded-full bg-good-soft px-2 py-0.5 text-xs font-semibold text-good-ink" title="This section includes an approved teacher edit.">
+                        Edited
+                      </span>
+                    )}
+                    <button type="button" onClick={() => onSuggest(sources[i])} className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 text-sm font-medium text-ink-2 hover:bg-surface-2 hover:text-ink" aria-label={`Suggest an edit to ${s.title}`}>
+                      <PencilLine className="h-4 w-4" /> Suggest an edit
+                    </button>
+                  </>
+                )}
+              </div>
               {s.blocks.map((b, j) => (
                 <BlockView key={j} block={b} />
               ))}

@@ -122,6 +122,9 @@ const ACTIONS: Record<string, string> = {
   course_request_declined: 'declined a course request from',
   course_request_done: 'marked as built a course request from',
   course_request_new: 'reopened a course request from',
+  lesson_edit_approved: 'approved a lesson edit by',
+  lesson_edit_declined: 'declined a lesson edit by',
+  lesson_edit_reverted: 'reverted a lesson edit by',
 };
 
 const SETTING_VALUES: Record<string, string> = { open: 'open sign-up', approval: 'approval required' };
@@ -134,13 +137,15 @@ export function describeAudit(e: { action: string; actorName: string | null; tar
     const to = String(e.details.to ?? '');
     return `${actor} set teacher sign-up to ${SETTING_VALUES[to] ?? to}`;
   }
-  const what = typeof e.details.title === 'string' ? ` (${e.details.title})` : '';
+  const what = typeof e.details.title === 'string' ? ` (${e.details.title})` : typeof e.details.section === 'string' ? ` (${e.details.section})` : '';
   return `${actor} ${verb} ${e.targetName ?? 'a deleted user'}${what}`;
 }
 
 export function auditTone(action: string): 'good' | 'bad' | 'info' | 'warn' | 'neutral' {
   if (action === 'teacher_approved' || action === 'user_enabled' || action === 'course_request_done') return 'good';
   if (action === 'course_request_approved') return 'info';
+  if (action === 'lesson_edit_approved') return 'good';
+  if (action === 'lesson_edit_declined' || action === 'lesson_edit_reverted') return 'bad';
   if (action === 'course_request_declined') return 'bad';
   if (action === 'teacher_rejected' || action === 'user_disabled' || action === 'admin_revoked') return 'bad';
   if (action === 'admin_granted') return 'info';

@@ -557,6 +557,59 @@ select _assert((select status = 'approved' and issue_url like '%/issues/42' and 
 select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000b1' and title = 'Your request is planned: AP Calculus BC') = 1, 'the student is told once when the request is approved');
 select _assert((select count(*) from admin_audit_log where action = 'course_request_approved') = 1, 'the decision is audited');
 
+-- ---------------------------------------------------------------- lesson edit suggestions
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select suggest_lesson_edit('m10c-1-1', 'Units', 'aaaaaaaa', '## Units', '## Units\n\nBetter.', null)$$, 'students cannot suggest lesson edits');
+reset role;
+
+-- Mr Other (an approved teacher, not an administrator) suggests edits.
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select suggest_lesson_edit('m10c-1-1', 'Units', 'aaaaaaaa', '## Units', '## Units', null)$$, 'a suggestion must change something');
+select _fails($$select suggest_lesson_edit('m10c-1-1', 'Units', 'not-a-hash', '## Units', '## Units\n\nBetter.', null)$$, 'section fingerprints are checked');
+select suggest_lesson_edit('m10c-1-1', 'Units', 'aaaaaaaa', '## Units', '## Units\n\nClearer wording.', 'Students found it confusing.');
+select suggest_lesson_edit('m10c-1-1', 'Units', 'aaaaaaaa', '## Units', '## Units\n\nA second idea.', null);
+select suggest_lesson_edit('m10c-1-2', 'Estimating', 'bbbbbbbb', '## Estimating', '## Estimating\n\nWithdrawn soon.', null);
+select withdraw_lesson_edit((select id from lesson_edits where lesson_id = 'm10c-1-2'));
+select _assert((select status from lesson_edits where lesson_id = 'm10c-1-2') = 'withdrawn', 'authors can withdraw a waiting suggestion');
+select _fails($$select admin_lesson_edits()$$, 'teachers who are not administrators cannot review edits');
+select _fails($$select admin_decide_lesson_edit((select id from lesson_edits limit 1), 'approved', null)$$, 'teachers cannot approve their own edits');
+select _fails($$insert into lesson_edits (lesson_id, section_title, base_hash, original, markdown, author_id) values ('m10c-1-1', 'X', 'aaaaaaaa', '', 'x', '00000000-0000-0000-0000-0000000000a2')$$, 'edits are made only through the functions');
+select _assert((select count(*) from lesson_edits) = 3, 'authors see their own suggestions');
+reset role;
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a1' and title = 'Lesson edit suggested: Units') = 2, 'administrators are told about suggestions');
+create temp table le as select id, markdown from lesson_edits where lesson_id = 'm10c-1-1';
+grant select on le to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from lesson_edits) = 0, 'students do not see suggestions waiting for review');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from admin_lesson_edits('pending')) = 2 and (select author_name from admin_lesson_edits('pending') limit 1) = 'Mr Other', 'the administrator sees waiting suggestions and who made them');
+select admin_decide_lesson_edit((select id from le where markdown like '%Clearer%'), 'approved', null);
+select _fails($$select admin_decide_lesson_edit((select id from le where markdown like '%Clearer%'), 'declined', null)$$, 'a decided suggestion cannot be decided again');
+select admin_decide_lesson_edit((select id from le where markdown like '%second%'), 'approved', 'Combined with the earlier edit.');
+reset role;
+select _assert((select status from lesson_edits where markdown like '%Clearer%') = 'replaced', 'approving a new edit for a section replaces the earlier one');
+select _assert((select count(*) from lesson_edits where status = 'approved') = 1, 'one approved edit per section');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select markdown from lesson_edits) like '%second idea%', 'everyone reads approved edits');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select admin_decide_lesson_edit((select id from le where markdown like '%second%'), 'reverted', null);
+reset role;
+select _assert((select count(*) from lesson_edits where status = 'approved') = 0, 'reverting returns the section to the file');
+select _assert((select count(*) from notifications where user_id = '00000000-0000-0000-0000-0000000000a2' and title like 'Your lesson edit%') = 3, 'the author is told about each decision');
+select _assert((select count(*) from admin_audit_log where action like 'lesson_edit_%') = 3, 'decisions are audited');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;

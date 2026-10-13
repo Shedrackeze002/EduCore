@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api } from './index.ts';
-import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, CourseRequestInput, CourseRequestStatus, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
+import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, CourseRequestInput, CourseRequestStatus, LessonEditInput, LessonEditStatus, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
 
 export const qk = {
   me: ['me'] as const,
@@ -18,6 +18,9 @@ export const qk = {
   joinRequests: (classId: string) => ['joinRequests', classId] as const,
   myJoinRequests: ['myJoinRequests'] as const,
   myCourseRequests: ['myCourseRequests'] as const,
+  lessonEdits: (lessonId: string) => ['lessonEdits', lessonId] as const,
+  myLessonEdits: (lessonId: string) => ['myLessonEdits', lessonId] as const,
+  adminLessonEdits: (status: string) => ['admin', 'lessonEdits', status] as const,
   adminCourseRequests: (status: string) => ['admin', 'courseRequests', status] as const,
   liveAnswers: (questionId: string) => ['liveAnswers', questionId] as const,
   assignments: (classId: string) => ['assignments', classId] as const,
@@ -310,6 +313,31 @@ export const useResetPassword = () => useAdminMutation((userId: string) => api()
 export const useAdminCourseRequests = (status?: CourseRequestStatus) => useQuery({ queryKey: qk.adminCourseRequests(status ?? 'all'), queryFn: () => api().adminListCourseRequests(status) });
 export const useAdminUpdateCourseRequest = () =>
   useAdminMutation((v: { id: string; status: CourseRequestStatus; note?: string | null; issueUrl?: string | null }) => api().adminUpdateCourseRequest(v.id, v));
+
+export const useAdminLessonEdits = (status?: LessonEditStatus) => useQuery({ queryKey: qk.adminLessonEdits(status ?? 'all'), queryFn: () => api().adminListLessonEdits(status) });
+export function useAdminDecideLessonEdit() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { id: string; status: 'approved' | 'declined' | 'reverted'; note?: string | null }) => api().adminDecideLessonEdit(v.id, v.status, v.note),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: qk.admin });
+      void qc.invalidateQueries({ queryKey: ['lessonEdits'] });
+    },
+  });
+}
+
+/** Approved edits for a lesson: part of the lesson every class sees. */
+export const useApprovedLessonEdits = (lessonId: string | undefined) =>
+  useQuery({ queryKey: qk.lessonEdits(lessonId ?? ''), queryFn: () => api().listApprovedLessonEdits(lessonId!), enabled: !!lessonId, staleTime: 60_000, retry: false });
+export const useMyLessonEdits = (lessonId: string) => useQuery({ queryKey: qk.myLessonEdits(lessonId), queryFn: () => api().listMyLessonEdits(lessonId) });
+export function useSuggestLessonEdit(lessonId: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (input: LessonEditInput) => api().suggestLessonEdit(input), onSuccess: () => qc.invalidateQueries({ queryKey: qk.myLessonEdits(lessonId) }) });
+}
+export function useWithdrawLessonEdit(lessonId: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (id: string) => api().withdrawLessonEdit(id), onSuccess: () => qc.invalidateQueries({ queryKey: qk.myLessonEdits(lessonId) }) });
+}
 
 export const useMyCourseRequests = () => useQuery({ queryKey: qk.myCourseRequests, queryFn: () => api().listMyCourseRequests() });
 export function useRequestCourse() {

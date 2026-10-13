@@ -36,6 +36,9 @@ import type {
   CourseRequestInput,
   CourseRequestStatus,
   JoinResult,
+  LessonEdit,
+  LessonEditInput,
+  LessonEditStatus,
   MyJoinRequest,
   Insight,
   ItemRef,
@@ -128,6 +131,7 @@ export class DemoApi implements DataApi {
     this.db.liveAnswers ??= [];
     this.db.joinRequests ??= [];
     this.db.courseRequests ??= [];
+    this.db.lessonEdits ??= [];
     // Demos saved before self-paced study: every class was a teacher's class.
     for (const c of this.db.classes) c.kind ??= 'teacher';
     if (!existing || !existing.audit) saveDb(this.db);
@@ -138,7 +142,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [], courseRequests: [] };
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [], courseRequests: [], lessonEdits: [] };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -1334,6 +1338,73 @@ export class DemoApi implements DataApi {
       const body = r.adminNote ?? { approved: 'Thank you. We will build it and tell you when it is ready.', done: 'The course or topic you asked for is ready.', declined: 'Thank you for asking. It is not planned for now.', new: '' }[patch.status];
       if (title) this.notify(r.requesterId, 'announcement', title, body, null);
     }
+    this.persist();
+  }
+
+  async adminListLessonEdits(status?: LessonEditStatus): Promise<LessonEdit[]> {
+    await this.ready;
+    this.requireAdmin();
+    return this.db
+      .lessonEdits!.filter((e) => !status || e.status === status)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, 200)
+      .map(({ authorId, ...e }) => ({ ...e, author: { id: authorId, name: this.db.users.find((u) => u.id === authorId)?.fullName ?? 'Unknown' } }));
+  }
+
+  async adminDecideLessonEdit(id: string, status: 'approved' | 'declined' | 'reverted', note?: string | null) {
+    await this.ready;
+    this.requireAdmin();
+    const e = this.db.lessonEdits!.find((x) => x.id === id);
+    if (!e) throw new Error('That suggestion was not found.');
+    if ((status === 'approved' || status === 'declined') && e.status !== 'pending') throw new Error('Only waiting suggestions can be approved or declined.');
+    if (status === 'reverted' && e.status !== 'approved') throw new Error('Only approved edits can be reverted.');
+    if (status === 'approved') for (const x of this.db.lessonEdits!) if (x.lessonId === e.lessonId && x.baseHash === e.baseHash && x.status === 'approved') Object.assign(x, { status: 'replaced', decidedAt: nowIso() });
+    Object.assign(e, { status, adminNote: note?.trim().slice(0, 1000) || null, decidedAt: nowIso() });
+    this.audit(`lesson_edit_${status}`, e.authorId, { lesson: e.lessonId, section: e.sectionTitle });
+    const title = { approved: `Your lesson edit is live: ${e.sectionTitle}`, declined: `Your lesson edit was not accepted: ${e.sectionTitle}`, reverted: `Your lesson edit was removed: ${e.sectionTitle}` }[status];
+    const body = e.adminNote ?? { approved: 'Thank you. Every class now sees your change.', declined: 'Thank you for the suggestion. The section stays as it is for now.', reverted: 'The section is back to the original lesson.' }[status];
+    this.notify(e.authorId, 'announcement', title, body, null);
+    this.persist();
+  }
+
+  async listApprovedLessonEdits(lessonId: string): Promise<LessonEdit[]> {
+    await this.ready;
+    return this.db.lessonEdits!.filter((e) => e.lessonId === lessonId && e.status === 'approved').map(({ authorId: _a, ...e }) => e);
+  }
+
+  async listMyLessonEdits(lessonId: string): Promise<LessonEdit[]> {
+    await this.ready;
+    const me = this.me();
+    return this.db
+      .lessonEdits!.filter((e) => e.lessonId === lessonId && e.authorId === me.id)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .map(({ authorId: _a, ...e }) => e);
+  }
+
+  async suggestLessonEdit(input: LessonEditInput): Promise<LessonEdit> {
+    await this.ready;
+    const me = this.me();
+    const canTeach = me.role === 'teacher' && (me.teacherStatus ?? 'approved') === 'approved' && !me.disabled;
+    if (!canTeach && !(me.platformAdmin && !me.disabled)) throw new Error('Only teachers can suggest lesson edits.');
+    const markdown = input.markdown.trim();
+    if (!markdown) throw new Error('The suggested section is empty.');
+    if (markdown === input.original.trim()) throw new Error('Change something before sending the suggestion.');
+    if (!/^[0-9a-f]{8}$/.test(input.baseHash)) throw new Error('That section could not be identified.');
+    if (this.db.lessonEdits!.filter((e) => e.authorId === me.id && e.status === 'pending').length >= 20) throw new Error('You have 20 suggestions waiting for review. Please wait for some to be reviewed.');
+    const e = { id: uid('le'), lessonId: input.lessonId, sectionTitle: input.sectionTitle.trim().slice(0, 200), baseHash: input.baseHash, original: input.original, markdown, reason: input.reason.trim().slice(0, 500) || null, status: 'pending' as const, adminNote: null, createdAt: nowIso(), decidedAt: null, authorId: me.id };
+    this.db.lessonEdits!.push(e);
+    for (const a of this.db.users.filter((x) => x.platformAdmin && !x.disabled && x.id !== me.id)) this.notify(a.id, 'admin', `Lesson edit suggested: ${e.sectionTitle}`, `${me.fullName} suggested a change to lesson ${e.lessonId}.`, '/admin/edits');
+    this.persist();
+    const { authorId: _a, ...out } = e;
+    return out;
+  }
+
+  async withdrawLessonEdit(id: string) {
+    await this.ready;
+    const me = this.me();
+    const e = this.db.lessonEdits!.find((x) => x.id === id && x.authorId === me.id && x.status === 'pending');
+    if (!e) throw new Error('That suggestion was not found or has already been reviewed.');
+    Object.assign(e, { status: 'withdrawn', decidedAt: nowIso() });
     this.persist();
   }
 

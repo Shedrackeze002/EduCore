@@ -10,6 +10,17 @@ for (const [path, load] of Object.entries(loaders)) {
 }
 
 const cache = new Map<string, LessonContent>();
+const sources = new Map<string, string>();
+
+/** A lesson's Markdown as it is in the file (teacher edits are applied on top; see edits.ts). */
+export async function loadLessonSource(lessonId: string): Promise<string | null> {
+  if (sources.has(lessonId)) return sources.get(lessonId)!;
+  const load = byId.get(lessonId);
+  if (!load) return null;
+  const raw = await load();
+  sources.set(lessonId, raw);
+  return raw;
+}
 
 export function hasLessonContent(lessonId: string): boolean {
   return byId.has(lessonId);

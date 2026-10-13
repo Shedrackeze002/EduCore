@@ -123,6 +123,19 @@ student's note) and the teacher approves, which enrols the student, or declines.
 student is notified. Mastery belongs to the student, so what they studied on their own counts in
 the class straight away.
 
+## Teacher lesson edits (`src/content/edits.ts`, `src/features/lessons/SuggestEdit.tsx`)
+
+Lessons stay in their Markdown files; approved teacher edits are a layer on top, stored in
+`lesson_edits`. A lesson splits into sections exactly as the parser splits it (`splitLesson`), and
+each section has a fingerprint of its text in the file. On a lesson page a teacher turns on
+**Suggest edits** and opens a section in an editor with a live preview; the suggestion keeps the
+fingerprint of the file section it changes. An administrator reviews it under **Lesson edits**
+(a line-by-line diff and a preview) and approves or declines it. `useLessonContent` applies every
+approved edit to the section it was made from (`applyEdits`), for every class, in lessons and in
+present mode. An edit applies only while that file section is unchanged, and only if it is a valid
+section, so updating a lesson file never produces a broken lesson; a newer approved edit for the
+same section replaces the older one, and reverting returns the section to the file.
+
 ## Course requests (`src/features/requests/`, `src/features/admin/AdminRequestsPage.tsx`)
 
 Students (on the onboarding page) and teachers (on the new-class page) can ask for a course or
@@ -165,6 +178,12 @@ Set `VITE_GITHUB_REPO` to send issues to another repository.
   create and change them; only the student and the class's teacher can see a request, and the
   teacher sees the requester's name through `class_join_requests` before they are enrolled. The
   older `join_class` refuses classes that ask for approval, so it cannot skip the teacher.
+- **Lesson edits** are read-only to clients: everyone reads approved edits, authors read their
+  own suggestions and administrators read all. Only `suggest_lesson_edit` (approved teachers,
+  at most 20 waiting), `withdraw_lesson_edit` and `admin_decide_lesson_edit` change them, at most
+  one edit per section is approved at a time, and every decision is audited. All Markdown is
+  sanitized when it is rendered (checked to leave every lesson and generated question unchanged),
+  and lesson video links must be web links, so an edit cannot inject scripts.
 - **Course requests** are read-only to clients: people see their own, administrators see all
   through `admin_course_requests`, and only `request_course` and `admin_update_course_request`
   change them (issue links must be GitHub issue URLs; every decision is audited).

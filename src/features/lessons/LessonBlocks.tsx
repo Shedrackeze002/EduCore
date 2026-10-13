@@ -183,6 +183,8 @@ export function videoEmbedUrl(url: string): string | null {
 
 export function VideoEmbed({ url, title }: { url: string; title?: string }) {
   const embed = videoEmbedUrl(url);
+  // Only web links: a lesson edit must never turn into a script link.
+  if (!embed && !/^https?:\/\//i.test(url)) return <div className="rounded-2xl border border-line bg-surface p-4 font-medium">{title ?? 'Video'}</div>;
   if (!embed) {
     return (
       <a href={url} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 hover:bg-surface-2">
