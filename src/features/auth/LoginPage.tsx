@@ -65,7 +65,7 @@ export default function LoginPage() {
         </Button>
       </form>
       <p className="mt-6 text-center text-sm text-ink-3">
-        New to EduCore?{' '}
+        New to Gradileo?{' '}
         <Link to="/signup" className="font-semibold text-brand hover:underline">
           Create an account
         </Link>

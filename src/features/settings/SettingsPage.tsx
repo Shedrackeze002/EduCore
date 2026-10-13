@@ -114,7 +114,7 @@ export default function SettingsPage() {
       </Card>
 
       <Card>
-        <CardHeader title="Notifications" subtitle="EduCore always shows notifications in the app. Browser alerts also reach you when the tab is in the background." icon={<Bell className="h-5 w-5" />} />
+        <CardHeader title="Notifications" subtitle="Gradileo always shows notifications in the app. Browser alerts also reach you when the tab is in the background." icon={<Bell className="h-5 w-5" />} />
         <CardBody className="flex flex-wrap items-center justify-between gap-3 pt-4">
           <div className="text-sm">
             Browser alerts:{' '}
@@ -126,7 +126,7 @@ export default function SettingsPage() {
               onClick={async () => {
                 const p = await Notification.requestPermission();
                 setPerm(p);
-                if (p === 'granted') new Notification('EduCore notifications are on', { body: 'You will be alerted about new work and upcoming deadlines.', icon: `${import.meta.env.BASE_URL}favicon.svg` });
+                if (p === 'granted') new Notification('Gradileo notifications are on', { body: 'You will be alerted about new work and upcoming deadlines.', icon: `${import.meta.env.BASE_URL}favicon.svg` });
               }}
             >
               Turn on browser alerts
@@ -151,7 +151,7 @@ export default function SettingsPage() {
       </Card>
 
       <Card>
-        <CardHeader title="Data" icon={<Database className="h-5 w-5" />} subtitle={demo ? 'You are using the demo. Everything is stored in this browser only.' : 'Connected to your EduCore server.'} />
+        <CardHeader title="Data" icon={<Database className="h-5 w-5" />} subtitle={demo ? 'You are using the demo. Everything is stored in this browser only.' : 'Connected to your Gradileo server.'} />
         <CardBody className="flex flex-wrap justify-end gap-2 pt-4">
           {demo && (
             <Button

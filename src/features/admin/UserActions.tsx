@@ -21,7 +21,7 @@ export function UserActions({ u, meId }: { u: AdminUserRow; meId: string }) {
   const approve = async () => {
     try {
       await setStatus.mutateAsync({ userId: u.id, status: 'approved' });
-      toast({ kind: 'success', title: `${u.fullName} can now teach on EduCore`, body: 'They have been notified.' });
+      toast({ kind: 'success', title: `${u.fullName} can now teach on Gradileo`, body: 'They have been notified.' });
     } catch (e) {
       toast({ kind: 'error', title: 'Could not approve', body: (e as Error).message });
     }

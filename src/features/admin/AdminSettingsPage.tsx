@@ -80,7 +80,7 @@ export default function AdminSettingsPage() {
         <CardHeader
           icon={<ShieldCheck className="h-5 w-5" />}
           title="Administrators"
-          subtitle="Make another teacher an administrator from the Users page. EduCore always keeps at least one."
+          subtitle="Make another teacher an administrator from the Users page. Gradileo always keeps at least one."
         />
         <CardBody className="pt-3">
           <ul className="divide-y divide-line">

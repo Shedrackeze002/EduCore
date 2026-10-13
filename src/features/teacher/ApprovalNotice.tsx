@@ -31,10 +31,10 @@ export function ApprovalNotice({ me }: { me: Profile }) {
         <h1 className="mt-5 text-xl font-semibold text-ink sm:text-2xl">{rejected ? 'Your teacher account was not approved' : 'Your teacher account is waiting for approval'}</h1>
         <p className="mx-auto mt-2 max-w-md text-[15px] text-ink-3">
           {rejected ? (
-            <>If you think this is a mistake, contact your school’s EduCore administrator and ask them to approve {me.email}.</>
+            <>If you think this is a mistake, contact your school’s Gradileo administrator and ask them to approve {me.email}.</>
           ) : (
             <>
-              An EduCore administrator reviews every new teacher account before it can create classes. You will get a notification here as soon as {me.email} is approved, and this page updates on its own.
+              A Gradileo administrator reviews every new teacher account before it can create classes. You will get a notification here as soon as {me.email} is approved, and this page updates on its own.
             </>
           )}
         </p>

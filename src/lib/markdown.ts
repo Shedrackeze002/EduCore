@@ -32,7 +32,7 @@ export function renderMath(tex: string, display = false): string {
 /**
  * Render Markdown with $inline$ and $$display$$ math. `\$` is a literal dollar sign.
  * The HTML is always sanitized: lessons can include teacher edits approved by an administrator,
- * and sanitizing leaves EduCore's own lessons and questions unchanged (checked for every lesson and
+ * and sanitizing leaves Gradileo's own lessons and questions unchanged (checked for every lesson and
  * generated question). `sanitize` is kept for callers that mark user-authored content.
  */
 export function renderMarkdown(md: string, opts: { inline?: boolean; sanitize?: boolean } = {}): string {

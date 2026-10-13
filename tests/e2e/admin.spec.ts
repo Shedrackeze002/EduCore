@@ -56,7 +56,7 @@ test('a new teacher waits for approval, the administrator approves, and the teac
   await page.goto('/admin');
   await expect(page.getByText('1 teacher waiting for approval')).toBeVisible();
   await page.getByRole('button', { name: 'Approve', exact: true }).click();
-  await expect(page.getByText('Grace Hopper can now teach on EduCore')).toBeVisible();
+  await expect(page.getByText('Grace Hopper can now teach on Gradileo')).toBeVisible();
   await page.goto('/admin/audit');
   await expect(page.getByText('Shedrack Eze approved the teacher account of Grace Hopper')).toBeVisible();
   await signOut(page);

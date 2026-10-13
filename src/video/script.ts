@@ -12,7 +12,7 @@
  */
 
 /** The name on every frame, thumbnail and YouTube description. */
-export const BRAND = 'EduCore';
+export const BRAND = 'Gradileo';
 
 /** Colours with a fixed meaning in every video (trigonometry uses the first four). */
 export type Tone = 'theta' | 'opp' | 'adj' | 'hyp' | 'brand' | 'good' | 'bad';
@@ -110,7 +110,7 @@ export interface CalcEl {
 }
 
 /**
- * "Your turn": a question the viewer tries while the video counts down. In EduCore the player
+ * "Your turn": a question the viewer tries while the video counts down. In Gradileo the player
  * pauses here and asks the question; the answer is shown with the part "answer".
  */
 export interface TryEl {

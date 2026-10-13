@@ -1,4 +1,4 @@
-/** YouTube links for EduCore's explainer videos. */
+/** YouTube links for Gradileo's explainer videos. */
 
 /** A YouTube video id: 11 letters, digits, "-" or "_". */
 export const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;

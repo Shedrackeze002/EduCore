@@ -51,7 +51,7 @@ describe('compile', () => {
     expect(tl.duration).toBe(16.05);
   });
 
-  it('lists chapters and the cue where EduCore pauses for the question', () => {
+  it('lists chapters and the cue where Gradileo pauses for the question', () => {
     expect(tl.chapters).toEqual([
       { title: 'Start', t: 0 },
       { title: 'Steps', t: 3.5 },

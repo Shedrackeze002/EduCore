@@ -17,7 +17,7 @@ export default function AdminClassesPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="Admin console" title="Classes" subtitle="Every class on EduCore, most recently active first." />
+      <PageHeader eyebrow="Admin console" title="Classes" subtitle="Every class on Gradileo, most recently active first." />
       <div className="mb-4 flex justify-end">
         <div className="relative w-full sm:max-w-xs">
           <Search className="pointer-events-none absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-ink-3" />

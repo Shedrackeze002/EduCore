@@ -54,10 +54,10 @@ export interface TimedLine {
   end: number;
 }
 
-/** A question in the video, in plain lesson Markdown, for EduCore's player to ask. */
+/** A question in the video, in plain lesson Markdown, for Gradileo's player to ask. */
 export interface Cue {
   id: string;
-  /** When EduCore's player pauses to ask the question. */
+  /** When Gradileo's player pauses to ask the question. */
   t: number;
   prompt: string;
   choices?: string[];
@@ -115,7 +115,7 @@ export function compile(x: Explainer, durations: Record<string, number>): Timeli
       for (const [el, parts] of focus) events.push({ t: at, kind: 'focus', el, parts });
       const end = r3(t + dur);
       lines.push({ key, say: l.say, caption: l.caption ?? l.say, start: at, end });
-      // A "Your turn" shown on this line counts down once the line is spoken; EduCore pauses there.
+      // A "Your turn" shown on this line counts down once the line is spoken; Gradileo pauses there.
       for (const target of asList(l.show)) {
         const q = tries.get(target);
         if (!q) continue;

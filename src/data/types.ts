@@ -71,7 +71,7 @@ export interface LessonEditInput {
 
 export type CourseRequestStatus = 'new' | 'approved' | 'declined' | 'done';
 
-/** A request for a course or topic EduCore does not have yet. */
+/** A request for a course or topic Gradileo does not have yet. */
 export interface CourseRequest {
   id: string;
   kind: 'course' | 'topic';

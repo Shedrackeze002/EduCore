@@ -3,7 +3,7 @@
  * Builds on Math 10-4 toward the workplace: number skills, personal finance (shopping, income,
  * budgeting and credit), formulas and graphs, measurement, perimeter and area, maps and scale, and
  * data and probability. The outcomes group the four strands of the Alberta K&E Mathematics 10-4, 20-4
- * Program of Studies (2006); the wording is EduCore's summary, not a quotation.
+ * Program of Studies (2006); the wording is Gradileo's summary, not a quotation.
  */
 import type { CourseMeta, LessonMeta, Outcome, UnitMeta } from '../../types.ts';
 

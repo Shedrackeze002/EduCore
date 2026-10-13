@@ -2,7 +2,7 @@
  * Mathematics 31 (Alberta), introductory calculus, Grade 12.
  * Topics follow Alberta's Mathematics 31 program (precalculus, limits, derivatives, derivative
  * applications, integrals and integral applications), as confirmed by Alberta-equivalent college
- * course outlines. The outcome codes are EduCore's grouping of those general outcomes; the wording
+ * course outlines. The outcome codes are Gradileo's grouping of those general outcomes; the wording
  * still needs a word-for-word check against Alberta's Mathematics 31 program of studies.
  */
 import type { CourseMeta, LessonMeta, Outcome, UnitMeta } from '../../types.ts';

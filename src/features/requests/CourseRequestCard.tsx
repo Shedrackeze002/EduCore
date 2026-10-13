@@ -1,4 +1,4 @@
-/** "Can't find what you need?" — students and teachers ask for a course or topic EduCore lacks. */
+/** "Can't find what you need?" — students and teachers ask for a course or topic Gradileo lacks. */
 import { useState } from 'react';
 import { CheckCircle2, Clock, Hammer, Lightbulb, Send, XCircle } from 'lucide-react';
 import { useMyCourseRequests, useRequestCourse } from '@/data/hooks.ts';
@@ -28,7 +28,7 @@ export function CourseRequestCard({ who, className }: { who: 'student' | 'teache
           <div className="min-w-0 flex-1 basis-60">
             <div className="font-semibold">Can’t find the course or topic you need?</div>
             <p className="mt-0.5 text-sm text-ink-2">
-              {who === 'teacher' ? 'Tell us what your class needs, such as another Alberta course or a topic to add, and we will look at building it.' : 'Tell us what you want to learn, and we will look at adding it to EduCore.'}
+              {who === 'teacher' ? 'Tell us what your class needs, such as another Alberta course or a topic to add, and we will look at building it.' : 'Tell us what you want to learn, and we will look at adding it to Gradileo.'}
             </p>
           </div>
           <Button variant="secondary" onClick={() => setOpen(true)} icon={<Send className="h-4 w-4" />}>
@@ -85,7 +85,7 @@ function RequestModal({ open, onClose }: { open: boolean; onClose: () => void })
       open={open}
       onClose={onClose}
       title="Request a course or topic"
-      description="Requests go to the EduCore team. Please do not include personal information."
+      description="Requests go to the Gradileo team. Please do not include personal information."
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>

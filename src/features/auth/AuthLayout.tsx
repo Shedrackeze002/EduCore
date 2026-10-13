@@ -12,7 +12,7 @@ export function AuthLayout({ title, subtitle, children }: { title: string; subti
         <Link to="/" className="relative">
           <span className="inline-flex items-center gap-2.5 font-display text-xl font-semibold">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15">∑</span>
-            EduCore
+            Gradileo
           </span>
         </Link>
         <div className="relative mt-auto max-w-lg">

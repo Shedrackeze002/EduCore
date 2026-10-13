@@ -152,7 +152,7 @@ export default function ClassSettingsPage() {
             checked={c.settings.emailReminders}
             onChange={(emailReminders) => update.mutate({ settings: { emailReminders } })}
             label="Also send reminders by email"
-            description={demoApi() ? 'Available once EduCore is connected to Supabase and an email provider (see docs/SETUP.md). In-app and browser notifications always work.' : 'Uses the email provider configured for your EduCore deployment. Students with generated usernames only get in-app notifications.'}
+            description={demoApi() ? 'Available once Gradileo is connected to Supabase and an email provider (see docs/SETUP.md). In-app and browser notifications always work.' : 'Uses the email provider configured for your Gradileo deployment. Students with generated usernames only get in-app notifications.'}
           />
         </CardBody>
       </Card>
@@ -240,7 +240,7 @@ function AiCard({ classId, autopilot, onAutopilot }: { classId: string; autopilo
           </div>
         ) : (
           <div className="rounded-xl bg-surface-2/60 p-4 text-sm text-ink-2">
-            The MiniMax key is configured on the server (<code>MINIMAX_API_KEY</code> secret on the <code>ai-agent</code> edge function). Without it, EduCore uses its offline analyst so insights always work. See <code>docs/SETUP.md</code>.
+            The MiniMax key is configured on the server (<code>MINIMAX_API_KEY</code> secret on the <code>ai-agent</code> edge function). Without it, Gradileo uses its offline analyst so insights always work. See <code>docs/SETUP.md</code>.
           </div>
         )}
       </CardBody>

@@ -1,4 +1,4 @@
-# Working on EduCore
+# Working on Gradileo
 
 ## Pull requests
 - After every push to a pull request, read GitHub Copilot's review: the inline comments and the

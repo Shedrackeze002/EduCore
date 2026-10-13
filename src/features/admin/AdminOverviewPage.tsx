@@ -25,7 +25,7 @@ export default function AdminOverviewPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow="Admin console" title="Platform overview" subtitle="Everyone using EduCore, at a glance." />
+      <PageHeader eyebrow="Admin console" title="Platform overview" subtitle="Everyone using Gradileo, at a glance." />
 
       {newRequests > 0 && (
         <Link to="/admin/requests" className="flex items-center gap-3 rounded-2xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm font-medium text-brand-800 hover:bg-brand-100">

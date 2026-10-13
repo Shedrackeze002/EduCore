@@ -1,12 +1,12 @@
-# The research behind EduCore
+# The research behind Gradileo
 
-EduCore's goal is that after each lesson every student can solve every type of question in the
+Gradileo's goal is that after each lesson every student can solve every type of question in the
 Math 10C program. This document explains which findings from learning science and which
 existing platforms shaped the design, and where the current version still has limits.
 
 ## Learning science
 
-| Principle | What the research says | How EduCore applies it |
+| Principle | What the research says | How Gradileo applies it |
 |---|---|---|
 | **Mastery learning** | Students taught with mastery learning and corrective feedback reach far higher achievement than with conventional instruction; one-to-one tutoring raised average performance by about two standard deviations [1]. | Work is organised by skill, students can retry with fresh questions, and progress is reported as mastery per skill rather than a single grade. |
 | **Knowledge tracing** | A student's knowledge of a skill can be estimated from the sequence of right and wrong answers with a simple probabilistic model [2]. | Every answer updates a Bayesian Knowledge Tracing estimate; levels require repeated success across sessions, not a single lucky streak. |
@@ -19,17 +19,17 @@ existing platforms shaped the design, and where the current version still has li
 ## Platforms we learned from
 
 - **Khan Academy** uses per-skill mastery levels (Attempted, Familiar, Proficient, Mastered) worth
-  0–100 points, with levels that can go down after mistakes [10]. EduCore keeps the familiar
+  0–100 points, with levels that can go down after mistakes [10]. Gradileo keeps the familiar
   level names and point values so teachers and students recognise them, but estimates the level
   with knowledge tracing across every assignment rather than with fixed exercise rules.
 - **DeltaMath** popularised algorithmically generated problems with a new version after each
-  miss. EduCore's 126 skill generators work the same way, so answers cannot be copied between
+  miss. Gradileo's 126 skill generators work the same way, so answers cannot be copied between
   students and practice never runs out.
-- **IXL** shows how adaptive difficulty keeps practice in the productive zone. EduCore's practice
+- **IXL** shows how adaptive difficulty keeps practice in the productive zone. Gradileo's practice
   sessions raise or lower difficulty from the student's current estimate and recent answers.
 - **Desmos Classroom** shows how much teachers value controlling the pace of a live lesson.
-  EduCore's present mode and publish-as-you-teach curriculum follow that model.
-- **Google Classroom** set the expectation for assignments, due dates and notifications. EduCore
+  Gradileo's present mode and publish-as-you-teach curriculum follow that model.
+- **Google Classroom** set the expectation for assignments, due dates and notifications. Gradileo
   adds deadline reminders that skip students who have already submitted.
 
 ## The curriculum
@@ -42,22 +42,22 @@ difficulty levels, hints and worked solutions, and appears in at least one lesso
 
 | Course | Stream | Outcomes |
 |---|---|---|
-| Mathematics 5 | Grade 5 | Number N1–N7, Algebra A1, Geometry G1, Coordinate Geometry CG1, Measurement M1, Patterns P1, Statistics S1 (the curriculum's learning outcomes, numbered by EduCore in the order listed). |
+| Mathematics 5 | Grade 5 | Number N1–N7, Algebra A1, Geometry G1, Coordinate Geometry CG1, Measurement M1, Patterns P1, Statistics S1 (the curriculum's learning outcomes, numbered by Gradileo in the order listed). |
 | Mathematics 6 | Grade 6 | Number N1–N8, Algebra A1, Geometry G1, Coordinate Geometry CG1, Measurement M1–M2, Patterns P1, Statistics S1 (numbered the same way). |
 | Mathematics 7 | Grade 7 | Number N1–N7, Patterns and Relations PR1–PR7, Shape and Space SS1–SS5, Statistics and Probability SP1–SP6. |
 | Mathematics 8 | Grade 8 | Number N1–N7, Patterns and Relations PR1–PR2, Shape and Space SS1–SS6, Statistics and Probability SP1–SP2. |
 | Mathematics 9 | Grade 9 | Number N1–N6, Patterns and Relations PR1–PR7, Shape and Space SS1–SS5, Statistics and Probability SP1–SP4. |
 | Mathematics 10C | -1 and -2 (pre-calculus and foundations) | Measurement M1–M4, Algebra and Number A1–A5, Relations and Functions R1–R10, using the codes in the course syllabus. |
 | Mathematics 10-3 | -3 (workplace and apprenticeship) | Measurement M1–M4, Geometry G1–G6, Number N1–N2, Algebra A1. |
-| K&E Mathematics 10-4 | -4 (Knowledge and Employability) | Number N1–N2, Patterns and Relations PR1–PR2, Shape and Space SS1–SS4, Statistics and Probability SP1–SP2 (EduCore's grouping of the program's strands). |
-| K&E Mathematics 20-4 | -4 (Knowledge and Employability) | Number N1–N4 (including shopping, income, budgeting and credit), Patterns and Relations PR1, Shape and Space SS1–SS3, Statistics and Probability SP1–SP2 (EduCore's grouping). |
+| K&E Mathematics 10-4 | -4 (Knowledge and Employability) | Number N1–N2, Patterns and Relations PR1–PR2, Shape and Space SS1–SS4, Statistics and Probability SP1–SP2 (Gradileo's grouping of the program's strands). |
+| K&E Mathematics 20-4 | -4 (Knowledge and Employability) | Number N1–N4 (including shopping, income, budgeting and credit), Patterns and Relations PR1, Shape and Space SS1–SS3, Statistics and Probability SP1–SP2 (Gradileo's grouping). |
 | Mathematics 20-1 | -1 (pre-calculus) | Algebra and Number AN1–AN6, Trigonometry T1–T3, Relations and Functions RF1–RF11. |
 | Mathematics 20-2 | -2 (foundations) | Measurement M1–M3, Geometry G1–G3, Number and Logic NL1–NL4, Statistics S1–S2, Relations and Functions RF1–RF2, and the Mathematics Research Project. |
 | Mathematics 20-3 | -3 (workplace and apprenticeship) | Measurement M1–M2, Geometry G1–G4, Number N1–N5, Algebra A1–A3, Statistics S1. |
 | Mathematics 30-1 | -1 (pre-calculus) | Trigonometry T1–T6, Relations and Functions RF1–RF14, Permutations, Combinations and Binomial Theorem PCBT1–PCBT4. |
 | Mathematics 30-2 | -2 (foundations) | Logical Reasoning LR1–LR3, Probability P1–P6, Relations and Functions RF1–RF8, and the Mathematics Research Project. |
 | Mathematics 30-3 | -3 (workplace and apprenticeship) | Measurement M1, Geometry G1–G3, Number N1–N3, Algebra A1, Statistics S1–S2, Probability P1. |
-| Mathematics 31 | calculus | Precalculus PC1, Limits L1–L2, Derivatives D1–D4, Derivative Applications DA1–DA4, Integrals I1–I3, Integral Applications IA1 (EduCore's grouping). |
+| Mathematics 31 | calculus | Precalculus PC1, Limits L1–L2, Derivatives D1–D4, Derivative Applications DA1–DA4, Integrals I1–I3, Integral Applications IA1 (Gradileo's grouping). |
 
 Alberta's Grade 10–12 courses are built on the WNCP *Common Curriculum Framework for Grades 10–12
 Mathematics* (2008), so Mathematics 10-3 corresponds to its *Apprenticeship and Workplace
@@ -79,7 +79,7 @@ variables, expressions, equations and graphs; visualization and symmetry with sh
 to collect, display and analyze data [21]. A Calgary Board of Education outline for Mathematics
 20-4 lists its units as a number review, shopping, income, budgeting (interest, vehicles, renting
 and budgets), SI and imperial measurement, perimeter and area, maps and scale, and statistics and
-probability [22]. EduCore's outcome codes for 10-4 and 20-4 summarize these strands in plain words;
+probability [22]. Gradileo's outcome codes for 10-4 and 20-4 summarize these strands in plain words;
 they are not quotations, and a word-for-word check against the program of studies [20] is still
 needed, because its host could not be reached from the build environment. K&E lessons are written
 at about a Grade 5–6 reading level with short sentences, a definition for every new term, and
@@ -94,7 +94,7 @@ reciprocal functions in RF1–RF11) were confirmed from a Calgary Board of Educa
 [26] and the Alberta scope and sequence [17]. The 20-2 units (rates and scale, proofs about angles
 and triangles, the sine and cosine laws without the ambiguous case, reasoning and puzzles,
 radicals, the normal distribution and confidence intervals, quadratics, and the research project)
-follow a CBE outline [27]; its codes differ slightly between sources, and EduCore uses the
+follow a CBE outline [27]; its codes differ slightly between sources, and Gradileo uses the
 WNCP-coded list. The 20-3 topics (surface area, volume and capacity, two and three right
 triangles, scale and 3-D views, budgets, banking, interest and credit, slope and rate of change,
 graphs, and puzzles) follow two CBE outlines [28], [29]. Alberta's *Outcomes with Assessment
@@ -113,7 +113,7 @@ limits of measurement, the sine and cosine laws, polygons, transformations, line
 statistics, probability, buying or leasing a vehicle and small business, as listed in
 Alberta-equivalent college outlines and Alberta's 2014 assessment standards [32], [33]. Mathematics
 31's units (precalculus, limits, derivatives and their applications, integrals and their
-applications) follow Alberta-equivalent college outlines [34]; its outcome codes are EduCore's
+applications) follow Alberta-equivalent college outlines [34]; its outcome codes are Gradileo's
 grouping of those units. As with Grade 11, a word-for-word check of the outcome wording against
 Alberta's documents is still needed because their hosts were unreachable from the build
 environment.
@@ -122,7 +122,7 @@ Grades 5 to 9 were checked word for word against the program of studies on new L
 (curriculum.learnalberta.ca) in October 2026 [35], [36]. Grades 5 and 6 follow Alberta's new K–6
 curriculum, in effect for Grades 4 to 6 since September 2023. It states learning outcomes under
 organizing ideas (Number, Algebra, Geometry, Coordinate Geometry, Measurement, Patterns,
-Statistics) with the knowledge, understanding, and skills and procedures for each; EduCore numbers
+Statistics) with the knowledge, understanding, and skills and procedures for each; Gradileo numbers
 the outcomes in the order listed, and every lesson stays within those skills and procedures. The
 K–6 outcomes are meant to be achieved without calculators, so no Grade 5 or 6 question needs one.
 Grades 7 to 9 follow the 2016 program of studies, which Alberta derived from the WNCP *Common

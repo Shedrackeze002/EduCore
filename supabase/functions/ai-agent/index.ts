@@ -24,7 +24,7 @@ serve(async (req) => {
     const cfg = aiConfig();
     return cfg
       ? { live: true, model: cfg.model ?? DEFAULT_MODEL, note: 'Live analysis with MiniMax. If MiniMax is unavailable, the offline analyst answers instead.' }
-      : { live: false, model: null, note: 'Using EduCore’s offline analyst. Set the MINIMAX_API_KEY secret on the ai-agent function to enable MiniMax.' };
+      : { live: false, model: null, note: 'Using Gradileo’s offline analyst. Set the MINIMAX_API_KEY secret on the ai-agent function to enable MiniMax.' };
   }
 
   if (body.action !== 'generate') throw new HttpError(400, 'Unknown action.');

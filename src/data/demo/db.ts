@@ -63,7 +63,7 @@ export interface DemoDB {
   liveAnswers?: LiveAnswer[];
   /** Requests to join classes that ask for approval (added later). */
   joinRequests?: DemoJoinRequest[];
-  /** Requests for courses or topics EduCore does not have yet (added later). */
+  /** Requests for courses or topics Gradileo does not have yet (added later). */
   courseRequests?: Array<Omit<CourseRequest, 'requester'> & { requesterId: string }>;
   /** Teachers' suggested lesson edits (added later). */
   lessonEdits?: Array<Omit<LessonEdit, 'author'> & { authorId: string }>;
@@ -89,7 +89,10 @@ export function loadDb(): DemoDB | null {
   if (!raw) return null;
   try {
     const db = JSON.parse(raw) as DemoDB;
-    return db.version === DB_VERSION ? db : null;
+    if (db.version !== DB_VERSION) return null;
+    // The demo accounts moved to gradileo.demo when EduCore became Gradileo; keep earlier demo data.
+    for (const u of db.users) if (u.email?.endsWith('@educore.demo')) u.email = u.email.replace(/@educore\.demo$/, '@gradileo.demo');
+    return db;
   } catch {
     return null;
   }

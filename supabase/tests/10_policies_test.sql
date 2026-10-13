@@ -1,4 +1,4 @@
--- Behavioural tests for the EduCore schema: run after 00_supabase_stub.sql and the
+-- Behavioural tests for the Gradileo schema: run after 00_supabase_stub.sql and the
 -- migrations on a throwaway database. Any failed check raises an exception.
 \set ON_ERROR_STOP 1
 set client_min_messages = warning;

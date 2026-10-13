@@ -156,7 +156,7 @@ export async function buildSeed(): Promise<DemoDB> {
     id: `u_s${i + 1}`,
     role: 'student',
     fullName: s.name,
-    email: `${slug(s.name)}@educore.demo`,
+    email: `${slug(s.name)}@gradileo.demo`,
     username: slug(s.name),
     avatarColor: AVATAR_COLORS[i % AVATAR_COLORS.length],
     createdAt: iso(-38),

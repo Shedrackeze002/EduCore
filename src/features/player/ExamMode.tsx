@@ -77,7 +77,7 @@ export function ExamMode({ submissionId, settings, label, integrity, locked, onE
       onCameraStarted();
       return true;
     } catch {
-      setCameraError('EduCore could not turn on your camera. Allow camera access for this site in your browser, then try again.');
+      setCameraError('Gradileo could not turn on your camera. Allow camera access for this site in your browser, then try again.');
       return false;
     }
   };

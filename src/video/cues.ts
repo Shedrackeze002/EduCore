@@ -1,4 +1,4 @@
-/** When EduCore's video player stops to ask a question. */
+/** When Gradileo's video player stops to ask a question. */
 import type { Cue } from './timeline.ts';
 
 /**

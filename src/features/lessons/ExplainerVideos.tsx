@@ -1,5 +1,5 @@
 /**
- * A lesson's explainer videos, played from EduCore's YouTube channel. At each "Your turn" in the
+ * A lesson's explainer videos, played from Gradileo's YouTube channel. At each "Your turn" in the
  * video the player pauses and asks the question here, then carries on when the student has
  * answered (or skipped). The questions and their times come from the video build's manifest.
  */

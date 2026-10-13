@@ -3,7 +3,7 @@
  * K&E courses are for students working two to three grade levels below their age-appropriate grade
  * who are headed for the workplace. The outcomes group the program's four strands (Number, Patterns
  * and Relations, Shape and Space, Statistics and Probability) as described in the Alberta K&E
- * Mathematics 10-4, 20-4 Program of Studies (2006); the wording is EduCore's summary, not a quotation.
+ * Mathematics 10-4, 20-4 Program of Studies (2006); the wording is Gradileo's summary, not a quotation.
  */
 import type { CourseMeta, LessonMeta, Outcome, UnitMeta } from '../../types.ts';
 

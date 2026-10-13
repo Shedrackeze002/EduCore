@@ -3,8 +3,8 @@
  * for classes that turned on "email reminders". Called every 10 minutes by pg_cron.
  *
  * Secrets: EDUCORE_CRON_SECRET (must match the Vault secret educore_cron_secret),
- *          RESEND_API_KEY, EMAIL_FROM (e.g. "EduCore <no-reply@yourschool.ca>"),
- *          APP_URL (e.g. https://educore.yourschool.ca).
+ *          RESEND_API_KEY, EMAIL_FROM (e.g. "Gradileo <no-reply@yourschool.ca>"),
+ *          APP_URL (e.g. https://gradileo.com).
  */
 import { HttpError, serve } from '../_shared/http.ts';
 import { adminClient } from '../_shared/db.ts';
@@ -53,10 +53,10 @@ serve(async (req) => {
     if (!cls?.settings?.emailReminders || !email || email.endsWith(`@${DOMAIN}`)) continue;
     const href = appUrl && n.link ? `${appUrl}${n.link}` : appUrl;
     const html = `<div style="font-family:system-ui,sans-serif;max-width:520px;margin:auto;padding:24px;color:#14161f">
-      <div style="font-size:12px;font-weight:700;color:#6a43e3;letter-spacing:.06em;text-transform:uppercase">EduCore · ${esc(cls.name ?? '')}</div>
+      <div style="font-size:12px;font-weight:700;color:#6a43e3;letter-spacing:.06em;text-transform:uppercase">Gradileo · ${esc(cls.name ?? '')}</div>
       <h2 style="margin:8px 0 6px;font-size:20px">${esc(n.title)}</h2>
       <p style="margin:0 0 18px;color:#4b5060;line-height:1.5">${esc(n.body ?? '')}</p>
-      ${href ? `<a href="${esc(href)}" style="display:inline-block;background:#6a43e3;color:#fff;text-decoration:none;padding:10px 18px;border-radius:10px;font-weight:600">Open in EduCore</a>` : ''}
+      ${href ? `<a href="${esc(href)}" style="display:inline-block;background:#6a43e3;color:#fff;text-decoration:none;padding:10px 18px;border-radius:10px;font-weight:600">Open in Gradileo</a>` : ''}
     </div>`;
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',

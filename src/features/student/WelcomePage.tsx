@@ -71,9 +71,9 @@ export default function WelcomePage() {
   return (
     <div className="mx-auto max-w-3xl">
       <PageHeader
-        eyebrow={classes.length ? 'Add a course' : 'Welcome to EduCore'}
+        eyebrow={classes.length ? 'Add a course' : 'Welcome to Gradileo'}
         title="Find your course"
-        subtitle="Answer a few questions and EduCore recommends where to start. You study on your own with an AI tutor, and you can join a teacher’s class at any time."
+        subtitle="Answer a few questions and Gradileo recommends where to start. You study on your own with an AI tutor, and you can join a teacher’s class at any time."
       />
       {step === 'about' && (
         <About

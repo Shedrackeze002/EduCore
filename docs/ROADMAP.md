@@ -1,6 +1,6 @@
 # Roadmap
 
-What comes next for EduCore, in order, with the decisions already made. Update this file as
+What comes next for Gradileo (formerly EduCore), in order, with the decisions already made. Update this file as
 items ship or decisions change.
 
 ## Done
@@ -55,10 +55,17 @@ items ship or decisions change.
 ## Next, in order
 
 0. **Rename EduCore to Gradileo** (the owner's decision, after the Math 10C Unit 2 videos and
-   before any new work). Gradileo, from *gradient* and *Galileo* (gradileo.com, .net, .io, .app and
-   .academy were free when checked). The rename covers the app, logo, emails, documents, the
-   video stage, the YouTube text and channel, and the site address; all videos are rendered again
-   with the new name before they are uploaded.
+   before any new work). Gradileo, from *gradient* and *Galileo*, said "grad-ih-LAY-oh"
+   (gradileo.com, .net, .io, .app and .academy were free when checked).
+   - Done: everything people see (the app, wordmark, page title, emails, the AI assistant, error
+     messages, documents, the video stage and YouTube text), with the eight Math 10C videos
+     rendered again as Gradileo. Internal names stay as they were so nothing breaks: browser
+     storage keys, the student sign-in email domain, Supabase secret and project names, and the
+     repository path. Demo accounts moved to `gradileo.demo`, and saved demo data is updated when
+     it loads.
+   - Next, once the owner has bought gradileo.com and created the Gradileo YouTube channel: move
+     the site to Cloudflare (see Hosting), point the YouTube descriptions and emails at
+     gradileo.com, and optionally rename the GitHub repository.
 1. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
@@ -74,7 +81,7 @@ items ship or decisions change.
      captions; the build makes them from the script, they are uploaded with each video, and the
      lesson player shows them from the start.
    - Built: the lesson player (YouTube's player above the lesson, pausing at each "Your turn" to ask
-     the question in EduCore, from the cues in `src/content/videos.json`) and the admin **Videos**
+     the question in Gradileo, from the cues in `src/content/videos.json`) and the admin **Videos**
      page where each video's YouTube link is recorded.
    - Built: Math 10C Unit 2 is complete, eight videos (lessons 2.1 to 2.4, two parts each). Lessons
      2.3 and 2.4 brought a `diagram` element for figures drawn from points (angles of elevation and
@@ -103,11 +110,19 @@ items ship or decisions change.
 
 ## Hosting
 
-- Move the site from GitHub Pages to **Cloudflare Pages** when the domain is bought (planned:
-  `educore.net`, through Cloudflare Registrar). Update the Supabase Site URL and redirect URLs,
-  `ALLOWED_ORIGINS` and `APP_URL` at the same time.
-- Before investing in the brand, check the Canadian trademarks database for "EduCore" and
-  consider a `.ca` domain as well.
+- Decision: move the site from GitHub Pages to **Cloudflare** (Pages, or Workers with static
+  assets, whichever Cloudflare recommends at the time) at **gradileo.com**, bought through
+  Cloudflare Registrar. Reasons: GitHub Pages' terms do not allow running a business or software
+  service on it; Cloudflare serves static sites free without a bandwidth cap, from data centres in
+  Kigali and Canada; and the domain lives in the same account.
+- The move: deploy from GitHub Actions (so CI still gates every deploy; repository secrets
+  `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`), build for the root path, serve the app for
+  every route, update the Supabase Site URL and redirect URLs, `ALLOWED_ORIGINS` and `APP_URL`,
+  set the video build's site link, and turn the old github.io address into a redirect.
+- Email: Cloudflare Email Routing can forward an address such as hello@gradileo.com for free;
+  verify the domain with the email provider so reminders come from an address at gradileo.com.
+- Before investing further in the brand, check the Canadian (CIPO) and US (USPTO) trademark
+  databases for "Gradileo" in classes 9, 41 and 42.
 
 ## Technical follow-ups
 

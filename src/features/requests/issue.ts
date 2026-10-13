@@ -17,7 +17,7 @@ export function courseIssueBody(r: Pick<CourseRequest, 'id' | 'kind' | 'title' |
     '',
     `- **${r.kind === 'course' ? 'Course' : 'Topic'}:** ${r.title}`,
     `- **Grade:** ${r.grade ?? 'not given'}`,
-    `- **Asked by:** a ${r.requester?.role ?? 'user'} on EduCore`,
+    `- **Asked by:** a ${r.requester?.role ?? 'user'} on Gradileo`,
     `- **Received:** ${r.createdAt.slice(0, 10)}`,
     '',
     '## Details',
@@ -32,7 +32,7 @@ export function courseIssueBody(r: Pick<CourseRequest, 'id' | 'kind' | 'title' |
     '- [ ] Run every check in `CLAUDE.md`, then redeploy `grade-submission` and `ai-agent` after merging.',
     '- [ ] Mark the request as built in the admin inbox so the person who asked is told.',
     '',
-    `EduCore request id: \`${r.id}\``,
+    `Gradileo request id: \`${r.id}\``,
   ].join('\n');
 }
 

@@ -1,5 +1,5 @@
 /**
- * Parser for EduCore lesson Markdown.
+ * Parser for Gradileo lesson Markdown.
  *
  * Lessons are ordinary Markdown with a few directives:
  *

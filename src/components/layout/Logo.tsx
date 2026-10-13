@@ -13,7 +13,7 @@ export function Logo({ compact }: { compact?: boolean }) {
     <span className="inline-flex items-center gap-2.5">
       <LogoMark size={compact ? 30 : 32} />
       <span className="font-display text-[19px] font-semibold tracking-tight text-ink">
-        Edu<span className="text-brand">Core</span>
+        Gradi<span className="text-brand">leo</span>
       </span>
     </span>
   );

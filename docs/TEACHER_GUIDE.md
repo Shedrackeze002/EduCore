@@ -1,4 +1,4 @@
-# Teaching with EduCore
+# Teaching with Gradileo
 
 This guide walks through a normal week. Everything here also works in the demo, so you can try
 each step before your first class.
@@ -7,7 +7,7 @@ each step before your first class.
 
 1. **Create your class** (*New class*). Each class gets a six-character join code.
 2. **Add students** (*Students → Add students*). Paste the names from your class list, one per
-   line. EduCore creates a username and a temporary password for each student; print the login
+   line. Gradileo creates a username and a temporary password for each student; print the login
    cards and hand them out. Students who already have an account can join with the code instead.
 3. **Check the defaults** (*Class settings*): reminder times (24 hours and 2 hours before the
    deadline by default), time zone, and whether the AI autopilot may assign practice.

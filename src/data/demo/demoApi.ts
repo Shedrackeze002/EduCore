@@ -1,5 +1,5 @@
 /**
- * DemoApi: a complete EduCore backend that runs in the browser.
+ * DemoApi: a complete Gradileo backend that runs in the browser.
  *
  * - Data lives in localStorage, so it survives reloads on this device.
  * - Sessions live in sessionStorage, so you can be the teacher in one tab and a
@@ -1100,7 +1100,7 @@ export class DemoApi implements DataApi {
     await this.ready;
     return this.db.aiKey
       ? { live: true, model: this.db.aiModel || DEFAULT_MODEL, note: 'Demo mode: calling MiniMax directly from this browser with your key.' }
-      : { live: false, model: null, note: 'Demo mode uses EduCore’s offline analyst. Add a MiniMax key in Settings, or connect Supabase for production AI.' };
+      : { live: false, model: null, note: 'Demo mode uses Gradileo’s offline analyst. Add a MiniMax key in Settings, or connect Supabase for production AI.' };
   }
 
   async listInsights(classId: string, studentId?: string | null) {
@@ -1280,7 +1280,7 @@ export class DemoApi implements DataApi {
     this.requireAdmin();
     const u = this.user(userId);
     if (on && u.role !== 'teacher') throw new Error('Only teacher accounts can be administrators.');
-    if (!on && !this.db.users.some((x) => x.platformAdmin && !x.disabled && x.id !== userId)) throw new Error('EduCore needs at least one administrator.');
+    if (!on && !this.db.users.some((x) => x.platformAdmin && !x.disabled && x.id !== userId)) throw new Error('Gradileo needs at least one administrator.');
     u.platformAdmin = on;
     if (on) u.teacherStatus = 'approved';
     this.audit(on ? 'admin_granted' : 'admin_revoked', u.id);
@@ -1290,7 +1290,7 @@ export class DemoApi implements DataApi {
     const me = this.requireAdmin();
     if (userId === me.id) throw new Error('You cannot disable your own account.');
     const u = this.user(userId);
-    if (disabled && u.platformAdmin && !this.db.users.some((x) => x.platformAdmin && !x.disabled && x.id !== userId)) throw new Error('EduCore needs at least one administrator.');
+    if (disabled && u.platformAdmin && !this.db.users.some((x) => x.platformAdmin && !x.disabled && x.id !== userId)) throw new Error('Gradileo needs at least one administrator.');
     u.disabled = disabled;
     this.audit(disabled ? 'user_disabled' : 'user_enabled', u.id);
   }
@@ -1357,7 +1357,7 @@ export class DemoApi implements DataApi {
     r.decidedAt = patch.status === 'new' ? null : patch.status === before ? r.decidedAt : nowIso();
     if (patch.status !== before) {
       this.audit(`course_request_${patch.status}`, r.requesterId, { title: r.title });
-      const title = { approved: `Your request is planned: ${r.title}`, done: `Now on EduCore: ${r.title}`, declined: `Your request was not taken up: ${r.title}`, new: '' }[patch.status];
+      const title = { approved: `Your request is planned: ${r.title}`, done: `Now on Gradileo: ${r.title}`, declined: `Your request was not taken up: ${r.title}`, new: '' }[patch.status];
       const body = r.adminNote ?? { approved: 'Thank you. We will build it and tell you when it is ready.', done: 'The course or topic you asked for is ready.', declined: 'Thank you for asking. It is not planned for now.', new: '' }[patch.status];
       if (title) this.notify(r.requesterId, 'announcement', title, body, null);
     }

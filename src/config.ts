@@ -18,7 +18,7 @@ export const SUPABASE_CONFIGURED = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
  */
 export const BACKEND: 'demo' | 'supabase' = SUPABASE_CONFIGURED && getItem('educore-backend') !== 'demo' ? 'supabase' : 'demo';
 
-export const APP_NAME = 'EduCore';
+export const APP_NAME = 'Gradileo';
 export const SUPPORT_EMAIL = (env.VITE_SUPPORT_EMAIL as string | undefined) || '';
 
 /** The GitHub repository where approved course requests become issues for a build session. */

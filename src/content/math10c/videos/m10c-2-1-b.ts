@@ -112,7 +112,7 @@ const video: Explainer = {
         { say: "Let's sum up. Start by writing the tangent ratio with the numbers you know.", show: 'sum.0' },
         { say: "When the unknown is on top, multiply. When it's on the bottom, divide.", show: 'sum.1' },
         { say: 'Check that your answer makes sense.', show: 'sum.2' },
-        { say: 'And use the inverse tangent to find an angle. Now practise these skills in your EduCore lesson. See you next time!', show: 'sum.3' },
+        { say: 'And use the inverse tangent to find an angle. Now practise these skills in your lesson. See you next time!', show: 'sum.3' },
       ],
     },
   ],
