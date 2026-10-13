@@ -351,5 +351,56 @@
         "working": "The angle of elevation from the car is also $32^\\circ$ (alternate angles). The height $45$ m is **opposite** it and the distance $x$ is **adjacent**, so $\\tan 32^\\circ = \\dfrac{45}{x}$ and $x = \\dfrac{45}{\\tan 32^\\circ} \\approx 72.0$ m."
       }
     ]
+  },
+  "m10c-2-4-b": {
+    "lessonId": "m10c-2-4",
+    "title": "Problems with Two Right Triangles",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Opposite sides of a tower",
+        "t": 14.744
+      },
+      {
+        "title": "Two boats on the same side",
+        "t": 61.606
+      },
+      {
+        "title": "A flagpole on a roof",
+        "t": 104.554
+      },
+      {
+        "title": "Add or subtract?",
+        "t": 142.647
+      },
+      {
+        "title": "Your turn",
+        "t": 161.645
+      },
+      {
+        "title": "Summary",
+        "t": 203.188
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-4-b:q",
+        "t": 174.847,
+        "prompt": "From $40$ m away, the angles of elevation to the bottom and the top of a sign on a roof are ${28^\\circ}$ and ${33^\\circ}$. How tall is the sign?",
+        "choices": [
+          "$4.7$ m",
+          "$47.2$ m",
+          "$3.5$ m",
+          "$26.0$ m"
+        ],
+        "answer": 0,
+        "working": "To the top: $40\\tan 33^\\circ \\approx 25.98$ m. To the bottom: $40\\tan 28^\\circ \\approx 21.27$ m. The triangles are stacked, so subtract: $25.98 - 21.27 \\approx 4.7$ m. (Subtracting the angles first, $40\\tan 5^\\circ \\approx 3.5$ m, is a common mistake.)"
+      }
+    ]
   }
 }

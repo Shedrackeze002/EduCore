@@ -48,6 +48,8 @@ const video: Explainer = {
   id: 'm10c-2-4',
   lessonId: 'm10c-2-4',
   title: 'Angles of Elevation and Depression',
+  thumbnailTitle: 'Elevation and Depression',
+  thumbnail: 'cliff',
   summary: 'Measure what you cannot reach: angles of elevation and depression, why they are equal, how to use them to find a distance, and how to find a height with a clinometer. Part 2 solves problems with two right triangles.',
   scenes: [
     {
@@ -81,17 +83,17 @@ const video: Explainer = {
       chapter: 'Finding a distance',
       layout: 'split',
       leftWidth: 660,
-      left: [cliff('d', true)],
+      left: [cliff('cliff', true)],
       right: [
         { kind: 'text', id: 'given', md: 'From the top of an $80$ m cliff, the angle of depression to a boat is $25^\\circ$. How far is the boat from the base of the cliff?', size: 'md', align: 'left' },
         { kind: 'math', id: 'm', size: 'md', lines: ['\\tan\\thc{25^\\circ} = \\dfrac{\\opp{80}}{\\adj{x}}', '\\adj{x} = \\dfrac{80}{\\tan 25^\\circ}', '\\adj{x} \\approx 171.6\\text{ m}'] },
       ],
       lines: [
-        { say: 'Here is a problem. From the top of an eighty metre cliff, the angle of depression to a boat is twenty-five degrees. How far is the boat from the base of the cliff?', show: ['d.water', 'd.cliff', 'd.boat', 'd.sight', 'd.h', 'd.ht', 'd.dep', 'given'] },
-        { say: 'The angle of depression is at the top, but alternate angles are equal, so the angle of elevation from the boat is also twenty-five degrees.', show: 'd.elev', focus: ['d.dep', 'd.elev'] },
-        { say: 'From that angle, the cliff is the opposite side and the distance x is the adjacent side. Opposite and adjacent means tangent.', show: ['d.x', 'd.right', 'm.0'], focus: ['d.h', 'd.x', 'd.elev', 'm.0'] },
+        { say: 'Here is a problem. From the top of an eighty metre cliff, the angle of depression to a boat is twenty-five degrees. How far is the boat from the base of the cliff?', show: ['cliff.water', 'cliff.cliff', 'cliff.boat', 'cliff.sight', 'cliff.h', 'cliff.ht', 'cliff.dep', 'given'] },
+        { say: 'The angle of depression is at the top, but alternate angles are equal, so the angle of elevation from the boat is also twenty-five degrees.', show: 'cliff.elev', focus: ['cliff.dep', 'cliff.elev'] },
+        { say: 'From that angle, the cliff is the opposite side and the distance x is the adjacent side. Opposite and adjacent means tangent.', show: ['cliff.x', 'cliff.right', 'm.0'], focus: ['cliff.h', 'cliff.x', 'cliff.elev', 'm.0'] },
         { say: 'x is on the bottom, so divide. x equals eighty divided by tan twenty-five degrees,', show: 'm.1', focus: 'm.1' },
-        { say: 'which is about 171.6 metres.', show: 'm.2', focus: ['m.2', 'd.x'] },
+        { say: 'which is about 171.6 metres.', show: 'm.2', focus: ['m.2', 'cliff.x'] },
       ],
     },
     {

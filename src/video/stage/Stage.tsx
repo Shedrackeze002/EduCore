@@ -101,14 +101,19 @@ export function fullScene(x: Explainer, si: number): FrameState {
 }
 
 export function Thumbnail({ x, label }: { x: Explainer; label: string }) {
-  const fig = x.scenes.flatMap((s) => [...(s.left ?? []), ...(s.main ?? [])]).find((e): e is TriangleEl | SimilarEl | DiagramEl => e.kind === 'triangle' || e.kind === 'similar' || e.kind === 'diagram');
+  const isFigure = (e: El): e is TriangleEl | SimilarEl | DiagramEl => e.kind === 'triangle' || e.kind === 'similar' || e.kind === 'diagram';
+  const figures = x.scenes.flatMap((s) => [...(s.left ?? []), ...(s.main ?? [])]).filter(isFigure);
+  const fig = (x.thumbnail && figures.find((e) => e.id === x.thumbnail)) || figures[0];
+  const title = x.thumbnailTitle ?? x.title;
+  // A long title takes a smaller size, so it stays clear of the figure.
+  const size = fig ? (title.length > 22 ? 76 : 88) : 104;
   return (
     <div className="v-stage">
       <div style={{ position: 'absolute', left: 80, top: 86, width: fig ? 640 : 1100 }}>
         <div className="v-display" style={{ color: TONES.brand, fontSize: 30, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
           {label}
         </div>
-        <h1 className="v-display v-rich" style={{ fontSize: fig ? 88 : 104, lineHeight: 1.04, fontWeight: 800, margin: '22px 0 0' }} dangerouslySetInnerHTML={{ __html: rich(x.thumbnailTitle ?? x.title) }} />
+        <h1 className="v-display v-rich" style={{ fontSize: size, lineHeight: 1.04, fontWeight: 800, margin: '22px 0 0' }} dangerouslySetInnerHTML={{ __html: rich(title) }} />
         <div style={{ height: 10, width: 220, marginTop: 34, borderRadius: 5, background: `linear-gradient(90deg, ${TONES.brand}, ${TONES.adj})` }} />
       </div>
       {fig && (

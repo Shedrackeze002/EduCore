@@ -44,6 +44,8 @@ export function normalise(text: string): string[] {
     .replace(/\.(?!\d)/g, ' ')
     .split(/\s+/)
     .filter(Boolean)
+    // "x1" as Whisper writes "x one".
+    .flatMap((w) => (/^[a-z]\d+$/.test(w) ? [w[0], w.slice(1)] : [w]))
     .flatMap((w) => (SAME[w] ?? w).split(' '));
   const out: string[] = [];
   let num: number | null = null;

@@ -215,6 +215,8 @@ export interface Explainer {
   title: string;
   /** A shorter title for the thumbnail, when the title is long. */
   thumbnailTitle?: string;
+  /** The id of the figure to show on the thumbnail; the first triangle or diagram otherwise. */
+  thumbnail?: string;
   /** One or two sentences for the YouTube description. */
   summary: string;
   scenes: Scene[];
