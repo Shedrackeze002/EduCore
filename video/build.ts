@@ -23,6 +23,7 @@ import { createServer } from 'vite';
 import { courseOfLesson, lessonById } from '../engine/curriculum/index.ts';
 import { captions, toSrt, toVtt } from '../src/video/captions.ts';
 import { checkScript, type Explainer } from '../src/video/script.ts';
+import { speechText } from '../src/video/words.ts';
 import { clock, compile, youtubeChapters, type Timeline } from '../src/video/timeline.ts';
 import { narrate, useCache, type Voice } from './lib/narrate.ts';
 import { normalise, transcribe, wer } from './lib/qa.ts';
@@ -65,7 +66,7 @@ async function voiceLines(x: Explainer) {
         durations[key] = Math.max(1.2, l.say.split(/\s+/).length / 2.7);
         continue;
       }
-      const clip = await narrate(CACHE, l.say, voice);
+      const clip = await narrate(CACHE, speechText(l.say), voice);
       durations[key] = clip.seconds;
       clips[key] = clip.pcm;
     }
@@ -91,8 +92,8 @@ async function renderVideo(page: Page, tl: Timeline, wav: string, file: string) 
   const frames = Math.ceil(tl.duration * FPS);
   const ff = spawn(
     'ffmpeg',
-    ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-', '-i', wav,
-      '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-tune', 'animation', '-pix_fmt', 'yuv420p', '-r', String(FPS), '-g', String(FPS * 2),
+    ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-i', wav,
+      '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-tune', 'animation', '-pix_fmt', 'yuv420p', '-r', String(FPS), '-g', String(FPS * 2),
       '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', '-shortest', file],
     { stdio: ['pipe', 'inherit', 'inherit'] },
   );
@@ -105,7 +106,9 @@ async function renderVideo(page: Page, tl: Timeline, wav: string, file: string) 
     for (let i = 0; i < frames; i++) {
       const key = await seek(page, i / FPS);
       if (key !== lastKey || !last) {
-        last = await page.screenshot({ type: 'png' });
+        // JPEG at high quality: much faster than PNG to capture and decode, and the H.264 encode
+        // that follows is lossy anyway.
+        last = await page.screenshot({ type: 'jpeg', quality: 95 });
         lastKey = key;
         shots++;
       }

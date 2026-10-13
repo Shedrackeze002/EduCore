@@ -1,0 +1,52 @@
+{
+  "m10c-2-1": {
+    "lessonId": "m10c-2-1",
+    "title": "The Tangent Ratio, Part 1: Naming the Sides",
+    "duration": 218,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Naming the sides",
+        "t": 14.553
+      },
+      {
+        "title": "Similar triangles",
+        "t": 50.151
+      },
+      {
+        "title": "The tangent ratio",
+        "t": 92.425
+      },
+      {
+        "title": "Writing tangent ratios",
+        "t": 113.311
+      },
+      {
+        "title": "Your turn",
+        "t": 160.061
+      },
+      {
+        "title": "Summary",
+        "t": 190.687
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-1:q",
+        "t": 171.445,
+        "prompt": "In $\\triangle PQR$, $\\angle R = 90^\\circ$, $PR = 12$ and $QR = 5$. What is $\\tan P$?",
+        "choices": [
+          "$\\dfrac{12}{5}$",
+          "$\\dfrac{5}{12}$",
+          "$\\dfrac{5}{13}$",
+          "$\\dfrac{12}{13}$"
+        ],
+        "answer": 1
+      }
+    ]
+  }
+}

@@ -42,12 +42,12 @@ const MATH_SIZE = { xl: 54, lg: 42, md: 34 } as const;
 export function MathView({ el, st, center }: { el: MathEl; st?: ElState; center: boolean }) {
   const left = (el.align ?? (center ? 'center' : 'left')) === 'left';
   return (
-    <div className="v-math" style={{ fontSize: MATH_SIZE[el.size ?? 'lg'], display: 'flex', flexDirection: 'column', gap: 10, alignItems: left ? 'flex-start' : 'center' }}>
+    <div className="v-math" style={{ fontSize: MATH_SIZE[el.size ?? 'lg'], display: 'flex', flexDirection: 'column', gap: 8, alignItems: left ? 'flex-start' : 'center' }}>
       {el.lines.map((line, i) => {
         const k = partShown(st, String(i));
         const f = st?.focus[String(i)] ?? 0;
         return (
-          <div key={i} style={{ position: 'relative', padding: '4px 18px', opacity: clamp01(k * 2), clipPath: `inset(-20px ${(1 - k) * 100}% -20px -20px)` }}>
+          <div key={i} style={{ position: 'relative', padding: '10px 18px', opacity: clamp01(k * 2), clipPath: `inset(-20px ${(1 - k) * 100}% -20px -20px)` }}>
             <div style={{ position: 'absolute', inset: 0, borderRadius: 14, background: `rgb(255 209 102 / ${0.12 * f})`, boxShadow: `inset 0 0 0 ${2 * f}px rgb(255 209 102 / ${0.55 * f})` }} />
             <div style={{ position: 'relative' }} {...html(tex(line, true))} />
           </div>

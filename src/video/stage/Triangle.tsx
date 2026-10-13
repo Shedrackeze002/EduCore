@@ -132,8 +132,13 @@ export function TriangleView({ el, st, w, h, labelSize = 30 }: { el: TriangleEl;
         const lab = labels[k];
         if (!lab) return null;
         const [a, b] = sides[k];
-        const n = normal(a, b);
-        return <Label key={k} at={add(mid(a, b), mul(n, 14))} n={n} html={tex(lab)} color={SIDE_TONE[k]} opacity={shown(k)} scale={1 + 0.14 * focus(k)} size={labelSize} />;
+        let n = normal(a, b);
+        let gap = 14;
+        // The wall behind a ladder and the building stand beside the opposite side: clear the
+        // wall, and label the height inside the triangle rather than over the building.
+        if (k === 'opp' && el.setting === 'ladder') gap += 30;
+        if (k === 'opp' && el.setting === 'building') n = [-n[0], -n[1]];
+        return <Label key={k} at={add(mid(a, b), mul(n, gap))} n={n} html={tex(lab)} color={SIDE_TONE[k]} opacity={shown(k)} scale={1 + 0.14 * focus(k)} size={labelSize} />;
       })}
       {labels.theta && <Label at={thetaArc.label} html={tex(labels.theta)} color={TONES.theta} opacity={shown('theta')} scale={1 + 0.14 * focus('theta')} size={labelSize} />}
       {labels.other && <Label at={otherArc.label} html={tex(labels.other)} color={INK} opacity={shown('other')} scale={1 + 0.14 * focus('other')} size={labelSize} />}

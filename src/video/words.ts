@@ -1,13 +1,29 @@
 /**
- * Comparing narration with what a speech recogniser heard: both are reduced to plain words, with
- * numbers as digits, so "thirty-two" and "32" match. Used by the build's pronunciation check.
+ * Narration text: how a line is said (`speechText`), and comparing it with what a speech recogniser
+ * heard: both are reduced to plain words, with numbers as digits, so "thirty-two" and "32" match.
+ * Used by the build's narration and pronunciation check.
  */
+
+/**
+ * The text the voice reads. A capital A on its own is the letter (a vertex, as in "tan A" or
+ * "triangle A B C"), which the voice would read as the article "a", so it is spelled as it sounds;
+ * an A that starts a sentence and is followed by a lower-case word ("A ramp is…") is the article.
+ */
+export function speechText(say: string): string {
+  return say.replace(/\bA\b/g, (m, at: number) => {
+    const sentenceStart = /(^|[.!?]\s+)$/.test(say.slice(0, at));
+    const nextWord = /^\s+([a-z])/.test(say.slice(at + 1));
+    return sentenceStart && nextWord ? m : 'Eh';
+  });
+}
 
 const SMALL: Record<string, number> = {
   zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
   eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19,
 };
 const TENS: Record<string, number> = { twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
+/** "three quarters" is 3 over 4. */
+const PARTS: Record<string, number> = { half: 2, halves: 2, third: 3, thirds: 3, quarter: 4, quarters: 4, fourth: 4, fourths: 4, fifth: 5, fifths: 5, sixth: 6, sixths: 6, seventh: 7, sevenths: 7, eighth: 8, eighths: 8, ninth: 9, ninths: 9, tenth: 10, tenths: 10, twelfth: 12, twelfths: 12 };
 const SAME: Record<string, string> = {
   sign: 'sine', signs: 'sines', cosign: 'cosine', centimeters: 'centimetres', centimeter: 'centimetre', meters: 'metres', meter: 'metre',
   kilometers: 'kilometres', cm: 'centimetres', m: 'metres', km: 'kilometres', degree: 'degrees', '°': 'degrees', okay: 'ok', percent: '%',
@@ -18,7 +34,8 @@ export function normalise(text: string): string[] {
   const raw = text
     .toLowerCase()
     .replace(/(\d),(\d{3})/g, '$1$2')
-    .replace(/[-–—/]/g, ' ')
+    .replace(/\//g, ' over ')
+    .replace(/[-–—]/g, ' ')
     .replace(/[^a-z0-9.%°' ]/g, ' ')
     .replace(/\.(?!\d)/g, ' ')
     .split(/\s+/)
@@ -45,6 +62,11 @@ export function normalise(text: string): string[] {
       let s = `${num}.`;
       while (i + 1 < raw.length && raw[i + 1] in SMALL && SMALL[raw[i + 1]] < 10) s += SMALL[raw[++i]];
       out.push(s);
+      num = null;
+      continue;
+    }
+    if (w in PARTS && num !== null) {
+      out.push(String(num), 'over', String(PARTS[w]));
       num = null;
       continue;
     }
