@@ -198,5 +198,56 @@
         "working": "The ramp is the **hypotenuse** and the rise is **opposite** the angle, so use sine: $h = 4\\sin 12^\\circ \\approx 0.83$ m."
       }
     ]
+  },
+  "m10c-2-3": {
+    "lessonId": "m10c-2-3",
+    "title": "Solving Right Triangles, Part 1: One Side and One Angle",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three tools",
+        "t": 16.771
+      },
+      {
+        "title": "Finding a missing leg",
+        "t": 40.408
+      },
+      {
+        "title": "One side and one angle",
+        "t": 75.301
+      },
+      {
+        "title": "Check with Pythagoras",
+        "t": 122.938
+      },
+      {
+        "title": "Your turn",
+        "t": 144.615
+      },
+      {
+        "title": "Summary",
+        "t": 177.924
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-2-3:q",
+        "t": 158.602,
+        "prompt": "In $\\triangle PQR$, $\\angle R = 90^\\circ$, $\\angle P = {50^\\circ}$ and $PQ = 10$. How long is $QR$, the side **opposite** $\\angle P$?",
+        "choices": [
+          "$10\\sin 50^\\circ \\approx 7.66$",
+          "$10\\cos 50^\\circ \\approx 6.43$",
+          "$10\\tan 50^\\circ \\approx 11.92$",
+          "$\\dfrac{10}{\\sin 50^\\circ} \\approx 13.05$"
+        ],
+        "answer": 0,
+        "working": "$PQ$ is the **hypotenuse** and $QR$ is **opposite** $\\angle P$, so use sine: $QR = 10\\sin 50^\\circ \\approx 7.66$."
+      }
+    ]
   }
 }
