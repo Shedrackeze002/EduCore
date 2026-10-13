@@ -9,7 +9,7 @@ import { videosForLesson, type ExplainerVideo } from '@/content/videos.ts';
 import { useVideoLinks } from '@/data/hooks.ts';
 import { Button } from '@/components/ui/index.ts';
 import { Markdown } from '@/components/math/Markdown.tsx';
-import { crossedCue, isRight } from '@/video/cues.ts';
+import { crossedCues, isRight } from '@/video/cues.ts';
 import type { Cue } from '@/video/timeline.ts';
 import { cn } from '@/lib/cn.ts';
 
@@ -105,6 +105,8 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
   const host = useRef<HTMLDivElement>(null);
   const player = useRef<YTPlayer | null>(null);
   const asked = useRef(new Set<string>());
+  // Questions passed in one check (a slow, background tab) wait here to be asked in turn.
+  const queue = useRef<Cue[]>([]);
   const card = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
   const [ask, setAsk] = useState<Cue | null>(null);
@@ -134,13 +136,14 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
           const now = p.getCurrentTime();
           const clock = performance.now();
           const elapsed = (clock - checkedAt) / 1000;
-          const cue = p.getPlayerState() === YT.PlayerState.PLAYING ? crossedCue(prev, now, video.cues, asked.current, elapsed, p.getPlaybackRate?.() ?? 1) : null;
+          const reached = p.getPlayerState() === YT.PlayerState.PLAYING ? crossedCues(prev, now, video.cues, asked.current, elapsed, p.getPlaybackRate?.() ?? 1) : [];
           prev = now;
           checkedAt = clock;
-          if (cue) {
-            asked.current.add(cue.id);
+          if (reached.length) {
+            for (const c of reached) asked.current.add(c.id);
             p.pauseVideo();
-            setAsk(cue);
+            queue.current = reached.slice(1);
+            setAsk(reached[0]);
           }
         }, 200);
       })
@@ -181,11 +184,13 @@ function CuePlayer({ video, youtubeId }: { video: ExplainerVideo; youtubeId: str
       </div>
       {ask && (
         <CueQuestion
+          key={ask.id}
           focusRef={card}
           cue={ask}
           onDone={() => {
-            setAsk(null);
-            player.current?.playVideo();
+            const next = queue.current.shift();
+            setAsk(next ?? null);
+            if (!next) player.current?.playVideo();
           }}
         />
       )}

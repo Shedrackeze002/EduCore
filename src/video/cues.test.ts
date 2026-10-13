@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { crossedCue, isRight } from './cues.ts';
+import { crossedCues, isRight } from './cues.ts';
 import type { Cue } from './timeline.ts';
 
 const cues: Cue[] = [
@@ -7,26 +7,34 @@ const cues: Cue[] = [
   { id: 'v:q2', t: 90, prompt: 'Q2', answer: '$x = 4$' },
 ];
 
-describe('crossedCue', () => {
+const ids = (list: Cue[]) => list.map((c) => c.id);
+
+describe('crossedCues', () => {
   it('stops at a question reached by playing, once', () => {
-    expect(crossedCue(29.8, 30.05, cues, new Set(), 0.25)?.id).toBe('v:q1');
-    expect(crossedCue(29.8, 30.05, cues, new Set(['v:q1']), 0.25)).toBeNull();
-    expect(crossedCue(30.05, 30.3, cues, new Set(), 0.25)).toBeNull();
-    expect(crossedCue(89.9, 90, cues, new Set(), 0.1)?.id).toBe('v:q2');
+    expect(ids(crossedCues(29.8, 30.05, cues, new Set(), 0.25))).toEqual(['v:q1']);
+    expect(crossedCues(29.8, 30.05, cues, new Set(['v:q1']), 0.25)).toEqual([]);
+    expect(crossedCues(30.05, 30.3, cues, new Set(), 0.25)).toEqual([]);
+    expect(ids(crossedCues(89.9, 90, cues, new Set(), 0.1))).toEqual(['v:q2']);
   });
 
   it('allows for the playback rate and for slow checks', () => {
-    expect(crossedCue(29.6, 30.1, cues, new Set(), 0.25, 2)?.id).toBe('v:q1');
+    expect(ids(crossedCues(29.6, 30.1, cues, new Set(), 0.25, 2))).toEqual(['v:q1']);
     // A background tab checks rarely, but the video kept playing.
-    expect(crossedCue(20, 35, cues, new Set(), 15)?.id).toBe('v:q1');
+    expect(ids(crossedCues(20, 35, cues, new Set(), 15))).toEqual(['v:q1']);
+  });
+
+  it('returns every question a slow check passed, in order, so none is skipped', () => {
+    const late: Cue = { id: 'v:q0', t: 25, prompt: 'Q0', answer: '1' };
+    expect(ids(crossedCues(20, 95, [...cues, late], new Set(), 75))).toEqual(['v:q0', 'v:q1', 'v:q2']);
+    expect(ids(crossedCues(20, 95, [...cues, late], new Set(['v:q1']), 75))).toEqual(['v:q0', 'v:q2']);
   });
 
   it('does not stop when the viewer jumps past a question, even a little, or goes back', () => {
-    expect(crossedCue(10, 60, cues, new Set(), 0.2)).toBeNull();
-    expect(crossedCue(29, 31.5, cues, new Set(), 0.2)).toBeNull();
-    expect(crossedCue(29.6, 30.4, cues, new Set(), 0.0)).toBeNull();
-    expect(crossedCue(29.5, 30.5, cues, new Set(), 0.2)).toBeNull();
-    expect(crossedCue(31, 29, cues, new Set(), 0.2)).toBeNull();
+    expect(crossedCues(10, 60, cues, new Set(), 0.2)).toEqual([]);
+    expect(crossedCues(29, 31.5, cues, new Set(), 0.2)).toEqual([]);
+    expect(crossedCues(29.6, 30.4, cues, new Set(), 0.0)).toEqual([]);
+    expect(crossedCues(29.5, 30.5, cues, new Set(), 0.2)).toEqual([]);
+    expect(crossedCues(31, 29, cues, new Set(), 0.2)).toEqual([]);
   });
 });
 

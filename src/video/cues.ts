@@ -9,15 +9,15 @@ import type { Cue } from './timeline.ts';
 const DRIFT = 0.5;
 
 /**
- * The question the video has just reached, if any: a cue between the previous check and now that
- * has not been asked yet, reached by playing rather than by jumping. Between two checks
+ * The questions the video has just reached, in order: cues between the previous check and now that
+ * have not been asked yet, reached by playing rather than by jumping. Between two checks
  * `elapsed` seconds apart, playing moves the video's time by about `elapsed × rate`; a change
  * that differs from that by more than half a second is a seek, and a slow check
- * (a busy or background tab) still counts as playing.
+ * (a busy or background tab) still counts as playing, so it can pass more than one question.
  */
-export function crossedCue(prev: number, now: number, cues: Cue[], asked: ReadonlySet<string>, elapsed: number, rate = 1): Cue | null {
-  if (!(now > prev) || Math.abs(now - prev - elapsed * rate) > DRIFT) return null;
-  return cues.find((c) => c.t > prev && c.t <= now && !asked.has(c.id)) ?? null;
+export function crossedCues(prev: number, now: number, cues: Cue[], asked: ReadonlySet<string>, elapsed: number, rate = 1): Cue[] {
+  if (!(now > prev) || Math.abs(now - prev - elapsed * rate) > DRIFT) return [];
+  return cues.filter((c) => c.t > prev && c.t <= now && !asked.has(c.id)).sort((a, b) => a.t - b.t);
 }
 
 /** Whether a choice or typed answer is right. Typed answers ignore spacing, case and the $ around maths. */
