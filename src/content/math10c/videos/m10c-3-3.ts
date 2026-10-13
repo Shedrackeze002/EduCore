@@ -7,7 +7,7 @@ const video: Explainer = {
   lessonId: 'm10c-3-3',
   title: 'The Real Number System, Part 1: Rational and Irrational Numbers',
   thumbnailTitle: 'The Real Number System',
-  thumbnail: 'sets',
+  thumbnail: false,
   summary: 'Rational numbers (fractions of integers, whose decimals terminate or repeat), irrational numbers (whose decimals never do), and how the natural, whole, integer, rational and irrational numbers fit together into the real numbers. Part 2 covers radicals, estimating and ordering.',
   scenes: [
     {

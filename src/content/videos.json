@@ -1301,7 +1301,7 @@
   "m10c-3-1-b": {
     "lessonId": "m10c-3-1",
     "title": "Prime Factors, GCF and LCM, Part 2: GCF and LCM",
-    "duration": 247,
+    "duration": 248,
     "voice": "af_heart",
     "chapters": [
       {
@@ -1330,17 +1330,17 @@
       },
       {
         "title": "Your turn",
-        "t": 187.683
+        "t": 188.808
       },
       {
         "title": "Summary",
-        "t": 224.674
+        "t": 225.799
       }
     ],
     "cues": [
       {
         "id": "m10c-3-1-b:q",
-        "t": 200.153,
+        "t": 201.278,
         "prompt": "Hot dogs come in packs of $10$ and buns in packs of $8$. What is the smallest number of each you can buy to have the same number of hot dogs and buns?",
         "choices": [
           "$40$",
@@ -1475,33 +1475,33 @@
       },
       {
         "title": "Irrational numbers",
-        "t": 50.034
+        "t": 50.666
       },
       {
         "title": "Simplify first",
-        "t": 78.88
+        "t": 79.512
       },
       {
         "title": "The real number system",
-        "t": 99.872
+        "t": 100.504
       },
       {
         "title": "Classifying a number",
-        "t": 131.673
+        "t": 132.305
       },
       {
         "title": "Your turn",
-        "t": 159.735
+        "t": 160.367
       },
       {
         "title": "Summary",
-        "t": 182.714
+        "t": 183.347
       }
     ],
     "cues": [
       {
         "id": "m10c-3-3:q",
-        "t": 164.954,
+        "t": 165.586,
         "prompt": "Which number is irrational?",
         "choices": [
           "$\\sqrt{12}$",
@@ -1674,7 +1674,7 @@
   "m10c-3-5": {
     "lessonId": "m10c-3-5",
     "title": "Integral Exponents, Part 1: The Exponent Laws",
-    "duration": 200,
+    "duration": 201,
     "voice": "af_heart",
     "chapters": [
       {
@@ -1687,37 +1687,37 @@
       },
       {
         "title": "The quotient law",
-        "t": 37.501
+        "t": 38.373
       },
       {
         "title": "Power of a power",
-        "t": 57.975
+        "t": 59.445
       },
       {
         "title": "Products and quotients",
-        "t": 77.295
+        "t": 78.765
       },
       {
         "title": "Everything in the brackets",
-        "t": 99.4
+        "t": 100.87
       },
       {
         "title": "Putting them together",
-        "t": 125.223
+        "t": 126.693
       },
       {
         "title": "Your turn",
-        "t": 151.883
+        "t": 153.353
       },
       {
         "title": "Summary",
-        "t": 178.892
+        "t": 180.362
       }
     ],
     "cues": [
       {
         "id": "m10c-3-5:q",
-        "t": 157.326,
+        "t": 158.796,
         "prompt": "Simplify $(2x^4)^3$.",
         "choices": [
           "$8x^{12}$",
@@ -1733,7 +1733,7 @@
   "m10c-3-5-b": {
     "lessonId": "m10c-3-5",
     "title": "Integral Exponents, Part 2: Zero and Negative Exponents",
-    "duration": 184,
+    "duration": 186,
     "voice": "af_heart",
     "chapters": [
       {
@@ -1750,29 +1750,29 @@
       },
       {
         "title": "Negative exponents",
-        "t": 66.48
+        "t": 67.305
       },
       {
         "title": "Evaluating powers",
-        "t": 84.939
+        "t": 86.685
       },
       {
         "title": "Simplifying expressions",
-        "t": 110.875
+        "t": 112.621
       },
       {
         "title": "Your turn",
-        "t": 139.737
+        "t": 141.483
       },
       {
         "title": "Summary",
-        "t": 164.374
+        "t": 166.12
       }
     ],
     "cues": [
       {
         "id": "m10c-3-5-b:q",
-        "t": 145.179,
+        "t": 146.925,
         "prompt": "Evaluate $5^{-2}$.",
         "choices": [
           "$\\tfrac{1}{25}$",
@@ -1788,7 +1788,7 @@
   "m10c-3-6": {
     "lessonId": "m10c-3-6",
     "title": "Rational Exponents, Part 1: Exponents and Radicals",
-    "duration": 200,
+    "duration": 202,
     "voice": "af_heart",
     "chapters": [
       {
@@ -1801,33 +1801,33 @@
       },
       {
         "title": "Rational exponents",
-        "t": 48.777
+        "t": 49.042
       },
       {
         "title": "Converting forms",
-        "t": 76.017
+        "t": 77.208
       },
       {
         "title": "Evaluating",
-        "t": 96.565
+        "t": 97.756
       },
       {
         "title": "Upside down",
-        "t": 130.817
+        "t": 132.008
       },
       {
         "title": "Your turn",
-        "t": 153.031
+        "t": 154.222
       },
       {
         "title": "Summary",
-        "t": 175.418
+        "t": 176.609
       }
     ],
     "cues": [
       {
         "id": "m10c-3-6:q",
-        "t": 158.631,
+        "t": 159.822,
         "prompt": "Evaluate $32^{\\frac35}$.",
         "choices": [
           "$8$",
@@ -1843,7 +1843,7 @@
   "m10c-3-6-b": {
     "lessonId": "m10c-3-6",
     "title": "Rational Exponents, Part 2: The Exponent Laws with Rational Exponents",
-    "duration": 179,
+    "duration": 180,
     "voice": "af_heart",
     "chapters": [
       {
@@ -1864,21 +1864,21 @@
       },
       {
         "title": "A balloon",
-        "t": 97.775
+        "t": 98.075
       },
       {
         "title": "Your turn",
-        "t": 123.703
+        "t": 124.002
       },
       {
         "title": "Summary",
-        "t": 155.599
+        "t": 155.899
       }
     ],
     "cues": [
       {
         "id": "m10c-3-6-b:q",
-        "t": 130.194,
+        "t": 130.494,
         "prompt": "Simplify $\\left(27x^9\\right)^{\\frac13}$.",
         "choices": [
           "$3x^3$",
