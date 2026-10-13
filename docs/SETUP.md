@@ -167,7 +167,8 @@ data entirely, delete the user in **Authentication → Users**.
 ## 3. Your own domain
 
 Gradileo itself runs on Cloudflare at gradileo.com (3.1). A school hosting its own copy can do the
-same with its domain, or keep GitHub Pages with a custom domain (3.2).
+same with its domain, or keep GitHub Pages with a custom domain (3.2). Either way, Cloudflare can
+also forward email sent to the domain (3.3).
 
 ### 3.1 Hosting on Cloudflare
 
@@ -206,6 +207,28 @@ bandwidth limit and creates the domain's DNS records and certificates itself.
 5. Update the Supabase **Site URL**, `ALLOWED_ORIGINS` and `APP_URL` to the new address.
 
 See GitHub's guide to [managing a custom domain for GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+
+### 3.3 Email at your domain
+
+Cloudflare Email Routing forwards mail sent to an address at the domain (admin@gradileo.com) to
+an inbox you already have, free. It only receives mail; sending from the address needs an email
+service such as Resend (2.6). The *Set up email* workflow (`scripts/cloudflare-email.mjs`) turns
+it on through Cloudflare's API.
+
+1. Create a second Cloudflare API token (custom token) with these permissions, limited to your
+   account and the domain's zone, and an expiry a day or two away since it is used once:
+   - Account: **Email Routing Addresses: Edit**
+   - Zone: **Email Routing Rules: Edit** and **Zone Settings: Edit** (this turns on Email Routing
+     and adds its MX and SPF records)
+2. In GitHub, add the repository secrets `CLOUDFLARE_EMAIL_TOKEN` (the token) and
+   `EMAIL_FORWARD_TO` (the inbox). The workflow never prints the inbox, so it stays private in a
+   public repository. The workflow also uses the deploy secrets (3.1) to find the domain.
+3. Run **Actions → Set up email → Run workflow**. It turns on Email Routing, adds the inbox and
+   forwards each address in the script's `ADDRESSES` list to it.
+4. Cloudflare emails the inbox a verification link; nothing is forwarded until it is clicked.
+   Run the workflow again to check that it says **Done**, then send a test message to the address.
+
+To add another address such as hello@, add it to `ADDRESSES` and run the workflow again.
 
 ---
 
