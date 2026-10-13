@@ -18,6 +18,7 @@ import { Badge, Button, Card, CardBody, Checkbox, PageHeader, useToast } from '@
 import { cn } from '@/lib/cn.ts';
 import { chooseStudentClass, useStudentClass } from '../shared/useStudentClass.ts';
 import { saveReviewSkills } from './review.ts';
+import { CourseRequestCard } from '@/features/requests/CourseRequestCard.tsx';
 
 const PLANS: Array<[Plan, string]> = [
   ['university-stem', 'University: science, engineering, health or mathematics'],
@@ -115,6 +116,7 @@ export default function WelcomePage() {
           onBack={() => setStep('course')}
         />
       )}
+      {(step === 'about' || step === 'course') && <CourseRequestCard who="student" className="mt-6" />}
       <p className="mt-8 text-center text-sm text-ink-3">
         <KeyRound className="mr-1.5 inline h-4 w-4 align-[-3px]" />
         Have a class code from your teacher?{' '}

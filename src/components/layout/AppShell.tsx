@@ -9,6 +9,7 @@ import {
   GraduationCap,
   Grid3x3,
   Home,
+  Inbox,
   LayoutDashboard,
   LogOut,
   Menu as MenuIcon,
@@ -70,6 +71,7 @@ const ADMIN_NAV: NavItem[] = [
   { to: '/admin', label: 'Overview', icon: LayoutDashboard, end: true },
   { to: '/admin/users', label: 'Users', icon: Users },
   { to: '/admin/classes', label: 'Classes', icon: School },
+  { to: '/admin/requests', label: 'Course requests', icon: Inbox },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
   { to: '/admin/audit', label: 'Audit log', icon: ScrollText },
 ];

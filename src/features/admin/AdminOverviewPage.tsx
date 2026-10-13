@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Activity, ArrowRight, ClipboardList, Clock3, GraduationCap, Presentation, School, Sparkles, UserX } from 'lucide-react';
-import { useAdminAudit, useAdminOverview, useAdminUsers } from '@/data/hooks.ts';
+import { Activity, ArrowRight, ClipboardList, Clock3, GraduationCap, Inbox, Presentation, School, Sparkles, UserX } from 'lucide-react';
+import { useAdminAudit, useAdminCourseRequests, useAdminOverview, useAdminUsers } from '@/data/hooks.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
 import { Avatar, Badge, Card, CardBody, CardHeader, PageHeader, PageSpinner, Skeleton, StatTile } from '@/components/ui/index.ts';
 import { relative } from '@/lib/dates.ts';
@@ -13,6 +13,8 @@ export default function AdminOverviewPage() {
   const overview = useAdminOverview();
   const pending = useAdminUsers({ status: 'pending', limit: 5 });
   const audit = useAdminAudit(6);
+  const requests = useAdminCourseRequests('new');
+  const newRequests = requests.data?.length ?? 0;
 
   if (overview.isLoading) return <PageSpinner />;
   if (overview.error) return <p className="rounded-xl bg-bad-soft px-4 py-3 text-bad-ink">{(overview.error as Error).message}</p>;
@@ -22,6 +24,16 @@ export default function AdminOverviewPage() {
   return (
     <div className="space-y-6">
       <PageHeader eyebrow="Admin console" title="Platform overview" subtitle="Everyone using EduCore, at a glance." />
+
+      {newRequests > 0 && (
+        <Link to="/admin/requests" className="flex items-center gap-3 rounded-2xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm font-medium text-brand-800 hover:bg-brand-100">
+          <Inbox className="h-5 w-5 shrink-0" />
+          <span className="flex-1">
+            {newRequests} new course {newRequests === 1 ? 'request' : 'requests'} from students and teachers.
+          </span>
+          <span className="font-semibold">Review</span>
+        </Link>
+      )}
 
       {o.pendingTeachers > 0 && (
         <Card className="ring-1 ring-warn/30">

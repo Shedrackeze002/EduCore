@@ -16,6 +16,8 @@ import type {
   AppNotification,
   Assignment,
   ClassSettings,
+  CourseRequestInput,
+  CourseRequestStatus,
   Insight,
   ItemRef,
   JoinResult,
@@ -40,6 +42,7 @@ import {
   toAuditEntry,
   toClass,
   toClassJoinRequest,
+  toCourseRequest,
   toEvent,
   toInsight,
   toMastery,
@@ -727,5 +730,29 @@ export class SupabaseApi implements DataApi {
     const { data, error } = await this.client.rpc('admin_audit', { p_limit: limit });
     fail(error);
     return ((data ?? []) as Array<Record<string, unknown>>).map(toAuditEntry);
+  }
+
+  async adminListCourseRequests(status?: CourseRequestStatus) {
+    const { data, error } = await this.client.rpc('admin_course_requests', { p_status: status ?? null });
+    fail(error);
+    return ((data ?? []) as Array<Record<string, unknown>>).map(toCourseRequest);
+  }
+
+  async adminUpdateCourseRequest(id: string, patch: { status: CourseRequestStatus; note?: string | null; issueUrl?: string | null }) {
+    const { error } = await this.client.rpc('admin_update_course_request', { p_id: id, p_status: patch.status, p_note: patch.note ?? null, p_issue_url: patch.issueUrl ?? null });
+    fail(error);
+  }
+
+  async requestCourse(input: CourseRequestInput) {
+    const { data, error } = await this.client.rpc('request_course', { p_kind: input.kind, p_title: input.title, p_grade: input.grade, p_details: input.details });
+    fail(error);
+    return toCourseRequest(data);
+  }
+
+  async listMyCourseRequests() {
+    const me = await this.uid();
+    const { data, error } = await this.client.from('course_requests').select('*').eq('requester_id', me).order('created_at', { ascending: false }).limit(50);
+    fail(error);
+    return ((data ?? []) as Array<Record<string, unknown>>).map((r) => toCourseRequest({ ...r, requester_id: undefined }));
   }
 }

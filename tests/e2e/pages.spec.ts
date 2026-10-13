@@ -347,3 +347,55 @@ test('a student asks to join a class with its code and the teacher approves', as
   await expect(student.getByText('Approved')).toBeVisible();
   expect([...teacherErrors, ...studentErrors]).toEqual([]);
 });
+
+test('a student requests a course and the administrator plans it through a GitHub issue', async ({ context }) => {
+  const student = await context.newPage();
+  const admin = await context.newPage();
+  const studentErrors = trackErrors(student);
+  const adminErrors = trackErrors(admin);
+
+  await student.goto('/signup');
+  await student.getByLabel('Full name').fill('Ada Learner');
+  await student.getByLabel('Email').fill(`ada.r${Date.now() % 100000}@example.ca`);
+  await student.getByLabel('Password').fill('secret12');
+  await student.getByRole('button', { name: 'Create account' }).click();
+  await student.waitForURL(/\/s\/welcome$/);
+  await student.getByRole('button', { name: 'Request a course' }).click();
+  const dialog = student.getByRole('dialog', { name: 'Request a course or topic' });
+  await dialog.getByLabel('Course name').fill('AP Calculus BC');
+  await dialog.getByLabel('Grade (optional)').selectOption('12');
+  await dialog.getByLabel(/What should it cover/).fill('Series and polar curves for the AP exam.');
+  await dialog.getByRole('button', { name: 'Send request' }).click();
+  await expect(student.getByLabel('Your course requests').getByText('AP Calculus BC')).toBeVisible();
+  await expect(student.getByLabel('Your course requests').getByText('Received')).toBeVisible();
+
+  // The administrator approves it: GitHub's new-issue form opens prefilled, without the student's name.
+  await admin.addInitScript(() => {
+    window.open = ((url: string) => {
+      (window as unknown as { opened: string }).opened = url;
+      return null;
+    }) as typeof window.open;
+  });
+  await signInDemo(admin, 'Teacher');
+  await admin.goto('/admin');
+  await admin.getByRole('link', { name: /1 new course request/ }).click();
+  await expect(admin.getByText('Ada Learner (student)', { exact: false })).toBeVisible();
+  await admin.getByRole('button', { name: 'Approve and open a GitHub issue' }).click();
+  const opened = await admin.evaluate(() => (window as unknown as { opened?: string }).opened ?? '');
+  expect(opened).toContain('https://github.com/Shedrackeze002/EduCore/issues/new?');
+  const issue = new URL(opened).searchParams;
+  expect(issue.get('title')).toBe('Course request: AP Calculus BC');
+  expect(issue.get('body')).toContain('Series and polar curves for the AP exam.');
+  expect(issue.get('body')).not.toContain('Ada');
+  await admin.getByRole('tab', { name: 'Planned' }).click();
+  await admin.getByLabel('GitHub issue link').fill('https://github.com/Shedrackeze002/EduCore/issues/99');
+  await admin.getByRole('button', { name: 'Save link' }).click();
+  await expect(admin.getByText('Issue link saved')).toBeVisible();
+  await admin.getByRole('button', { name: 'Mark as built' }).click();
+  await expect(admin.getByText(/Marked as built/)).toBeVisible();
+
+  // The student sees where the request stands.
+  await student.reload();
+  await expect(student.getByLabel('Your course requests').getByText('Ready')).toBeVisible();
+  expect([...studentErrors, ...adminErrors]).toEqual([]);
+});
