@@ -62,10 +62,11 @@ try {
   const account = env.CLOUDFLARE_ACCOUNT_ID || zone.account.id;
   const routing = `/zones/${zone.id}/email/routing`;
 
-  // 2. Turn on Email Routing, which adds and locks the MX and SPF records it needs.
+  // 2. Turn on Email Routing, which adds and locks the MX and SPF records it needs. (The body names
+  // a subdomain to set up; the domain itself takes an empty one.)
   let settings = await cf('GET', routing, { permission: SETTINGS });
   if (!settings.enabled) {
-    await cf('POST', `${routing}/dns`, { body: { name: DOMAIN }, permission: SETTINGS });
+    await cf('POST', `${routing}/dns`, { body: {}, permission: SETTINGS });
     settings = await cf('GET', routing, { permission: SETTINGS });
     console.log('Turned on Email Routing and added its DNS records.');
   }
