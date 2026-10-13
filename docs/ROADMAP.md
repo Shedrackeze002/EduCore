@@ -86,8 +86,14 @@ items ship or decisions change.
    - Built: Math 10C Unit 2 is complete, eight videos (lessons 2.1 to 2.4, two parts each). Lessons
      2.3 and 2.4 brought a `diagram` element for figures drawn from points (angles of elevation and
      depression, a cliff and a boat, a clinometer, two triangles sharing a side).
-   - Next: the remaining videos unit by unit (Math 10C Unit 1, then Units 3 to 8, then the other
-     courses), each lesson split into parts of about three minutes when it needs more.
+   - Built: Math 10C Unit 1 is complete, sixteen videos (lessons 1.1 to 1.8, two parts each, about
+     two and a half to four minutes). They brought 3-D solids drawn in an oblique view with hidden
+     edges dashed (prisms, cylinders, pyramids, cones, spheres, hemispheres and composites such
+     as a silo), nets that unfold them, rulers (metric and to the sixteenth of an inch), a vernier
+     caliper, and unit squares and cubes for area and volume units (`src/video/solids.ts`,
+     `src/video/measure.ts`).
+   - Next: the remaining videos unit by unit (Math 10C Units 3 to 8, then the other courses),
+     each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
