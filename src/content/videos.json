@@ -1250,5 +1250,52 @@
         "working": "To the top: $40\\tan 33^\\circ \\approx 25.98$ m. To the bottom: $40\\tan 28^\\circ \\approx 21.27$ m. The triangles are stacked, so subtract: $25.98 - 21.27 \\approx 4.7$ m. (Subtracting the angles first, $40\\tan 5^\\circ \\approx 3.5$ m, is a common mistake.)"
       }
     ]
+  },
+  "m10c-3-1": {
+    "lessonId": "m10c-3-1",
+    "title": "Prime Factors, GCF and LCM, Part 1: Prime Factorization",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Prime and composite numbers",
+        "t": 19.641
+      },
+      {
+        "title": "Repeated division",
+        "t": 56.892
+      },
+      {
+        "title": "A factor tree",
+        "t": 100.791
+      },
+      {
+        "title": "Your turn",
+        "t": 143.167
+      },
+      {
+        "title": "Summary",
+        "t": 169.659
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-1:q",
+        "t": 148.854,
+        "prompt": "What is the prime factorization of $84$?",
+        "choices": [
+          "$2^2 \\times 3 \\times 7$",
+          "$2 \\times 42$",
+          "$4 \\times 21$",
+          "$2^2 \\times 21$"
+        ],
+        "answer": 0,
+        "working": "$84 = 2 \\times 42 = 2 \\times 2 \\times 21 = 2^2 \\times 3 \\times 7$."
+      }
+    ]
   }
 }

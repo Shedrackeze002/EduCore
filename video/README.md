@@ -70,6 +70,12 @@ See `src/video/script.ts` for every element and option. In short:
   `d.shape` (every edge), `d.r`, `d.h`, `d.lateral`… Name solids to combine them (a silo is a
   `cylinder({ name: 'c', top: 'front' })` with a `hemisphere({ name: 'm' })` on it: `d.c-shape`).
   Heights are orange, base lengths and radii blue, and slant heights pink in every video.
+- Number figures live in `src/video/numbers.ts`: `factorTree` (it grows level by level,
+  `d.level1`, `d.level2`…, and circles its primes, `d.primes`), `venn` (the primes two numbers
+  share, for the GCF and LCM: `d.both`, `d.lens`, `d.union`), `numberLine` (points and spans
+  placed by value), `tiles` (a rectangle of squares: a tiled floor, or 144 unit squares),
+  `realNumbers` (the sets ℕ ⊂ 𝕎 ⊂ 𝕀 ⊂ ℚ beside ℚ̄, inside ℝ: `d.N`, `d.Q-ex`…) and `pattern` (a
+  row of results with a step between them, like the powers of two halving as the exponent falls).
 
 - Keep each video to about three minutes. Split a long lesson into parts: `m10c-2-1` is part 1,
   `m10c-2-1-b` part 2, and so on.
