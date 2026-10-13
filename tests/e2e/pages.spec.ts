@@ -399,3 +399,46 @@ test('a student requests a course and the administrator plans it through a GitHu
   await expect(student.getByLabel('Your course requests').getByText('Ready')).toBeVisible();
   expect([...studentErrors, ...adminErrors]).toEqual([]);
 });
+
+test('a teacher suggests a lesson edit, an administrator approves it and every class sees it', async ({ context }) => {
+  const teacher = await context.newPage();
+  const student = await context.newPage();
+  const teacherErrors = trackErrors(teacher);
+  const studentErrors = trackErrors(student);
+  const sentence = 'Tip from your teacher: a doorway is about 2 m tall.';
+
+  await signInDemo(teacher, 'Teacher');
+  await teacher.goto('/t/c/c_math10a/lessons/m10c-1-1');
+  await teacher.getByRole('button', { name: 'Suggest edits' }).click();
+  await teacher.getByRole('button', { name: 'Suggest an edit to Two systems of measurement' }).click();
+  const editor = teacher.getByRole('dialog', { name: /Suggest an edit: Two systems of measurement/ });
+  const md = editor.getByLabel('Section Markdown');
+  await md.fill(`${await md.inputValue()}\n\n${sentence}`);
+  await expect(editor.getByLabel('Preview of the suggested section').getByText(sentence)).toBeVisible();
+  await editor.getByLabel(/Why this change/).fill('A familiar referent helps.');
+  await editor.getByRole('button', { name: 'Send for review' }).click();
+  await expect(teacher.getByLabel('Your suggested edits').getByText('Waiting for review')).toBeVisible();
+
+  // The administrator compares, previews and approves it.
+  await teacher.goto('/admin/edits');
+  await expect(teacher.getByLabel('Changes').getByText(sentence)).toBeVisible();
+  await teacher.getByRole('tab', { name: 'Preview' }).click();
+  await expect(teacher.getByLabel('Preview').getByText(sentence)).toBeVisible();
+  await teacher.getByRole('button', { name: 'Approve' }).click();
+  await expect(teacher.getByText('Edit approved. Every class now sees it.')).toBeVisible();
+
+  // Every class sees the edited lesson.
+  await signInDemo(student, 'Student');
+  await student.goto('/s/learn/m10c-1-1');
+  await expect(student.getByText(sentence)).toBeVisible();
+
+  // Reverting brings the original back.
+  await teacher.getByRole('tab', { name: 'Live' }).click();
+  teacher.once('dialog', (d) => d.accept());
+  await teacher.getByRole('button', { name: 'Revert to the original' }).click();
+  await expect(teacher.getByText('Edit reverted')).toBeVisible();
+  await student.reload();
+  await expect(student.getByRole('heading', { name: 'Two systems of measurement' })).toBeVisible();
+  await expect(student.getByText(sentence)).toHaveCount(0);
+  expect([...teacherErrors, ...studentErrors]).toEqual([]);
+});

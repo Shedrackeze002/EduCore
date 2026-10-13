@@ -37,6 +37,37 @@ export interface ClassSettings {
   joinApproval?: boolean;
 }
 
+export type LessonEditStatus = 'pending' | 'approved' | 'declined' | 'withdrawn' | 'replaced' | 'reverted';
+
+/** A teacher's suggested change to one section of a lesson. */
+export interface LessonEdit {
+  id: string;
+  lessonId: string;
+  sectionTitle: string;
+  /** Fingerprint of the file section the edit replaces. */
+  baseHash: string;
+  /** The section as it was when the edit was suggested. */
+  original: string;
+  /** The suggested section Markdown, from its "## " heading. */
+  markdown: string;
+  reason: string | null;
+  status: LessonEditStatus;
+  adminNote: string | null;
+  createdAt: string;
+  decidedAt: string | null;
+  /** Who suggested it (administrator views only). */
+  author?: { id: string; name: string };
+}
+
+export interface LessonEditInput {
+  lessonId: string;
+  sectionTitle: string;
+  baseHash: string;
+  original: string;
+  markdown: string;
+  reason: string;
+}
+
 export type CourseRequestStatus = 'new' | 'approved' | 'declined' | 'done';
 
 /** A request for a course or topic EduCore does not have yet. */

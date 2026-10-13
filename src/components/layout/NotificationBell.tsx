@@ -39,6 +39,8 @@ export function NotificationsBridge() {
         qc.invalidateQueries({ queryKey: ['joinRequests'] });
         qc.invalidateQueries({ queryKey: ['roster'] });
         qc.invalidateQueries({ queryKey: qk.myCourseRequests });
+        qc.invalidateQueries({ queryKey: ['myLessonEdits'] });
+        qc.invalidateQueries({ queryKey: ['lessonEdits'] });
       }
       if (n.kind === 'admin') qc.invalidateQueries({ queryKey: qk.admin });
       toast({ kind: 'info', title: n.title, body: n.body, action: n.link ? { label: 'Open', onClick: () => navRef.current(n.link!) } : undefined });

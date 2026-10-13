@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ExternalLink, FileText, Link2, PenLine, Plus, Presentation, Target, Trash2, Video } from 'lucide-react';
+import { ExternalLink, FileText, Link2, PencilLine, PenLine, Plus, Presentation, Target, Trash2, Video } from 'lucide-react';
 import { lessonById } from '@engine/curriculum/index.ts';
 import { LEVELS, type MasteryLevel } from '@engine/mastery.ts';
 import { useAddResource, useBoards, useDeleteBoard, useDeleteResource, useMastery, usePublications, useResources, useRoster, useSetBoardShared, useSetPublished } from '@/data/hooks.ts';
@@ -8,6 +8,7 @@ import type { Board, Resource } from '@/data/types.ts';
 import { Button, Card, CardBody, CardHeader, EmptyState, IconButton, Input, Modal, PageHeader, Switch, Tabs, Textarea, useToast } from '@/components/ui/index.ts';
 import { MasteryBar, MasteryLegend } from '@/components/mastery/Mastery.tsx';
 import { LessonView } from '@/features/lessons/LessonView.tsx';
+import { MyLessonEdits, SuggestEditModal, type SectionSource } from '@/features/lessons/SuggestEdit.tsx';
 import { videoEmbedUrl } from '@/features/lessons/LessonBlocks.tsx';
 import { BoardPageCanvas, BoardViewer } from '@/features/whiteboard/BoardView.tsx';
 import { fmtDate } from '@/lib/dates.ts';
@@ -25,6 +26,8 @@ export default function TeacherLessonPage() {
   const roster = useRoster(classId);
   const mastery = useMastery({ classId });
   const [adding, setAdding] = useState(false);
+  const [suggesting, setSuggesting] = useState(false);
+  const [editing, setEditing] = useState<SectionSource | null>(null);
   const toast = useToast();
   const isPublished = (pubs.data ?? []).some((p) => p.lessonId === lessonId);
   const mine = (resources.data ?? []).filter((r) => r.lessonId === lessonId);
@@ -63,6 +66,9 @@ export default function TeacherLessonPage() {
               Present
             </Button>
             <AssignMenu classId={classId} lessonId={lessonId} />
+            <Button variant={suggesting ? 'soft' : 'ghost'} icon={<PencilLine className="h-4 w-4" />} onClick={() => setSuggesting((v) => !v)} aria-pressed={suggesting}>
+              {suggesting ? 'Done suggesting' : 'Suggest edits'}
+            </Button>
           </>
         }
       />
@@ -96,7 +102,14 @@ export default function TeacherLessonPage() {
 
       <SavedBoards classId={classId} lessonId={lessonId} />
 
-      <LessonView lessonId={lessonId} resources={mine} />
+      {suggesting && (
+        <p className="rounded-2xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm text-brand-800">
+          Choose <strong>Suggest an edit</strong> on any section below. An administrator reviews each suggestion; once approved, every class sees the change.
+        </p>
+      )}
+      <MyLessonEdits lessonId={lessonId} />
+      <LessonView lessonId={lessonId} resources={mine} onSuggest={suggesting ? setEditing : undefined} />
+      <SuggestEditModal lessonId={lessonId} source={editing} onClose={() => setEditing(null)} />
       <AddResourceModal open={adding} onClose={() => setAdding(false)} classId={classId} lessonId={lessonId} />
     </div>
   );

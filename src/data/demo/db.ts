@@ -7,6 +7,7 @@ import type {
   ClassRoom,
   CourseRequest,
   Insight,
+  LessonEdit,
   LessonPrefs,
   LiveAnswer,
   LiveQuestion,
@@ -64,6 +65,8 @@ export interface DemoDB {
   joinRequests?: DemoJoinRequest[];
   /** Requests for courses or topics EduCore does not have yet (added later). */
   courseRequests?: Array<Omit<CourseRequest, 'requester'> & { requesterId: string }>;
+  /** Teachers' suggested lesson edits (added later). */
+  lessonEdits?: Array<Omit<LessonEdit, 'author'> & { authorId: string }>;
 }
 
 export interface DemoJoinRequest {

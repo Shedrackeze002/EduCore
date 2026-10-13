@@ -20,6 +20,9 @@ import type {
   CourseRequest,
   CourseRequestInput,
   CourseRequestStatus,
+  LessonEdit,
+  LessonEditInput,
+  LessonEditStatus,
   ClassSettings,
   JoinResult,
   MyJoinRequest,
@@ -168,6 +171,15 @@ export interface DataApi {
   adminAuditLog(limit?: number): Promise<AdminAuditEntry[]>;
   adminListCourseRequests(status?: CourseRequestStatus): Promise<CourseRequest[]>;
   adminUpdateCourseRequest(id: string, patch: { status: CourseRequestStatus; note?: string | null; issueUrl?: string | null }): Promise<void>;
+
+  adminListLessonEdits(status?: LessonEditStatus): Promise<LessonEdit[]>;
+  adminDecideLessonEdit(id: string, status: 'approved' | 'declined' | 'reverted', note?: string | null): Promise<void>;
+
+  // Lesson edits: approved ones apply to every class; teachers suggest new ones
+  listApprovedLessonEdits(lessonId: string): Promise<LessonEdit[]>;
+  listMyLessonEdits(lessonId: string): Promise<LessonEdit[]>;
+  suggestLessonEdit(input: LessonEditInput): Promise<LessonEdit>;
+  withdrawLessonEdit(id: string): Promise<void>;
 
   // Course requests (any signed-in user)
   requestCourse(input: CourseRequestInput): Promise<CourseRequest>;

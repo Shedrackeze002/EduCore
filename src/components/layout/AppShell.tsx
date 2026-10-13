@@ -6,6 +6,7 @@ import {
   ChevronsUpDown,
   ClipboardList,
   Compass,
+  FilePenLine,
   GraduationCap,
   Grid3x3,
   Home,
@@ -72,6 +73,7 @@ const ADMIN_NAV: NavItem[] = [
   { to: '/admin/users', label: 'Users', icon: Users },
   { to: '/admin/classes', label: 'Classes', icon: School },
   { to: '/admin/requests', label: 'Course requests', icon: Inbox },
+  { to: '/admin/edits', label: 'Lesson edits', icon: FilePenLine },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
   { to: '/admin/audit', label: 'Audit log', icon: ScrollText },
 ];

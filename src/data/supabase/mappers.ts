@@ -8,6 +8,7 @@ import type {
   Assignment,
   ClassJoinRequest,
   CourseRequest,
+  LessonEdit,
   ClassRoom,
   Insight,
   MyJoinRequest,
@@ -287,4 +288,19 @@ export const toCourseRequest = (r: Row): CourseRequest => ({
   createdAt: r.created_at,
   decidedAt: r.decided_at ?? null,
   ...(r.requester_id ? { requester: { id: r.requester_id, name: r.requester_name ?? 'Unknown', role: r.requester_role === 'teacher' ? 'teacher' : 'student' } } : {}),
+});
+
+export const toLessonEdit = (r: Row): LessonEdit => ({
+  id: r.id,
+  lessonId: r.lesson_id,
+  sectionTitle: r.section_title,
+  baseHash: r.base_hash,
+  original: r.original ?? '',
+  markdown: r.markdown,
+  reason: r.reason ?? null,
+  status: r.status,
+  adminNote: r.admin_note ?? null,
+  createdAt: r.created_at,
+  decidedAt: r.decided_at ?? null,
+  ...(r.author_name ? { author: { id: r.author_id, name: r.author_name } } : {}),
 });

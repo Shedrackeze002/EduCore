@@ -30,11 +30,13 @@ export function renderMath(tex: string, display = false): string {
 }
 
 /**
- * Render Markdown with $inline$ and $$display$$ math.
- * `\$` is a literal dollar sign. Set `sanitize` for user-authored content.
+ * Render Markdown with $inline$ and $$display$$ math. `\$` is a literal dollar sign.
+ * The HTML is always sanitized: lessons can include teacher edits approved by an administrator,
+ * and sanitizing leaves EduCore's own lessons and questions unchanged (checked for every lesson and
+ * generated question). `sanitize` is kept for callers that mark user-authored content.
  */
 export function renderMarkdown(md: string, opts: { inline?: boolean; sanitize?: boolean } = {}): string {
-  const key = `${opts.inline ? 'i' : 'b'}${opts.sanitize ? 's' : ''}::${md}`;
+  const key = `${opts.inline ? 'i' : 'b'}::${md}`;
   const hit = cache.get(key);
   if (hit) return hit;
 
@@ -52,7 +54,7 @@ export function renderMarkdown(md: string, opts: { inline?: boolean; sanitize?: 
   html = html.replace(/\u0000M(\d+)\u0000/g, (_, i: string) => maths[Number(i)]).replace(/\u0000DOLLAR\u0000/g, '$');
   // Wrap tables for horizontal scrolling on small screens.
   html = html.replace(/<table>/g, '<div class="table-wrap"><table>').replace(/<\/table>/g, '</table></div>');
-  if (opts.sanitize) html = DOMPurify.sanitize(html, { ADD_ATTR: ['target'] });
+  html = DOMPurify.sanitize(html, { ADD_ATTR: ['target'] });
   if (cache.size > MAX_CACHE) cache.clear();
   cache.set(key, html);
   return html;
