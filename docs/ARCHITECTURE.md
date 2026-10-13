@@ -68,6 +68,25 @@ implementations exist:
 - **SupabaseApi** maps rows to domain types (`mappers.ts`), uses RPCs and Edge Functions for
   anything sensitive, and subscribes to new notifications with Supabase Realtime.
 
+## Present mode (`src/features/lessons/`)
+
+`slides.ts` turns a lesson into a deck: a title slide, the hook, teaching slides (text split into
+paragraphs and list items, figures beside the text), worked examples, one "Your turn" slide per
+check, key takeaways, the teacher's videos and activities, and an end slide. Short leftovers are
+packed onto a neighbouring slide so no slide is nearly empty. Items get keys from their content,
+which is what "Choose what to show" stores (`lesson_prefs.hidden`) per class and lesson.
+
+`deck/` draws each slide at 1600 × 900 and scales it to the screen. `FitContent` sizes the text to
+fill the slide (CSS `zoom`, binary search between 0.6 and 1.3); items not yet revealed keep their
+space, so nothing jumps while a slide builds. Builds and transitions are CSS animations in
+`index.css` (`fx-*`, `tx-*`), switched off by the reduced-motion setting.
+
+The whiteboard (`src/features/whiteboard/`, `src/lib/ink.ts`) stores vector ink in board units,
+so boards look the same on any screen. Pointer Events give one path for pen, mouse and touch:
+pen pressure sets the width, a stylus's eraser end erases, and palm rejection ignores fingers once
+a pen is used, ignores broad contacts, and lets a pen replace a resting hand's stroke. Boards are
+saved to `boards` (teacher-only unless shared with the class).
+
 ## Security model (Supabase)
 
 - **Row-level security on every table.** Teachers see only their own classes and the students
@@ -87,6 +106,8 @@ implementations exist:
   has no client access. Self sign-up teachers start as `pending` when approval is required, and
   `can_teach()` keeps them from creating classes until approved. Disabled accounts are banned in
   Auth and rejected by every Edge Function.
+- **Presenting.** `lesson_prefs` (hidden slide parts) is visible to the class's teacher only;
+  `boards` are visible to the teacher, and to enrolled students only when the teacher shares one.
 - **Secrets** (MiniMax, Resend, cron secret) live in Edge Function secrets or Vault, never in the
   browser bundle.
 

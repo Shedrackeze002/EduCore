@@ -47,15 +47,9 @@ export function BlockView({ block, large }: { block: Block; large?: boolean }) {
   }
 }
 
-/**
- * A worked example whose steps are revealed one at a time. Present mode can control the reveal
- * (`shown` and `onShownChange`) so the presenter's Next key steps through it.
- */
-export function ExampleBlock({ block, large, presenter, shown: controlled, onShownChange }: { block: Extract<Block, { type: 'example' }>; large?: boolean; presenter?: boolean; shown?: number; onShownChange?: (n: number) => void }) {
+export function ExampleBlock({ block, large, presenter }: { block: Extract<Block, { type: 'example' }>; large?: boolean; presenter?: boolean }) {
   const total = block.steps.length + (block.answer ? 1 : 0);
-  const [own, setOwn] = useState(0);
-  const shown = controlled ?? own;
-  const setShown = (n: number) => (onShownChange ? onShownChange(n) : setOwn(n));
+  const [shown, setShown] = useState(0);
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
       <div className="flex items-center justify-between gap-3 border-b border-line bg-surface-2/60 px-4 py-2.5">
@@ -81,7 +75,7 @@ export function ExampleBlock({ block, large, presenter, shown: controlled, onSho
         )}
         {shown < total ? (
           <div className="flex flex-wrap items-center gap-2">
-            <Button size="sm" variant="soft" icon={<Eye className="h-4 w-4" />} onClick={() => setShown(shown + 1)}>
+            <Button size="sm" variant="soft" icon={<Eye className="h-4 w-4" />} onClick={() => setShown((s) => s + 1)}>
               {shown === 0 ? (presenter ? 'Show first step' : 'Try it first, then show step 1') : shown === block.steps.length ? 'Show answer' : `Show step ${shown + 1}`}
             </Button>
             {shown < total - 1 && (
@@ -104,7 +98,7 @@ export function ExampleBlock({ block, large, presenter, shown: controlled, onSho
 }
 
 /** An embedded, ungraded practice question generated fresh from a skill. */
-export function CheckBlock({ skillId, difficulty }: { skillId: string; difficulty: Difficulty }) {
+export function CheckBlock({ skillId, difficulty, onResult }: { skillId: string; difficulty: Difficulty; onResult?: (correct: boolean) => void }) {
   const loaded = useSkillsReady([skillId]);
   const skill = loaded === 'ready' ? getSkill(skillId) : undefined;
   const [seed, setSeed] = useState(() => freshSeed());
@@ -121,6 +115,7 @@ export function CheckBlock({ skillId, difficulty }: { skillId: string; difficult
       return;
     }
     setResult(r);
+    onResult?.(r.correct);
   };
   const again = () => {
     setSeed(freshSeed());

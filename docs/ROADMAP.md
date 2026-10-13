@@ -17,16 +17,17 @@ items ship or decisions change.
   2016 program of studies, every outcome checked word for word against new LearnAlberta. Every
   Alberta mathematics course from Grade 5 to Grade 12 is now available.
 - Platform administration: admin console, teacher approval, account controls, audit log.
+- Present mode as a slide deck, with a whiteboard: 16:9 slides that build point by point with
+  transitions, worked examples step by step, "Your turn" slides with the interactive questions,
+  drawing on slides, a whiteboard with pen pressure and palm rejection saved to the lesson (and
+  shared with students), a timer, a student picker, embedded videos and activities, and "Choose
+  what to show" per class.
 
 ## Next, in order
 
-1. **Whiteboard and a dynamic present mode.**
-   - A whiteboard opened from present mode and closed back to the slide; pressure-sensitive pen
-     (Apple Pencil, styluses), mouse and touch, with palm rejection; boards can be saved to the
-     lesson.
-   - Present mode with more slides revealed step by step, animation, embedded videos, live class
-     questions answered on students' devices with results on screen, and a timer. Lessons stay
-     comprehensive: teachers hide what they do not want rather than students missing content.
+1. **Live class questions.** From a "Your turn" slide, send the question to the class; students
+   answer on their own devices and the results appear on the slide (how many answered, how many
+   were right, the common wrong answers), without names on the projector.
 2. **Student self-sign-up, AI course placement and course requests.**
    - Onboarding asks grade, stream and goals; the AI recommends a course.
    - Decision: **both** paths. Students land in a self-paced section by default (the AI acts as
@@ -44,6 +45,9 @@ items ship or decisions change.
      schools that need true lockdown.
 5. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
+   - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
+     two minutes or longer depending on difficulty; harder lessons (expected mostly in Grades
+     9–12) get more than one. They must be high quality and fully explanatory.
    - Start with a pilot of about 3 videos for one unit to settle style and voice.
    - Decision: narration with a cloned human voice, a paid voice or a free voice, chosen by cost
      at the pilot stage. The channel owner uploads; the build produces the files.

@@ -1,32 +1,51 @@
 /**
- * Full-screen lesson presentation for teaching.
+ * Full-screen lesson presentation, shown as a slide deck.
  *
- *  - Step by step: Next reveals one block at a time, and the steps of a worked example one by one.
- *  - Draw on a slide, or open a whiteboard and come back to the same slide.
- *  - A class timer, a blank screen, and the teacher's own videos as slides.
- *  - "Choose what to show" hides blocks from the slides for this class. Lessons stay complete:
+ *  - Every slide is a 16:9 slide scaled to the screen, with its own layout; text, figures and
+ *    worked-example steps build in one at a time, and slides change with transitions.
+ *  - The lesson's interactive checks are on "Your turn" slides, unchanged.
+ *  - Draw on a slide, open a whiteboard, run a timer, pick a student, blank the screen.
+ *  - "Choose what to show" hides parts from the slides for this class. Lessons stay complete:
  *    students still see every part on their lesson page.
  */
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Eye, EyeOff, ListOrdered, Maximize2, Minimize2, MonitorOff, PenLine, SquarePen, Timer, X } from 'lucide-react';
+import { BookOpen, ChevronLeft, ChevronRight, EyeOff, LayoutGrid, Maximize2, Minimize2, MonitorOff, PenLine, Settings2, Shuffle, SquarePen, Timer, X } from 'lucide-react';
 import { lessonById, unitById } from '@engine/curriculum/index.ts';
-import { Button, PageSpinner } from '@/components/ui/index.ts';
-import { useBoards, useLessonPrefs, useResources, useSaveBoard, useSetHiddenBlocks } from '@/data/hooks.ts';
+import { Button, Menu, PageSpinner, Switch } from '@/components/ui/index.ts';
+import { useBoards, useLessonPrefs, useResources, useRoster, useSaveBoard, useSetHiddenBlocks } from '@/data/hooks.ts';
 import { inkCommit, inkDoc, inkRedo, inkUndo, type InkDoc } from '@/lib/ink.ts';
 import { getItem, setItem } from '@/lib/storage.ts';
 import { cn } from '@/lib/cn.ts';
 import { InkSurface } from '@/features/whiteboard/InkSurface.tsx';
 import { InkToolbar, useInkTools } from '@/features/whiteboard/InkToolbar.tsx';
 import { Whiteboard } from '@/features/whiteboard/Whiteboard.tsx';
-import { BlockView, CheckBlock, ExampleBlock, VideoEmbed } from './LessonBlocks.tsx';
 import { useLessonContent } from './LessonView.tsx';
 import { PresentTimer } from './PresentTimer.tsx';
-import { buildSlides, lastStep, presentedSlides, revealAt, stepFor, type SlideBlock } from './slides.ts';
+import { buildSlides, fixedSlide, lastStep, presentedSlides, revealAt, type Slide } from './slides.ts';
+import { SlideView, type DeckLesson } from './deck/SlideView.tsx';
+import { SLIDE_H, SLIDE_W, useStageScale } from './deck/fit.tsx';
+import { Confetti } from './deck/Confetti.tsx';
+import { StudentPicker } from './deck/StudentPicker.tsx';
 
 const STEPS_KEY = 'educore-present-steps';
-/** Board units across a slide, for ink drawn on slides. */
-const SLIDE_UNITS = 1000;
+const TX_KEY = 'educore-present-transitions';
+type TxMode = 'dynamic' | 'fade' | 'off';
+
+interface Transition {
+  in: string;
+  out: string;
+}
+
+/** Bigger moments get bigger transitions: a new part of the lesson zooms, a new activity rises. */
+function transitionFor(from: Slide, to: Slide, dir: number, mode: TxMode): Transition | null {
+  if (mode === 'off') return null;
+  if (mode === 'fade') return { in: 'tx-fade-in', out: 'tx-fade-out' };
+  const newPart = !!to.part && (!from.part || from.part.n !== to.part.n);
+  if (fixedSlide(to) || fixedSlide(from) || to.kind === 'hook' || newPart) return { in: 'tx-zoom-in', out: 'tx-zoom-out' };
+  if (to.kind === 'check' && dir > 0) return { in: 'tx-rise-in', out: 'tx-fade-out' };
+  return dir >= 0 ? { in: 'tx-push-in-next', out: 'tx-push-out-next' } : { in: 'tx-push-in-prev', out: 'tx-push-out-prev' };
+}
 
 function HeaderButton({ label, icon, on, onClick, shortcut }: { label: string; icon: ReactNode; on?: boolean; onClick: () => void; shortcut?: string }) {
   return (
@@ -39,10 +58,16 @@ function HeaderButton({ label, icon, on, onClick, shortcut }: { label: string; i
       className={cn('inline-flex h-9 items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-ink-2 hover:bg-surface-2', on && 'bg-brand-100 text-brand-800 hover:bg-brand-100')}
     >
       {icon}
-      <span className="hidden xl:inline">{label}</span>
+      <span className="hidden 2xl:inline">{label}</span>
     </button>
   );
 }
+
+function Scaled({ scale, children }: { scale: number; children: ReactNode }) {
+  return <div style={{ width: SLIDE_W, height: SLIDE_H, transform: `scale(${scale})`, transformOrigin: 'top left' }}>{children}</div>;
+}
+
+const KIND_LABEL: Record<Slide['kind'], string> = { title: 'Title', hook: 'Introduction', content: 'Teaching', example: 'Worked example', check: 'Your turn', summary: 'Key takeaways', video: 'Video', link: 'Activity', end: 'Lesson complete' };
 
 export default function PresentMode() {
   const { classId = '', lessonId = '' } = useParams();
@@ -51,29 +76,40 @@ export default function PresentMode() {
   const unit = meta ? unitById(meta.unitId) : undefined;
   const { content, error } = useLessonContent(lessonId);
   const resources = useResources(classId);
+  const roster = useRoster(classId);
   const prefs = useLessonPrefs(classId, lessonId);
   const setHiddenBlocks = useSetHiddenBlocks(classId, lessonId);
   const boards = useBoards(classId, lessonId);
   const saveBoard = useSaveBoard(classId, lessonId);
   const tools = useInkTools();
 
-  const videos = useMemo(
-    () => (resources.data ?? []).filter((r) => r.lessonId === lessonId && r.kind === 'video' && r.url).map((r) => ({ id: r.id, url: r.url!, title: r.title })),
+  const lessonResources = useMemo(
+    () =>
+      (resources.data ?? [])
+        .filter((r) => r.lessonId === lessonId && (r.kind === 'video' || r.kind === 'link') && r.url)
+        .map((r) => ({ id: r.id, kind: r.kind as 'video' | 'link', url: r.url!, title: r.title })),
     [resources.data, lessonId],
   );
-  const allSlides = useMemo(() => (content && meta ? buildSlides(content, meta.title, videos) : []), [content, meta, videos]);
+  const allSlides = useMemo(() => (content && meta ? buildSlides(content, meta.title, lessonResources) : []), [content, meta, lessonResources]);
   const hidden = useMemo(() => new Set(prefs.data?.hidden ?? []), [prefs.data]);
   const [editing, setEditing] = useState(false);
   const slides = useMemo(() => (editing ? allSlides : presentedSlides(allSlides, hidden)), [editing, allSlides, hidden]);
+  const deckLesson: DeckLesson | null = meta
+    ? { number: meta.number, title: meta.title, unitLabel: unit ? `Unit ${unit.number} · ${unit.title}` : '', objectives: meta.objectives, vocabulary: meta.vocabulary ?? [], minutes: meta.minutes }
+    : null;
 
   const [stepsOn, setStepsOn] = useState(() => getItem(STEPS_KEY) !== 'off');
+  const [txMode, setTxMode] = useState<TxMode>(() => {
+    const v = getItem(TX_KEY);
+    return v === 'fade' || v === 'off' ? v : 'dynamic';
+  });
   const build = stepsOn && !editing;
   const [pos, setPos] = useState({ id: 'title', step: 0, dir: 1 });
   const lastIx = useRef(0);
   let ix = slides.findIndex((s) => s.id === pos.id);
   if (ix < 0) ix = Math.max(0, Math.min(lastIx.current, slides.length - 1));
   lastIx.current = ix;
-  const slide = slides[ix];
+  const slide: Slide | undefined = slides[ix];
   const maxStep = slide ? lastStep(slide) : 0;
   const step = build ? Math.min(pos.step, maxStep) : maxStep;
 
@@ -81,18 +117,42 @@ export default function PresentMode() {
   const [drawing, setDrawing] = useState(false);
   const [boardOpen, setBoardOpen] = useState(false);
   const [timerOpen, setTimerOpen] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [overview, setOverview] = useState(false);
   const [blank, setBlank] = useState(false);
+  const [confetti, setConfetti] = useState(0);
+  const celebrate = useCallback(() => setConfetti((c) => c + 1), []);
   const [notes, setNotes] = useState<Record<string, InkDoc>>({});
   const note = (slide && notes[slide.id]) || inkDoc();
   const editNote = useCallback((fn: (d: InkDoc) => InkDoc) => slide && setNotes((n) => ({ ...n, [slide.id]: fn(n[slide.id] ?? inkDoc()) })), [slide]);
+  const [stageRef, scale] = useStageScale();
 
-  const mainRef = useRef<HTMLElement>(null);
-  const blockRefs = useRef(new Map<string, HTMLDivElement>());
+  // The slide leaving the screen stays for the length of the transition.
+  const shown = useRef<{ slide: Slide; step: number } | null>(null);
+  const [exiting, setExiting] = useState<{ slide: Slide; step: number; tx: Transition } | null>(null);
+  useLayoutEffect(() => {
+    if (!slide) return;
+    const was = shown.current;
+    shown.current = { slide, step };
+    if (!was || was.slide.id === slide.id) return;
+    const tx = transitionFor(was.slide, slide, pos.dir, txMode);
+    setExiting(tx ? { slide: was.slide, step: was.step, tx } : null);
+    if (slide.kind === 'end' && pos.dir > 0) celebrate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slide, step]);
+  useEffect(() => {
+    if (!exiting) return;
+    const t = setTimeout(() => setExiting(null), 650);
+    return () => clearTimeout(t);
+  }, [exiting]);
 
-  const goTo = useCallback((k: number, stepAt = 0, dir = 1) => {
-    const s = slides[k];
-    if (s) setPos({ id: s.id, step: stepAt, dir });
-  }, [slides]);
+  const goTo = useCallback(
+    (k: number, stepAt = 0, dir = 1) => {
+      const s = slides[k];
+      if (s) setPos({ id: s.id, step: stepAt, dir });
+    },
+    [slides],
+  );
   const next = useCallback(() => {
     if (!slide) return;
     if (build && step < maxStep) setPos({ id: slide.id, step: step + 1, dir: 0 });
@@ -109,21 +169,9 @@ export default function PresentMode() {
     navigate(`/t/c/${classId}/lessons/${lessonId}`);
   }, [navigate, classId, lessonId]);
 
-  // A new slide starts at the top; a newly revealed block scrolls into view.
-  useEffect(() => {
-    mainRef.current?.scrollTo({ top: 0 });
-  }, [slide?.id]);
-  useEffect(() => {
-    if (!build || pos.dir !== 0 || !slide) return;
-    const reveal = revealAt(slide, step);
-    const lastVisible = reveal.map((r, k) => (r.visible ? k : -1)).filter((k) => k >= 0).pop();
-    const el = lastVisible === undefined ? null : blockRefs.current.get(slide.blocks[lastVisible].key);
-    el?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' });
-  }, [build, step, pos.dir, slide]);
-
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (boardOpen) return; // the whiteboard has its own keys
+      if (boardOpen || pickerOpen) return; // they handle their own keys
       const t = e.target as HTMLElement | null;
       if (t?.closest?.('input, textarea, select, [contenteditable="true"]')) return;
       if (blank) {
@@ -140,6 +188,11 @@ export default function PresentMode() {
         return;
       }
       if (e.altKey) return;
+      const lower = k.length === 1 ? k.toLowerCase() : k;
+      if (overview) {
+        if (k === 'Escape' || lower === 'o') setOverview(false);
+        return;
+      }
       if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && t?.tagName !== 'BUTTON')) {
         e.preventDefault();
         next();
@@ -148,13 +201,15 @@ export default function PresentMode() {
         prev();
       } else if (k === 'Home') goTo(0, 0, -1);
       else if (k === 'End') goTo(slides.length - 1, 0, 1);
-      else if (k === 'w' || k === 'W') setBoardOpen(true);
-      else if (k === 'd' || k === 'D') setDrawing((d) => !d);
-      else if (k === 't' || k === 'T') setTimerOpen(true);
-      else if (k === 'b' || k === 'B' || k === '.') setBlank(true);
-      else if (drawing && (k === 'p' || k === 'P')) tools.setMode('pen');
-      else if (drawing && (k === 'h' || k === 'H')) tools.setMode('highlighter');
-      else if (drawing && (k === 'e' || k === 'E')) tools.setMode('eraser');
+      else if (drawing && lower === 'p') tools.setMode('pen');
+      else if (drawing && lower === 'h') tools.setMode('highlighter');
+      else if (drawing && lower === 'e') tools.setMode('eraser');
+      else if (lower === 'w') setBoardOpen(true);
+      else if (lower === 'd') setDrawing((d) => !d);
+      else if (lower === 't') setTimerOpen(true);
+      else if (lower === 'r') setPickerOpen(true);
+      else if (lower === 'o') setOverview(true);
+      else if (lower === 'b' || k === '.') setBlank(true);
       else if (k === 'Escape') {
         if (drawing) setDrawing(false);
         else if (editing) setEditing(false);
@@ -168,7 +223,7 @@ export default function PresentMode() {
       window.removeEventListener('keydown', onKey);
       document.removeEventListener('fullscreenchange', onFs);
     };
-  }, [boardOpen, blank, drawing, editing, next, prev, goTo, slides.length, exit, editNote, tools]);
+  }, [boardOpen, pickerOpen, blank, drawing, editing, overview, next, prev, goTo, slides.length, exit, editNote, tools]);
 
   const setHidden = (keys: string[], hide: boolean) => {
     const nextSet = new Set(hidden);
@@ -179,80 +234,83 @@ export default function PresentMode() {
     setHiddenBlocks.mutate([...nextSet]);
   };
 
-  if (!meta) return null;
+  if (!meta || !deckLesson) return null;
   if (error) return <div className="p-8 text-ink-3">{error}</div>;
   if (!content || !slide) return <PageSpinner label="Preparing slides…" />;
-  const reveal = build ? revealAt(slide, step) : null;
-  const hiddenHere = slide.blocks.filter((b) => hidden.has(b.key)).length;
-  const slideHidden = slide.kind !== 'title' && slide.blocks.length > 0 && hiddenHere === slide.blocks.length;
 
-  const renderBlock = (sb: SlideBlock, k: number) => {
-    const r = reveal?.[k];
-    if (r && !r.visible) return null;
-    const b = sb.block;
-    const isHidden = editing && hidden.has(sb.key);
-    return (
-      <div
-        key={sb.key}
-        ref={(el) => {
-          if (el) blockRefs.current.set(sb.key, el);
-          else blockRefs.current.delete(sb.key);
-        }}
-        className={cn('relative', reveal && 'motion-safe:animate-slide-up', editing && 'rounded-2xl outline-dashed outline-2 outline-offset-4', editing && (isHidden ? 'outline-line-strong' : 'outline-transparent hover:outline-brand-200'))}
-      >
-        {editing && (
-          <button
-            type="button"
-            onClick={() => setHidden([sb.key], !isHidden)}
-            className={cn('absolute -top-3 right-2 z-10 inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold shadow-card', isHidden ? 'border-brand-300 bg-brand text-brand-ink' : 'border-line bg-surface text-ink-2 hover:bg-surface-2')}
-          >
-            {isHidden ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
-            {isHidden ? 'Show on slides' : 'Hide'}
-          </button>
-        )}
-        <div className={cn(isHidden && 'opacity-35')}>
-          {b.type === 'example' ? (
-            <ExampleBlock block={b} large presenter shown={r ? r.shown : undefined} onShownChange={r ? (n) => setPos({ id: slide.id, step: stepFor(slide, k, n), dir: 0 }) : undefined} />
-          ) : b.type === 'check' ? (
-            <div className="text-lg">
-              <CheckBlock skillId={b.skillId} difficulty={b.difficulty} />
-            </div>
-          ) : b.type === 'video' ? (
-            <VideoEmbed url={b.url} title={b.title} />
-          ) : (
-            <BlockView block={b} large />
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  const showInk = drawing || note.strokes.length > 0;
+  const reveal = revealAt(slide, step);
+  const showInk = (drawing || note.strokes.length > 0) && !exiting;
+  const atStart = ix === 0 && (!build || step === 0);
+  const atEnd = ix === slides.length - 1 && step >= maxStep;
+  const hiddenCount = new Set(allSlides.flatMap((s) => s.items.map((x) => x.blockKey)).filter((k) => hidden.has(k))).size;
+  const endActions = (
+    <>
+      <button type="button" onClick={() => navigate(`/t/c/${classId}/assignments/new?type=practice&skills=${meta.skills.join(',')}`)} className="rounded-2xl bg-white px-8 py-4 text-[24px] font-semibold text-spotlight hover:bg-white/90">
+        Assign practice
+      </button>
+      <button type="button" onClick={exit} className="rounded-2xl px-8 py-4 text-[24px] font-semibold text-white ring-2 ring-white/40 hover:bg-white/10">
+        Back to the lesson
+      </button>
+    </>
+  );
 
   return (
-    <div className="flex h-[100dvh] flex-col bg-canvas">
+    <div className="flex h-[100dvh] flex-col bg-[#0d0f18]">
       <header className="flex items-center justify-between gap-3 border-b border-line bg-surface px-3 py-2 sm:px-4">
         <div className="min-w-0 truncate text-sm">
           <span className="font-semibold">Lesson {meta.number}</span>
-          <span className="hidden text-ink-3 md:inline"> · Unit {unit?.number} {unit?.title}</span>
+          <span className="hidden text-ink-3 md:inline"> · {meta.title}</span>
         </div>
         <div className="flex shrink-0 items-center gap-0.5">
-          <HeaderButton
-            label="Step by step"
-            icon={<ListOrdered className="h-5 w-5" />}
-            on={stepsOn}
-            onClick={() => {
-              setStepsOn(!stepsOn);
-              setItem(STEPS_KEY, stepsOn ? 'off' : 'on');
-            }}
-          />
+          <HeaderButton label="Slides" shortcut="O" icon={<LayoutGrid className="h-5 w-5" />} on={overview} onClick={() => setOverview(!overview)} />
           <HeaderButton label="Choose what to show" icon={<EyeOff className="h-5 w-5" />} on={editing} onClick={() => (setEditing(!editing), setDrawing(false))} />
           <HeaderButton label="Draw" shortcut="D" icon={<PenLine className="h-5 w-5" />} on={drawing} onClick={() => (setDrawing(!drawing), setEditing(false))} />
           <HeaderButton label="Whiteboard" shortcut="W" icon={<SquarePen className="h-5 w-5" />} onClick={() => setBoardOpen(true)} />
           <HeaderButton label="Timer" shortcut="T" icon={<Timer className="h-5 w-5" />} on={timerOpen} onClick={() => setTimerOpen(!timerOpen)} />
+          <HeaderButton label="Pick a student" shortcut="R" icon={<Shuffle className="h-5 w-5" />} onClick={() => setPickerOpen(true)} />
           <HeaderButton label="Blank screen" shortcut="B" icon={<MonitorOff className="h-5 w-5" />} onClick={() => setBlank(true)} />
+          <Menu
+            trigger={() => (
+              <button type="button" className="inline-flex h-9 items-center rounded-lg px-2 text-ink-2 hover:bg-surface-2" aria-label="Slide settings" title="Slide settings">
+                <Settings2 className="h-5 w-5" />
+              </button>
+            )}
+          >
+            {() => (
+              <div className="w-64 space-y-4 p-2">
+                <Switch
+                  checked={stepsOn}
+                  onChange={(v) => {
+                    setStepsOn(v);
+                    setItem(STEPS_KEY, v ? 'on' : 'off');
+                  }}
+                  label={<span className="text-sm">Build slides step by step</span>}
+                />
+                <div>
+                  <div className="mb-1.5 text-sm font-medium">Transitions</div>
+                  <div className="grid grid-cols-3 gap-1 rounded-xl bg-surface-2 p-1" role="radiogroup" aria-label="Transitions">
+                    {(['dynamic', 'fade', 'off'] as TxMode[]).map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        role="radio"
+                        aria-checked={txMode === m}
+                        onClick={() => {
+                          setTxMode(m);
+                          setItem(TX_KEY, m);
+                        }}
+                        className={cn('rounded-lg py-1.5 text-sm font-medium capitalize', txMode === m ? 'bg-surface text-ink shadow-card' : 'text-ink-3 hover:text-ink')}
+                      >
+                        {m}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </Menu>
           <span className="mx-1 h-6 w-px bg-line" />
-          <button type="button" className="rounded-lg p-2 text-ink-2 hover:bg-surface-2" onClick={() => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.())} aria-label="Toggle full screen">
+          <button type="button" className="rounded-lg p-2 text-ink-2 hover:bg-surface-2" onClick={() => void (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.())?.catch(() => undefined)} aria-label="Toggle full screen">
             {full ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
           </button>
           <button type="button" className="rounded-lg p-2 text-ink-2 hover:bg-surface-2" onClick={exit} aria-label="Exit presentation">
@@ -266,9 +324,9 @@ export default function PresentMode() {
           <EyeOff className="h-4 w-4 shrink-0" />
           <span className="min-w-0 flex-1">
             Hide the parts you will not teach to this class. Students still see the whole lesson on their lesson page.
-            {hidden.size > 0 && <strong className="ml-1">{hidden.size} hidden.</strong>}
+            {hiddenCount > 0 && <strong className="ml-1">{hiddenCount} hidden.</strong>}
           </span>
-          {hidden.size > 0 && (
+          {hiddenCount > 0 && (
             <Button size="xs" variant="ghost" onClick={() => setHiddenBlocks.mutate([])}>
               Show everything
             </Button>
@@ -279,55 +337,54 @@ export default function PresentMode() {
         </div>
       )}
 
-      <main ref={mainRef} className="relative flex-1 overflow-y-auto">
-        <div key={slide.id} className={cn('relative mx-auto w-full max-w-5xl px-4 py-8 sm:px-10', pos.dir > 0 && 'motion-safe:animate-slide-in-right', pos.dir < 0 && 'motion-safe:animate-slide-in-left')}>
-          {slide.kind === 'title' ? (
-            <div className="py-6">
-              <div className="text-sm font-semibold uppercase tracking-widest text-brand-700">Lesson {meta.number}</div>
-              <h1 className="mt-3 text-4xl font-semibold leading-tight sm:text-6xl">{meta.title}</h1>
-              <ul className="mt-8 space-y-3 text-xl text-ink-2">
-                {meta.objectives.map((o) => (
-                  <li key={o} className="flex gap-3">
-                    <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-brand" />
-                    {o}
-                  </li>
-                ))}
-              </ul>
-              {slide.blocks.length > 0 && <div className="mt-8 space-y-5 text-xl">{slide.blocks.map(renderBlock)}</div>}
-            </div>
-          ) : (
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  {slide.kind === 'video' && <div className="text-sm font-semibold uppercase tracking-widest text-brand-700">Video</div>}
-                  <h2 className={cn('text-3xl font-semibold sm:text-4xl', slideHidden && 'text-ink-3 line-through decoration-2')}>{slide.title}</h2>
-                </div>
-                {editing && (
-                  <Button size="sm" variant={slideHidden ? 'primary' : 'secondary'} icon={slideHidden ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />} onClick={() => setHidden(slide.blocks.map((b) => b.key), !slideHidden)}>
-                    {slideHidden ? 'Show this slide' : 'Hide this slide'}
-                  </Button>
-                )}
+      <main ref={stageRef} className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden">
+        {scale > 0 && (
+          <div className="relative overflow-hidden rounded-md shadow-[0_30px_90px_-20px_rgba(0,0,0,0.7)]" style={{ width: SLIDE_W * scale, height: SLIDE_H * scale }} aria-roledescription="slide" aria-label={`Slide ${ix + 1} of ${slides.length}: ${slide.title}`}>
+            {exiting && (
+              <div key={`exit-${exiting.slide.id}`} className={cn('tx pointer-events-none absolute inset-0', exiting.tx.out)} aria-hidden="true">
+                <Scaled scale={scale}>
+                  <SlideView slide={exiting.slide} reveal={revealAt(exiting.slide, exiting.step)} index={Math.max(0, slides.findIndex((s) => s.id === exiting.slide.id))} total={slides.length} lesson={deckLesson} still />
+                </Scaled>
               </div>
-              {slide.blocks.map(renderBlock)}
+            )}
+            <div key={slide.id} className={cn('absolute inset-0', exiting && cn('tx', exiting.tx.in))}>
+              <Scaled scale={scale}>
+                <SlideView
+                  slide={slide}
+                  reveal={reveal}
+                  index={ix}
+                  total={slides.length}
+                  lesson={deckLesson}
+                  editing={editing}
+                  hidden={hidden}
+                  onToggle={setHidden}
+                  onCheckResult={(correct) => correct && celebrate()}
+                  endActions={endActions}
+                  enterDelay={exiting ? 380 : 0}
+                />
+              </Scaled>
             </div>
-          )}
-          {showInk && (
-            <div className="absolute inset-0 z-20">
-              <InkSurface
-                strokes={note.strokes}
-                onCommit={(strokes) => editNote((d) => inkCommit(d, strokes))}
-                mode={tools.mode}
-                color={tools.color}
-                size={tools.size}
-                unitsWide={SLIDE_UNITS}
-                penOnly={tools.penOnly}
-                onPen={tools.onPen}
-                active={drawing}
-                label="Drawing on the slide"
-              />
+            {showInk && (
+              <div className="absolute inset-0 z-20">
+                <InkSurface
+                  strokes={note.strokes}
+                  onCommit={(strokes) => editNote((d) => inkCommit(d, strokes))}
+                  mode={tools.mode}
+                  color={tools.color}
+                  size={tools.size}
+                  unitsWide={SLIDE_W}
+                  penOnly={tools.penOnly}
+                  onPen={tools.onPen}
+                  active={drawing}
+                  label="Drawing on the slide"
+                />
+              </div>
+            )}
+            <div className="absolute inset-x-0 top-0 z-30 h-1 bg-black/10">
+              <div className="h-full bg-brand transition-[width] duration-500" style={{ width: `${((ix + 1) / slides.length) * 100}%` }} />
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </main>
 
       {drawing && (
@@ -345,42 +402,69 @@ export default function PresentMode() {
         </div>
       )}
 
-      <footer className="border-t border-line bg-surface px-3 py-3 sm:px-4">
-        <div className="mx-auto flex max-w-5xl items-center gap-3">
-          <button type="button" disabled={ix === 0 && (!build || step === 0)} onClick={prev} className="inline-flex items-center gap-1 rounded-xl px-3 py-2 font-medium text-ink-2 hover:bg-surface-2 disabled:opacity-40">
+      <footer className="border-t border-white/10 bg-[#0d0f18] px-3 py-3 text-white/80 sm:px-4">
+        <div className="mx-auto flex max-w-6xl items-center gap-3">
+          <button type="button" disabled={atStart} onClick={prev} className="inline-flex items-center gap-1 rounded-xl px-3 py-2 font-medium hover:bg-white/10 disabled:opacity-40">
             <ChevronLeft className="h-5 w-5" /> Back
           </button>
-          <div className="flex flex-1 items-center justify-center gap-1.5 overflow-hidden">
-            {slides.map((s, k) => {
-              const off = editing && s.kind !== 'title' && s.blocks.length > 0 && s.blocks.every((b) => hidden.has(b.key));
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => goTo(k, 0, k >= ix ? 1 : -1)}
-                  aria-label={`Slide ${k + 1}: ${s.title}`}
-                  aria-current={k === ix ? 'step' : undefined}
-                  className={cn('h-2 shrink-0 rounded-full transition-all', k === ix ? 'w-6 bg-brand' : off ? 'w-2 border border-line-strong bg-transparent' : 'w-2 bg-line-strong hover:bg-ink-3')}
-                />
-              );
-            })}
-          </div>
-          <span className="hidden text-sm tabular-nums text-ink-3 sm:block">
-            {ix + 1} / {slides.length}
+          <button type="button" onClick={() => setOverview(true)} className="flex min-w-0 flex-1 items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm hover:bg-white/10" aria-label="Show all slides">
+            <span className="tabular-nums">
+              Slide {ix + 1} of {slides.length}
+            </span>
             {build && maxStep > 0 && (
-              <span className="ml-2 text-xs">
-                · step {step + 1} of {maxStep + 1}
+              <span className="flex items-center gap-1" aria-label={`Step ${step + 1} of ${maxStep + 1}`}>
+                {Array.from({ length: maxStep + 1 }, (_, k) => (
+                  <span key={k} className={cn('h-1.5 rounded-full transition-all', k <= step ? 'w-4 bg-brand-300' : 'w-1.5 bg-white/25')} />
+                ))}
               </span>
             )}
-          </span>
-          <button type="button" disabled={ix === slides.length - 1 && step >= maxStep} onClick={next} className="inline-flex items-center gap-1 rounded-xl bg-brand px-4 py-2 font-medium text-brand-ink hover:bg-brand-700 disabled:opacity-40">
+            <span className="hidden truncate text-white/50 md:inline">· {slide.title}</span>
+          </button>
+          <button type="button" disabled={atEnd} onClick={next} className="inline-flex items-center gap-1 rounded-xl bg-brand px-4 py-2 font-medium text-brand-ink hover:bg-brand-700 disabled:opacity-40">
             Next <ChevronRight className="h-5 w-5" />
           </button>
         </div>
       </footer>
 
+      {overview && (
+        <div className="fixed inset-0 z-[45] overflow-y-auto bg-[#0d0f18]/95 p-6 text-white" role="dialog" aria-modal="true" aria-label="All slides">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="flex items-center gap-2 text-lg font-semibold">
+                <BookOpen className="h-5 w-5" /> {meta.title}
+              </h2>
+              <button type="button" className="rounded-lg p-2 hover:bg-white/10" onClick={() => setOverview(false)} aria-label="Close">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {slides.map((s, k) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => {
+                    goTo(k, 0, k >= ix ? 1 : -1);
+                    setOverview(false);
+                  }}
+                  className={cn('aspect-video rounded-xl p-4 text-left ring-1 transition hover:-translate-y-0.5 hover:ring-brand-300', k === ix ? 'bg-brand/30 ring-brand-300' : 'bg-white/5 ring-white/10')}
+                >
+                  <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-white/50">
+                    <span>{KIND_LABEL[s.kind]}</span>
+                    <span>{k + 1}</span>
+                  </div>
+                  <div className="mt-2 line-clamp-3 font-display text-base font-semibold leading-snug">{s.title}</div>
+                  {s.part && <div className="mt-1 text-xs text-white/50">Part {s.part.n}</div>}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <Whiteboard open={boardOpen} onClose={() => setBoardOpen(false)} tools={tools} lessonTitle={meta.title} boards={boards.data} onSave={(b) => saveBoard.mutateAsync(b)} />
       <PresentTimer open={timerOpen} onClose={() => setTimerOpen(false)} />
+      <StudentPicker open={pickerOpen} onClose={() => setPickerOpen(false)} students={roster.data ?? []} onPicked={celebrate} />
+      <Confetti fire={confetti} />
       {blank && <button type="button" className="fixed inset-0 z-[70] cursor-default bg-black" onClick={() => setBlank(false)} aria-label="Show the slide again" />}
     </div>
   );

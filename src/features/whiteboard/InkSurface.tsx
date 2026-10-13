@@ -131,13 +131,19 @@ export function InkSurface({ strokes, onCommit, mode, color, size, unitsWide, ba
     if (a.erasing) {
       const gone = erased.current;
       erased.current = new Set();
-      if (commit && gone.size) commitFn(now.filter((s) => !gone.has(s)));
-      else setEraseTick((t) => t + 1);
+      if (commit && gone.size) {
+        const next = now.filter((s) => !gone.has(s));
+        // Strokes can end faster than React re-renders: the next one must build on this one.
+        latest.current.strokes = next;
+        commitFn(next);
+      } else setEraseTick((t) => t + 1);
       return;
     }
     if (commit && a.builder && a.builder.stroke.points.length) {
       clearLive.current = true;
-      commitFn([...now, a.builder.stroke]);
+      const next = [...now, a.builder.stroke];
+      latest.current.strokes = next;
+      commitFn(next);
     } else {
       prepare(live.current);
     }

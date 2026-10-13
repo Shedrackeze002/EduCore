@@ -208,26 +208,28 @@ export function Whiteboard({ open, onClose, tools, lessonTitle, boards, onSave }
           Back to slide
         </Button>
       </header>
-      <main ref={fitRef} className="relative flex min-h-0 flex-1 items-center justify-center p-3 pb-20 sm:p-5 sm:pb-24">
-        {fit.w > 0 && (
-          <div className="overflow-hidden rounded-2xl bg-surface shadow-card ring-1 ring-line" style={{ width: fit.w, height: fit.h }}>
-            {open && (
-              <InkSurface
-                strokes={page.doc.strokes}
-                onCommit={(strokes) => updatePage((p) => ({ ...p, doc: inkCommit(p.doc, strokes) }))}
-                mode={tools.mode}
-                color={tools.color}
-                size={tools.size}
-                unitsWide={BOARD_W}
-                background={page.background}
-                penOnly={tools.penOnly}
-                onPen={tools.onPen}
-                active
-                label={`Whiteboard, page ${ix + 1}`}
-              />
-            )}
-          </div>
-        )}
+      <main className="relative min-h-0 flex-1">
+        <div ref={fitRef} className="absolute inset-x-3 bottom-20 top-3 flex items-center justify-center sm:inset-x-5 sm:bottom-24 sm:top-5">
+          {fit.w > 0 && (
+            <div className="overflow-hidden rounded-2xl bg-surface shadow-card ring-1 ring-line" style={{ width: fit.w, height: fit.h }}>
+              {open && (
+                <InkSurface
+                  strokes={page.doc.strokes}
+                  onCommit={(strokes) => updatePage((p) => ({ ...p, doc: inkCommit(p.doc, strokes) }))}
+                  mode={tools.mode}
+                  color={tools.color}
+                  size={tools.size}
+                  unitsWide={BOARD_W}
+                  background={page.background}
+                  penOnly={tools.penOnly}
+                  onPen={tools.onPen}
+                  active
+                  label={`Whiteboard, page ${ix + 1}`}
+                />
+              )}
+            </div>
+          )}
+        </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center px-3 sm:bottom-5">
           <InkToolbar
             className="pointer-events-auto"
