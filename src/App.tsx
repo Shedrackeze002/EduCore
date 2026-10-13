@@ -39,6 +39,7 @@ const AssignmentIntro = lazy(() => import('./features/student/AssignmentIntro.ts
 const Player = lazy(() => import('./features/player/AssignmentPlayer.tsx'));
 const Practice = lazy(() => import('./features/player/PracticeSession.tsx'));
 const Progress = lazy(() => import('./features/student/ProgressPage.tsx'));
+const LiveAnswer = lazy(() => import('./features/live/StudentLive.tsx'));
 
 const AdminOverview = lazy(() => import('./features/admin/AdminOverviewPage.tsx'));
 const AdminUsers = lazy(() => import('./features/admin/AdminUsersPage.tsx'));
@@ -98,6 +99,7 @@ export default function App() {
                     <Route path="work" element={<Work />} />
                     <Route path="work/:assignmentId" element={<AssignmentIntro />} />
                     <Route path="progress" element={<Progress />} />
+                    <Route path="live" element={<LiveAnswer />} />
                   </Route>
                   <Route path="/s/work/:assignmentId/take" element={<RequireRole role="student"><Player /></RequireRole>} />
                   <Route path="/s/practice" element={<RequireRole role="student"><Practice /></RequireRole>} />

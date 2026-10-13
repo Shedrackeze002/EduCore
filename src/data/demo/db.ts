@@ -7,6 +7,8 @@ import type {
   ClassRoom,
   Insight,
   LessonPrefs,
+  LiveAnswer,
+  LiveQuestion,
   PlatformSettings,
   Profile,
   Publication,
@@ -55,6 +57,8 @@ export interface DemoDB {
   /** Presenting (added later; older saved demos may lack these). */
   boards?: Board[];
   lessonPrefs?: LessonPrefs[];
+  liveQuestions?: LiveQuestion[];
+  liveAnswers?: LiveAnswer[];
 }
 
 export const DB_KEY = 'educore-demo-db-v1';

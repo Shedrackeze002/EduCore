@@ -22,28 +22,29 @@ items ship or decisions change.
   drawing on slides, a whiteboard with pen pressure and palm rejection saved to the lesson (and
   shared with students), a timer, a student picker, embedded videos and activities, and "Choose
   what to show" per class.
+- Live class questions: from a "Your turn" slide the teacher sends the question to every
+  student's device; answers arrive in real time and the slide shows how many answered, how many
+  were right, each choice's share or the common wrong answers, without names. Students see
+  whether they were right and the worked solution when the teacher shows the results.
 
 ## Next, in order
 
-1. **Live class questions.** From a "Your turn" slide, send the question to the class; students
-   answer on their own devices and the results appear on the slide (how many answered, how many
-   were right, the common wrong answers), without names on the projector.
-2. **Student self-sign-up, AI course placement and course requests.**
+1. **Student self-sign-up, AI course placement and course requests.**
    - Onboarding asks grade, stream and goals; the AI recommends a course.
    - Decision: **both** paths. Students land in a self-paced section by default (the AI acts as
      tutor) and can request to join a teacher's class, which the teacher approves.
    - Missing topics become course requests in an admin inbox; requests the admin approves become
      GitHub issues for a build session.
-3. **Teacher edit suggestions with admin approval.** Teachers suggest changes on a lesson page;
+2. **Teacher edit suggestions with admin approval.** Teachers suggest changes on a lesson page;
    approved edits are stored in the database as a layer over the lesson files.
-4. **Lockdown for quizzes and exams — only when the teacher turns it on, per assessment.**
+3. **Lockdown for quizzes and exams — only when the teacher turns it on, per assessment.**
    - Full-screen exam mode; leaving it or switching tabs is logged and shown to the teacher, with
      optional lock or auto-submit after a set number of exits.
    - Camera mode is a separate teacher choice. Decision: **no snapshots are stored**; the camera
      only has to be on. Students and parents see a consent notice.
    - A website cannot stop a student closing a tab; a Safe Exam Browser option can be added for
      schools that need true lockdown.
-5. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
+4. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
      two minutes or longer depending on difficulty; harder lessons (expected mostly in Grades
@@ -51,6 +52,24 @@ items ship or decisions change.
    - Start with a pilot of about 3 videos for one unit to settle style and voice.
    - Decision: narration with a cloned human voice, a paid voice or a free voice, chosen by cost
      at the pilot stage. The channel owner uploads; the build produces the files.
+5. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+   teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
+   on), the question formats and every other setting, then presses one button (name to settle;
+   for example "Draft with AI") and the AI drafts the questions from the course curriculum and
+   the class.
+   - Question formats: single choice, multiple choice (several answers), short answers graded by
+     the engine (numbers, expressions, equations, points), open-ended written answers, and
+     "solve it on the canvas" questions where students work on a whiteboard and show their steps
+     (this needs a new canvas answer type built on the whiteboard's ink, graded by the teacher
+     with an AI-suggested mark).
+   - Settings: the units, lessons or outcomes to cover, number of questions, difficulty mix,
+     marks, time limit, attempts, dates, feedback and every other option the builder already has.
+   - "Based on the class": weight the questions towards the skills the class has not yet
+     mastered, using the mastery data.
+   - Auto-graded questions come from the engine's generators (fresh numbers for each student);
+     the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
+     marking guides. The teacher previews everything, regenerates or edits single questions, and
+     publishes; nothing reaches students without the teacher's approval.
 6. **Other subjects**, once mathematics is complete.
 
 ## Hosting
@@ -69,3 +88,14 @@ items ship or decisions change.
 - Update Math 7, 8 and 9 to Alberta's new Grades 7–9 curriculum before it becomes mandatory in
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
+- The *Deploy Supabase backend* workflow skips itself because its repository secrets
+  (`SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD`) are not set, so
+  migrations are applied by hand and recorded in `supabase_migrations.schema_migrations`. Add the
+  secrets so merges apply migrations and redeploy the Edge Functions on their own.
+- Live class questions, next steps: a teacher-only list of who has and has not answered (never on
+  the projector), an optional countdown per question, and counting live answers as practice
+  evidence for mastery.
+- Figures: label number-line ticks as fractions where a lesson works in fractions, and make the
+  shading of filled shapes on coordinate grids a little stronger.
+- The main JavaScript bundle is about 875 KB (240 KB compressed); split the remaining large
+  shared modules so first loads are faster on school networks.

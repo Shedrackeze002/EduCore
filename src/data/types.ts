@@ -1,6 +1,6 @@
 /** Domain model shared by the demo (browser) backend and the Supabase backend. */
 import type { AssignmentContent, AssignmentSettings, AssignmentType, StoredResponse } from '@engine/assemble.ts';
-import type { ItemRef } from '@engine/types.ts';
+import type { Difficulty, ItemRef } from '@engine/types.ts';
 import type { SkillState } from '@engine/mastery.ts';
 import type { InsightData, ProposedAction } from '@engine/ai/types.ts';
 import type { BoardPage } from '@/lib/ink.ts';
@@ -92,6 +92,29 @@ export interface LessonPrefs {
   lessonId: string;
   /** Keys of the lesson blocks hidden from the slides (see slideKeys in PresentMode). */
   hidden: string[];
+}
+
+/**
+ * A question the teacher sends to the class during a lesson. Every student gets the same question
+ * (the skill, difficulty and seed fix it); answers are graded on the teacher's screen.
+ */
+export interface LiveQuestion {
+  id: string;
+  classId: string;
+  lessonId: string | null;
+  skillId: string;
+  difficulty: Difficulty;
+  seed: number;
+  /** Open questions take answers; closed ones show their results. */
+  status: 'open' | 'closed';
+  createdAt: string;
+}
+
+export interface LiveAnswer {
+  questionId: string;
+  studentId: string;
+  responses: string[];
+  answeredAt: string;
 }
 
 export type AssignmentStatus = 'draft' | 'published' | 'archived';

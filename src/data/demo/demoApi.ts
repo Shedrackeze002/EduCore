@@ -9,7 +9,8 @@
 import { freshSeed } from '@engine/rng.ts';
 import { buildItemRefs, DEFAULT_SETTINGS, isQuestionType, TYPE_LABEL, type StoredResponse } from '@engine/assemble.ts';
 import { processSubmission, validateRefs } from '@engine/submit.ts';
-import { loadSkills } from '@engine/curriculum/index.ts';
+import { getSkill, loadSkills } from '@engine/curriculum/index.ts';
+import { Rng } from '@engine/rng.ts';
 import { refSkillIds } from '@/lib/useSkills.ts';
 import { dueReminders } from '@engine/reminders.ts';
 import { draftFromAction } from '@engine/actions.ts';
@@ -33,6 +34,8 @@ import type {
   Insight,
   ItemRef,
   LessonPrefs,
+  LiveAnswer,
+  LiveQuestion,
   NewStudentCredential,
   NotificationKind,
   Profile,
@@ -46,6 +49,7 @@ import type {
 import { clearDb, DB_KEY, loadDb, saveDb, type DemoDB, type DemoUser } from './db.ts';
 import { buildSeed, DEMO_PASSWORD, DEMO_TEACHER_EMAIL } from './seed.ts';
 import { buildAnalystInput } from './analyst.ts';
+import { simulatedResponses } from './liveSim.ts';
 import { uid, joinCode as makeJoinCode, friendlyPassword } from '@/lib/ids.ts';
 
 const SESSION_KEY = 'educore-demo-session';
@@ -82,6 +86,7 @@ export class DemoApi implements DataApi {
   private ready: Promise<void>;
   private authListeners = new Set<(u: Profile | null) => void>();
   private notifListeners = new Set<(n: AppNotification) => void>();
+  private liveListeners = new Set<() => void>();
   private seenNotifications = new Set<string>();
 
   constructor() {
@@ -93,6 +98,8 @@ export class DemoApi implements DataApi {
         if (!fresh) return;
         this.db = fresh;
         this.emitNewNotifications();
+        // Another tab (a student's, or the teacher's) may have changed a live question.
+        this.liveListeners.forEach((l) => l());
       });
     }
   }
@@ -111,6 +118,8 @@ export class DemoApi implements DataApi {
     this.db.audit ??= [];
     this.db.boards ??= [];
     this.db.lessonPrefs ??= [];
+    this.db.liveQuestions ??= [];
+    this.db.liveAnswers ??= [];
     if (!existing || !existing.audit) saveDb(this.db);
     const me = this.meOrNull();
     for (const n of this.db.notifications) if (!me || n.userId === me.id) this.seenNotifications.add(n.id);
@@ -119,7 +128,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [] };
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [] };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -462,6 +471,100 @@ export class DemoApi implements DataApi {
     this.requireTeacherOf(b.classId);
     this.db.boards = this.db.boards!.filter((x) => x.id !== id);
     this.persist();
+  }
+
+  // ------------------------------------------------------------------ live class questions
+
+  private liveChanged() {
+    this.persist();
+    this.liveListeners.forEach((l) => l());
+  }
+
+  async openLiveQuestion(input: { classId: string; lessonId: string | null; skillId: string; difficulty: 1 | 2 | 3; seed: number }): Promise<LiveQuestion> {
+    this.requireTeacherOf(input.classId);
+    for (const q of this.db.liveQuestions!) if (q.classId === input.classId && q.status === 'open') q.status = 'closed';
+    const q: LiveQuestion = { id: uid('lq'), classId: input.classId, lessonId: input.lessonId, skillId: input.skillId, difficulty: input.difficulty, seed: input.seed, status: 'open', createdAt: nowIso() };
+    this.db.liveQuestions!.push(q);
+    // Keep the demo's storage small: only recent questions and their answers.
+    if (this.db.liveQuestions!.length > 40) {
+      const keep = new Set(this.db.liveQuestions!.slice(-40).map((x) => x.id));
+      this.db.liveQuestions = this.db.liveQuestions!.filter((x) => keep.has(x.id));
+      this.db.liveAnswers = this.db.liveAnswers!.filter((a) => keep.has(a.questionId));
+    }
+    this.liveChanged();
+    return { ...q };
+  }
+
+  async closeLiveQuestion(id: string) {
+    const q = this.db.liveQuestions!.find((x) => x.id === id);
+    if (!q) return;
+    this.requireTeacherOf(q.classId);
+    q.status = 'closed';
+    this.liveChanged();
+  }
+
+  async currentLiveQuestion(classId: string): Promise<LiveQuestion | null> {
+    await this.ready;
+    const me = this.me();
+    const allowed = this.db.classes.some((c) => c.id === classId && c.teacherId === me.id) || this.db.enrollments.some((e) => e.classId === classId && e.studentId === me.id);
+    if (!allowed) return null;
+    const since = Date.now() - 3 * 3600_000;
+    const q = this.db.liveQuestions!.filter((x) => x.classId === classId && Date.parse(x.createdAt) >= since).pop();
+    return q ? { ...q } : null;
+  }
+
+  async listLiveAnswers(questionId: string): Promise<LiveAnswer[]> {
+    await this.ready;
+    const me = this.me();
+    const q = this.db.liveQuestions!.find((x) => x.id === questionId);
+    if (!q) return [];
+    const teacher = this.db.classes.some((c) => c.id === q.classId && c.teacherId === me.id);
+    return this.db.liveAnswers!.filter((a) => a.questionId === questionId && (teacher || a.studentId === me.id)).map((a) => ({ ...a }));
+  }
+
+  async submitLiveAnswer(questionId: string, responses: string[]) {
+    const me = this.me();
+    const q = this.db.liveQuestions!.find((x) => x.id === questionId);
+    if (!q || !this.db.enrollments.some((e) => e.classId === q.classId && e.studentId === me.id)) throw new Error('This question is not for your class.');
+    if (q.status !== 'open') throw new Error('Your teacher has closed this question.');
+    const answer: LiveAnswer = { questionId, studentId: me.id, responses: responses.slice(0, 20).map((r) => String(r ?? '').slice(0, 400)), answeredAt: nowIso() };
+    this.db.liveAnswers = [...this.db.liveAnswers!.filter((a) => !(a.questionId === questionId && a.studentId === me.id)), answer];
+    this.liveChanged();
+  }
+
+  subscribeLive(_classId: string, cb: () => void) {
+    this.liveListeners.add(cb);
+    return () => {
+      this.liveListeners.delete(cb);
+    };
+  }
+
+  /**
+   * Demo only: answers from the rest of the sample class, right or wrong in line with each
+   * student's mastery of the skill, so the results on the slide look like a real class.
+   */
+  async simulateLiveAnswers(questionId: string): Promise<number> {
+    const q = this.db.liveQuestions!.find((x) => x.id === questionId);
+    if (!q || q.status !== 'open') return 0;
+    this.requireTeacherOf(q.classId);
+    await loadSkills([q.skillId]);
+    const skill = getSkill(q.skillId);
+    if (!skill) return 0;
+    const item = skill.generate(q.seed, q.difficulty);
+    const answered = new Set(this.db.liveAnswers!.filter((a) => a.questionId === questionId).map((a) => a.studentId));
+    let added = 0;
+    for (const sid of this.rosterIds(q.classId)) {
+      if (answered.has(sid)) continue;
+      const rng = new Rng(`${questionId}:${sid}`);
+      if (rng.next() < 0.12) continue; // a few students never answer
+      const p = this.db.mastery.find((m) => m.studentId === sid && m.skillId === q.skillId)?.pKnown ?? 0.55;
+      const responses = simulatedResponses(item, rng.next() < 0.25 + 0.65 * p, rng);
+      // Students answer after the teacher asks, a few seconds apart.
+      this.db.liveAnswers!.push({ questionId, studentId: sid, responses, answeredAt: new Date(Date.now() - rng.int(0, 20_000)).toISOString() });
+      added++;
+    }
+    this.liveChanged();
+    return added;
   }
 
   // ------------------------------------------------------------------ assignments

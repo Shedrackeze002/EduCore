@@ -12,6 +12,8 @@ import type {
   Publication,
   Resource,
   Board,
+  LiveAnswer,
+  LiveQuestion,
   SkillEvent,
   SkillMastery,
   Submission,
@@ -68,6 +70,24 @@ export const toBoard = (r: Row): Board => ({
   shared: r.shared,
   createdAt: r.created_at,
   updatedAt: r.updated_at,
+});
+
+export const toLiveQuestion = (r: Row): LiveQuestion => ({
+  id: r.id,
+  classId: r.class_id,
+  lessonId: r.lesson_id,
+  skillId: r.skill_id,
+  difficulty: r.difficulty,
+  seed: Number(r.seed),
+  status: r.status,
+  createdAt: r.created_at,
+});
+
+export const toLiveAnswer = (r: Row): LiveAnswer => ({
+  questionId: r.question_id,
+  studentId: r.student_id,
+  responses: Array.isArray(r.responses) ? r.responses.map((x: unknown) => String(x ?? '')) : [],
+  answeredAt: r.answered_at,
 });
 
 export const toAssignment = (r: Row): Assignment => ({
