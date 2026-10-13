@@ -14,3 +14,7 @@ supabase/functions/_shared/engine
 # TypeScript incremental build cache
 *.tsbuildinfo
 scripts/.tmp/
+
+# Explainer video builds
+video/out/
+video/.cache/
