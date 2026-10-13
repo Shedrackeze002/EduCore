@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { captions, chunk, toSrt, toVtt, wrap } from './captions.ts';
-import { checkScript, plainMarkdown, type Explainer } from './script.ts';
+import { captionOf, checkScript, plainMarkdown, type Explainer } from './script.ts';
 import { compile, ownPart, partShown, stateAt, TIMING, youtubeChapters } from './timeline.ts';
 
 const script: Explainer = {
@@ -199,6 +199,12 @@ describe('checkScript', () => {
     expect(checkScript(say('A mile is 5,280 feet: about 3141.6, 0.3048 or 7.41666, and 12000 or 26.2.'))).toEqual([]);
   });
 
+  it('asks for the variable a in quotes, which the voice would read as the article', () => {
+    const say = (text: string): Explainer => ({ ...script, scenes: [{ layout: 'center', main: [{ kind: 'text', id: 'a', md: 'x' }], lines: [{ say: text }] }] });
+    expect(checkScript(say('So a to the zero is one.'))).toEqual(['Scene 1, line 1: write the variable a as "a" (in quotes), or it is read as the article.']);
+    expect(checkScript(say('So "a" to the zero is one, for a base that is not zero, like a cube.'))).toEqual([]);
+  });
+
   it('checks the points and parts of a diagram', () => {
     const bad: Explainer = {
       ...script,
@@ -231,6 +237,11 @@ describe('plainMarkdown', () => {
 });
 
 describe('captions', () => {
+  it('leaves out the quotes that make the voice name a letter', () => {
+    expect(captionOf({ say: 'So "a" to the zero is one.' })).toBe('So a to the zero is one.');
+    expect(captionOf({ say: 'S I units', caption: 'SI units' })).toBe('SI units');
+  });
+
   it('splits long lines into timed two-line captions', () => {
     const text = 'In a right triangle, the side across from the right angle is the hypotenuse. It is always the longest side, and it never touches the right angle.';
     const parts = chunk(text);

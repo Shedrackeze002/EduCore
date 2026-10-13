@@ -26,7 +26,7 @@ const video: Explainer = {
         { say: 'If the product law still works, then nine to the one half, times nine to the one half, is nine to the one half plus one half: nine to the one, which is nine.', show: 'm.0', focus: 'm.0' },
         { say: 'So nine to the one half is the number that, times itself, makes nine. That is the square root of nine: three.', show: 'm.1', focus: 'm.1' },
         { say: 'In the same way, three lots of eight to the one third multiply to eight, so eight to the one third is the cube root of eight: two.', show: 'm.2', focus: 'm.2' },
-        { say: 'In general, a to the one over n is the nth root of a.', show: 'def' },
+        { say: 'In general, "a" to the one over n is the nth root of "a".', show: 'def' },
       ],
     },
     {
@@ -37,8 +37,8 @@ const video: Explainer = {
         { kind: 'callout', id: 'key', tone: 'key', title: 'Root at the bottom', md: 'The **denominator** is the root (the index), and the **numerator** is the power, like the root of a tree at the bottom.' },
       ],
       lines: [
-        { say: 'What about other fractions? Use the power of a power law. a to the m over n is a to the one over n, to the power m: the nth root of a, to the power m.', show: 'm.0', focus: 'm.0' },
-        { say: 'Or multiply in the other order: a to the m, to the one over n, which is the nth root of a to the m.', show: 'm.1', focus: 'm.1' },
+        { say: 'What about other fractions? Use the power of a power law. "a" to the m over n is "a" to the one over n, to the power m: the nth root of "a", to the power m.', show: 'm.0', focus: 'm.0' },
+        { say: 'Or multiply in the other order: "a" to the m, to the one over n, which is the nth root of "a" to the m.', show: 'm.1', focus: 'm.1' },
         { say: 'Either way, the denominator is the root, and the numerator is the power. Remember: the root is at the bottom, like the root of a tree.', show: 'key' },
       ],
     },
@@ -110,8 +110,8 @@ const video: Explainer = {
         },
       ],
       lines: [
-        { say: "Let's sum up. a to the one over n is the nth root of a.", show: 'sum.0' },
-        { say: 'a to the m over n is the nth root of a, to the power m. The denominator is the root, and the numerator is the power.', show: 'sum.1' },
+        { say: 'Let’s sum up. "a" to the one over n is the nth root of "a".', show: 'sum.0' },
+        { say: '"a" to the m over n is the nth root of "a", to the power m. The denominator is the root, and the numerator is the power.', show: 'sum.1' },
         { say: 'To evaluate, take the root first, and remember that a negative exponent means a reciprocal. In part two, we use the exponent laws with rational exponents. See you there!', show: 'sum.2' },
       ],
     },

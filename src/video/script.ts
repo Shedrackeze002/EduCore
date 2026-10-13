@@ -256,6 +256,16 @@ export function itemPoints(item: DiagramItem): string[] {
 /** Problems with a script: unknown ids, repeated ids, empty lines, unknown diagram points and parts. Empty when it is fine. */
 /** A four-digit whole number with no comma, not part of a longer number or a decimal. */
 const YEAR_LIKE = /(?<![\d.,])\d{4}(?![\d]|[.,]\d)/g;
+/** The letter a used as a variable, which the voice reads as the article ("uh to the m"). */
+const BARE_A = /(?<![\w"])a (?=to the|over [a-z]\b|and [a-z]\b|squared|cubed)/;
+
+/**
+ * What a line's caption says: its own `caption`, or what is said without the quotes that make
+ * the voice name a lone letter ("a" is read "ay", where a bare a is read as the article).
+ */
+export function captionOf(l: Line): string {
+  return l.caption ?? l.say.replace(/"([A-Za-z])"/g, '$1');
+}
 
 export function checkScript(x: Explainer): string[] {
   const problems: string[] = [];
@@ -283,6 +293,7 @@ export function checkScript(x: Explainer): string[] {
       if (!l.say.trim()) problems.push(`Scene ${si + 1}, line ${li + 1} says nothing.`);
       // The voice reads a bare four-digit whole number like a year (5280 as "fifty-two eighty").
       for (const [n] of l.say.matchAll(YEAR_LIKE)) problems.push(`Scene ${si + 1}, line ${li + 1}: write ${n} as ${n[0]},${n.slice(1)} or in words, or it is read like a year.`);
+      if (BARE_A.test(l.say)) problems.push(`Scene ${si + 1}, line ${li + 1}: write the variable a as "a" (in quotes), or it is read as the article.`);
       for (const target of [...asList(l.show), ...asList(l.hide), ...asList(l.focus)]) {
         const [el, part] = target.split('.');
         if (!ids.has(el)) problems.push(`Scene ${si + 1}, line ${li + 1}: no element "${target}".`);

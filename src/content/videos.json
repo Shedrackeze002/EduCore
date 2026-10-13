@@ -1403,5 +1403,492 @@
         "working": "Every exponent in $2^3 \\times 5^3$ is divisible by 3: it is $(2 \\times 5)^3 = 10^3 = 1000$."
       }
     ]
+  },
+  "m10c-3-2-b": {
+    "lessonId": "m10c-3-2",
+    "title": "Squares, Cubes and Their Roots, Part 2: Square Roots and Cube Roots",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square roots",
+        "t": 15.209
+      },
+      {
+        "title": "Cube roots",
+        "t": 47.458
+      },
+      {
+        "title": "A shortcut",
+        "t": 72.574
+      },
+      {
+        "title": "Negative numbers",
+        "t": 100.773
+      },
+      {
+        "title": "From surface area to volume",
+        "t": 121.831
+      },
+      {
+        "title": "Your turn",
+        "t": 146.885
+      },
+      {
+        "title": "Summary",
+        "t": 178.398
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-2-b:q",
+        "t": 156.934,
+        "prompt": "A cube-shaped box has a volume of $3375\\text{ cm}^3$. What is its edge length?",
+        "choices": [
+          "$15\\text{ cm}$",
+          "$58.1\\text{ cm}$",
+          "$25\\text{ cm}$",
+          "$1125\\text{ cm}$"
+        ],
+        "answer": 0,
+        "working": "$3375 = 3^3 \\times 5^3$, so $s = \\sqrt[3]{3375} = 3 \\times 5 = 15\\text{ cm}$."
+      }
+    ]
+  },
+  "m10c-3-3": {
+    "lessonId": "m10c-3-3",
+    "title": "The Real Number System, Part 1: Rational and Irrational Numbers",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rational numbers",
+        "t": 18.389
+      },
+      {
+        "title": "Irrational numbers",
+        "t": 50.034
+      },
+      {
+        "title": "Simplify first",
+        "t": 78.88
+      },
+      {
+        "title": "The real number system",
+        "t": 99.872
+      },
+      {
+        "title": "Classifying a number",
+        "t": 131.673
+      },
+      {
+        "title": "Your turn",
+        "t": 159.735
+      },
+      {
+        "title": "Summary",
+        "t": 182.714
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-3:q",
+        "t": 164.954,
+        "prompt": "Which number is irrational?",
+        "choices": [
+          "$\\sqrt{12}$",
+          "$\\sqrt{\\tfrac{4}{9}}$",
+          "$0.\\overline{3}$",
+          "$\\sqrt[3]{-8}$"
+        ],
+        "answer": 0,
+        "working": "$12$ is not a perfect square, so $\\sqrt{12} = 3.4641\\ldots$ never terminates or repeats. The others are $\\tfrac23$, $\\tfrac13$ and $-2$."
+      }
+    ]
+  },
+  "m10c-3-3-b": {
+    "lessonId": "m10c-3-3",
+    "title": "The Real Number System, Part 2: Radicals, Estimating and Ordering",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Radicals and their index",
+        "t": 14.24
+      },
+      {
+        "title": "Estimating a square root",
+        "t": 55.069
+      },
+      {
+        "title": "Ordering numbers",
+        "t": 90.838
+      },
+      {
+        "title": "Your turn",
+        "t": 131.887
+      },
+      {
+        "title": "Summary",
+        "t": 157.342
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-3-b:q",
+        "t": 138.275,
+        "prompt": "Between which two whole numbers is $\\sqrt{90}$?",
+        "choices": [
+          "$9$ and $10$",
+          "$8$ and $9$",
+          "$44$ and $46$",
+          "$10$ and $11$"
+        ],
+        "answer": 0,
+        "working": "$9^2 = 81$ and $10^2 = 100$. Since $81 < 90 < 100$, $9 < \\sqrt{90} < 10$."
+      }
+    ]
+  },
+  "m10c-3-4": {
+    "lessonId": "m10c-3-4",
+    "title": "Mixed and Entire Radicals, Part 1: Simplifying Radicals",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The multiplication property",
+        "t": 17.415
+      },
+      {
+        "title": "Entire and mixed radicals",
+        "t": 40.088
+      },
+      {
+        "title": "Simplifying a square root",
+        "t": 69.971
+      },
+      {
+        "title": "Using prime factors",
+        "t": 97.906
+      },
+      {
+        "title": "A cube root",
+        "t": 123.685
+      },
+      {
+        "title": "Not simplified yet",
+        "t": 150.747
+      },
+      {
+        "title": "Your turn",
+        "t": 176.138
+      },
+      {
+        "title": "Summary",
+        "t": 201.603
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-4:q",
+        "t": 182.376,
+        "prompt": "Write $\\sqrt{48}$ in simplest form.",
+        "choices": [
+          "$4\\sqrt{3}$",
+          "$2\\sqrt{12}$",
+          "$16\\sqrt{3}$",
+          "$3\\sqrt{4}$"
+        ],
+        "answer": 0,
+        "working": "The largest perfect square factor of $48$ is $16$: $\\sqrt{48} = \\sqrt{16 \\times 3} = 4\\sqrt{3}$."
+      }
+    ]
+  },
+  "m10c-3-4-b": {
+    "lessonId": "m10c-3-4",
+    "title": "Mixed and Entire Radicals, Part 2: Entire Radicals and Comparing",
+    "duration": 162,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mixed to entire",
+        "t": 13.007
+      },
+      {
+        "title": "A cube root",
+        "t": 32.696
+      },
+      {
+        "title": "Comparing radicals",
+        "t": 53.688
+      },
+      {
+        "title": "Ordering radicals",
+        "t": 80.687
+      },
+      {
+        "title": "Your turn",
+        "t": 110.84
+      },
+      {
+        "title": "Summary",
+        "t": 137.682
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-4-b:q",
+        "t": 117.057,
+        "prompt": "Which is greater, $5\\sqrt{2}$ or $4\\sqrt{3}$?",
+        "choices": [
+          "$5\\sqrt{2}$",
+          "$4\\sqrt{3}$",
+          "They are equal.",
+          "You cannot tell without a calculator."
+        ],
+        "answer": 0,
+        "working": "$5\\sqrt{2} = \\sqrt{25 \\times 2} = \\sqrt{50}$ and $4\\sqrt{3} = \\sqrt{16 \\times 3} = \\sqrt{48}$, so $5\\sqrt{2}$ is greater."
+      }
+    ]
+  },
+  "m10c-3-5": {
+    "lessonId": "m10c-3-5",
+    "title": "Integral Exponents, Part 1: The Exponent Laws",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The product law",
+        "t": 18.206
+      },
+      {
+        "title": "The quotient law",
+        "t": 37.501
+      },
+      {
+        "title": "Power of a power",
+        "t": 57.975
+      },
+      {
+        "title": "Products and quotients",
+        "t": 77.295
+      },
+      {
+        "title": "Everything in the brackets",
+        "t": 99.4
+      },
+      {
+        "title": "Putting them together",
+        "t": 125.223
+      },
+      {
+        "title": "Your turn",
+        "t": 151.883
+      },
+      {
+        "title": "Summary",
+        "t": 178.892
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-5:q",
+        "t": 157.326,
+        "prompt": "Simplify $(2x^4)^3$.",
+        "choices": [
+          "$8x^{12}$",
+          "$2x^{12}$",
+          "$6x^{12}$",
+          "$8x^7$"
+        ],
+        "answer": 0,
+        "working": "$(2x^4)^3 = 2^3 (x^4)^3 = 8x^{12}$."
+      }
+    ]
+  },
+  "m10c-3-5-b": {
+    "lessonId": "m10c-3-5",
+    "title": "Integral Exponents, Part 2: Zero and Negative Exponents",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Follow the pattern",
+        "t": 16.4
+      },
+      {
+        "title": "The zero exponent",
+        "t": 40.025
+      },
+      {
+        "title": "Negative exponents",
+        "t": 66.48
+      },
+      {
+        "title": "Evaluating powers",
+        "t": 84.939
+      },
+      {
+        "title": "Simplifying expressions",
+        "t": 110.875
+      },
+      {
+        "title": "Your turn",
+        "t": 139.737
+      },
+      {
+        "title": "Summary",
+        "t": 164.374
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-5-b:q",
+        "t": 145.179,
+        "prompt": "Evaluate $5^{-2}$.",
+        "choices": [
+          "$\\tfrac{1}{25}$",
+          "$-25$",
+          "$-10$",
+          "$\\tfrac{1}{10}$"
+        ],
+        "answer": 0,
+        "working": "$5^{-2} = \\dfrac{1}{5^2} = \\dfrac{1}{25}$."
+      }
+    ]
+  },
+  "m10c-3-6": {
+    "lessonId": "m10c-3-6",
+    "title": "Rational Exponents, Part 1: Exponents and Radicals",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Unit fraction exponents",
+        "t": 19.789
+      },
+      {
+        "title": "Rational exponents",
+        "t": 48.777
+      },
+      {
+        "title": "Converting forms",
+        "t": 76.017
+      },
+      {
+        "title": "Evaluating",
+        "t": 96.565
+      },
+      {
+        "title": "Upside down",
+        "t": 130.817
+      },
+      {
+        "title": "Your turn",
+        "t": 153.031
+      },
+      {
+        "title": "Summary",
+        "t": 175.418
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-6:q",
+        "t": 158.631,
+        "prompt": "Evaluate $32^{\\frac35}$.",
+        "choices": [
+          "$8$",
+          "$19.2$",
+          "$\\tfrac{1}{8}$",
+          "$96$"
+        ],
+        "answer": 0,
+        "working": "$32^{\\frac35} = \\left(\\sqrt[5]{32}\\right)^3 = 2^3 = 8$."
+      }
+    ]
+  },
+  "m10c-3-6-b": {
+    "lessonId": "m10c-3-6",
+    "title": "Rational Exponents, Part 2: The Exponent Laws with Rational Exponents",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Simplifying",
+        "t": 17.384
+      },
+      {
+        "title": "Typing your answer",
+        "t": 57.53
+      },
+      {
+        "title": "Spot the error",
+        "t": 73.315
+      },
+      {
+        "title": "A balloon",
+        "t": 97.775
+      },
+      {
+        "title": "Your turn",
+        "t": 123.703
+      },
+      {
+        "title": "Summary",
+        "t": 155.599
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-3-6-b:q",
+        "t": 130.194,
+        "prompt": "Simplify $\\left(27x^9\\right)^{\\frac13}$.",
+        "choices": [
+          "$3x^3$",
+          "$9x^3$",
+          "$3x^{\\frac{28}{3}}$",
+          "$27x^3$"
+        ],
+        "answer": 0,
+        "working": "$27^{\\frac13} = \\sqrt[3]{27} = 3$ and $x^{9 \\times \\frac13} = x^3$, so the answer is $3x^3$."
+      }
+    ]
   }
 }

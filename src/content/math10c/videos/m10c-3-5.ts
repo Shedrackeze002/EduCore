@@ -24,7 +24,7 @@ const video: Explainer = {
       lines: [
         { say: 'Multiply x cubed by x to the fourth. Write them out in full: three x’s, times four x’s.', show: 'm.0', focus: 'm.0' },
         { say: 'That is seven x’s multiplied together: x to the seventh.', show: 'm.1', focus: 'm.1' },
-        { say: 'So when you multiply powers with the same base, add the exponents. a to the m, times a to the n, is a to the m plus n.', show: 'm.2', focus: 'm.2' },
+        { say: 'So when you multiply powers with the same base, add the exponents. "a" to the m, times "a" to the n, is "a" to the m plus n.', show: 'm.2', focus: 'm.2' },
       ],
     },
     {
@@ -36,7 +36,7 @@ const video: Explainer = {
       lines: [
         { say: 'Divide x to the eighth by x cubed. Write them out: eight x’s on top, and three on the bottom.', show: 'm.0', focus: 'm.0' },
         { say: 'Each x on the bottom cancels one on top, which leaves five: x to the fifth.', show: 'm.1', focus: 'm.1' },
-        { say: 'So when you divide powers with the same base, subtract the exponents. a to the m, over a to the n, is a to the m minus n.', show: 'm.2', focus: 'm.2' },
+        { say: 'So when you divide powers with the same base, subtract the exponents. "a" to the m, over "a" to the n, is "a" to the m minus n.', show: 'm.2', focus: 'm.2' },
       ],
     },
     {

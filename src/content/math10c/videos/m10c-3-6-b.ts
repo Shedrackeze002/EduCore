@@ -52,7 +52,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'A student wrote that two x cubed, squared, is two x to the sixth. What went wrong?', show: 'm.0', focus: 'm.0' },
-        { say: 'The exponent two applies to the coefficient too. Two squared is four, so the correct answer is four x to the sixth.', show: 'm.1', focus: 'm.1' },
+        { say: 'The exponent two applies to the coefficient as well. Two squared is four, so the correct answer is four x to the sixth.', show: 'm.1', focus: 'm.1' },
         { say: 'Another student wrote that sixteen to the negative one half is negative four.', show: 'm.2', focus: 'm.2' },
         { say: 'But a negative exponent means a reciprocal: one over the square root of sixteen, which is one quarter.', show: 'm.3', focus: 'm.3' },
       ],

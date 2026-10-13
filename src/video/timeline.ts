@@ -3,7 +3,7 @@
  * stage shows at any moment. Rendering is a pure function of that state, so the same script and
  * narration always give the same frames, and a frame that has not changed can be reused.
  */
-import { asList, plainMarkdown, sceneElements, type El, type Explainer, type TryEl } from './script.ts';
+import { asList, captionOf, plainMarkdown, sceneElements, type El, type Explainer, type TryEl } from './script.ts';
 
 /** Timing, in seconds. */
 export const TIMING = {
@@ -114,7 +114,7 @@ export function compile(x: Explainer, durations: Record<string, number>): Timeli
       }
       for (const [el, parts] of focus) events.push({ t: at, kind: 'focus', el, parts });
       const end = r3(t + dur);
-      lines.push({ key, say: l.say, caption: l.caption ?? l.say, start: at, end });
+      lines.push({ key, say: l.say, caption: captionOf(l), start: at, end });
       // A "Your turn" shown on this line counts down once the line is spoken; Gradileo pauses there.
       for (const target of asList(l.show)) {
         const q = tries.get(target);

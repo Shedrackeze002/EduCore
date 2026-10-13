@@ -43,8 +43,8 @@ const video: Explainer = {
         { kind: 'callout', id: 'oops', tone: 'mistake', title: 'Where is the base?', md: '$-5^0 = -(5^0) = -1$, but $(-5)^0 = 1$. The exponent applies only to what is directly in front of it.' },
       ],
       lines: [
-        { say: 'The quotient law agrees. Any power divided by itself is a to the n minus n, which is a to the zero.', show: 'm.0', focus: 'm.0' },
-        { say: 'But anything divided by itself is one. So a to the zero is one, for any base except zero.', show: 'm.1', focus: 'm.1' },
+        { say: 'The quotient law agrees. Any power divided by itself is "a" to the n minus n, which is "a" to the zero.', show: 'm.0', focus: 'm.0' },
+        { say: 'But anything divided by itself is one. So "a" to the zero is one, for any base except zero.', show: 'm.1', focus: 'm.1' },
         { say: 'Watch where the base is. In negative five to the zero, without brackets, the exponent applies only to the five, so it is negative one. With brackets, negative five, to the zero, is one.', show: 'oops' },
       ],
     },
@@ -57,7 +57,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'The pattern shows that two to the negative three is one over two cubed: one eighth.', show: 'm.0', focus: 'm.0' },
-        { say: 'In general, a to the negative n is one over a to the n, and one over a to the negative n is a to the n.', show: 'm.1', focus: 'm.1' },
+        { say: 'In general, "a" to the negative n is one over "a" to the n, and one over "a" to the negative n is "a" to the n.', show: 'm.1', focus: 'm.1' },
         { say: 'So a negative exponent means take the reciprocal. It does not make the number negative.', show: 'key' },
       ],
     },
@@ -117,7 +117,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: "Let's sum up. Any base except zero, to the power of zero, is one.", show: 'sum.0' },
-        { say: 'A negative exponent means the reciprocal: a to the negative n is one over a to the n.', show: 'sum.1' },
+        { say: 'A negative exponent means the reciprocal: "a" to the negative n is one over "a" to the n.', show: 'sum.1' },
         { say: 'To simplify, apply the laws, then write the answer with positive exponents. Practise these skills in your lesson. See you next time!', show: 'sum.2' },
       ],
     },

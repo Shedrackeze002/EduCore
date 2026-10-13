@@ -28,7 +28,7 @@ const video: Explainer = {
         { kind: 'callout', id: 'key', tone: 'key', title: 'As a decimal', md: 'A rational number’s decimal **terminates** (stops) or **repeats**.' },
       ],
       lines: [
-        { say: 'A rational number can be written as a fraction, a over b, where a and b are integers, and b is not zero.', show: 'def' },
+        { say: 'A rational number can be written as a fraction, "a" over b, where "a" and b are integers, and b is not zero.', show: 'def' },
         { say: 'Three quarters is rational. As a decimal it is 0.75, which terminates: it stops.', show: 'm.0', focus: 'm.0' },
         { say: 'Two thirds is 0.6 repeating. Its decimal goes on forever, but it repeats, so it is rational too.', show: 'm.1', focus: 'm.1' },
         { say: 'Every integer is rational as well: negative five is negative five over one. So a rational number’s decimal always terminates or repeats.', show: ['m.2', 'key'], focus: 'm.2' },

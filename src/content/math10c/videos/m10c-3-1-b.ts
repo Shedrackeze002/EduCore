@@ -119,8 +119,8 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Two lighthouses flash every twelve seconds and every twenty seconds. They flash together now. When will they next flash together?', show: ['q', 'line.axis', 'line.now'] },
-        { say: 'The first flashes at 12, 24, 36, 48 and 60 seconds.', show: ['line.a12', 'line.a24', 'line.a36', 'line.a48', 'line.a60'] },
-        { say: 'The second flashes at 20, 40 and 60 seconds.', show: ['line.b20', 'line.b40', 'line.b60'] },
+        { say: 'The first lighthouse flashes at 12, 24, 36, 48 and 60 seconds.', show: ['line.a12', 'line.a24', 'line.a36', 'line.a48', 'line.a60'] },
+        { say: 'The second lighthouse flashes at 20, 40 and 60 seconds.', show: ['line.b20', 'line.b40', 'line.b60'] },
         { say: 'They meet again at 60 seconds, their first common multiple, so this is an LCM problem. Twelve is 2 squared times 3, and twenty is 2 squared times 5, so the LCM is 2 squared times 3 times 5: sixty seconds.', show: 'm.0', focus: ['m.0', 'line.a60', 'line.b60'] },
       ],
     },

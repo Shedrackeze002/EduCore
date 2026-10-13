@@ -50,8 +50,9 @@ nothing however many videos we make. The default voice is `af_heart`. Kokoro rea
 decimals and units as written ("9.4 cm", "0.75"); write maths in words ("tan theta equals x over
 fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit whole numbers
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
-script check refuses them. After each build, listen to the lines that `pronunciation.txt` marks
-CHECK.
+script check refuses them. Put a variable a in quotes (`"a" to the m`): bare, it is read as the
+article ("uh to the m"); the captions leave the quotes out, and the script check asks for them.
+After each build, listen to the lines that `pronunciation.txt` marks CHECK.
 
 ## Writing a script
 
