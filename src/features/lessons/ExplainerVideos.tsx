@@ -86,9 +86,10 @@ export function ExplainerVideos({ lessonId }: { lessonId: string }) {
           </div>
         </div>
         {videos.length > 1 && (
-          <div className="ml-auto inline-flex gap-1 rounded-xl bg-surface-2 p-1" role="tablist" aria-label="Videos">
+          // Plain toggle buttons (not ARIA tabs): Tab and Enter choose a part, as for any button.
+          <div className="ml-auto inline-flex gap-1 rounded-xl bg-surface-2 p-1" role="group" aria-label="Video parts">
             {videos.map((x, i) => (
-              <button key={x.id} type="button" role="tab" aria-selected={x.id === v.id} onClick={() => setPart(i)} className={cn('rounded-lg px-3 py-1 text-sm font-medium', x.id === v.id ? 'bg-surface text-ink shadow-card' : 'text-ink-3 hover:text-ink')}>
+              <button key={x.id} type="button" aria-pressed={x.id === v.id} onClick={() => setPart(i)} className={cn('rounded-lg px-3 py-1 text-sm font-medium', x.id === v.id ? 'bg-surface text-ink shadow-card' : 'text-ink-3 hover:text-ink')}>
                 Part {i + 1}
               </button>
             ))}

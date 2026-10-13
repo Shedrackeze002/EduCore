@@ -86,5 +86,19 @@ test('an administrator links an explainer video, and the lesson plays it and pau
   // A video YouTube cannot play (removed, private, not allowed elsewhere) offers a link instead.
   await page.evaluate(() => (window as unknown as { __player: { fail(): void } }).__player.fail());
   await expect(section.getByRole('link', { name: 'Watch on YouTube' })).toHaveAttribute('href', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+
+  // With part 2 linked too, the lesson offers both parts.
+  await page.goto('/admin/videos');
+  const part2 = page.getByRole('listitem').filter({ hasText: manifest['m10c-2-1-b'].title });
+  await part2.getByLabel('YouTube link').fill('abcdefghijk');
+  await part2.getByRole('button', { name: 'Link video' }).click();
+  await expect(part2.getByText('On YouTube', { exact: true })).toBeVisible();
+  await page.goto('/t/c/c_math10a/lessons/m10c-2-1');
+  const parts = page.getByRole('group', { name: 'Video parts' });
+  await expect(parts.getByRole('button', { name: 'Part 1' })).toHaveAttribute('aria-pressed', 'true');
+  await parts.getByRole('button', { name: 'Part 2' }).click();
+  await expect(parts.getByRole('button', { name: 'Part 2' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(section.getByText(manifest['m10c-2-1-b'].title)).toBeVisible();
+  await expect(section.locator('[data-fake-youtube="abcdefghijk"]')).toHaveCount(1);
   expect(errors).toEqual([]);
 });
