@@ -27,14 +27,23 @@ items ship or decisions change.
   were right, each choice's share or the common wrong answers, without names. Students see
   whether they were right and the worked solution when the teacher shows the results.
 
+- Self-sign-up and course placement (first part of item 1 below): students who sign up without
+  a class code answer a few questions (grade, plans, calculus, how mathematics feels), get a
+  recommended course that follows Alberta's sequences, can take a 6-question placement check on
+  the course before, and study in a self-paced section where every lesson is open and the AI
+  acts as tutor (study coach and autopilot practice). Students can study several courses and
+  switch between them.
+
 ## Next, in order
 
 1. **Student self-sign-up, AI course placement and course requests.**
-   - Onboarding asks grade, stream and goals; the AI recommends a course.
-   - Decision: **both** paths. Students land in a self-paced section by default (the AI acts as
-     tutor) and can request to join a teacher's class, which the teacher approves.
-   - Missing topics become course requests in an admin inbox; requests the admin approves become
-     GitHub issues for a build session.
+   - Done: onboarding, recommendation, placement check and self-paced sections (see above).
+   - Next: **join requests.** A student asks to join a teacher's class (by code or from a link);
+     the teacher approves or declines, and the student keeps their self-paced progress.
+   - Then: **course requests.** Missing topics become course requests in an admin inbox; requests
+     the admin approves become GitHub issues for a build session.
+   - Later: an AI tutor chat inside lessons for self-paced students (explain a step, give a hint,
+     check working), using the same AI provider as the teaching assistant.
 2. **Teacher edit suggestions with admin approval.** Teachers suggest changes on a lesson page;
    approved edits are stored in the database as a layer over the lesson files.
 3. **Lockdown for quizzes and exams — only when the teacher turns it on, per assessment.**
@@ -92,6 +101,8 @@ items ship or decisions change.
   (`SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD`) are not set, so
   migrations are applied by hand and recorded in `supabase_migrations.schema_migrations`. Add the
   secrets so merges apply migrations and redeploy the Edge Functions on their own.
+- Self-paced study, next steps: store placement results on the server (today they stay on the
+  device), let a student leave a self-paced course, and email the AI tutor's weekly summary.
 - Live class questions, next steps: a teacher-only list of who has and has not answered (never on
   the projector), an optional countdown per question, and counting live answers as practice
   evidence for mastery.

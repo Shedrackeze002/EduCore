@@ -236,13 +236,17 @@ async function submit(db: Db, me: Caller, body: Record<string, unknown>): Promis
   if (a) {
     if (saved.pending_manual > 0 || saved.late) await tellTeacher(db, a, me, saved);
     background(autopilot(db, a.class_id, me.id));
+  } else {
+    // Self-paced students have no teacher: the AI tutor may assign targeted practice after their own
+    // practice too (autopilot is on for self-paced classes and limits itself to once every 3 days).
+    background(autopilot(db, s.class_id, me.id));
   }
   return saved;
 }
 
 async function tellTeacher(db: Db, a: Row, me: Caller, s: Row) {
   const { data: c } = await db.from('classes').select('id, teacher_id').eq('id', a.class_id).single();
-  if (!c) return;
+  if (!c?.teacher_id) return;
   const score = s.percent !== null && isQuestionType(a.type as AssignmentType) ? `Score: ${Math.round(Number(s.percent))}%` : 'Completed.';
   await notify(db, [
     {
@@ -288,7 +292,7 @@ async function autopilot(db: Db, classId: string, studentId: string) {
     .single();
   if (error || !a) return;
   const { data: p } = await db.from('profiles').select('full_name').eq('id', studentId).single();
-  await notify(db, [{ user_id: c.teacher_id, kind: 'insight', title: `Autopilot assigned ${TYPE_LABEL.practice.toLowerCase()} to ${p?.full_name ?? 'a student'}`, body: `${a.title}. ${action.rationale}`, link: `/t/c/${classId}/assignments/${a.id}`, assignment_id: a.id }]);
+  if (c.teacher_id) await notify(db, [{ user_id: c.teacher_id, kind: 'insight', title: `Autopilot assigned ${TYPE_LABEL.practice.toLowerCase()} to ${p?.full_name ?? 'a student'}`, body: `${a.title}. ${action.rationale}`, link: `/t/c/${classId}/assignments/${a.id}`, assignment_id: a.id }]);
   await db.from('insights').insert({
     class_id: classId,
     student_id: studentId,

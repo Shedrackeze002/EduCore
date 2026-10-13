@@ -5,6 +5,7 @@ import {
   BookOpen,
   ChevronsUpDown,
   ClipboardList,
+  Compass,
   GraduationCap,
   Grid3x3,
   Home,
@@ -40,6 +41,7 @@ import { setItem } from '@/lib/storage.ts';
 const LAST_CLASS_KEY = 'educore-last-class';
 import { NotificationBell, NotificationsBridge } from './NotificationBell.tsx';
 import { LiveBanner } from '@/features/live/LiveBanner.tsx';
+import { chooseStudentClass, studentClassName, useStudentClass } from '@/features/shared/useStudentClass.ts';
 import { Logo } from './Logo.tsx';
 
 interface NavItem {
@@ -126,6 +128,11 @@ export function AppShell({ role }: { role: ShellRole }) {
             <Link to={homeFor(role)} className="lg:hidden">
               <Logo compact />
             </Link>
+            {role === 'student' && (
+              <div className="min-w-0 lg:hidden">
+                <StudentClassBadge compact />
+              </div>
+            )}
             <div className="flex-1" />
             {demoApi() && <Badge tone="warn" className="hidden sm:inline-flex">Demo mode</Badge>}
             <NotificationBell />
@@ -195,7 +202,7 @@ function Sidebar({ role, classId, nav, isAdmin }: { role: ShellRole; classId?: s
       <div className="border-t border-line p-4 text-xs text-ink-3">
         <div className="flex items-center gap-2">
           {role === 'admin' ? <ShieldCheck className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
-          {role === 'admin' ? 'EduCore platform administration' : <CourseLabel classId={classId} />}
+          {role === 'admin' ? 'EduCore platform administration' : <CourseLabel classId={classId} role={role} />}
         </div>
       </div>
     </div>
@@ -263,9 +270,10 @@ function ClassSwitcher({ classId }: { classId?: string }) {
 }
 
 /** The current class's course (teachers) or the student's class course. */
-function CourseLabel({ classId }: { classId?: string }) {
+function CourseLabel({ classId, role }: { classId?: string; role: ShellRole }) {
   const { data: classes = [] } = useClasses();
-  const cls = classes.find((c) => c.id === classId) ?? (classes.length === 1 ? classes[0] : undefined);
+  const student = useStudentClass().cls;
+  const cls = role === 'student' ? student : (classes.find((c) => c.id === classId) ?? (classes.length === 1 ? classes[0] : undefined));
   return <>{(cls && getCourse(cls.courseId)?.title) ?? 'EduCore Mathematics'}</>;
 }
 
@@ -287,25 +295,87 @@ function AdminBadge() {
   );
 }
 
-function StudentClassBadge() {
-  const { data: classes = [] } = useClasses();
-  if (!classes.length)
+function StudentClassBadge({ compact = false }: { compact?: boolean }) {
+  const { cls, classes } = useStudentClass();
+  const navigate = useNavigate();
+  if (!cls && compact) return null;
+  if (!cls)
     return (
-      <div className="px-3">
-        <Link to="/s/join" className="flex items-center gap-2 rounded-xl border border-dashed border-line-strong px-3 py-2.5 text-sm font-medium text-brand hover:bg-brand-50">
+      <div className="space-y-1 px-3">
+        <Link to="/s/welcome" className="flex items-center gap-2 rounded-xl border border-dashed border-line-strong px-3 py-2.5 text-sm font-medium text-brand hover:bg-brand-50">
+          <Compass className="h-4 w-4" /> Find my course
+        </Link>
+        <Link to="/s/join" className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-medium text-ink-2 hover:bg-surface-2 hover:text-ink">
           <Plus className="h-4 w-4" /> Join a class
         </Link>
       </div>
     );
+  const name = studentClassName(cls);
   return (
-    <div className="px-3">
-      <div className="rounded-xl border border-line bg-surface-2/60 px-3 py-2.5">
-        <div className="text-xs text-ink-3">Your class</div>
-        <div className="truncate text-sm font-semibold">
-          {classes[0].name}
-          {classes[0].section ? ` · ${classes[0].section}` : ''}
-        </div>
-      </div>
+    <div className={compact ? 'min-w-0' : 'px-3'}>
+      <Menu
+        align="left"
+        className="w-[232px]"
+        trigger={() =>
+          compact ? (
+            <button type="button" className="flex max-w-[11rem] items-center gap-1.5 rounded-xl border border-line bg-surface px-2.5 py-1.5 text-sm font-semibold text-ink" aria-label="Switch course">
+              <span className="truncate">{name.title}</span>
+              <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-ink-3" />
+            </button>
+          ) : (
+            <button type="button" className="flex w-full items-center gap-3 rounded-xl border border-line bg-surface-2/60 px-3 py-2.5 text-left hover:bg-surface-2" aria-label="Switch course">
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs text-ink-3">{cls.kind === 'self' ? 'Studying' : 'Your class'}</span>
+                <span className="block truncate text-sm font-semibold text-ink">{name.title}</span>
+                {name.detail && <span className="block truncate text-xs text-ink-3">{name.detail}</span>}
+              </span>
+              <ChevronsUpDown className="h-4 w-4 shrink-0 text-ink-3" />
+            </button>
+          )
+        }
+      >
+        {(close) => (
+          <div>
+            {classes.map((c) => {
+              const n = studentClassName(c);
+              return (
+                <MenuItem
+                  key={c.id}
+                  onClick={() => {
+                    close();
+                    chooseStudentClass(c.id);
+                    navigate('/s');
+                  }}
+                >
+                  <span className="min-w-0">
+                    <span className={cn('block truncate font-medium', c.id === cls.id && 'text-brand-800')}>{n.title}</span>
+                    {n.detail && <span className="block truncate text-xs text-ink-3">{n.detail}</span>}
+                  </span>
+                </MenuItem>
+              );
+            })}
+            <div className="my-1 border-t border-line" />
+            <MenuItem
+              icon={<Compass className="h-4 w-4" />}
+              onClick={() => {
+                close();
+                navigate('/s/welcome');
+              }}
+            >
+              Add a course
+            </MenuItem>
+            <MenuItem
+              icon={<Plus className="h-4 w-4" />}
+              onClick={() => {
+                close();
+                navigate('/s/join');
+              }}
+            >
+              Join a teacher’s class
+            </MenuItem>
+          </div>
+        )}
+      </Menu>
     </div>
   );
 }

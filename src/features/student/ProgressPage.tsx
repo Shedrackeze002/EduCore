@@ -21,7 +21,7 @@ export default function ProgressPage() {
   const [view, setView] = useState<'units' | 'outcomes'>('units');
   const map = useMemo(() => masteryMap(mastery.data ?? []), [mastery.data]);
   if (mastery.isLoading) return <PageSpinner />;
-  if (!cls) return <EmptyState title="Join a class to track your progress" />;
+  if (!cls) return <EmptyState title="Choose a course to track your progress" action={<Button to="/s/welcome">Find my course</Button>} />;
   const course = getCourse(cls.courseId)!;
   const cm = courseMastery(course.id, map);
   const published = new Set((pubs.data ?? []).map((p) => p.lessonId));

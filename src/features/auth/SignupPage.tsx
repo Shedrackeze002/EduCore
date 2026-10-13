@@ -30,7 +30,8 @@ export default function SignupPage() {
     try {
       const u = await api().signUp({ fullName, email, password, role, joinCode: role === 'student' ? joinCode : undefined });
       setUser(u);
-      navigate(u.role === 'teacher' ? '/t' : '/s', { replace: true });
+      // Students without a class code go to onboarding, which recommends a course to start on their own.
+      navigate(u.role === 'teacher' ? '/t' : joinCode.trim() ? '/s' : '/s/welcome', { replace: true });
     } catch (e) {
       const msg = (e as Error).message;
       if (msg.startsWith('Account created')) setInfo(msg);
@@ -41,7 +42,7 @@ export default function SignupPage() {
   };
 
   return (
-    <AuthLayout title="Create your account" subtitle="Teachers set up classes; students join with a class code.">
+    <AuthLayout title="Create your account" subtitle="Teachers set up classes. Students join with a class code or study on their own.">
       <div className="mb-5 grid grid-cols-2 gap-2 rounded-2xl bg-surface-2 p-1.5">
         {(
           [
@@ -72,7 +73,7 @@ export default function SignupPage() {
           </p>
         )}
         {role === 'student' && (
-          <Input label="Class code" value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="e.g. MATH10" hint="Ask your teacher for the 6-character code. You can also join later." className="[&_input]:font-mono [&_input]:uppercase [&_input]:tracking-widest" />
+          <Input label="Class code (if you have one)" value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="e.g. MATH10" hint="Optional. Without a code, we help you find the right course to study on your own." className="[&_input]:font-mono [&_input]:uppercase [&_input]:tracking-widest" />
         )}
         {error && <p className="rounded-xl bg-bad-soft px-3 py-2 text-sm text-bad-ink">{error}</p>}
         {info && <p className="rounded-xl bg-good-soft px-3 py-2 text-sm text-good-ink">{info}</p>}

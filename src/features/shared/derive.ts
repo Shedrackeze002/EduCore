@@ -92,6 +92,21 @@ export function recommendedSkills(publishedLessonIds: string[], map: Map<string,
   return [...weak, ...review, ...fresh].slice(0, limit);
 }
 
+/**
+ * Self-paced study follows the course in order: the next lesson is the first with a skill the
+ * student is not yet proficient in, and the lessons up to it count as taught.
+ */
+export function selfPacedLessons(courseId: string, map: Map<string, SkillState>): { next: string | undefined; taught: string[] } {
+  const lessons = getCourse(courseId)?.lessons ?? [];
+  const done = (id: string) => {
+    const level = stateOf(map, id).level;
+    return level === 'proficient' || level === 'mastered';
+  };
+  const i = lessons.findIndex((l) => !l.skills.every(done));
+  const end = i === -1 ? lessons.length - 1 : i;
+  return { next: lessons[end]?.id, taught: lessons.slice(0, end + 1).map((l) => l.id) };
+}
+
 export function skillLabel(id: string): string {
   return skillInfo(id)?.name ?? id;
 }

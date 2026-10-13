@@ -1,17 +1,19 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, CalendarClock, Flame, Megaphone, PlayCircle, Sparkles, Target } from 'lucide-react';
-import { lessonById, getCourse } from '@engine/curriculum/index.ts';
+import { ArrowRight, BookOpen, CalendarClock, Compass, Flame, KeyRound, Megaphone, PlayCircle, RotateCcw, Sparkles, Target, X } from 'lucide-react';
+import { courseOfSkill, lessonById, getCourse } from '@engine/curriculum/index.ts';
 import { analyzeStudent, buildStudentContext } from '@engine/ai/index.ts';
+import type { SkillState } from '@engine/mastery.ts';
 import { TYPE_LABEL } from '@engine/assemble.ts';
 import { useAnnouncements, useAssignments, useEvents, useMastery, usePublications, useSubmissions } from '@/data/hooks.ts';
 import { useMe } from '@/features/auth/AuthProvider.tsx';
-import { Badge, Button, Card, CardBody, CardHeader, EmptyState, PageSpinner, ProgressRing } from '@/components/ui/index.ts';
+import { Badge, Button, Card, CardBody, CardHeader, PageSpinner, ProgressRing } from '@/components/ui/index.ts';
 import { MasteryChip } from '@/components/mastery/Mastery.tsx';
 import { Markdown } from '@/components/math/Markdown.tsx';
 import { dueLabel, greeting, relative } from '@/lib/dates.ts';
-import { courseMastery, masteryMap, recommendedSkills, skillLabel, sortByDue, studentWork, type StudentWork } from '../shared/derive.ts';
+import { courseMastery, masteryMap, recommendedSkills, selfPacedLessons, skillLabel, sortByDue, studentWork, type StudentWork } from '../shared/derive.ts';
 import { useStudentClass } from '../shared/useStudentClass.ts';
+import { clearReviewSkills, reviewSkills } from './review.ts';
 import { TypeIcon } from '../shared/TypeIcon.tsx';
 import { cn } from '@/lib/cn.ts';
 
@@ -31,11 +33,14 @@ export default function StudentHome() {
   const missing = todo.filter((w) => w.status === 'missing');
   const upcoming = todo.filter((w) => w.status !== 'missing');
   const next = upcoming[0] ?? missing[0];
-  const published = (pubs.data ?? []).sort((a, b) => a.publishedAt.localeCompare(b.publishedAt)).map((p) => p.lessonId);
+  const self = cls?.kind === 'self';
+  // Self-paced study opens every lesson, so the lessons up to the student's next one count as taught.
+  const frontier = useMemo(() => (cls && self ? selfPacedLessons(cls.courseId, map) : null), [cls, self, map]);
+  const published = frontier ? frontier.taught : (pubs.data ?? []).sort((a, b) => a.publishedAt.localeCompare(b.publishedAt)).map((p) => p.lessonId);
   const recs = recommendedSkills(published, map, 4);
   const course = cls ? getCourse(cls.courseId) : undefined;
   const cm = cls ? courseMastery(cls.courseId, map) : null;
-  const latestLesson = published.length ? lessonById(published[published.length - 1]) : undefined;
+  const latestLesson = frontier ? lessonById(frontier.next ?? '') : published.length ? lessonById(published[published.length - 1]) : undefined;
 
   const coach = useMemo(() => {
     if (!cls || !mastery.data || !events.data) return null;
@@ -61,12 +66,7 @@ export default function StudentHome() {
   }, [events.data]);
 
   if (isLoading) return <PageSpinner />;
-  if (!cls)
-    return (
-      <EmptyState icon={<BookOpen className="h-6 w-6" />} title="Join your class to get started" action={<Button to="/s/join">Enter a class code</Button>}>
-        Your teacher will give you a 6-character class code.
-      </EmptyState>
-    );
+  if (!cls) return <GetStarted name={me.fullName.split(' ')[0]} />;
 
   return (
     <div className="space-y-6">
@@ -74,14 +74,11 @@ export default function StudentHome() {
         <h1 className="text-2xl font-semibold sm:text-[28px]">
           {greeting()}, {me.fullName.split(' ')[0]}
         </h1>
-        <p className="text-ink-3">
-          {cls.name}
-          {cls.section ? ` · ${cls.section}` : ''} · {course?.title}
-        </p>
+        <p className="text-ink-3">{self ? `${course?.title} · Self-paced with your AI tutor` : `${cls.name}${cls.section ? ` · ${cls.section}` : ''} · ${course?.title}`}</p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
-        {next ? <UpNext w={next} /> : <AllDone />}
+        {next ? <UpNext w={next} /> : self && latestLesson ? <NextLesson lesson={latestLesson} /> : <AllDone />}
         <Card className="flex items-center gap-5 p-5">
           <ProgressRing value={cm?.percent ?? 0} size={96} stroke={9} sublabel="mastery" />
           <div className="min-w-0 flex-1">
@@ -117,7 +114,7 @@ export default function StudentHome() {
           <Card>
             <CardHeader title="Recommended practice" subtitle="Short, focused sets build mastery fastest." icon={<Target className="h-5 w-5" />} />
             <CardBody className="grid gap-3 pt-4 sm:grid-cols-2">
-              {recs.length === 0 && <p className="text-sm text-ink-3">When your teacher publishes lessons, recommended skills appear here.</p>}
+              {recs.length === 0 && <p className="text-sm text-ink-3">{self ? 'Open your next lesson to start; recommended skills appear as you practise.' : 'When your teacher publishes lessons, recommended skills appear here.'}</p>}
               {recs.map((r) => (
                 <Link key={r.skillId} to={`/s/practice?skills=${r.skillId}`} className="group rounded-2xl border border-line p-4 transition hover:border-brand-300 hover:bg-brand-50/40">
                   <div className="flex items-start justify-between gap-2">
@@ -135,11 +132,12 @@ export default function StudentHome() {
         </div>
 
         <div className="min-w-0 space-y-6">
+          <PlacementReview classId={cls.id} map={map} />
           {coach?.studentNote && (
             <Card className="border-brand-200 bg-gradient-to-br from-brand-50 to-surface">
               <CardBody>
                 <div className="flex items-center gap-2 text-sm font-semibold text-brand-800">
-                  <Sparkles className="h-4 w-4" /> Your study coach
+                  <Sparkles className="h-4 w-4" /> {self ? 'Your AI tutor' : 'Your study coach'}
                 </div>
                 <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{coach.studentNote}</p>
                 {coach.strengths.length > 0 && (
@@ -150,9 +148,9 @@ export default function StudentHome() {
               </CardBody>
             </Card>
           )}
-          {latestLesson && (
+          {latestLesson && !(self && !next) && (
             <Card>
-              <CardHeader title="Continue learning" icon={<BookOpen className="h-5 w-5" />} />
+              <CardHeader title={self ? 'Your next lesson' : 'Continue learning'} icon={<BookOpen className="h-5 w-5" />} />
               <CardBody className="pt-3">
                 <div className="text-xs font-semibold uppercase tracking-wide text-ink-3">Lesson {latestLesson.number}</div>
                 <div className="mt-1 font-semibold">{latestLesson.title}</div>
@@ -162,6 +160,7 @@ export default function StudentHome() {
               </CardBody>
             </Card>
           )}
+          {!self && (
           <Card>
             <CardHeader title="Announcements" icon={<Megaphone className="h-5 w-5" />} />
             <CardBody className="space-y-4 pt-4">
@@ -177,6 +176,7 @@ export default function StudentHome() {
               ))}
             </CardBody>
           </Card>
+          )}
         </div>
       </div>
     </div>
@@ -197,6 +197,23 @@ function UpNext({ w }: { w: StudentWork }) {
         {w.assignment.instructions && <p className="mt-2 line-clamp-2 max-w-xl text-white/80">{w.assignment.instructions}</p>}
         <Link to={`/s/work/${w.assignment.id}`} className="mt-5 inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 font-semibold text-spotlight hover:bg-white/90">
           {w.status === 'in_progress' ? 'Continue' : 'Start'} <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/** Self-paced students with nothing due: their next lesson is the thing to do. */
+function NextLesson({ lesson }: { lesson: NonNullable<ReturnType<typeof lessonById>> }) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-spotlight p-6 text-white shadow-pop">
+      <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-spotlight-glow/40 blur-2xl" />
+      <div className="relative">
+        <div className="text-sm text-white/75">Your next lesson · Lesson {lesson.number}</div>
+        <h2 className="mt-3 font-display text-2xl font-semibold leading-snug">{lesson.title}</h2>
+        <p className="mt-2 max-w-xl text-white/80">Read the lesson, try its checks, then practise its skills. You move on once you are proficient.</p>
+        <Link to={`/s/learn/${lesson.id}`} className="mt-5 inline-flex h-11 items-center gap-2 rounded-xl bg-white px-5 font-semibold text-spotlight hover:bg-white/90">
+          Open the lesson <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     </div>
@@ -225,5 +242,84 @@ export function WorkRow({ w }: { w: StudentWork }) {
       </div>
       {w.status === 'missing' ? <Badge tone="bad">Missing</Badge> : w.status === 'in_progress' ? <Badge tone="info">In progress</Badge> : w.status === 'done' || w.status === 'late_done' ? <Badge tone="good">Done</Badge> : null}
     </Link>
+  );
+}
+
+/** A student with no class yet: find a course to study on their own, or join a teacher's class. */
+function GetStarted({ name }: { name: string }) {
+  return (
+    <div className="mx-auto max-w-3xl space-y-6 py-4">
+      <div>
+        <h1 className="text-2xl font-semibold sm:text-[28px]">Welcome, {name}</h1>
+        <p className="mt-1 text-ink-3">Choose how you want to learn. You can do both.</p>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Link to="/s/welcome" className="card group flex flex-col gap-3 p-6 transition hover:border-brand-300">
+          <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+            <Compass className="h-6 w-6" />
+          </span>
+          <span className="text-lg font-semibold">Find my course</span>
+          <span className="text-[15px] text-ink-2">Tell us your grade and plans, take an optional placement check, and study at your own pace with an AI tutor.</span>
+          <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-brand">
+            Get started <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </span>
+        </Link>
+        <Link to="/s/join" className="card group flex flex-col gap-3 p-6 transition hover:border-brand-300">
+          <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-surface-2 text-ink-2">
+            <KeyRound className="h-6 w-6" />
+          </span>
+          <span className="text-lg font-semibold">Join my teacher’s class</span>
+          <span className="text-[15px] text-ink-2">Enter the 6-character class code your teacher gave you to see their lessons, classwork and announcements.</span>
+          <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-brand">
+            Enter a class code <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/** Skills missed on the placement check before this course, until the student is proficient in them. */
+function PlacementReview({ classId, map }: { classId: string; map: Map<string, SkillState> }) {
+  const [hidden, setHidden] = useState<string | null>(null);
+  const skills = useMemo(() => reviewSkills(classId).filter((id) => {
+    const level = map.get(id)?.level;
+    return level !== 'proficient' && level !== 'mastered';
+  }), [classId, map]);
+  if (!skills.length || hidden === classId) return null;
+  const from = courseOfSkill(skills[0])?.shortTitle;
+  return (
+    <Card className="border-warn/30">
+      <CardBody>
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2 text-sm font-semibold text-warn-ink">
+            <RotateCcw className="h-4 w-4" /> Review from {from ?? 'the course before'}
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              clearReviewSkills(classId);
+              setHidden(classId);
+            }}
+            className="-m-1 rounded-lg p-1 text-ink-3 hover:bg-surface-2"
+            aria-label="Dismiss the review list"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <p className="mt-2 text-sm text-ink-2">Your placement check found these skills worth a refresh. A few short practice sets will help the new course make sense.</p>
+        <ul className="mt-3 space-y-1.5 text-[15px]">
+          {skills.map((id) => (
+            <li key={id} className="flex gap-2">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-warn" />
+              {skillLabel(id)}
+            </li>
+          ))}
+        </ul>
+        <Button className="mt-4" variant="soft" to={`/s/practice?skills=${skills.join(',')}`} icon={<PlayCircle className="h-4 w-4" />}>
+          Practise these
+        </Button>
+      </CardBody>
+    </Card>
   );
 }

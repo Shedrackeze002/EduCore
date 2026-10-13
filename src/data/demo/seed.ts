@@ -172,6 +172,7 @@ export async function buildSeed(): Promise<DemoDB> {
       {
         id: classId,
         teacherId: teacher.id,
+        kind: 'teacher',
         name: 'Math 10C',
         section: 'Block A',
         courseId: 'math-10c',

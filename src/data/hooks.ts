@@ -66,6 +66,18 @@ export function useCreateClass() {
   return useMutation({ mutationFn: (v: { name: string; section?: string | null; courseId: string }) => api().createClass(v), onSuccess: () => qc.invalidateQueries({ queryKey: qk.classes }) });
 }
 
+/** A student starts studying a course on their own (a self-paced section with the AI as tutor). */
+export function useStartSelfPaced() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (courseId: string) => api().startSelfPaced(courseId),
+    onSuccess: async (c) => {
+      await qc.invalidateQueries({ queryKey: qk.classes });
+      await qc.invalidateQueries({ queryKey: qk.publications(c.id) });
+    },
+  });
+}
+
 export function useUpdateClass(classId: string) {
   const qc = useQueryClient();
   return useMutation({

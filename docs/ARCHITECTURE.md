@@ -97,6 +97,25 @@ student cannot claim a right answer by editing a request. Updates arrive through
 Realtime (in the demo, through `localStorage` events between tabs), with a slow poll as a
 fallback.
 
+## Self-paced study and course placement (`engine/placement.ts`, `src/features/student/`)
+
+Students who sign up without a class code go to onboarding (`/s/welcome`). They give their
+grade, their plans after high school (from Grade 10), whether they want calculus (Grade 12
+science plans) and how mathematics feels, and `recommendCourse` follows Alberta's course
+sequences to recommend a course, with reasons and alternatives. An optional placement check asks
+6 questions from the course before (`placementSkills`: the skill each unit builds towards,
+spread across the course), graded in the browser and not saved; `placementResult` says ready,
+ready with review, or start earlier.
+
+Starting a course calls `start_self_paced`, which creates (or reuses) a **self-paced section**:
+a class with `kind = 'self'`, no teacher, every lesson published and AI autopilot on. Self-paced
+students follow the course in order (`selfPacedLessons`: the next lesson is the first with a
+skill not yet proficient), the study coach acts as their tutor, and `grade-submission` runs the
+autopilot after practice as well as assignments, so the AI assigns targeted practice when a
+skill stays weak. Skills missed on the placement check are kept on the device and offered as
+practice on the home page. A student can study several courses and join teachers' classes; the
+course switcher in the shell remembers the current one.
+
 ## Security model (Supabase)
 
 - **Row-level security on every table.** Teachers see only their own classes and the students
@@ -121,6 +140,10 @@ fallback.
   Only the teacher opens and closes `live_questions` (at most one open per class); a student
   writes only their own `live_answers`, only in their class and only while the question is open,
   and reads only their own answers.
+- **Self-paced sections.** A class has a teacher exactly when `kind = 'teacher'` (a check
+  constraint). Only `start_self_paced` creates self-paced sections, for the calling student only;
+  their join codes do not work, the student cannot rename them, and they are left out of the
+  admin class list.
 - **Secrets** (MiniMax, Resend, cron secret) live in Edge Function secrets or Vault, never in the
   browser bundle.
 

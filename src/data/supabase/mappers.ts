@@ -38,7 +38,8 @@ export const toProfile = (r: Row): Profile => ({
 
 export const toClass = (r: Row): ClassRoom => ({
   id: r.id,
-  teacherId: r.teacher_id,
+  teacherId: r.teacher_id ?? null,
+  kind: r.kind === 'self' ? 'self' : 'teacher',
   name: r.name,
   section: r.section,
   courseId: r.course_id,
