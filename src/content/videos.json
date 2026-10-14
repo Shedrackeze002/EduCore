@@ -8634,5 +8634,99 @@
         "working": "A square has four equal sides: $P = 4 \\times 3.5 = 14\\text{ m}$."
       }
     ]
+  },
+  "m104-7-1-b": {
+    "lessonId": "m104-7-1",
+    "title": "Perimeter, Part 2: Circumference",
+    "duration": 149,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Circles",
+        "t": 11.747
+      },
+      {
+        "title": "Using the formula",
+        "t": 40.825
+      },
+      {
+        "title": "Rolling wheels",
+        "t": 70.879
+      },
+      {
+        "title": "Your turn",
+        "t": 108.467
+      },
+      {
+        "title": "Summary",
+        "t": 134.382
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-7-1-b:q",
+        "t": 117.638,
+        "prompt": "A round pool has a radius of $4\\text{ m}$. How long is the fence around it, to the nearest tenth?",
+        "choices": [
+          "$25.1\\text{ m}$",
+          "$12.6\\text{ m}$",
+          "$50.3\\text{ m}$",
+          "$16\\text{ m}$"
+        ],
+        "answer": 0,
+        "working": "$d = 2 \\times 4 = 8\\text{ m}$, and $C = \\pi \\times 8 \\approx 25.1\\text{ m}$."
+      }
+    ]
+  },
+  "m104-7-2": {
+    "lessonId": "m104-7-2",
+    "title": "Area, Part 1: Rectangles and Triangles",
+    "duration": 135,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square units",
+        "t": 13.656
+      },
+      {
+        "title": "Carpet for a bedroom",
+        "t": 41.057
+      },
+      {
+        "title": "Triangles",
+        "t": 63.047
+      },
+      {
+        "title": "Your turn",
+        "t": 92.776
+      },
+      {
+        "title": "Summary",
+        "t": 114.788
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-7-2:q",
+        "t": 101.014,
+        "prompt": "A triangular sail has a base of $5\\text{ m}$ and a height of $8\\text{ m}$. What is its area?",
+        "choices": [
+          "$20\\text{ m}^2$",
+          "$40\\text{ m}^2$",
+          "$13\\text{ m}^2$",
+          "$26\\text{ m}^2$"
+        ],
+        "answer": 0,
+        "working": "$A = \\tfrac{1}{2} \\times 5 \\times 8 = 20\\text{ m}^2$."
+      }
+    ]
   }
 }
