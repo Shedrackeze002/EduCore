@@ -25,10 +25,10 @@ const video: Explainer = {
       left: [figure('aas', [triangle({ A: [0, 0], B: [5.95, 0], C: [3.92, 4.35], names: ['A', 'B', 'C'], sides: { BC: '12\\text{ cm}', CA: 'b' }, tones: { BC: 'opp', CA: 'adj' }, angles: { A: '48^\\circ', B: '65^\\circ' }, angleTones: { A: 'opp', B: 'adj' } })])],
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['\\dfrac{b}{\\sin 65^\\circ} = \\dfrac{12}{\\sin 48^\\circ}', 'b = \\dfrac{12\\sin 65^\\circ}{\\sin 48^\\circ}', 'b \\approx 14.63 \\approx 14.6\\text{ cm}'] }],
       lines: [
-        { say: 'In acute triangle "A" B C, angle "A" is forty-eight degrees, angle B is sixty-five degrees, and side a is twelve centimetres. Find b, to the nearest tenth of a centimetre.', show: ['aas.shape', 'aas.names', 'aas.aA', 'aas.aB', 'aas.BC', 'aas.CA'] },
-        { say: 'Side a and angle "A" are a complete matching pair. Side b is across from angle B. To find a side, put sides on top: b over sine sixty-five equals twelve over sine forty-eight.', show: 'm.0', focus: ['aas.BC', 'aas.aA', 'm.0'] },
+        { say: 'In acute triangle "A" B C, angle "A" is forty-eight degrees, angle B is sixty-five degrees, and side "a" is twelve centimetres. Find b, to the nearest tenth of a centimetre.', show: ['aas.shape', 'aas.names', 'aas.aA', 'aas.aB', 'aas.BC', 'aas.CA'] },
+        { say: 'Side "a" and angle "A" are a complete matching pair. Side b is across from angle B. To find a side, put sides on top: b over sine sixty-five equals twelve over sine forty-eight.', show: 'm.0', focus: ['aas.BC', 'aas.aA', 'm.0'] },
         { say: 'Multiply both sides by sine sixty-five. Then b is twelve sine sixty-five, over sine forty-eight, which is about 14.6 centimetres.', show: ['m.1', 'm.2'], focus: ['aas.CA', 'm.2'] },
-        { say: 'Check: b is across from the larger angle, sixty-five degrees, so it should be longer than a. It is.' },
+        { say: 'Check: b is across from the larger angle, sixty-five degrees, so it should be longer than "a". It is.' },
       ],
     },
     {

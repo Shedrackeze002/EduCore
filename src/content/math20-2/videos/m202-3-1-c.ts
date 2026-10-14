@@ -25,8 +25,8 @@ const video: Explainer = {
       left: [figure('ssa', [triangle({ A: [0, 0], B: [5.31, 0], C: [1.6, 4.92], names: ['A', 'B', 'C'], sides: { BC: '11.2\\text{ cm}', CA: '9.4\\text{ cm}' }, tones: { BC: 'opp', CA: 'adj' }, angles: { A: '72^\\circ', B: '?' }, angleTones: { A: 'opp', B: 'adj' } })])],
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['\\dfrac{\\sin B}{9.4} = \\dfrac{\\sin 72^\\circ}{11.2}', '\\sin B = \\dfrac{9.4\\sin 72^\\circ}{11.2} \\approx 0.7982', '\\angle B = \\sin^{-1}(0.7982) \\approx 53^\\circ'] }],
       lines: [
-        { say: 'In acute triangle "A" B C, a is 11.2 centimetres, b is 9.4 centimetres, and angle "A" is seventy-two degrees. Find angle B, to the nearest degree.', show: ['ssa.shape', 'ssa.names', 'ssa.BC', 'ssa.CA', 'ssa.aA', 'ssa.aB'] },
-        { say: 'Side a and angle "A" are a matching pair, and angle B is across from b. To find an angle, put the sines on top: sine B over 9.4 equals sine seventy-two over 11.2.', show: 'm.0', focus: ['ssa.BC', 'ssa.aA', 'm.0'] },
+        { say: 'In acute triangle "A" B C, "a" is 11.2 centimetres, b is 9.4 centimetres, and angle "A" is seventy-two degrees. Find angle B, to the nearest degree.', show: ['ssa.shape', 'ssa.names', 'ssa.BC', 'ssa.CA', 'ssa.aA', 'ssa.aB'] },
+        { say: 'Side "a" and angle "A" are a matching pair, and angle B is across from b. To find an angle, put the sines on top: sine B over 9.4 equals sine seventy-two over 11.2.', show: 'm.0', focus: ['ssa.BC', 'ssa.aA', 'm.0'] },
         { say: 'Multiply both sides by 9.4. Sine B is about 0.7982.', show: 'm.1', focus: 'm.1' },
         { say: 'Now undo the sine with the inverse sine key. Angle B is about fifty-three degrees.', show: 'm.2', focus: ['ssa.aB', 'm.2'] },
       ],
@@ -36,7 +36,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'callout', id: 'note', tone: 'key', title: 'Why there is only one answer', md: 'The known angle is opposite the **longer** known side ($a > b$), so $\\angle B$ must be smaller than $\\angle A$. That fixes the shape of the triangle. Every triangle in this course is set up so the information fixes one triangle.' }],
       lines: [
-        { say: 'Why is there only one answer? The known angle is opposite the longer known side, since a is greater than b. So angle B must be smaller than angle "A", and that fixes the shape of the triangle.', show: 'note' },
+        { say: 'Why is there only one answer? The known angle is opposite the longer known side, since "a" is greater than b. So angle B must be smaller than angle "A", and that fixes the shape of the triangle.', show: 'note' },
         { say: 'Every triangle you solve in this course is set up so that the given information fixes exactly one triangle.' },
       ],
     },
@@ -66,8 +66,8 @@ const video: Explainer = {
         },
       ],
       lines: [
-        { say: 'Your turn. In acute triangle "A" B C, a is nine centimetres, b is seven centimetres, and angle "A" is sixty-four degrees. Find angle B, to the nearest degree. Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Sine B is seven sine sixty-four, over nine, about 0.6991, and the inverse sine gives forty-four degrees. That is smaller than sixty-four, as it should be, because b is shorter than a.', show: 'q.answer' },
+        { say: 'Your turn. In acute triangle "A" B C, "a" is nine centimetres, b is seven centimetres, and angle "A" is sixty-four degrees. Find angle B, to the nearest degree. Pause the video and try it.', show: 'q', wait: 6 },
+        { say: 'The answer is A. Sine B is seven sine sixty-four, over nine, about 0.6991, and the inverse sine gives forty-four degrees. That is smaller than sixty-four, as it should be, because b is shorter than "a".', show: 'q.answer' },
       ],
     },
     {

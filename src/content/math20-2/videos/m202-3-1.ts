@@ -26,8 +26,8 @@ const video: Explainer = {
       right: [{ kind: 'callout', id: 'def', tone: 'definition', title: 'Oblique triangle', md: 'A triangle with **no right angle**. In this unit, every triangle is **acute**: all three angles are less than $90^\\circ$.' }],
       lines: [
         { say: 'An oblique triangle is a triangle with no right angle. In this unit, every triangle is acute, so all three angles are less than ninety degrees.', show: ['lab.shape', 'lab.names', 'def'] },
-        { say: 'Name the vertices with capital letters. Then name each side with the lower-case letter of the angle opposite it. Side a is across from angle "A", side b is across from angle B, and side c is across from angle C.', show: ['lab.BC', 'lab.CA', 'lab.AB'] },
-        { say: 'A side and the angle opposite it make a matching pair, like side a and angle "A". The sine law is built from matching pairs.', show: 'lab.aA', focus: ['lab.BC', 'lab.aA'] },
+        { say: 'Name the vertices with capital letters. Then name each side with the lower-case letter of the angle opposite it. Side "a" is across from angle "A", side b is across from angle B, and side c is across from angle C.', show: ['lab.BC', 'lab.CA', 'lab.AB'] },
+        { say: 'A side and the angle opposite it make a matching pair, like side "a" and angle "A". The sine law is built from matching pairs.', show: 'lab.aA', focus: ['lab.BC', 'lab.aA'] },
       ],
     },
     {
@@ -48,8 +48,8 @@ const video: Explainer = {
       lines: [
         { say: 'Draw the height h from C straight down to side "A" B. It splits the triangle into two right triangles.', show: ['proof.shape', 'proof.names', 'proof.BC', 'proof.CA', 'proof.alt'], focus: 'proof.alt' },
         { say: 'In the left right triangle, h is opposite angle "A", and b is the hypotenuse. So sine "A" is h over b, and h equals b sine "A".', show: ['proof.aA', 'm.0'], focus: ['proof.aA', 'm.0'] },
-        { say: 'In the right one, sine B is h over a, so h equals a sine B.', show: ['proof.aB', 'm.1'], focus: ['proof.aB', 'm.1'] },
-        { say: 'Both expressions equal h, so a sine B equals b sine "A". Divide both sides by sine "A" times sine B, and a over sine "A" equals b over sine B.', show: ['m.2', 'm.3'], focus: 'm.3' },
+        { say: 'In the right one, sine B is h over "a", so h equals "a" sine B.', show: ['proof.aB', 'm.1'], focus: ['proof.aB', 'm.1'] },
+        { say: 'Both expressions equal h, so "a" sine B equals b sine "A". Divide both sides by sine "A" times sine B, and "a" over sine "A" equals b over sine B.', show: ['m.2', 'm.3'], focus: 'm.3' },
       ],
     },
     {
