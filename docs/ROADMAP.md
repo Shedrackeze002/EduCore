@@ -195,7 +195,13 @@ items ship or decisions change.
      graphs and their trends, rate of change, predicting from a steady trend, choosing the best
      graph, misleading graphs (a cut-off axis and uneven years), number patterns, magic squares,
      cage and logic puzzles, and winning strategies for take-away games. All 90 Math 20-3 videos
-     are scripted and stills-checked; rendering follows Math 20-2. Next: Math 20-4 scripts.
+     are scripted and stills-checked; rendering follows Math 20-2.
+   - Scripting: Math 20-4. Unit 1 (number sense) is done, 15 videos: integers on a number line and
+     the sign rules, the order of operations, integers for means and money owed, mixed numbers
+     with fraction strips, adding, subtracting and multiplying fractions, two-step fraction
+     problems, ratios, rates and unit rates, proportions, sharing in a ratio, and four kinds of
+     percent problems. Worked steps use full-size fractions for easier reading. Units 2 to 9 are
+     next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
