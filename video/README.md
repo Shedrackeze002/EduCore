@@ -130,11 +130,12 @@ See `src/video/script.ts` for every element and option. In short:
   each standard deviation, `d.axis`, `d.curve` and `d.mean`, and shaded regions between numbers of
   standard deviations, each a part by its id, with a percent label that `labelAt` can move).
 
-- Give each video the time its explanation needs, at the calm pace above, and never trim an
-  explanation to save time. A video runs at least two minutes and at most about seven; the build
-  warns outside that range. About 350 to 450 spoken words makes about four minutes. Split a lesson
-  that needs more than about seven minutes into parts: `m10c-2-1` is part 1, `m10c-2-1-b` part 2,
-  and so on.
+- Explain everything as simply as possible, at the calm pace above, and give each video the time
+  that takes. There is no time limit: never trim an explanation to save time, even if a video
+  runs ten or fifteen minutes. A video runs at least two minutes (the build warns under that);
+  about 350 to 450 spoken words makes about four minutes. Split a lesson into parts when it
+  covers separate ideas, one idea per part, not to save time: `m10c-2-1` is part 1, `m10c-2-1-b`
+  part 2, and so on.
 - Start with a title scene, give each later scene a `chapter` (these become YouTube chapters),
   end with a "Your turn" question and a summary.
 - Colours have fixed meanings: `[[theta:…]]`, `[[opp:…]]`, `[[adj:…]]` and `[[hyp:…]]` in text,
@@ -145,8 +146,8 @@ See `src/video/script.ts` for every element and option. In short:
 ## Making a course's videos, step by step
 
 1. Script each lesson in parts (`src/content/<course>/videos/<id>.ts`, then `<id>-b`, `<id>-c`…),
-   usually 350 to 450 spoken words each, more when the lesson needs it, up to about seven minutes
-   (`video/tools/words.sh <files>`). Check the scripts with
+   with as many spoken words as the simplest explanation needs (`video/tools/words.sh <files>`;
+   350 to 450 words makes about four minutes). Check the scripts with
    `npx vitest run src/video/scripts.test.ts -t "<id prefix>"`.
 2. Check the layouts: `npx tsx video/build.ts <ids> --stills --quick` (in a cloud session, set
    `CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` and `NODE_USE_ENV_PROXY=1`),

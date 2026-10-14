@@ -134,8 +134,9 @@ items ship or decisions change.
      lesson at both paces, and chose the slower one: the voice at speed 0.85 (about 150 to 155
      words a minute instead of about 175), 0.8 seconds between lines, an extra 0.6 seconds after
      each new step appears, and longer pauses around scenes. Lesson 1.2 part 1 of Math 20-1 went
-     from 2:58 to 3:42. Videos may run up to about seven minutes, and explanations are never
-     trimmed to save time. Every video from Math 20-1 on uses the new pace. Math 10C, 10-3 and
+     from 2:58 to 3:42. There is no time limit: the goal is to explain as simply as possible,
+     so a video may run ten or fifteen minutes if it needs to, and explanations are never trimmed
+     to save time. Every video from Math 20-1 on uses the new pace. Math 10C, 10-3 and
      10-4 were made at the old pace and stay as they are (the owner's decision).
    - Scripted: Math 10-3, all 8 units, two parts per lesson (about three minutes each): units and
      measurement, money and finance, ratios and rates, perimeter, area and surface area, angles

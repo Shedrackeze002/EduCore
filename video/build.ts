@@ -50,8 +50,11 @@ const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('
 const FPS = Number(option('fps', '30'));
 /** Every video runs at least two minutes; a shorter one needs more in its script. */
 const MIN_SECONDS = 120;
-/** A video runs at most about seven minutes; a longer lesson is split into parts. */
-const MAX_SECONDS = 7 * 60;
+/**
+ * There is no time limit: a video takes as long as the simplest explanation needs. Past fifteen
+ * minutes the build only notes it, as a check that the length is intended.
+ */
+const LONG_SECONDS = 15 * 60;
 /** The quick estimate runs about a tenth long (2:06 for a video voiced at 1:52), so it needs more. */
 const QUICK_MARGIN = 1.12;
 
@@ -216,7 +219,7 @@ async function main() {
       const tl = compile(x, durations);
       log(`${id}: ${clock(tl.duration)} long${flag('quick') ? ' (estimated)' : ''}, ${tl.chapters.length} chapters, ${tl.cues.length} questions`);
       if (tl.duration < MIN_SECONDS * (flag('quick') ? QUICK_MARGIN : 1)) log(`${id}: WARNING: likely shorter than ${clock(MIN_SECONDS)}; add to the script.`);
-      if (tl.duration > MAX_SECONDS) log(`${id}: WARNING: longer than ${clock(MAX_SECONDS)}; split the lesson into parts.`);
+      if (tl.duration > LONG_SECONDS) log(`${id}: note: longer than ${clock(LONG_SECONDS)}; fine if the explanation needs it.`);
 
       const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1.5 });
       const errors: string[] = [];
