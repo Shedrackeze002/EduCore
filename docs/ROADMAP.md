@@ -299,16 +299,15 @@ items ship or decisions change.
 - Update Math 7, 8 and 9 to Alberta's new Grades 7–9 curriculum before it becomes mandatory in
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
-- The owner added the *Deploy Supabase backend* secrets (`SUPABASE_ACCESS_TOKEN`, a scoped token
-  for this project, `SUPABASE_PROJECT_ID` and `SUPABASE_DB_PASSWORD`) on 14 October 2026. Until
-  then migrations were applied by hand and recorded in `supabase_migrations.schema_migrations`
-  (all 13 match `supabase/migrations`). The first run failed at `supabase link`, which reads the
-  project's secret API keys, so the workflow no longer links: it pushes migrations through the
-  session pooler and deploys the functions by project ref. Next: the owner replaces the token
-  with one that has Connection Pooling (Read) and Edge Functions (Read-write), then runs the
-  workflow once from Actions (Run workflow, on main) to confirm it finds no new migration and
-  redeploys the five Edge Functions. After that, merges that change `supabase/` or `engine/`
-  deploy on their own. Make a new token before the old one expires.
+- Done: the *Deploy Supabase backend* workflow works. Its secrets (`SUPABASE_ACCESS_TOKEN`,
+  `SUPABASE_PROJECT_ID` and `SUPABASE_DB_PASSWORD`) were added on 14 October 2026. The first run
+  failed at `supabase link`, which reads the project's secret API keys, so the workflow no longer
+  links: it pushes migrations through the session pooler and deploys the functions by project
+  ref. The token is scoped to this project with only Connection Pooling (Read) and Edge Functions
+  (Read-write), and expires on 13 October 2027 (permissions cannot be changed after a token is
+  made, so make a new one before then and update the secret). The run on 14 October found the
+  database up to date (all 13 migrations) and redeployed the five Edge Functions. Merges that
+  change `supabase/` or `engine/` now deploy on their own.
 - Self-paced study, next steps: an AI tutor chat inside lessons (explain a step, give a hint,
   check working) using the same AI provider as the teaching assistant; store placement results on
   the server (today they stay on the device); let a student leave a self-paced course; and email
