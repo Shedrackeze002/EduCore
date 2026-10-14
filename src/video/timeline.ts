@@ -5,16 +5,21 @@
  */
 import { asList, captionOf, plainMarkdown, sceneElements, type El, type Explainer, type TryEl } from './script.ts';
 
-/** Timing, in seconds. */
+/**
+ * Timing, in seconds. The pauses give a viewer time to read each new step before the narrator
+ * moves on, so the videos never feel rushed (the owner asked for a calm, natural pace).
+ */
 export const TIMING = {
   /** Before the first line of a scene (the scene fades in meanwhile). */
-  sceneIn: 0.6,
+  sceneIn: 1,
   /** After the last line of a scene. */
-  sceneOut: 0.9,
+  sceneOut: 1.6,
   /** Scene fade in and out. */
   fade: 0.35,
   /** Between lines. */
-  gap: 0.35,
+  gap: 0.8,
+  /** Extra time after a line that puts something new on the stage, to read it. */
+  settle: 0.6,
   /** Highlight changes. */
   focus: 0.45,
   /** Hiding an element. */
@@ -129,7 +134,7 @@ export function compile(x: Explainer, durations: Record<string, number>): Timeli
           ...(q.working ? { working: plainMarkdown(q.working) } : {}),
         });
       }
-      t = end + TIMING.gap + (l.wait ?? 0);
+      t = end + TIMING.gap + (asList(l.show).length ? TIMING.settle : 0) + (l.wait ?? 0);
     });
     t += TIMING.sceneOut - TIMING.gap;
     scenes.push({ start: r3(start), end: r3(t), chapter, kinds, events });

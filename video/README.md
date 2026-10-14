@@ -46,7 +46,10 @@ minutes to render on four cores; frames where nothing moves are drawn once and r
 ## Narration
 
 The voice is Kokoro (82M parameters, Apache 2.0), which runs on the CPU, so narration costs
-nothing however many videos we make. The default voice is `af_heart`. Kokoro reads numbers,
+nothing however many videos we make. The default voice is `af_heart` at speed 0.85, about 150 to
+155 spoken words a minute, with pauses between lines and after each new step so a viewer can read
+it (`TIMING` in `src/video/timeline.ts`). The owner chose this calm pace on 14 October 2026 after
+comparing it with speed 1, which was too fast. Kokoro reads numbers,
 decimals and units as written ("9.4 cm", "0.75"); write maths in words ("tan theta equals x over
 fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit whole numbers
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
@@ -127,9 +130,11 @@ See `src/video/script.ts` for every element and option. In short:
   each standard deviation, `d.axis`, `d.curve` and `d.mean`, and shaded regions between numbers of
   standard deviations, each a part by its id, with a percent label that `labelAt` can move).
 
-- Keep each video to about three minutes, and never under two: about 350 spoken words is enough,
-  and the build warns about a video that runs, or is estimated to run, under two minutes. Split a
-  long lesson into parts: `m10c-2-1` is part 1, `m10c-2-1-b` part 2, and so on.
+- Give each video the time its explanation needs, at the calm pace above, and never trim an
+  explanation to save time. A video runs at least two minutes and at most about seven; the build
+  warns outside that range. About 350 to 450 spoken words makes about four minutes. Split a lesson
+  that needs more than about seven minutes into parts: `m10c-2-1` is part 1, `m10c-2-1-b` part 2,
+  and so on.
 - Start with a title scene, give each later scene a `chapter` (these become YouTube chapters),
   end with a "Your turn" question and a summary.
 - Colours have fixed meanings: `[[theta:…]]`, `[[opp:…]]`, `[[adj:…]]` and `[[hyp:…]]` in text,
@@ -140,7 +145,8 @@ See `src/video/script.ts` for every element and option. In short:
 ## Making a course's videos, step by step
 
 1. Script each lesson in parts (`src/content/<course>/videos/<id>.ts`, then `<id>-b`, `<id>-c`…),
-   about 350 spoken words each (`video/tools/words.sh <files>`). Check the scripts with
+   usually 350 to 450 spoken words each, more when the lesson needs it, up to about seven minutes
+   (`video/tools/words.sh <files>`). Check the scripts with
    `npx vitest run src/video/scripts.test.ts -t "<id prefix>"`.
 2. Check the layouts: `npx tsx video/build.ts <ids> --stills --quick` (in a cloud session, set
    `CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` and `NODE_USE_ENV_PROXY=1`),

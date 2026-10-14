@@ -44,10 +44,14 @@ const option = (name: string, fallback: string) => {
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 };
 const ids = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--voice', '--speed', '--fps'].includes(args[i - 1])));
-const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('speed', '1')) };
+// Speed 0.85 gives about 150 to 155 spoken words a minute on plain sentences, a calm teaching pace
+// (Kokoro's speed is not proportional: 1 gave about 175, which felt rushed, and 0.9 only about 165).
+const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('speed', '0.85')) };
 const FPS = Number(option('fps', '30'));
 /** Every video runs at least two minutes; a shorter one needs more in its script. */
 const MIN_SECONDS = 120;
+/** A video runs at most about seven minutes; a longer lesson is split into parts. */
+const MAX_SECONDS = 7 * 60;
 /** The quick estimate runs about a tenth long (2:06 for a video voiced at 1:52), so it needs more. */
 const QUICK_MARGIN = 1.12;
 
@@ -68,7 +72,7 @@ async function voiceLines(x: Explainer) {
     for (const [li, l] of s.lines.entries()) {
       const key = `${si}.${li}`;
       if (flag('quick')) {
-        durations[key] = Math.max(1.2, l.say.split(/\s+/).length / 2.7);
+        durations[key] = Math.max(1.2, l.say.split(/\s+/).length / (2.7 * voice.speed));
         continue;
       }
       const clip = await narrate(CACHE, speechText(l.say), voice);
@@ -212,6 +216,7 @@ async function main() {
       const tl = compile(x, durations);
       log(`${id}: ${clock(tl.duration)} long${flag('quick') ? ' (estimated)' : ''}, ${tl.chapters.length} chapters, ${tl.cues.length} questions`);
       if (tl.duration < MIN_SECONDS * (flag('quick') ? QUICK_MARGIN : 1)) log(`${id}: WARNING: likely shorter than ${clock(MIN_SECONDS)}; add to the script.`);
+      if (tl.duration > MAX_SECONDS) log(`${id}: WARNING: longer than ${clock(MAX_SECONDS)}; split the lesson into parts.`);
 
       const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1.5 });
       const errors: string[] = [];
