@@ -196,7 +196,7 @@ items ship or decisions change.
      graph, misleading graphs (a cut-off axis and uneven years), number patterns, magic squares,
      cage and logic puzzles, and winning strategies for take-away games. All 90 Math 20-3 videos
      are scripted and stills-checked; rendering follows Math 20-2.
-   - Scripting: Math 20-4. Unit 1 (number sense) is done, 15 videos: integers on a number line and
+   - Scripted: Math 20-4. Unit 1 (number sense) is done, 15 videos: integers on a number line and
      the sign rules, the order of operations, integers for means and money owed, mixed numbers
      with fraction strips, adding, subtracting and multiplying fractions, two-step fraction
      problems, ratios, rates and unit rates, proportions, sharing in a ratio, and four kinds of
@@ -218,7 +218,12 @@ items ship or decisions change.
      GST. A new flat-shape helper (src/video/shapes.ts) draws the floors and yards. Unit 8 (scale,
      maps and travel) is done, 12 videos: scale drawings and ratio scales, measuring plans,
      finding a scale, map scales, routes, grid maps, compass directions, and speed, distance,
-     travel time and arrival times. Unit 9 is next.
+     travel time and arrival times. Unit 9 (data and probability) is done, 12 videos: line and
+     circle graphs, percents and slice angles, comparing data sets, outliers, misleading graphs
+     and claims, theoretical and experimental probability, and predictions. All 111 Math 20-4
+     videos are scripted and stills-checked, so every Math 20 course is scripted (376 videos:
+     20-1 86, 20-2 89, 20-3 90, 20-4 111). Rendering the Math 20 videos is next, once the project
+     moves to its new structure (the owner asked to pause here for a recap first).
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the

@@ -9155,5 +9155,52 @@
         "working": "Left subtracts from $x$: $3 - 2 = 1$. Up adds to $y$: $1 + 4 = 5$. The image is $(1, 5)$."
       }
     ]
+  },
+  "m104-9-1": {
+    "lessonId": "m104-9-1",
+    "title": "Data and Graphs, Part 1: Tallies and Bar Graphs",
+    "duration": 161,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Tally charts",
+        "t": 16.98
+      },
+      {
+        "title": "Bar graphs",
+        "t": 52.194
+      },
+      {
+        "title": "Check the scale",
+        "t": 91.082
+      },
+      {
+        "title": "Your turn",
+        "t": 116.152
+      },
+      {
+        "title": "Summary",
+        "t": 141.971
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-9-1:q",
+        "t": 127.641,
+        "prompt": "The grid lines on a bar graph go up by $4$. A bar stops halfway between the lines for $12$ and $16$. What value does it show?",
+        "choices": [
+          "$14$",
+          "$12$",
+          "$16$",
+          "$13$"
+        ],
+        "answer": 0,
+        "working": "Halfway between $12$ and $16$ is $14$."
+      }
+    ]
   }
 }
