@@ -218,7 +218,7 @@ export function twoTriangles(o: { name?: string; arrangement: 'opposite' | 'same
   const items: DiagramItem[] = [];
   const at = (k: string, p: P) => (points[n(k)] = p);
   const line = (id: string, from: string, to: string, extra: Partial<Extract<DiagramItem, { kind: 'line' }>> = {}): DiagramItem => ({ kind: 'line', id: n(id), from: n(from), to: n(to), ...extra });
-  const angle = (id: string, vertex: string, from: string, to: string, label: string | undefined, r: number, tone: DiagramTone): DiagramItem => ({ kind: 'angle', id: n(id), at: n(vertex), from: n(from), to: n(to), r, tone, ...(label ? { label } : {}) });
+  const angle = (id: string, vertex: string, from: string, to: string, label: string | undefined, r: number, tone: DiagramTone, labelDist?: number): DiagramItem => ({ kind: 'angle', id: n(id), at: n(vertex), from: n(from), to: n(to), r, tone, ...(label ? { label } : {}), ...(labelDist ? { labelDist } : {}) });
   const dim = (from: P, to: P, label: string | undefined, drop: number) => {
     at('x0', [from[0], from[1] - drop]);
     at('x1', [to[0], to[1] - drop]);
@@ -237,8 +237,9 @@ export function twoTriangles(o: { name?: string; arrangement: 'opposite' | 'same
       line('sight1', 'O', 'R', { tone: 'hyp' }),
       line('sight2', 'O', 'A', { tone: 'hyp', dashed: true }),
       { kind: 'right', id: n('right'), at: n('B'), from: n('O'), to: n('R') },
-      angle('a1', 'O', 'B', 'R', L.a1, 60, 'theta'),
-      angle('a2', 'O', 'B', 'A', L.a2, 110, 'opp'),
+      // The two angles share a side, so their labels sit at different distances along it.
+      angle('a1', 'O', 'B', 'R', L.a1, 60, 'theta', 95),
+      angle('a2', 'O', 'B', 'A', L.a2, 130, 'opp', 175),
     );
     return { points, items };
   }
@@ -275,14 +276,14 @@ export function twoTriangles(o: { name?: string; arrangement: 'opposite' | 'same
     { kind: 'right', id: n('right'), at: n('B'), from: n('F'), to: n('T') },
     // Each angle sits inside its own triangle, between the ground back to the base and the sight line.
     angle('a1', 'N', 'B', 'T', L.a1, 45, 'theta'),
-    angle('a2', 'F', 'B', 'T', L.a2, 70, 'opp'),
+    angle('a2', 'F', 'B', 'T', L.a2, 70, 'opp', 110),
   );
   if (o.depression) {
     at('H', [far[0], h]);
     items.push(
       line('horizontal', 'T', 'H', { tone: 'muted', dashed: true }),
-      angle('d1', 'T', 'H', 'N', L.a1, 90, 'theta'),
-      angle('d2', 'T', 'H', 'F', L.a2, 140, 'opp'),
+      angle('d1', 'T', 'H', 'N', L.a1, 70, 'theta', 115),
+      angle('d2', 'T', 'H', 'F', L.a2, 150, 'opp', 200),
     );
   }
   dim(near, far, L.x, h * 0.12);
