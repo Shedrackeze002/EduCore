@@ -32,7 +32,8 @@ export default defineConfig({
   test: {
     include: ['engine/**/*.test.ts', 'src/**/*.test.ts'],
     environment: 'node',
-    // Tests see every course's generators, as the server does.
-    setupFiles: ['engine/curriculum/all.ts'],
+    // Tests see every course's generators, as the server does; vitest.setup.ts gives the event
+    // loop a turn after each test so long files of synchronous tests do not time out.
+    setupFiles: ['engine/curriculum/all.ts', 'vitest.setup.ts'],
   },
 });
