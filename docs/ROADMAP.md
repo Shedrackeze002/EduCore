@@ -130,7 +130,10 @@ items ship or decisions change.
      displays, averages and probability. They brought fraction strips (`src/video/numbers.ts`)
      and data figures (`src/video/charts.ts`: bar graphs with reading lines, circle graphs, tally
      marks and bags of marbles).
-   - Rendering: Math 10-3, in three batches (Units 1–3, 4–6 and 7–8), then Math 10-4.
+   - Built: Math 10-3, all 62 videos, in the video manifest. The pronunciation check found two
+     words the voice got wrong ("biweekly" and "deci") and hyphenated sizes run together; the
+     narration now respells them (`speechText`), and the four videos with them were rendered
+     again. Upload packs are zipped per unit. Next: render Math 10-4.
    - Scripted: Math 20-1, all 9 units, 86 videos (two or three parts per lesson): sequences and
      series, trigonometry with angles in standard position and the sine and cosine laws,
      quadratic functions in vertex and standard form with optimization, factoring and solving
@@ -175,8 +178,11 @@ items ship or decisions change.
      (trigonometry) is done, 12 videos: a right-triangle review (sides, the Pythagorean theorem,
      SOH CAH TOA, angles, a whole roof), angles of elevation and depression, two triangles on
      opposite or the same side, a missing shared side, survey sightings, roof trusses, stairs with
-     a landing, and the diagonal of a box (a `twoTriangles` figure was added). Units 5 to 8 are
-     next.
+     a landing, and the diagonal of a box (a `twoTriangles` figure was added). Unit 5
+     (scale, views and exploded views) is done, 11 videos: reading and drawing to scale, finding a
+     scale, areas and volumes at scale, top, front and side views of cube stacks, isometric
+     drawings, working back from views, exploded views, parts lists and costs, and assembly order
+     (`squareColumns` and `isometricBox` figures were added). Units 6 to 8 are next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the

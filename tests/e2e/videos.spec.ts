@@ -54,7 +54,9 @@ test('an administrator links an explainer video, and the lesson plays it and pau
 
   // The administrator pastes the video's YouTube link.
   await page.goto('/admin/videos');
-  const row = page.getByRole('listitem').filter({ hasText: video.title });
+  // Other courses have videos with the same title (Math 10-3 also teaches the tangent ratio), so
+  // pick the row by its video id as well.
+  const row = page.getByRole('listitem').filter({ hasText: video.title }).filter({ hasText: 'm10c-2-1 ·' });
   await row.getByLabel('YouTube link').fill('not a link');
   await row.getByRole('button', { name: 'Link video' }).click();
   await expect(row.getByText(/Paste the link of the video on YouTube/)).toBeVisible();
@@ -93,7 +95,7 @@ test('an administrator links an explainer video, and the lesson plays it and pau
 
   // With part 2 linked too, the lesson offers both parts.
   await page.goto('/admin/videos');
-  const part2 = page.getByRole('listitem').filter({ hasText: manifest['m10c-2-1-b'].title });
+  const part2 = page.getByRole('listitem').filter({ hasText: manifest['m10c-2-1-b'].title }).filter({ hasText: 'm10c-2-1-b ·' });
   await part2.getByLabel('YouTube link').fill('abcdefghijk');
   await part2.getByRole('button', { name: 'Link video' }).click();
   await expect(part2.getByText('On YouTube', { exact: true })).toBeVisible();
