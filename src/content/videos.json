@@ -1890,5 +1890,597 @@
         "working": "$27^{\\frac13} = \\sqrt[3]{27} = 3$ and $x^{9 \\times \\frac13} = x^3$, so the answer is $3x^3$."
       }
     ]
+  },
+  "m10c-4-1": {
+    "lessonId": "m10c-4-1",
+    "title": "Multiplying Binomials, Part 1: Area Models and Algebra Tiles",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The words",
+        "t": 19.254
+      },
+      {
+        "title": "Algebra tiles",
+        "t": 43.783
+      },
+      {
+        "title": "A rectangle of tiles",
+        "t": 59.465
+      },
+      {
+        "title": "Like two-digit multiplication",
+        "t": 94.504
+      },
+      {
+        "title": "Your turn",
+        "t": 131.469
+      },
+      {
+        "title": "Summary",
+        "t": 158.794
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-1:q",
+        "t": 137.636,
+        "prompt": "Expand $(x + 4)(x + 1)$.",
+        "choices": [
+          "$x^2 + 5x + 4$",
+          "$x^2 + 4x + 4$",
+          "$x^2 + 5$",
+          "$2x + 5$"
+        ],
+        "answer": 0,
+        "working": "The tiles are one $x^2$, one $x$ and four more $x$ tiles, and four units: $x^2 + x + 4x + 4 = x^2 + 5x + 4$."
+      }
+    ]
+  },
+  "m10c-4-1-b": {
+    "lessonId": "m10c-4-1",
+    "title": "Multiplying Binomials, Part 2: The Distributive Property",
+    "duration": 169,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "First, outer, inner, last",
+        "t": 15.65
+      },
+      {
+        "title": "Two variables",
+        "t": 55.007
+      },
+      {
+        "title": "Squaring a binomial",
+        "t": 86.057
+      },
+      {
+        "title": "Your turn",
+        "t": 120.455
+      },
+      {
+        "title": "Summary",
+        "t": 149.958
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-1-b:q",
+        "t": 127.23,
+        "prompt": "Expand $(3x - 2)(x + 5)$.",
+        "choices": [
+          "$3x^2 + 13x - 10$",
+          "$3x^2 + 17x - 10$",
+          "$3x^2 - 10$",
+          "$3x^2 + 13x + 10$"
+        ],
+        "answer": 0,
+        "working": "$3x^2 + 15x - 2x - 10 = 3x^2 + 13x - 10$."
+      }
+    ]
+  },
+  "m10c-4-2": {
+    "lessonId": "m10c-4-2",
+    "title": "Multiplying Polynomials, Part 1: Every Term Times Every Term",
+    "duration": 160,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Binomial times trinomial",
+        "t": 18.153
+      },
+      {
+        "title": "Trinomial times trinomial",
+        "t": 64.411
+      },
+      {
+        "title": "Your turn",
+        "t": 103.023
+      },
+      {
+        "title": "Summary",
+        "t": 139.838
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-2:q",
+        "t": 110.839,
+        "prompt": "Expand $(x - 2)(x^2 + 3x - 1)$.",
+        "choices": [
+          "$x^3 + x^2 - 7x + 2$",
+          "$x^3 + 5x^2 + 5x + 2$",
+          "$x^3 + x^2 - 7x - 2$",
+          "$x^3 - 6x + 2$"
+        ],
+        "answer": 0,
+        "working": "$x^3 + 3x^2 - x - 2x^2 - 6x + 2 = x^3 + x^2 - 7x + 2$."
+      }
+    ]
+  },
+  "m10c-4-2-b": {
+    "lessonId": "m10c-4-2",
+    "title": "Multiplying Polynomials, Part 2: Simplifying and Checking",
+    "duration": 160,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Several products",
+        "t": 14.648
+      },
+      {
+        "title": "Subtracting a product",
+        "t": 55.505
+      },
+      {
+        "title": "Checking by substitution",
+        "t": 73.434
+      },
+      {
+        "title": "Your turn",
+        "t": 108.116
+      },
+      {
+        "title": "Summary",
+        "t": 141.209
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-2-b:q",
+        "t": 119.555,
+        "prompt": "A student says $(x + 5)^2 = x^2 + 25$. Substitute $x = 2$. What do the two sides give?",
+        "choices": [
+          "$49$ and $29$, so it is wrong",
+          "$29$ and $29$, so it is right",
+          "$49$ and $49$, so it is right",
+          "$14$ and $29$, so it is wrong"
+        ],
+        "answer": 0,
+        "working": "$(2 + 5)^2 = 49$ but $2^2 + 25 = 29$. The values differ, so it is wrong: $(x + 5)^2 = x^2 + 10x + 25$."
+      }
+    ]
+  },
+  "m10c-4-3": {
+    "lessonId": "m10c-4-3",
+    "title": "Common Factors, Part 1: Factoring Out the GCF",
+    "duration": 187,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The reverse of multiplying",
+        "t": 20.943
+      },
+      {
+        "title": "The GCF of the terms",
+        "t": 44.203
+      },
+      {
+        "title": "Factoring out the GCF",
+        "t": 79.292
+      },
+      {
+        "title": "Check, and keep the 1",
+        "t": 113.614
+      },
+      {
+        "title": "Your turn",
+        "t": 130.065
+      },
+      {
+        "title": "Summary",
+        "t": 160.31
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-3:q",
+        "t": 136.604,
+        "prompt": "Factor $10x^2 - 15x$ completely.",
+        "choices": [
+          "$5x(2x - 3)$",
+          "$5(2x^2 - 3x)$",
+          "$x(10x - 15)$",
+          "$5x(2x - 15)$"
+        ],
+        "answer": 0,
+        "working": "The GCF is $5x$: $\\dfrac{10x^2}{5x} = 2x$ and $\\dfrac{-15x}{5x} = -3$."
+      }
+    ]
+  },
+  "m10c-4-3-b": {
+    "lessonId": "m10c-4-3",
+    "title": "Common Factors, Part 2: Negative and Binomial Common Factors",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two variables",
+        "t": 19.457
+      },
+      {
+        "title": "A negative common factor",
+        "t": 43.693
+      },
+      {
+        "title": "Is it complete?",
+        "t": 78.494
+      },
+      {
+        "title": "A binomial common factor",
+        "t": 100.343
+      },
+      {
+        "title": "Your turn",
+        "t": 144.023
+      },
+      {
+        "title": "Summary",
+        "t": 171.198
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-3-b:q",
+        "t": 151.971,
+        "prompt": "Factor $x(x - 7) - 2(x - 7)$.",
+        "choices": [
+          "$(x - 7)(x - 2)$",
+          "$(x - 7)(x + 2)$",
+          "$x(x - 7)$",
+          "$(x - 7)^2$"
+        ],
+        "answer": 0,
+        "working": "Both terms share $(x - 7)$. What is left is $x$ and $-2$: $(x - 7)(x - 2)$."
+      }
+    ]
+  },
+  "m10c-4-4": {
+    "lessonId": "m10c-4-4",
+    "title": "Factoring x² + bx + c, Part 1: The Product and Sum",
+    "duration": 152,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Seeing the pattern",
+        "t": 22.926
+      },
+      {
+        "title": "Factoring with tiles",
+        "t": 49.607
+      },
+      {
+        "title": "Finding the numbers",
+        "t": 78.881
+      },
+      {
+        "title": "Your turn",
+        "t": 103.739
+      },
+      {
+        "title": "Summary",
+        "t": 127.475
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-4:q",
+        "t": 109.817,
+        "prompt": "Factor $x^2 + 8x + 12$.",
+        "choices": [
+          "$(x + 2)(x + 6)$",
+          "$(x + 3)(x + 4)$",
+          "$(x + 1)(x + 12)$",
+          "$(x + 4)(x + 4)$"
+        ],
+        "answer": 0,
+        "working": "$2 \\times 6 = 12$ and $2 + 6 = 8$."
+      }
+    ]
+  },
+  "m10c-4-4-b": {
+    "lessonId": "m10c-4-4",
+    "title": "Factoring x² + bx + c, Part 2: Using the Signs",
+    "duration": 182,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What the signs tell you",
+        "t": 15.561
+      },
+      {
+        "title": "A negative middle term",
+        "t": 34.216
+      },
+      {
+        "title": "A negative constant",
+        "t": 57.421
+      },
+      {
+        "title": "A common factor first",
+        "t": 87.712
+      },
+      {
+        "title": "Two variables",
+        "t": 114.354
+      },
+      {
+        "title": "Your turn",
+        "t": 133.928
+      },
+      {
+        "title": "Summary",
+        "t": 162.655
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-4-b:q",
+        "t": 140.452,
+        "prompt": "Factor $x^2 - 3x - 28$.",
+        "choices": [
+          "$(x - 7)(x + 4)$",
+          "$(x + 7)(x - 4)$",
+          "$(x - 7)(x - 4)$",
+          "$(x - 14)(x + 2)$"
+        ],
+        "answer": 0,
+        "working": "The product is $-28$ and the sum is $-3$: $-7$ and $4$."
+      }
+    ]
+  },
+  "m10c-4-5": {
+    "lessonId": "m10c-4-5",
+    "title": "Factoring ax² + bx + c, Part 1: Decomposition",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Step by step",
+        "t": 20.588
+      },
+      {
+        "title": "An example",
+        "t": 43.667
+      },
+      {
+        "title": "A negative constant",
+        "t": 81.602
+      },
+      {
+        "title": "Order does not matter",
+        "t": 124.277
+      },
+      {
+        "title": "Your turn",
+        "t": 141.533
+      },
+      {
+        "title": "Summary",
+        "t": 174.267
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-5:q",
+        "t": 147.838,
+        "prompt": "Factor $3x^2 + 10x + 8$.",
+        "choices": [
+          "$(3x + 4)(x + 2)$",
+          "$(3x + 2)(x + 4)$",
+          "$(3x + 8)(x + 1)$",
+          "$(3x + 1)(x + 8)$"
+        ],
+        "answer": 0,
+        "working": "$ac = 24$, and $4 \\times 6 = 24$, $4 + 6 = 10$: $3x^2 + 4x + 6x + 8 = x(3x + 4) + 2(3x + 4) = (3x + 4)(x + 2)$."
+      }
+    ]
+  },
+  "m10c-4-5-b": {
+    "lessonId": "m10c-4-5",
+    "title": "Factoring ax² + bx + c, Part 2: More Cases",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A common factor first",
+        "t": 14.801
+      },
+      {
+        "title": "Two variables",
+        "t": 48.462
+      },
+      {
+        "title": "Guess and check",
+        "t": 81.039
+      },
+      {
+        "title": "Your turn",
+        "t": 114.819
+      },
+      {
+        "title": "Summary",
+        "t": 148.469
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-5-b:q",
+        "t": 121.695,
+        "prompt": "Factor $4x^2 - 8x - 21$.",
+        "choices": [
+          "$(2x + 3)(2x - 7)$",
+          "$(2x - 3)(2x + 7)$",
+          "$(4x - 7)(x + 3)$",
+          "$(4x + 3)(x - 7)$"
+        ],
+        "answer": 0,
+        "working": "$ac = -84$, and $6 \\times (-14) = -84$, $6 + (-14) = -8$: $4x^2 + 6x - 14x - 21 = 2x(2x + 3) - 7(2x + 3) = (2x + 3)(2x - 7)$."
+      }
+    ]
+  },
+  "m10c-4-6": {
+    "lessonId": "m10c-4-6",
+    "title": "Special Products and Factoring Strategies, Part 1: The Difference of Squares",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The middle terms cancel",
+        "t": 23.483
+      },
+      {
+        "title": "Factoring differences of squares",
+        "t": 61.401
+      },
+      {
+        "title": "Factoring twice",
+        "t": 98.683
+      },
+      {
+        "title": "Your turn",
+        "t": 130.931
+      },
+      {
+        "title": "Summary",
+        "t": 158.337
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-6:q",
+        "t": 136.812,
+        "prompt": "Factor $9x^2 - 64$.",
+        "choices": [
+          "$(3x - 8)(3x + 8)$",
+          "$(9x - 8)(x + 8)$",
+          "$(3x - 8)^2$",
+          "$(3x - 32)(3x + 32)$"
+        ],
+        "answer": 0,
+        "working": "$9x^2 - 64 = (3x)^2 - 8^2 = (3x - 8)(3x + 8)$."
+      }
+    ]
+  },
+  "m10c-4-6-b": {
+    "lessonId": "m10c-4-6",
+    "title": "Special Products and Factoring Strategies, Part 2: Perfect Squares and a Strategy",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Perfect square trinomials",
+        "t": 14.459
+      },
+      {
+        "title": "Recognising them",
+        "t": 44.769
+      },
+      {
+        "title": "A strategy",
+        "t": 75.064
+      },
+      {
+        "title": "Using the strategy",
+        "t": 98.793
+      },
+      {
+        "title": "Finding errors",
+        "t": 124.17
+      },
+      {
+        "title": "Your turn",
+        "t": 147.422
+      },
+      {
+        "title": "Summary",
+        "t": 176.256
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-4-6-b:q",
+        "t": 154.619,
+        "prompt": "Factor $2x^2 - 12x + 18$ completely.",
+        "choices": [
+          "$2(x - 3)^2$",
+          "$(2x - 6)(x - 3)$",
+          "$2(x - 9)(x + 1)$",
+          "$2(x + 3)^2$"
+        ],
+        "answer": 0,
+        "working": "$2x^2 - 12x + 18 = 2(x^2 - 6x + 9) = 2(x - 3)^2$."
+      }
+    ]
   }
 }

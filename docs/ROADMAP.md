@@ -97,7 +97,11 @@ items ship or decisions change.
      system, mixed and entire radicals, and integral and rational exponents. They brought number
      figures (`src/video/numbers.ts`): factor trees, a Venn diagram of shared primes, number
      lines, tiled rectangles, the real number system as nested sets, and a row of powers.
-   - Next: the remaining videos unit by unit (Math 10C Units 4 to 8, then the other courses),
+   - Built: Math 10C Unit 4, twelve videos (lessons 4.1 to 4.6, two parts each, about three
+     minutes): multiplying binomials and polynomials, common factors, factoring x² + bx + c and
+     ax² + bx + c, and special products with a strategy for factoring completely. They brought an
+     area model that can also be drawn as algebra tiles (`src/video/algebra.ts`).
+   - Next: the remaining videos unit by unit (Math 10C Units 5 to 8, then the other courses),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so

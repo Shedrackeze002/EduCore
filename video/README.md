@@ -52,6 +52,8 @@ fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
 script check refuses them. Put a variable a in quotes (`"a" to the m`): bare, it is read as the
 article ("uh to the m"); the captions leave the quotes out, and the script check asks for them.
+In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, `\text{Last: } {-5}`),
+or KaTeX sets it as subtraction ("− 3"); the script check asks for that too.
 After each build, listen to the lines that `pronunciation.txt` marks CHECK.
 
 ## Writing a script
@@ -77,6 +79,11 @@ See `src/video/script.ts` for every element and option. In short:
   placed by value), `tiles` (a rectangle of squares: a tiled floor, or 144 unit squares),
   `realNumbers` (the sets ℕ ⊂ 𝕎 ⊂ 𝕀 ⊂ ℚ beside ℚ̄, inside ℝ: `d.N`, `d.Q-ex`…) and `pattern` (a
   row of results with a step between them, like the powers of two halving as the exponent falls).
+- `areaModel` (`src/video/algebra.ts`) multiplies and factors polynomials: the terms of one factor
+  along the top (`d.top`), the other down the side (`d.side`), and each product in its cell
+  (`d.c0-1` is row 0, column 1). As a table every cell is the same size; with `tiles: true` it is
+  drawn as algebra tiles, to scale. Cells are coloured by product (x² blue, x green, numbers
+  orange, negatives red) unless `tones` sets them, for example to match like terms.
 
 - Keep each video to about three minutes. Split a long lesson into parts: `m10c-2-1` is part 1,
   `m10c-2-1-b` part 2, and so on.

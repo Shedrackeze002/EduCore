@@ -40,6 +40,14 @@ const ROCK = '#2a2552';
 const WALL = '#262247';
 const SEA = 'rgb(77 163 255 / 0.55)';
 
+/**
+ * A line's width when emphasised by `f` (0 to 1): thicker, but a thin line (the lines between
+ * tiles or grid squares) only a little, so a highlighted cell does not turn into bars.
+ */
+function grown(weight: number, f: number) {
+  return weight + (weight < 2 ? 1 : 4) * f;
+}
+
 /** Room around the drawing for labels, in pixels. */
 const PAD = { x: 64, top: 48, bottom: 52 };
 
@@ -98,7 +106,7 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
         const b = at(item.to);
         const c = toneColour(item.tone, INK);
         const e = add(a, mul(sub(b, a), clamp01(k / 0.85)));
-        const width = (item.weight ?? (item.dashed ? 2.5 : 3.5)) + 4 * f;
+        const width = grown(item.weight ?? (item.dashed ? 2.5 : 3.5), f);
         svg.push(
           <line
             key={item.id}
@@ -137,7 +145,7 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
           drawn.push(add(q[i], mul(sub(q[i + 1], q[i]), t)));
           rest -= seg[i];
         }
-        const width = (item.weight ?? (item.dashed ? 2.5 : 3.5)) + 4 * f;
+        const width = grown(item.weight ?? (item.dashed ? 2.5 : 3.5), f);
         svg.push(
           <polyline
             key={item.id}
