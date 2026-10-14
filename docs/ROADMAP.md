@@ -92,7 +92,12 @@ items ship or decisions change.
      as a silo), nets that unfold them, rulers (metric and to the sixteenth of an inch), a vernier
      caliper, and unit squares and cubes for area and volume units (`src/video/solids.ts`,
      `src/video/measure.ts`).
-   - Next: the remaining videos unit by unit (Math 10C Units 3 to 8, then the other courses),
+   - Built: Math 10C Unit 3, twelve videos (lessons 3.1 to 3.6, two parts each, about three to
+     four minutes): prime factors, GCF and LCM, squares and cubes and their roots, the real number
+     system, mixed and entire radicals, and integral and rational exponents. They brought number
+     figures (`src/video/numbers.ts`): factor trees, a Venn diagram of shared primes, number
+     lines, tiled rectangles, the real number system as nested sets, and a row of powers.
+   - Next: the remaining videos unit by unit (Math 10C Units 4 to 8, then the other courses),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so

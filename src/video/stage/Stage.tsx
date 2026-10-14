@@ -115,7 +115,7 @@ function aspect(d: DiagramEl) {
 export function Thumbnail({ x, label }: { x: Explainer; label: string }) {
   const isFigure = (e: El): e is TriangleEl | SimilarEl | DiagramEl => e.kind === 'triangle' || e.kind === 'similar' || e.kind === 'diagram';
   const figures = x.scenes.flatMap((s) => [...(s.left ?? []), ...(s.main ?? [])]).filter(isFigure);
-  const fig = (x.thumbnail && figures.find((e) => e.id === x.thumbnail)) || figures[0];
+  const fig = x.thumbnail === false ? undefined : (x.thumbnail && figures.find((e) => e.id === x.thumbnail)) || figures[0];
   const title = x.thumbnailTitle ?? x.title;
   // A wide, flat diagram (a ruler, a pair of lengths) goes under the title, across the thumbnail;
   // anything else sits to the right of it.
