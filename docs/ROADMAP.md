@@ -154,7 +154,10 @@ items ship or decisions change.
      (quadratic functions) is done, 9 videos: features of parabolas, the axis of symmetry and
      optimization, and factored form with arches. Unit 7 (quadratic equations) is done, 9 videos:
      solving by graphing and factoring, the quadratic formula and the number of roots, and word
-     problems with projectiles, frames and break-even prices. Units 8 and 9 are next.
+     problems with projectiles, frames and break-even prices. Unit 8 (proportional reasoning) is
+     done, 12 videos: unit rates and better buys, rates as slopes and rates that change, multi-step
+     and combined rates with average speed, scale factors and map scales, and how areas and
+     volumes of similar objects grow by k² and k³. Unit 9 is next.
    - Narration: the variable "a" is now quoted in the Math 20-1 and 20-2 trigonometry scripts, so
      the voice reads it as a letter, not as the article.
    - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
