@@ -9,6 +9,7 @@ const figures: Record<string, Part> = {
   triangle: triangle({ A: [0, 0], B: [4, 0], C: [0, 3], right: 'A', names: ['A', 'B', 'C'], sides: { AB: '8', BC: '10', CA: '6' } }),
   rectangle: rectangle({ w: 48, h: 27, labels: { w: '48', h: '27', d: 'd' } }),
   oblique: triangle({ name: 'o', A: [0, 0], B: [6, 0], C: [2.5, 4], angles: { A: '48^\\circ', B: '65^\\circ' }, angleTones: { B: 'opp' }, altitude: 'C', altitudeLabel: 'h' }),
+  marked: triangle({ name: 'k', A: [0, 0], B: [10, 0], C: [3, 4], ticks: { AB: 1, CA: 2 }, arcs: { A: 2 } }),
 };
 
 const part = (p: Part, id: string) => p.items.find((i) => i.id === id);
@@ -56,5 +57,16 @@ describe('triangle figures', () => {
     expect(t.points['o-H'][1]).toBeCloseTo(0);
     expect(part(t, 'o-h')).toMatchObject({ from: 'o-C', to: 'o-H', dashed: true, label: 'h', group: 'o-alt' });
     expect(part(t, 'o-h-mark')).toMatchObject({ kind: 'right', at: 'o-H' });
+  });
+  it('marks equal sides with ticks across their middles, and equal angles with arcs', () => {
+    const t = figures.marked;
+    // One tick across AB at its middle, perpendicular to it, sized from the longest side (10).
+    expect(t.points['k-tAB0a']).toEqual([5, 0.55]);
+    expect(t.points['k-tAB0b']).toEqual([5, -0.55]);
+    expect(t.items.filter((i) => i.group === 'k-tCA')).toHaveLength(2);
+    expect(t.items.filter((i) => i.group === 'k-tBC')).toHaveLength(0);
+    const arcs = t.items.filter((i) => i.group === 'k-mA');
+    expect(arcs).toHaveLength(2);
+    expect(arcs[1]).toMatchObject({ kind: 'angle', at: 'k-A', r: 37, tone: 'opp' });
   });
 });

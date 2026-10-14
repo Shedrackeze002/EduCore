@@ -97,8 +97,9 @@ See `src/video/script.ts` for every element and option. In short:
   square mark at 90° and the long way round past 180°: `d.arms`, `d.arc`), `crossing` (two lines
   and their four angles, `d.a1`…), `transversal` (two lines cut by a third, angles numbered 1 to
   8), `clock` and `protractor`. Triangle figures live in `src/video/triangles.ts`: `triangle`
-  (any triangle, side labels outside it), `squaresOnSides` (the squares on the sides of a right
-  triangle) and `rectangle` (with its diagonal).
+  (any triangle, side labels outside it, and for congruence `ticks` on equal sides and `arcs` in
+  equal angles), `squaresOnSides` (the squares on the sides of a right triangle) and `rectangle`
+  (with its diagonal).
 - `standardAngle` (`src/video/trig.ts`) draws an angle in standard position: the axes, the
   terminal arm and its arc (`d.arm`, `d.arc`), and optionally the reference angle (`d.ref`), a
   dashed drop to the x-axis with the triangle's sides (`d.tri`, `d.x`, `d.y`, `d.r`), the point

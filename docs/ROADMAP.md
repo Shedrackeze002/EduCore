@@ -142,7 +142,10 @@ items ship or decisions change.
    - Scripting: Math 20-2. Unit 1 (reasoning) is done, 9 videos: conjectures, counterexamples,
      deductive proof and invalid proofs, and puzzles and games (logic charts, a take-away game,
      the Tower of Hanoi, a magic square, counting squares), with figures drawn from custom parts.
-     Units 2 to 9 are next.
+     Unit 2 (angles and triangles) is done, 12 videos: parallel lines and transversals, the
+     angle sum and exterior angles of triangles, polygon angle sums and tiling, and congruent
+     triangles with SSS, SAS and ASA proofs (tick marks and arcs added to `triangle`). Units 3
+     to 9 are next.
    - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
      and 9), each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the

@@ -97,11 +97,17 @@ export function squaresOnSides(o: { name?: string; a: number; b: number; labels?
  * `altitude` drops the height from a corner to the line through the opposite side, dashed, with
  * a right-angle mark at its foot (for a proof of the sine law).
  *
+ * For congruence, `ticks` puts 1, 2 or 3 tick marks across the middle of a side (equal sides get
+ * the same number), and `arcs` puts 1, 2 or 3 unlabelled arcs in a corner (equal angles likewise),
+ * in `markTone` (orange unless set).
+ *
  * Parts: `shape` (a group: the sides `AB`, `BC` and `CA`, and the right-angle mark `right`),
- * `names` (a group: the corner letters `nA`, `nB` and `nC`), the angles `aA`, `aB` and `aC`, and
- * `alt` (a group: the height `h`, labelled `altitudeLabel`, and its right-angle mark).
+ * `names` (a group: the corner letters `nA`, `nB` and `nC`), the angles `aA`, `aB` and `aC`,
+ * `alt` (a group: the height `h`, labelled `altitudeLabel`, and its right-angle mark), the tick
+ * marks `tAB`, `tBC` and `tCA` (a group for each side), and the arcs `mA`, `mB` and `mC` (a group
+ * for each corner).
  */
-export function triangle(o: { name?: string; A: P; B: P; C: P; right?: 'A' | 'B' | 'C'; names?: [string, string, string]; sides?: Partial<Record<'AB' | 'BC' | 'CA', string>>; tones?: Partial<Record<'AB' | 'BC' | 'CA', DiagramTone>>; angles?: Partial<Record<'A' | 'B' | 'C', string>>; angleTones?: Partial<Record<'A' | 'B' | 'C', DiagramTone>>; altitude?: 'A' | 'B' | 'C'; altitudeLabel?: string }): Part {
+export function triangle(o: { name?: string; A: P; B: P; C: P; right?: 'A' | 'B' | 'C'; names?: [string, string, string]; sides?: Partial<Record<'AB' | 'BC' | 'CA', string>>; tones?: Partial<Record<'AB' | 'BC' | 'CA', DiagramTone>>; angles?: Partial<Record<'A' | 'B' | 'C', string>>; angleTones?: Partial<Record<'A' | 'B' | 'C', DiagramTone>>; altitude?: 'A' | 'B' | 'C'; altitudeLabel?: string; ticks?: Partial<Record<'AB' | 'BC' | 'CA', number>>; arcs?: Partial<Record<'A' | 'B' | 'C', number>>; markTone?: DiagramTone }): Part {
   const n = namer(o.name);
   const at = { A: o.A, B: o.B, C: o.C };
   const points: Record<string, P> = { [n('A')]: o.A, [n('B')]: o.B, [n('C')]: o.C };
@@ -133,6 +139,29 @@ export function triangle(o: { name?: string; A: P; B: P; C: P; right?: 'A' | 'B'
       { kind: 'line', id: n('h'), from: n(k), to: n('H'), tone: 'opp', dashed: true, ...(o.altitudeLabel ? { label: o.altitudeLabel } : {}), group: n('alt') },
       { kind: 'right', id: n('h-mark'), at: n('H'), from: n(k), to: n(t < 0.5 ? q : p), group: n('alt') },
     );
+  }
+  // Tick marks and arcs are sized from the longest side, so they look the same at any scale.
+  const longest = Math.max(...(['AB', 'BC', 'CA'] as const).map((s) => Math.hypot(...sub(at[s[1] as 'A'], at[s[0] as 'A']))));
+  const mark = o.markTone ?? 'opp';
+  for (const s of ['AB', 'BC', 'CA'] as const) {
+    const count = o.ticks?.[s] ?? 0;
+    const [p, q] = [at[s[0] as 'A'], at[s[1] as 'A']];
+    const d = sub(q, p);
+    const len = Math.hypot(d[0], d[1]);
+    const along = mul(d, 1 / len);
+    const across: P = [-along[1], along[0]];
+    for (let i = 0; i < count; i++) {
+      const c = add(mul(add(p, q), 0.5), mul(along, (i - (count - 1) / 2) * 0.045 * longest));
+      points[n(`t${s}${i}a`)] = add(c, mul(across, 0.055 * longest));
+      points[n(`t${s}${i}b`)] = add(c, mul(across, -0.055 * longest));
+      items.push({ kind: 'line', id: n(`t${s}${i}`), from: n(`t${s}${i}a`), to: n(`t${s}${i}b`), tone: mark, weight: 3, group: n(`t${s}`) });
+    }
+  }
+  for (const k of ['A', 'B', 'C'] as const) {
+    const [p, q] = (['A', 'B', 'C'] as const).filter((j) => j !== k);
+    for (let i = 0; i < (o.arcs?.[k] ?? 0); i++) {
+      items.push({ kind: 'angle', id: n(`m${k}${i}`), at: n(k), from: n(p), to: n(q), tone: mark, r: 30 + 7 * i, group: n(`m${k}`) });
+    }
   }
   if (o.names) {
     const mid = mul(add(add(o.A, o.B), o.C), 1 / 3);
