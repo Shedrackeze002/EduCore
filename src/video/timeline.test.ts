@@ -214,6 +214,12 @@ describe('checkScript', () => {
     expect(checkScript(say('A line in general form has slope negative "A" over B.'))).toEqual([]);
   });
 
+  it('asks for "the point at" before coordinates, which could be heard as a decimal', () => {
+    const say = (text: string): Explainer => ({ ...script, scenes: [{ layout: 'center', main: [{ kind: 'text', id: 'a', md: 'x' }], lines: [{ say: text }] }] });
+    expect(checkScript(say('So x is four: the point four, zero.'))).toEqual(['Scene 1, line 1: say "the point at" before coordinates, or "the point four" can be heard as a decimal.']);
+    expect(checkScript(say('So x is four: the point at four, zero. The point is that it works.'))).toEqual([]);
+  });
+
   it('checks the points and parts of a diagram', () => {
     const bad: Explainer = {
       ...script,

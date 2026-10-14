@@ -78,7 +78,7 @@ const video: Explainer = {
         { say: 'If you know the midpoint and one endpoint, you can find the other endpoint. M, five, six, is the midpoint of A B, and A is one, nine. Find B.', show: ['m.0', 'end.grid', 'end.axes', 'end.A', 'end.M'] },
         { say: 'From A to M, x increases by four, and y decreases by three.', show: ['m.1', 'end.s1'], focus: ['m.1', 'end.s1'] },
         { say: 'M is halfway, so the trip from M to B is the same: add four to x, and subtract three from y.', show: 'end.s2', focus: 'end.s2' },
-        { say: 'So B is five plus four, six minus three: the point nine, three.', show: ['m.2', 'end.B', 'end.seg'], focus: ['m.2', 'end.B'] },
+        { say: 'So B is five plus four, six minus three: the point at nine, three.', show: ['m.2', 'end.B', 'end.seg'], focus: ['m.2', 'end.B'] },
       ],
     },
     {
@@ -101,7 +101,7 @@ const video: Explainer = {
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['C = \\left(\\dfrac{-1 + 7}{2},\\ \\dfrac{5 + (-1)}{2}\\right) = (3,\\ 2)', 'r = \\sqrt{(7 - 3)^2 + (-1 - 2)^2}', 'r = \\sqrt{16 + 9} = \\sqrt{25} = 5'] }],
       lines: [
         { say: 'A diameter of a circle has endpoints negative one, five, and seven, negative one. Find the centre and the radius.', show: ['circ.grid', 'circ.axes', 'circ.circle', 'circ.diam', 'circ.E', 'circ.F'] },
-        { say: 'The centre is halfway along the diameter, so it is the midpoint: the point three, two.', show: ['m.0', 'circ.C'], focus: ['m.0', 'circ.C'] },
+        { say: 'The centre is halfway along the diameter, so it is the midpoint: the point at three, two.', show: ['m.0', 'circ.C'], focus: ['m.0', 'circ.C'] },
         { say: 'The radius is the distance from the centre to an endpoint: the square root of four squared, plus negative three, squared.', show: ['m.1', 'circ.r'], focus: ['m.1', 'circ.r'] },
         { say: 'That is the square root of twenty-five, so the radius is five.', show: 'm.2', focus: 'm.2' },
       ],

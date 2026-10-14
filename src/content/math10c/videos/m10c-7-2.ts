@@ -79,7 +79,7 @@ const video: Explainer = {
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['y - 2 = \\tfrac23(x - 1)', 'P(1,\\ 2), \\quad m = \\tfrac23', 'Q = (1 + 3,\\ 2 + 2) = (4,\\ 4)'] }],
       lines: [
         { say: 'Graph y minus two equals two thirds, times x minus one. The point is one, two, and the slope is two thirds.', show: ['m.0', 'm.1'], focus: 'm.1' },
-        { say: 'Plot the point P. Then go right three and up two, to Q, the point four, four.', show: ['pt.grid', 'pt.axes', 'pt.P', 'pt.step', 'pt.Q', 'm.2'], focus: ['pt.step', 'pt.Q', 'm.2'] },
+        { say: 'Plot the point P. Then go right three and up two, to Q, the point at four, four.', show: ['pt.grid', 'pt.axes', 'pt.P', 'pt.step', 'pt.Q', 'm.2'], focus: ['pt.step', 'pt.Q', 'm.2'] },
         { say: 'Draw the line through both points.', show: 'pt.line', focus: 'pt.line' },
       ],
     },

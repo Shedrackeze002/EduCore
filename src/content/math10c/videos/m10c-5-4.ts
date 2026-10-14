@@ -25,7 +25,7 @@ const video: Explainer = {
       lines: [
         { say: 'f of x means the output of the function f when the input is x. It does not mean f times x.', show: ['m.0', 'def'], focus: 'm.0' },
         { say: 'So f of four means the value of f when x is four: three times four, minus two, which is ten.', show: 'm.1', focus: 'm.1' },
-        { say: 'And f of four equals ten tells you that the point four, ten is on the graph of the function.', show: 'm.2', focus: 'm.2' },
+        { say: 'And f of four equals ten tells you that the point at four, ten is on the graph of the function.', show: 'm.2', focus: 'm.2' },
         { say: 'Functions can have other names and variables too, like g of t equals seven plus t.' },
       ],
     },

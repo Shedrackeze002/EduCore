@@ -268,6 +268,9 @@ const LOOSE_MINUS = /(\\q?quad|\\text\{[^}]*\})\s*-(?=[\w(\\])/;
  */
 const BARE_A = /(?<![\w"])(?:a (?=to the|over [a-z]\b|and [a-z]\b|squared|cubed)|A (?=x\b|over [A-Z]\b|is (?:negative|positive|zero)\b))/;
 
+/** "The point" before a number: "the point four, zero" can be heard as the decimal 0.40. */
+const POINT_NUMBER = /\bthe point (?=(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|negative|\d)\b)/i;
+
 /**
  * What a line's caption says: its own `caption`, or what is said without the quotes that make
  * the voice name a lone letter ("a" is read "ay", where a bare a is read as the article).
@@ -309,6 +312,7 @@ export function checkScript(x: Explainer): string[] {
       for (const [n] of l.say.matchAll(YEAR_LIKE)) problems.push(`Scene ${si + 1}, line ${li + 1}: write ${n} as ${n[0]},${n.slice(1)} or in words, or it is read like a year.`);
       const bare = l.say.match(BARE_A);
       if (bare) problems.push(`Scene ${si + 1}, line ${li + 1}: write the variable ${bare[0].trim()} as "${bare[0].trim()}" (in quotes), or it is read as the article.`);
+      if (POINT_NUMBER.test(l.say)) problems.push(`Scene ${si + 1}, line ${li + 1}: say "the point at" before coordinates, or "the point four" can be heard as a decimal.`);
       for (const target of [...asList(l.show), ...asList(l.hide), ...asList(l.focus)]) {
         const [el, part] = target.split('.');
         if (!ids.has(el)) problems.push(`Scene ${si + 1}, line ${li + 1}: no element "${target}".`);

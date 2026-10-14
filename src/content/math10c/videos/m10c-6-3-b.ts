@@ -97,7 +97,7 @@ const video: Explainer = {
       lines: [
         { say: 'A slope of two thirds means up two for every three to the right.', show: 'm.0', focus: 'm.0' },
         { say: 'Draw the line through P, two, six, with a slope of negative three halves. Write the slope as negative three over two: down three for every two to the right.', show: ['m.1', 'draw.grid', 'draw.axes', 'draw.P'], focus: ['m.1', 'draw.P'] },
-        { say: 'Start at P. Go right two, and down three, to Q, the point four, three.', show: ['draw.step', 'draw.Q', 'm.2'], focus: ['draw.step', 'draw.Q', 'm.2'] },
+        { say: 'Start at P. Go right two, and down three, to Q, the point at four, three.', show: ['draw.step', 'draw.Q', 'm.2'], focus: ['draw.step', 'draw.Q', 'm.2'] },
         { say: 'Then draw the line through both points.', show: 'draw.line', focus: 'draw.line' },
       ],
     },

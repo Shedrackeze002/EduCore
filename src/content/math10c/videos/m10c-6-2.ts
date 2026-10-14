@@ -41,8 +41,8 @@ const video: Explainer = {
       lines: [
         { say: 'The x intercept is where a graph crosses the x axis. Every point on the x axis has a height of zero, so there, y equals zero.', show: 'def' },
         { say: 'The y intercept is where it crosses the y axis, where x equals zero.' },
-        { say: 'Find the intercepts of three x minus four y equals twelve. For the x intercept, let y equal zero. Then three x equals twelve, so x is four: the point four, zero.', show: ['m.0', 'm.1', 'ints.grid', 'ints.axes', 'ints.xi'], focus: ['m.1', 'ints.xi'] },
-        { say: 'For the y intercept, let x equal zero. Then negative four y equals twelve, so y is negative three: the point zero, negative three.', show: ['m.2', 'ints.yi'], focus: ['m.2', 'ints.yi'] },
+        { say: 'Find the intercepts of three x minus four y equals twelve. For the x intercept, let y equal zero. Then three x equals twelve, so x is four: the point at four, zero.', show: ['m.0', 'm.1', 'ints.grid', 'ints.axes', 'ints.xi'], focus: ['m.1', 'ints.xi'] },
+        { say: 'For the y intercept, let x equal zero. Then negative four y equals twelve, so y is negative three: the point at zero, negative three.', show: ['m.2', 'ints.yi'], focus: ['m.2', 'ints.yi'] },
         { say: 'Two intercepts are two points, which is all you need to draw the line.', show: 'ints.line', focus: 'ints.line' },
       ],
     },
@@ -87,7 +87,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Your turn. What is the y intercept of two x plus five y equals twenty? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Let x equal zero. Then five y equals twenty, so y is four: the point zero, four. B is the x intercept.', show: 'q.answer' },
+        { say: 'The answer is A. Let x equal zero. Then five y equals twenty, so y is four: the point at zero, four. B is the x intercept.', show: 'q.answer' },
       ],
     },
     {

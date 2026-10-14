@@ -52,7 +52,8 @@ fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
 script check refuses them. Put a variable a or A in quotes (`"a" to the m`, `"A" x plus B y`):
 bare, it is read as the article ("uh to the m"); the captions leave the quotes out, and the script
-check asks for them.
+check asks for them. Say "the point at four, zero", not "the point four, zero", which is heard as
+the decimal 0.40; the script check asks for that as well.
 In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, `\text{Last: } {-5}`),
 or KaTeX sets it as subtraction ("− 3"); the script check asks for that too. On screen, write
 money in text as `\$4`, as in the lessons, and keep it out of `$...$` maths.
