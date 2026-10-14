@@ -50,7 +50,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'The same argument works for any arithmetic series. Forwards, each term goes up by d. Backwards, each term goes down by d.', show: ['m.0', 'm.1'] },
-        { say: 'So every column adds to the same thing: t sub one plus t sub n. With n columns, two S sub n is n times t sub one plus t sub n.', show: 'm.2', focus: 'm.2' },
+        { say: 'So every column adds to the same thing: t sub one plus t sub n. There are n columns, so two S sub n is n times t sub one plus t sub n.', show: 'm.2', focus: 'm.2' },
         { say: 'Divide by two for the first formula. Then replace t sub n with t sub one plus n minus one times d for the second.', show: 'm.3', focus: 'm.3' },
         { say: 'Use the first formula when you know the last term. Use the second when you know the common difference, but not the last term.', show: 'tip' },
       ],

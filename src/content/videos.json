@@ -9908,5 +9908,56 @@
         "working": "Its ratio is $\\frac{1}{3}$, and $|r| < 1$. The others have $r = 2$, $r = -1$ and $r = 1.5$."
       }
     ]
+  },
+  "m201-1-5-b": {
+    "lessonId": "m201-1-5",
+    "title": "Infinite Geometric Series, Part 2: Using the Sum",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A negative ratio",
+        "t": 19.488
+      },
+      {
+        "title": "A ratio with a variable",
+        "t": 66.138
+      },
+      {
+        "title": "Bouncing forever",
+        "t": 88.82
+      },
+      {
+        "title": "A repeating decimal",
+        "t": 128.122
+      },
+      {
+        "title": "Your turn",
+        "t": 168.158
+      },
+      {
+        "title": "Summary",
+        "t": 194.849
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-5-b:q",
+        "t": 174.672,
+        "prompt": "Find the sum of $12 - 6 + 3 - \\cdots$",
+        "choices": [
+          "$8$",
+          "$24$",
+          "$4$",
+          "$-12$"
+        ],
+        "answer": 0,
+        "working": "$r = -\\frac{1}{2}$, and $S_\\infty = \\dfrac{12}{1 - \\left(-\\frac{1}{2}\\right)} = \\dfrac{12}{1.5} = 8$."
+      }
+    ]
   }
 }

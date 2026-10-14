@@ -64,7 +64,7 @@ const video: Explainer = {
       lines: [
         { say: 'A ball is dropped from four metres, and rebounds to 75 percent of its height each time. How far has it travelled when it hits the ground for the fifth time?', show: ['ball.grid', 'ball.axes', 'ball.path', 'ball.h0'] },
         { say: 'Draw the path. The first drop, four metres, happens once. Before the fifth hit, there are four bounces: three, 2.25, 1.6875, and 1.265625 metres.', show: ['ball.h1', 'ball.h2', 'ball.h3', 'm.0'], focus: ['ball.h1', 'ball.h2', 'ball.h3'] },
-        { say: 'Those four bounce heights are a geometric series with t sub one three and r 0.75. Their sum is 8.203125 metres.', show: 'm.1', focus: 'm.1' },
+        { say: 'Those four bounce heights are a geometric series with first term three and common ratio 0.75. Their sum is 8.203125 metres.', show: 'm.1', focus: 'm.1' },
         { say: 'But each bounce goes up and comes back down, so it counts twice. Four plus two times 8.203125 is about 20.4 metres. Before hit number k, there are only k minus one bounces.', show: 'm.2', focus: 'm.2' },
       ],
     },
