@@ -9861,7 +9861,7 @@
   "m201-1-5": {
     "lessonId": "m201-1-5",
     "title": "Infinite Geometric Series, Part 1: Converging to a Sum",
-    "duration": 193,
+    "duration": 239,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9870,33 +9870,33 @@
       },
       {
         "title": "Partial sums",
-        "t": 18.938
+        "t": 23.144
       },
       {
         "title": "Converge or diverge",
-        "t": 45.774
+        "t": 56.589
       },
       {
         "title": "The test and the sum",
-        "t": 80.654
+        "t": 100.419
       },
       {
         "title": "Using the formula",
-        "t": 124.54
+        "t": 153.952
       },
       {
         "title": "Your turn",
-        "t": 143.138
+        "t": 177.205
       },
       {
         "title": "Summary",
-        "t": 167.049
+        "t": 206.1
       }
     ],
     "cues": [
       {
         "id": "m201-1-5:q",
-        "t": 149.207,
+        "t": 184.337,
         "prompt": "Which infinite geometric series converges?",
         "choices": [
           "$9 + 3 + 1 + \\cdots$",
@@ -9912,7 +9912,7 @@
   "m201-1-5-b": {
     "lessonId": "m201-1-5",
     "title": "Infinite Geometric Series, Part 2: Using the Sum",
-    "duration": 215,
+    "duration": 263,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9921,33 +9921,33 @@
       },
       {
         "title": "A negative ratio",
-        "t": 19.488
+        "t": 24.09
       },
       {
         "title": "A ratio with a variable",
-        "t": 66.138
+        "t": 79.807
       },
       {
         "title": "Bouncing forever",
-        "t": 88.82
+        "t": 109.138
       },
       {
         "title": "A repeating decimal",
-        "t": 128.122
+        "t": 156.672
       },
       {
         "title": "Your turn",
-        "t": 168.158
+        "t": 204.943
       },
       {
         "title": "Summary",
-        "t": 194.849
+        "t": 236.749
       }
     ],
     "cues": [
       {
         "id": "m201-1-5-b:q",
-        "t": 174.672,
+        "t": 212.67,
         "prompt": "Find the sum of $12 - 6 + 3 - \\cdots$",
         "choices": [
           "$8$",
