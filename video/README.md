@@ -152,9 +152,13 @@ See `src/video/script.ts` for every element and option. In short:
    lists the lines whose words really differ. Try a respelling with
    `npx tsx video/tools/hear.ts "the line"` and add real mistakes to `speechText`.
 5. Run the checks in `CLAUDE.md`, open the pull request and merge it.
-6. Make the upload packs, in course order: `video/tools/pack.sh <course>-unit<N> <ids in order>`
-   gives one zip per video (each well under 30 MB) and one for the whole unit. Send one unit at a
-   time.
+6. Upload the videos to the owner's Google Drive, unit by unit as they render:
+   `npx tsx video/tools/drive-upload.ts m201-u1` (a unit id), `math-20-1` (a whole course) or
+   video ids. Each video lands in `Gradileo videos/<course>/Unit <n> – <title>/<NN>-<id>/` with its
+   MP4, thumbnail, captions and YouTube text; `NN` is its place in the unit. Files already in Drive
+   at the same size are skipped, so a run can be repeated; `--dry-run` shows where each would go.
+   If Drive is not set up, make zip packs instead: `video/tools/pack.sh <course>-unit<N> <ids in
+   order>` gives one zip per video (each well under 30 MB) and one for the whole unit.
 
 Lessons learned while scripting (the script check does not catch these):
 
@@ -168,6 +172,15 @@ Lessons learned while scripting (the script check does not catch these):
   crowded figure its own scene.
 - Use `\dfrac` for fractions in Math 20-4 maths lines, and state every rate, tax or rule inside
   the question (see `CLAUDE.md`).
+
+### Google Drive
+
+`drive-upload.ts` signs in with three environment variables, `GDRIVE_CLIENT_ID`,
+`GDRIVE_CLIENT_SECRET` and `GDRIVE_REFRESH_TOKEN`, from an OAuth client in Google Cloud with only
+the `drive.file` scope. With that scope the tool sees only the files and folders it created
+itself, so make the `Gradileo videos` folder with the tool, not by hand. In a cloud session, set
+the variables in the environment's settings (not in the repository, which is public); a session
+started after they were added sees them. The tool never prints their values.
 
 ## Uploading to YouTube
 
