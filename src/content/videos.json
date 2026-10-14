@@ -8207,5 +8207,432 @@
         "working": "The monthly part changes with $m$: $30m$. The sign-up fee is paid once: $+\\,25$."
       }
     ]
+  },
+  "m104-5-2-b": {
+    "lessonId": "m104-5-2",
+    "title": "Expressions and Formulas, Part 2: Using Formulas",
+    "duration": 163,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Substituting",
+        "t": 14.321
+      },
+      {
+        "title": "Pay and fares",
+        "t": 44.654
+      },
+      {
+        "title": "Two-step jobs",
+        "t": 77.143
+      },
+      {
+        "title": "Your turn",
+        "t": 123.947
+      },
+      {
+        "title": "Summary",
+        "t": 147.596
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-5-2-b:q",
+        "t": 131.47,
+        "prompt": "Use $C = 5 + 3k$ to find the cost $C$ when $k = 8$.",
+        "choices": [
+          "$29$",
+          "$64$",
+          "$16$",
+          "$40$"
+        ],
+        "answer": 0,
+        "working": "Substitute and multiply first: $C = 5 + 3(8) = 5 + 24 = 29$."
+      }
+    ]
+  },
+  "m104-5-3": {
+    "lessonId": "m104-5-3",
+    "title": "Solving Equations",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A balanced scale",
+        "t": 15.946
+      },
+      {
+        "title": "Inverse operations",
+        "t": 38.038
+      },
+      {
+        "title": "Two-step equations",
+        "t": 89.065
+      },
+      {
+        "title": "A taxi ride",
+        "t": 118.27
+      },
+      {
+        "title": "Your turn",
+        "t": 141.08
+      },
+      {
+        "title": "Summary",
+        "t": 166.649
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-5-3:q",
+        "t": 147.046,
+        "prompt": "Solve $5x + 3 = 38$.",
+        "choices": [
+          "$x = 7$",
+          "$x = 8.2$",
+          "$x = 41$",
+          "$x = 35$"
+        ],
+        "answer": 0,
+        "working": "Subtract $3$: $5x = 35$. Divide by $5$: $x = 7$. Check: $5 \\times 7 + 3 = 38$."
+      }
+    ]
+  },
+  "m104-5-4": {
+    "lessonId": "m104-5-4",
+    "title": "Reading Graphs",
+    "duration": 163,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading values",
+        "t": 13.739
+      },
+      {
+        "title": "Describing a graph",
+        "t": 48.147
+      },
+      {
+        "title": "Distance and time",
+        "t": 80.34
+      },
+      {
+        "title": "Your turn",
+        "t": 112.307
+      },
+      {
+        "title": "Summary",
+        "t": 141.054
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-5-4:q",
+        "t": 125.295,
+        "prompt": "On Jordan’s pay graph, the line goes from \\$0 at 0 hours to \\$160 at 8 hours. How much does Jordan earn for 3 hours?",
+        "choices": [
+          "\\$60",
+          "\\$3",
+          "\\$20",
+          "\\$80"
+        ],
+        "answer": 0,
+        "working": "The pay goes up \\$20 each hour: $3 \\times 20 = 60$."
+      }
+    ]
+  },
+  "m104-6-1": {
+    "lessonId": "m104-6-1",
+    "title": "Metric Units, Part 1: Choosing and Estimating",
+    "duration": 165,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Length, mass and capacity",
+        "t": 20.029
+      },
+      {
+        "title": "Choosing a unit",
+        "t": 55.531
+      },
+      {
+        "title": "Referents",
+        "t": 83.803
+      },
+      {
+        "title": "Your turn",
+        "t": 120.643
+      },
+      {
+        "title": "Summary",
+        "t": 142.301
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-6-1:q",
+        "t": 127.051,
+        "prompt": "Which is the best estimate for the height of a classroom door?",
+        "choices": [
+          "$2\\text{ m}$",
+          "$2\\text{ cm}$",
+          "$20\\text{ m}$",
+          "$2\\text{ km}$"
+        ],
+        "answer": 0,
+        "working": "A door is a little taller than an adult, about two big steps: $2\\text{ m}$."
+      }
+    ]
+  },
+  "m104-6-1-b": {
+    "lessonId": "m104-6-1",
+    "title": "Metric Units, Part 2: Converting",
+    "duration": 159,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Unit facts",
+        "t": 15.31
+      },
+      {
+        "title": "Converting",
+        "t": 39.561
+      },
+      {
+        "title": "Two-step jobs",
+        "t": 82.702
+      },
+      {
+        "title": "Your turn",
+        "t": 118.558
+      },
+      {
+        "title": "Summary",
+        "t": 144.258
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-6-1-b:q",
+        "t": 126.839,
+        "prompt": "A bag of flour has a mass of $2.5\\text{ kg}$. How many grams is that?",
+        "choices": [
+          "$2500\\text{ g}$",
+          "$0.0025\\text{ g}$",
+          "$250\\text{ g}$",
+          "$25\\text{ g}$"
+        ],
+        "answer": 0,
+        "working": "Kilograms to grams is big to small, so multiply: $2.5 \\times 1000 = 2500\\text{ g}$."
+      }
+    ]
+  },
+  "m104-6-2": {
+    "lessonId": "m104-6-2",
+    "title": "Reading Rulers",
+    "duration": 170,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "A metric ruler",
+        "t": 0
+      },
+      {
+        "title": "An imperial ruler",
+        "t": 44.581
+      },
+      {
+        "title": "Not starting at zero",
+        "t": 77.755
+      },
+      {
+        "title": "Measuring to cut",
+        "t": 106.777
+      },
+      {
+        "title": "Your turn",
+        "t": 121.655
+      },
+      {
+        "title": "Summary",
+        "t": 148.335
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-6-2:q",
+        "t": 131.773,
+        "prompt": "On a ruler with $16$ spaces in each inch, a screw ends $6$ spaces past the $1$-inch mark. How long is it?",
+        "choices": [
+          "$1\\tfrac{3}{8}$ in",
+          "$1\\tfrac{6}{8}$ in",
+          "$1\\tfrac{1}{6}$ in",
+          "$7$ in"
+        ],
+        "answer": 0,
+        "working": "$1\\tfrac{6}{16}$ in, and $\\tfrac{6}{16} = \\tfrac{3}{8}$, so the screw is $1\\tfrac{3}{8}$ in long."
+      }
+    ]
+  },
+  "m104-6-3": {
+    "lessonId": "m104-6-3",
+    "title": "Time and Temperature, Part 1: Elapsed Time",
+    "duration": 150,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Counting up",
+        "t": 11.669
+      },
+      {
+        "title": "The 24-hour clock",
+        "t": 55.518
+      },
+      {
+        "title": "An unpaid break",
+        "t": 92.15
+      },
+      {
+        "title": "Your turn",
+        "t": 105.401
+      },
+      {
+        "title": "Summary",
+        "t": 130.73
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-6-3:q",
+        "t": 113.563,
+        "prompt": "A shift runs from 9:30 a.m. to 5:00 p.m. How long is it?",
+        "choices": [
+          "7 h 30 min",
+          "8 h 30 min",
+          "4 h 30 min",
+          "7 h 70 min"
+        ],
+        "answer": 0,
+        "working": "9:30 to 10:00 is 30 min, 10:00 a.m. to 5:00 p.m. is 7 h. Total: 7 h 30 min."
+      }
+    ]
+  },
+  "m104-6-3-b": {
+    "lessonId": "m104-6-3",
+    "title": "Time and Temperature, Part 2: Reading Temperatures",
+    "duration": 142,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Degrees Celsius",
+        "t": 12.869
+      },
+      {
+        "title": "Reading below zero",
+        "t": 35.353
+      },
+      {
+        "title": "Changes across zero",
+        "t": 60.487
+      },
+      {
+        "title": "Your turn",
+        "t": 96.888
+      },
+      {
+        "title": "Summary",
+        "t": 124.06
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-6-3-b:q",
+        "t": 105.95,
+        "prompt": "It was $3^\\circ\\text{C}$ at noon and $-8^\\circ\\text{C}$ at midnight. How many degrees did the temperature drop?",
+        "choices": [
+          "$11$",
+          "$5$",
+          "$-5$",
+          "$8$"
+        ],
+        "answer": 0,
+        "working": "From $3$ down to $0$ is $3$ degrees, and from $0$ down to $-8$ is $8$ more: $3 + 8 = 11$."
+      }
+    ]
+  },
+  "m104-7-1": {
+    "lessonId": "m104-7-1",
+    "title": "Perimeter, Part 1: Around the Edge",
+    "duration": 148,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A rectangle",
+        "t": 13.041
+      },
+      {
+        "title": "Other shapes",
+        "t": 48.444
+      },
+      {
+        "title": "A missing side",
+        "t": 76.585
+      },
+      {
+        "title": "Your turn",
+        "t": 104.159
+      },
+      {
+        "title": "Summary",
+        "t": 127.427
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-7-1:q",
+        "t": 111.912,
+        "prompt": "A square patio has sides of $3.5\\text{ m}$. What is its perimeter?",
+        "choices": [
+          "$14\\text{ m}$",
+          "$7\\text{ m}$",
+          "$12.25\\text{ m}$",
+          "$10.5\\text{ m}$"
+        ],
+        "answer": 0,
+        "working": "A square has four equal sides: $P = 4 \\times 3.5 = 14\\text{ m}$."
+      }
+    ]
   }
 }
