@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { factorTree, numberLine, pattern, realNumbers, SETS, tiles, venn, type Tree } from './numbers.ts';
+import { factorTree, numberLine, pattern, realNumbers, SETS, strip, tiles, venn, type Tree } from './numbers.ts';
 import { itemPoints } from './script.ts';
 import type { Part } from './solids.ts';
 
@@ -13,6 +13,8 @@ const figures: Record<string, Part> = {
   tiles: tiles({ cols: 7, rows: 5, labels: { width: 'w', height: 'h', side: 's', area: 'a' } }),
   realNumbers: realNumbers(),
   pattern: pattern({ top: ['2^1', '2^0', '2^{-1}'], values: ['2', '1', '\\tfrac12'], step: '\\div 2' }),
+  strip: strip({ parts: 4, shaded: 3, label: '\\tfrac34', pieces: '5\\text{ L}' }),
+  later: strip({ name: 's', parts: 8, shaded: 2, from: 3, at: [0, -2] }),
 };
 
 const label = (part: Part, id: string) => part.items.find((i) => i.id === id);
@@ -77,5 +79,15 @@ describe('number figures', () => {
     const p = figures.pattern;
     expect(p.items.filter((i) => i.group === 'c0').map((i) => i.id)).toEqual(['top0', 'value0']);
     expect(p.items.filter((i) => i.group === 'c2').map((i) => i.id)).toEqual(['top2', 'value2', 'step2']);
+  });
+
+  it('cuts a fraction strip into equal pieces and shades some of them', () => {
+    const s = figures.strip;
+    expect(s.items.filter((i) => i.id.startsWith('cut'))).toHaveLength(3);
+    // Three of four pieces of a bar 12 long: the shading ends at 9.
+    expect(s.points.s1).toEqual([9, 0]);
+    expect(s.items.filter((i) => i.group === 'pieces')).toHaveLength(4);
+    expect(figures.later.points['s-s0']).toEqual([4.5, -2]);
+    expect(figures.later.points['s-s1']).toEqual([7.5, -2]);
   });
 });
