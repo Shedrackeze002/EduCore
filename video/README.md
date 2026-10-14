@@ -137,6 +137,38 @@ See `src/video/script.ts` for every element and option. In short:
   hypotenuse pink). Colour is never the only cue: sides are always named too.
 - Check every number in the script; the video shows exactly what the script says.
 
+## Making a course's videos, step by step
+
+1. Script each lesson in parts (`src/content/<course>/videos/<id>.ts`, then `<id>-b`, `<id>-c`…),
+   about 350 spoken words each (`video/tools/words.sh <files>`). Check the scripts with
+   `npx vitest run src/video/scripts.test.ts -t "<id prefix>"`.
+2. Check the layouts: `npx tsx video/build.ts <ids> --stills --quick` (in a cloud session, set
+   `CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` and `NODE_USE_ENV_PROXY=1`),
+   then `python3 video/tools/contact-sheet.py sheet.png <ids>` and look at every still: no clipped
+   maths, overlapping labels or cut-off questions.
+3. Render unit by unit with `npx tsx video/build.ts <ids>` (about five minutes a video on four
+   cores), and commit `src/content/videos.json` as each batch finishes.
+4. Check the narration: `python3 video/tools/pronunciation.py video/out/<id>/pronunciation.txt …`
+   lists the lines whose words really differ. Try a respelling with
+   `npx tsx video/tools/hear.ts "the line"` and add real mistakes to `speechText`.
+5. Run the checks in `CLAUDE.md`, open the pull request and merge it.
+6. Make the upload packs, in course order: `video/tools/pack.sh <course>-unit<N> <ids in order>`
+   gives one zip per video (each well under 30 MB) and one for the whole unit. Send one unit at a
+   time.
+
+Lessons learned while scripting (the script check does not catch these):
+
+- Write years in words in the narration ("twenty nineteen"); a bare four-digit number is refused,
+  and a comma would make it a quantity.
+- Do not give invented people a pronoun unless the lesson does; use their name again.
+- Keep a "Your turn" question in a `center` scene: in a `split` scene it is cut off.
+- Chapter titles cannot contain `$`.
+- Keep bar graph category labels to a word or two, or they overlap.
+- Break long maths over several lines (or narrow `leftWidth`) so it fits its column; give a
+  crowded figure its own scene.
+- Use `\dfrac` for fractions in Math 20-4 maths lines, and state every rate, tax or rule inside
+  the question (see `CLAUDE.md`).
+
 ## Uploading to YouTube
 
 1. Upload `<id>.mp4` to the Gradileo channel.

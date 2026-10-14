@@ -32,6 +32,17 @@
 - Lesson figures: `:::figure` on its own line, the JSON on the next line, then `:::`.
 
 ## After merging engine or curriculum changes
-The `grade-submission` and `ai-agent` Edge Functions re-grade with the shared engine. Redeploy them
-(the *Deploy Supabase backend* workflow, or `npm run functions:deploy`) so new courses can be
-started and graded on the live site.
+The `grade-submission` and `ai-agent` Edge Functions re-grade with the shared engine. A merge that
+changes `engine/` or `supabase/` runs the *Deploy Supabase backend* workflow, which applies new
+migrations and redeploys the functions; check that the run succeeded. (`npm run functions:deploy`
+deploys by hand.)
+
+## Working with the owner
+- Work through `docs/ROADMAP.md` in order, and update it as work progresses so nothing is dropped.
+- After every push, check the CI result on GitHub as well as running the checks locally. Find and
+  fix the cause of a red run; do not just run it again.
+- The repository is public. Never print, commit or log secret values (GitHub secrets such as
+  `SUPABASE_*` and `EMAIL_FORWARD_TO`, or the `GDRIVE_*` environment variables); name them only.
+  Keep the owner's personal details, such as their email address, out of the repository.
+- Explainer videos: follow `video/README.md` ("Making a course's videos, step by step"); the tools
+  are in `video/tools/`.

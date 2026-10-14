@@ -230,10 +230,16 @@ items ship or decisions change.
      circle graphs, percents and slice angles, comparing data sets, outliers, misleading graphs
      and claims, theoretical and experimental probability, and predictions. All 111 Math 20-4
      videos are scripted and stills-checked, so every Math 20 course is scripted (376 videos:
-     20-1 86, 20-2 89, 20-3 90, 20-4 111). Rendering the Math 20 videos is next, once the project
-     moves to its new structure (the owner asked to pause here for a recap first).
-   - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
-     each lesson split into parts of about three minutes when it needs more.
+     20-1 86, 20-2 89, 20-3 90, 20-4 111). Built: Math 10-4 (all 47, merged in pull request
+     #39, upload packs sent).
+   - The work moves into a Claude Code project (a project conversation that starts a thread for
+     each task). The repository needs no change: each thread starts from a fresh clone and reads
+     `CLAUDE.md`, and the video workflow and its tools are in `video/README.md` and `video/tools/`.
+     The project's threads must use the environment that holds the `GDRIVE_*` keys.
+   - Next: render Math 20-1, 20-2, 20-3 and 20-4, unit by unit, each course with its own pull
+     request and upload packs (about five minutes a video, so about 30 hours in all). Then script
+     and render the other courses in order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), each
+     lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
@@ -299,16 +305,15 @@ items ship or decisions change.
 - Update Math 7, 8 and 9 to Alberta's new Grades 7–9 curriculum before it becomes mandatory in
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
-- The owner added the *Deploy Supabase backend* secrets (`SUPABASE_ACCESS_TOKEN`, a scoped token
-  for this project, `SUPABASE_PROJECT_ID` and `SUPABASE_DB_PASSWORD`) on 14 October 2026. Until
-  then migrations were applied by hand and recorded in `supabase_migrations.schema_migrations`
-  (all 13 match `supabase/migrations`). The first run failed at `supabase link`, which reads the
-  project's secret API keys, so the workflow no longer links: it pushes migrations through the
-  session pooler and deploys the functions by project ref. Next: the owner replaces the token
-  with one that has Connection Pooling (Read) and Edge Functions (Read-write), then runs the
-  workflow once from Actions (Run workflow, on main) to confirm it finds no new migration and
-  redeploys the five Edge Functions. After that, merges that change `supabase/` or `engine/`
-  deploy on their own. Make a new token before the old one expires.
+- Done: the *Deploy Supabase backend* workflow works. Its secrets (`SUPABASE_ACCESS_TOKEN`,
+  `SUPABASE_PROJECT_ID` and `SUPABASE_DB_PASSWORD`) were added on 14 October 2026. The first run
+  failed at `supabase link`, which reads the project's secret API keys, so the workflow no longer
+  links: it pushes migrations through the session pooler and deploys the functions by project
+  ref. The token is scoped to this project with only Connection Pooling (Read) and Edge Functions
+  (Read-write), and expires on 13 October 2027 (permissions cannot be changed after a token is
+  made, so make a new one before then and update the secret). The run on 14 October found the
+  database up to date (all 13 migrations) and redeployed the five Edge Functions. Merges that
+  change `supabase/` or `engine/` now deploy on their own.
 - Self-paced study, next steps: an AI tutor chat inside lessons (explain a step, give a hint,
   check working) using the same AI provider as the teaching assistant; store placement results on
   the server (today they stay on the device); let a student leave a self-paced course; and email
