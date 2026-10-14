@@ -203,7 +203,9 @@ items ship or decisions change.
      percent problems. Worked steps use full-size fractions for easier reading. Unit 2 (consumer
      math) is done, 11 videos: unit prices and the better buy, discounts and sale prices, sales
      tax and tips, and paying over time (down payments, instalments, finance charges, rent-to-own
-     and comparing plans). Units 3 to 9 are next.
+     and comparing plans). Unit 3 (earning money) is done, 11 videos: gross pay, timecards,
+     overtime by the day, salary, commission, piecework, sharing tips, and deductions and net pay
+     (each question states its own rates). Units 4 to 9 are next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
