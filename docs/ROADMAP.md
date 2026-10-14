@@ -101,21 +101,28 @@ items ship or decisions change.
      minutes): multiplying binomials and polynomials, common factors, factoring x² + bx + c and
      ax² + bx + c, and special products with a strategy for factoring completely. They brought an
      area model that can also be drawn as algebra tiles (`src/video/algebra.ts`).
-   - Scripted: Math 10C Unit 5, eight videos (lessons 5.1 to 5.4, two parts each): relations
-     and their representations, functions, domain and range, and function notation. They bring
-     graphs (`src/video/graph.ts`): coordinate planes stretched to any scale, plotted functions,
-     polylines, points (open or closed) and arrow diagrams.
-   - Scripted: Math 10C Unit 6, ten videos (lessons 6.1 to 6.5, two parts each): linear
-     relations and rates of change, intercepts, slope, parallel and perpendicular lines, and the
-     distance and midpoint formulas.
+   - Built: Math 10C Unit 5, eight videos (lessons 5.1 to 5.4, two parts each, about two to three
+     minutes): relations and their representations, functions, domain and range, and function
+     notation. They brought graphs (`src/video/graph.ts`): coordinate planes stretched to any
+     scale, plotted functions, polylines, points (open or closed) and arrow diagrams.
+   - Built: Math 10C Unit 6, ten videos (lessons 6.1 to 6.5, two parts each, about two to three
+     minutes): linear relations and rates of change, intercepts, slope, parallel and
+     perpendicular lines, and the distance and midpoint formulas.
    - Scripted: Math 10C Unit 7, ten videos (lessons 7.1 to 7.5, two parts each): slope-intercept,
      slope-point and general form, parallel and perpendicular equations, linear models, and
      lines of best fit.
    - Scripted: Math 10C Unit 8, eight videos (lessons 8.1 to 8.4, two parts each): systems of
      linear equations, solving by graphing, substitution and elimination, the number of
      solutions, and problems solved with systems.
-   - Next: render Units 5 to 8 to finish Math 10C, then the other courses, each lesson split into
-     parts of about three minutes when it needs more.
+   - Scripted: Math 10-3 Units 1 to 7, two parts per lesson (about three minutes each): units and
+     measurement, money and finance, ratios and rates, perimeter, area and surface area, angles
+     and spatial puzzles, the Pythagorean theorem and similar figures. Units 6 and 7 brought angle
+     figures (`src/video/angles.ts`: rays, crossing lines, transversals, a clock and a protractor)
+     and triangle figures (`src/video/triangles.ts`: squares on the sides, any triangle, and a
+     rectangle with its diagonal). Unit 8 (trigonometry) is being scripted.
+   - Next: render Math 10C Units 7 and 8 to finish Math 10C, then render Math 10-3, then the other
+     courses in order (Math 10-4, 20-1, 20-2, 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
+     each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
