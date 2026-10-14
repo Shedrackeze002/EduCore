@@ -113,8 +113,10 @@ See `src/video/script.ts` for every element and option. In short:
 - Data figures live in `src/video/charts.ts`: `barGraph` (one colour for every bar; `d.scale`,
   each bar `d.b0`, its value `d.v0`, and a dashed line `d.r0` for reading it against the scale),
   `circleGraph` (slices `d.s0`… clockwise from the top in a fixed colour order, labelled
-  outside; `namesOnly` for a spinner), `tally` (bundles of five, `d.t0`…) and `marbles` (a bag
-  of coloured marbles, grouped by colour).
+  outside; `namesOnly` for a spinner), `tally` (bundles of five, `d.t0`…), `marbles` (a bag
+  of coloured marbles, grouped by colour) and `normalCurve` (a bell curve with an axis numbered at
+  each standard deviation, `d.axis`, `d.curve` and `d.mean`, and shaded regions between numbers of
+  standard deviations, each a part by its id, with a percent label that `labelAt` can move).
 
 - Keep each video to about three minutes, and never under two: about 350 spoken words is enough,
   and the build warns about a video that runs, or is estimated to run, under two minutes. Split a
