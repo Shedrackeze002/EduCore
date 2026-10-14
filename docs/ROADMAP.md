@@ -215,8 +215,10 @@ items ship or decisions change.
      and Fahrenheit both ways. Unit 7 (perimeter and area) is done, 12 videos: perimeter of
      rectangles and other shapes, circumference, the cost of edging, area of rectangles,
      triangles, parallelograms and circles, composite shapes, and buying materials with waste and
-     GST. A new flat-shape helper (src/video/shapes.ts) draws the floors and yards. Units 8 and
-     9 are next.
+     GST. A new flat-shape helper (src/video/shapes.ts) draws the floors and yards. Unit 8 (scale,
+     maps and travel) is done, 12 videos: scale drawings and ratio scales, measuring plans,
+     finding a scale, map scales, routes, grid maps, compass directions, and speed, distance,
+     travel time and arrival times. Unit 9 is next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the

@@ -8912,5 +8912,150 @@
         "working": "Angles on a straight line add to $180^\\circ$: $180 - 125 = 55^\\circ$."
       }
     ]
+  },
+  "m104-8-1-b": {
+    "lessonId": "m104-8-1",
+    "title": "Angles and Shapes, Part 2: Triangles and Quadrilaterals",
+    "duration": 162,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Triangles by sides",
+        "t": 0
+      },
+      {
+        "title": "Triangles by angles",
+        "t": 36.886
+      },
+      {
+        "title": "Quadrilaterals",
+        "t": 77.217
+      },
+      {
+        "title": "Your turn",
+        "t": 120.058
+      },
+      {
+        "title": "Summary",
+        "t": 142.436
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-8-1-b:q",
+        "t": 128.655,
+        "prompt": "A triangle has sides of $5\\text{ cm}$, $7\\text{ cm}$ and $9\\text{ cm}$. Name it by its sides.",
+        "choices": [
+          "scalene",
+          "isosceles",
+          "equilateral",
+          "right"
+        ],
+        "answer": 0,
+        "working": "No two sides are equal, so the triangle is scalene."
+      }
+    ]
+  },
+  "m104-8-2": {
+    "lessonId": "m104-8-2",
+    "title": "3-D Objects, Part 1: Faces, Edges and Vertices",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Faces, edges and vertices",
+        "t": 18.233
+      },
+      {
+        "title": "Hidden parts",
+        "t": 58.417
+      },
+      {
+        "title": "Prisms and pyramids",
+        "t": 76.151
+      },
+      {
+        "title": "A camping tent",
+        "t": 103.737
+      },
+      {
+        "title": "Your turn",
+        "t": 134.423
+      },
+      {
+        "title": "Summary",
+        "t": 159.444
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-8-2:q",
+        "t": 143.092,
+        "prompt": "A square pyramid has a square base and $4$ triangle faces. How many edges does it have?",
+        "choices": [
+          "$8$",
+          "$5$",
+          "$4$",
+          "$12$"
+        ],
+        "answer": 0,
+        "working": "$4$ edges around the base and $4$ going up to the top: $4 + 4 = 8$ edges."
+      }
+    ]
+  },
+  "m104-8-2-b": {
+    "lessonId": "m104-8-2",
+    "title": "3-D Objects, Part 2: Nets and Views",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Nets",
+        "t": 16.276
+      },
+      {
+        "title": "Not every net works",
+        "t": 42.325
+      },
+      {
+        "title": "Prism and pyramid nets",
+        "t": 63.364
+      },
+      {
+        "title": "Top and front views",
+        "t": 89.397
+      },
+      {
+        "title": "Your turn",
+        "t": 131.979
+      },
+      {
+        "title": "Summary",
+        "t": 159.673
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-8-2-b:q",
+        "t": 144.301,
+        "prompt": "In a top view, one column has a stack of $4$ boxes with a stack of $1$ box behind it. How many boxes high is that column in the front view?",
+        "choices": [
+          "$4$",
+          "$5$",
+          "$1$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "The front view shows the tallest stack in the column: $4$ boxes."
+      }
+    ]
   }
 }
