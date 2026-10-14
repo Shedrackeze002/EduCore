@@ -111,8 +111,11 @@ items ship or decisions change.
    - Scripted: Math 10C Unit 7, ten videos (lessons 7.1 to 7.5, two parts each): slope-intercept,
      slope-point and general form, parallel and perpendicular equations, linear models, and
      lines of best fit.
-   - Next: render Units 5 to 7, then Math 10C Unit 8 (systems of equations), then the other
-     courses, each lesson split into parts of about three minutes when it needs more.
+   - Scripted: Math 10C Unit 8, eight videos (lessons 8.1 to 8.4, two parts each): systems of
+     linear equations, solving by graphing, substitution and elimination, the number of
+     solutions, and problems solved with systems.
+   - Next: render Units 5 to 8 to finish Math 10C, then the other courses, each lesson split into
+     parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
