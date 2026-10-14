@@ -9308,5 +9308,56 @@
         "working": "In order: $4,\\ 5,\\ 7,\\ 9,\\ 12$. The middle value is $7$."
       }
     ]
+  },
+  "m104-9-2-b": {
+    "lessonId": "m104-9-2",
+    "title": "Averages, Part 2: Mode, Range and Outliers",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mode and range",
+        "t": 14.901
+      },
+      {
+        "title": "An outlier",
+        "t": 49.073
+      },
+      {
+        "title": "Which measure?",
+        "t": 92.855
+      },
+      {
+        "title": "The score needed",
+        "t": 112.052
+      },
+      {
+        "title": "Your turn",
+        "t": 144.209
+      },
+      {
+        "title": "Summary",
+        "t": 169.069
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-9-2-b:q",
+        "t": 151.745,
+        "prompt": "Find the range of $14$, $9$, $21$, $9$ and $17$.",
+        "choices": [
+          "$12$",
+          "$9$",
+          "$14$",
+          "$30$"
+        ],
+        "answer": 0,
+        "working": "Highest $21$, lowest $9$: $21 - 9 = 12$."
+      }
+    ]
   }
 }
