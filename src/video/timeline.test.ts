@@ -40,23 +40,23 @@ describe('compile', () => {
 
   it('times lines from their narration with gaps, waits and scene padding', () => {
     expect(tl.lines.map((l) => [l.key, l.start, l.end])).toEqual([
-      ['0.0', 0.6, 2.6],
-      ['1.0', 4.1, 5.6],
-      ['1.1', 5.95, 7.45],
-      ['1.2', 7.8, 8.8],
-      ['1.3', 14.15, 15.15],
+      ['0.0', 1, 3],
+      ['1.0', 6.2, 7.7],
+      ['1.1', 9.1, 10.6],
+      ['1.2', 12, 13],
+      ['1.3', 19.4, 20.4],
     ]);
-    expect(tl.scenes[0]).toMatchObject({ start: 0, end: 3.5 });
-    expect(tl.scenes[1]).toMatchObject({ start: 3.5, end: 16.05 });
-    expect(tl.duration).toBe(16.05);
+    expect(tl.scenes[0]).toMatchObject({ start: 0, end: 5.2 });
+    expect(tl.scenes[1]).toMatchObject({ start: 5.2, end: 22.6 });
+    expect(tl.duration).toBe(22.6);
   });
 
   it('lists chapters and the cue where Gradileo pauses for the question', () => {
     expect(tl.chapters).toEqual([
       { title: 'Start', t: 0 },
-      { title: 'Steps', t: 3.5 },
+      { title: 'Steps', t: 5.2 },
     ]);
-    expect(tl.cues).toEqual([{ id: 'demo-1:q', t: 9, prompt: 'What is **one** + ${1}$?', choices: ['1', '2'], answer: 1, working: 'One and one.' }]);
+    expect(tl.cues).toEqual([{ id: 'demo-1:q', t: 13.2, prompt: 'What is **one** + ${1}$?', choices: ['1', '2'], answer: 1, working: 'One and one.' }]);
   });
 
   it('needs every line to be narrated', () => {
@@ -70,40 +70,40 @@ describe('stateAt', () => {
   it('fades scenes in and out', () => {
     expect(stateAt(tl, 0).fade).toBe(0);
     expect(stateAt(tl, 1).fade).toBe(1);
-    expect(stateAt(tl, 3.5 - TIMING.fade / 2).fade).toBeCloseTo(0.5, 2);
-    expect(stateAt(tl, 3.6).scene).toBe(1);
+    expect(stateAt(tl, 5.2 - TIMING.fade / 2).fade).toBeCloseTo(0.5, 2);
+    expect(stateAt(tl, 5.3).scene).toBe(1);
     expect(stateAt(tl, 99).scene).toBe(1);
   });
 
   it('reveals parts one at a time and the whole element at once', () => {
-    const a = stateAt(tl, 5);
+    const a = stateAt(tl, 7.1);
     expect(partShown(a.els.eq, '0')).toBeGreaterThan(0.5);
     expect(partShown(a.els.eq, '1')).toBe(0);
     expect(a.els.tri.whole).toBe(true);
     expect(partShown(a.els.tri, 'opp')).toBe(a.els.tri.p);
-    const b = stateAt(tl, 7.4);
+    const b = stateAt(tl, 10.55);
     expect(partShown(b.els.eq, '1')).toBe(1);
   });
 
   it('moves the emphasis and clears it', () => {
-    expect(stateAt(tl, 5).els.tri.focus).toEqual({ opp: 1 });
-    const mid = stateAt(tl, 5.95 + TIMING.focus / 2).els.tri.focus;
+    expect(stateAt(tl, 7.1).els.tri.focus).toEqual({ opp: 1 });
+    const mid = stateAt(tl, 9.1 + TIMING.focus / 2).els.tri.focus;
     expect(mid.opp).toBeCloseTo(0.5, 2);
     expect(mid.adj).toBeCloseTo(0.5, 2);
-    expect(stateAt(tl, 7.4).els.tri.focus).toEqual({ adj: 1 });
-    expect(stateAt(tl, 7.4).els.eq.focus).toEqual({ '1': 1 });
-    expect(stateAt(tl, 9).els.tri.focus).toEqual({});
+    expect(stateAt(tl, 10.55).els.tri.focus).toEqual({ adj: 1 });
+    expect(stateAt(tl, 10.55).els.eq.focus).toEqual({ '1': 1 });
+    expect(stateAt(tl, 13.2).els.tri.focus).toEqual({});
   });
 
   it('hides elements and counts down a question', () => {
-    expect(stateAt(tl, 9).els.eq).toBeUndefined();
-    expect(stateAt(tl, 8.8 + 2.5).els.q.timer).toBe(0.5);
-    expect(ownPart(stateAt(tl, 12).els.q, 'answer')).toBe(0);
-    expect(ownPart(stateAt(tl, 15).els.q, 'answer')).toBeGreaterThan(0.9);
+    expect(stateAt(tl, 13.2).els.eq).toBeUndefined();
+    expect(stateAt(tl, 13 + 2.5).els.q.timer).toBe(0.5);
+    expect(ownPart(stateAt(tl, 17).els.q, 'answer')).toBe(0);
+    expect(ownPart(stateAt(tl, 20.25).els.q, 'answer')).toBeGreaterThan(0.9);
   });
 
   it('is identical for frames where nothing moves', () => {
-    expect(JSON.stringify(stateAt(tl, 12))).not.toBe(JSON.stringify(stateAt(tl, 12.1)));
+    expect(JSON.stringify(stateAt(tl, 17))).not.toBe(JSON.stringify(stateAt(tl, 17.1)));
     expect(JSON.stringify(stateAt(tl, 1.8))).toBe(JSON.stringify(stateAt(tl, 2.2)));
   });
 });
@@ -138,21 +138,21 @@ describe('hiding a part', () => {
       },
     ],
   };
-  // The lines are spoken from 0.6 to 1.6, 1.95 to 2.95 and 3.3 to 4.3.
+  // The lines are spoken from 1 to 2, 3.4 to 4.4 and 5.8 to 6.8.
   const tl = compile(x, { '0.0': 1, '0.1': 1, '0.2': 1 });
 
   it('swaps one label for another, and can show it again', () => {
     expect(checkScript(x)).toEqual([]);
-    expect(partShown(stateAt(tl, 1.9).els.d, 'x')).toBe(1);
-    const swapped = stateAt(tl, 2.9).els.d;
+    expect(partShown(stateAt(tl, 3.35).els.d, 'x')).toBe(1);
+    const swapped = stateAt(tl, 4.35).els.d;
     expect(partShown(swapped, 'x')).toBe(0);
     expect(partShown(swapped, 'v')).toBeGreaterThan(0.9);
     expect(partShown(swapped, 'ab')).toBe(1);
-    expect(partShown(stateAt(tl, 4.3).els.d, 'x')).toBeGreaterThan(0.9);
+    expect(partShown(stateAt(tl, 6.8).els.d, 'x')).toBeGreaterThan(0.9);
   });
 
   it('hides the whole element when it was shown whole', () => {
-    expect(stateAt(tl, 4.3).els.t).toBeUndefined();
+    expect(stateAt(tl, 6.8).els.t).toBeUndefined();
   });
 });
 

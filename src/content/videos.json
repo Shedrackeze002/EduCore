@@ -9461,5 +9461,503 @@
         "working": "Bag C: $\\dfrac{2}{8} = 25\\%$. Bag D: $\\dfrac{4}{12} \\approx 33.3\\%$. Bag D is better."
       }
     ]
+  },
+  "m201-1-1": {
+    "lessonId": "m201-1-1",
+    "title": "Arithmetic Sequences, Part 1: The General Term",
+    "duration": 252,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Common differences",
+        "t": 24.15
+      },
+      {
+        "title": "The graph",
+        "t": 73.514
+      },
+      {
+        "title": "The general term",
+        "t": 104.494
+      },
+      {
+        "title": "Simplified form",
+        "t": 150.956
+      },
+      {
+        "title": "Your turn",
+        "t": 190.518
+      },
+      {
+        "title": "Summary",
+        "t": 225.78
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-1:q",
+        "t": 200.111,
+        "prompt": "Find $t_{25}$ for the arithmetic sequence $7,\\ 10,\\ 13,\\ \\ldots$",
+        "choices": [
+          "$79$",
+          "$82$",
+          "$75$",
+          "$72$"
+        ],
+        "answer": 0,
+        "working": "$t_1 = 7$ and $d = 3$: $t_{25} = 7 + (25 - 1)(3) = 7 + 72 = 79$."
+      }
+    ]
+  },
+  "m201-1-1-b": {
+    "lessonId": "m201-1-1",
+    "title": "Arithmetic Sequences, Part 2: Missing Terms and Positions",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From two terms",
+        "t": 15.187
+      },
+      {
+        "title": "Which term is it?",
+        "t": 48.708
+      },
+      {
+        "title": "Not a term",
+        "t": 88.962
+      },
+      {
+        "title": "Theatre seats",
+        "t": 114.821
+      },
+      {
+        "title": "Your turn",
+        "t": 156.19
+      },
+      {
+        "title": "Summary",
+        "t": 186.868
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-1-b:q",
+        "t": 166.113,
+        "prompt": "In an arithmetic sequence, $t_3 = 11$ and $t_8 = 31$. Find the common difference $d$.",
+        "choices": [
+          "$4$",
+          "$5$",
+          "$20$",
+          "$3.875$"
+        ],
+        "answer": 0,
+        "working": "From $t_3$ to $t_8$ is $5$ steps: $31 - 11 = 20 = 5d$, so $d = 4$."
+      }
+    ]
+  },
+  "m201-1-2": {
+    "lessonId": "m201-1-2",
+    "title": "Arithmetic Series, Part 1: Reverse and Add",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Partial sums",
+        "t": 19.259
+      },
+      {
+        "title": "Reverse and add",
+        "t": 50.591
+      },
+      {
+        "title": "The formulas",
+        "t": 74.213
+      },
+      {
+        "title": "Using a formula",
+        "t": 109.713
+      },
+      {
+        "title": "Your turn",
+        "t": 133.545
+      },
+      {
+        "title": "Summary",
+        "t": 160.845
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-2:q",
+        "t": 141.285,
+        "prompt": "Find the sum of the first $10$ terms of $2 + 5 + 8 + \\cdots$",
+        "choices": [
+          "$155$",
+          "$29$",
+          "$145$",
+          "$310$"
+        ],
+        "answer": 0,
+        "working": "$S_{10} = \\dfrac{10}{2}\\left[2(2) + 9(3)\\right] = 5(31) = 155$."
+      }
+    ]
+  },
+  "m201-1-2-b": {
+    "lessonId": "m201-1-2",
+    "title": "Arithmetic Series, Part 2: Finding n, and Problems",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "When the last term is given",
+        "t": 17.764
+      },
+      {
+        "title": "A pile of logs",
+        "t": 59.829
+      },
+      {
+        "title": "How many rows?",
+        "t": 90.055
+      },
+      {
+        "title": "Your turn",
+        "t": 139.705
+      },
+      {
+        "title": "Summary",
+        "t": 173.421
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-2-b:q",
+        "t": 147.769,
+        "prompt": "Find the sum of $4 + 9 + 14 + \\cdots + 99$.",
+        "choices": [
+          "$1030$",
+          "$2060$",
+          "$103$",
+          "$5098.5$"
+        ],
+        "answer": 0,
+        "working": "$99 = 4 + 5(n - 1)$, so $n = 20$. $S_{20} = \\dfrac{20(4 + 99)}{2} = 1030$."
+      }
+    ]
+  },
+  "m201-1-3": {
+    "lessonId": "m201-1-3",
+    "title": "Geometric Sequences, Part 1: The Common Ratio",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The common ratio",
+        "t": 21.767
+      },
+      {
+        "title": "Geometric or arithmetic?",
+        "t": 59.904
+      },
+      {
+        "title": "The general term",
+        "t": 90.099
+      },
+      {
+        "title": "A negative ratio",
+        "t": 124.358
+      },
+      {
+        "title": "Your turn",
+        "t": 163.876
+      },
+      {
+        "title": "Summary",
+        "t": 193.508
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-3:q",
+        "t": 171.79,
+        "prompt": "Find $t_6$ for the geometric sequence $5,\\ 15,\\ 45,\\ \\ldots$",
+        "choices": [
+          "$1215$",
+          "$3645$",
+          "$405$",
+          "$30$"
+        ],
+        "answer": 0,
+        "working": "$t_1 = 5$ and $r = 3$: $t_6 = 5(3)^5 = 5(243) = 1215$."
+      }
+    ]
+  },
+  "m201-1-3-b": {
+    "lessonId": "m201-1-3",
+    "title": "Geometric Sequences, Part 2: Missing Terms, Growth and Decay",
+    "duration": 234,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From two terms",
+        "t": 15.896
+      },
+      {
+        "title": "Which term is it?",
+        "t": 75.165
+      },
+      {
+        "title": "Depreciation",
+        "t": 103.232
+      },
+      {
+        "title": "A bouncing ball",
+        "t": 143.448
+      },
+      {
+        "title": "Your turn",
+        "t": 175.61
+      },
+      {
+        "title": "Summary",
+        "t": 208.258
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-3-b:q",
+        "t": 187.558,
+        "prompt": "A town of $8000$ people grows by $5\\%$ each year. Which expression gives its population after $6$ years?",
+        "choices": [
+          "$8000(1.05)^6$",
+          "$8000(0.95)^6$",
+          "$8000(1.05)^5$",
+          "$8000(5)^6$"
+        ],
+        "answer": 0,
+        "working": "Growth by $5\\%$ multiplies by $r = 1.05$ each year, and the starting value is at time $0$, so after $6$ years: $8000(1.05)^6$."
+      }
+    ]
+  },
+  "m201-1-4": {
+    "lessonId": "m201-1-4",
+    "title": "Geometric Series, Part 1: The Sum Formula",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiply and subtract",
+        "t": 21.594
+      },
+      {
+        "title": "The formulas",
+        "t": 60.706
+      },
+      {
+        "title": "Finding sums",
+        "t": 102.738
+      },
+      {
+        "title": "Your turn",
+        "t": 146.027
+      },
+      {
+        "title": "Summary",
+        "t": 175.519
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-4:q",
+        "t": 154.145,
+        "prompt": "Find the sum of the first $6$ terms of $4 + 12 + 36 + \\cdots$",
+        "choices": [
+          "$1456$",
+          "$2916$",
+          "$484$",
+          "$728$"
+        ],
+        "answer": 0,
+        "working": "$S_6 = \\dfrac{4(3^6 - 1)}{3 - 1} = \\dfrac{4(728)}{2} = 1456$."
+      }
+    ]
+  },
+  "m201-1-4-b": {
+    "lessonId": "m201-1-4",
+    "title": "Geometric Series, Part 2: Last Terms, Salaries and Bounces",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the last term",
+        "t": 18.179
+      },
+      {
+        "title": "A salary with raises",
+        "t": 65.507
+      },
+      {
+        "title": "A bouncing ball",
+        "t": 104.559
+      },
+      {
+        "title": "Your turn",
+        "t": 154.829
+      },
+      {
+        "title": "Summary",
+        "t": 180.984
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-4-b:q",
+        "t": 162.857,
+        "prompt": "Find the sum of $1 + 2 + 4 + \\cdots + 512$.",
+        "choices": [
+          "$1023$",
+          "$1024$",
+          "$511$",
+          "$2047$"
+        ],
+        "answer": 0,
+        "working": "$S_n = \\dfrac{rt_n - t_1}{r - 1} = \\dfrac{2(512) - 1}{2 - 1} = 1023$."
+      }
+    ]
+  },
+  "m201-1-5": {
+    "lessonId": "m201-1-5",
+    "title": "Infinite Geometric Series, Part 1: Converging to a Sum",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Partial sums",
+        "t": 18.938
+      },
+      {
+        "title": "Converge or diverge",
+        "t": 45.774
+      },
+      {
+        "title": "The test and the sum",
+        "t": 80.654
+      },
+      {
+        "title": "Using the formula",
+        "t": 124.54
+      },
+      {
+        "title": "Your turn",
+        "t": 143.138
+      },
+      {
+        "title": "Summary",
+        "t": 167.049
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-5:q",
+        "t": 149.207,
+        "prompt": "Which infinite geometric series converges?",
+        "choices": [
+          "$9 + 3 + 1 + \\cdots$",
+          "$2 + 4 + 8 + \\cdots$",
+          "$3 - 3 + 3 - \\cdots$",
+          "$1 + 1.5 + 2.25 + \\cdots$"
+        ],
+        "answer": 0,
+        "working": "Its ratio is $\\frac{1}{3}$, and $|r| < 1$. The others have $r = 2$, $r = -1$ and $r = 1.5$."
+      }
+    ]
+  },
+  "m201-1-5-b": {
+    "lessonId": "m201-1-5",
+    "title": "Infinite Geometric Series, Part 2: Using the Sum",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A negative ratio",
+        "t": 19.488
+      },
+      {
+        "title": "A ratio with a variable",
+        "t": 66.138
+      },
+      {
+        "title": "Bouncing forever",
+        "t": 88.82
+      },
+      {
+        "title": "A repeating decimal",
+        "t": 128.122
+      },
+      {
+        "title": "Your turn",
+        "t": 168.158
+      },
+      {
+        "title": "Summary",
+        "t": 194.849
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-5-b:q",
+        "t": 174.672,
+        "prompt": "Find the sum of $12 - 6 + 3 - \\cdots$",
+        "choices": [
+          "$8$",
+          "$24$",
+          "$4$",
+          "$-12$"
+        ],
+        "answer": 0,
+        "working": "$r = -\\frac{1}{2}$, and $S_\\infty = \\dfrac{12}{1 - \\left(-\\frac{1}{2}\\right)} = \\dfrac{12}{1.5} = 8$."
+      }
+    ]
   }
 }

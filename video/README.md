@@ -46,7 +46,10 @@ minutes to render on four cores; frames where nothing moves are drawn once and r
 ## Narration
 
 The voice is Kokoro (82M parameters, Apache 2.0), which runs on the CPU, so narration costs
-nothing however many videos we make. The default voice is `af_heart`. Kokoro reads numbers,
+nothing however many videos we make. The default voice is `af_heart` at speed 0.85, about 150 to
+155 spoken words a minute, with pauses between lines and after each new step so a viewer can read
+it (`TIMING` in `src/video/timeline.ts`). The owner chose this calm pace on 14 October 2026 after
+comparing it with speed 1, which was too fast. Kokoro reads numbers,
 decimals and units as written ("9.4 cm", "0.75"); write maths in words ("tan theta equals x over
 fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit whole numbers
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
@@ -127,9 +130,12 @@ See `src/video/script.ts` for every element and option. In short:
   each standard deviation, `d.axis`, `d.curve` and `d.mean`, and shaded regions between numbers of
   standard deviations, each a part by its id, with a percent label that `labelAt` can move).
 
-- Keep each video to about three minutes, and never under two: about 350 spoken words is enough,
-  and the build warns about a video that runs, or is estimated to run, under two minutes. Split a
-  long lesson into parts: `m10c-2-1` is part 1, `m10c-2-1-b` part 2, and so on.
+- Explain everything as simply as possible, at the calm pace above, and give each video the time
+  that takes. There is no time limit: never trim an explanation to save time, even if a video
+  runs ten or fifteen minutes. A video runs at least two minutes (the build warns under that);
+  about 350 to 450 spoken words makes about four minutes. Split a lesson into parts when it
+  covers separate ideas, one idea per part, not to save time: `m10c-2-1` is part 1, `m10c-2-1-b`
+  part 2, and so on.
 - Start with a title scene, give each later scene a `chapter` (these become YouTube chapters),
   end with a "Your turn" question and a summary.
 - Colours have fixed meanings: `[[theta:…]]`, `[[opp:…]]`, `[[adj:…]]` and `[[hyp:…]]` in text,
@@ -140,7 +146,8 @@ See `src/video/script.ts` for every element and option. In short:
 ## Making a course's videos, step by step
 
 1. Script each lesson in parts (`src/content/<course>/videos/<id>.ts`, then `<id>-b`, `<id>-c`…),
-   about 350 spoken words each (`video/tools/words.sh <files>`). Check the scripts with
+   with as many spoken words as the simplest explanation needs (`video/tools/words.sh <files>`;
+   350 to 450 words makes about four minutes). Check the scripts with
    `npx vitest run src/video/scripts.test.ts -t "<id prefix>"`.
 2. Check the layouts: `npx tsx video/build.ts <ids> --stills --quick` (in a cloud session, set
    `CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` and `NODE_USE_ENV_PROXY=1`),
@@ -156,7 +163,7 @@ See `src/video/script.ts` for every element and option. In short:
    `npx tsx video/tools/drive-upload.ts m201-u1` (a unit id), `math-20-1` (a whole course) or
    video ids. Each video lands in `Gradileo videos/<course>/Unit <n> – <title>/<NN>-<id>/` with its
    MP4, thumbnail, captions and YouTube text; `NN` is its place in the unit. Files already in Drive
-   at the same size are skipped, so a run can be repeated; `--dry-run` shows where each would go.
+   with the same contents are skipped, so a run can be repeated; `--dry-run` shows where each would go.
    If Drive is not set up, make zip packs instead: `video/tools/pack.sh <course>-unit<N> <ids in
    order>` gives one zip per video (each well under 30 MB) and one for the whole unit.
 

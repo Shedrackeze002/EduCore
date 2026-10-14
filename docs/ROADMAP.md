@@ -88,12 +88,13 @@ items ship or decisions change.
      **Videos** page. YouTube allowed ten uploads a day on the channel, so uploads go about one
      lesson pack a day; by 14 Oct 2026 the first ten Math 10C Unit 1 videos (lessons 1.1 to 1.5)
      were uploaded and linked. The owner has saved every Math 10C, 10-3 and 10-4 pack.
-   - Next, before the Math 20 renders: a Google Drive uploader, so each rendered video goes
-     straight to `Gradileo videos/<course>/<unit>/` in the owner's Drive instead of zip files sent
-     in chat. The owner made an OAuth client (scope `drive.file`) and saved its keys as the
-     environment variables `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET` and `GDRIVE_REFRESH_TOKEN`
-     (a session started after they were added sees them). Build it in `video/tools/`, test it on
-     one Math 10-4 video, then use it for every course.
+   - Built: the Google Drive uploader (`video/tools/drive-upload.ts`, pull request #42). Each
+     rendered video goes to `Gradileo videos/<course>/Unit <n> – <title>/<NN>-<id>/` in the owner's
+     Drive with its MP4, thumbnail, captions and YouTube text, instead of zip files sent in chat.
+     It signs in with the environment variables `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET` and
+     `GDRIVE_REFRESH_TOKEN` (an OAuth client with the `drive.file` scope). On 14 October 2026 all
+     193 Math 10C, 10-3 and 10-4 videos were uploaded (checked: Drive holds 193 MP4s), and every
+     course from Math 20-1 on is uploaded unit by unit as it renders.
    - Built: Math 10C Unit 2 is complete, eight videos (lessons 2.1 to 2.4, two parts each). Lessons
      2.3 and 2.4 brought a `diagram` element for figures drawn from points (angles of elevation and
      depression, a cliff and a boat, a clinometer, two triangles sharing a side).
@@ -129,6 +130,14 @@ items ship or decisions change.
      1:56, so their scripts gained a check, a caution or a worked step and were rendered again,
      and the build now warns when a video runs, or is estimated to run, under two minutes (about
      350 spoken words is enough).
+   - Decision (14 October 2026): a calmer pace. The owner found the videos rushed, compared one
+     lesson at both paces, and chose the slower one: the voice at speed 0.85 (about 150 to 155
+     words a minute instead of about 175), 0.8 seconds between lines, an extra 0.6 seconds after
+     each new step appears, and longer pauses around scenes. Lesson 1.2 part 1 of Math 20-1 went
+     from 2:58 to 3:42. There is no time limit: the goal is to explain as simply as possible,
+     so a video may run ten or fifteen minutes if it needs to, and explanations are never trimmed
+     to save time. Every video from Math 20-1 on uses the new pace. Math 10C, 10-3 and
+     10-4 were made at the old pace and stay as they are (the owner's decision).
    - Scripted: Math 10-3, all 8 units, two parts per lesson (about three minutes each): units and
      measurement, money and finance, ratios and rates, perimeter, area and surface area, angles
      and spatial puzzles, the Pythagorean theorem, similar figures and trigonometry. Units 6 and
