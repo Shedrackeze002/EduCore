@@ -139,6 +139,9 @@ items ship or decisions change.
      words the voice got wrong ("biweekly" and "deci") and hyphenated sizes run together; the
      narration now respells them (`speechText`), and the four videos with them were rendered
      again. Upload packs are zipped per unit. Next: render Math 10-4.
+   - Built: Math 10-4, all 47 videos, in the video manifest. The pronunciation check found only
+     transcription quirks (homophones, names and fraction words), so no video needed a respelling.
+     Upload packs are zipped per unit.
    - Scripted: Math 20-1, all 9 units, 86 videos (two or three parts per lesson): sequences and
      series, trigonometry with angles in standard position and the sine and cosine laws,
      quadratic functions in vertex and standard form with optimization, factoring and solving
@@ -296,10 +299,13 @@ items ship or decisions change.
 - Update Math 7, 8 and 9 to Alberta's new Grades 7–9 curriculum before it becomes mandatory in
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
-- The *Deploy Supabase backend* workflow skips itself because its repository secrets
-  (`SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD`) are not set, so
-  migrations are applied by hand and recorded in `supabase_migrations.schema_migrations`. Add the
-  secrets so merges apply migrations and redeploy the Edge Functions on their own.
+- The owner added the *Deploy Supabase backend* secrets (`SUPABASE_ACCESS_TOKEN`, a scoped token
+  for this project that expires on 13 October 2027, `SUPABASE_PROJECT_ID` and
+  `SUPABASE_DB_PASSWORD`) on 14 October 2026. Until then migrations were applied by hand and
+  recorded in `supabase_migrations.schema_migrations`. Next: run the workflow once from Actions
+  (Run workflow, on main) to confirm it links, finds no new migration and redeploys the five Edge
+  Functions; after that, merges that change `supabase/` or `engine/` deploy on their own. Make a
+  new token before the old one expires.
 - Self-paced study, next steps: an AI tutor chat inside lessons (explain a step, give a hint,
   check working) using the same AI provider as the teaching assistant; store placement results on
   the server (today they stay on the device); let a student leave a self-paced course; and email
