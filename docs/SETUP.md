@@ -129,6 +129,9 @@ and parents who signed up with an email address:
 To apply migrations and deploy functions automatically when `supabase/` or `engine/` changes on
 `main`, add these repository **secrets**: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID` and
 `SUPABASE_DB_PASSWORD`. The **Deploy Supabase backend** workflow skips itself until they exist.
+A scoped access token needs only two permissions on the project: **Connection Pooling** (Read),
+to find the database's pooler address, and **Edge Functions** (Read-write). The workflow does not
+run `supabase link`, which would also need the project's secret API keys.
 
 ### 2.8 Become the platform administrator
 

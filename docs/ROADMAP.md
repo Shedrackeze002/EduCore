@@ -300,12 +300,15 @@ items ship or decisions change.
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
 - The owner added the *Deploy Supabase backend* secrets (`SUPABASE_ACCESS_TOKEN`, a scoped token
-  for this project that expires on 13 October 2027, `SUPABASE_PROJECT_ID` and
-  `SUPABASE_DB_PASSWORD`) on 14 October 2026. Until then migrations were applied by hand and
-  recorded in `supabase_migrations.schema_migrations`. Next: run the workflow once from Actions
-  (Run workflow, on main) to confirm it links, finds no new migration and redeploys the five Edge
-  Functions; after that, merges that change `supabase/` or `engine/` deploy on their own. Make a
-  new token before the old one expires.
+  for this project, `SUPABASE_PROJECT_ID` and `SUPABASE_DB_PASSWORD`) on 14 October 2026. Until
+  then migrations were applied by hand and recorded in `supabase_migrations.schema_migrations`
+  (all 13 match `supabase/migrations`). The first run failed at `supabase link`, which reads the
+  project's secret API keys, so the workflow no longer links: it pushes migrations through the
+  session pooler and deploys the functions by project ref. Next: the owner replaces the token
+  with one that has Connection Pooling (Read) and Edge Functions (Read-write), then runs the
+  workflow once from Actions (Run workflow, on main) to confirm it finds no new migration and
+  redeploys the five Edge Functions. After that, merges that change `supabase/` or `engine/`
+  deploy on their own. Make a new token before the old one expires.
 - Self-paced study, next steps: an AI tutor chat inside lessons (explain a step, give a hint,
   check working) using the same AI provider as the teaching assistant; store placement results on
   the server (today they stay on the device); let a student leave a self-paced course; and email

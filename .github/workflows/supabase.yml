@@ -3,7 +3,9 @@ name: Deploy Supabase backend
 # Applies database migrations and deploys the Edge Functions.
 #
 # Repository secrets (Settings → Secrets and variables → Actions → Secrets):
-#   SUPABASE_ACCESS_TOKEN   personal access token from supabase.com/dashboard/account/tokens
+#   SUPABASE_ACCESS_TOKEN   personal access token from supabase.com/dashboard/account/tokens; a
+#                           scoped token needs Connection Pooling (Read) and Edge Functions
+#                           (Read-write) on the project
 #   SUPABASE_PROJECT_ID     the project reference (the "abcd…" part of https://abcd….supabase.co)
 #   SUPABASE_DB_PASSWORD    the database password chosen when the project was created
 #
@@ -51,11 +53,30 @@ jobs:
         if: steps.cfg.outputs.skip != 'true'
         with:
           version: latest
+      # `supabase link` asks for the project's secret API keys, which a scoped token is not given,
+      # so the migrations go straight to the database. GitHub's runners cannot reach the database's
+      # own host (IPv6 only), so they connect through the session pooler, whose address comes
+      # from the Management API.
       - name: Apply migrations
         if: steps.cfg.outputs.skip != 'true'
         run: |
-          supabase link --project-ref "$PROJECT_ID"
-          supabase db push
+          if ! pooler=$(curl -sS --fail-with-body -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+            "https://api.supabase.com/v1/projects/$PROJECT_ID/config/database/pooler"); then
+            echo "::error::Could not read the pooler address (a scoped token needs Connection Pooling, Read): $pooler"
+            exit 1
+          fi
+          password=$(jq -rn --arg p "$SUPABASE_DB_PASSWORD" '$p | @uri')
+          echo "::add-mask::$password"
+          db_url=$(jq -r --arg p "$password" '
+            map(select(.database_type == "PRIMARY"))[0].connection_string // empty
+            | sub(":\\[YOUR-PASSWORD\\]@"; ":" + $p + "@")
+            | sub(":6543/"; ":5432/")' <<<"$pooler")
+          if [ -z "$db_url" ]; then
+            echo "::error::The project has no primary pooler connection."
+            exit 1
+          fi
+          echo "::add-mask::$db_url"
+          supabase db push --db-url "$db_url"
       - name: Deploy functions
         if: steps.cfg.outputs.skip != 'true'
         run: |
