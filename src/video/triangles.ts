@@ -196,3 +196,101 @@ export function rectangle(o: { name?: string; at?: P; w: number; h: number; labe
   ];
   return { points, items };
 }
+
+/**
+ * Two right triangles that share a side, drawn to scale from their angles, for angle-of-elevation
+ * problems. `opposite`: a tower of height `h` with an observer on each side, at elevation angles
+ * `a1` (left) and `a2` (right). `same`: a cliff of height `h` with two points on one side, the
+ * near one at `a1` and the far one at `a2` (smaller); `depression` adds the horizontal at the top
+ * with the matching angles of depression. `stacked`: one observer `d` from a building, looking up
+ * at `a1` to a lower point and `a2` to a higher one (an antenna on a roof).
+ *
+ * Parts: `ground`, `height` (the shared height, or the building), `sight1`, `sight2`, `a1`, `a2`,
+ * `right`, and `x` (the distance between the points, or the piece between the two sight lines);
+ * with `depression`, `horizontal`, `d1` and `d2`; for `same`, a `d` label adds `near` (base to the
+ * near point).
+ */
+export function twoTriangles(o: { name?: string; arrangement: 'opposite' | 'same' | 'stacked'; h?: number; d?: number; a1: number; a2: number; depression?: boolean; labels?: Partial<Record<'h' | 'd' | 'a1' | 'a2' | 'x', string>> }): Part {
+  const n = namer(o.name);
+  const t = (a: number) => Math.tan((a * Math.PI) / 180);
+  const L = o.labels ?? {};
+  const points: Record<string, P> = {};
+  const items: DiagramItem[] = [];
+  const at = (k: string, p: P) => (points[n(k)] = p);
+  const line = (id: string, from: string, to: string, extra: Partial<Extract<DiagramItem, { kind: 'line' }>> = {}): DiagramItem => ({ kind: 'line', id: n(id), from: n(from), to: n(to), ...extra });
+  const angle = (id: string, vertex: string, from: string, to: string, label: string | undefined, r: number, tone: DiagramTone): DiagramItem => ({ kind: 'angle', id: n(id), at: n(vertex), from: n(from), to: n(to), r, tone, ...(label ? { label } : {}) });
+  const dim = (from: P, to: P, label: string | undefined, drop: number) => {
+    at('x0', [from[0], from[1] - drop]);
+    at('x1', [to[0], to[1] - drop]);
+    items.push(line('x', 'x0', 'x1', { tone: 'theta', ...(label ? { label, labelSide: 'right' as const } : {}) }));
+  };
+  if (o.arrangement === 'stacked') {
+    const d = o.d ?? 10;
+    at('O', [0, 0]);
+    at('B', [d, 0]);
+    at('R', [d, d * t(o.a1)]);
+    at('A', [d, d * t(o.a2)]);
+    items.push(
+      line('ground', 'O', 'B', { tone: 'adj', ...(L.d ? { label: L.d, labelSide: 'right' as const } : {}) }),
+      line('height', 'B', 'R', { tone: 'muted', ...(L.h ? { label: L.h, labelSide: 'left' as const } : {}) }),
+      line('x', 'R', 'A', { tone: 'theta', weight: 5, ...(L.x ? { label: L.x, labelSide: 'right' as const } : {}) }),
+      line('sight1', 'O', 'R', { tone: 'hyp' }),
+      line('sight2', 'O', 'A', { tone: 'hyp', dashed: true }),
+      { kind: 'right', id: n('right'), at: n('B'), from: n('O'), to: n('R') },
+      angle('a1', 'O', 'B', 'R', L.a1, 60, 'theta'),
+      angle('a2', 'O', 'B', 'A', L.a2, 110, 'opp'),
+    );
+    return { points, items };
+  }
+  const h = o.h ?? 10;
+  at('B', [0, 0]);
+  at('T', [0, h]);
+  if (o.arrangement === 'opposite') {
+    const left: P = [-h / t(o.a1), 0];
+    const right: P = [h / t(o.a2), 0];
+    at('P1', left);
+    at('P2', right);
+    items.push(
+      line('ground', 'P1', 'P2', { tone: 'muted' }),
+      line('height', 'B', 'T', { tone: 'opp', ...(L.h ? { label: L.h, labelSide: 'right' as const, labelAt: 0.35 } : {}) }),
+      line('sight1', 'P1', 'T', { tone: 'hyp' }),
+      line('sight2', 'P2', 'T', { tone: 'hyp' }),
+      { kind: 'right', id: n('right'), at: n('B'), from: n('P2'), to: n('T') },
+      angle('a1', 'P1', 'B', 'T', L.a1, 50, 'theta'),
+      angle('a2', 'P2', 'B', 'T', L.a2, 50, 'theta'),
+    );
+    dim(left, right, L.x, h * 0.12);
+    return { points, items };
+  }
+  // One triangle inside the other: the near point at the steeper angle a1, the far one at a2.
+  const near: P = [h / t(o.a1), 0];
+  const far: P = [h / t(o.a2), 0];
+  at('N', near);
+  at('F', far);
+  items.push(
+    line('ground', 'B', 'F', { tone: 'muted' }),
+    line('height', 'B', 'T', { tone: 'opp', ...(L.h ? { label: L.h, labelSide: 'left' as const } : {}) }),
+    line('sight1', 'T', 'N', { tone: 'hyp' }),
+    line('sight2', 'T', 'F', { tone: 'hyp' }),
+    { kind: 'right', id: n('right'), at: n('B'), from: n('F'), to: n('T') },
+    // Each angle sits inside its own triangle, between the ground back to the base and the sight line.
+    angle('a1', 'N', 'B', 'T', L.a1, 45, 'theta'),
+    angle('a2', 'F', 'B', 'T', L.a2, 70, 'opp'),
+  );
+  if (o.depression) {
+    at('H', [far[0], h]);
+    items.push(
+      line('horizontal', 'T', 'H', { tone: 'muted', dashed: true }),
+      angle('d1', 'T', 'H', 'N', L.a1, 90, 'theta'),
+      angle('d2', 'T', 'H', 'F', L.a2, 140, 'opp'),
+    );
+  }
+  dim(near, far, L.x, h * 0.12);
+  if (L.d) {
+    // The near distance, from the base out to the near point, beside the x measurement.
+    at('n0', [0, -h * 0.12]);
+    at('n1', [near[0], -h * 0.12]);
+    items.push(line('near', 'n0', 'n1', { tone: 'adj', label: L.d, labelSide: 'right' }));
+  }
+  return { points, items };
+}

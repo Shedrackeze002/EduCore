@@ -57,6 +57,9 @@ the decimal 0.40; the script check asks for that as well.
 In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, `\text{Last: } {-5}`),
 or KaTeX sets it as subtraction ("− 3"); the script check asks for that too. On screen, write
 money in text as `\$4`, as in the lessons, and keep it out of `$...$` maths.
+Words the voice gets wrong are respelled for it in `speechText` (`src/video/words.ts`): "biweekly"
+is voiced as "bi-weekly", "deci" as "dessy", and hyphenated sizes ("eight-by-twelve") as
+separate words; the captions keep the script's spelling. Add a word there when a check finds one.
 After each build, listen to the lines that `pronunciation.txt` marks CHECK.
 
 ## Writing a script
@@ -98,8 +101,11 @@ See `src/video/script.ts` for every element and option. In short:
   and their four angles, `d.a1`…), `transversal` (two lines cut by a third, angles numbered 1 to
   8), `clock` and `protractor`. Triangle figures live in `src/video/triangles.ts`: `triangle`
   (any triangle, side labels outside it, and for congruence `ticks` on equal sides and `arcs` in
-  equal angles), `squaresOnSides` (the squares on the sides of a right triangle) and `rectangle`
-  (with its diagonal).
+  equal angles), `squaresOnSides` (the squares on the sides of a right triangle), `rectangle`
+  (with its diagonal) and `twoTriangles` (two right triangles that share a side, drawn to scale
+  from their angles of elevation: observers on `opposite` sides of a tower, two points on the
+  `same` side of a cliff, with optional angles of `depression`, or `stacked` sight lines to a
+  roof and an antenna; parts `ground`, `height`, `sight1`, `sight2`, `a1`, `a2`, `x`).
 - `standardAngle` (`src/video/trig.ts`) draws an angle in standard position: the axes, the
   terminal arm and its arc (`d.arm`, `d.arc`), and optionally the reference angle (`d.ref`), a
   dashed drop to the x-axis with the triangle's sides (`d.tri`, `d.x`, `d.y`, `d.r`), the point
