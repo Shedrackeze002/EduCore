@@ -87,7 +87,13 @@ items ship or decisions change.
    - Uploads: the owner uploads each pack to the Gradileo YouTube channel and links it on the
      **Videos** page. YouTube allowed ten uploads a day on the channel, so uploads go about one
      lesson pack a day; by 14 Oct 2026 the first ten Math 10C Unit 1 videos (lessons 1.1 to 1.5)
-     were uploaded and linked.
+     were uploaded and linked. The owner has saved every Math 10C, 10-3 and 10-4 pack.
+   - Next, before the Math 20 renders: a Google Drive uploader, so each rendered video goes
+     straight to `Gradileo videos/<course>/<unit>/` in the owner's Drive instead of zip files sent
+     in chat. The owner made an OAuth client (scope `drive.file`) and saved its keys as the
+     environment variables `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET` and `GDRIVE_REFRESH_TOKEN`
+     (a session started after they were added sees them). Build it in `video/tools/`, test it on
+     one Math 10-4 video, then use it for every course.
    - Built: Math 10C Unit 2 is complete, eight videos (lessons 2.1 to 2.4, two parts each). Lessons
      2.3 and 2.4 brought a `diagram` element for figures drawn from points (angles of elevation and
      depression, a cliff and a boat, a clinometer, two triangles sharing a side).
