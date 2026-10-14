@@ -99,6 +99,14 @@ See `src/video/script.ts` for every element and option. In short:
   8), `clock` and `protractor`. Triangle figures live in `src/video/triangles.ts`: `triangle`
   (any triangle, side labels outside it), `squaresOnSides` (the squares on the sides of a right
   triangle) and `rectangle` (with its diagonal).
+- `standardAngle` (`src/video/trig.ts`) draws an angle in standard position: the axes, the
+  terminal arm and its arc (`d.arm`, `d.arc`), and optionally the reference angle (`d.ref`), a
+  dashed drop to the x-axis with the triangle's sides (`d.tri`, `d.x`, `d.y`, `d.r`), the point
+  `d.P` and the quadrant labels (`d.quads`). `cast` is the CAST diagram (`d.A`, `d.S`, `d.T`,
+  `d.C`). `referenceAngle(deg)` gives the reference angle.
+- Items drawn on a named plane (`plane({ name: 'p1', … })`) take its name as a prefix: a curve
+  `c1` plotted on it is the part `d.p1-c1`. Several named planes side by side (`at`) compare
+  graphs in one figure.
 - `strip` (`src/video/numbers.ts`) is a fraction strip: a bar cut into equal pieces, some shaded
   (`d.shade`, `d.frame`).
 - Data figures live in `src/video/charts.ts`: `barGraph` (one colour for every bar; `d.scale`,

@@ -130,9 +130,14 @@ items ship or decisions change.
      displays, averages and probability. They brought fraction strips (`src/video/numbers.ts`)
      and data figures (`src/video/charts.ts`: bar graphs with reading lines, circle graphs, tally
      marks and bags of marbles).
-   - Next: render Math 10-3, then Math 10-4, then the other courses in order (Math 20-1, 20-2,
-     20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), each lesson split into parts of about
-     three minutes when it needs more.
+   - Rendering: Math 10-3, in three batches (Units 1–3, 4–6 and 7–8), then Math 10-4.
+   - Scripting: Math 20-1, Units 1 to 4 so far (two or three parts per lesson): sequences and
+     series, trigonometry with angles in standard position and the sine and cosine laws,
+     quadratic functions in vertex and standard form with optimization, and factoring and
+     solving quadratic equations, the quadratic formula and the discriminant. They brought
+     angles in standard position (`src/video/trig.ts`). Units 5 to 9 are next.
+   - Next: the other courses in order (Math 20-2, 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
+     and 9), each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
