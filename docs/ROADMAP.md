@@ -186,7 +186,11 @@ items ship or decisions change.
      8 videos: gross and net pay, fixed and variable expenses, surplus and deficit, percent of
      income and circle graphs, saving for a goal (rounding the months up), service charges,
      comparing plans and the break-even point, overdrafts, statements and reconciling an account.
-     Units 7 and 8 are next.
+     Unit 7 (interest and credit) is done, 12 videos: simple interest and I = Prt, time in months
+     and missing values, compound interest, simple and compound compared, the Rule of 72,
+     counting doublings, comparing investment offers, credit card interest, the new balance and
+     minimum payment, carrying a balance, the cost of a loan, and comparing credit options with
+     rent-to-own (the first lesson in five parts). Unit 8 is next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
