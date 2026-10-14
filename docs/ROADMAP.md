@@ -182,7 +182,11 @@ items ship or decisions change.
      (scale, views and exploded views) is done, 11 videos: reading and drawing to scale, finding a
      scale, areas and volumes at scale, top, front and side views of cube stacks, isometric
      drawings, working back from views, exploded views, parts lists and costs, and assembly order
-     (`squareColumns` and `isometricBox` figures were added). Units 6 to 8 are next.
+     (`squareColumns` and `isometricBox` figures were added). Unit 6 (personal finance) is done,
+     8 videos: gross and net pay, fixed and variable expenses, surplus and deficit, percent of
+     income and circle graphs, saving for a goal (rounding the months up), service charges,
+     comparing plans and the break-even point, overdrafts, statements and reconciling an account.
+     Units 7 and 8 are next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the

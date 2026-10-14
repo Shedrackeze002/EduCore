@@ -79,14 +79,14 @@ const video: Explainer = {
         {
           kind: 'try',
           id: 'q',
-          prompt: 'Noor’s net income is \\$1,800 a month, and her phone plan costs \\$63 a month. What percent of her income is the phone plan?',
+          prompt: 'Noor’s net income is \\$1,800 a month, and the phone plan costs \\$63 a month. What percent of Noor’s income is the phone plan?',
           choices: ['$3.5\\%$', '$35\\%$', '$0.035\\%$', '$28.6\\%$'],
           answer: 0,
           working: '$63 \\div 1{,}800 = 0.035$, and $0.035 \\times 100 = 3.5\\%$. C forgets to multiply by $100$, and D divides the wrong way.',
         },
       ],
       lines: [
-        { say: 'Your turn. Noor’s net income is 1,800 dollars a month, and her phone plan costs 63 dollars a month. What percent of her income is the phone plan? Pause the video and try it.', show: 'q', wait: 6 },
+        { say: 'Your turn. Noor’s net income is 1,800 dollars a month, and the phone plan costs 63 dollars a month. What percent of Noor’s income is the phone plan? Pause the video and try it.', show: 'q', wait: 6 },
         { say: 'The answer is A. 63 divided by 1,800 is 0.035, and times 100, that is 3.5 percent. C forgets to multiply by 100, and D divides the wrong way.', show: 'q.answer' },
       ],
     },

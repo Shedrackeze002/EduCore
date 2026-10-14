@@ -41,7 +41,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Some bills come only once a year, such as a vehicle registration or a hunting licence. Divide a yearly cost by twelve, and set that much aside every month.', show: 'tip' },
-        { say: 'In this example, Cody’s truck registration costs 180 dollars a year. 180 divided by twelve is fifteen dollars, so he sets aside fifteen dollars a month, and the bill never catches him short.', show: 'm.0', focus: 'm.0' },
+        { say: 'In this example, Cody’s truck registration costs 180 dollars a year. 180 divided by twelve is fifteen dollars, so Cody sets aside fifteen dollars a month, and the bill never catches him short.', show: 'm.0', focus: 'm.0' },
       ],
     },
     {
@@ -92,15 +92,15 @@ const video: Explainer = {
         {
           kind: 'try',
           id: 'q',
-          prompt: 'Leah’s net income is \\$1,900.00 a month, and her expenses total \\$1,985.50. Does her budget have a surplus or a deficit, and how much?',
+          prompt: 'Leah’s net income is \\$1,900.00 a month, and her expenses total \\$1,985.50. Does Leah’s budget have a surplus or a deficit, and how much?',
           choices: ['a deficit of \\$85.50', 'a surplus of \\$85.50', 'a deficit of \\$185.50', 'a surplus of \\$1,985.50'],
           answer: 0,
           working: 'Expenses are more than income, so there is a deficit: $1{,}985.50 - 1{,}900.00 = 85.50$. B has the right amount, but calls it a surplus.',
         },
       ],
       lines: [
-        { say: 'Your turn. Leah’s net income is 1,900 dollars a month, and her expenses total 1,985 dollars 50. Does her budget have a surplus or a deficit, and how much? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Her expenses are more than her income, so there is a deficit: 1,985.50 minus 1,900 is 85 dollars 50. B has the right amount, but calls it a surplus.', show: 'q.answer' },
+        { say: 'Your turn. Leah’s net income is 1,900 dollars a month, and her expenses total 1,985 dollars 50. Does Leah’s budget have a surplus or a deficit, and how much? Pause the video and try it.', show: 'q', wait: 6 },
+        { say: 'The answer is A. Leah’s expenses are more than the income, so there is a deficit: 1,985.50 minus 1,900 is 85 dollars 50. B has the right amount, but calls it a surplus.', show: 'q.answer' },
       ],
     },
     {

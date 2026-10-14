@@ -67,7 +67,7 @@ const video: Explainer = {
         { say: 'Kiona can save 275 dollars a month toward 2,000 dollars, for a set of winter tires and a remote starter. How many months will it take?', show: 'q' },
         { say: 'Divide the goal by the monthly savings: 2,000 divided by 275 is about 7.27.', show: 'm.0', focus: 'm.0' },
         { say: 'After seven months, Kiona has only seven times 275, which is 1,925 dollars. That is not enough.', show: 'm.1', focus: 'm.1' },
-        { say: 'After eight months, she has 2,200 dollars, which is enough. So it takes eight months.', show: 'm.2', focus: 'm.2' },
+        { say: 'After eight months, Kiona has 2,200 dollars, which is enough. So it takes eight months.', show: 'm.2', focus: 'm.2' },
       ],
     },
     {
