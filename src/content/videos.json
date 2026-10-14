@@ -10688,5 +10688,52 @@
         "working": "The vertex is $(1, 4)$ and $a = -1 < 0$, so the parabola opens down and $4$ is the maximum value: $y \\le 4$."
       }
     ]
+  },
+  "m201-3-2": {
+    "lessonId": "m201-3-2",
+    "title": "Writing Quadratic Functions in Vertex Form, Part 1: The Equation",
+    "duration": 233,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Vertex and a point",
+        "t": 23.973
+      },
+      {
+        "title": "From a graph",
+        "t": 75.421
+      },
+      {
+        "title": "A parabolic arch",
+        "t": 122.463
+      },
+      {
+        "title": "Your turn",
+        "t": 173.182
+      },
+      {
+        "title": "Summary",
+        "t": 205.823
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-2:q",
+        "t": 183.737,
+        "prompt": "A parabola has vertex $(1, -2)$ and passes through $(3, 6)$. What is $a$?",
+        "choices": [
+          "$2$",
+          "$4$",
+          "$\\tfrac{1}{2}$",
+          "$-2$"
+        ],
+        "answer": 0,
+        "working": "$6 = a(3 - 1)^2 - 2$, so $6 = 4a - 2$, $4a = 8$ and $a = 2$."
+      }
+    ]
   }
 }
