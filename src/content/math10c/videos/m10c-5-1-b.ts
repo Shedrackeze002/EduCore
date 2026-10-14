@@ -34,7 +34,7 @@ const video: Explainer = {
         { say: 'Filling at a steady rate: a straight segment, rising.', show: 'bath.tub-0', focus: 'bath.tub-0' },
         { say: 'Bathing: the volume does not change, so a horizontal segment.', show: 'bath.tub-1', focus: 'bath.tub-1' },
         { say: 'Draining quickly: a steep segment falling to zero, steeper than the filling, because the water leaves faster than it came in.', show: 'bath.tub-2', focus: 'bath.tub-2' },
-        { say: 'A sketch does not need exact numbers. It needs the right shape: the right directions, and the right steepness.' },
+        { say: 'A sketch does not need exact numbers. It needs the right shape: the right directions, and the right steepness. And label both axes with the quantities, here time and volume.' },
       ],
     },
     {
@@ -58,6 +58,7 @@ const video: Explainer = {
         { say: 'Continuous data can take any value in an interval, like time, distance or temperature. A plant keeps growing between your measurements, so join the points.', show: ['two.p-grid', 'two.p-axes', 'two.p-grow'], focus: 'two.p-grow' },
         { say: 'Discrete data can only take separate values, often whole numbers. You cannot buy two and a half movie tickets, so the cost is a set of separate points. Do not join them.', show: ['two.t-grid', 'two.t-axes', 'two.t-pts'], focus: 'two.t-pts' },
         { say: 'So, continuous: join the points. Discrete: leave them separate.', show: 'key' },
+        { say: 'If you are not sure, ask: can the quantity take a value between two of the points? If it can, the data is continuous.' },
       ],
     },
     {
