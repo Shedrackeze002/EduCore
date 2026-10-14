@@ -194,7 +194,7 @@ items ship or decisions change.
      bar graphs, circle graphs from percents and from counts, reading and using histograms, line
      graphs and their trends, rate of change, predicting from a steady trend, choosing the best
      graph, misleading graphs (a cut-off axis and uneven years), number patterns, magic squares,
-     cage and logic puzzles, and winning strategies for take-away games. All 94 Math 20-3 videos
+     cage and logic puzzles, and winning strategies for take-away games. All 90 Math 20-3 videos
      are scripted and stills-checked; rendering follows Math 20-2. Next: Math 20-4 scripts.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
