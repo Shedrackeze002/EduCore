@@ -212,7 +212,11 @@ items ship or decisions change.
      and checking equations, formulas used backwards, tables of values, and reading and matching
      graphs. Unit 6 (measurement and conversions) is done, 10 videos: SI and imperial units, mixed
      feet and inches, conversion factors, multiply or divide, two-step conversions, and Celsius
-     and Fahrenheit both ways. Units 7 to 9 are next.
+     and Fahrenheit both ways. Unit 7 (perimeter and area) is done, 12 videos: perimeter of
+     rectangles and other shapes, circumference, the cost of edging, area of rectangles,
+     triangles, parallelograms and circles, composite shapes, and buying materials with waste and
+     GST. A new flat-shape helper (src/video/shapes.ts) draws the floors and yards. Units 8 and
+     9 are next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the

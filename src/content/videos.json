@@ -8728,5 +8728,189 @@
         "working": "$A = \\tfrac{1}{2} \\times 5 \\times 8 = 20\\text{ m}^2$."
       }
     ]
+  },
+  "m104-7-2-b": {
+    "lessonId": "m104-7-2",
+    "title": "Area, Part 2: Circles and Cost",
+    "duration": 141,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Area of a circle",
+        "t": 13.543
+      },
+      {
+        "title": "Cost by the square metre",
+        "t": 40.273
+      },
+      {
+        "title": "Cans of paint",
+        "t": 64.485
+      },
+      {
+        "title": "Your turn",
+        "t": 96.097
+      },
+      {
+        "title": "Summary",
+        "t": 122.894
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-7-2-b:q",
+        "t": 105.895,
+        "prompt": "Flooring costs \\$30 per square metre. A room is $5\\text{ m}$ by $4\\text{ m}$. What does the flooring cost?",
+        "choices": [
+          "\\$600",
+          "\\$540",
+          "\\$150",
+          "\\$270"
+        ],
+        "answer": 0,
+        "working": "Area: $5 \\times 4 = 20\\text{ m}^2$. Cost: $20 \\times 30 = 600$ dollars."
+      }
+    ]
+  },
+  "m104-7-3": {
+    "lessonId": "m104-7-3",
+    "title": "Volume, Part 1: Boxes",
+    "duration": 150,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Volume and cubic units",
+        "t": 16.123
+      },
+      {
+        "title": "Cubic metres",
+        "t": 60.55
+      },
+      {
+        "title": "Your turn",
+        "t": 101.865
+      },
+      {
+        "title": "Summary",
+        "t": 131.39
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-7-3:q",
+        "t": 110.609,
+        "prompt": "A storage bin is $50\\text{ cm}$ long, $40\\text{ cm}$ wide and $30\\text{ cm}$ high. What is its volume?",
+        "choices": [
+          "$60\\,000\\text{ cm}^3$",
+          "$120\\text{ cm}^3$",
+          "$6\\,000\\text{ cm}^3$",
+          "$2\\,000\\text{ cm}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = 50 \\times 40 \\times 30 = 60\\,000\\text{ cm}^3$."
+      }
+    ]
+  },
+  "m104-7-3-b": {
+    "lessonId": "m104-7-3",
+    "title": "Volume, Part 2: Capacity and Packing",
+    "duration": 164,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Volume and capacity",
+        "t": 12.118
+      },
+      {
+        "title": "Filling a fish tank",
+        "t": 49.254
+      },
+      {
+        "title": "Packing a carton",
+        "t": 74.807
+      },
+      {
+        "title": "Your turn",
+        "t": 121.393
+      },
+      {
+        "title": "Summary",
+        "t": 147.72
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-7-3-b:q",
+        "t": 130.095,
+        "prompt": "A water tank is $100\\text{ cm}$ by $50\\text{ cm}$ by $40\\text{ cm}$. How many litres does it hold?",
+        "choices": [
+          "$200\\text{ L}$",
+          "$200\\,000\\text{ L}$",
+          "$190\\text{ L}$",
+          "$20\\text{ L}$"
+        ],
+        "answer": 0,
+        "working": "$100 \\times 50 \\times 40 = 200\\,000\\text{ cm}^3$, and $200\\,000 \\div 1000 = 200\\text{ L}$."
+      }
+    ]
+  },
+  "m104-8-1": {
+    "lessonId": "m104-8-1",
+    "title": "Angles and Shapes, Part 1: Types of Angles",
+    "duration": 161,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Types of angles",
+        "t": 13.341
+      },
+      {
+        "title": "A laptop",
+        "t": 52.213
+      },
+      {
+        "title": "Angles that add up",
+        "t": 75.039
+      },
+      {
+        "title": "Your turn",
+        "t": 108.543
+      },
+      {
+        "title": "Summary",
+        "t": 136.073
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-8-1:q",
+        "t": 117.219,
+        "prompt": "Two angles make a straight line. One is $125^\\circ$. What is the other?",
+        "choices": [
+          "$55^\\circ$",
+          "$235^\\circ$",
+          "$35^\\circ$",
+          "$125^\\circ$"
+        ],
+        "answer": 0,
+        "working": "Angles on a straight line add to $180^\\circ$: $180 - 125 = 55^\\circ$."
+      }
+    ]
   }
 }
