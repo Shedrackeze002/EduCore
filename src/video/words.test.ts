@@ -33,6 +33,12 @@ describe('speechText', () => {
     expect(speechText('Remember them with SOH CAH TOA.')).toBe('Remember them with soh-cah-toa.');
     expect(speechText('SOH: sine. CAH: cosine. TOA: tangent.')).toBe('Soh: sine. Cah: cosine. Toa: tangent.');
   });
+
+  it('respells words the voice says wrongly, and splits sizes written with hyphens', () => {
+    expect(speechText('Paid biweekly, Mei gets 26 cheques. Biweekly pay.')).toBe('Paid bi-weekly, Mei gets 26 cheques. Bi-weekly pay.');
+    expect(speechText('Deci means one tenth, and decimal is a word.')).toBe('Dessy means one tenth, and decimal is a word.');
+    expect(speechText('An eight-by-twelve print and a two-by-four.')).toBe('An eight by twelve print and a two by four.');
+  });
 });
 
 describe('wer', () => {

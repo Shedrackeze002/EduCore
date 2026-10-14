@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { barGraph, circleGraph, marbles, SLICE_TONES, tally } from './charts.ts';
+import { barGraph, circleGraph, marbles, normalCurve, SLICE_TONES, tally } from './charts.ts';
 import { itemPoints } from './script.ts';
 import type { Part } from './solids.ts';
 
@@ -10,6 +10,7 @@ const figures: Record<string, Part> = {
   tally: tally({ count: 12, label: 'Car' }),
   bag: marbles({ groups: [{ id: 'red', count: 3, tone: 'bad' }, { id: 'blue', count: 5, tone: 'adj' }], perRow: 4 }),
   spinner: circleGraph({ name: 'sp', slices: [1, 2, 3, 4, 5].map((k) => ({ label: String(k), value: 1 })), namesOnly: true }),
+  normal: normalCurve({ name: 'nc', labels: ['144', '152', '160', '168', '176', '184', '192'], regions: [{ id: 'mid', from: -1, to: 1, label: '68\\%' }, { id: 'tail', from: 1, to: Infinity, tone: 'opp', label: '16\\%', labelAt: [2, 1] }] }),
 };
 
 const part = (p: Part, id: string) => p.items.find((i) => i.id === id);
@@ -89,5 +90,20 @@ describe('chart figures', () => {
     expect(t.points.t0m4a).toEqual([-0.15, 0.2]);
     expect(t.points.t0m4b).toEqual([1.05, 0.8]);
     expect(part(t, 'label')).toMatchObject({ tex: '\\text{Car}', place: 'left' });
+  });
+  it('shades the area under a normal curve between two numbers of standard deviations', () => {
+    const c = figures.normal;
+    // 2 units per standard deviation, 4 units tall at the mean.
+    expect(c.points['nc-top']).toEqual([0, 4]);
+    expect(part(c, 'nc-num1')).toMatchObject({ tex: '176', place: 'below', group: 'nc-axis' });
+    const mid = part(c, 'nc-mid-fill');
+    expect(mid).toMatchObject({ kind: 'region', group: 'nc-mid' });
+    // The region runs along the axis from -1 to 1 and up over the curve between them.
+    expect(c.points['nc-mid-a']).toEqual([-2, 0]);
+    expect(c.points['nc-mid-b']).toEqual([2, 0]);
+    expect(c.points['nc-mid-0'][1]).toBeCloseTo(4 * Math.exp(-0.5));
+    // A tail stops where the curve is drawn to, and its label goes where it is put.
+    expect(c.points['nc-tail-b']).toEqual([7.2, 0]);
+    expect(c.points['nc-tail-at']).toEqual([4, 1]);
   });
 });

@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { itemPoints } from './script.ts';
 import type { Part } from './solids.ts';
-import { referenceAngle, standardAngle } from './trig.ts';
+import { cast, referenceAngle, standardAngle } from './trig.ts';
 
 const figures: Record<string, Part> = {
   plain: standardAngle({ deg: 135, label: '135^\\circ', quadrants: true }),
   bare: standardAngle({ name: 'b', deg: 140, ref: '40^\\circ', axes: false, arc: false }),
+  cast: cast(),
   full: standardAngle({ name: 's', deg: 210, label: '210^\\circ', ref: '30^\\circ', drop: true, point: 'P', sides: { x: '-\\sqrt{3}', y: '-1', r: '2' } }),
 };
 
@@ -61,6 +62,15 @@ describe('trigonometry figures', () => {
     expect(c.points.xr[0]).toBeCloseTo(1.8);
     expect(c.points.yu).toEqual([0, 4.6]);
     expect(c.points.yd[1]).toBeCloseTo(-1.8);
+  });
+
+  it('marks the positive ratios in each quadrant: All, Sine, Tangent, Cosine', () => {
+    const c = figures.cast;
+    expect(c.points['S-at'][0]).toBeLessThan(0);
+    expect(c.points['S-at'][1]).toBeGreaterThan(0);
+    expect(c.points['C-at'][0]).toBeGreaterThan(0);
+    expect(c.points['C-at'][1]).toBeLessThan(0);
+    expect(part(c, 'T-ratio')).toMatchObject({ tex: '\\tan\\theta > 0', group: 'T' });
   });
 
   it('numbers the quadrants anticlockwise', () => {

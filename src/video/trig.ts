@@ -111,3 +111,38 @@ export function standardAngle(o: { name?: string; deg: number; len?: number; lab
   items.push({ kind: 'label', id: n('P-dot'), at: n('P'), tex: o.point ?? '', tone: 'brand', dot: true, place: Pt[1] >= 0 ? (right ? 'above right' : 'above left') : right ? 'below right' : 'below left', group: n('P') });
   return { points, items };
 }
+
+/**
+ * The CAST rule: the x and y axes, with the ratios that are positive in each quadrant (All in I,
+ * Sine in II, Tangent in III, Cosine in IV). The axes reach `len` units (4 by default) each way.
+ *
+ * Parts: `axes` (a group), and `A`, `S`, `T` and `C` (each a group: the quadrant's letter and
+ * its ratio).
+ */
+export function cast(o: { name?: string; len?: number } = {}): Part {
+  const n = namer(o.name);
+  const L = o.len ?? 4;
+  const points: Record<string, P> = { [n('xl')]: [-L, 0], [n('xr')]: [L, 0], [n('yd')]: [0, -L], [n('yu')]: [0, L] };
+  const axes = n('axes');
+  const items: DiagramItem[] = [
+    { kind: 'line', id: n('x-axis'), from: n('xl'), to: n('xr'), tone: 'muted', weight: 2, arrow: true, group: axes },
+    { kind: 'line', id: n('y-axis'), from: n('yd'), to: n('yu'), tone: 'muted', weight: 2, arrow: true, group: axes },
+    { kind: 'label', id: n('x-name'), at: n('xr'), tex: 'x', tone: 'muted', place: 'right', group: axes },
+    { kind: 'label', id: n('y-name'), at: n('yu'), tex: 'y', tone: 'muted', place: 'above', group: axes },
+  ];
+  const quads = [
+    { key: 'A', at: [1, 1], text: '\\text{all} > 0', tone: 'good' },
+    { key: 'S', at: [-1, 1], text: '\\sin\\theta > 0', tone: 'opp' },
+    { key: 'T', at: [-1, -1], text: '\\tan\\theta > 0', tone: 'theta' },
+    { key: 'C', at: [1, -1], text: '\\cos\\theta > 0', tone: 'adj' },
+  ] as const;
+  for (const q of quads) {
+    points[n(`${q.key}-at`)] = [0.5 * L * q.at[0], 0.62 * L * q.at[1]];
+    points[n(`${q.key}-note`)] = [0.5 * L * q.at[0], 0.32 * L * q.at[1]];
+    items.push(
+      { kind: 'label', id: n(`${q.key}-letter`), at: n(`${q.key}-at`), tex: `\\mathbf{${q.key}}`, tone: q.tone, place: 'center', group: n(q.key) },
+      { kind: 'label', id: n(`${q.key}-ratio`), at: n(`${q.key}-note`), tex: q.text, tone: q.tone, place: 'center', group: n(q.key) },
+    );
+  }
+  return { points, items };
+}

@@ -57,6 +57,9 @@ the decimal 0.40; the script check asks for that as well.
 In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, `\text{Last: } {-5}`),
 or KaTeX sets it as subtraction ("− 3"); the script check asks for that too. On screen, write
 money in text as `\$4`, as in the lessons, and keep it out of `$...$` maths.
+Words the voice gets wrong are respelled for it in `speechText` (`src/video/words.ts`): "biweekly"
+is voiced as "bi-weekly", "deci" as "dessy", and hyphenated sizes ("eight-by-twelve") as
+separate words; the captions keep the script's spelling. Add a word there when a check finds one.
 After each build, listen to the lines that `pronunciation.txt` marks CHECK.
 
 ## Writing a script
@@ -97,15 +100,32 @@ See `src/video/script.ts` for every element and option. In short:
   square mark at 90° and the long way round past 180°: `d.arms`, `d.arc`), `crossing` (two lines
   and their four angles, `d.a1`…), `transversal` (two lines cut by a third, angles numbered 1 to
   8), `clock` and `protractor`. Triangle figures live in `src/video/triangles.ts`: `triangle`
-  (any triangle, side labels outside it), `squaresOnSides` (the squares on the sides of a right
-  triangle) and `rectangle` (with its diagonal).
+  (any triangle, side labels outside it, and for congruence `ticks` on equal sides and `arcs` in
+  equal angles), `squaresOnSides` (the squares on the sides of a right triangle), `rectangle`
+  (with its diagonal) and `twoTriangles` (two right triangles that share a side, drawn to scale
+  from their angles of elevation: observers on `opposite` sides of a tower, two points on the
+  `same` side of a cliff, with optional angles of `depression`, or `stacked` sight lines to a
+  roof and an antenna; parts `ground`, `height`, `sight1`, `sight2`, `a1`, `a2`, `x`). In
+  `src/video/solids.ts`, `squareColumns` draws a front or side view of stacked cubes (a column of
+  squares for each height, parts `c0`, `c1`, …) and `isometricBox` draws a box in true isometric,
+  with its `front`, `side` and `top` faces.
+- `standardAngle` (`src/video/trig.ts`) draws an angle in standard position: the axes, the
+  terminal arm and its arc (`d.arm`, `d.arc`), and optionally the reference angle (`d.ref`), a
+  dashed drop to the x-axis with the triangle's sides (`d.tri`, `d.x`, `d.y`, `d.r`), the point
+  `d.P` and the quadrant labels (`d.quads`). `cast` is the CAST diagram (`d.A`, `d.S`, `d.T`,
+  `d.C`). `referenceAngle(deg)` gives the reference angle.
+- Items drawn on a named plane (`plane({ name: 'p1', … })`) take its name as a prefix: a curve
+  `c1` plotted on it is the part `d.p1-c1`. Several named planes side by side (`at`) compare
+  graphs in one figure.
 - `strip` (`src/video/numbers.ts`) is a fraction strip: a bar cut into equal pieces, some shaded
   (`d.shade`, `d.frame`).
 - Data figures live in `src/video/charts.ts`: `barGraph` (one colour for every bar; `d.scale`,
   each bar `d.b0`, its value `d.v0`, and a dashed line `d.r0` for reading it against the scale),
   `circleGraph` (slices `d.s0`… clockwise from the top in a fixed colour order, labelled
-  outside; `namesOnly` for a spinner), `tally` (bundles of five, `d.t0`…) and `marbles` (a bag
-  of coloured marbles, grouped by colour).
+  outside; `namesOnly` for a spinner), `tally` (bundles of five, `d.t0`…), `marbles` (a bag
+  of coloured marbles, grouped by colour) and `normalCurve` (a bell curve with an axis numbered at
+  each standard deviation, `d.axis`, `d.curve` and `d.mean`, and shaded regions between numbers of
+  standard deviations, each a part by its id, with a percent label that `labelAt` can move).
 
 - Keep each video to about three minutes, and never under two: about 350 spoken words is enough,
   and the build warns about a video that runs, or is estimated to run, under two minutes. Split a

@@ -16,7 +16,13 @@ export function speechText(say: string): string {
     return sentenceStart && nextWord ? m : 'Eh';
   });
   // Mnemonics in capitals would be spelled out letter by letter ("S-O-H"); say them as words.
-  return letters.replace(/\bSOH CAH TOA\b/g, 'soh-cah-toa').replace(/\b(SOH|CAH|TOA)\b/g, (m) => m[0] + m.slice(1).toLowerCase());
+  const words = letters.replace(/\bSOH CAH TOA\b/g, 'soh-cah-toa').replace(/\b(SOH|CAH|TOA)\b/g, (m) => m[0] + m.slice(1).toLowerCase());
+  // Words the voice gets wrong, respelled as they sound ("biweekly" comes out "boy-weekly", "deci"
+  // as "Desai"), and sizes like "eight-by-twelve", which run together, said as separate words.
+  return words
+    .replace(/\b([Bb])iweekly\b/g, '$1i-weekly')
+    .replace(/\b([Dd])eci\b/g, '$1essy')
+    .replace(/(\w)-by-(\w)/g, '$1 by $2');
 }
 
 const SMALL: Record<string, number> = {

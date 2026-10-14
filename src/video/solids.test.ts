@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ruler, unitSquare, vernier } from './measure.ts';
 import { checkScript, itemPoints, type Explainer } from './script.ts';
-import { box, boxNet, cone, cylinder, cylinderNet, figure, hemisphere, sphere, squarePyramid, squarePyramidNet, triangularPrism, triangularPrismNet, type Part } from './solids.ts';
+import { box, boxNet, cone, cylinder, cylinderNet, figure, hemisphere, isometricBox, sphere, squareColumns, squarePyramid, squarePyramidNet, triangularPrism, triangularPrismNet, type Part } from './solids.ts';
 
 const solids: Record<string, Part> = {
   box: box({ l: 8, w: 5, h: 4, labels: { l: 'l', w: 'w', h: 'h' } }),
@@ -20,6 +20,8 @@ const solids: Record<string, Part> = {
   triangularPrismNet: triangularPrismNet({ a: 6, b: 8, c: 10, l: 15, labels: { a: 'a', b: 'b', c: 'c', l: 'l', perimeter: 'p' }, areas: { strip: 's', base: 'b' } }),
   cylinderNet: cylinderNet({ r: 3, h: 7, labels: { c: 'c', h: 'h', r: 'r' }, areas: { rect: 'a', circle: 'b' } }),
   squarePyramidNet: squarePyramidNet({ b: 10, s: 13, labels: { b: 'b', s: 's' }, areas: { base: 'a', side: 'b' } }),
+  squareColumns: squareColumns({ name: 'v', heights: [3, 1, 2], label: '\\text{Front}' }),
+  isometricBox: isometricBox({ l: 5, w: 3, h: 2.5, labels: { l: '5', w: '3', h: '2.5' } }),
 };
 
 describe('solids and measuring tools', () => {
@@ -87,5 +89,18 @@ describe('solids and measuring tools', () => {
       scenes: [{ layout: 'center', main: [figure('d', [solids.cylinder])], lines: [{ say: 'A cylinder.', show: ['d.shape', 'd.r', 'd.lateral'] }, { say: 'No.', show: 'd.nothing' }] }],
     };
     expect(checkScript(x)).toEqual(['Scene 1, line 2: diagram "d" has no part "nothing".']);
+  });
+
+  it('draws a view of stacked cubes as columns of squares, and a box in isometric', () => {
+    const v = solids.squareColumns;
+    // Three columns of 3, 1 and 2 squares: six squares, each a fill and an outline.
+    expect(v.items.filter((i) => i.kind === 'region')).toHaveLength(6);
+    expect(v.items.filter((i) => i.group === 'v-c0' && i.kind === 'region')).toHaveLength(3);
+    expect(v.points['v-q2-1-2']).toEqual([3, 2]);
+    // Isometric: the length and depth slant up at 30°, so their ends rise by half their lengths.
+    const b = solids.isometricBox;
+    expect(b.points.A[1]).toBeCloseTo(2.5);
+    expect(b.points.B[1]).toBeCloseTo(1.5);
+    expect(b.points.At[0]).toBeCloseTo(b.points.A[0]);
   });
 });

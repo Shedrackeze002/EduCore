@@ -130,9 +130,61 @@ items ship or decisions change.
      displays, averages and probability. They brought fraction strips (`src/video/numbers.ts`)
      and data figures (`src/video/charts.ts`: bar graphs with reading lines, circle graphs, tally
      marks and bags of marbles).
-   - Next: render Math 10-3, then Math 10-4, then the other courses in order (Math 20-1, 20-2,
-     20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), each lesson split into parts of about
-     three minutes when it needs more.
+   - Built: Math 10-3, all 62 videos, in the video manifest. The pronunciation check found two
+     words the voice got wrong ("biweekly" and "deci") and hyphenated sizes run together; the
+     narration now respells them (`speechText`), and the four videos with them were rendered
+     again. Upload packs are zipped per unit. Next: render Math 10-4.
+   - Scripted: Math 20-1, all 9 units, 86 videos (two or three parts per lesson): sequences and
+     series, trigonometry with angles in standard position and the sine and cosine laws,
+     quadratic functions in vertex and standard form with optimization, factoring and solving
+     quadratic equations with the quadratic formula and the discriminant, radicals, rational
+     expressions and equations, absolute value and reciprocal functions, systems with quadratic
+     equations, and linear and quadratic inequalities. They brought angles in standard position
+     (`src/video/trig.ts`), and shaded regions built from plane points for inequalities.
+     Rendering follows Math 10-3 and 10-4.
+   - Scripting: Math 20-2. Unit 1 (reasoning) is done, 9 videos: conjectures, counterexamples,
+     deductive proof and invalid proofs, and puzzles and games (logic charts, a take-away game,
+     the Tower of Hanoi, a magic square, counting squares), with figures drawn from custom parts.
+     Unit 2 (angles and triangles) is done, 12 videos: parallel lines and transversals, the
+     angle sum and exterior angles of triangles, polygon angle sums and tiling, and congruent
+     triangles with SSS, SAS and ASA proofs (tick marks and arcs added to `triangle`). Unit 3
+     (acute-triangle trigonometry) is done, 9 videos: the sine law, the cosine law, and choosing a
+     law for surveying, navigation and two-step height problems. Unit 4 (radicals) is done, 12
+     videos: simplifying, ordering, adding and multiplying radicals, rationalizing denominators, and
+     radical equations with extraneous roots. Unit 5 (statistical reasoning) is done, 13 videos:
+     standard deviation, the normal distribution and the 68–95–99.7 rule, z-scores with a table,
+     and confidence intervals (a normal curve figure, `normalCurve`, was added). Unit 6
+     (quadratic functions) is done, 9 videos: features of parabolas, the axis of symmetry and
+     optimization, and factored form with arches. Unit 7 (quadratic equations) is done, 9 videos:
+     solving by graphing and factoring, the quadratic formula and the number of roots, and word
+     problems with projectiles, frames and break-even prices. Unit 8 (proportional reasoning) is
+     done, 12 videos: unit rates and better buys, rates as slopes and rates that change, multi-step
+     and combined rates with average speed, scale factors and map scales, and how areas and
+     volumes of similar objects grow by k² and k³. Unit 9 (the research project) is done, 4
+     videos: research questions, primary and secondary data and fair survey questions, fair
+     samples and four kinds of bias, and a complete plan. All 89 Math 20-2 videos are scripted
+     and stills-checked; rendering follows Math 20-1.
+   - Narration: the variable "a" is now quoted in the Math 20-1 and 20-2 trigonometry scripts, so
+     the voice reads it as a letter, not as the article.
+   - Scripting: Math 20-3. Unit 1 (slope, rates and unit analysis) is done, 11 videos: rise over
+     run, missing rises and runs for roofs, ramps and stairs, percent grade, roof pitch, rate of
+     change from tables and graphs (including graphs in pieces), proportions, and chains of
+     conversion factors. Unit 2 (surface area) is done, 10 videos: nets and prisms, triangular
+     prisms, cylinders, pyramids, cones, slant height from height, spheres and hemispheres,
+     square-unit conversions, buying and costing material, and composite objects. Unit 3
+     (volume) is done, 12 videos: prisms, capacity, cylinders, pyramids and cones (with true
+     height from slant height), spheres, composite objects, cubic-unit conversions, concrete and
+     fuel jobs, loads and filling times, and working back to a missing length. Unit 4
+     (trigonometry) is done, 12 videos: a right-triangle review (sides, the Pythagorean theorem,
+     SOH CAH TOA, angles, a whole roof), angles of elevation and depression, two triangles on
+     opposite or the same side, a missing shared side, survey sightings, roof trusses, stairs with
+     a landing, and the diagonal of a box (a `twoTriangles` figure was added). Unit 5
+     (scale, views and exploded views) is done, 11 videos: reading and drawing to scale, finding a
+     scale, areas and volumes at scale, top, front and side views of cube stacks, isometric
+     drawings, working back from views, exploded views, parts lists and costs, and assembly order
+     (`squareColumns` and `isometricBox` figures were added). Units 6 to 8 are next.
+   - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
+     each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;

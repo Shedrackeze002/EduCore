@@ -1,5 +1,6 @@
 /**
- * Data displays for video diagrams: a bar graph, a circle graph and tally marks. Like the solids
+ * Data displays for video diagrams: a bar graph, a circle graph, tally marks, marbles and a normal
+ * curve. Like the solids
  * (`solids.ts`), each returns points and named parts to put into a diagram with `figure`.
  *
  * A bar graph has one colour for every bar (one series); a circle graph colours its slices in a
@@ -173,6 +174,74 @@ export function marbles(o: { name?: string; groups: { id: string; count: number;
         { kind: 'region', id: n(`m${k}`), points: ids, tone: g.tone, shade: 0.75, group: n(g.id) },
         { kind: 'curve', id: n(`m${k}-edge`), points: ids, closed: true, tone: g.tone, weight: 2, group: n(g.id) },
       );
+    }
+  }
+  return { points, items };
+}
+
+/** The tail of the normal curve is drawn out to this many standard deviations on each side. */
+const NORMAL_EDGE = 3.6;
+
+/**
+ * A normal curve, `width` diagram units per standard deviation (2 by default) and `height` units
+ * tall at the mean (4 by default), drawn out to 3.6 standard deviations each side. The axis has a
+ * tick at the mean and at 1, 2 and 3 standard deviations each side, numbered from `labels` (seven
+ * of them, from 3 below the mean to 3 above).
+ *
+ * Each region is the area under the curve from `from` to `to`, in standard deviations from the
+ * mean (use -Infinity or Infinity for a tail), shaded in `tone` with `label` written in it, or at
+ * `labelAt` ([standard deviations, height]) for a region too thin to hold it.
+ *
+ * Parts: `axis` (a group: the line, the ticks and their numbers), `curve`, `mean` (a dashed line
+ * up the middle), and each region by its `id` (a group: its shading and its label).
+ */
+export function normalCurve(o: {
+  name?: string;
+  width?: number;
+  height?: number;
+  labels?: string[];
+  regions?: { id: string; from: number; to: number; tone?: DiagramTone; label?: string; labelAt?: P }[];
+}): Part {
+  const n = namer(o.name);
+  const w = o.width ?? 2;
+  const h = o.height ?? 4;
+  const X = (z: number) => z * w;
+  const Y = (z: number) => h * Math.exp((-z * z) / 2);
+  const points: Record<string, P> = { [n('L')]: [X(-NORMAL_EDGE - 0.2), 0], [n('R')]: [X(NORMAL_EDGE + 0.2), 0], [n('top')]: [0, Y(0)], [n('foot')]: [0, 0] };
+  const items: DiagramItem[] = [{ kind: 'line', id: n('line'), from: n('L'), to: n('R'), tone: 'muted', group: n('axis') }];
+  for (let k = -3; k <= 3; k++) {
+    Object.assign(points, { [n(`t${k}a`)]: [X(k), 0], [n(`t${k}b`)]: [X(k), -0.18] });
+    items.push({ kind: 'line', id: n(`t${k}`), from: n(`t${k}a`), to: n(`t${k}b`), tone: 'muted', group: n('axis') });
+    const tex = o.labels?.[k + 3];
+    if (tex) items.push({ kind: 'label', id: n(`num${k}`), at: n(`t${k}b`), tex, tone: 'muted', place: 'below', group: n('axis') });
+  }
+  const steps = Math.round((2 * NORMAL_EDGE) / 0.1);
+  const curve: string[] = [];
+  for (let i = 0; i <= steps; i++) {
+    const z = -NORMAL_EDGE + i * 0.1;
+    points[n(`c${i}`)] = [X(z), Y(z)];
+    curve.push(n(`c${i}`));
+  }
+  items.push({ kind: 'curve', id: n('curve'), points: curve, tone: 'brand', weight: 3 });
+  items.push({ kind: 'line', id: n('mean'), from: n('foot'), to: n('top'), tone: 'muted', dashed: true });
+  for (const r of o.regions ?? []) {
+    const a = Math.max(r.from, -NORMAL_EDGE);
+    const b = Math.min(r.to, NORMAL_EDGE);
+    const count = Math.max(2, Math.ceil((b - a) / 0.05));
+    const ids = [n(`${r.id}-a`)];
+    points[n(`${r.id}-a`)] = [X(a), 0];
+    for (let i = 0; i <= count; i++) {
+      const z = a + ((b - a) * i) / count;
+      points[n(`${r.id}-${i}`)] = [X(z), Y(z)];
+      ids.push(n(`${r.id}-${i}`));
+    }
+    points[n(`${r.id}-b`)] = [X(b), 0];
+    ids.push(n(`${r.id}-b`));
+    items.push({ kind: 'region', id: n(`${r.id}-fill`), points: ids, tone: r.tone ?? 'adj', shade: 0.35, group: n(r.id) });
+    if (r.label) {
+      const mid = (a + b) / 2;
+      points[n(`${r.id}-at`)] = r.labelAt ? [X(r.labelAt[0]), r.labelAt[1]] : [X(mid), Math.max(0.45, Y(mid) * 0.4)];
+      items.push({ kind: 'label', id: n(`${r.id}-label`), at: n(`${r.id}-at`), tex: r.label, place: 'center', group: n(r.id) });
     }
   }
   return { points, items };

@@ -470,3 +470,72 @@ export function squarePyramidNet(o: { name?: string; b: number; s: number; label
   if (o.labels?.b) items.push({ kind: 'label', id: n('b'), at: n('m'), tex: o.labels.b, tone: TONE.base, place: 'above' });
   return { points, items };
 }
+
+/**
+ * A view of a stack of cubes, as seen from the front or the side: one column of unit squares for
+ * each height in `heights`, left to right, with an optional `label` under the view. Parts: each
+ * column `c<i>` (a group), and `label`.
+ */
+export function squareColumns(o: { name?: string; at?: P; heights: number[]; label?: string }): Part {
+  const n = namer(o.name);
+  const [x, y] = o.at ?? [0, 0];
+  const points: Record<string, P> = {};
+  const items: DiagramItem[] = [];
+  o.heights.forEach((h, i) => {
+    for (let j = 0; j < h; j++) {
+      const k = `${i}-${j}`;
+      const corners: P[] = [[x + i, y + j], [x + i + 1, y + j], [x + i + 1, y + j + 1], [x + i, y + j + 1]];
+      const names = corners.map((c, m) => {
+        points[n(`q${k}-${m}`)] = c;
+        return n(`q${k}-${m}`);
+      });
+      items.push(
+        { kind: 'region', id: n(`f${k}`), points: names, tone: 'brand', shade: 0.25, group: n(`c${i}`) },
+        { kind: 'curve', id: n(`e${k}`), points: names, closed: true, group: n(`c${i}`) },
+      );
+    }
+  });
+  if (o.label) {
+    points[n('lab')] = [x + o.heights.length / 2, y - 0.25];
+    items.push({ kind: 'label', id: n('label'), at: n('lab'), tex: o.label, tone: 'muted', place: 'below' });
+  }
+  return { points, items };
+}
+
+/**
+ * A box in a true isometric drawing: vertical edges stay vertical, and the length `l` (to the
+ * left) and depth `w` (to the right) slant up at 30°. `at` is the nearest bottom corner. Parts:
+ * `shape` (the visible edges), the faces `front`, `side` and `top`, and the labels `l`, `w`, `h`.
+ */
+export function isometricBox(o: { name?: string; at?: P; l: number; w: number; h: number; labels?: Labels<'l' | 'w' | 'h'>; faces?: boolean }): Part {
+  const n = namer(o.name);
+  const [x, y] = o.at ?? [0, 0];
+  const c = Math.cos(Math.PI / 6);
+  const s = Math.sin(Math.PI / 6);
+  const O: P = [x, y];
+  const A: P = [x - o.l * c, y + o.l * s];
+  const B: P = [x + o.w * c, y + o.w * s];
+  const up = (p: P): P => [p[0], p[1] + o.h];
+  const C: P = [A[0] + o.w * c, A[1] + o.w * s];
+  const points: Record<string, P> = { [n('O')]: O, [n('A')]: A, [n('B')]: B, [n('Ot')]: up(O), [n('At')]: up(A), [n('Bt')]: up(B), [n('Ct')]: up(C) };
+  const shape = n('shape');
+  const edge = (id: string, a: string, b: string): DiagramItem => ({ kind: 'line', id: n(id), from: n(a), to: n(b), group: shape });
+  const items: DiagramItem[] = [
+    { kind: 'region', id: n('front'), points: ['O', 'A', 'At', 'Ot'].map(n), tone: 'brand', shade: 0.2 },
+    { kind: 'region', id: n('side'), points: ['O', 'B', 'Bt', 'Ot'].map(n), tone: 'adj', shade: 0.2 },
+    { kind: 'region', id: n('top'), points: ['Ot', 'At', 'Ct', 'Bt'].map(n), tone: 'opp', shade: 0.2 },
+    edge('oa', 'O', 'A'),
+    edge('ob', 'O', 'B'),
+    edge('oo', 'O', 'Ot'),
+    edge('aa', 'A', 'At'),
+    edge('bb', 'B', 'Bt'),
+    edge('ta', 'Ot', 'At'),
+    edge('tb', 'Ot', 'Bt'),
+    edge('ac', 'At', 'Ct'),
+    edge('bc', 'Bt', 'Ct'),
+  ];
+  if (o.labels?.l) items.push({ kind: 'line', id: n('l'), from: n('A'), to: n('O'), tone: TONE.base, label: o.labels.l, labelSide: 'right' });
+  if (o.labels?.w) items.push({ kind: 'line', id: n('w'), from: n('O'), to: n('B'), tone: TONE.base, label: o.labels.w, labelSide: 'right' });
+  if (o.labels?.h) items.push({ kind: 'line', id: n('h'), from: n('B'), to: n('Bt'), tone: TONE.h, label: o.labels.h, labelSide: 'right' });
+  return { points, items };
+}

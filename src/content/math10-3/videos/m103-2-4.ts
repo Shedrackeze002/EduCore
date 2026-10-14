@@ -12,7 +12,7 @@ const video: Explainer = {
       main: [{ kind: 'title', id: 'title', kicker: 'Math 10-3 · Lesson 2.4 · Part 1', title: 'From Gross to Net', subtitle: 'Where does the money go?' }],
       lines: [
         { say: 'Your first pay cheque can be a surprise. You worked forty hours at eighteen dollars an hour, but the deposit is not 720 dollars.', show: 'title' },
-        { say: 'The difference is deductions. In this video, you will calculate deductions and net pay. In part two, you will go from a timecard to take-home pay.' },
+        { say: 'The difference is deductions. In this video, you will calculate deductions and net pay.' },
       ],
     },
     {
@@ -28,8 +28,8 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'A deduction is an amount your employer subtracts from gross pay, and sends to the government or your union. C P P, the Canada Pension Plan, saves for your retirement.', show: 'b.0' },
-        { say: 'E I, Employment Insurance, pays you for a while if you lose your job. Income tax pays for government services. And union dues pay for the union.', show: ['b.1', 'b.2', 'b.3'] },
-        { say: 'Real amounts change every year, so in this course, each question gives you simplified rates to use.', show: 'note' },
+        { say: 'E I, Employment Insurance, helps if you lose your job. Income tax pays for government services, and union dues pay the union.', show: ['b.1', 'b.2', 'b.3'] },
+        { say: 'Real amounts change every year, so each question gives you simplified rates to use.', show: 'note' },
       ],
     },
     {
@@ -54,7 +54,7 @@ const video: Explainer = {
         { kind: 'callout', id: 'oops', tone: 'mistake', title: 'Subtract the exemption first', md: 'The rate applies only to the pay **above** the exemption. Using the whole gross pay takes off too much.' },
       ],
       lines: [
-        { say: 'Some deductions only apply to the part of your pay above a set amount, called an exemption. Suppose C P P is 5.95 percent of gross pay above 135 dollars, and income tax is fifteen percent above 600.', show: 'q' },
+        { say: 'Some deductions apply only to pay above a set amount, called an exemption. Suppose C P P is 5.95 percent of gross pay above 135 dollars, and income tax is fifteen percent above 600.', show: 'q' },
         { say: 'For C P P, subtract the exemption first: 1,240 minus 135 is 1,105. Then 0.0595 times 1,105 is about 65 dollars 75.', show: 'm.0', focus: 'm.0' },
         { say: 'For tax: 1,240 minus 600 is 640, and fifteen percent of 640 is 96 dollars.', show: 'm.1', focus: 'm.1' },
         { say: 'Always subtract the exemption first. Multiplying the rate by the whole gross pay takes off too much.', show: 'oops' },
@@ -71,7 +71,7 @@ const video: Explainer = {
         { say: 'Net pay, or take-home pay, is what is left after all deductions: gross pay minus total deductions.', show: 'm.0', focus: 'm.0' },
         { say: 'Priya’s pay stub shows C P P 65.75, E I 20.58, income tax 96 dollars, and union dues 32.50. The total deductions are 214 dollars 83.', show: 'm.1', focus: 'm.1' },
         { say: 'So the net pay is 1,240 minus 214.83: 1,025 dollars 17.', show: 'm.2', focus: 'm.2' },
-        { say: 'Check with an estimate: net pay is usually about seventy to 85 percent of gross pay. Here it is about 83 percent.', show: 'tip' },
+        { say: 'Check with an estimate: here, net pay is about 83 percent of gross pay, which is in the usual range.', show: 'tip' },
       ],
     },
     {
@@ -97,7 +97,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['CPP, EI, income tax and union dues come off gross pay.', 'With an exemption, subtract it before multiplying by the rate.', 'Net pay = gross pay − total deductions.'] }],
       lines: [
-        { say: 'Let’s sum up. Deductions such as C P P, E I, income tax and union dues come off gross pay. Round each one to the nearest cent.', show: 'sum.0' },
+        { say: 'Let’s sum up. Deductions come off gross pay, each rounded to the nearest cent.', show: 'sum.0' },
         { say: 'When there is an exemption, subtract it before you multiply by the rate.', show: 'sum.1' },
         { say: 'And net pay is gross pay minus the total deductions. In part two, we go from a timecard to take-home pay. See you there!', show: 'sum.2' },
       ],
