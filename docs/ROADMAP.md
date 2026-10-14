@@ -146,7 +146,9 @@ items ship or decisions change.
      angle sum and exterior angles of triangles, polygon angle sums and tiling, and congruent
      triangles with SSS, SAS and ASA proofs (tick marks and arcs added to `triangle`). Unit 3
      (acute-triangle trigonometry) is done, 9 videos: the sine law, the cosine law, and choosing a
-     law for surveying, navigation and two-step height problems. Units 4 to 9 are next.
+     law for surveying, navigation and two-step height problems. Unit 4 (radicals) is done, 12
+     videos: simplifying, ordering, adding and multiplying radicals, rationalizing denominators, and
+     radical equations with extraneous roots. Units 5 to 9 are next.
    - Narration: the variable "a" is now quoted in the Math 20-1 and 20-2 trigonometry scripts, so
      the voice reads it as a letter, not as the article.
    - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
