@@ -9057,5 +9057,103 @@
         "working": "The front view shows the tallest stack in the column: $4$ boxes."
       }
     ]
+  },
+  "m104-8-3": {
+    "lessonId": "m104-8-3",
+    "title": "Symmetry and Transformations, Part 1: Lines of Symmetry",
+    "duration": 148,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Lines of symmetry",
+        "t": 12.433
+      },
+      {
+        "title": "The diagonal",
+        "t": 39.211
+      },
+      {
+        "title": "Letters and designs",
+        "t": 61.777
+      },
+      {
+        "title": "Your turn",
+        "t": 103.264
+      },
+      {
+        "title": "Summary",
+        "t": 128.409
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-8-3:q",
+        "t": 113.365,
+        "prompt": "A triangular road sign has $3$ equal sides and nothing written on it. How many lines of symmetry does it have?",
+        "choices": [
+          "$3$",
+          "$1$",
+          "$0$",
+          "$6$"
+        ],
+        "answer": 0,
+        "working": "A fold from each corner to the middle of the opposite side makes the halves match: $3$ lines."
+      }
+    ]
+  },
+  "m104-8-3-b": {
+    "lessonId": "m104-8-3",
+    "title": "Symmetry and Transformations, Part 2: Slides, Flips and Turns",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Slides",
+        "t": 12.989
+      },
+      {
+        "title": "Flips",
+        "t": 52.251
+      },
+      {
+        "title": "Flips in an axis",
+        "t": 83.741
+      },
+      {
+        "title": "Turns",
+        "t": 107.484
+      },
+      {
+        "title": "Your turn",
+        "t": 135.628
+      },
+      {
+        "title": "Summary",
+        "t": 163.48
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-8-3-b:q",
+        "t": 144.533,
+        "prompt": "A game piece at $(3, 1)$ slides $2$ units left and $4$ units up. Where is its image?",
+        "choices": [
+          "$(1, 5)$",
+          "$(5, 5)$",
+          "$(5, 1)$",
+          "$(3, 5)$"
+        ],
+        "answer": 0,
+        "working": "Left subtracts from $x$: $3 - 2 = 1$. Up adds to $y$: $1 + 4 = 5$. The image is $(1, 5)$."
+      }
+    ]
   }
 }
