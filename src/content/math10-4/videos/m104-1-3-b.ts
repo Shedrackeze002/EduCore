@@ -21,7 +21,7 @@ const video: Explainer = {
       main: [{ kind: 'bullets', id: 'b', items: ['**Read** the problem. What do you need to find?', '**Choose** an operation for each step.', '**Calculate.**', '**Check** with an estimate.', '**Answer** in a sentence, with units.'] }],
       lines: [
         { say: 'Use this plan. Read the problem: what do you need to find?', show: 'b.0' },
-        { say: 'Choose an operation for each step, then calculate.', show: ['b.1', 'b.2'] },
+        { say: 'Choose an operation for each step. Equal groups mean multiply, sharing means divide, joining means add, and taking away means subtract. Then calculate.', show: ['b.1', 'b.2'] },
         { say: 'Check with an estimate, and answer in a sentence, with units.', show: ['b.3', 'b.4'] },
       ],
     },
@@ -48,6 +48,7 @@ const video: Explainer = {
         { say: 'Step one: equal classes, so multiply. Five times 28 is 140 students.', focus: 'm.0' },
         { say: 'Step two: split them into busloads, so divide. 140 divided by 52 is two, remainder 36. The 36 extra students still need a seat, so round up to three buses.', show: 'm.1', focus: 'm.1' },
         { say: 'Check: five times thirty is 150, and 150 divided by fifty is three. That matches, so they need three buses.', show: 'm.2', focus: 'm.2' },
+        { say: 'Two buses would leave 36 students behind. When everyone must fit, round up. But when the question asks how many full boxes you can fill, round down: a part box is not full.' },
       ],
     },
     {

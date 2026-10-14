@@ -33,10 +33,14 @@ const video: Explainer = {
     {
       chapter: 'Left to right',
       layout: 'center',
-      main: [{ kind: 'callout', id: 'oops', tone: 'mistake', title: 'Adding before subtracting', md: 'Addition does **not** always come before subtraction. In $20 - 8 + 2$, adding first gives $20 - 10 = 10$, which is wrong.' }],
+      main: [
+        { kind: 'callout', id: 'oops', tone: 'mistake', title: 'Adding before subtracting', md: 'Addition does **not** always come before subtraction. In $20 - 8 + 2$, adding first gives $20 - 10 = 10$, which is wrong.' },
+        { kind: 'math', id: 'm', size: 'md', lines: ['12 \\div 2 \\times 3 = 6 \\times 3 = 18'] },
+      ],
       lines: [
         { say: 'A common mistake is to think addition always comes before subtraction. In twenty minus eight plus two, adding first gives twenty minus ten, which is ten. That is wrong.', show: 'oops' },
         { say: 'Add and subtract in the order they appear, from left to right.' },
+        { say: 'The same goes for multiplying and dividing. In twelve divided by two, times three, divide first: six. Then times three is eighteen, not two.', show: 'm.0', focus: 'm.0' },
       ],
     },
     {

@@ -69,6 +69,7 @@ const video: Explainer = {
       lines: [
         { say: 'A bag of fertilizer has a mass of 75 kilograms. Using one kilogram is about 2.2 pounds, multiply: 75 times 2.2 is about 165 pounds.', show: 'm.0', focus: 'm.0' },
         { say: 'A shelf is 180 centimetres tall. Inches are bigger than centimetres, so there will be fewer of them: divide by 2.54. That is about 70.9 inches.', show: 'm.1', focus: 'm.1' },
+        { say: 'Check that each answer makes sense. A pound is less than a kilogram, so there should be more pounds than kilograms: 165 is more than 75. An inch is more than a centimetre, so 70.9 is less than 180.' },
       ],
     },
     {

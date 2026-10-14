@@ -42,7 +42,7 @@ const video: Explainer = {
       lines: [
         { say: 'Graph y equals negative two thirds x plus three. Start with the y intercept: b is three, so plot zero, three.', show: ['m.0', 'm.1', 'draw.grid', 'draw.axes', 'draw.A'], focus: ['m.1', 'draw.A'] },
         { say: 'Then use the slope, negative two over three: right three, and down two. That gives the point at three, one.', show: ['m.2', 'draw.s1', 'draw.B'], focus: ['m.2', 'draw.s1', 'draw.B'] },
-        { say: 'Draw the line through the two points.', show: 'draw.line', focus: 'draw.line' },
+        { say: 'Draw the line through the two points. The slope is negative, so the line falls from left to right.', show: 'draw.line', focus: 'draw.line' },
         { say: 'A third point is a good check. Go right three and down two again, to six, negative one. It lands on the line.', show: ['draw.s2', 'draw.C'], focus: ['draw.s2', 'draw.C'] },
       ],
     },
@@ -65,7 +65,8 @@ const video: Explainer = {
       lines: [
         { say: 'Now go the other way. To write the equation of a line from its graph, first read b, where the line crosses the y axis. Here, b is one.', show: ['read.grid', 'read.axes', 'read.line', 'read.b', 'm.0'], focus: ['read.b', 'm.0'] },
         { say: 'Then count the rise and run between two points on the grid. From zero, one, to four, four, the run is four and the rise is three. So m is three quarters.', show: ['read.p', 'read.step', 'm.1'], focus: ['read.step', 'm.1'] },
-        { say: 'Write y equals m x plus b: y equals three quarters x plus one.', show: 'm.2', focus: 'm.2' },
+        { say: 'Choose points where the line crosses the grid exactly, at the corner of a square. Then the rise and the run are whole numbers, and the slope you read is exact.', focus: ['read.b', 'read.p'] },
+        { say: 'Write y equals m x plus b: y equals three quarters x plus one. Check the sign: the line rises from left to right, so its slope is positive.', show: 'm.2', focus: 'm.2' },
       ],
     },
     {

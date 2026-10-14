@@ -49,10 +49,12 @@ const video: Explainer = {
     {
       chapter: 'Rolling wheels',
       layout: 'center',
-      main: [{ kind: 'math', id: 'm', size: 'md', lines: ['\\pi \\times 66 \\approx 207.3\\text{ cm per turn}'] }],
+      main: [{ kind: 'math', id: 'm', size: 'md', lines: ['\\pi \\times 66 \\approx 207.3\\text{ cm per turn}', '10 \\text{ turns: } \\pi \\times 66 \\times 10 \\approx 2\\,073\\text{ cm} \\approx 20.7\\text{ m}'] }],
       lines: [
         { say: 'Each time a wheel turns once, it rolls forward one circumference.' },
         { say: 'A wheel with a diameter of 66 centimetres rolls pi times 66, about 207.3 centimetres, in one turn. Round only at the end.', show: 'm.0', focus: 'm.0' },
+        { say: 'A quick check: pi is a little more than three, so the circumference is a little more than three times the diameter. Three times 66 is 198, so 207.3 is about right.' },
+        { say: 'In ten turns, the wheel rolls ten times as far: about 2,073 centimetres, or about 20.7 metres.', show: 'm.1', focus: 'm.1' },
       ],
     },
     {

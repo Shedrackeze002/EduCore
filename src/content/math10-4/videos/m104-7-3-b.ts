@@ -28,6 +28,7 @@ const video: Explainer = {
         { say: 'Capacity is how much a container can hold, in litres and millilitres. Volume and capacity are linked: 1,000 cubic centimetres holds one litre, so to change cubic centimetres to litres, divide by 1,000.', show: 'def' },
         { say: 'A cooler is fifty centimetres long, thirty wide and thirty high inside. Its volume is 45,000 cubic centimetres.', show: 'm.0', focus: 'm.0' },
         { say: 'Divide by 1,000: the cooler holds 45 litres.', show: 'm.1', focus: 'm.1' },
+        { say: 'Why 1,000? A litre fills a cube ten centimetres on each edge, and ten times ten times ten is 1,000 cubic centimetres.' },
       ],
     },
     {
@@ -54,6 +55,7 @@ const video: Explainer = {
         { say: 'Find how many fit along each edge: three along the length, four along the width, and two up the height.', focus: 'm.0' },
         { say: 'Multiply: three times four times two is 24 small boxes.', show: 'm.1', focus: 'm.1' },
         { say: 'Check with volume: the carton is 72,000 cubic centimetres, each small box is 3,000, and 72,000 divided by 3,000 is also 24.', show: 'tip' },
+        { say: 'The check works here because each edge divides evenly. When the small boxes do not fit evenly along an edge, the leftover space is wasted, and dividing the volumes gives too many boxes. So always count along each edge.' },
       ],
     },
     {

@@ -37,6 +37,7 @@ const video: Explainer = {
       lines: [
         { say: 'A shelf board is 2.35 metres long. Metres to centimetres is big to small, so multiply by 100: 235 centimetres.', show: 'm.0', focus: 'm.0' },
         { say: 'A carton holds 750 millilitres of cream. Millilitres to litres is small to big, so divide by 1,000: 0.75 litres.', show: 'm.1', focus: 'm.1' },
+        { say: 'Here is a shortcut. Multiplying by 100 moves the decimal point two places to the right, and dividing by 1,000 moves it three places to the left.' },
         { say: 'It is not 750,000 litres. A litre is a big unit, so you need fewer of them. Always ask: should my answer be bigger or smaller than the number I started with?', show: 'oops' },
       ],
     },

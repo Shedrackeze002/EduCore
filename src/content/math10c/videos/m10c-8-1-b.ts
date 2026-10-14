@@ -39,7 +39,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Solve y equals x plus one, and y equals negative x plus five, by graphing. First, write each equation in a form that is easy to graph. These are already in slope-intercept form.', show: ['b.0', 'm.0'] },
-        { say: 'Graph both lines on the same grid.', show: ['b.1', 'cross.grid', 'cross.axes', 'cross.l1', 'cross.l2'] },
+        { say: 'Graph both lines on the same grid. For the first, start at one on the y axis, and go up one for every one across. For the second, start at five, and go down one for every one across.', show: ['b.1', 'cross.grid', 'cross.axes', 'cross.l1', 'cross.l2'] },
         { say: 'Read the point of intersection: two, three.', show: ['b.2', 'cross.P'], focus: 'cross.P' },
         { say: 'Then verify it in both equations. Three equals two plus one, and three equals negative two plus five. Both are true, so the solution is two, three.', show: ['b.3', 'm.1', 'm.2'], focus: ['m.1', 'm.2'] },
       ],
@@ -63,6 +63,7 @@ const video: Explainer = {
       lines: [
         { say: 'Graphing works well when the solution has whole-number coordinates. But look at these two lines. Where do they cross? It looks like three, five.', show: ['near.grid', 'near.axes', 'near.l1', 'near.l2', 'tip'] },
         { say: 'Really, it is 3.2, 4.9. On a hand-drawn graph, you can only estimate a point like that.', show: 'near.P', focus: 'near.P' },
+        { say: 'If you substitute three, five into the two equations, they will not quite balance. That is the sign that your reading is only close, not exact.' },
         { say: 'So treat a graphical solution as an estimate, and verify it algebraically. Graphing technology can find the intersection precisely, and the next lessons give exact methods.', show: 'oops' },
       ],
     },

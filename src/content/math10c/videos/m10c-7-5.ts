@@ -48,6 +48,7 @@ const video: Explainer = {
         { say: 'When y tends to increase as x increases, the correlation is positive, like hours of study and test scores.', show: ['corr.p-grid', 'corr.p-axes', 'corr.p-pts', 'corr.p'], focus: 'corr.p-pts' },
         { say: 'When y tends to decrease as x increases, the correlation is negative, like the age of a car and its value.', show: ['corr.n-grid', 'corr.n-axes', 'corr.n-pts', 'corr.n'], focus: 'corr.n-pts' },
         { say: 'And when there is no clear pattern, there is no correlation, like shoe size and test scores.', show: ['corr.z-grid', 'corr.z-axes', 'corr.z-pts', 'corr.z'], focus: 'corr.z-pts' },
+        { say: 'A correlation also has a strength. When the points lie close to a line, the correlation is strong. When they are spread out around the trend, it is weak. And a correlation does not prove that one thing causes the other. It only shows that the two change together.', focus: 'corr' },
       ],
     },
     {
@@ -66,7 +67,7 @@ const video: Explainer = {
         { kind: 'callout', id: 'oops', tone: 'mistake', title: 'Not join-the-dots', md: 'Do not join the first and last points. Fit the overall trend.' },
       ],
       lines: [
-        { say: 'These points follow a straight-line trend.', show: ['fit.grid', 'fit.axes', 'fit.pts'] },
+        { say: 'These points follow a straight-line trend. As x increases, y tends to increase, so the correlation is positive.', show: ['fit.grid', 'fit.axes', 'fit.pts'] },
         { say: 'A line of best fit follows the direction of the data.', show: ['fit.line', 'b.0'], focus: 'fit.line' },
         { say: 'It has roughly as many points above it as below it.', show: 'b.1', focus: 'fit.pts' },
         { say: 'And it does not have to pass through any data point. Technology can find the best line exactly; this is called linear regression. By hand, lay a ruler along the trend, and adjust it until the points are balanced.', show: 'b.2' },
@@ -88,7 +89,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Your turn. As the outside temperature rises, sales of hot chocolate tend to fall. What kind of correlation is this? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. As the temperature increases, the sales tend to decrease, so the correlation is negative.', show: 'q.answer' },
+        { say: 'The answer is A. As the temperature increases, the sales tend to decrease, so the correlation is negative. B would mean that sales rise as it gets warmer.', show: 'q.answer' },
       ],
     },
     {

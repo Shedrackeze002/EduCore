@@ -55,6 +55,7 @@ const video: Explainer = {
         { say: 'Often a formula is only the first step. A taxi uses C equals 4.25 plus 2.10 k, where k is the distance in kilometres. Tia rides twelve kilometres, and pays with forty dollars.', show: 'm.0' },
         { say: 'Substitute twelve for k, and multiply first: 4.25 plus 25.20 is 29 dollars 45.', show: 'm.1', focus: 'm.1' },
         { say: 'Now use that answer: her change is forty minus 29.45, which is 10 dollars 55.', show: 'm.2', focus: 'm.2' },
+        { say: 'Check with an estimate. 2.10 is about two, so twelve kilometres costs about 24 dollars, and the four dollars at the start makes about 28. The fare of 29 dollars 45 is close, so it makes sense.' },
       ],
     },
     {

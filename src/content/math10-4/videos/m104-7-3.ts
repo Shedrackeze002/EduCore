@@ -14,7 +14,7 @@ const video: Explainer = {
       main: [{ kind: 'title', id: 'title', kicker: 'Math 10-4 · Lesson 7.3 · Part 1', title: 'Volume of a Box', subtitle: 'Length times width times height' }],
       lines: [
         { say: 'How much soil fills a garden bed? How much space is inside a shipping box? These questions are about volume: the space inside a 3-D object.', show: 'title' },
-        { say: 'In this video, you will find the volume of a box.' },
+        { say: 'In this video, you will find the volume of a box, and see why you multiply instead of adding.' },
       ],
     },
     {
@@ -29,7 +29,7 @@ const video: Explainer = {
       lines: [
         { say: 'A rectangular prism is a box shape: six flat faces, and every face is a rectangle. Volume is the amount of space inside it, measured in cubic units, like cubic centimetres.', show: ['box.shape', 'def'] },
         { say: 'To find the volume of a box, multiply its three measurements: length times width times height.', show: ['box.l', 'box.w', 'box.h', 'm.0'], focus: 'm.0' },
-        { say: 'A shipping box is forty centimetres long, thirty wide and twenty high. Forty times thirty is 1,200, and 1,200 times twenty is 24,000 cubic centimetres.', show: 'm.1', focus: 'm.1' },
+        { say: 'A shipping box is forty centimetres long, thirty wide and twenty high. Think of it in layers. The bottom layer holds forty times thirty: 1,200 little cubes. There are twenty layers, and 1,200 times twenty is 24,000 cubic centimetres.', show: 'm.1', focus: 'm.1' },
         { say: 'Adding the measurements, ninety, is not the volume. Volume counts cubes in every row, every layer and every stack, so you multiply.' },
       ],
     },
@@ -44,6 +44,7 @@ const video: Explainer = {
         { say: 'Big spaces, like a garden bed or the box of a truck, are measured in cubic metres. Make sure all three measurements are in metres before you multiply.' },
         { say: 'A raised garden bed is 2.4 metres long, 1.2 metres wide and 0.4 metres deep. It holds 2.4 times 1.2 times 0.4: 1.152 cubic metres of soil.', show: 'm.0', focus: 'm.0' },
         { say: 'If the depth is given as forty centimetres, change it to 0.4 metres first. Using forty gives an answer 100 times too big.', show: 'oops' },
+        { say: 'If the soil comes by the cubic metre, you would order a little more than one cubic metre for this bed.' },
       ],
     },
     {
@@ -61,7 +62,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Your turn. A storage bin is fifty centimetres long, forty wide and thirty high. What is its volume? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Fifty times forty is 2,000, and 2,000 times thirty is 60,000 cubic centimetres. B adds instead of multiplying, and D stops after two measurements.', show: 'q.answer' },
+        { say: 'The answer is A. Fifty times forty is 2,000, and 2,000 times thirty is 60,000 cubic centimetres. B adds instead of multiplying, C drops a zero, and D stops after two measurements.', show: 'q.answer' },
       ],
     },
     {
@@ -70,7 +71,7 @@ const video: Explainer = {
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Volume is measured in cubic units.', 'Box: $V = l \\times w \\times h$.', 'Use the same unit for all three measurements.'] }],
       lines: [
         { say: 'Let’s sum up. Volume is the space inside a 3-D object, measured in cubic units.', show: 'sum.0' },
-        { say: 'For a box, multiply the length, the width and the height.', show: 'sum.1' },
+        { say: 'For a box, multiply the length, the width and the height, in any order.', show: 'sum.1' },
         { say: 'And use the same unit for all three. In part two, we turn volume into litres, and pack boxes. See you there!', show: 'sum.2' },
       ],
     },
