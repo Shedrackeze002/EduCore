@@ -157,7 +157,10 @@ items ship or decisions change.
      problems with projectiles, frames and break-even prices. Unit 8 (proportional reasoning) is
      done, 12 videos: unit rates and better buys, rates as slopes and rates that change, multi-step
      and combined rates with average speed, scale factors and map scales, and how areas and
-     volumes of similar objects grow by k² and k³. Unit 9 is next.
+     volumes of similar objects grow by k² and k³. Unit 9 (the research project) is done, 4
+     videos: research questions, primary and secondary data and fair survey questions, fair
+     samples and four kinds of bias, and a complete plan. All 89 Math 20-2 videos are scripted
+     and stills-checked; rendering follows Math 20-1.
    - Narration: the variable "a" is now quoted in the Math 20-1 and 20-2 trigonometry scripts, so
      the voice reads it as a letter, not as the article.
    - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
