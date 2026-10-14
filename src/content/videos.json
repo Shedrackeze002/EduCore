@@ -8160,5 +8160,52 @@
         "working": "The jump is $4$, so the rule starts with $4n$. When $n = 1$, $4n = 4$, and $7 - 4 = 3$. So $y = 4n + 3$."
       }
     ]
+  },
+  "m104-5-2": {
+    "lessonId": "m104-5-2",
+    "title": "Expressions and Formulas, Part 1: Variables and Expressions",
+    "duration": 148,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Variables and expressions",
+        "t": 15.964
+      },
+      {
+        "title": "Key words",
+        "t": 44.931
+      },
+      {
+        "title": "Two parts",
+        "t": 77.014
+      },
+      {
+        "title": "Your turn",
+        "t": 101.878
+      },
+      {
+        "title": "Summary",
+        "t": 130.182
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-5-2:q",
+        "t": 113.143,
+        "prompt": "A gym charges a \\$25 sign-up fee plus \\$30 per month. Which expression gives the cost for $m$ months?",
+        "choices": [
+          "$30m + 25$",
+          "$25m + 30$",
+          "$55m$",
+          "$30 + 25 + m$"
+        ],
+        "answer": 0,
+        "working": "The monthly part changes with $m$: $30m$. The sign-up fee is paid once: $+\\,25$."
+      }
+    ]
   }
 }

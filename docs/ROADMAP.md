@@ -200,8 +200,10 @@ items ship or decisions change.
      the sign rules, the order of operations, integers for means and money owed, mixed numbers
      with fraction strips, adding, subtracting and multiplying fractions, two-step fraction
      problems, ratios, rates and unit rates, proportions, sharing in a ratio, and four kinds of
-     percent problems. Worked steps use full-size fractions for easier reading. Units 2 to 9 are
-     next.
+     percent problems. Worked steps use full-size fractions for easier reading. Unit 2 (consumer
+     math) is done, 11 videos: unit prices and the better buy, discounts and sale prices, sales
+     tax and tips, and paying over time (down payments, instalments, finance charges, rent-to-own
+     and comparing plans). Units 3 to 9 are next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
