@@ -105,7 +105,10 @@ See `src/video/script.ts` for every element and option. In short:
   (with its diagonal) and `twoTriangles` (two right triangles that share a side, drawn to scale
   from their angles of elevation: observers on `opposite` sides of a tower, two points on the
   `same` side of a cliff, with optional angles of `depression`, or `stacked` sight lines to a
-  roof and an antenna; parts `ground`, `height`, `sight1`, `sight2`, `a1`, `a2`, `x`).
+  roof and an antenna; parts `ground`, `height`, `sight1`, `sight2`, `a1`, `a2`, `x`). In
+  `src/video/solids.ts`, `squareColumns` draws a front or side view of stacked cubes (a column of
+  squares for each height, parts `c0`, `c1`, …) and `isometricBox` draws a box in true isometric,
+  with its `front`, `side` and `top` faces.
 - `standardAngle` (`src/video/trig.ts`) draws an angle in standard position: the axes, the
   terminal arm and its arc (`d.arm`, `d.arc`), and optionally the reference angle (`d.ref`), a
   dashed drop to the x-axis with the triangle's sides (`d.tri`, `d.x`, `d.y`, `d.r`), the point
