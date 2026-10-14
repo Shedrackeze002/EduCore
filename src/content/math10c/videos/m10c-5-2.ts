@@ -54,7 +54,7 @@ const video: Explainer = {
       right: [figure('g', [g, dots(g, [[-2, 4], [-1, 1], [0, 0], [1, 1], [2, 4]].map(([x, y], i) => ({ id: `p${i}`, x, y, group: 'pts', place: x < 0 ? 'above left' : 'above right' })))])],
       lines: [
         { say: 'As an arrow diagram, each number points to its square.', show: ['arrows.left', 'arrows.right', 'arrows.arrows'] },
-        { say: 'Two arrows can end at the same element: both negative two and two point to four.', focus: ['arrows.a0', 'arrows.a4'] },
+        { say: 'Two arrows can end at the same element: both negative two and two are paired with four.', focus: ['arrows.a0', 'arrows.a4'] },
         { say: 'And as a graph, plot each ordered pair as a point.', show: ['g.grid', 'g.axes', 'g.pts'], focus: 'g.pts' },
         { say: 'Words, ordered pairs, a table, an arrow diagram and a graph: five ways to show the same relation.' },
       ],
