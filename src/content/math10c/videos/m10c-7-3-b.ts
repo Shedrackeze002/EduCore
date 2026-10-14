@@ -70,7 +70,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'math', id: 'm', lines: ['y - 1 = 2(x + 3) \\;\\to\\; y = 2x + 7', '2x - y + 7 = 0 \\;\\to\\; y = 2x + 7'] }],
       lines: [
-        { say: 'The same line can be written in many ways. Are y minus one equals two, times x plus three, and two x minus y plus seven equals zero, the same line? Rewrite both in slope-intercept form.' },
+        { say: 'The same line can be written in many ways. Is the line y minus one equals two, times x plus three, the same as the line two x minus y plus seven equals zero? To find out, rewrite both in slope-intercept form.' },
         { say: 'The first: y minus one equals two x plus six, so y equals two x plus seven.', show: 'm.0', focus: 'm.0' },
         { say: 'The second: add y to both sides, and y equals two x plus seven. The equations are equivalent: they describe the same line.', show: 'm.1', focus: 'm.1' },
       ],
