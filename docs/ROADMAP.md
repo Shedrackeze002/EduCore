@@ -163,8 +163,12 @@ items ship or decisions change.
      and stills-checked; rendering follows Math 20-1.
    - Narration: the variable "a" is now quoted in the Math 20-1 and 20-2 trigonometry scripts, so
      the voice reads it as a letter, not as the article.
-   - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
-     and 9), each lesson split into parts of about three minutes when it needs more.
+   - Scripting: Math 20-3. Unit 1 (slope, rates and unit analysis) is done, 11 videos: rise over
+     run, missing rises and runs for roofs, ramps and stairs, percent grade, roof pitch, rate of
+     change from tables and graphs (including graphs in pieces), proportions, and chains of
+     conversion factors. Units 2 to 8 are next.
+   - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
+     each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
