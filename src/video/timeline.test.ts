@@ -199,6 +199,13 @@ describe('checkScript', () => {
     expect(checkScript(say('A mile is 5,280 feet: about 3141.6, 0.3048 or 7.41666, and 12000 or 26.2.'))).toEqual([]);
   });
 
+  it('asks for braces round a minus after a space or label in maths, which would be set as subtraction', () => {
+    const maths = (line: string): Explainer => ({ ...script, scenes: [{ layout: 'center', main: [{ kind: 'math', id: 'm', lines: [line] }], lines: [{ say: 'Hi.', show: 'm' }] }] });
+    expect(checkScript(maths('(-3)(-8) = 24 \\qquad -3 + (-8) = -11'))).toEqual(['Scene 1: maths "m.0" has a minus after a space or label; write it in braces ({-5}), or it is set as subtraction.']);
+    expect(checkScript(maths('\\text{Last: } -5 \\cdot 4'))).toHaveLength(1);
+    expect(checkScript(maths('24 \\qquad {-3} + (-8) = -11 \\quad x - 2'))).toEqual([]);
+  });
+
   it('asks for the variable a in quotes, which the voice would read as the article', () => {
     const say = (text: string): Explainer => ({ ...script, scenes: [{ layout: 'center', main: [{ kind: 'text', id: 'a', md: 'x' }], lines: [{ say: text }] }] });
     expect(checkScript(say('So a to the zero is one.'))).toEqual(['Scene 1, line 1: write the variable a as "a" (in quotes), or it is read as the article.']);

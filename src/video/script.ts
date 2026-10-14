@@ -259,6 +259,9 @@ export function itemPoints(item: DiagramItem): string[] {
 /** Problems with a script: unknown ids, repeated ids, empty lines, unknown diagram points and parts. Empty when it is fine. */
 /** A four-digit whole number with no comma, not part of a longer number or a decimal. */
 const YEAR_LIKE = /(?<![\d.,])\d{4}(?![\d]|[.,]\d)/g;
+/** A minus sign straight after a space or label in maths, which KaTeX sets as subtraction ("− 5"). */
+const LOOSE_MINUS = /(\\q?quad|\\text\{[^}]*\})\s*-(?=[\w(\\])/;
+
 /** The letter a used as a variable, which the voice reads as the article ("uh to the m"). */
 const BARE_A = /(?<![\w"])a (?=to the|over [a-z]\b|and [a-z]\b|squared|cubed)/;
 
@@ -279,6 +282,11 @@ export function checkScript(x: Explainer): string[] {
     for (const e of sceneElements(s)) {
       if (ids.has(e.id)) problems.push(`Scene ${si + 1}: the id "${e.id}" is used twice.`);
       ids.add(e.id);
+      if (e.kind === 'math') {
+        e.lines.forEach((m, mi) => {
+          if (LOOSE_MINUS.test(m)) problems.push(`Scene ${si + 1}: maths "${e.id}.${mi}" has a minus after a space or label; write it in braces ({-5}), or it is set as subtraction.`);
+        });
+      }
       if (e.kind !== 'diagram') continue;
       const parts = new Set<string>();
       const groups = new Set<string>();
