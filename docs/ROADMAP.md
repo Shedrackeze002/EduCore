@@ -135,8 +135,8 @@ items ship or decisions change.
      words a minute instead of about 175), 0.8 seconds between lines, an extra 0.6 seconds after
      each new step appears, and longer pauses around scenes. Lesson 1.2 part 1 of Math 20-1 went
      from 2:58 to 3:42. Videos may run up to about seven minutes, and explanations are never
-     trimmed to save time. Every video from Math 20-1 on uses the new pace; Math 10C, 10-3 and
-     10-4 were made at the old pace.
+     trimmed to save time. Every video from Math 20-1 on uses the new pace. Math 10C, 10-3 and
+     10-4 were made at the old pace and stay as they are (the owner's decision).
    - Scripted: Math 10-3, all 8 units, two parts per lesson (about three minutes each): units and
      measurement, money and finance, ratios and rates, perimeter, area and surface area, angles
      and spatial puzzles, the Pythagorean theorem, similar figures and trigonometry. Units 6 and
