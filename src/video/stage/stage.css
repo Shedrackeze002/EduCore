@@ -110,6 +110,8 @@ body {
   font-size: 1.08em;
   /* Never break a formula across lines ("BC =" / "6."). */
   white-space: nowrap;
+  /* An uppercase table heading must not turn x into X, or θ into Θ. */
+  text-transform: none;
 }
 
 .tone-theta {

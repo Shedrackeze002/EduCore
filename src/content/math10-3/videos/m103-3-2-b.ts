@@ -24,6 +24,7 @@ const video: Explainer = {
       lines: [
         { say: 'In everyday speech we say weight, but these units measure mass. Sixteen ounces make a pound, and 2,000 pounds make a ton: the short ton used in North America.', show: 'm.0', focus: 'm.0' },
         { say: 'A turkey weighs seven pounds five ounces. Seven pounds is seven times sixteen, 112 ounces, plus five is 117 ounces.', show: 'm.1', focus: 'm.1' },
+        { say: 'To go the other way, divide by sixteen. Forty ounces divided by sixteen is two, remainder eight: two pounds eight ounces. And a short ton is not the same as a metric tonne, which is 1,000 kilograms.' },
       ],
     },
     {

@@ -178,6 +178,45 @@ export function numberLine(o: {
 }
 
 /**
+ * A fraction strip: a bar `width` long cut into `parts` equal pieces, with the first `shaded`
+ * pieces shaded (from `from`, to shade pieces further along). `label` is written to the right of
+ * the bar, and `pieces` writes a value in each piece (such as "5 L").
+ *
+ * Parts: `frame` (a group: the outline and the cuts), `shade` (the shaded pieces), `label`, and
+ * `pieces` (a group: the values in the pieces).
+ */
+export function strip(o: { name?: string; parts: number; shaded: number; from?: number; at?: P; width?: number; height?: number; tone?: DiagramTone; label?: string; pieces?: string }): Part {
+  const n = namer(o.name);
+  const [x, y] = o.at ?? [0, 0];
+  const W = o.width ?? 12;
+  const H = o.height ?? 1.2;
+  const w = W / o.parts;
+  const start = o.from ?? 0;
+  const points: Record<string, P> = {};
+  const items: DiagramItem[] = [];
+  if (o.shaded > 0) {
+    Object.assign(points, { [n('s0')]: [x + start * w, y], [n('s1')]: [x + (start + o.shaded) * w, y], [n('s2')]: [x + (start + o.shaded) * w, y + H], [n('s3')]: [x + start * w, y + H] });
+    items.push({ kind: 'region', id: n('shade'), points: ['s0', 's1', 's2', 's3'].map(n), tone: o.tone ?? 'adj', shade: 0.55 });
+  }
+  items.push(...sides(points, n('o'), x, y, x + W, y + H, { group: n('frame') }));
+  for (let i = 1; i < o.parts; i++) {
+    Object.assign(points, { [n(`c${i}a`)]: [x + i * w, y], [n(`c${i}b`)]: [x + i * w, y + H] });
+    items.push({ kind: 'line', id: n(`cut${i}`), from: n(`c${i}a`), to: n(`c${i}b`), group: n('frame') });
+  }
+  if (o.label) {
+    points[n('lab')] = [x + W, y + H / 2];
+    items.push({ kind: 'label', id: n('label'), at: n('lab'), tex: o.label, place: 'right' });
+  }
+  if (o.pieces) {
+    for (let i = 0; i < o.parts; i++) {
+      points[n(`p${i}`)] = [x + (i + 0.5) * w, y + H / 2];
+      items.push({ kind: 'label', id: n(`piece${i}`), at: n(`p${i}`), tex: o.pieces, tone: 'ink', place: 'center', group: n('pieces') });
+    }
+  }
+  return { points, items };
+}
+
+/**
  * A rectangle `cols` squares wide and `rows` squares tall (a floor covered in square tiles, or a
  * square of 144 unit squares), each `size` units. `at` is its bottom left corner.
  *

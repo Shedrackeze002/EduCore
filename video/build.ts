@@ -46,6 +46,10 @@ const option = (name: string, fallback: string) => {
 const ids = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--voice', '--speed', '--fps'].includes(args[i - 1])));
 const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('speed', '1')) };
 const FPS = Number(option('fps', '30'));
+/** Every video runs at least two minutes; a shorter one needs more in its script. */
+const MIN_SECONDS = 120;
+/** The quick estimate runs about a tenth long (2:06 for a video voiced at 1:52), so it needs more. */
+const QUICK_MARGIN = 1.12;
 
 function findScript(id: string): string {
   for (const course of readdirSync(path.join(ROOT, 'src/content'))) {
@@ -206,7 +210,8 @@ async function main() {
       log(`${id}: voicing ${x.scenes.reduce((n, s) => n + s.lines.length, 0)} lines with ${voice.name}`);
       const { durations, clips } = await voiceLines(x);
       const tl = compile(x, durations);
-      log(`${id}: ${clock(tl.duration)} long, ${tl.chapters.length} chapters, ${tl.cues.length} questions`);
+      log(`${id}: ${clock(tl.duration)} long${flag('quick') ? ' (estimated)' : ''}, ${tl.chapters.length} chapters, ${tl.cues.length} questions`);
+      if (tl.duration < MIN_SECONDS * (flag('quick') ? QUICK_MARGIN : 1)) log(`${id}: WARNING: likely shorter than ${clock(MIN_SECONDS)}; add to the script.`);
 
       const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1.5 });
       const errors: string[] = [];

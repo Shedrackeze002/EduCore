@@ -3340,5 +3340,855 @@
         "working": "$M = \\left(\\dfrac{2 + 8}{2}, \\dfrac{-5 + 1}{2}\\right) = (5, -2)$."
       }
     ]
+  },
+  "m10c-7-1": {
+    "lessonId": "m10c-7-1",
+    "title": "Slope-Intercept Form, Part 1: Reading m and b",
+    "duration": 151,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Slope and intercept",
+        "t": 18.142
+      },
+      {
+        "title": "Reading m and b",
+        "t": 46.763
+      },
+      {
+        "title": "Solve for y first",
+        "t": 74.244
+      },
+      {
+        "title": "Your turn",
+        "t": 104.279
+      },
+      {
+        "title": "Summary",
+        "t": 135.692
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-1:q",
+        "t": 112.09,
+        "prompt": "What are the slope and $y$-intercept of $6x - 3y = 12$?",
+        "choices": [
+          "$m = 2,\\ b = -4$",
+          "$m = 6,\\ b = 12$",
+          "$m = -2,\\ b = 4$",
+          "$m = 2,\\ b = 4$"
+        ],
+        "answer": 0,
+        "working": "$-3y = -6x + 12$, so $y = 2x - 4$: $m = 2$ and $b = -4$."
+      }
+    ]
+  },
+  "m10c-7-1-b": {
+    "lessonId": "m10c-7-1",
+    "title": "Slope-Intercept Form, Part 2: Graphing and Writing Equations",
+    "duration": 132,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Graphing a line",
+        "t": 14.523
+      },
+      {
+        "title": "From a graph",
+        "t": 42.832
+      },
+      {
+        "title": "Your turn",
+        "t": 83.085
+      },
+      {
+        "title": "Summary",
+        "t": 112.875
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-1-b:q",
+        "t": 92.721,
+        "prompt": "A line crosses the $y$-axis at $-2$ and passes through $(4, 1)$. What is its equation?",
+        "choices": [
+          "$y = \\tfrac34 x - 2$",
+          "$y = \\tfrac43 x - 2$",
+          "$y = \\tfrac34 x + 2$",
+          "$y = -2x + \\tfrac34$"
+        ],
+        "answer": 0,
+        "working": "$b = -2$. From $(0, -2)$ to $(4, 1)$: rise $3$, run $4$, so $m = \\tfrac34$ and $y = \\tfrac34 x - 2$."
+      }
+    ]
+  },
+  "m10c-7-2": {
+    "lessonId": "m10c-7-2",
+    "title": "Slope-Point Form, Part 1: Reading and Graphing",
+    "duration": 146,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Where it comes from",
+        "t": 17.271
+      },
+      {
+        "title": "Reading it",
+        "t": 49.95
+      },
+      {
+        "title": "Graphing it",
+        "t": 85.22
+      },
+      {
+        "title": "Your turn",
+        "t": 101.167
+      },
+      {
+        "title": "Summary",
+        "t": 128.509
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-2:q",
+        "t": 110.079,
+        "prompt": "What point and slope does $y - 4 = -3(x + 2)$ show?",
+        "choices": [
+          "$(-2, 4)$ and $m = -3$",
+          "$(2, -4)$ and $m = -3$",
+          "$(-2, 4)$ and $m = 3$",
+          "$(4, -2)$ and $m = -3$"
+        ],
+        "answer": 0,
+        "working": "$x + 2 = x - (-2)$, so $x_1 = -2$, and $y_1 = 4$. The slope is $-3$."
+      }
+    ]
+  },
+  "m10c-7-2-b": {
+    "lessonId": "m10c-7-2",
+    "title": "Slope-Point Form, Part 2: Writing Equations",
+    "duration": 149,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A point and the slope",
+        "t": 15.266
+      },
+      {
+        "title": "Two points",
+        "t": 56.827
+      },
+      {
+        "title": "Your turn",
+        "t": 98.629
+      },
+      {
+        "title": "Summary",
+        "t": 129.936
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-2-b:q",
+        "t": 107.428,
+        "prompt": "Write the equation of the line through $(1, 3)$ and $(4, 9)$ in slope-intercept form.",
+        "choices": [
+          "$y = 2x + 1$",
+          "$y = 2x + 3$",
+          "$y = \\tfrac12 x + \\tfrac52$",
+          "$y = 2x - 1$"
+        ],
+        "answer": 0,
+        "working": "$m = \\dfrac{9 - 3}{4 - 1} = 2$. Then $y - 3 = 2(x - 1)$, so $y = 2x + 1$."
+      }
+    ]
+  },
+  "m10c-7-3": {
+    "lessonId": "m10c-7-3",
+    "title": "General Form, Part 1: Converting to General Form",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "General form",
+        "t": 18.009
+      },
+      {
+        "title": "Converting",
+        "t": 44.541
+      },
+      {
+        "title": "From slope-point form",
+        "t": 70.328
+      },
+      {
+        "title": "Almost is not enough",
+        "t": 95.917
+      },
+      {
+        "title": "Your turn",
+        "t": 126.067
+      },
+      {
+        "title": "Summary",
+        "t": 157.07
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-3:q",
+        "t": 133.005,
+        "prompt": "Write $y = \\tfrac34 x + 2$ in general form.",
+        "choices": [
+          "$3x - 4y + 8 = 0$",
+          "$3x - 4y + 2 = 0$",
+          "$-3x + 4y - 8 = 0$",
+          "$3x + 4y + 8 = 0$"
+        ],
+        "answer": 0,
+        "working": "Multiply by $4$: $4y = 3x + 8$. Move every term left: $-3x + 4y - 8 = 0$. Make $A$ positive: $3x - 4y + 8 = 0$."
+      }
+    ]
+  },
+  "m10c-7-3-b": {
+    "lessonId": "m10c-7-3",
+    "title": "General Form, Part 2: Slopes, Intercepts and Equivalent Forms",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "To slope-intercept form",
+        "t": 13.104
+      },
+      {
+        "title": "Slope and intercepts",
+        "t": 35.246
+      },
+      {
+        "title": "Watch the sign",
+        "t": 67.917
+      },
+      {
+        "title": "Equivalent forms",
+        "t": 81.006
+      },
+      {
+        "title": "Which form?",
+        "t": 111.245
+      },
+      {
+        "title": "Your turn",
+        "t": 130.98
+      },
+      {
+        "title": "Summary",
+        "t": 157.91
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-3-b:q",
+        "t": 138.402,
+        "prompt": "What is the slope of $2x - 6y + 3 = 0$?",
+        "choices": [
+          "$\\tfrac13$",
+          "$-\\tfrac13$",
+          "$3$",
+          "$-3$"
+        ],
+        "answer": 0,
+        "working": "$m = -\\dfrac{A}{B} = -\\dfrac{2}{-6} = \\dfrac13$."
+      }
+    ]
+  },
+  "m10c-7-4": {
+    "lessonId": "m10c-7-4",
+    "title": "Writing Equations, Part 1: Parallel and Perpendicular Lines",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The plan",
+        "t": 16.505
+      },
+      {
+        "title": "A parallel line",
+        "t": 32.225
+      },
+      {
+        "title": "A perpendicular line",
+        "t": 70.76
+      },
+      {
+        "title": "Two mistakes",
+        "t": 95.184
+      },
+      {
+        "title": "Your turn",
+        "t": 122.309
+      },
+      {
+        "title": "Summary",
+        "t": 155.414
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-4:q",
+        "t": 132.615,
+        "prompt": "Write the equation of the line through $(3, 1)$ that is parallel to $y = -2x + 5$.",
+        "choices": [
+          "$y = -2x + 7$",
+          "$y = -2x + 5$",
+          "$y = \\tfrac12 x - \\tfrac12$",
+          "$y = -2x - 5$"
+        ],
+        "answer": 0,
+        "working": "Same slope, $-2$: $y - 1 = -2(x - 3)$, so $y = -2x + 7$."
+      }
+    ]
+  },
+  "m10c-7-4-b": {
+    "lessonId": "m10c-7-4",
+    "title": "Writing Equations, Part 2: Linear Models",
+    "duration": 162,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rate and fixed amount",
+        "t": 14.046
+      },
+      {
+        "title": "A plumber",
+        "t": 29.818
+      },
+      {
+        "title": "Using the model",
+        "t": 72.111
+      },
+      {
+        "title": "Your turn",
+        "t": 107.198
+      },
+      {
+        "title": "Summary",
+        "t": 144.041
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-4-b:q",
+        "t": 121.012,
+        "prompt": "A gym charges a joining fee plus a monthly fee. Three months cost \\$140 and seven months cost \\$260. What is the joining fee?",
+        "choices": [
+          "\\$50",
+          "\\$30",
+          "\\$140",
+          "\\$20"
+        ],
+        "answer": 0,
+        "working": "Rate: $\\dfrac{260 - 140}{7 - 3} = 30$ dollars per month. Then $140 = 30(3) + b$, so $b = 50$."
+      }
+    ]
+  },
+  "m10c-7-5": {
+    "lessonId": "m10c-7-5",
+    "title": "Lines of Best Fit, Part 1: Scatterplots and Trends",
+    "duration": 136,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Correlation",
+        "t": 18.93
+      },
+      {
+        "title": "A line of best fit",
+        "t": 60.607
+      },
+      {
+        "title": "Your turn",
+        "t": 93.715
+      },
+      {
+        "title": "Summary",
+        "t": 120.098
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-5:q",
+        "t": 103.319,
+        "prompt": "As the outside temperature rises, sales of hot chocolate tend to fall. What kind of correlation is this?",
+        "choices": [
+          "Negative",
+          "Positive",
+          "No correlation",
+          "It cannot be linear"
+        ],
+        "answer": 0,
+        "working": "As one variable increases, the other tends to decrease: a negative correlation."
+      }
+    ]
+  },
+  "m10c-7-5-b": {
+    "lessonId": "m10c-7-5",
+    "title": "Lines of Best Fit, Part 2: Equations and Predictions",
+    "duration": 138,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The equation",
+        "t": 12.975
+      },
+      {
+        "title": "Predictions",
+        "t": 51.566
+      },
+      {
+        "title": "Your turn",
+        "t": 93.25
+      },
+      {
+        "title": "Summary",
+        "t": 119.68
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-7-5-b:q",
+        "t": 105.213,
+        "prompt": "A line of best fit for data from $x = 1$ to $x = 10$ is $y = 2x + 3$. Predict $y$ when $x = 6$.",
+        "choices": [
+          "$y = 15$, by interpolation",
+          "$y = 15$, by extrapolation",
+          "$y = 11$, by interpolation",
+          "$y = 9$, by interpolation"
+        ],
+        "answer": 0,
+        "working": "$y = 2(6) + 3 = 15$. Since $6$ is between $1$ and $10$, this is interpolation."
+      }
+    ]
+  },
+  "m10c-8-1": {
+    "lessonId": "m10c-8-1",
+    "title": "Systems of Linear Equations, Part 1: Modelling and Verifying",
+    "duration": 167,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Systems and solutions",
+        "t": 23.498
+      },
+      {
+        "title": "Writing a system",
+        "t": 38.84
+      },
+      {
+        "title": "Verifying a solution",
+        "t": 81.196
+      },
+      {
+        "title": "Your turn",
+        "t": 117.131
+      },
+      {
+        "title": "Summary",
+        "t": 145.55
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-1:q",
+        "t": 127.198,
+        "prompt": "Is $(3, -1)$ the solution of the system $x + y = 2$ and $2x - y = 5$?",
+        "choices": [
+          "No: it does not satisfy $2x - y = 5$.",
+          "Yes: it satisfies both equations.",
+          "No: it does not satisfy $x + y = 2$.",
+          "Yes: one equation is enough."
+        ],
+        "answer": 0,
+        "working": "$3 + (-1) = 2$ is true, but $2(3) - (-1) = 7$, not $5$. So $(3, -1)$ is not the solution."
+      }
+    ]
+  },
+  "m10c-8-1-b": {
+    "lessonId": "m10c-8-1",
+    "title": "Systems of Linear Equations, Part 2: Solving by Graphing",
+    "duration": 135,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Solving by graphing",
+        "t": 13.877
+      },
+      {
+        "title": "Only an estimate",
+        "t": 52.71
+      },
+      {
+        "title": "Your turn",
+        "t": 89.512
+      },
+      {
+        "title": "Summary",
+        "t": 116.61
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-1-b:q",
+        "t": 99.435,
+        "prompt": "Which point is the solution of $y = 2x - 1$ and $y = -x + 5$?",
+        "choices": [
+          "$(2, 3)$",
+          "$(3, 2)$",
+          "$(1, 1)$",
+          "$(0, 5)$"
+        ],
+        "answer": 0,
+        "working": "Check $(2, 3)$: $3 = 2(2) - 1$ and $3 = -2 + 5$. Both are true."
+      }
+    ]
+  },
+  "m10c-8-2": {
+    "lessonId": "m10c-8-2",
+    "title": "Solving by Substitution, Part 1: The Method",
+    "duration": 134,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The method",
+        "t": 20.765
+      },
+      {
+        "title": "An example",
+        "t": 48.142
+      },
+      {
+        "title": "Your turn",
+        "t": 86.979
+      },
+      {
+        "title": "Summary",
+        "t": 115.918
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-2:q",
+        "t": 94.879,
+        "prompt": "Solve the system $y = x + 2$ and $2x + y = 11$.",
+        "choices": [
+          "$(3, 5)$",
+          "$(5, 3)$",
+          "$(3, 1)$",
+          "$(2, 4)$"
+        ],
+        "answer": 0,
+        "working": "$2x + (x + 2) = 11$, so $3x = 9$ and $x = 3$. Then $y = 3 + 2 = 5$."
+      }
+    ]
+  },
+  "m10c-8-2-b": {
+    "lessonId": "m10c-8-2",
+    "title": "Solving by Substitution, Part 2: Isolating First and Fractions",
+    "duration": 153,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Isolate first",
+        "t": 13.842
+      },
+      {
+        "title": "Keep the brackets",
+        "t": 55.532
+      },
+      {
+        "title": "A fractional solution",
+        "t": 70.478
+      },
+      {
+        "title": "Your turn",
+        "t": 104.275
+      },
+      {
+        "title": "Summary",
+        "t": 136.545
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-2-b:q",
+        "t": 112.549,
+        "prompt": "Solve the system $x - y = 3$ and $2x + 4y = 3$.",
+        "choices": [
+          "$\\left(\\tfrac52, -\\tfrac12\\right)$",
+          "$\\left(-\\tfrac12, \\tfrac52\\right)$",
+          "$(3, 0)$",
+          "$(2, -1)$"
+        ],
+        "answer": 0,
+        "working": "$x = 3 + y$, so $2(3 + y) + 4y = 3$, $6 + 6y = 3$ and $y = -\\tfrac12$. Then $x = 3 - \\tfrac12 = \\tfrac52$."
+      }
+    ]
+  },
+  "m10c-8-3": {
+    "lessonId": "m10c-8-3",
+    "title": "Solving by Elimination, Part 1: Adding Equations",
+    "duration": 151,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why it works",
+        "t": 20.661
+      },
+      {
+        "title": "Adding to eliminate",
+        "t": 39.411
+      },
+      {
+        "title": "Multiplying one equation",
+        "t": 70.167
+      },
+      {
+        "title": "Your turn",
+        "t": 106.085
+      },
+      {
+        "title": "Summary",
+        "t": 131.889
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-3:q",
+        "t": 114.756,
+        "prompt": "Solve the system $x + 2y = 7$ and $3x - 2y = 5$.",
+        "choices": [
+          "$(3, 2)$",
+          "$(2, 3)$",
+          "$(3, -2)$",
+          "$(1, 3)$"
+        ],
+        "answer": 0,
+        "working": "Add: $4x = 12$, so $x = 3$. Then $3 + 2y = 7$, so $y = 2$."
+      }
+    ]
+  },
+  "m10c-8-3-b": {
+    "lessonId": "m10c-8-3",
+    "title": "Solving by Elimination, Part 2: Multiplying Both and Choosing a Method",
+    "duration": 169,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying both",
+        "t": 13.762
+      },
+      {
+        "title": "Subtract every term",
+        "t": 51.618
+      },
+      {
+        "title": "Decimals",
+        "t": 67.424
+      },
+      {
+        "title": "Which method?",
+        "t": 105.362
+      },
+      {
+        "title": "Your turn",
+        "t": 122.586
+      },
+      {
+        "title": "Summary",
+        "t": 153.372
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-3-b:q",
+        "t": 131.686,
+        "prompt": "Solve the system $2x + 5y = 1$ and $3x + 2y = -4$.",
+        "choices": [
+          "$(-2, 1)$",
+          "$(1, -2)$",
+          "$(2, -1)$",
+          "$(-2, -1)$"
+        ],
+        "answer": 0,
+        "working": "Multiply by $3$ and $2$: $6x + 15y = 3$ and $6x + 4y = -8$. Subtract: $11y = 11$, so $y = 1$. Then $2x + 5 = 1$, so $x = -2$."
+      }
+    ]
+  },
+  "m10c-8-4": {
+    "lessonId": "m10c-8-4",
+    "title": "The Number of Solutions, Part 1: One, None or Infinitely Many",
+    "duration": 156,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three possibilities",
+        "t": 18.576
+      },
+      {
+        "title": "From the equations",
+        "t": 34.656
+      },
+      {
+        "title": "Classifying systems",
+        "t": 52.158
+      },
+      {
+        "title": "What algebra shows",
+        "t": 78.463
+      },
+      {
+        "title": "Your turn",
+        "t": 109.695
+      },
+      {
+        "title": "Summary",
+        "t": 135.383
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-4:q",
+        "t": 119.461,
+        "prompt": "How many solutions does the system $3x + y = 4$ and $6x + 2y = 8$ have?",
+        "choices": [
+          "Infinitely many",
+          "None",
+          "One",
+          "Two"
+        ],
+        "answer": 0,
+        "working": "The second equation is the first multiplied by $2$, so both describe the same line."
+      }
+    ]
+  },
+  "m10c-8-4-b": {
+    "lessonId": "m10c-8-4",
+    "title": "The Number of Solutions, Part 2: Solving Problems with Systems",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Five steps",
+        "t": 13.173
+      },
+      {
+        "title": "Tickets",
+        "t": 30.877
+      },
+      {
+        "title": "Comparing plans",
+        "t": 75.139
+      },
+      {
+        "title": "A rectangle",
+        "t": 115.657
+      },
+      {
+        "title": "Your turn",
+        "t": 150.083
+      },
+      {
+        "title": "Summary",
+        "t": 175.059
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-8-4-b:q",
+        "t": 157.655,
+        "prompt": "The sum of two numbers is $30$ and their difference is $8$. What are the numbers?",
+        "choices": [
+          "$19$ and $11$",
+          "$22$ and $8$",
+          "$15$ and $15$",
+          "$20$ and $10$"
+        ],
+        "answer": 0,
+        "working": "$x + y = 30$ and $x - y = 8$. Add: $2x = 38$, so $x = 19$ and $y = 11$."
+      }
+    ]
   }
 }

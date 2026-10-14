@@ -38,9 +38,10 @@ const video: Explainer = {
       ],
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['m = \\dfrac{10 - 2}{8 - 0} = 1', 'b = 2', 'y = x + 2'] }],
       lines: [
-        { say: 'To write the equation of a line of best fit, choose two points on the line that are far apart and easy to read. They do not need to be data points.', show: ['eq.grid', 'eq.axes', 'eq.pts', 'eq.line'] },
+        { say: 'To write the equation of a line of best fit, choose two points on the line that are far apart and easy to read. Points far apart give a more accurate slope. And they do not need to be data points.', show: ['eq.grid', 'eq.axes', 'eq.pts', 'eq.line'] },
         { say: 'This line passes through zero, two, and eight, ten. The slope is ten minus two, over eight minus zero, which is one.', show: ['eq.A', 'eq.B', 'm.0'], focus: ['eq.A', 'eq.B', 'm.0'] },
         { say: 'The line crosses the y axis at two, so b is two. The equation is y equals x plus two.', show: ['m.1', 'm.2'], focus: 'm.2' },
+        { say: 'Check it against the data. At x equals four, the line gives four plus two, which is six, and the data point there is six too. Most points lie close to the line, so it is a good fit.', focus: ['eq.pts', 'eq.line'] },
       ],
     },
     {
@@ -53,9 +54,9 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Interpolation predicts a value within the range of the data. Extrapolation predicts beyond it.', show: 'def' },
-        { say: 'The data were collected from x equals one to x equals eight. At x equals 5.5, y is 7.5. That is interpolation, so it is fairly reliable.', show: 'm.0', focus: 'm.0' },
+        { say: 'The data were collected from x equals one to x equals eight. At x equals 5.5, y is 5.5 plus two, which is 7.5. That is interpolation, so it is fairly reliable.', show: 'm.0', focus: 'm.0' },
         { say: 'At x equals fifteen, y is seventeen. That is extrapolation, so use it with caution: the trend may not continue.', show: 'm.1', focus: 'm.1' },
-        { say: 'For example, a model of a child’s height from age three to ten should not be used to predict their height at age forty.', show: 'oops' },
+        { say: 'For example, a model of a child’s height from age three to ten should not be used to predict their height at age forty. Growing about six centimetres a year for thirty more years would make them over three metres tall!', show: 'oops' },
       ],
     },
     {

@@ -42,7 +42,7 @@ const video: Explainer = {
         { say: 'Solve three x plus two y equals sixteen, and five x minus two y equals eight. The y coefficients, two and negative two, are opposites.', show: 'm.0' },
         { say: 'Add the equations. The y terms cancel, leaving eight x equals twenty-four. So x is three.', show: 'm.1', focus: ['m.0', 'm.1'] },
         { say: 'Substitute x equals three into the first equation: nine plus two y equals sixteen. So two y is seven, and y is seven halves.', show: 'm.2', focus: 'm.2' },
-        { say: 'The solution is three, seven halves.', show: 'm.3', focus: 'm.3' },
+        { say: 'So the solution is x equals three, and y equals seven halves.', show: 'm.3', focus: 'm.3' },
       ],
     },
     {
