@@ -9959,5 +9959,734 @@
         "working": "$r = -\\frac{1}{2}$, and $S_\\infty = \\dfrac{12}{1 - \\left(-\\frac{1}{2}\\right)} = \\dfrac{12}{1.5} = 8$."
       }
     ]
+  },
+  "m201-2-1": {
+    "lessonId": "m201-2-1",
+    "title": "Angles in Standard Position, Part 1: Reference Angles",
+    "duration": 278,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Standard position",
+        "t": 24.775
+      },
+      {
+        "title": "Reference angles",
+        "t": 87.635
+      },
+      {
+        "title": "Two examples",
+        "t": 134.764
+      },
+      {
+        "title": "One reference angle, four angles",
+        "t": 183.029
+      },
+      {
+        "title": "Your turn",
+        "t": 221.234
+      },
+      {
+        "title": "Summary",
+        "t": 251.293
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-1:q",
+        "t": 228.757,
+        "prompt": "Find the reference angle of $\\theta = 250^\\circ$.",
+        "choices": [
+          "$70^\\circ$",
+          "$20^\\circ$",
+          "$110^\\circ$",
+          "$250^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$250^\\circ$ is in quadrant III, so $\\theta_R = 250^\\circ - 180^\\circ = 70^\\circ$."
+      }
+    ]
+  },
+  "m201-2-1-b": {
+    "lessonId": "m201-2-1",
+    "title": "Angles in Standard Position, Part 2: Special Triangles",
+    "duration": 187,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "45°–45°–90°",
+        "t": 23.622
+      },
+      {
+        "title": "30°–60°–90°",
+        "t": 57.434
+      },
+      {
+        "title": "Exact values",
+        "t": 89.036
+      },
+      {
+        "title": "Your turn",
+        "t": 130.771
+      },
+      {
+        "title": "Summary",
+        "t": 158.804
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-1-b:q",
+        "t": 138.601,
+        "prompt": "What is the exact value of $\\cos 60^\\circ$?",
+        "choices": [
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$\\sqrt{3}$",
+          "$\\dfrac{\\sqrt{2}}{2}$"
+        ],
+        "answer": 0,
+        "working": "In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side adjacent to $60^\\circ$ is $1$ and the hypotenuse is $2$: $\\cos 60^\\circ = \\dfrac{1}{2}$."
+      }
+    ]
+  },
+  "m201-2-1-c": {
+    "lessonId": "m201-2-1",
+    "title": "Angles in Standard Position, Part 3: Exact Values in Every Quadrant",
+    "duration": 219,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "x, y and r",
+        "t": 21.386
+      },
+      {
+        "title": "Using the reference angle",
+        "t": 79.12
+      },
+      {
+        "title": "Quadrantal angles",
+        "t": 121.676
+      },
+      {
+        "title": "Your turn",
+        "t": 154.062
+      },
+      {
+        "title": "Summary",
+        "t": 187.553
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-1-c:q",
+        "t": 161.926,
+        "prompt": "What is the exact value of $\\sin 300^\\circ$?",
+        "choices": [
+          "$-\\dfrac{\\sqrt{3}}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$-\\dfrac{1}{2}$",
+          "$\\dfrac{1}{2}$"
+        ],
+        "answer": 0,
+        "working": "Quadrant IV: $\\theta_R = 60^\\circ$ and $y < 0$, so $\\sin 300^\\circ = -\\sin 60^\\circ = -\\dfrac{\\sqrt{3}}{2}$."
+      }
+    ]
+  },
+  "m201-2-2": {
+    "lessonId": "m201-2-2",
+    "title": "Trigonometric Ratios of Any Angle, Part 1: Points and CAST",
+    "duration": 266,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A point on the arm",
+        "t": 23.515
+      },
+      {
+        "title": "Finding the angle",
+        "t": 73.395
+      },
+      {
+        "title": "The CAST rule",
+        "t": 119.645
+      },
+      {
+        "title": "Locating an angle",
+        "t": 163.702
+      },
+      {
+        "title": "Your turn",
+        "t": 198.637
+      },
+      {
+        "title": "Summary",
+        "t": 232.556
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-2:q",
+        "t": 209.217,
+        "prompt": "$P(-6, -8)$ is on the terminal arm of $\\theta$. What is $\\sin\\theta$?",
+        "choices": [
+          "$-\\dfrac{4}{5}$",
+          "$\\dfrac{4}{5}$",
+          "$-\\dfrac{3}{5}$",
+          "$\\dfrac{4}{3}$"
+        ],
+        "answer": 0,
+        "working": "$r = \\sqrt{36 + 64} = 10$, so $\\sin\\theta = \\dfrac{-8}{10} = -\\dfrac{4}{5}$."
+      }
+    ]
+  },
+  "m201-2-2-b": {
+    "lessonId": "m201-2-2",
+    "title": "Trigonometric Ratios of Any Angle, Part 2: Solving for Angles",
+    "duration": 254,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From one ratio",
+        "t": 26.19
+      },
+      {
+        "title": "Solving an equation",
+        "t": 82.936
+      },
+      {
+        "title": "With a calculator",
+        "t": 126.454
+      },
+      {
+        "title": "Your turn",
+        "t": 191.973
+      },
+      {
+        "title": "Summary",
+        "t": 229.087
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-2-b:q",
+        "t": 203,
+        "prompt": "Solve $\\cos\\theta = \\dfrac{1}{2}$ for $0^\\circ \\le \\theta < 360^\\circ$.",
+        "choices": [
+          "$60^\\circ$ and $300^\\circ$",
+          "$60^\\circ$ only",
+          "$60^\\circ$ and $120^\\circ$",
+          "$120^\\circ$ and $240^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\theta_R = 60^\\circ$, and cosine is positive in quadrants I and IV: $60^\\circ$ and $360^\\circ - 60^\\circ = 300^\\circ$."
+      }
+    ]
+  },
+  "m201-2-3": {
+    "lessonId": "m201-2-3",
+    "title": "The Sine Law, Part 1: Finding Sides",
+    "duration": 258,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Oblique triangles",
+        "t": 21.429
+      },
+      {
+        "title": "Why it works",
+        "t": 51.164
+      },
+      {
+        "title": "Finding a side",
+        "t": 107.106
+      },
+      {
+        "title": "Find the third angle first",
+        "t": 149.043
+      },
+      {
+        "title": "Your turn",
+        "t": 190.966
+      },
+      {
+        "title": "Summary",
+        "t": 230.133
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-3:q",
+        "t": 206.843,
+        "prompt": "In $\\triangle ABC$, $\\angle A = 40^\\circ$, $\\angle C = 75^\\circ$ and $a = 8$ cm. Which equation gives $c$?",
+        "choices": [
+          "$c = \\dfrac{8\\sin 75^\\circ}{\\sin 40^\\circ}$",
+          "$c = \\dfrac{8\\sin 40^\\circ}{\\sin 75^\\circ}$",
+          "$c = 8\\sin 75^\\circ$",
+          "$c = \\dfrac{\\sin 75^\\circ}{8\\sin 40^\\circ}$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{c}{\\sin 75^\\circ} = \\dfrac{8}{\\sin 40^\\circ}$, so $c = \\dfrac{8\\sin 75^\\circ}{\\sin 40^\\circ} \\approx 12.0$ cm."
+      }
+    ]
+  },
+  "m201-2-3-b": {
+    "lessonId": "m201-2-3",
+    "title": "The Sine Law, Part 2: Finding Angles",
+    "duration": 286,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An acute angle",
+        "t": 21.379
+      },
+      {
+        "title": "Two angles, one sine",
+        "t": 75.951
+      },
+      {
+        "title": "An obtuse angle",
+        "t": 120.782
+      },
+      {
+        "title": "Fire lookouts",
+        "t": 175.54
+      },
+      {
+        "title": "Your turn",
+        "t": 224.258
+      },
+      {
+        "title": "Summary",
+        "t": 260.455
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-3-b:q",
+        "t": 233.892,
+        "prompt": "$\\sin B = 0.5$ and $\\angle B$ is obtuse. What is $\\angle B$?",
+        "choices": [
+          "$150^\\circ$",
+          "$30^\\circ$",
+          "$120^\\circ$",
+          "$210^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\sin^{-1}(0.5) = 30^\\circ$, and the obtuse angle with the same sine is $180^\\circ - 30^\\circ = 150^\\circ$."
+      }
+    ]
+  },
+  "m201-2-4": {
+    "lessonId": "m201-2-4",
+    "title": "The Ambiguous Case, Part 1: How Many Triangles?",
+    "duration": 250,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A swinging gate",
+        "t": 24.815
+      },
+      {
+        "title": "Counting the triangles",
+        "t": 64.151
+      },
+      {
+        "title": "Using the height",
+        "t": 101.181
+      },
+      {
+        "title": "An obtuse angle",
+        "t": 153.197
+      },
+      {
+        "title": "Your turn",
+        "t": 186.26
+      },
+      {
+        "title": "Summary",
+        "t": 219.26
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-4:q",
+        "t": 199.521,
+        "prompt": "$\\angle A = 40^\\circ$, $b = 10$ cm and $a = 8$ cm. How many triangles are possible?",
+        "choices": [
+          "two",
+          "one",
+          "none",
+          "three"
+        ],
+        "answer": 0,
+        "working": "$h = 10\\sin 40^\\circ \\approx 6.43$, and $6.43 < 8 < 10$, so there are two triangles."
+      }
+    ]
+  },
+  "m201-2-4-b": {
+    "lessonId": "m201-2-4",
+    "title": "The Ambiguous Case, Part 2: Solving Both Triangles",
+    "duration": 276,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two angles for B",
+        "t": 20.667
+      },
+      {
+        "title": "Finish each triangle",
+        "t": 81.3
+      },
+      {
+        "title": "Cell tower range",
+        "t": 129.465
+      },
+      {
+        "title": "Your turn",
+        "t": 215.293
+      },
+      {
+        "title": "Summary",
+        "t": 250.96
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-4-b:q",
+        "t": 228.244,
+        "prompt": "In an ambiguous case, $\\sin B \\approx 0.7660$. What are the two possible measures of $\\angle B$?",
+        "choices": [
+          "$50^\\circ$ and $130^\\circ$",
+          "$50^\\circ$ and $140^\\circ$",
+          "$40^\\circ$ and $140^\\circ$",
+          "$50^\\circ$ and $230^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\sin^{-1}(0.7660) \\approx 50^\\circ$, and its supplement is $180^\\circ - 50^\\circ = 130^\\circ$."
+      }
+    ]
+  },
+  "m201-2-5": {
+    "lessonId": "m201-2-5",
+    "title": "The Cosine Law, Part 1: Finding a Side",
+    "duration": 279,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proving the cosine law",
+        "t": 23.775
+      },
+      {
+        "title": "The Pythagorean link",
+        "t": 76.102
+      },
+      {
+        "title": "Finding a side",
+        "t": 112.848
+      },
+      {
+        "title": "An obtuse angle",
+        "t": 155.448
+      },
+      {
+        "title": "Your turn",
+        "t": 211.55
+      },
+      {
+        "title": "Summary",
+        "t": 250.722
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-5:q",
+        "t": 222.52,
+        "prompt": "In $\\triangle ABC$, $b = 5$, $c = 7$ and $\\angle A = 60^\\circ$. Find $a$.",
+        "choices": [
+          "$\\sqrt{39} \\approx 6.2$",
+          "$\\sqrt{74} \\approx 8.6$",
+          "$\\sqrt{109} \\approx 10.4$",
+          "$7$"
+        ],
+        "answer": 0,
+        "working": "$a^2 = 25 + 49 - 2(5)(7)(0.5) = 74 - 35 = 39$, so $a = \\sqrt{39} \\approx 6.2$."
+      }
+    ]
+  },
+  "m201-2-5-b": {
+    "lessonId": "m201-2-5",
+    "title": "The Cosine Law, Part 2: Finding Angles and Choosing a Law",
+    "duration": 237,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rearranging the law",
+        "t": 21.23
+      },
+      {
+        "title": "The largest angle",
+        "t": 62.284
+      },
+      {
+        "title": "Choosing a law",
+        "t": 123.009
+      },
+      {
+        "title": "Your turn",
+        "t": 165.25
+      },
+      {
+        "title": "Summary",
+        "t": 203.567
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-5-b:q",
+        "t": 177.263,
+        "prompt": "In $\\triangle ABC$, $a = 8$, $b = 5$ and $c = 6$. Which expression gives $\\cos A$?",
+        "choices": [
+          "$\\dfrac{5^2 + 6^2 - 8^2}{2(5)(6)}$",
+          "$\\dfrac{8^2 + 5^2 - 6^2}{2(8)(5)}$",
+          "$\\dfrac{5^2 + 6^2 + 8^2}{2(5)(6)}$",
+          "$\\dfrac{8^2 - 5^2 - 6^2}{2(5)(6)}$"
+        ],
+        "answer": 0,
+        "working": "The side opposite $\\angle A$, $a = 8$, is the one subtracted: $\\cos A = \\dfrac{25 + 36 - 64}{60} = -0.05$, so $\\angle A \\approx 92.9^\\circ$."
+      }
+    ]
+  },
+  "m201-2-5-c": {
+    "lessonId": "m201-2-5",
+    "title": "The Cosine Law, Part 3: Two-Step Problems",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The height of a tree",
+        "t": 17.516
+      },
+      {
+        "title": "Paddling across a lake",
+        "t": 83.292
+      },
+      {
+        "title": "Your turn",
+        "t": 139.476
+      },
+      {
+        "title": "Summary",
+        "t": 173.487
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-5-c:q",
+        "t": 152.835,
+        "prompt": "A triangle has two sides of $10$ m and $14$ m, with a $35^\\circ$ angle between them. Which law finds the third side?",
+        "choices": [
+          "the cosine law",
+          "the sine law",
+          "SOH CAH TOA",
+          "the Pythagorean theorem"
+        ],
+        "answer": 0,
+        "working": "Two sides and the contained angle (SAS): there is no complete side–angle pair, so use the cosine law."
+      }
+    ]
+  },
+  "m201-3-1": {
+    "lessonId": "m201-3-1",
+    "title": "Quadratic Functions in Vertex Form, Part 1: Transforming y = x²",
+    "duration": 236,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Parabolas",
+        "t": 25.631
+      },
+      {
+        "title": "Stretching with a",
+        "t": 85.874
+      },
+      {
+        "title": "Translating with p and q",
+        "t": 127.446
+      },
+      {
+        "title": "Your turn",
+        "t": 173.754
+      },
+      {
+        "title": "Summary",
+        "t": 209.631
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-1:q",
+        "t": 186.124,
+        "prompt": "How is the graph of $y = (x + 5)^2 - 2$ related to the graph of $y = x^2$?",
+        "choices": [
+          "$5$ units left, $2$ units down",
+          "$5$ units right, $2$ units down",
+          "$5$ units left, $2$ units up",
+          "$2$ units left, $5$ units down"
+        ],
+        "answer": 0,
+        "working": "$x + 5 = x - (-5)$, so $p = -5$: $5$ units left. $q = -2$: $2$ units down."
+      }
+    ]
+  },
+  "m201-3-1-b": {
+    "lessonId": "m201-3-1",
+    "title": "Quadratic Functions in Vertex Form, Part 2: Reading the Features",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Describing transformations",
+        "t": 20.291
+      },
+      {
+        "title": "Why (p, q) is the vertex",
+        "t": 62.581
+      },
+      {
+        "title": "Features from the equation",
+        "t": 111.018
+      },
+      {
+        "title": "Your turn",
+        "t": 149.389
+      },
+      {
+        "title": "Summary",
+        "t": 185.888
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-1-b:q",
+        "t": 161.977,
+        "prompt": "What is the vertex of $y = 3(x - 2)^2 + 7$, and is it a maximum or a minimum?",
+        "choices": [
+          "$(2, 7)$, minimum",
+          "$(-2, 7)$, minimum",
+          "$(2, 7)$, maximum",
+          "$(7, 2)$, minimum"
+        ],
+        "answer": 0,
+        "working": "$p = 2$ and $q = 7$, so the vertex is $(2, 7)$. $a = 3 > 0$, so the parabola opens up and $7$ is the minimum value."
+      }
+    ]
+  },
+  "m201-3-1-c": {
+    "lessonId": "m201-3-1",
+    "title": "Quadratic Functions in Vertex Form, Part 3: Domain, Range and Models",
+    "duration": 258,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range",
+        "t": 22.059
+      },
+      {
+        "title": "q, not p",
+        "t": 76.888
+      },
+      {
+        "title": "Mapping points",
+        "t": 104.109
+      },
+      {
+        "title": "A thrown ball",
+        "t": 153.175
+      },
+      {
+        "title": "Your turn",
+        "t": 195.073
+      },
+      {
+        "title": "Summary",
+        "t": 229.271
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-1-c:q",
+        "t": 204.507,
+        "prompt": "What is the range of $y = -(x - 1)^2 + 4$?",
+        "choices": [
+          "$\\{y \\mid y \\le 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\le 1,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "The vertex is $(1, 4)$ and $a = -1 < 0$, so the parabola opens down and $4$ is the maximum value: $y \\le 4$."
+      }
+    ]
   }
 }
