@@ -93,9 +93,23 @@ See `src/video/script.ts` for every element and option. In short:
   joins points with labelled segments (`d.walk-0`); `dots` marks points (hollow with `open`).
   `arrowDiagram` shows a relation as two ovals of elements joined by arrows (`d.arrows`, `d.a0`).
   Any diagram line can take `arrow: true` for an arrowhead.
+- Angle figures live in `src/video/angles.ts`: `angle` (two rays and the arc between them, a
+  square mark at 90° and the long way round past 180°: `d.arms`, `d.arc`), `crossing` (two lines
+  and their four angles, `d.a1`…), `transversal` (two lines cut by a third, angles numbered 1 to
+  8), `clock` and `protractor`. Triangle figures live in `src/video/triangles.ts`: `triangle`
+  (any triangle, side labels outside it), `squaresOnSides` (the squares on the sides of a right
+  triangle) and `rectangle` (with its diagonal).
+- `strip` (`src/video/numbers.ts`) is a fraction strip: a bar cut into equal pieces, some shaded
+  (`d.shade`, `d.frame`).
+- Data figures live in `src/video/charts.ts`: `barGraph` (one colour for every bar; `d.scale`,
+  each bar `d.b0`, its value `d.v0`, and a dashed line `d.r0` for reading it against the scale),
+  `circleGraph` (slices `d.s0`… clockwise from the top in a fixed colour order, labelled
+  outside; `namesOnly` for a spinner), `tally` (bundles of five, `d.t0`…) and `marbles` (a bag
+  of coloured marbles, grouped by colour).
 
-- Keep each video to about three minutes. Split a long lesson into parts: `m10c-2-1` is part 1,
-  `m10c-2-1-b` part 2, and so on.
+- Keep each video to about three minutes, and never under two: about 350 spoken words is enough,
+  and the build warns about a video that runs, or is estimated to run, under two minutes. Split a
+  long lesson into parts: `m10c-2-1` is part 1, `m10c-2-1-b` part 2, and so on.
 - Start with a title scene, give each later scene a `chapter` (these become YouTube chapters),
   end with a "Your turn" question and a summary.
 - Colours have fixed meanings: `[[theta:…]]`, `[[opp:…]]`, `[[adj:…]]` and `[[hyp:…]]` in text,

@@ -108,21 +108,31 @@ items ship or decisions change.
    - Built: Math 10C Unit 6, ten videos (lessons 6.1 to 6.5, two parts each, about two to three
      minutes): linear relations and rates of change, intercepts, slope, parallel and
      perpendicular lines, and the distance and midpoint formulas.
-   - Scripted: Math 10C Unit 7, ten videos (lessons 7.1 to 7.5, two parts each): slope-intercept,
-     slope-point and general form, parallel and perpendicular equations, linear models, and
-     lines of best fit.
-   - Scripted: Math 10C Unit 8, eight videos (lessons 8.1 to 8.4, two parts each): systems of
-     linear equations, solving by graphing, substitution and elimination, the number of
-     solutions, and problems solved with systems.
-   - Scripted: Math 10-3 Units 1 to 7, two parts per lesson (about three minutes each): units and
+   - Built: Math 10C Unit 7, ten videos (lessons 7.1 to 7.5, two parts each, about two to three
+     minutes): slope-intercept, slope-point and general form, parallel and perpendicular
+     equations, linear models, and lines of best fit.
+   - Built: Math 10C Unit 8, eight videos (lessons 8.1 to 8.4, two parts each, about two to three
+     minutes): systems of linear equations, solving by graphing, substitution and elimination,
+     the number of solutions, and problems solved with systems. That finishes Math 10C.
+   - Every video runs at least two minutes. Four Unit 7 and 8 videos first came out at 1:52 to
+     1:56, so their scripts gained a check, a caution or a worked step and were rendered again,
+     and the build now warns when a video runs, or is estimated to run, under two minutes (about
+     350 spoken words is enough).
+   - Scripted: Math 10-3, all 8 units, two parts per lesson (about three minutes each): units and
      measurement, money and finance, ratios and rates, perimeter, area and surface area, angles
-     and spatial puzzles, the Pythagorean theorem and similar figures. Units 6 and 7 brought angle
-     figures (`src/video/angles.ts`: rays, crossing lines, transversals, a clock and a protractor)
-     and triangle figures (`src/video/triangles.ts`: squares on the sides, any triangle, and a
-     rectangle with its diagonal). Unit 8 (trigonometry) is being scripted.
-   - Next: render Math 10C Units 7 and 8 to finish Math 10C, then render Math 10-3, then the other
-     courses in order (Math 10-4, 20-1, 20-2, 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
-     each lesson split into parts of about three minutes when it needs more.
+     and spatial puzzles, the Pythagorean theorem, similar figures and trigonometry. Units 6 and
+     7 brought angle figures (`src/video/angles.ts`: rays, crossing lines, transversals, a clock
+     and a protractor) and triangle figures (`src/video/triangles.ts`: squares on the sides, any
+     triangle, and a rectangle with its diagonal).
+   - Scripted: Math 10-4, all 9 units, two parts per lesson for most (about two to three
+     minutes): whole numbers, decimals, fractions, integers, formulas, units and conversions,
+     perimeter, area and volume, angles, shapes, 3-D objects, symmetry and transformations, data
+     displays, averages and probability. They brought fraction strips (`src/video/numbers.ts`)
+     and data figures (`src/video/charts.ts`: bar graphs with reading lines, circle graphs, tally
+     marks and bags of marbles).
+   - Next: render Math 10-3, then Math 10-4, then the other courses in order (Math 20-1, 20-2,
+     20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), each lesson split into parts of about
+     three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
