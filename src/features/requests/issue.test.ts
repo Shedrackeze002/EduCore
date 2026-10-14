@@ -27,8 +27,8 @@ describe('course request issues', () => {
   });
 
   it('accepts only GitHub issue links', () => {
-    expect(isIssueUrl('https://github.com/Shedrackeze002/EduCore/issues/42')).toBe(true);
-    expect(isIssueUrl('https://github.com/Shedrackeze002/EduCore/pull/42')).toBe(false);
+    expect(isIssueUrl('https://github.com/Shedrackeze002/Gradileo/issues/42')).toBe(true);
+    expect(isIssueUrl('https://github.com/Shedrackeze002/Gradileo/pull/42')).toBe(false);
     expect(isIssueUrl('https://evil.example/issues/42')).toBe(false);
   });
 });

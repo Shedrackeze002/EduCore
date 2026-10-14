@@ -54,7 +54,7 @@ You can confirm it under **Integrations → Cron** in the dashboard.
 
 In **Authentication → URL Configuration**:
 
-- **Site URL**: `https://<your-username>.github.io/EduCore/`
+- **Site URL**: `https://<your-username>.github.io/Gradileo/`
 - **Redirect URLs**: add the same URL followed by `**`
 
 Email confirmation is on by default, which is a good choice for teachers. Students that you
@@ -112,7 +112,7 @@ and parents who signed up with an email address:
 
    ```bash
    supabase secrets set RESEND_API_KEY=<key> EMAIL_FROM="Gradileo <reminders@yourschool.ca>" \
-     APP_URL=https://<your-username>.github.io/EduCore EDUCORE_CRON_SECRET=<long random string>
+     APP_URL=https://<your-username>.github.io/Gradileo EDUCORE_CRON_SECRET=<long random string>
    ```
 
 3. In the SQL editor, store the two values the scheduler needs in Vault:

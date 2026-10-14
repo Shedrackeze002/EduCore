@@ -2,8 +2,8 @@ import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
 
-// BASE_PATH lets the same build serve from https://<user>.github.io/EduCore/
-// (BASE_PATH=/EduCore/) or from a custom domain at the root (BASE_PATH=/).
+// BASE_PATH lets the same build serve from https://<user>.github.io/Gradileo/
+// (BASE_PATH=/Gradileo/) or from a custom domain at the root (BASE_PATH=/).
 const base = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({

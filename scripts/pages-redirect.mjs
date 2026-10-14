@@ -1,8 +1,8 @@
 // After the site moves: GitHub Pages serves this instead of the app, so every address on the old
-// site opens the same page at the new one (/EduCore/t/c/abc?x#y → https://gradileo.com/t/c/abc?x#y,
+// site opens the same page at the new one (/Gradileo/t/c/abc?x#y → https://gradileo.com/t/c/abc?x#y,
 // keeping sign-in tokens in the hash).
 //
-//   node scripts/pages-redirect.mjs https://gradileo.com /EduCore/
+//   node scripts/pages-redirect.mjs https://gradileo.com /Gradileo/
 import { mkdirSync, writeFileSync } from 'node:fs';
 
 const [target, base = '/'] = process.argv.slice(2);

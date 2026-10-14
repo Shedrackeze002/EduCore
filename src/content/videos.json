@@ -9202,5 +9202,111 @@
         "working": "Halfway between $12$ and $16$ is $14$."
       }
     ]
+  },
+  "m104-9-1-b": {
+    "lessonId": "m104-9-1",
+    "title": "Data and Graphs, Part 2: Circle Graphs and Fair Surveys",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Circle graphs",
+        "t": 14.757
+      },
+      {
+        "title": "Check the total",
+        "t": 53.461
+      },
+      {
+        "title": "Fair surveys",
+        "t": 69.897
+      },
+      {
+        "title": "Fair samples",
+        "t": 98.032
+      },
+      {
+        "title": "Choosing a graph",
+        "t": 125.186
+      },
+      {
+        "title": "Your turn",
+        "t": 149.674
+      },
+      {
+        "title": "Summary",
+        "t": 174.611
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-9-1-b:q",
+        "t": 157.1,
+        "prompt": "A school asks whether to build a new sports field. Which sample is fair?",
+        "choices": [
+          "$30$ students picked at random from the school list",
+          "the soccer team",
+          "your friends",
+          "fans at a soccer game"
+        ],
+        "answer": 0,
+        "working": "Picking at random from the whole school gives every student the same chance to be asked."
+      }
+    ]
+  },
+  "m104-9-2": {
+    "lessonId": "m104-9-2",
+    "title": "Averages, Part 1: Mean and Median",
+    "duration": 182,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The mean",
+        "t": 13.68
+      },
+      {
+        "title": "Rounding the mean",
+        "t": 47.833
+      },
+      {
+        "title": "The median",
+        "t": 78.603
+      },
+      {
+        "title": "Two middle values",
+        "t": 104.417
+      },
+      {
+        "title": "Your turn",
+        "t": 141.049
+      },
+      {
+        "title": "Summary",
+        "t": 164.442
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-9-2:q",
+        "t": 147.756,
+        "prompt": "Find the median of $9$, $4$, $7$, $12$ and $5$.",
+        "choices": [
+          "$7$",
+          "$12$",
+          "$7.4$",
+          "$8$"
+        ],
+        "answer": 0,
+        "working": "In order: $4,\\ 5,\\ 7,\\ 9,\\ 12$. The middle value is $7$."
+      }
+    ]
   }
 }

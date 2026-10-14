@@ -64,8 +64,9 @@ items ship or decisions change.
      repository path. Demo accounts moved to `gradileo.demo`, and saved demo data is updated when
      it loads.
    - Done: the site moved to gradileo.com on Cloudflare, with email at admin@gradileo.com (see
-     Hosting), and the owner is setting up the Gradileo YouTube channel. Last: the owner renames the
-     GitHub repository (Hosting, step 3).
+     Hosting), and the owner is setting up the Gradileo YouTube channel. Done: the owner renamed the
+     GitHub repository to Gradileo, and the repository path in the code follows (the course-request
+     issue link, the docs and the git remote).
 1. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
@@ -83,6 +84,10 @@ items ship or decisions change.
    - Built: the lesson player (YouTube's player above the lesson, pausing at each "Your turn" to ask
      the question in Gradileo, from the cues in `src/content/videos.json`) and the admin **Videos**
      page where each video's YouTube link is recorded.
+   - Uploads: the owner uploads each pack to the Gradileo YouTube channel and links it on the
+     **Videos** page. YouTube allowed ten uploads a day on the channel, so uploads go about one
+     lesson pack a day; by 14 Oct 2026 the first ten Math 10C Unit 1 videos (lessons 1.1 to 1.5)
+     were uploaded and linked.
    - Built: Math 10C Unit 2 is complete, eight videos (lessons 2.1 to 2.4, two parts each). Lessons
      2.3 and 2.4 brought a `diagram` element for figures drawn from points (angles of elevation and
      depression, a cliff and a boat, a clinometer, two triangles sharing a side).
@@ -264,9 +269,9 @@ items ship or decisions change.
      gradileo.com. Done: gradileo.com is the Supabase Site URL and a sign-in redirect address (with
      www), `APP_URL` is set to it, and `ALLOWED_ORIGINS` is gradileo.com and www.gradileo.com
      (checked: the Edge Functions answer those two and refuse other sites, including github.io).
-  3. Last, the owner renames the GitHub repository to Gradileo (GitHub Pages does not redirect
-     the old project address, so this waits until gradileo.com is the main address), and the
-     repository path in the code follows.
+  3. Done: the owner renamed the GitHub repository to Gradileo, and the repository path in the
+     code follows. GitHub Pages does not redirect the old project address, so the old
+     github.io/EduCore links no longer open; gradileo.com is the only address.
 - Email: done. admin@gradileo.com forwards to the owner's inbox through Cloudflare Email Routing,
   set up by the *Set up email* workflow (docs/SETUP.md 3.3; gradileo.com's MX and SPF records
   point to Cloudflare). More addresses are a line in `scripts/cloudflare-email.mjs`. Next: send
@@ -276,7 +281,8 @@ items ship or decisions change.
   databases for "Gradileo" in classes 9, 41 and 42.
 - Legal pages: built. The Privacy Policy is at gradileo.com/privacy and the Terms of Service at
   gradileo.com/terms (public, linked from the landing, sign-in and sign-up pages), so Google's
-  OAuth consent screen can link to them. The privacy policy describes what the app actually
+  OAuth consent screen can link to them. The owner verified gradileo.com in Google Search Console
+  (a Domain property, through a DNS TXT record). The privacy policy describes what the app actually
   collects and who receives it (Supabase in Canada, Cloudflare, MiniMax for teacher-run analyses,
   the email provider, YouTube embeds) and the Google Drive upload connection (drive.file only,
   with Google's Limited Use statement). Keep both pages in step with new features. The owner may
