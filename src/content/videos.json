@@ -9359,5 +9359,56 @@
         "working": "Highest $21$, lowest $9$: $21 - 9 = 12$."
       }
     ]
+  },
+  "m104-9-3": {
+    "lessonId": "m104-9-3",
+    "title": "Probability, Part 1: How Likely Is It?",
+    "duration": 173,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From 0 to 1",
+        "t": 16.645
+      },
+      {
+        "title": "Picking from a bag",
+        "t": 52.724
+      },
+      {
+        "title": "Probability as a fraction",
+        "t": 69.025
+      },
+      {
+        "title": "A spinner",
+        "t": 97.73
+      },
+      {
+        "title": "Your turn",
+        "t": 125.524
+      },
+      {
+        "title": "Summary",
+        "t": 153.807
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-9-3:q",
+        "t": 135.174,
+        "prompt": "A box has $4$ cherry, $7$ lemon and $9$ lime candies. What is the probability of picking lemon?",
+        "choices": [
+          "$\\dfrac{7}{20}$",
+          "$\\dfrac{7}{13}$",
+          "$\\dfrac{7}{9}$",
+          "$\\dfrac{13}{20}$"
+        ],
+        "answer": 0,
+        "working": "Total: $4 + 7 + 9 = 20$. Favourable: $7$. $P(\\text{lemon}) = \\dfrac{7}{20}$."
+      }
+    ]
   }
 }
