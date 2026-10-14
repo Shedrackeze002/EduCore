@@ -80,6 +80,17 @@ export default function SignupPage() {
         <Button type="submit" className="w-full" size="lg" loading={busy}>
           Create account
         </Button>
+        <p className="text-center text-xs text-ink-3">
+          By creating an account, you agree to the{' '}
+          <Link to="/terms" className="text-brand hover:underline">
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link to="/privacy" className="text-brand hover:underline">
+            Privacy Policy
+          </Link>
+          .
+        </p>
       </form>
       <p className="mt-6 text-center text-sm text-ink-3">
         Already have an account?{' '}

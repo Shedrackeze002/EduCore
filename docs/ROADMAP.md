@@ -182,7 +182,20 @@ items ship or decisions change.
      (scale, views and exploded views) is done, 11 videos: reading and drawing to scale, finding a
      scale, areas and volumes at scale, top, front and side views of cube stacks, isometric
      drawings, working back from views, exploded views, parts lists and costs, and assembly order
-     (`squareColumns` and `isometricBox` figures were added). Units 6 to 8 are next.
+     (`squareColumns` and `isometricBox` figures were added). Unit 6 (personal finance) is done,
+     8 videos: gross and net pay, fixed and variable expenses, surplus and deficit, percent of
+     income and circle graphs, saving for a goal (rounding the months up), service charges,
+     comparing plans and the break-even point, overdrafts, statements and reconciling an account.
+     Unit 7 (interest and credit) is done, 12 videos: simple interest and I = Prt, time in months
+     and missing values, compound interest, simple and compound compared, the Rule of 72,
+     counting doublings, comparing investment offers, credit card interest, the new balance and
+     minimum payment, carrying a balance, the cost of a loan, and comparing credit options with
+     rent-to-own (the first lesson in five parts). Unit 8 (graphs and puzzles) is done, 14 videos:
+     bar graphs, circle graphs from percents and from counts, reading and using histograms, line
+     graphs and their trends, rate of change, predicting from a steady trend, choosing the best
+     graph, misleading graphs (a cut-off axis and uneven years), number patterns, magic squares,
+     cage and logic puzzles, and winning strategies for take-away games. All 90 Math 20-3 videos
+     are scripted and stills-checked; rendering follows Math 20-2. Next: Math 20-4 scripts.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
@@ -233,6 +246,13 @@ items ship or decisions change.
   gradileo.com (and Gmail's "Send mail as").
 - Before investing further in the brand, check the Canadian (CIPO) and US (USPTO) trademark
   databases for "Gradileo" in classes 9, 41 and 42.
+- Legal pages: built. The Privacy Policy is at gradileo.com/privacy and the Terms of Service at
+  gradileo.com/terms (public, linked from the landing, sign-in and sign-up pages), so Google's
+  OAuth consent screen can link to them. The privacy policy describes what the app actually
+  collects and who receives it (Supabase in Canada, Cloudflare, MiniMax for teacher-run analyses,
+  the email provider, YouTube embeds) and the Google Drive upload connection (drive.file only,
+  with Google's Limited Use statement). Keep both pages in step with new features. The owner may
+  want a lawyer to review them, and to add a governing-law clause.
 
 ## Technical follow-ups
 
