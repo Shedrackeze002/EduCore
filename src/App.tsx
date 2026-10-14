@@ -10,6 +10,8 @@ import { ErrorBoundary } from './components/layout/ErrorBoundary.tsx';
 const Landing = lazy(() => import('./features/landing/LandingPage.tsx'));
 const Login = lazy(() => import('./features/auth/LoginPage.tsx'));
 const Signup = lazy(() => import('./features/auth/SignupPage.tsx'));
+const Privacy = lazy(() => import('./features/legal/PrivacyPage.tsx'));
+const Terms = lazy(() => import('./features/legal/TermsPage.tsx'));
 const NotificationsPage = lazy(() => import('./features/notifications/NotificationsPage.tsx'));
 const SettingsPage = lazy(() => import('./features/settings/SettingsPage.tsx'));
 
@@ -74,6 +76,8 @@ export default function App() {
                   <Route path="/" element={<HomeRedirect />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/terms" element={<Terms />} />
 
                   <Route path="/t" element={<RequireRole role="teacher"><AppShell role="teacher" /></RequireRole>}>
                     <Route index element={<TeacherHome />} />

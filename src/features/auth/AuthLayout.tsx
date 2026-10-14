@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo.tsx';
+import { LegalLinks } from '@/features/legal/LegalLayout.tsx';
 
 export function AuthLayout({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
   return (
@@ -41,6 +42,7 @@ export function AuthLayout({ title, subtitle, children }: { title: string; subti
           {subtitle && <p className="mt-1.5 text-ink-3">{subtitle}</p>}
           <div className="mt-8">{children}</div>
         </div>
+        <LegalLinks className="justify-center" />
       </div>
     </div>
   );

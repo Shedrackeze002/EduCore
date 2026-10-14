@@ -20,6 +20,7 @@ import { api, demoApi, setDemoBackend } from '@/data/index.ts';
 import { useAuth } from '@/features/auth/AuthProvider.tsx';
 import { Button, Tabs } from '@/components/ui/index.ts';
 import { Logo } from '@/components/layout/Logo.tsx';
+import { LegalLinks } from '@/features/legal/LegalLayout.tsx';
 import { DEMO_PASSWORD, DEMO_STUDENT_EMAIL, DEMO_TEACHER_EMAIL } from '@/data/demo/constants.ts';
 import { Tex } from '@/components/math/Markdown.tsx';
 
@@ -233,6 +234,7 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-ink-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <Logo compact />
           <p>Mastery-based mathematics for teachers and students.</p>
+          <LegalLinks />
         </div>
       </footer>
     </div>

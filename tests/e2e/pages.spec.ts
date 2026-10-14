@@ -442,3 +442,25 @@ test('a teacher suggests a lesson edit, an administrator approves it and every c
   await expect(student.getByText(sentence)).toHaveCount(0);
   expect([...teacherErrors, ...studentErrors]).toEqual([]);
 });
+
+test('the privacy policy and terms of service are public, and linked from the landing and sign-up pages', async ({ page }) => {
+  const errors = trackErrors(page);
+  await page.goto('/privacy');
+  await expect(page.getByRole('heading', { level: 1, name: 'Privacy Policy' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '5. Google user data' })).toBeVisible();
+  await expect(page.getByText(/Limited Use requirements/)).toBeVisible();
+  await expect(page).toHaveTitle('Privacy Policy · Gradileo');
+  await page.getByRole('main').getByRole('link', { name: 'Terms of Service' }).click();
+  await expect(page).toHaveURL(/\/terms$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Terms of Service' })).toBeVisible();
+
+  await page.goto('/');
+  await page.getByRole('contentinfo').getByRole('link', { name: 'Privacy Policy' }).click();
+  await expect(page).toHaveURL(/\/privacy$/);
+
+  await page.goto('/signup');
+  await expect(page.getByText('By creating an account, you agree to the')).toBeVisible();
+  await page.getByRole('link', { name: 'Terms of Service' }).first().click();
+  await expect(page).toHaveURL(/\/terms$/);
+  expect(errors).toEqual([]);
+});

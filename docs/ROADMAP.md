@@ -246,6 +246,13 @@ items ship or decisions change.
   gradileo.com (and Gmail's "Send mail as").
 - Before investing further in the brand, check the Canadian (CIPO) and US (USPTO) trademark
   databases for "Gradileo" in classes 9, 41 and 42.
+- Legal pages: built. The Privacy Policy is at gradileo.com/privacy and the Terms of Service at
+  gradileo.com/terms (public, linked from the landing, sign-in and sign-up pages), so Google's
+  OAuth consent screen can link to them. The privacy policy describes what the app actually
+  collects and who receives it (Supabase in Canada, Cloudflare, MiniMax for teacher-run analyses,
+  the email provider, YouTube embeds) and the Google Drive upload connection (drive.file only,
+  with Google's Limited Use statement). Keep both pages in step with new features. The owner may
+  want a lawyer to review them, and to add a governing-law clause.
 
 ## Technical follow-ups
 
