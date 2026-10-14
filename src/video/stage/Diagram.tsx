@@ -121,6 +121,13 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
             style={f > 0 ? { filter: `drop-shadow(0 0 ${10 * f}px ${c})` } : undefined}
           />,
         );
+        if (item.arrow && k > 0) {
+          // An arrowhead at the end the line has reached, appearing as the line finishes.
+          const d = unit(sub(b, a));
+          const n: P = [-d[1], d[0]];
+          const base = sub(e, mul(d, 18 + 2 * f));
+          svg.push(<polygon key={`${item.id}-head`} points={pts([e, add(base, mul(n, 8 + f)), sub(base, mul(n, 8 + f))])} fill={c} opacity={clamp01((k - 0.5) / 0.35)} />);
+        }
         if (item.label) {
           const d = unit(sub(b, a));
           const nl: P = [d[1], -d[0]];
@@ -213,7 +220,8 @@ export function DiagramView({ el, st, w, h }: { el: DiagramEl; st: ElState | und
         const q = at(item.at);
         const c = toneColour(item.tone, INK);
         const n = item.place ? PLACE[item.place] : unit(sub(q, G));
-        if (item.dot) svg.push(<circle key={item.id} cx={q[0]} cy={q[1]} r={6 + 2 * f} fill={c} opacity={k} />);
+        // An open dot is hollow: an endpoint that is not included.
+        if (item.dot) svg.push(<circle key={item.id} cx={q[0]} cy={q[1]} r={6 + 2 * f} fill={item.open ? '#0d0c24' : c} stroke={c} strokeWidth={item.open ? 3 : 0} opacity={k} />);
         labels.push(<Label key={item.id} at={add(q, mul(n, item.dot ? 16 : 10))} n={n} html={tex(item.tex)} color={c} opacity={clamp01(k * 1.5)} scale={1 + 0.14 * f} size={item.tone === 'muted' ? 24 : 28} />);
         break;
       }

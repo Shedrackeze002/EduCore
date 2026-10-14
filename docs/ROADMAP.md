@@ -101,8 +101,18 @@ items ship or decisions change.
      minutes): multiplying binomials and polynomials, common factors, factoring x² + bx + c and
      ax² + bx + c, and special products with a strategy for factoring completely. They brought an
      area model that can also be drawn as algebra tiles (`src/video/algebra.ts`).
-   - Next: the remaining videos unit by unit (Math 10C Units 5 to 8, then the other courses),
-     each lesson split into parts of about three minutes when it needs more.
+   - Scripted: Math 10C Unit 5, eight videos (lessons 5.1 to 5.4, two parts each): relations
+     and their representations, functions, domain and range, and function notation. They bring
+     graphs (`src/video/graph.ts`): coordinate planes stretched to any scale, plotted functions,
+     polylines, points (open or closed) and arrow diagrams.
+   - Scripted: Math 10C Unit 6, ten videos (lessons 6.1 to 6.5, two parts each): linear
+     relations and rates of change, intercepts, slope, parallel and perpendicular lines, and the
+     distance and midpoint formulas.
+   - Scripted: Math 10C Unit 7, ten videos (lessons 7.1 to 7.5, two parts each): slope-intercept,
+     slope-point and general form, parallel and perpendicular equations, linear models, and
+     lines of best fit.
+   - Next: render Units 5 to 7, then Math 10C Unit 8 (systems of equations), then the other
+     courses, each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;

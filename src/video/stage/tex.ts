@@ -45,15 +45,16 @@ export function rich(md: string): string {
   const hit = cache.get(key);
   if (hit !== undefined) return hit;
   const maths: string[] = [];
-  let src = md.replace(/\$([^$\n]+?)\$/g, (_, t: string) => {
-    maths.push(tex(t.trim()));
+  // `\$` is a dollar sign, as in the lessons, so money stays out of the maths.
+  let src = md.replace(/\\\$/g, '\u0000D\u0000').replace(/\$([^$\n]+?)\$/g, (_, t: string) => {
+    maths.push(tex(t.trim().replace(/\u0000D\u0000/g, '\\$')));
     return `\u0000M${maths.length - 1}\u0000`;
   });
   src = src.replace(/\[\[(\w+):([^\]]+)\]\]/g, (_, tone: string, words: string) => {
     if (!(tone in TONES)) throw new Error(`Unknown tone "${tone}" in "${md}".`);
     return `<span class="tone-${tone}">${words}</span>`;
   });
-  const html = (marked.parseInline(src) as string).replace(/\u0000M(\d+)\u0000/g, (_, i: string) => maths[Number(i)]);
+  const html = (marked.parseInline(src) as string).replace(/\u0000M(\d+)\u0000/g, (_, i: string) => maths[Number(i)]).replace(/\u0000D\u0000/g, '$');
   cache.set(key, html);
   return html;
 }

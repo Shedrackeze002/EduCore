@@ -210,6 +210,8 @@ describe('checkScript', () => {
     const say = (text: string): Explainer => ({ ...script, scenes: [{ layout: 'center', main: [{ kind: 'text', id: 'a', md: 'x' }], lines: [{ say: text }] }] });
     expect(checkScript(say('So a to the zero is one.'))).toEqual(['Scene 1, line 1: write the variable a as "a" (in quotes), or it is read as the article.']);
     expect(checkScript(say('So "a" to the zero is one, for a base that is not zero, like a cube.'))).toEqual([]);
+    expect(checkScript(say('General form is A x plus B y plus C equals zero.'))).toEqual(['Scene 1, line 1: write the variable A as "A" (in quotes), or it is read as the article.']);
+    expect(checkScript(say('A line in general form has slope negative "A" over B.'))).toEqual([]);
   });
 
   it('checks the points and parts of a diagram', () => {
