@@ -144,8 +144,11 @@ items ship or decisions change.
      the Tower of Hanoi, a magic square, counting squares), with figures drawn from custom parts.
      Unit 2 (angles and triangles) is done, 12 videos: parallel lines and transversals, the
      angle sum and exterior angles of triangles, polygon angle sums and tiling, and congruent
-     triangles with SSS, SAS and ASA proofs (tick marks and arcs added to `triangle`). Units 3
-     to 9 are next.
+     triangles with SSS, SAS and ASA proofs (tick marks and arcs added to `triangle`). Unit 3
+     (acute-triangle trigonometry) is done, 9 videos: the sine law, the cosine law, and choosing a
+     law for surveying, navigation and two-step height problems. Units 4 to 9 are next.
+   - Narration: the variable "a" is now quoted in the Math 20-1 and 20-2 trigonometry scripts, so
+     the voice reads it as a letter, not as the article.
    - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
      and 9), each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
