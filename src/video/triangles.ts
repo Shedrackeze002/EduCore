@@ -93,10 +93,15 @@ export function squaresOnSides(o: { name?: string; a: number; b: number; labels?
  * from `sides` and its corners from `names`. `right` marks a right angle at one corner, and
  * `tones` colours the sides.
  *
- * Parts: `shape` (a group: the sides `AB`, `BC` and `CA`, and the right-angle mark `right`) and
- * `names` (a group: the corner letters `nA`, `nB` and `nC`).
+ * `angles` labels the angles inside the corners (yellow unless `angleTones` says otherwise), and
+ * `altitude` drops the height from a corner to the line through the opposite side, dashed, with
+ * a right-angle mark at its foot (for a proof of the sine law).
+ *
+ * Parts: `shape` (a group: the sides `AB`, `BC` and `CA`, and the right-angle mark `right`),
+ * `names` (a group: the corner letters `nA`, `nB` and `nC`), the angles `aA`, `aB` and `aC`, and
+ * `alt` (a group: the height `h`, labelled `altitudeLabel`, and its right-angle mark).
  */
-export function triangle(o: { name?: string; A: P; B: P; C: P; right?: 'A' | 'B' | 'C'; names?: [string, string, string]; sides?: Partial<Record<'AB' | 'BC' | 'CA', string>>; tones?: Partial<Record<'AB' | 'BC' | 'CA', DiagramTone>> }): Part {
+export function triangle(o: { name?: string; A: P; B: P; C: P; right?: 'A' | 'B' | 'C'; names?: [string, string, string]; sides?: Partial<Record<'AB' | 'BC' | 'CA', string>>; tones?: Partial<Record<'AB' | 'BC' | 'CA', DiagramTone>>; angles?: Partial<Record<'A' | 'B' | 'C', string>>; angleTones?: Partial<Record<'A' | 'B' | 'C', DiagramTone>>; altitude?: 'A' | 'B' | 'C'; altitudeLabel?: string }): Part {
   const n = namer(o.name);
   const at = { A: o.A, B: o.B, C: o.C };
   const points: Record<string, P> = { [n('A')]: o.A, [n('B')]: o.B, [n('C')]: o.C };
@@ -110,6 +115,24 @@ export function triangle(o: { name?: string; A: P; B: P; C: P; right?: 'A' | 'B'
   if (o.right) {
     const others = (['A', 'B', 'C'] as const).filter((k) => k !== o.right);
     items.push({ kind: 'right', id: n('right'), at: n(o.right), from: n(others[0]), to: n(others[1]), group: n('shape') });
+  }
+  for (const k of ['A', 'B', 'C'] as const) {
+    const label = o.angles?.[k];
+    if (!label) continue;
+    const [p, q] = (['A', 'B', 'C'] as const).filter((j) => j !== k);
+    items.push({ kind: 'angle', id: n(`a${k}`), at: n(k), from: n(p), to: n(q), label, tone: o.angleTones?.[k] ?? 'theta' });
+  }
+  if (o.altitude) {
+    const k = o.altitude;
+    const [p, q] = (['A', 'B', 'C'] as const).filter((j) => j !== k);
+    // The foot of the perpendicular from k to the line through p and q.
+    const d = sub(at[q], at[p]);
+    const t = ((at[k][0] - at[p][0]) * d[0] + (at[k][1] - at[p][1]) * d[1]) / (d[0] * d[0] + d[1] * d[1]);
+    points[n('H')] = add(at[p], mul(d, t));
+    items.push(
+      { kind: 'line', id: n('h'), from: n(k), to: n('H'), tone: 'opp', dashed: true, ...(o.altitudeLabel ? { label: o.altitudeLabel } : {}), group: n('alt') },
+      { kind: 'right', id: n('h-mark'), at: n('H'), from: n(k), to: n(t < 0.5 ? q : p), group: n('alt') },
+    );
   }
   if (o.names) {
     const mid = mul(add(add(o.A, o.B), o.C), 1 / 3);

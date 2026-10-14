@@ -8,6 +8,7 @@ const figures: Record<string, Part> = {
   uneven: squaresOnSides({ name: 'u', a: 2.5, b: 4 }),
   triangle: triangle({ A: [0, 0], B: [4, 0], C: [0, 3], right: 'A', names: ['A', 'B', 'C'], sides: { AB: '8', BC: '10', CA: '6' } }),
   rectangle: rectangle({ w: 48, h: 27, labels: { w: '48', h: '27', d: 'd' } }),
+  oblique: triangle({ name: 'o', A: [0, 0], B: [6, 0], C: [2.5, 4], angles: { A: '48^\\circ', B: '65^\\circ' }, angleTones: { B: 'opp' }, altitude: 'C', altitudeLabel: 'h' }),
 };
 
 const part = (p: Part, id: string) => p.items.find((i) => i.id === id);
@@ -43,5 +44,17 @@ describe('triangle figures', () => {
   it('draws a rectangle with its diagonal', () => {
     expect(part(figures.rectangle, 'd')).toMatchObject({ from: 'P', to: 'R', label: 'd' });
     expect(figures.rectangle.points.R).toEqual([48, 27]);
+  });
+
+  it('labels angles inside their corners and drops a height to the opposite side', () => {
+    const t = figures.oblique;
+    expect(part(t, 'o-aA')).toMatchObject({ kind: 'angle', at: 'o-A', from: 'o-B', to: 'o-C', label: '48^\\circ', tone: 'theta' });
+    expect(part(t, 'o-aB')).toMatchObject({ tone: 'opp' });
+    expect(part(t, 'o-aC')).toBeUndefined();
+    // The foot of the height from C is straight below it, on AB.
+    expect(t.points['o-H'][0]).toBeCloseTo(2.5);
+    expect(t.points['o-H'][1]).toBeCloseTo(0);
+    expect(part(t, 'o-h')).toMatchObject({ from: 'o-C', to: 'o-H', dashed: true, label: 'h', group: 'o-alt' });
+    expect(part(t, 'o-h-mark')).toMatchObject({ kind: 'right', at: 'o-H' });
   });
 });
