@@ -47,7 +47,7 @@ const video: Explainer = {
       lines: [
         { say: 'The same argument works for every side, so there are three versions. Each starts with one side squared, and ends with the cosine of the angle opposite it.', show: ['m.0', 'm.1', 'm.2'] },
         { say: 'If angle A is ninety degrees, the cosine of "A" is zero, and the law becomes "a" squared equals b squared plus c squared: the Pythagorean theorem.', show: 'b.0', focus: 'b.0' },
-        { say: 'If angle A is obtuse, its cosine is negative, so the last term adds. Side a is then longer than it would be in a right triangle.', show: 'b.1', focus: 'b.1' },
+        { say: 'If angle A is obtuse, its cosine is negative, so the last term adds. Side "a" is then longer than it would be in a right triangle.', show: 'b.1', focus: 'b.1' },
       ],
     },
     {
@@ -59,7 +59,7 @@ const video: Explainer = {
       lines: [
         { say: 'In triangle ABC, b is eight metres, c is eleven metres, and angle A, between them, is 52 degrees. Find side "a" to the nearest tenth.', show: ['sas.shape', 'sas.names', 'sas.aA'] },
         { say: 'Two sides and the angle between them: that is SAS, so use the cosine law. "a" squared is eight squared plus eleven squared, minus two times eight times eleven times cosine 52.', show: 'm.0', focus: 'm.0' },
-        { say: 'That is 185 minus about 108.36: about 76.64. So a is the square root, about 8.8 metres.', show: ['m.1', 'm.2'], focus: ['sas.BC', 'm.2'] },
+        { say: 'That is 185 minus about 108.36: about 76.64. So "a" is the square root, about 8.8 metres.', show: ['m.1', 'm.2'], focus: ['sas.BC', 'm.2'] },
       ],
     },
     {
@@ -72,9 +72,9 @@ const video: Explainer = {
         { kind: 'callout', id: 'oops', tone: 'mistake', title: 'Order of operations', md: 'Find $2bc\\cos A$ as one product and subtract it last. $(b^2 + c^2 - 2bc)\\cos A$ is a common calculator error.' },
       ],
       lines: [
-        { say: 'Now b is 6.5 centimetres, c is 9.2 centimetres, and angle A is 118 degrees. Find a.', show: ['obt.shape', 'obt.names', 'obt.aA'] },
+        { say: 'Now b is 6.5 centimetres, c is 9.2 centimetres, and angle A is 118 degrees. Find "a".', show: ['obt.shape', 'obt.names', 'obt.aA'] },
         { say: '"a" squared is 6.5 squared plus 9.2 squared, minus two times 6.5 times 9.2 times cosine 118.', show: 'm.0', focus: 'm.0' },
-        { say: 'The cosine of 118 degrees is negative, about negative 0.4695, so the last term adds. "a" squared is about 183.04, and a is about 13.5 centimetres.', show: ['m.1', 'm.2'], focus: ['obt.BC', 'm.2'] },
+        { say: 'The cosine of 118 degrees is negative, about negative 0.4695, so the last term adds. "a" squared is about 183.04, and "a" is about 13.5 centimetres.', show: ['m.1', 'm.2'], focus: ['obt.BC', 'm.2'] },
         { say: 'Watch the order of operations: find two b c cosine A as one product, and subtract it last. Working left to right gives a very wrong answer.', show: 'oops' },
       ],
     },
@@ -92,8 +92,8 @@ const video: Explainer = {
         },
       ],
       lines: [
-        { say: 'Your turn. In triangle ABC, b is five, c is seven, and angle A is sixty degrees. Find a. Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. "a" squared is 25 plus 49, minus two times five times seven times one half: 74 minus 35, which is 39. So a is root 39, about 6.2. B leaves out the correction term, and C adds it.', show: 'q.answer' },
+        { say: 'Your turn. In triangle ABC, b is five, c is seven, and angle A is sixty degrees. Find "a". Pause the video and try it.', show: 'q', wait: 6 },
+        { say: 'The answer is A. "a" squared is 25 plus 49, minus two times five times seven times one half: 74 minus 35, which is 39. So "a" is root 39, about 6.2. B leaves out the correction term, and C adds it.', show: 'q.answer' },
       ],
     },
     {

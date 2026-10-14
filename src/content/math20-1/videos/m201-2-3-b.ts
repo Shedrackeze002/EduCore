@@ -25,10 +25,10 @@ const video: Explainer = {
       left: [figure('acute', [triangle({ A: [0, 0], B: [5.66, 0], C: [1.36, 4.18], names: ['A', 'B', 'C'], sides: { BC: '15\\text{ cm}', CA: '11\\text{ cm}' }, tones: { BC: 'opp', CA: 'adj' }, angles: { A: '72^\\circ', B: 'B' }, angleTones: { A: 'opp', B: 'adj' } })])],
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['\\dfrac{\\sin B}{11} = \\dfrac{\\sin 72^\\circ}{15}', '\\sin B = \\dfrac{11\\sin 72^\\circ}{15} \\approx 0.6974', '\\angle B = \\sin^{-1}(0.6974) \\approx 44.2^\\circ', '\\angle C \\approx 180^\\circ - 72^\\circ - 44.2^\\circ = 63.8^\\circ'] }],
       lines: [
-        { say: 'In triangle ABC, angle A is 72 degrees, side a is fifteen centimetres, and side b is eleven centimetres. Find angles B and C.', show: ['acute.shape', 'acute.names', 'acute.aA'] },
+        { say: 'In triangle ABC, angle A is 72 degrees, side "a" is fifteen centimetres, and side b is eleven centimetres. Find angles B and C.', show: ['acute.shape', 'acute.names', 'acute.aA'] },
         { say: 'To find an angle, put the sines in the numerators: sine B over eleven equals sine 72 over fifteen.', show: ['acute.aB', 'm.0'], focus: ['acute.aB', 'm.0'] },
         { say: 'So sine B is eleven sine 72 over fifteen: about 0.6974. The inverse sine gives about 44.2 degrees.', show: ['m.1', 'm.2'], focus: 'm.2' },
-        { say: 'Could angle B be obtuse? No: side b is shorter than side a, so angle B is smaller than angle A. Then angle C is 180 minus 72 minus 44.2: about 63.8 degrees.', show: 'm.3', focus: 'm.3' },
+        { say: 'Could angle B be obtuse? No: side b is shorter than side "a", so angle B is smaller than angle A. Then angle C is 180 minus 72 minus 44.2: about 63.8 degrees.', show: 'm.3', focus: 'm.3' },
       ],
     },
     {
@@ -54,7 +54,7 @@ const video: Explainer = {
         { kind: 'callout', id: 'oops', tone: 'mistake', title: 'Rounding too early', md: 'Keep the full value of $\\sin B$ until the last step. Rounding it to $0.7$ in the first example gives $44.4^\\circ$ instead of $44.2^\\circ$.' },
       ],
       lines: [
-        { say: 'In triangle ABC, angle A is 31 degrees, side a is nine metres, side b is 14.5 metres, and angle B is obtuse. Find angle B.', show: ['obt.shape', 'obt.names', 'obt.aA', 'obt.aB'] },
+        { say: 'In triangle ABC, angle A is 31 degrees, side "a" is nine metres, side b is 14.5 metres, and angle B is obtuse. Find angle B.', show: ['obt.shape', 'obt.names', 'obt.aA', 'obt.aB'] },
         { say: 'Sine B is 14.5 sine 31 over nine: about 0.8298. The inverse sine gives about 56.08 degrees, but angle B is obtuse.', show: ['m.0', 'm.1'], focus: ['m.0', 'm.1'] },
         { say: 'So angle B is 180 minus 56.08: about 123.9 degrees.', show: 'm.2', focus: ['obt.aB', 'm.2'] },
         { say: 'Keep the full calculator value of sine B until the last step. Rounding it to 0.7 in the first example gives 44.4 degrees instead of 44.2.', show: 'oops' },

@@ -70,7 +70,7 @@ const video: Explainer = {
         },
       ],
       lines: [
-        { say: 'Your turn. In triangle ABC, a is eight, b is five, and c is six. Which expression gives the cosine of A? Pause the video and try it.', show: 'q', wait: 6 },
+        { say: 'Your turn. In triangle ABC, "a" is eight, b is five, and c is six. Which expression gives the cosine of A? Pause the video and try it.', show: 'q', wait: 6 },
         { say: 'The answer is A. The side opposite angle A, eight, is the one subtracted. The cosine comes out at negative 0.05, so angle A is just over ninety degrees. B is the expression for the cosine of C.', show: 'q.answer' },
       ],
     },

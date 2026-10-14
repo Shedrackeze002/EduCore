@@ -45,7 +45,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'title', id: 'title', kicker: 'Math 20-1 · Lesson 2.4 · Part 1', title: 'The Ambiguous Case', subtitle: 'Zero, one or two triangles' }],
       lines: [
-        { say: 'Tell three friends to draw a triangle with angle A equal to 35 degrees, side b fourteen centimetres, and side a nine centimetres. They might not all draw the same triangle, and none of them would be wrong.', show: 'title' },
+        { say: 'Tell three friends to draw a triangle with angle A equal to 35 degrees, side b fourteen centimetres, and side "a" nine centimetres. They might not all draw the same triangle, and none of them would be wrong.', show: 'title' },
         { say: 'In this video, you will see why, and count how many triangles some information gives.' },
       ],
     },
@@ -56,8 +56,8 @@ const video: Explainer = {
       left: [figure('gate', [gate])],
       right: [{ kind: 'callout', id: 'def', tone: 'definition', title: 'Ambiguous case', md: 'Two sides and an angle **opposite one of them** (SSA). There may be no triangle, one triangle, or two.' }],
       lines: [
-        { say: 'Start with angle A and side b fixed. Side a hangs from C, and must reach the base line.', show: ['gate.base', 'gate.b', 'gate.aA', 'gate.nA', 'gate.nC'] },
-        { say: 'Picture side a as a gate swinging from C. It might miss the base, touch it once, or cross it in two places.', show: 'gate.swing', focus: 'gate.swing' },
+        { say: 'Start with angle A and side b fixed. Side "a" hangs from C, and must reach the base line.', show: ['gate.base', 'gate.b', 'gate.aA', 'gate.nA', 'gate.nC'] },
+        { say: 'Picture side "a" as a gate swinging from C. It might miss the base, touch it once, or cross it in two places.', show: 'gate.swing', focus: 'gate.swing' },
         { say: 'Here it crosses the base at B one and at B two. So triangle A B one C and triangle A B two C both fit the information.', show: ['gate.t1', 'gate.t2'], focus: ['gate.t1', 'gate.t2'] },
         { say: 'This is the ambiguous case: two sides, and an angle opposite one of them. There may be no triangle, one, or two.', show: 'def' },
       ],
@@ -70,9 +70,9 @@ const video: Explainer = {
         { kind: 'table', id: 't', head: ['$\\angle A$ acute', 'Number of triangles'], rows: [['$a < h$', 'none: $a$ is too short'], ['$a = h$', 'one right triangle'], ['$h < a < b$', '[[good:two]]'], ['$a \\ge b$', 'one']] },
       ],
       lines: [
-        { say: 'The height from C to the base is h equals b sine A. Compare side a, the side opposite the given angle, with h and with b.', show: 'm.0', focus: 'm.0' },
-        { say: 'If a is shorter than h, it is too short to reach the base: no triangle. If a equals h, it just touches: one right triangle.', show: ['t.0', 't.1'], focus: ['t.0', 't.1'] },
-        { say: 'If a is between h and b, the gate crosses the base twice: two triangles. And if a is at least as long as b, it crosses only once on the far side: one triangle.', show: ['t.2', 't.3'], focus: ['t.2', 't.3'] },
+        { say: 'The height from C to the base is h equals b sine A. Compare side "a", the side opposite the given angle, with h and with b.', show: 'm.0', focus: 'm.0' },
+        { say: 'If "a" is shorter than h, it is too short to reach the base: no triangle. If "a" equals h, it just touches: one right triangle.', show: ['t.0', 't.1'], focus: ['t.0', 't.1'] },
+        { say: 'If "a" is between h and b, the gate crosses the base twice: two triangles. And if "a" is at least as long as b, it crosses only once on the far side: one triangle.', show: ['t.2', 't.3'], focus: ['t.2', 't.3'] },
       ],
     },
     {
@@ -83,10 +83,10 @@ const video: Explainer = {
         { kind: 'callout', id: 'oops', tone: 'mistake', title: 'Skipping the check', md: 'The sine law will not warn you. Take only the acute angle and you may miss a second triangle; if $a < h$, $\\sin B$ comes out greater than $1$.' },
       ],
       lines: [
-        { say: 'Angle A is thirty degrees, and side b is twelve centimetres. How many triangles are there when side a is four, six, nine or fifteen centimetres? First, the height: twelve sine thirty is six centimetres.', show: 'm.0', focus: 'm.0' },
+        { say: 'Angle A is thirty degrees, and side b is twelve centimetres. How many triangles are there when side "a" is four, six, nine or fifteen centimetres? First, the height: twelve sine thirty is six centimetres.', show: 'm.0', focus: 'm.0' },
         { say: 'Four is less than six: no triangle. Six equals the height: one right triangle.', show: 'm.1', focus: 'm.1' },
         { say: 'Nine is between six and twelve: two triangles. And fifteen is at least twelve: one triangle.', show: 'm.2', focus: 'm.2' },
-        { say: 'Always check SSA information first. The sine law will not warn you: take only the calculator’s acute angle and you may miss a second triangle. And if a is shorter than h, the sine of B comes out greater than one, which is impossible.', show: 'oops' },
+        { say: 'Always check SSA information first. The sine law will not warn you: take only the calculator’s acute angle and you may miss a second triangle. And if "a" is shorter than h, the sine of B comes out greater than one, which is impossible.', show: 'oops' },
       ],
     },
     {
@@ -94,9 +94,9 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'math', id: 'm', size: 'md', lines: ['\\angle A = 110^\\circ,\\quad b = 15\\text{ m}', 'a = 12 < 15: \\text{ no triangle}', 'a = 18 > 15: \\text{ one triangle}'] }],
       lines: [
-        { say: 'When angle A is obtuse, it is the largest angle of the triangle, so side a must be the longest side. That gives one triangle if a is longer than b, and none otherwise.', show: 'm.0' },
-        { say: 'Angle A is 110 degrees and side b is fifteen metres. If a is twelve metres, it is shorter than b: no triangle.', show: 'm.1', focus: 'm.1' },
-        { say: 'If a is eighteen metres, it is longer than b: exactly one triangle.', show: 'm.2', focus: 'm.2' },
+        { say: 'When angle A is obtuse, it is the largest angle of the triangle, so side "a" must be the longest side. That gives one triangle if "a" is longer than b, and none otherwise.', show: 'm.0' },
+        { say: 'Angle A is 110 degrees and side b is fifteen metres. If "a" is twelve metres, it is shorter than b: no triangle.', show: 'm.1', focus: 'm.1' },
+        { say: 'If "a" is eighteen metres, it is longer than b: exactly one triangle.', show: 'm.2', focus: 'm.2' },
       ],
     },
     {
@@ -113,7 +113,7 @@ const video: Explainer = {
         },
       ],
       lines: [
-        { say: 'Your turn. Angle A is forty degrees, side b is ten centimetres, and side a is eight centimetres. How many triangles are possible? Pause the video and try it.', show: 'q', wait: 6 },
+        { say: 'Your turn. Angle A is forty degrees, side b is ten centimetres, and side "a" is eight centimetres. How many triangles are possible? Pause the video and try it.', show: 'q', wait: 6 },
         { say: 'The answer is A. The height is ten sine forty, about 6.43. Eight is between 6.43 and ten, so there are two triangles.', show: 'q.answer' },
       ],
     },
@@ -123,8 +123,8 @@ const video: Explainer = {
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['SSA can give zero, one or two triangles.', 'For an acute $\\angle A$: two triangles when $b\\sin A < a < b$.', 'For an obtuse $\\angle A$: one triangle if $a > b$, none otherwise.'] }],
       lines: [
         { say: 'Let’s sum up. Two sides and a non-included angle can give zero, one or two triangles.', show: 'sum.0' },
-        { say: 'For an acute angle A, compare a with the height, b sine A, and with b. There are two triangles when a is between them.', show: 'sum.1' },
-        { say: 'And for an obtuse angle A, there is one triangle if a is longer than b, and none otherwise. In part two, we solve both triangles. See you there!', show: 'sum.2' },
+        { say: 'For an acute angle A, compare "a" with the height, b sine A, and with b. There are two triangles when "a" is between them.', show: 'sum.1' },
+        { say: 'And for an obtuse angle A, there is one triangle if "a" is longer than b, and none otherwise. In part two, we solve both triangles. See you there!', show: 'sum.2' },
       ],
     },
   ],

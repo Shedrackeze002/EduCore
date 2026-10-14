@@ -35,7 +35,7 @@ const video: Explainer = {
       ],
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['h = 14\\sin 35^\\circ \\approx 8.03', '\\sin B = \\dfrac{14\\sin 35^\\circ}{9} \\approx 0.8922', '\\angle B_1 \\approx 63.2^\\circ', '\\angle B_2 \\approx 180^\\circ - 63.2^\\circ = 116.8^\\circ'] }],
       lines: [
-        { say: 'Solve triangle ABC, with angle A 35 degrees, side a nine centimetres, and side b fourteen centimetres. First, check: the height is fourteen sine 35, about 8.03, and nine is between 8.03 and fourteen. There are two triangles.', show: ['two.t1-shape', 'two.t2-shape', 'two.t1-names', 'two.t2-names', 'two.t1-aA', 'm.0'], focus: 'm.0' },
+        { say: 'Solve triangle ABC, with angle A 35 degrees, side "a" nine centimetres, and side b fourteen centimetres. First, check: the height is fourteen sine 35, about 8.03, and nine is between 8.03 and fourteen. There are two triangles.', show: ['two.t1-shape', 'two.t2-shape', 'two.t1-names', 'two.t2-names', 'two.t1-aA', 'm.0'], focus: 'm.0' },
         { say: 'Use the sine law: sine B is fourteen sine 35 over nine, about 0.8922.', show: 'm.1', focus: 'm.1' },
         { say: 'The inverse sine gives the acute angle: about 63.2 degrees. That is angle B one.', show: ['two.t1-aB', 'm.2'], focus: ['two.t1-aB', 'm.2'] },
         { say: 'Its supplement, 180 minus 63.15, about 116.8 degrees, is angle B two. Check that it fits: 35 plus 116.8 is less than 180, so the second triangle exists.', show: ['two.t2-aB', 'm.3'], focus: ['two.t2-aB', 'm.3'] },
