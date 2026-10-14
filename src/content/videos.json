@@ -9410,5 +9410,56 @@
         "working": "Total: $4 + 7 + 9 = 20$. Favourable: $7$. $P(\\text{lemon}) = \\dfrac{7}{20}$."
       }
     ]
+  },
+  "m104-9-3-b": {
+    "lessonId": "m104-9-3",
+    "title": "Probability, Part 2: Percents and Comparing Chances",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Decimals and percents",
+        "t": 16.25
+      },
+      {
+        "title": "A raffle",
+        "t": 55.182
+      },
+      {
+        "title": "Not red",
+        "t": 80.468
+      },
+      {
+        "title": "Which bag is better?",
+        "t": 105.808
+      },
+      {
+        "title": "Your turn",
+        "t": 130.938
+      },
+      {
+        "title": "Summary",
+        "t": 159.374
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-9-3-b:q",
+        "t": 142.275,
+        "prompt": "Bag C has $8$ marbles and $2$ are red. Bag D has $12$ marbles and $4$ are red. Which bag gives the better chance of red?",
+        "choices": [
+          "Bag D",
+          "Bag C",
+          "They are the same",
+          "You cannot tell"
+        ],
+        "answer": 0,
+        "working": "Bag C: $\\dfrac{2}{8} = 25\\%$. Bag D: $\\dfrac{4}{12} \\approx 33.3\\%$. Bag D is better."
+      }
+    ]
   }
 }
