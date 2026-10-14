@@ -156,7 +156,7 @@ See `src/video/script.ts` for every element and option. In short:
    `npx tsx video/tools/drive-upload.ts m201-u1` (a unit id), `math-20-1` (a whole course) or
    video ids. Each video lands in `Gradileo videos/<course>/Unit <n> – <title>/<NN>-<id>/` with its
    MP4, thumbnail, captions and YouTube text; `NN` is its place in the unit. Files already in Drive
-   at the same size are skipped, so a run can be repeated; `--dry-run` shows where each would go.
+   with the same contents are skipped, so a run can be repeated; `--dry-run` shows where each would go.
    If Drive is not set up, make zip packs instead: `video/tools/pack.sh <course>-unit<N> <ids in
    order>` gives one zip per video (each well under 30 MB) and one for the whole unit.
 

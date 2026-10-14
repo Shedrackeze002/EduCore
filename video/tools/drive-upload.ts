@@ -5,12 +5,13 @@
 // with the MP4, thumbnail, captions and YouTube text, the same layout as the upload packs.
 // NN is the video's place in its unit, in course order, so it never changes with what is
 // uploaded. A unit id (m104-u1) or course id (math-10-4) stands for every video in it that has
-// been rendered. Files already in Drive with the same size are skipped, so a run can be repeated.
+// been rendered. Files already in Drive with the same contents are skipped, so a run can be repeated.
 //
 // It signs in with the environment variables GDRIVE_CLIENT_ID, GDRIVE_CLIENT_SECRET and
 // GDRIVE_REFRESH_TOKEN (an OAuth client with the drive.file scope, which can only see the files
 // and folders this tool creates). Their values are never printed.
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { COURSES } from '../../engine/curriculum/index.ts';
 import type { CourseMeta, UnitMeta } from '../../engine/types.ts';
@@ -123,8 +124,8 @@ const quote = (s: string) => `'${s.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'
 
 async function find(name: string, parent: string, folder: boolean) {
   const q = [`name = ${quote(name)}`, `${quote(parent)} in parents`, 'trashed = false', `mimeType ${folder ? '=' : '!='} '${FOLDER}'`];
-  const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q.join(' and '))}&fields=files(id,size)&spaces=drive`;
-  const { files } = (await (await drive(url)).json()) as { files: { id: string; size?: string }[] };
+  const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q.join(' and '))}&fields=files(id,md5Checksum)&spaces=drive`;
+  const { files } = (await (await drive(url)).json()) as { files: { id: string; md5Checksum?: string }[] };
   return files[0];
 }
 
@@ -147,11 +148,15 @@ async function ensureFolder(name: string, parent: string): Promise<string> {
   return id;
 }
 
-/** Uploads one file into a folder; skips it when Drive already has it at the same size. */
+/**
+ * Uploads one file into a folder; skips it when Drive already has the same contents (by MD5, since
+ * a re-rendered caption file can keep its size while its timings change).
+ */
 async function upload(file: string, name: string, mime: string, parent: string): Promise<'uploaded' | 'replaced' | 'unchanged'> {
-  const size = statSync(file).size;
+  const bytes = readFileSync(file);
+  const size = bytes.length;
   const existing = await find(name, parent, false);
-  if (existing && Number(existing.size) === size) return 'unchanged';
+  if (existing && existing.md5Checksum === createHash('md5').update(bytes).digest('hex')) return 'unchanged';
   const start = existing
     ? await drive(`https://www.googleapis.com/upload/drive/v3/files/${existing.id}?uploadType=resumable`, {
         method: 'PATCH',
@@ -165,7 +170,7 @@ async function upload(file: string, name: string, mime: string, parent: string):
       });
   const session = start.headers.get('location');
   if (!session) throw new Error(`Drive gave no upload address for ${name}`);
-  await drive(session, { method: 'PUT', headers: { 'Content-Type': mime }, body: readFileSync(file) });
+  await drive(session, { method: 'PUT', headers: { 'Content-Type': mime }, body: bytes });
   return existing ? 'replaced' : 'uploaded';
 }
 
