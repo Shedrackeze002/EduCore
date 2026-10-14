@@ -8113,5 +8113,52 @@
         "working": "The jumps are $3, 6, 12$, so it is not adding. Each term doubles: $24 \\times 2 = 48$."
       }
     ]
+  },
+  "m104-5-1-b": {
+    "lessonId": "m104-5-1",
+    "title": "Patterns, Part 2: Goals and Rules",
+    "duration": 147,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Working toward a goal",
+        "t": 13.019
+      },
+      {
+        "title": "Writing a rule",
+        "t": 43.643
+      },
+      {
+        "title": "Using the rule",
+        "t": 77.32
+      },
+      {
+        "title": "Your turn",
+        "t": 101.944
+      },
+      {
+        "title": "Summary",
+        "t": 129.115
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-5-1-b:q",
+        "t": 109.295,
+        "prompt": "A pattern goes $7, \\; 11, \\; 15, \\; 19, \\; \\ldots$ for $n = 1, 2, 3, 4$. Which rule fits?",
+        "choices": [
+          "$y = 4n + 3$",
+          "$y = n + 4$",
+          "$y = 4n + 7$",
+          "$y = 3n + 4$"
+        ],
+        "answer": 0,
+        "working": "The jump is $4$, so the rule starts with $4n$. When $n = 1$, $4n = 4$, and $7 - 4 = 3$. So $y = 4n + 3$."
+      }
+    ]
   }
 }
