@@ -150,8 +150,9 @@ items ship or decisions change.
      videos: simplifying, ordering, adding and multiplying radicals, rationalizing denominators, and
      radical equations with extraneous roots. Unit 5 (statistical reasoning) is done, 13 videos:
      standard deviation, the normal distribution and the 68–95–99.7 rule, z-scores with a table,
-     and confidence intervals (a normal curve figure, `normalCurve`, was added). Units 6 to 9 are
-     next.
+     and confidence intervals (a normal curve figure, `normalCurve`, was added). Unit 6
+     (quadratic functions) is done, 9 videos: features of parabolas, the axis of symmetry and
+     optimization, and factored form with arches. Units 7 to 9 are next.
    - Narration: the variable "a" is now quoted in the Math 20-1 and 20-2 trigonometry scripts, so
      the voice reads it as a letter, not as the article.
    - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
