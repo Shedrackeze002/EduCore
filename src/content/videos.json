@@ -9465,7 +9465,7 @@
   "m201-1-1": {
     "lessonId": "m201-1-1",
     "title": "Arithmetic Sequences, Part 1: The General Term",
-    "duration": 203,
+    "duration": 252,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9474,33 +9474,33 @@
       },
       {
         "title": "Common differences",
-        "t": 19.881
+        "t": 24.15
       },
       {
         "title": "The graph",
-        "t": 59.099
+        "t": 73.514
       },
       {
         "title": "The general term",
-        "t": 83.633
+        "t": 104.494
       },
       {
         "title": "Simplified form",
-        "t": 121.266
+        "t": 150.956
       },
       {
         "title": "Your turn",
-        "t": 152.508
+        "t": 190.518
       },
       {
         "title": "Summary",
-        "t": 182.275
+        "t": 225.78
       }
     ],
     "cues": [
       {
         "id": "m201-1-1:q",
-        "t": 160.759,
+        "t": 200.111,
         "prompt": "Find $t_{25}$ for the arithmetic sequence $7,\\ 10,\\ 13,\\ \\ldots$",
         "choices": [
           "$79$",
