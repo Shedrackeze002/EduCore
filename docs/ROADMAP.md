@@ -139,7 +139,11 @@ items ship or decisions change.
      equations, and linear and quadratic inequalities. They brought angles in standard position
      (`src/video/trig.ts`), and shaded regions built from plane points for inequalities.
      Rendering follows Math 10-3 and 10-4.
-   - Next: the other courses in order (Math 20-2, 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
+   - Scripting: Math 20-2. Unit 1 (reasoning) is done, 9 videos: conjectures, counterexamples,
+     deductive proof and invalid proofs, and puzzles and games (logic charts, a take-away game,
+     the Tower of Hanoi, a magic square, counting squares), with figures drawn from custom parts.
+     Units 2 to 9 are next.
+   - Next: the other courses in order (Math 20-3, 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
      and 9), each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
