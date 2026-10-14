@@ -171,7 +171,11 @@ items ship or decisions change.
      square-unit conversions, buying and costing material, and composite objects. Unit 3
      (volume) is done, 12 videos: prisms, capacity, cylinders, pyramids and cones (with true
      height from slant height), spheres, composite objects, cubic-unit conversions, concrete and
-     fuel jobs, loads and filling times, and working back to a missing length. Units 4 to 8 are
+     fuel jobs, loads and filling times, and working back to a missing length. Unit 4
+     (trigonometry) is done, 12 videos: a right-triangle review (sides, the Pythagorean theorem,
+     SOH CAH TOA, angles, a whole roof), angles of elevation and depression, two triangles on
+     opposite or the same side, a missing shared side, survey sightings, roof trusses, stairs with
+     a landing, and the diagonal of a box (a `twoTriangles` figure was added). Units 5 to 8 are
      next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
