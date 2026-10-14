@@ -382,13 +382,13 @@ test('a student requests a course and the administrator plans it through a GitHu
   await expect(admin.getByText('Ada Learner (student)', { exact: false })).toBeVisible();
   await admin.getByRole('button', { name: 'Approve and open a GitHub issue' }).click();
   const opened = await admin.evaluate(() => (window as unknown as { opened?: string }).opened ?? '');
-  expect(opened).toContain('https://github.com/Shedrackeze002/EduCore/issues/new?');
+  expect(opened).toContain('https://github.com/Shedrackeze002/Gradileo/issues/new?');
   const issue = new URL(opened).searchParams;
   expect(issue.get('title')).toBe('Course request: AP Calculus BC');
   expect(issue.get('body')).toContain('Series and polar curves for the AP exam.');
   expect(issue.get('body')).not.toContain('Ada');
   await admin.getByRole('tab', { name: 'Planned' }).click();
-  await admin.getByLabel('GitHub issue link').fill('https://github.com/Shedrackeze002/EduCore/issues/99');
+  await admin.getByLabel('GitHub issue link').fill('https://github.com/Shedrackeze002/Gradileo/issues/99');
   await admin.getByRole('button', { name: 'Save link' }).click();
   await expect(admin.getByText('Issue link saved')).toBeVisible();
   await admin.getByRole('button', { name: 'Mark as built' }).click();

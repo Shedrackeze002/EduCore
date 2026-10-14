@@ -22,4 +22,4 @@ export const APP_NAME = 'Gradileo';
 export const SUPPORT_EMAIL = (env.VITE_SUPPORT_EMAIL as string | undefined) || '';
 
 /** The GitHub repository where approved course requests become issues for a build session. */
-export const GITHUB_REPO = (env.VITE_GITHUB_REPO as string | undefined)?.trim() || 'Shedrackeze002/EduCore';
+export const GITHUB_REPO = (env.VITE_GITHUB_REPO as string | undefined)?.trim() || 'Shedrackeze002/Gradileo';

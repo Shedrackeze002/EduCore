@@ -54,7 +54,7 @@ You can confirm it under **Integrations → Cron** in the dashboard.
 
 In **Authentication → URL Configuration**:
 
-- **Site URL**: `https://<your-username>.github.io/EduCore/`
+- **Site URL**: `https://<your-username>.github.io/Gradileo/`
 - **Redirect URLs**: add the same URL followed by `**`
 
 Email confirmation is on by default, which is a good choice for teachers. Students that you
@@ -112,7 +112,7 @@ and parents who signed up with an email address:
 
    ```bash
    supabase secrets set RESEND_API_KEY=<key> EMAIL_FROM="Gradileo <reminders@yourschool.ca>" \
-     APP_URL=https://<your-username>.github.io/EduCore EDUCORE_CRON_SECRET=<long random string>
+     APP_URL=https://<your-username>.github.io/Gradileo EDUCORE_CRON_SECRET=<long random string>
    ```
 
 3. In the SQL editor, store the two values the scheduler needs in Vault:
@@ -129,6 +129,9 @@ and parents who signed up with an email address:
 To apply migrations and deploy functions automatically when `supabase/` or `engine/` changes on
 `main`, add these repository **secrets**: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID` and
 `SUPABASE_DB_PASSWORD`. The **Deploy Supabase backend** workflow skips itself until they exist.
+A scoped access token needs only two permissions on the project: **Connection Pooling** (Read),
+to find the database's pooler address, and **Edge Functions** (Read-write). The workflow does not
+run `supabase link`, which would also need the project's secret API keys.
 
 ### 2.8 Become the platform administrator
 

@@ -64,8 +64,9 @@ items ship or decisions change.
      repository path. Demo accounts moved to `gradileo.demo`, and saved demo data is updated when
      it loads.
    - Done: the site moved to gradileo.com on Cloudflare, with email at admin@gradileo.com (see
-     Hosting), and the owner is setting up the Gradileo YouTube channel. Last: the owner renames the
-     GitHub repository (Hosting, step 3).
+     Hosting), and the owner is setting up the Gradileo YouTube channel. Done: the owner renamed the
+     GitHub repository to Gradileo, and the repository path in the code follows (the course-request
+     issue link, the docs and the git remote).
 1. **Explainer videos.** Our own animated explainers (MP4 with captions and thumbnails), hosted
    on our YouTube channel and shown in a player that pauses for questions at set times.
    - Decision: **every lesson gets its own explainer video**, at least one per lesson and about
@@ -83,6 +84,10 @@ items ship or decisions change.
    - Built: the lesson player (YouTube's player above the lesson, pausing at each "Your turn" to ask
      the question in Gradileo, from the cues in `src/content/videos.json`) and the admin **Videos**
      page where each video's YouTube link is recorded.
+   - Uploads: the owner uploads each pack to the Gradileo YouTube channel and links it on the
+     **Videos** page. YouTube allowed ten uploads a day on the channel, so uploads go about one
+     lesson pack a day; by 14 Oct 2026 the first ten Math 10C Unit 1 videos (lessons 1.1 to 1.5)
+     were uploaded and linked.
    - Built: Math 10C Unit 2 is complete, eight videos (lessons 2.1 to 2.4, two parts each). Lessons
      2.3 and 2.4 brought a `diagram` element for figures drawn from points (angles of elevation and
      depression, a cliff and a boat, a clinometer, two triangles sharing a side).
@@ -134,6 +139,9 @@ items ship or decisions change.
      words the voice got wrong ("biweekly" and "deci") and hyphenated sizes run together; the
      narration now respells them (`speechText`), and the four videos with them were rendered
      again. Upload packs are zipped per unit. Next: render Math 10-4.
+   - Built: Math 10-4, all 47 videos, in the video manifest. The pronunciation check found only
+     transcription quirks (homophones, names and fraction words), so no video needed a respelling.
+     Upload packs are zipped per unit.
    - Scripted: Math 20-1, all 9 units, 86 videos (two or three parts per lesson): sequences and
      series, trigonometry with angles in standard position and the sine and cosine laws,
      quadratic functions in vertex and standard form with optimization, factoring and solving
@@ -195,7 +203,35 @@ items ship or decisions change.
      graphs and their trends, rate of change, predicting from a steady trend, choosing the best
      graph, misleading graphs (a cut-off axis and uneven years), number patterns, magic squares,
      cage and logic puzzles, and winning strategies for take-away games. All 90 Math 20-3 videos
-     are scripted and stills-checked; rendering follows Math 20-2. Next: Math 20-4 scripts.
+     are scripted and stills-checked; rendering follows Math 20-2.
+   - Scripted: Math 20-4. Unit 1 (number sense) is done, 15 videos: integers on a number line and
+     the sign rules, the order of operations, integers for means and money owed, mixed numbers
+     with fraction strips, adding, subtracting and multiplying fractions, two-step fraction
+     problems, ratios, rates and unit rates, proportions, sharing in a ratio, and four kinds of
+     percent problems. Worked steps use full-size fractions for easier reading. Unit 2 (consumer
+     math) is done, 11 videos: unit prices and the better buy, discounts and sale prices, sales
+     tax and tips, and paying over time (down payments, instalments, finance charges, rent-to-own
+     and comparing plans). Unit 3 (earning money) is done, 11 videos: gross pay, timecards,
+     overtime by the day, salary, commission, piecework, sharing tips, and deductions and net pay
+     (each question states its own rates). Unit 4 (managing money) is done, 16 videos: budgets,
+     fixed and variable expenses, budget percents, saving for a goal, simple interest, credit
+     cards and loans, and the cost of a car, fuel and renting. Unit 5 (formulas and equations) is
+     done, 12 videos: substituting into formulas, the temperature formula, two-step jobs, solving
+     and checking equations, formulas used backwards, tables of values, and reading and matching
+     graphs. Unit 6 (measurement and conversions) is done, 10 videos: SI and imperial units, mixed
+     feet and inches, conversion factors, multiply or divide, two-step conversions, and Celsius
+     and Fahrenheit both ways. Unit 7 (perimeter and area) is done, 12 videos: perimeter of
+     rectangles and other shapes, circumference, the cost of edging, area of rectangles,
+     triangles, parallelograms and circles, composite shapes, and buying materials with waste and
+     GST. A new flat-shape helper (src/video/shapes.ts) draws the floors and yards. Unit 8 (scale,
+     maps and travel) is done, 12 videos: scale drawings and ratio scales, measuring plans,
+     finding a scale, map scales, routes, grid maps, compass directions, and speed, distance,
+     travel time and arrival times. Unit 9 (data and probability) is done, 12 videos: line and
+     circle graphs, percents and slice angles, comparing data sets, outliers, misleading graphs
+     and claims, theoretical and experimental probability, and predictions. All 111 Math 20-4
+     videos are scripted and stills-checked, so every Math 20 course is scripted (376 videos:
+     20-1 86, 20-2 89, 20-3 90, 20-4 111). Rendering the Math 20 videos is next, once the project
+     moves to its new structure (the owner asked to pause here for a recap first).
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
@@ -236,9 +272,9 @@ items ship or decisions change.
      gradileo.com. Done: gradileo.com is the Supabase Site URL and a sign-in redirect address (with
      www), `APP_URL` is set to it, and `ALLOWED_ORIGINS` is gradileo.com and www.gradileo.com
      (checked: the Edge Functions answer those two and refuse other sites, including github.io).
-  3. Last, the owner renames the GitHub repository to Gradileo (GitHub Pages does not redirect
-     the old project address, so this waits until gradileo.com is the main address), and the
-     repository path in the code follows.
+  3. Done: the owner renamed the GitHub repository to Gradileo, and the repository path in the
+     code follows. GitHub Pages does not redirect the old project address, so the old
+     github.io/EduCore links no longer open; gradileo.com is the only address.
 - Email: done. admin@gradileo.com forwards to the owner's inbox through Cloudflare Email Routing,
   set up by the *Set up email* workflow (docs/SETUP.md 3.3; gradileo.com's MX and SPF records
   point to Cloudflare). More addresses are a line in `scripts/cloudflare-email.mjs`. Next: send
@@ -248,7 +284,8 @@ items ship or decisions change.
   databases for "Gradileo" in classes 9, 41 and 42.
 - Legal pages: built. The Privacy Policy is at gradileo.com/privacy and the Terms of Service at
   gradileo.com/terms (public, linked from the landing, sign-in and sign-up pages), so Google's
-  OAuth consent screen can link to them. The privacy policy describes what the app actually
+  OAuth consent screen can link to them. The owner verified gradileo.com in Google Search Console
+  (a Domain property, through a DNS TXT record). The privacy policy describes what the app actually
   collects and who receives it (Supabase in Canada, Cloudflare, MiniMax for teacher-run analyses,
   the email provider, YouTube embeds) and the Google Drive upload connection (drive.file only,
   with Google's Limited Use statement). Keep both pages in step with new features. The owner may
@@ -262,10 +299,16 @@ items ship or decisions change.
 - Update Math 7, 8 and 9 to Alberta's new Grades 7–9 curriculum before it becomes mandatory in
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
-- The *Deploy Supabase backend* workflow skips itself because its repository secrets
-  (`SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD`) are not set, so
-  migrations are applied by hand and recorded in `supabase_migrations.schema_migrations`. Add the
-  secrets so merges apply migrations and redeploy the Edge Functions on their own.
+- The owner added the *Deploy Supabase backend* secrets (`SUPABASE_ACCESS_TOKEN`, a scoped token
+  for this project, `SUPABASE_PROJECT_ID` and `SUPABASE_DB_PASSWORD`) on 14 October 2026. Until
+  then migrations were applied by hand and recorded in `supabase_migrations.schema_migrations`
+  (all 13 match `supabase/migrations`). The first run failed at `supabase link`, which reads the
+  project's secret API keys, so the workflow no longer links: it pushes migrations through the
+  session pooler and deploys the functions by project ref. Next: the owner replaces the token
+  with one that has Connection Pooling (Read) and Edge Functions (Read-write), then runs the
+  workflow once from Actions (Run workflow, on main) to confirm it finds no new migration and
+  redeploys the five Edge Functions. After that, merges that change `supabase/` or `engine/`
+  deploy on their own. Make a new token before the old one expires.
 - Self-paced study, next steps: an AI tutor chat inside lessons (explain a step, give a hint,
   check working) using the same AI provider as the teaching assistant; store placement results on
   the server (today they stay on the device); let a student leave a self-paced course; and email
