@@ -144,7 +144,7 @@ export type DiagramItem = (
    * middle (or at `labelAt`, 0 to 1 along it), away from the middle of the diagram unless `labelSide`
    * says which side, looking from `from` to `to`. `weight` sets its thickness in pixels.
    */
-  | { kind: 'line'; id: string; from: string; to: string; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number; weight?: number }
+  | { kind: 'line'; id: string; from: string; to: string; tone?: DiagramTone; dashed?: boolean; label?: string; labelSide?: 'left' | 'right'; labelAt?: number; weight?: number; /** An arrowhead at `to`. */ arrow?: boolean }
   /**
    * A curve through points (the edge of a cylinder, a sphere's outline), drawn on in order, and
    * joined back to the start when `closed`. Labels as for a line, `labelAt` measured along it.
@@ -160,8 +160,8 @@ export type DiagramItem = (
   | { kind: 'right'; id: string; at: string; from: string; to: string }
   /** A shaded polygon, such as the triangle being solved; `shade` is its opacity (0.1 by default). */
   | { kind: 'region'; id: string; points: string[]; tone?: DiagramTone; shade?: number }
-  /** A label (TeX) beside a point (or on it, with `place: 'center'`); a point's name, with a dot when `dot` is set. */
-  | { kind: 'label'; id: string; at: string; tex: string; tone?: DiagramTone; place?: Place; dot?: boolean }
+  /** A label (TeX) beside a point (or on it, with `place: 'center'`); a point's name, with a dot when `dot` is set (hollow when `open`). */
+  | { kind: 'label'; id: string; at: string; tex: string; tone?: DiagramTone; place?: Place; dot?: boolean; /** With `dot`, a hollow dot (an endpoint not included). */ open?: boolean }
   /**
    * Scenery. Ground and water run across the diagram at the height of `at`. A cliff, tower,
    * lighthouse, building, flagpole or tree stands on `at` and reaches `top`; a cliff or building
@@ -262,8 +262,14 @@ const YEAR_LIKE = /(?<![\d.,])\d{4}(?![\d]|[.,]\d)/g;
 /** A minus sign straight after a space or label in maths, which KaTeX sets as subtraction ("− 5"). */
 const LOOSE_MINUS = /(\\q?quad|\\text\{[^}]*\})\s*-(?=[\w(\\])/;
 
-/** The letter a used as a variable, which the voice reads as the article ("uh to the m"). */
-const BARE_A = /(?<![\w"])a (?=to the|over [a-z]\b|and [a-z]\b|squared|cubed)/;
+/**
+ * The letter a, or A, used as a variable, which the voice reads as the article ("uh to the m",
+ * "uh x plus B y").
+ */
+const BARE_A = /(?<![\w"])(?:a (?=to the|over [a-z]\b|and [a-z]\b|squared|cubed)|A (?=x\b|over [A-Z]\b|is (?:negative|positive|zero)\b))/;
+
+/** "The point" before a number: "the point four, zero" can be heard as the decimal 0.40. */
+const POINT_NUMBER = /\bthe point (?=(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|negative|\d)\b)/i;
 
 /**
  * What a line's caption says: its own `caption`, or what is said without the quotes that make
@@ -304,7 +310,9 @@ export function checkScript(x: Explainer): string[] {
       if (!l.say.trim()) problems.push(`Scene ${si + 1}, line ${li + 1} says nothing.`);
       // The voice reads a bare four-digit whole number like a year (5280 as "fifty-two eighty").
       for (const [n] of l.say.matchAll(YEAR_LIKE)) problems.push(`Scene ${si + 1}, line ${li + 1}: write ${n} as ${n[0]},${n.slice(1)} or in words, or it is read like a year.`);
-      if (BARE_A.test(l.say)) problems.push(`Scene ${si + 1}, line ${li + 1}: write the variable a as "a" (in quotes), or it is read as the article.`);
+      const bare = l.say.match(BARE_A);
+      if (bare) problems.push(`Scene ${si + 1}, line ${li + 1}: write the variable ${bare[0].trim()} as "${bare[0].trim()}" (in quotes), or it is read as the article.`);
+      if (POINT_NUMBER.test(l.say)) problems.push(`Scene ${si + 1}, line ${li + 1}: say "the point at" before coordinates, or "the point four" can be heard as a decimal.`);
       for (const target of [...asList(l.show), ...asList(l.hide), ...asList(l.focus)]) {
         const [el, part] = target.split('.');
         if (!ids.has(el)) problems.push(`Scene ${si + 1}, line ${li + 1}: no element "${target}".`);

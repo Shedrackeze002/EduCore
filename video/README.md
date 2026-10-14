@@ -50,10 +50,13 @@ nothing however many videos we make. The default voice is `af_heart`. Kokoro rea
 decimals and units as written ("9.4 cm", "0.75"); write maths in words ("tan theta equals x over
 fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit whole numbers
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
-script check refuses them. Put a variable a in quotes (`"a" to the m`): bare, it is read as the
-article ("uh to the m"); the captions leave the quotes out, and the script check asks for them.
+script check refuses them. Put a variable a or A in quotes (`"a" to the m`, `"A" x plus B y`):
+bare, it is read as the article ("uh to the m"); the captions leave the quotes out, and the script
+check asks for them. Say "the point at four, zero", not "the point four, zero", which is heard as
+the decimal 0.40; the script check asks for that as well.
 In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, `\text{Last: } {-5}`),
-or KaTeX sets it as subtraction ("− 3"); the script check asks for that too.
+or KaTeX sets it as subtraction ("− 3"); the script check asks for that too. On screen, write
+money in text as `\$4`, as in the lessons, and keep it out of `$...$` maths.
 After each build, listen to the lines that `pronunciation.txt` marks CHECK.
 
 ## Writing a script
@@ -84,6 +87,12 @@ See `src/video/script.ts` for every element and option. In short:
   (`d.c0-1` is row 0, column 1). As a table every cell is the same size; with `tiles: true` it is
   drawn as algebra tiles, to scale. Cells are coloured by product (x² blue, x green, numbers
   orange, negatives red) unless `tones` sets them, for example to match like terms.
+- Graphs live in `src/video/graph.ts`. `plane` draws a grid and numbered axes (`d.grid`, `d.axes`),
+  with equal units unless `width` and `height` stretch it (distance against time); everything on
+  it goes through it: `plot(g, { id, f })` graphs a function, cut off at the edges; `polyline`
+  joins points with labelled segments (`d.walk-0`); `dots` marks points (hollow with `open`).
+  `arrowDiagram` shows a relation as two ovals of elements joined by arrows (`d.arrows`, `d.a0`).
+  Any diagram line can take `arrow: true` for an arrowhead.
 
 - Keep each video to about three minutes. Split a long lesson into parts: `m10c-2-1` is part 1,
   `m10c-2-1-b` part 2, and so on.

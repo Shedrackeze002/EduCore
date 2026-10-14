@@ -2482,5 +2482,863 @@
         "working": "$2x^2 - 12x + 18 = 2(x^2 - 6x + 9) = 2(x - 3)^2$."
       }
     ]
+  },
+  "m10c-5-1": {
+    "lessonId": "m10c-5-1",
+    "title": "Graphs That Tell a Story, Part 1: Reading a Graph",
+    "duration": 136,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The shape of a graph",
+        "t": 15.886
+      },
+      {
+        "title": "A walk",
+        "t": 37.542
+      },
+      {
+        "title": "Not a map",
+        "t": 77.112
+      },
+      {
+        "title": "Your turn",
+        "t": 89.877
+      },
+      {
+        "title": "Summary",
+        "t": 115.093
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-1:q",
+        "t": 99.765,
+        "prompt": "On a graph of a car’s distance from home against time, one segment is horizontal. What is the car doing?",
+        "choices": [
+          "It is stopped.",
+          "It is driving at a steady speed.",
+          "It is driving on flat ground.",
+          "It is driving towards home."
+        ],
+        "answer": 0,
+        "working": "A horizontal segment means the distance from home is not changing, so the car is not moving."
+      }
+    ]
+  },
+  "m10c-5-1-b": {
+    "lessonId": "m10c-5-1",
+    "title": "Graphs That Tell a Story, Part 2: Sketching, and Continuous or Discrete",
+    "duration": 131,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Sketching from a story",
+        "t": 12.373
+      },
+      {
+        "title": "Continuous or discrete?",
+        "t": 56.791
+      },
+      {
+        "title": "Your turn",
+        "t": 93.361
+      },
+      {
+        "title": "Summary",
+        "t": 115.476
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-1-b:q",
+        "t": 98.359,
+        "prompt": "Which data is discrete?",
+        "choices": [
+          "The number of people in a room",
+          "The temperature outside",
+          "The height of a tree",
+          "The time a race takes"
+        ],
+        "answer": 0,
+        "working": "You cannot have $2.5$ people, so the count is discrete. Temperature, height and time can take any value in between."
+      }
+    ]
+  },
+  "m10c-5-2": {
+    "lessonId": "m10c-5-2",
+    "title": "Relations, Part 1: Five Ways to Show a Relation",
+    "duration": 129,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Sets and relations",
+        "t": 22.507
+      },
+      {
+        "title": "Words, pairs and a table",
+        "t": 40.781
+      },
+      {
+        "title": "An arrow diagram and a graph",
+        "t": 60.971
+      },
+      {
+        "title": "Your turn",
+        "t": 80.622
+      },
+      {
+        "title": "Summary",
+        "t": 108.603
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-2:q",
+        "t": 92.896,
+        "prompt": "An arrow diagram has arrows $1 \\to 5$, $2 \\to 5$ and $3 \\to 7$. Which set of ordered pairs shows the same relation?",
+        "choices": [
+          "$\\{(1, 5), (2, 5), (3, 7)\\}$",
+          "$\\{(5, 1), (5, 2), (7, 3)\\}$",
+          "$\\{(1, 2, 3), (5, 7)\\}$",
+          "$\\{(1, 5), (2, 7)\\}$"
+        ],
+        "answer": 0,
+        "working": "Each arrow becomes an ordered pair, from its start to its end."
+      }
+    ]
+  },
+  "m10c-5-2-b": {
+    "lessonId": "m10c-5-2",
+    "title": "Relations, Part 2: Independent and Dependent Variables",
+    "duration": 139,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Which depends on which?",
+        "t": 15.18
+      },
+      {
+        "title": "The order of a pair",
+        "t": 52.647
+      },
+      {
+        "title": "Arrows have a direction",
+        "t": 71.194
+      },
+      {
+        "title": "Your turn",
+        "t": 93.331
+      },
+      {
+        "title": "Summary",
+        "t": 118.121
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-2-b:q",
+        "t": 102.733,
+        "prompt": "The time it takes to fill a pool depends on how fast the water flows. Which is the independent variable?",
+        "choices": [
+          "The flow rate",
+          "The time",
+          "The size of the pool",
+          "Neither"
+        ],
+        "answer": 0,
+        "working": "The time depends on the flow rate, so the flow rate is the independent variable."
+      }
+    ]
+  },
+  "m10c-5-3": {
+    "lessonId": "m10c-5-3",
+    "title": "Functions, Domain and Range, Part 1: What Is a Function?",
+    "duration": 135,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A function",
+        "t": 17.323
+      },
+      {
+        "title": "Not a function",
+        "t": 38.652
+      },
+      {
+        "title": "The vertical line test",
+        "t": 58.376
+      },
+      {
+        "title": "A circle fails",
+        "t": 79.796
+      },
+      {
+        "title": "Your turn",
+        "t": 93.066
+      },
+      {
+        "title": "Summary",
+        "t": 117.362
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-3:q",
+        "t": 98.411,
+        "prompt": "Which relation is a function?",
+        "choices": [
+          "$\\{(2, 1), (3, 1), (4, 1)\\}$",
+          "$\\{(1, 2), (1, 3), (1, 4)\\}$",
+          "$\\{(0, 5), (2, 6), (0, 7)\\}$",
+          "A circle"
+        ],
+        "answer": 0,
+        "working": "In A each input appears once; repeated outputs are fine. B and C repeat an input with different outputs."
+      }
+    ]
+  },
+  "m10c-5-3-b": {
+    "lessonId": "m10c-5-3",
+    "title": "Functions, Domain and Range, Part 2: Domain and Range",
+    "duration": 164,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Lists of values",
+        "t": 15.174
+      },
+      {
+        "title": "Writing intervals",
+        "t": 38.481
+      },
+      {
+        "title": "Dots and brackets",
+        "t": 75.761
+      },
+      {
+        "title": "Your turn",
+        "t": 112.306
+      },
+      {
+        "title": "Summary",
+        "t": 139.531
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-3-b:q",
+        "t": 121.32,
+        "prompt": "A graph starts with a closed dot at $(1, 2)$ and goes up to the right forever. What is its domain?",
+        "choices": [
+          "$[1, \\infty)$",
+          "$(1, \\infty)$",
+          "$[2, \\infty)$",
+          "$(-\\infty, 1]$"
+        ],
+        "answer": 0,
+        "working": "The closed dot includes $x = 1$, and the graph goes on forever to the right: $[1, \\infty)$."
+      }
+    ]
+  },
+  "m10c-5-4": {
+    "lessonId": "m10c-5-4",
+    "title": "Function Notation, Part 1: Reading and Evaluating f(x)",
+    "duration": 134,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading f(x)",
+        "t": 18.83
+      },
+      {
+        "title": "Evaluating",
+        "t": 44.092
+      },
+      {
+        "title": "In a real problem",
+        "t": 68.039
+      },
+      {
+        "title": "Your turn",
+        "t": 94.604
+      },
+      {
+        "title": "Summary",
+        "t": 114.864
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-4:q",
+        "t": 101.544,
+        "prompt": "For $f(x) = 2x + 1$, what is $f(3)$?",
+        "choices": [
+          "$7$",
+          "$6$",
+          "$4$",
+          "$9$"
+        ],
+        "answer": 0,
+        "working": "$f(3) = 2(3) + 1 = 7$."
+      }
+    ]
+  },
+  "m10c-5-4-b": {
+    "lessonId": "m10c-5-4",
+    "title": "Function Notation, Part 2: Finding Inputs and Reading Graphs",
+    "duration": 131,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding an input",
+        "t": 12.645
+      },
+      {
+        "title": "Using a graph",
+        "t": 39.267
+      },
+      {
+        "title": "Which way?",
+        "t": 68.574
+      },
+      {
+        "title": "Your turn",
+        "t": 88.121
+      },
+      {
+        "title": "Summary",
+        "t": 113.694
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-5-4-b:q",
+        "t": 96.287,
+        "prompt": "For $f(x) = 2x - 3$, find $x$ when $f(x) = 9$.",
+        "choices": [
+          "$6$",
+          "$15$",
+          "$3$",
+          "$4.5$"
+        ],
+        "answer": 0,
+        "working": "$2x - 3 = 9$, so $2x = 12$ and $x = 6$."
+      }
+    ]
+  },
+  "m10c-6-1": {
+    "lessonId": "m10c-6-1",
+    "title": "Linear Relations, Part 1: A Constant Rate of Change",
+    "duration": 146,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A phone plan",
+        "t": 23.154
+      },
+      {
+        "title": "Rate of change",
+        "t": 41.553
+      },
+      {
+        "title": "Four ways to tell",
+        "t": 69.406
+      },
+      {
+        "title": "Your turn",
+        "t": 102.103
+      },
+      {
+        "title": "Summary",
+        "t": 129.316
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-1:q",
+        "t": 111.472,
+        "prompt": "A taxi charges \\$4 plus \\$2 per kilometre. What is the rate of change of the cost?",
+        "choices": [
+          "\\$2 per km",
+          "\\$4 per km",
+          "\\$6 per km",
+          "\\$2"
+        ],
+        "answer": 0,
+        "working": "Each extra kilometre adds \\$2: the rate of change is \\$2 per km. The \\$4 is the starting fee."
+      }
+    ]
+  },
+  "m10c-6-1-b": {
+    "lessonId": "m10c-6-1",
+    "title": "Linear Relations, Part 2: Tables, Equations and Rates",
+    "duration": 165,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Equal steps",
+        "t": 12.207
+      },
+      {
+        "title": "Unequal steps",
+        "t": 25.411
+      },
+      {
+        "title": "Linear equations",
+        "t": 56.068
+      },
+      {
+        "title": "A rate from two points",
+        "t": 87.203
+      },
+      {
+        "title": "Your turn",
+        "t": 120.657
+      },
+      {
+        "title": "Summary",
+        "t": 144.101
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-1-b:q",
+        "t": 125.801,
+        "prompt": "Which equation is linear?",
+        "choices": [
+          "$3x - 4y = 12$",
+          "$y = x^2 + 1$",
+          "$xy = 8$",
+          "$y = \\dfrac{2}{x}$"
+        ],
+        "answer": 0,
+        "working": "In $3x - 4y = 12$ both variables are to the first power and are not multiplied together."
+      }
+    ]
+  },
+  "m10c-6-2": {
+    "lessonId": "m10c-6-2",
+    "title": "Characteristics of Linear Relations, Part 1: Intercepts",
+    "duration": 126,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding the intercepts",
+        "t": 18.532
+      },
+      {
+        "title": "How many intercepts?",
+        "t": 58.733
+      },
+      {
+        "title": "Your turn",
+        "t": 82.688
+      },
+      {
+        "title": "Summary",
+        "t": 105.953
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-2:q",
+        "t": 89.886,
+        "prompt": "What is the $y$-intercept of $2x + 5y = 20$?",
+        "choices": [
+          "$(0, 4)$",
+          "$(10, 0)$",
+          "$(0, 10)$",
+          "$(4, 0)$"
+        ],
+        "answer": 0,
+        "working": "Let $x = 0$: $5y = 20$, so $y = 4$. The $y$-intercept is $(0, 4)$."
+      }
+    ]
+  },
+  "m10c-6-2-b": {
+    "lessonId": "m10c-6-2",
+    "title": "Characteristics of Linear Relations, Part 2: Domain, Range and Meaning",
+    "duration": 158,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range of lines",
+        "t": 14.681
+      },
+      {
+        "title": "A draining pool",
+        "t": 34.719
+      },
+      {
+        "title": "A taxi fare",
+        "t": 71.72
+      },
+      {
+        "title": "Your turn",
+        "t": 101.928
+      },
+      {
+        "title": "Summary",
+        "t": 135.08
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-2-b:q",
+        "t": 113.954,
+        "prompt": "A candle is $30\\text{ cm}$ tall and burns $2\\text{ cm}$ per hour: $h = 30 - 2t$. What does the $t$-intercept mean?",
+        "choices": [
+          "The candle burns out after $15$ hours.",
+          "The candle starts $30\\text{ cm}$ tall.",
+          "The candle burns $2\\text{ cm}$ each hour.",
+          "The candle burns out after $30$ hours."
+        ],
+        "answer": 0,
+        "working": "At the $t$-intercept, $h = 0$: $0 = 30 - 2t$, so $t = 15$. The candle has burned down after $15$ hours."
+      }
+    ]
+  },
+  "m10c-6-3": {
+    "lessonId": "m10c-6-3",
+    "title": "Slope, Part 1: Rise over Run",
+    "duration": 159,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rise over run",
+        "t": 19.713
+      },
+      {
+        "title": "The slope formula",
+        "t": 47.493
+      },
+      {
+        "title": "Any two points",
+        "t": 86.256
+      },
+      {
+        "title": "Your turn",
+        "t": 110.757
+      },
+      {
+        "title": "Summary",
+        "t": 139
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-3:q",
+        "t": 118.645,
+        "prompt": "Find the slope of the line through $(-1, 4)$ and $(3, -4)$.",
+        "choices": [
+          "$-2$",
+          "$2$",
+          "$-\\dfrac12$",
+          "$0$"
+        ],
+        "answer": 0,
+        "working": "$m = \\dfrac{-4 - 4}{3 - (-1)} = \\dfrac{-8}{4} = -2$."
+      }
+    ]
+  },
+  "m10c-6-3-b": {
+    "lessonId": "m10c-6-3",
+    "title": "Slope, Part 2: Kinds of Slope, Rates and Drawing Lines",
+    "duration": 157,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four kinds of slope",
+        "t": 17.173
+      },
+      {
+        "title": "Slope as a rate",
+        "t": 41.03
+      },
+      {
+        "title": "Drawing a line",
+        "t": 68.483
+      },
+      {
+        "title": "A missing coordinate",
+        "t": 90.002
+      },
+      {
+        "title": "Your turn",
+        "t": 107.224
+      },
+      {
+        "title": "Summary",
+        "t": 133.869
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-3-b:q",
+        "t": 115.461,
+        "prompt": "The line through $(-1, k)$ and $(3, 5)$ has slope $2$. Find $k$.",
+        "choices": [
+          "$k = -3$",
+          "$k = 13$",
+          "$k = 3$",
+          "$k = 1$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{5 - k}{3 - (-1)} = 2$, so $\\dfrac{5 - k}{4} = 2$, $5 - k = 8$ and $k = -3$."
+      }
+    ]
+  },
+  "m10c-6-4": {
+    "lessonId": "m10c-6-4",
+    "title": "Parallel and Perpendicular Lines, Part 1: Their Slopes",
+    "duration": 152,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Parallel lines",
+        "t": 15.826
+      },
+      {
+        "title": "Perpendicular lines",
+        "t": 37.217
+      },
+      {
+        "title": "Finding the slopes",
+        "t": 77.707
+      },
+      {
+        "title": "Your turn",
+        "t": 106.412
+      },
+      {
+        "title": "Summary",
+        "t": 132.661
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-4:q",
+        "t": 115.359,
+        "prompt": "A line has slope $-\\tfrac27$. What is the slope of a line perpendicular to it?",
+        "choices": [
+          "$\\dfrac72$",
+          "$-\\dfrac72$",
+          "$\\dfrac27$",
+          "$-\\dfrac27$"
+        ],
+        "answer": 0,
+        "working": "Flip $-\\dfrac27$ and change the sign: $\\dfrac72$. Check: $-\\dfrac27 \\times \\dfrac72 = -1$."
+      }
+    ]
+  },
+  "m10c-6-4-b": {
+    "lessonId": "m10c-6-4",
+    "title": "Parallel and Perpendicular Lines, Part 2: Classifying and Finding Unknowns",
+    "duration": 149,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Classifying two lines",
+        "t": 13.49
+      },
+      {
+        "title": "Three outcomes",
+        "t": 45.284
+      },
+      {
+        "title": "Finding an unknown",
+        "t": 69.661
+      },
+      {
+        "title": "Your turn",
+        "t": 100.574
+      },
+      {
+        "title": "Summary",
+        "t": 129.263
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-4-b:q",
+        "t": 111.589,
+        "prompt": "Line 1 has slope $3$. Line 2 passes through $(2, k)$ and $(4, 1)$. Find $k$ so the lines are parallel.",
+        "choices": [
+          "$k = -5$",
+          "$k = 7$",
+          "$k = 5$",
+          "$k = -7$"
+        ],
+        "answer": 0,
+        "working": "Parallel lines have equal slopes: $\\dfrac{1 - k}{4 - 2} = 3$, so $1 - k = 6$ and $k = -5$."
+      }
+    ]
+  },
+  "m10c-6-5": {
+    "lessonId": "m10c-6-5",
+    "title": "Distance and Midpoint, Part 1: The Distance Formula",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A right triangle",
+        "t": 16.85
+      },
+      {
+        "title": "The distance formula",
+        "t": 44.274
+      },
+      {
+        "title": "Subtracting a negative",
+        "t": 71.493
+      },
+      {
+        "title": "Is it a right triangle?",
+        "t": 99.573
+      },
+      {
+        "title": "Your turn",
+        "t": 140.833
+      },
+      {
+        "title": "Summary",
+        "t": 168.33
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-5:q",
+        "t": 147.819,
+        "prompt": "Find the distance between $(2, -1)$ and $(5, 3)$.",
+        "choices": [
+          "$5$",
+          "$25$",
+          "$\\sqrt{53}$",
+          "$7$"
+        ],
+        "answer": 0,
+        "working": "$d = \\sqrt{(5 - 2)^2 + (3 - (-1))^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$."
+      }
+    ]
+  },
+  "m10c-6-5-b": {
+    "lessonId": "m10c-6-5",
+    "title": "Distance and Midpoint, Part 2: Midpoints, Endpoints and Circles",
+    "duration": 156,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The midpoint formula",
+        "t": 12.616
+      },
+      {
+        "title": "Finding an endpoint",
+        "t": 40.473
+      },
+      {
+        "title": "The centre of a circle",
+        "t": 66.824
+      },
+      {
+        "title": "Do not mix them up",
+        "t": 92.235
+      },
+      {
+        "title": "Your turn",
+        "t": 109.507
+      },
+      {
+        "title": "Summary",
+        "t": 136.722
+      }
+    ],
+    "cues": [
+      {
+        "id": "m10c-6-5-b:q",
+        "t": 117.126,
+        "prompt": "Find the midpoint of the segment from $(2, -5)$ to $(8, 1)$.",
+        "choices": [
+          "$(5, -2)$",
+          "$(3, 3)$",
+          "$(10, -4)$",
+          "$(6, 6)$"
+        ],
+        "answer": 0,
+        "working": "$M = \\left(\\dfrac{2 + 8}{2}, \\dfrac{-5 + 1}{2}\\right) = (5, -2)$."
+      }
+    ]
   }
 }
