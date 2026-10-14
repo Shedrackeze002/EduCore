@@ -4,5 +4,5 @@
     "baseUrl": "..",
     "types": ["node", "vite/client"]
   },
-  "include": ["*.ts", "lib", "../src/video", "../src/content/*/videos"]
+  "include": ["*.ts", "lib", "tools", "../src/video", "../src/content/*/videos"]
 }
