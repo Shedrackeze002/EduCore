@@ -9712,5 +9712,201 @@
         "working": "$t_1 = 5$ and $r = 3$: $t_6 = 5(3)^5 = 5(243) = 1215$."
       }
     ]
+  },
+  "m201-1-3-b": {
+    "lessonId": "m201-1-3",
+    "title": "Geometric Sequences, Part 2: Missing Terms, Growth and Decay",
+    "duration": 234,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From two terms",
+        "t": 15.896
+      },
+      {
+        "title": "Which term is it?",
+        "t": 75.165
+      },
+      {
+        "title": "Depreciation",
+        "t": 103.232
+      },
+      {
+        "title": "A bouncing ball",
+        "t": 143.448
+      },
+      {
+        "title": "Your turn",
+        "t": 175.61
+      },
+      {
+        "title": "Summary",
+        "t": 208.258
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-3-b:q",
+        "t": 187.558,
+        "prompt": "A town of $8000$ people grows by $5\\%$ each year. Which expression gives its population after $6$ years?",
+        "choices": [
+          "$8000(1.05)^6$",
+          "$8000(0.95)^6$",
+          "$8000(1.05)^5$",
+          "$8000(5)^6$"
+        ],
+        "answer": 0,
+        "working": "Growth by $5\\%$ multiplies by $r = 1.05$ each year, and the starting value is at time $0$, so after $6$ years: $8000(1.05)^6$."
+      }
+    ]
+  },
+  "m201-1-4": {
+    "lessonId": "m201-1-4",
+    "title": "Geometric Series, Part 1: The Sum Formula",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiply and subtract",
+        "t": 21.594
+      },
+      {
+        "title": "The formulas",
+        "t": 60.706
+      },
+      {
+        "title": "Finding sums",
+        "t": 102.738
+      },
+      {
+        "title": "Your turn",
+        "t": 146.027
+      },
+      {
+        "title": "Summary",
+        "t": 175.519
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-4:q",
+        "t": 154.145,
+        "prompt": "Find the sum of the first $6$ terms of $4 + 12 + 36 + \\cdots$",
+        "choices": [
+          "$1456$",
+          "$2916$",
+          "$484$",
+          "$728$"
+        ],
+        "answer": 0,
+        "working": "$S_6 = \\dfrac{4(3^6 - 1)}{3 - 1} = \\dfrac{4(728)}{2} = 1456$."
+      }
+    ]
+  },
+  "m201-1-4-b": {
+    "lessonId": "m201-1-4",
+    "title": "Geometric Series, Part 2: Last Terms, Salaries and Bounces",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the last term",
+        "t": 18.179
+      },
+      {
+        "title": "A salary with raises",
+        "t": 65.507
+      },
+      {
+        "title": "A bouncing ball",
+        "t": 104.559
+      },
+      {
+        "title": "Your turn",
+        "t": 154.829
+      },
+      {
+        "title": "Summary",
+        "t": 180.984
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-4-b:q",
+        "t": 162.857,
+        "prompt": "Find the sum of $1 + 2 + 4 + \\cdots + 512$.",
+        "choices": [
+          "$1023$",
+          "$1024$",
+          "$511$",
+          "$2047$"
+        ],
+        "answer": 0,
+        "working": "$S_n = \\dfrac{rt_n - t_1}{r - 1} = \\dfrac{2(512) - 1}{2 - 1} = 1023$."
+      }
+    ]
+  },
+  "m201-1-5": {
+    "lessonId": "m201-1-5",
+    "title": "Infinite Geometric Series, Part 1: Converging to a Sum",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Partial sums",
+        "t": 18.938
+      },
+      {
+        "title": "Converge or diverge",
+        "t": 45.774
+      },
+      {
+        "title": "The test and the sum",
+        "t": 80.654
+      },
+      {
+        "title": "Using the formula",
+        "t": 124.54
+      },
+      {
+        "title": "Your turn",
+        "t": 143.138
+      },
+      {
+        "title": "Summary",
+        "t": 167.049
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-1-5:q",
+        "t": 149.207,
+        "prompt": "Which infinite geometric series converges?",
+        "choices": [
+          "$9 + 3 + 1 + \\cdots$",
+          "$2 + 4 + 8 + \\cdots$",
+          "$3 - 3 + 3 - \\cdots$",
+          "$1 + 1.5 + 2.25 + \\cdots$"
+        ],
+        "answer": 0,
+        "working": "Its ratio is $\\frac{1}{3}$, and $|r| < 1$. The others have $r = 2$, $r = -1$ and $r = 1.5$."
+      }
+    ]
   }
 }
