@@ -6,7 +6,7 @@ const video: Explainer = {
   id: 'm10c-4-6-b',
   lessonId: 'm10c-4-6',
   title: 'Special Products and Factoring Strategies, Part 2: Perfect Squares and a Strategy',
-  thumbnailTitle: 'Perfect Squares and a Strategy',
+  thumbnailTitle: 'Perfect Squares',
   thumbnail: 'sq',
   summary: 'Recognising and factoring perfect square trinomials, seen as a square of algebra tiles, and a strategy for factoring any polynomial completely, with a common error to avoid.',
   scenes: [
