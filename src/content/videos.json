@@ -9516,7 +9516,7 @@
   "m201-1-1-b": {
     "lessonId": "m201-1-1",
     "title": "Arithmetic Sequences, Part 2: Missing Terms and Positions",
-    "duration": 204,
+    "duration": 253,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9525,33 +9525,33 @@
       },
       {
         "title": "From two terms",
-        "t": 15.187
+        "t": 19.118
       },
       {
         "title": "Which term is it?",
-        "t": 48.708
+        "t": 60.984
       },
       {
         "title": "Not a term",
-        "t": 88.962
+        "t": 109.81
       },
       {
         "title": "Theatre seats",
-        "t": 114.821
+        "t": 142.456
       },
       {
         "title": "Your turn",
-        "t": 156.19
+        "t": 193.981
       },
       {
         "title": "Summary",
-        "t": 186.868
+        "t": 230.602
       }
     ],
     "cues": [
       {
         "id": "m201-1-1-b:q",
-        "t": 166.113,
+        "t": 205.891,
         "prompt": "In an arithmetic sequence, $t_3 = 11$ and $t_8 = 31$. Find the common difference $d$.",
         "choices": [
           "$4$",
