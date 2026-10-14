@@ -7204,5 +7204,914 @@
         "working": "The height is opposite and the ladder is the hypotenuse: $h = 10 \\sin 75^\\circ \\approx 9.7\\text{ m}$."
       }
     ]
+  },
+  "m104-1-1": {
+    "lessonId": "m104-1-1",
+    "title": "Place Value, Part 1: Reading and Writing Numbers",
+    "duration": 158,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Digits and place value",
+        "t": 14.35
+      },
+      {
+        "title": "Standard and expanded form",
+        "t": 49.561
+      },
+      {
+        "title": "Reading a cheque",
+        "t": 85.631
+      },
+      {
+        "title": "Your turn",
+        "t": 112.974
+      },
+      {
+        "title": "Summary",
+        "t": 138.323
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-1-1:q",
+        "t": 120.335,
+        "prompt": "What is the value of the $8$ in $38{,}516$?",
+        "choices": [
+          "$8{,}000$",
+          "$8$",
+          "$800$",
+          "$80{,}000$"
+        ],
+        "answer": 0,
+        "working": "The $8$ is in the thousands place, so it is worth $8 \\times 1{,}000 = 8{,}000$."
+      }
+    ]
+  },
+  "m104-1-1-b": {
+    "lessonId": "m104-1-1",
+    "title": "Place Value, Part 2: Comparing and Rounding",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Comparing numbers",
+        "t": 12.084
+      },
+      {
+        "title": "Rounding",
+        "t": 45.333
+      },
+      {
+        "title": "Rounding examples",
+        "t": 88.519
+      },
+      {
+        "title": "Your turn",
+        "t": 135.674
+      },
+      {
+        "title": "Summary",
+        "t": 162.87
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-1-1-b:q",
+        "t": 142.638,
+        "prompt": "Round $7{,}952$ to the nearest hundred.",
+        "choices": [
+          "$8{,}000$",
+          "$7{,}900$",
+          "$7{,}950$",
+          "$7{,}000$"
+        ],
+        "answer": 0,
+        "working": "The hundreds digit is $9$ and the digit to its right is $5$, so round up. One more hundred than $7{,}900$ is $8{,}000$."
+      }
+    ]
+  },
+  "m104-1-2": {
+    "lessonId": "m104-1-2",
+    "title": "The Four Operations, Part 1: Choosing the Operation",
+    "duration": 152,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four operations",
+        "t": 12.783
+      },
+      {
+        "title": "Choosing",
+        "t": 39.967
+      },
+      {
+        "title": "Remainders",
+        "t": 68.219
+      },
+      {
+        "title": "Your turn",
+        "t": 107.759
+      },
+      {
+        "title": "Summary",
+        "t": 134.845
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-1-2:q",
+        "t": 116.254,
+        "prompt": "Each shelf holds $15$ boxes. How many shelves do you need for $100$ boxes?",
+        "choices": [
+          "$7$",
+          "$6$",
+          "$6.67$",
+          "$85$"
+        ],
+        "answer": 0,
+        "working": "$100 \\div 15 = 6$ remainder $10$. The $10$ extra boxes still need a shelf, so round up to $7$."
+      }
+    ]
+  },
+  "m104-1-2-b": {
+    "lessonId": "m104-1-2",
+    "title": "The Four Operations, Part 2: The Order of Operations",
+    "duration": 144,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The rules",
+        "t": 15.761
+      },
+      {
+        "title": "Left to right",
+        "t": 50.042
+      },
+      {
+        "title": "A receipt",
+        "t": 75.732
+      },
+      {
+        "title": "Your turn",
+        "t": 109.654
+      },
+      {
+        "title": "Summary",
+        "t": 131.567
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-1-2-b:q",
+        "t": 115.766,
+        "prompt": "Find the value of $18 - 4 \\times 3$.",
+        "choices": [
+          "$6$",
+          "$42$",
+          "$14$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "Multiply first: $4 \\times 3 = 12$. Then subtract: $18 - 12 = 6$."
+      }
+    ]
+  },
+  "m104-1-3": {
+    "lessonId": "m104-1-3",
+    "title": "Estimating, Part 1: Is the Answer Reasonable?",
+    "duration": 154,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Estimating",
+        "t": 13.867
+      },
+      {
+        "title": "Checking a calculator",
+        "t": 61.719
+      },
+      {
+        "title": "Your turn",
+        "t": 103.342
+      },
+      {
+        "title": "Summary",
+        "t": 134.038
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-1-3:q",
+        "t": 112.919,
+        "prompt": "A school orders $29$ boxes of paper at \\$41 a box. About how much does it spend?",
+        "choices": [
+          "about \\$1,200",
+          "about \\$120",
+          "about \\$12,000",
+          "about \\$70"
+        ],
+        "answer": 0,
+        "working": "Round: $29 \\approx 30$ and $41 \\approx 40$. Then $30 \\times 40 = 1{,}200$."
+      }
+    ]
+  },
+  "m104-1-3-b": {
+    "lessonId": "m104-1-3",
+    "title": "Estimating, Part 2: Two-Step Problems",
+    "duration": 169,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A plan",
+        "t": 12.36
+      },
+      {
+        "title": "Boxes in a warehouse",
+        "t": 30.993
+      },
+      {
+        "title": "A field trip",
+        "t": 71.546
+      },
+      {
+        "title": "Your turn",
+        "t": 121.399
+      },
+      {
+        "title": "Summary",
+        "t": 149.474
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-1-3-b:q",
+        "t": 131.222,
+        "prompt": "A store gets $12$ cases of $24$ cans. It sells $150$ cans. How many cans are left?",
+        "choices": [
+          "$138$",
+          "$288$",
+          "$186$",
+          "$162$"
+        ],
+        "answer": 0,
+        "working": "$12 \\times 24 = 288$ cans, and $288 - 150 = 138$ cans left."
+      }
+    ]
+  },
+  "m104-2-1": {
+    "lessonId": "m104-2-1",
+    "title": "Fractions, Part 1: Parts of a Whole",
+    "duration": 154,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Numerator and denominator",
+        "t": 15.073
+      },
+      {
+        "title": "Mixed numbers",
+        "t": 46.197
+      },
+      {
+        "title": "Equivalent fractions",
+        "t": 59.076
+      },
+      {
+        "title": "Multiply, do not add",
+        "t": 95.176
+      },
+      {
+        "title": "Your turn",
+        "t": 108.115
+      },
+      {
+        "title": "Summary",
+        "t": 131.085
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-2-1:q",
+        "t": 113.265,
+        "prompt": "Fill in the missing number: $\\dfrac{2}{3} = \\dfrac{?}{12}$",
+        "choices": [
+          "$8$",
+          "$11$",
+          "$6$",
+          "$4$"
+        ],
+        "answer": 0,
+        "working": "The bottom changed from $3$ to $12$, which is $\\times 4$. Do the same to the top: $2 \\times 4 = 8$."
+      }
+    ]
+  },
+  "m104-2-1-b": {
+    "lessonId": "m104-2-1",
+    "title": "Fractions, Part 2: Lowest Terms and Comparing",
+    "duration": 163,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Lowest terms",
+        "t": 13.629
+      },
+      {
+        "title": "Comparing fractions",
+        "t": 55.433
+      },
+      {
+        "title": "Ordering",
+        "t": 92.317
+      },
+      {
+        "title": "Your turn",
+        "t": 121.211
+      },
+      {
+        "title": "Summary",
+        "t": 144.56
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-2-1-b:q",
+        "t": 128.66,
+        "prompt": "Which is bigger: $\\dfrac{3}{4}$ inch or $\\dfrac{11}{16}$ inch?",
+        "choices": [
+          "$\\dfrac{3}{4}$ inch",
+          "$\\dfrac{11}{16}$ inch",
+          "They are equal.",
+          "You cannot tell."
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{3}{4} = \\dfrac{12}{16}$, and $12 > 11$, so $\\dfrac{3}{4}$ inch is bigger."
+      }
+    ]
+  },
+  "m104-2-2": {
+    "lessonId": "m104-2-2",
+    "title": "A Fraction of an Amount",
+    "duration": 156,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Divide, then multiply",
+        "t": 13.01
+      },
+      {
+        "title": "Time and mass",
+        "t": 45.208
+      },
+      {
+        "title": "What is left?",
+        "t": 78.687
+      },
+      {
+        "title": "Your turn",
+        "t": 113.034
+      },
+      {
+        "title": "Summary",
+        "t": 135.163
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-2-2:q",
+        "t": 120.91,
+        "prompt": "A crew of $30$ workers is told that $\\dfrac{2}{5}$ of them work the night shift. How many work nights?",
+        "choices": [
+          "$12$",
+          "$15$",
+          "$6$",
+          "$75$"
+        ],
+        "answer": 0,
+        "working": "One part: $30 \\div 5 = 6$. Two parts: $2 \\times 6 = 12$."
+      }
+    ]
+  },
+  "m104-2-3": {
+    "lessonId": "m104-2-3",
+    "title": "Adding and Subtracting Fractions, Part 1: Common Denominators",
+    "duration": 135,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Same denominators",
+        "t": 12.338
+      },
+      {
+        "title": "Different denominators",
+        "t": 41.63
+      },
+      {
+        "title": "Thirds and quarters",
+        "t": 77.624
+      },
+      {
+        "title": "Your turn",
+        "t": 90.206
+      },
+      {
+        "title": "Summary",
+        "t": 112.903
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-2-3:q",
+        "t": 95.197,
+        "prompt": "Find $\\dfrac{1}{2} + \\dfrac{1}{3}$.",
+        "choices": [
+          "$\\dfrac{5}{6}$",
+          "$\\dfrac{2}{5}$",
+          "$\\dfrac{2}{6}$",
+          "$\\dfrac{1}{6}$"
+        ],
+        "answer": 0,
+        "working": "Common denominator $6$: $\\dfrac{3}{6} + \\dfrac{2}{6} = \\dfrac{5}{6}$."
+      }
+    ]
+  },
+  "m104-2-3-b": {
+    "lessonId": "m104-2-3",
+    "title": "Adding and Subtracting Fractions, Part 2: Mixed Numbers",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Adding mixed numbers",
+        "t": 16.199
+      },
+      {
+        "title": "Regrouping",
+        "t": 40.857
+      },
+      {
+        "title": "Measuring",
+        "t": 71.383
+      },
+      {
+        "title": "A cut list",
+        "t": 98.04
+      },
+      {
+        "title": "Your turn",
+        "t": 129.095
+      },
+      {
+        "title": "Summary",
+        "t": 158.315
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-2-3-b:q",
+        "t": 135.568,
+        "prompt": "Find $4\\dfrac{1}{8} - 1\\dfrac{5}{8}$.",
+        "choices": [
+          "$2\\dfrac{1}{2}$",
+          "$3\\dfrac{1}{2}$",
+          "$3\\dfrac{4}{8}$",
+          "$2\\dfrac{3}{8}$"
+        ],
+        "answer": 0,
+        "working": "Regroup: $4\\tfrac{1}{8} = 3\\tfrac{9}{8}$. Then $3\\tfrac{9}{8} - 1\\tfrac{5}{8} = 2\\tfrac{4}{8} = 2\\tfrac{1}{2}$."
+      }
+    ]
+  },
+  "m104-3-1": {
+    "lessonId": "m104-3-1",
+    "title": "Decimals and Money, Part 1: Place Value, Adding and Subtracting",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Tenths and hundredths",
+        "t": 12.685
+      },
+      {
+        "title": "Reading a gas price",
+        "t": 50.633
+      },
+      {
+        "title": "Adding and subtracting",
+        "t": 83.71
+      },
+      {
+        "title": "Your turn",
+        "t": 134.054
+      },
+      {
+        "title": "Summary",
+        "t": 159.134
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-3-1:q",
+        "t": 140.37,
+        "prompt": "Find $5.6 - 2.35$.",
+        "choices": [
+          "$3.25$",
+          "$3.35$",
+          "$2.21$",
+          "$3.31$"
+        ],
+        "answer": 0,
+        "working": "Write $5.6$ as $5.60$, line up the points, and subtract: $5.60 - 2.35 = 3.25$."
+      }
+    ]
+  },
+  "m104-3-1-b": {
+    "lessonId": "m104-3-1",
+    "title": "Decimals and Money, Part 2: Multiplying, Dividing and Making Change",
+    "duration": 166,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying and dividing",
+        "t": 10.456
+      },
+      {
+        "title": "Making change",
+        "t": 61.762
+      },
+      {
+        "title": "Paying with cash",
+        "t": 96.048
+      },
+      {
+        "title": "Your turn",
+        "t": 121.623
+      },
+      {
+        "title": "Summary",
+        "t": 148.228
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-3-1-b:q",
+        "t": 130.298,
+        "prompt": "A total is \\$7.38. You pay with a \\$10 bill by card. What is your change?",
+        "choices": [
+          "\\$2.62",
+          "\\$2.60",
+          "\\$3.62",
+          "\\$2.72"
+        ],
+        "answer": 0,
+        "working": "Card payments are not rounded: $10.00 - 7.38 = 2.62$."
+      }
+    ]
+  },
+  "m104-3-2": {
+    "lessonId": "m104-3-2",
+    "title": "Fractions, Decimals and Percents",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Out of 100",
+        "t": 16.534
+      },
+      {
+        "title": "Decimals and percents",
+        "t": 44.618
+      },
+      {
+        "title": "Fractions and percents",
+        "t": 74.494
+      },
+      {
+        "title": "A safety quiz",
+        "t": 116.262
+      },
+      {
+        "title": "Your turn",
+        "t": 143.097
+      },
+      {
+        "title": "Summary",
+        "t": 164.223
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-3-2:q",
+        "t": 147.947,
+        "prompt": "Write $\\dfrac{2}{5}$ as a percent.",
+        "choices": [
+          "$40\\%$",
+          "$25\\%$",
+          "$2.5\\%$",
+          "$20\\%$"
+        ],
+        "answer": 0,
+        "working": "$5 \\times 20 = 100$, so $\\dfrac{2}{5} = \\dfrac{40}{100} = 40\\%$."
+      }
+    ]
+  },
+  "m104-3-3": {
+    "lessonId": "m104-3-3",
+    "title": "Percents of Money, Part 1: Percent of an Amount and Tips",
+    "duration": 148,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Percent of an amount",
+        "t": 13.535
+      },
+      {
+        "title": "Mental shortcuts",
+        "t": 41.069
+      },
+      {
+        "title": "Tips",
+        "t": 63.955
+      },
+      {
+        "title": "Your turn",
+        "t": 103.501
+      },
+      {
+        "title": "Summary",
+        "t": 129.093
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-3-3:q",
+        "t": 112.142,
+        "prompt": "A haircut costs \\$32. You leave a $20\\%$ tip. How much is the tip?",
+        "choices": [
+          "\\$6.40",
+          "\\$3.20",
+          "\\$640",
+          "\\$38.40"
+        ],
+        "answer": 0,
+        "working": "$10\\%$ of \\$32 is \\$3.20, and $20\\%$ is double that: \\$6.40."
+      }
+    ]
+  },
+  "m104-3-3-b": {
+    "lessonId": "m104-3-3",
+    "title": "Percents of Money, Part 2: Discounts and GST",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Discounts",
+        "t": 11.977
+      },
+      {
+        "title": "GST",
+        "t": 54.262
+      },
+      {
+        "title": "Sale price, then GST",
+        "t": 90.936
+      },
+      {
+        "title": "Your turn",
+        "t": 128.18
+      },
+      {
+        "title": "Summary",
+        "t": 161.792
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-3-3-b:q",
+        "t": 138.906,
+        "prompt": "A shirt costs \\$40 and is $25\\%$ off. Then $5\\%$ GST is added. What is the total?",
+        "choices": [
+          "\\$31.50",
+          "\\$30.00",
+          "\\$32.00",
+          "\\$52.50"
+        ],
+        "answer": 0,
+        "working": "Discount: $0.25 \\times 40 = 10$, so the sale price is \\$30. GST: $0.05 \\times 30 = 1.50$. Total: \\$31.50."
+      }
+    ]
+  },
+  "m104-4-1": {
+    "lessonId": "m104-4-1",
+    "title": "Integers: Below Zero",
+    "duration": 173,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What is an integer?",
+        "t": 18.558
+      },
+      {
+        "title": "Opposites",
+        "t": 59.752
+      },
+      {
+        "title": "Comparing integers",
+        "t": 82.317
+      },
+      {
+        "title": "Ordering",
+        "t": 108.674
+      },
+      {
+        "title": "Your turn",
+        "t": 135.159
+      },
+      {
+        "title": "Summary",
+        "t": 155.948
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-4-1:q",
+        "t": 140.044,
+        "prompt": "Which temperature is the coldest?",
+        "choices": [
+          "$-12^\\circ\\text{C}$",
+          "$-3^\\circ\\text{C}$",
+          "$0^\\circ\\text{C}$",
+          "$5^\\circ\\text{C}$"
+        ],
+        "answer": 0,
+        "working": "$-12$ is farthest left on a number line, so it is the least, and the coldest."
+      }
+    ]
+  },
+  "m104-4-2": {
+    "lessonId": "m104-4-2",
+    "title": "Adding and Subtracting Integers",
+    "duration": 171,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "On a number line",
+        "t": 15.082
+      },
+      {
+        "title": "Sign rules",
+        "t": 35.604
+      },
+      {
+        "title": "A chinook",
+        "t": 71.668
+      },
+      {
+        "title": "A bank account",
+        "t": 99.554
+      },
+      {
+        "title": "Your turn",
+        "t": 124.173
+      },
+      {
+        "title": "Summary",
+        "t": 151.305
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-4-2:q",
+        "t": 134.029,
+        "prompt": "The temperature is $-9^\\circ\\text{C}$ at night and $4^\\circ\\text{C}$ the next afternoon. By how many degrees did it rise?",
+        "choices": [
+          "$13$",
+          "$5$",
+          "$-5$",
+          "$-13$"
+        ],
+        "answer": 0,
+        "working": "Rise = higher − lower: $4 - (-9) = 4 + 9 = 13$ degrees."
+      }
+    ]
+  },
+  "m104-5-1": {
+    "lessonId": "m104-5-1",
+    "title": "Patterns, Part 1: Tables and Extending Patterns",
+    "duration": 147,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Tables and chairs",
+        "t": 17.164
+      },
+      {
+        "title": "Adding patterns",
+        "t": 51.957
+      },
+      {
+        "title": "Doubling patterns",
+        "t": 74.847
+      },
+      {
+        "title": "Your turn",
+        "t": 108.327
+      },
+      {
+        "title": "Summary",
+        "t": 130.337
+      }
+    ],
+    "cues": [
+      {
+        "id": "m104-5-1:q",
+        "t": 114.629,
+        "prompt": "What is the next term? $3, \\; 6, \\; 12, \\; 24, \\; \\ldots$",
+        "choices": [
+          "$48$",
+          "$30$",
+          "$36$",
+          "$27$"
+        ],
+        "answer": 0,
+        "working": "The jumps are $3, 6, 12$, so it is not adding. Each term doubles: $24 \\times 2 = 48$."
+      }
+    ]
   }
 }
