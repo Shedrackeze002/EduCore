@@ -9588,21 +9588,21 @@
       },
       {
         "title": "Using a formula",
-        "t": 109.412
+        "t": 109.713
       },
       {
         "title": "Your turn",
-        "t": 133.244
+        "t": 133.545
       },
       {
         "title": "Summary",
-        "t": 160.544
+        "t": 160.845
       }
     ],
     "cues": [
       {
         "id": "m201-1-2:q",
-        "t": 140.984,
+        "t": 141.285,
         "prompt": "Find the sum of the first $10$ terms of $2 + 5 + 8 + \\cdots$",
         "choices": [
           "$155$",
