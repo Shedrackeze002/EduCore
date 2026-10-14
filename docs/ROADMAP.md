@@ -207,7 +207,10 @@ items ship or decisions change.
      overtime by the day, salary, commission, piecework, sharing tips, and deductions and net pay
      (each question states its own rates). Unit 4 (managing money) is done, 16 videos: budgets,
      fixed and variable expenses, budget percents, saving for a goal, simple interest, credit
-     cards and loans, and the cost of a car, fuel and renting. Units 5 to 9 are next.
+     cards and loans, and the cost of a car, fuel and renting. Unit 5 (formulas and equations) is
+     done, 12 videos: substituting into formulas, the temperature formula, two-step jobs, solving
+     and checking equations, formulas used backwards, tables of values, and reading and matching
+     graphs. Units 6 to 9 are next.
    - Next: the other courses in order (Math 20-4, 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      each lesson split into parts of about three minutes when it needs more.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
