@@ -13230,5 +13230,318 @@
         "working": "$x(x + 3) = 40$, so $x^2 + 3x - 40 = (x + 8)(x - 5) = 0$. Both numbers are positive, so $x = 5$, and the numbers are $5$ and $8$."
       }
     ]
+  },
+  "m201-9-1": {
+    "lessonId": "m201-9-1",
+    "title": "Linear Inequalities in Two Variables, Part 1: Graphing",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Solutions",
+        "t": 27.993
+      },
+      {
+        "title": "The boundary and the shading",
+        "t": 73.755
+      },
+      {
+        "title": "Your turn",
+        "t": 137.222
+      },
+      {
+        "title": "Summary",
+        "t": 167.247
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-1:q",
+        "t": 146.034,
+        "prompt": "Is $(4, 1)$ a solution of $2x - 3y > 6$?",
+        "choices": [
+          "No",
+          "Yes",
+          "Only if the boundary is solid",
+          "It is on the boundary"
+        ],
+        "answer": 0,
+        "working": "$2(4) - 3(1) = 5$, and $5 > 6$ is false, so $(4, 1)$ is not a solution."
+      }
+    ]
+  },
+  "m201-9-1-b": {
+    "lessonId": "m201-9-1",
+    "title": "Linear Inequalities in Two Variables, Part 2: Checking and Modelling",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Solving for y",
+        "t": 19.188
+      },
+      {
+        "title": "When y is alone",
+        "t": 54.176
+      },
+      {
+        "title": "Ticket sales",
+        "t": 75.684
+      },
+      {
+        "title": "Your turn",
+        "t": 144.522
+      },
+      {
+        "title": "Summary",
+        "t": 176.65
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-1-b:q",
+        "t": 157.773,
+        "prompt": "In this example, a bake sale sells muffins at \\$2 and cookies at \\$1, and must take in more than \\$80. Which inequality fits, for $m$ muffins and $c$ cookies?",
+        "choices": [
+          "$2m + c > 80$",
+          "$2m + c \\ge 80$",
+          "$2m + c < 80$",
+          "$m + 2c > 80$"
+        ],
+        "answer": 0,
+        "working": "The money taken in is $2m + c$, and \"more than\" means $>$."
+      }
+    ]
+  },
+  "m201-9-2": {
+    "lessonId": "m201-9-2",
+    "title": "Quadratic Inequalities in One Variable, Part 1: Test Intervals",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a graph",
+        "t": 23.59
+      },
+      {
+        "title": "Test intervals",
+        "t": 77.034
+      },
+      {
+        "title": "Your turn",
+        "t": 135.949
+      },
+      {
+        "title": "Summary",
+        "t": 168.414
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-2:q",
+        "t": 143.312,
+        "prompt": "Solve $x^2 - 4x < 0$.",
+        "choices": [
+          "$0 < x < 4$",
+          "$0 \\le x \\le 4$",
+          "$x < 0$ or $x > 4$",
+          "$x < 4$"
+        ],
+        "answer": 0,
+        "working": "$x(x - 4) = 0$ at $x = 0$ and $x = 4$. Testing $x = 2$ gives $4 - 8 = -4 < 0$, so the middle interval works, and $<$ leaves out the roots."
+      }
+    ]
+  },
+  "m201-9-2-b": {
+    "lessonId": "m201-9-2",
+    "title": "Quadratic Inequalities in One Variable, Part 2: Sign Diagrams",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A sign diagram",
+        "t": 18.95
+      },
+      {
+        "title": "On a number line",
+        "t": 75.761
+      },
+      {
+        "title": "Your turn",
+        "t": 106.915
+      },
+      {
+        "title": "Summary",
+        "t": 140.409
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-2-b:q",
+        "t": 115.404,
+        "prompt": "Solve $(x - 1)(x + 5) \\ge 0$.",
+        "choices": [
+          "$x \\le -5$ or $x \\ge 1$",
+          "$-5 \\le x \\le 1$",
+          "$x < -5$ or $x > 1$",
+          "$x \\ge 1$"
+        ],
+        "answer": 0,
+        "working": "The roots are $-5$ and $1$. Both factors are negative when $x < -5$, and both positive when $x > 1$, so the product is positive outside the roots; $\\ge$ includes them."
+      }
+    ]
+  },
+  "m201-9-2-c": {
+    "lessonId": "m201-9-2",
+    "title": "Quadratic Inequalities in One Variable, Part 3: Rearranging and Problems",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A negative leading coefficient",
+        "t": 22.346
+      },
+      {
+        "title": "A projectile",
+        "t": 64.275
+      },
+      {
+        "title": "Square roots of inequalities",
+        "t": 114.532
+      },
+      {
+        "title": "Your turn",
+        "t": 146.025
+      },
+      {
+        "title": "Summary",
+        "t": 180.902
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-2-c:q",
+        "t": 152.178,
+        "prompt": "Solve $x^2 \\ge 16$.",
+        "choices": [
+          "$x \\le -4$ or $x \\ge 4$",
+          "$x \\ge 4$",
+          "$-4 \\le x \\le 4$",
+          "$x \\ge \\pm 4$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 16 = (x - 4)(x + 4) \\ge 0$, which is true outside the roots: $x \\le -4$ or $x \\ge 4$."
+      }
+    ]
+  },
+  "m201-9-3": {
+    "lessonId": "m201-9-3",
+    "title": "Quadratic Inequalities in Two Variables, Part 1: Graphing the Region",
+    "duration": 230,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Testing points",
+        "t": 25.132
+      },
+      {
+        "title": "Graphing the region",
+        "t": 79.877
+      },
+      {
+        "title": "Above and below",
+        "t": 135.665
+      },
+      {
+        "title": "Your turn",
+        "t": 170.807
+      },
+      {
+        "title": "Summary",
+        "t": 199.664
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-3:q",
+        "t": 179.201,
+        "prompt": "Is $(2, 5)$ a solution of $y \\le x^2 + 1$?",
+        "choices": [
+          "Yes: it is on the boundary, which is included.",
+          "No: it is on the boundary.",
+          "Yes: it is above the parabola.",
+          "No: it is below the parabola."
+        ],
+        "answer": 0,
+        "working": "$2^2 + 1 = 5$, and $5 \\le 5$ is true. The point is on the solid boundary, so it is a solution."
+      }
+    ]
+  },
+  "m201-9-3-b": {
+    "lessonId": "m201-9-3",
+    "title": "Quadratic Inequalities in Two Variables, Part 2: Reading Graphs and Models",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From graph to inequality",
+        "t": 17.997
+      },
+      {
+        "title": "Will the truck fit?",
+        "t": 72.244
+      },
+      {
+        "title": "Your turn",
+        "t": 124.662
+      },
+      {
+        "title": "Summary",
+        "t": 158.528
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-3-b:q",
+        "t": 136.114,
+        "prompt": "Which inequality describes the region on and above the solid parabola $y = x^2 - 4$?",
+        "choices": [
+          "$y \\ge x^2 - 4$",
+          "$y > x^2 - 4$",
+          "$y \\le x^2 - 4$",
+          "$y < x^2 - 4$"
+        ],
+        "answer": 0,
+        "working": "A solid boundary is included, so the sign is $\\ge$ or $\\le$; shading above means $y \\ge$."
+      }
+    ]
   }
 }
