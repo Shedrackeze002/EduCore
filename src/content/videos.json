@@ -17163,5 +17163,56 @@
         "working": "A horizontal segment has a rate of $0$, and a steep downward segment has a large negative rate: the amount of water drops quickly."
       }
     ]
+  },
+  "m202-8-2": {
+    "lessonId": "m202-8-2",
+    "title": "Solving Problems with Rates, Part 1: Multiply or Divide by a Rate",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A rate works both ways",
+        "t": 19.481
+      },
+      {
+        "title": "Buying gas",
+        "t": 46.113
+      },
+      {
+        "title": "Travel time",
+        "t": 81.143
+      },
+      {
+        "title": "Let the units guide you",
+        "t": 120.326
+      },
+      {
+        "title": "Your turn",
+        "t": 141.166
+      },
+      {
+        "title": "Summary",
+        "t": 180.214
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-2:q",
+        "t": 153.579,
+        "prompt": "In this example, gas costs \\$1.459 per litre. How many litres can you buy with \\$50? Round to the nearest tenth.",
+        "choices": [
+          "$34.3$ L",
+          "$73.0$ L",
+          "$48.5$ L",
+          "$0.03$ L"
+        ],
+        "answer": 0,
+        "working": "You know dollars and the rate is dollars per litre, so divide: \\$50 ÷ \\$1.459 per litre ≈ $34.3$ L. B multiplies instead."
+      }
+    ]
   }
 }
