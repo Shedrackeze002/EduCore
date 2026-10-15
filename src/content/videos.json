@@ -15545,7 +15545,7 @@
   "m202-5-1": {
     "lessonId": "m202-5-1",
     "title": "Standard Deviation, Part 1: Measuring Spread",
-    "duration": 197,
+    "duration": 196,
     "voice": "af_heart",
     "chapters": [
       {
@@ -15558,25 +15558,25 @@
       },
       {
         "title": "Standard deviation",
-        "t": 52.029
+        "t": 51.565
       },
       {
         "title": "Route A",
-        "t": 92.558
+        "t": 92.094
       },
       {
         "title": "Your turn",
-        "t": 132.669
+        "t": 132.205
       },
       {
         "title": "Summary",
-        "t": 166.078
+        "t": 165.614
       }
     ],
     "cues": [
       {
         "id": "m202-5-1:q",
-        "t": 142.657,
+        "t": 142.193,
         "prompt": "Find the population standard deviation of $4,\\ 6,\\ 8,\\ 10,\\ 12$.",
         "choices": [
           "$2.83$",
@@ -15652,25 +15652,25 @@
       },
       {
         "title": "Comparing the routes",
-        "t": 50.453
+        "t": 50.02
       },
       {
         "title": "Mean versus spread",
-        "t": 95.08
+        "t": 94.283
       },
       {
         "title": "Your turn",
-        "t": 128.388
+        "t": 127.591
       },
       {
         "title": "Summary",
-        "t": 167.591
+        "t": 166.794
       }
     ],
     "cues": [
       {
         "id": "m202-5-1-c:q",
-        "t": 147.014,
+        "t": 146.217,
         "prompt": "Two archers: Ana’s scores have a mean of $8.2$ and $\\sigma = 0.6$. Ben’s have a mean of $8.5$ and $\\sigma = 1.9$. Who is more consistent?",
         "choices": [
           "Ana: her standard deviation is smaller.",
@@ -16879,6 +16879,288 @@
         ],
         "answer": 0,
         "working": "$b^2 - 4ac = 144 - 4(4)(9) = 144 - 144 = 0$, so there is one real root. Indeed $4x^2 - 12x + 9 = (2x - 3)^2$."
+      }
+    ]
+  },
+  "m202-7-3": {
+    "lessonId": "m202-7-3",
+    "title": "Solving Problems with Quadratic Equations, Part 1: A Plan for Problems",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A plan",
+        "t": 20.666
+      },
+      {
+        "title": "Dimensions of a garden",
+        "t": 56.299
+      },
+      {
+        "title": "Rejecting a root",
+        "t": 114.074
+      },
+      {
+        "title": "Your turn",
+        "t": 139.071
+      },
+      {
+        "title": "Summary",
+        "t": 179.236
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-3:q",
+        "t": 150.507,
+        "prompt": "A rectangle is $4$ m longer than it is wide. Its area is $60\\ \\text{m}^2$. How wide is it?",
+        "choices": [
+          "$6$ m",
+          "$10$ m",
+          "$-10$ m",
+          "$15$ m"
+        ],
+        "answer": 0,
+        "working": "$w(w + 4) = 60$, so $w^2 + 4w - 60 = 0$ and $(w + 10)(w - 6) = 0$. Reject $w = -10$: the width is $6$ m (and the length $10$ m)."
+      }
+    ]
+  },
+  "m202-7-3-b": {
+    "lessonId": "m202-7-3",
+    "title": "Solving Problems with Quadratic Equations, Part 2: Projectiles",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The projectile model",
+        "t": 18.974
+      },
+      {
+        "title": "When does it land?",
+        "t": 57.39
+      },
+      {
+        "title": "Two answers that make sense",
+        "t": 116.374
+      },
+      {
+        "title": "Your turn",
+        "t": 158.79
+      },
+      {
+        "title": "Summary",
+        "t": 201.094
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-3-b:q",
+        "t": 171.165,
+        "prompt": "A ball’s height is $h = -4.9t^2 + 9.8t + 2$. When does it hit the ground? Round to the nearest hundredth of a second.",
+        "choices": [
+          "$2.19$ s",
+          "$0.19$ s",
+          "$1.00$ s",
+          "$2.00$ s"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 96.04 + 39.2 = 135.24$, so $t = \\dfrac{-9.8 \\pm \\sqrt{135.24}}{-9.8} \\approx -0.19$ or $2.19$. Reject the negative time. C is when it is highest."
+      }
+    ]
+  },
+  "m202-7-3-c": {
+    "lessonId": "m202-7-3",
+    "title": "Solving Problems with Quadratic Equations, Part 3: Borders and Break-Even Prices",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A frame of uniform width",
+        "t": 18.739
+      },
+      {
+        "title": "A border goes on both sides",
+        "t": 78.377
+      },
+      {
+        "title": "Break-even prices",
+        "t": 96.431
+      },
+      {
+        "title": "Your turn",
+        "t": 144.803
+      },
+      {
+        "title": "Summary",
+        "t": 186.253
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-3-c:q",
+        "t": 158.836,
+        "prompt": "A diagonal path across a rectangular plot is $13$ m long. One side is $7$ m longer than the other. Find the side lengths.",
+        "choices": [
+          "$5$ m and $12$ m",
+          "$6$ m and $13$ m",
+          "$3$ m and $10$ m",
+          "$-12$ m and $-5$ m"
+        ],
+        "answer": 0,
+        "working": "$x^2 + (x + 7)^2 = 169$, so $2x^2 + 14x - 120 = 0$ and $x^2 + 7x - 60 = 0$. $(x + 12)(x - 5) = 0$; reject $-12$. The sides are $5$ m and $12$ m."
+      }
+    ]
+  },
+  "m202-8-1": {
+    "lessonId": "m202-8-1",
+    "title": "Comparing and Interpreting Rates, Part 1: Unit Rates and Better Buys",
+    "duration": 212,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rates and unit rates",
+        "t": 21.021
+      },
+      {
+        "title": "Unit price",
+        "t": 55.731
+      },
+      {
+        "title": "The better buy",
+        "t": 93.19
+      },
+      {
+        "title": "Your turn",
+        "t": 148.45
+      },
+      {
+        "title": "Summary",
+        "t": 185.733
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-1:q",
+        "t": 162.681,
+        "prompt": "Juice costs \\$3.29 for $1.89$ L or \\$1.99 for $1$ L. Which has the lower price per litre?",
+        "choices": [
+          "The $1.89$ L carton, at about \\$1.74 per litre",
+          "The $1$ L carton, at \\$1.99 per litre",
+          "They cost the same per litre.",
+          "The $1.89$ L carton, at about \\$6.22 per litre"
+        ],
+        "answer": 0,
+        "working": "\\$3.29 ÷ 1.89 ≈ \\$1.74 per litre, which is less than \\$1.99 per litre. D multiplies instead of dividing."
+      }
+    ]
+  },
+  "m202-8-1-b": {
+    "lessonId": "m202-8-1",
+    "title": "Comparing and Interpreting Rates, Part 2: Fuel Use and Rates as Slopes",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fuel consumption",
+        "t": 15.973
+      },
+      {
+        "title": "Is a bigger rate better?",
+        "t": 61.492
+      },
+      {
+        "title": "Rates as slopes",
+        "t": 82.865
+      },
+      {
+        "title": "Your turn",
+        "t": 132.167
+      },
+      {
+        "title": "Summary",
+        "t": 166.39
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-1-b:q",
+        "t": 145.31,
+        "prompt": "A van uses $9.4$ L/100 km and a hybrid uses $5.1$ L/100 km. Which statement is true?",
+        "choices": [
+          "The hybrid is more fuel-efficient.",
+          "The van is more fuel-efficient, because $9.4 > 5.1$.",
+          "They are equally fuel-efficient.",
+          "You cannot compare them without the distance."
+        ],
+        "answer": 0,
+        "working": "L/100 km measures fuel used, so a smaller number is better. The hybrid uses less fuel for every $100$ km."
+      }
+    ]
+  },
+  "m202-8-1-c": {
+    "lessonId": "m202-8-1",
+    "title": "Comparing and Interpreting Rates, Part 3: Rates That Change",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Steep, flat and falling",
+        "t": 18.801
+      },
+      {
+        "title": "A bike ride",
+        "t": 42.043
+      },
+      {
+        "title": "Reading the whole trip",
+        "t": 95.308
+      },
+      {
+        "title": "Your turn",
+        "t": 127.242
+      },
+      {
+        "title": "Summary",
+        "t": 161.497
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-1-c:q",
+        "t": 139.742,
+        "prompt": "On a graph of water in a tank against time, one segment is horizontal and another goes down steeply. What do they show?",
+        "choices": [
+          "Horizontal: no change. Steep and down: draining quickly.",
+          "Horizontal: filling quickly. Steep and down: no change.",
+          "Both show the tank filling.",
+          "Horizontal: draining. Steep and down: filling."
+        ],
+        "answer": 0,
+        "working": "A horizontal segment has a rate of $0$, and a steep downward segment has a large negative rate: the amount of water drops quickly."
       }
     ]
   }
