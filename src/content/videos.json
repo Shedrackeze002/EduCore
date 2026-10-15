@@ -17214,5 +17214,405 @@
         "working": "You know dollars and the rate is dollars per litre, so divide: \\$50 ÷ \\$1.459 per litre ≈ $34.3$ L. B multiplies instead."
       }
     ]
+  },
+  "m202-8-2-b": {
+    "lessonId": "m202-8-2",
+    "title": "Solving Problems with Rates, Part 2: Changing Units Along the Way",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gas for a road trip",
+        "t": 15.123
+      },
+      {
+        "title": "Filling a pool",
+        "t": 65.835
+      },
+      {
+        "title": "Decimal hours are not minutes",
+        "t": 119.945
+      },
+      {
+        "title": "Your turn",
+        "t": 146.203
+      },
+      {
+        "title": "Summary",
+        "t": 190.71
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-2-b:q",
+        "t": 163.532,
+        "prompt": "In this example, a car uses $6.5$ L/100 km and gas costs \\$1.52 per litre. How much does the gas cost for a $300$ km trip?",
+        "choices": [
+          "\\$29.64",
+          "\\$2,964.00",
+          "\\$12.83",
+          "\\$9.88"
+        ],
+        "answer": 0,
+        "working": "$300$ km is $3$ hundreds, so the car uses $3 \\times 6.5 = 19.5$ L. The cost is $19.5 \\times 1.52 =$ \\$29.64. B forgets that the rate is per $100$ km."
+      }
+    ]
+  },
+  "m202-8-2-c": {
+    "lessonId": "m202-8-2",
+    "title": "Solving Problems with Rates, Part 3: Combining Rates and Average Speed",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two hoses",
+        "t": 17.389
+      },
+      {
+        "title": "A leak works against you",
+        "t": 47.507
+      },
+      {
+        "title": "Average speed for a whole trip",
+        "t": 76.796
+      },
+      {
+        "title": "Do not average the speeds",
+        "t": 126.525
+      },
+      {
+        "title": "Your turn",
+        "t": 149.714
+      },
+      {
+        "title": "Summary",
+        "t": 189.067
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-2-c:q",
+        "t": 164.622,
+        "prompt": "You drive $100$ km at $50$ km/h, then $100$ km at $100$ km/h. What is your average speed for the whole trip?",
+        "choices": [
+          "about $66.7$ km/h",
+          "$75$ km/h",
+          "$80$ km/h",
+          "$150$ km/h"
+        ],
+        "answer": 0,
+        "working": "The times are $100 \\div 50 = 2$ h and $100 \\div 100 = 1$ h, so you drive $200$ km in $3$ h: $200 \\div 3 \\approx 66.7$ km/h. B is the mean of the speeds."
+      }
+    ]
+  },
+  "m202-8-3": {
+    "lessonId": "m202-8-3",
+    "title": "Scale Diagrams, Part 1: Scale Factor",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Scale diagrams",
+        "t": 23.013
+      },
+      {
+        "title": "Finding a scale factor",
+        "t": 54.665
+      },
+      {
+        "title": "Same units first",
+        "t": 98.993
+      },
+      {
+        "title": "Mixing units",
+        "t": 135.639
+      },
+      {
+        "title": "Your turn",
+        "t": 153.457
+      },
+      {
+        "title": "Summary",
+        "t": 188.276
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-3:q",
+        "t": 164.149,
+        "prompt": "A table $2.4$ m long is drawn $8$ cm long. What scale factor was used?",
+        "choices": [
+          "$k = \\dfrac{1}{30}$",
+          "$k \\approx 3.33$",
+          "$k = 30$",
+          "$k = \\dfrac{1}{3}$"
+        ],
+        "answer": 0,
+        "working": "$2.4$ m $= 240$ cm, so $k = \\dfrac{8}{240} = \\dfrac{1}{30}$, a reduction. B divides $8 \\div 2.4$ without converting."
+      }
+    ]
+  },
+  "m202-8-3-b": {
+    "lessonId": "m202-8-3",
+    "title": "Scale Diagrams, Part 2: Scales Written as Ratios",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What 1 : n means",
+        "t": 17.402
+      },
+      {
+        "title": "A floor plan",
+        "t": 52.071
+      },
+      {
+        "title": "A hiking map",
+        "t": 90.262
+      },
+      {
+        "title": "Your turn",
+        "t": 135.166
+      },
+      {
+        "title": "Summary",
+        "t": 169.47
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-3-b:q",
+        "t": 147.037,
+        "prompt": "On a $1 : 25\\,000$ map, a lake is $4.2$ cm across. How wide is the real lake?",
+        "choices": [
+          "$1.05$ km",
+          "$10.5$ km",
+          "$105$ km",
+          "$0.105$ km"
+        ],
+        "answer": 0,
+        "working": "$4.2 \\times 25\\,000 = 105\\,000$ cm, and $105\\,000 \\div 100\\,000 = 1.05$ km."
+      }
+    ]
+  },
+  "m202-8-3-c": {
+    "lessonId": "m202-8-3",
+    "title": "Scale Diagrams, Part 3: Finding and Choosing a Scale",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding n",
+        "t": 20.564
+      },
+      {
+        "title": "A road map",
+        "t": 40.828
+      },
+      {
+        "title": "Will it fit?",
+        "t": 93.082
+      },
+      {
+        "title": "Your turn",
+        "t": 143.802
+      },
+      {
+        "title": "Summary",
+        "t": 182.272
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-3-c:q",
+        "t": 156.63,
+        "prompt": "Two lakes are $3.6$ km apart. On a map, they are $4.8$ cm apart. What is the scale of the map?",
+        "choices": [
+          "$1 : 75\\,000$",
+          "$1 : 750$",
+          "$1 : 7500$",
+          "$1 : 1.33$"
+        ],
+        "answer": 0,
+        "working": "$3.6$ km $= 360\\,000$ cm, so $n = \\dfrac{360\\,000}{4.8} = 75\\,000$. D divides $4.8 \\div 3.6$ without converting."
+      }
+    ]
+  },
+  "m202-8-4": {
+    "lessonId": "m202-8-4",
+    "title": "Similar Objects: Length, Area and Volume, Part 1: Areas Grow by k²",
+    "duration": 237,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Similar objects",
+        "t": 23.314
+      },
+      {
+        "title": "Why area grows by k squared",
+        "t": 52.142
+      },
+      {
+        "title": "The area rule",
+        "t": 89.54
+      },
+      {
+        "title": "A larger tank",
+        "t": 113.195
+      },
+      {
+        "title": "Multiplying an area by k",
+        "t": 157.544
+      },
+      {
+        "title": "Your turn",
+        "t": 177.591
+      },
+      {
+        "title": "Summary",
+        "t": 214.185
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-4:q",
+        "t": 192.599,
+        "prompt": "Two triangles are similar with scale factor $k = 4$. The small triangle has an area of $5\\ \\text{cm}^2$. What is the area of the large triangle?",
+        "choices": [
+          "$80\\ \\text{cm}^2$",
+          "$20\\ \\text{cm}^2$",
+          "$320\\ \\text{cm}^2$",
+          "$25\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "Areas are multiplied by $k^2 = 16$, so the area is $5 \\times 16 = 80\\ \\text{cm}^2$. B multiplies by $k$, and C by $k^3$."
+      }
+    ]
+  },
+  "m202-8-4-b": {
+    "lessonId": "m202-8-4",
+    "title": "Similar Objects: Length, Area and Volume, Part 2: Volumes Grow by k³",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why volume grows by k cubed",
+        "t": 19.452
+      },
+      {
+        "title": "The volume rule",
+        "t": 58.888
+      },
+      {
+        "title": "Lengths, areas, volumes",
+        "t": 85.222
+      },
+      {
+        "title": "A bigger can",
+        "t": 118.888
+      },
+      {
+        "title": "Your turn",
+        "t": 158.37
+      },
+      {
+        "title": "Summary",
+        "t": 190.364
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-4-b:q",
+        "t": 169.584,
+        "prompt": "A small box holds $3$ L. A similar box has every length twice as long. How much does it hold?",
+        "choices": [
+          "$24$ L",
+          "$6$ L",
+          "$12$ L",
+          "$9$ L"
+        ],
+        "answer": 0,
+        "working": "Capacity is a volume, so multiply by $k^3 = 2^3 = 8$: $3 \\times 8 = 24$ L. B multiplies by $k$, and C by $k^2$."
+      }
+    ]
+  },
+  "m202-8-4-c": {
+    "lessonId": "m202-8-4",
+    "title": "Similar Objects: Length, Area and Volume, Part 3: Working Back to the Scale Factor",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undo the power",
+        "t": 18.141
+      },
+      {
+        "title": "From areas to a length",
+        "t": 38.261
+      },
+      {
+        "title": "From volumes to a surface area",
+        "t": 75.699
+      },
+      {
+        "title": "Go through k",
+        "t": 116.561
+      },
+      {
+        "title": "Your turn",
+        "t": 137.237
+      },
+      {
+        "title": "Summary",
+        "t": 182.258
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-4-c:q",
+        "t": 155.719,
+        "prompt": "Two similar boxes have volumes of $27\\ \\text{cm}^3$ and $125\\ \\text{cm}^3$. The small box has a surface area of $54\\ \\text{cm}^2$. What is the surface area of the large box?",
+        "choices": [
+          "$150\\ \\text{cm}^2$",
+          "$250\\ \\text{cm}^2$",
+          "$90\\ \\text{cm}^2$",
+          "$126\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$k^3 = \\dfrac{125}{27}$, so $k = \\dfrac{5}{3}$ and $k^2 = \\dfrac{25}{9}$. $54 \\times \\dfrac{25}{9} = 150\\ \\text{cm}^2$. B multiplies by the volume ratio."
+      }
+    ]
   }
 }
