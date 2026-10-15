@@ -15925,5 +15925,146 @@
         "working": "$\\dfrac{82 - 70}{6} = 2$ and $\\dfrac{90 - 80}{8} = 1.25$. The $82$ is further above its mean."
       }
     ]
+  },
+  "m202-5-3-c": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 3: Areas under the Normal Curve",
+    "duration": 234,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A z-score table",
+        "t": 23
+      },
+      {
+        "title": "Below, above and between",
+        "t": 70.571
+      },
+      {
+        "title": "Sketch first",
+        "t": 135.516
+      },
+      {
+        "title": "Your turn",
+        "t": 163.363
+      },
+      {
+        "title": "Summary",
+        "t": 207.236
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3-c:q",
+        "t": 178.827,
+        "prompt": "For the heights ($\\mu = 168$ cm, $\\sigma = 8$ cm), what percent of students are taller than $172$ cm? The table gives $0.6915$ for $z = 0.50$.",
+        "choices": [
+          "$30.9\\%$",
+          "$69.2\\%$",
+          "$50.5\\%$",
+          "$19.2\\%$"
+        ],
+        "answer": 0,
+        "working": "$z = \\dfrac{172 - 168}{8} = 0.5$, and the area to the left is $0.6915$. Taller is to the right: $1 - 0.6915 = 0.3085$, about $30.9\\%$."
+      }
+    ]
+  },
+  "m202-5-3-d": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 4: From a Percent to a Value",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The top 10%",
+        "t": 17.684
+      },
+      {
+        "title": "The wrong side",
+        "t": 73.1
+      },
+      {
+        "title": "The bottom 25%",
+        "t": 103.334
+      },
+      {
+        "title": "Your turn",
+        "t": 139.994
+      },
+      {
+        "title": "Summary",
+        "t": 187.806
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3-d:q",
+        "t": 158.652,
+        "prompt": "For the heights ($\\mu = 168$ cm, $\\sigma = 8$ cm), what height separates the shortest $20\\%$? The closest table area to $0.20$ is $0.2005$, at $z = -0.84$.",
+        "choices": [
+          "$161.3$ cm",
+          "$174.7$ cm",
+          "$166.4$ cm",
+          "$160.0$ cm"
+        ],
+        "answer": 0,
+        "working": "The shortest $20\\%$ is to the left, so use $z = -0.84$: $x = 168 + (-0.84)(8) = 161.28$, about $161.3$ cm. B is the tallest $20\\%$."
+      }
+    ]
+  },
+  "m202-5-4": {
+    "lessonId": "m202-5-4",
+    "title": "Confidence Intervals, Part 1: Margin of Error",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Samples and populations",
+        "t": 24.811
+      },
+      {
+        "title": "The arena poll",
+        "t": 65.006
+      },
+      {
+        "title": "Working backwards",
+        "t": 100.807
+      },
+      {
+        "title": "Your turn",
+        "t": 140.532
+      },
+      {
+        "title": "Summary",
+        "t": 173.201
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-4:q",
+        "t": 153.572,
+        "prompt": "A report says that between $27\\%$ and $35\\%$ of students walk to school. What were the survey result and the margin of error?",
+        "choices": [
+          "$31\\%$, with a margin of $4$ points",
+          "$31\\%$, with a margin of $8$ points",
+          "$27\\%$, with a margin of $8$ points",
+          "$35\\%$, with a margin of $4$ points"
+        ],
+        "answer": 0,
+        "working": "Midpoint: $\\dfrac{27 + 35}{2} = 31$. Half the width: $\\dfrac{35 - 27}{2} = 4$. B uses the whole width."
+      }
+    ]
   }
 }
