@@ -20613,5 +20613,60 @@
         "working": "Gross: $17.50 \\times 120 = 2{,}100.00$. Deductions: $2{,}100.00 \\times 0.18 = 378.00$. Net: $2{,}100.00 - 378.00 = 1{,}722.00$. B is the gross pay."
       }
     ]
+  },
+  "m203-6-1-b": {
+    "lessonId": "m203-6-1",
+    "title": "Personal Budgets, Part 2: Expenses, Surplus and Deficit",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fixed and variable expenses",
+        "t": 15.275
+      },
+      {
+        "title": "Yearly costs",
+        "t": 56.831
+      },
+      {
+        "title": "Amara’s expenses",
+        "t": 88.001
+      },
+      {
+        "title": "Surplus or deficit",
+        "t": 126.807
+      },
+      {
+        "title": "Missing an expense",
+        "t": 176.217
+      },
+      {
+        "title": "Your turn",
+        "t": 208.725
+      },
+      {
+        "title": "Summary",
+        "t": 251.473
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-1-b:q",
+        "t": 225.251,
+        "prompt": "Leah’s net income is \\$1,900.00 a month, and her expenses total \\$1,985.50. Does Leah’s budget have a surplus or a deficit, and how much?",
+        "choices": [
+          "a deficit of \\$85.50",
+          "a surplus of \\$85.50",
+          "a deficit of \\$185.50",
+          "a surplus of \\$1,985.50"
+        ],
+        "answer": 0,
+        "working": "Expenses are more than income, so there is a deficit: $1{,}985.50 - 1{,}900.00 = 85.50$. B has the right amount, but calls it a surplus."
+      }
+    ]
   }
 }
