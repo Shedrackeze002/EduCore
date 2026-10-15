@@ -19359,5 +19359,260 @@
         "working": "$8$ cm $= 0.08$ m, so $V = 10 \\times 1.5 \\times 0.08 = 1.2\\ \\text{m}^3$. B forgets to convert the thickness."
       }
     ]
+  },
+  "m203-3-3-c": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 3: Loads, Trips and Time",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two rules",
+        "t": 19.392
+      },
+      {
+        "title": "Emptying a grain bin",
+        "t": 39.73
+      },
+      {
+        "title": "Filling a pool",
+        "t": 89.512
+      },
+      {
+        "title": "Your turn",
+        "t": 134.899
+      },
+      {
+        "title": "Summary",
+        "t": 168.79
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3-c:q",
+        "t": 147.876,
+        "prompt": "A job needs $52\\ \\text{m}^3$ of gravel. A dump truck carries $12\\ \\text{m}^3$ per load. How many loads are needed?",
+        "choices": [
+          "$5$ loads",
+          "$4$ loads",
+          "$4.3$ loads",
+          "$624$ loads"
+        ],
+        "answer": 0,
+        "working": "$52 \\div 12 \\approx 4.33$. Four loads leave $4\\ \\text{m}^3$ short, so round up to $5$."
+      }
+    ]
+  },
+  "m203-3-3-d": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 4: Working Backward to a Missing Length",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How thick is the pad?",
+        "t": 19.174
+      },
+      {
+        "title": "How tall is the tank?",
+        "t": 52.009
+      },
+      {
+        "title": "A spherical tank",
+        "t": 94.312
+      },
+      {
+        "title": "Square root or cube root?",
+        "t": 125.742
+      },
+      {
+        "title": "Your turn",
+        "t": 154.032
+      },
+      {
+        "title": "Summary",
+        "t": 188.701
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3-d:q",
+        "t": 167.32,
+        "prompt": "A rectangular planter $2$ m long and $0.5$ m wide holds $0.4\\ \\text{m}^3$ of soil. How deep is the soil?",
+        "choices": [
+          "$0.4$ m",
+          "$0.8$ m",
+          "$0.2$ m",
+          "$2.5$ m"
+        ],
+        "answer": 0,
+        "working": "$0.4 = 2 \\times 0.5 \\times h = 1 \\times h$, so $h = 0.4$ m."
+      }
+    ]
+  },
+  "m203-4-1": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 1: Naming Sides and the Pythagorean Theorem",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Naming the sides",
+        "t": 19.081
+      },
+      {
+        "title": "The Pythagorean theorem",
+        "t": 52.179
+      },
+      {
+        "title": "A brace for a farm gate",
+        "t": 73.555
+      },
+      {
+        "title": "How high does the ladder reach?",
+        "t": 98.864
+      },
+      {
+        "title": "Your turn",
+        "t": 136.083
+      },
+      {
+        "title": "Summary",
+        "t": 171.305
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1:q",
+        "t": 147.916,
+        "prompt": "A rectangular field is $80$ m long and $60$ m wide. How long is the path along its diagonal?",
+        "choices": [
+          "$100$ m",
+          "$140$ m",
+          "$52.9$ m",
+          "$70$ m"
+        ],
+        "answer": 0,
+        "working": "$c^2 = 80^2 + 60^2 = 6400 + 3600 = 10\\,000$, so $c = 100$ m. C subtracts instead of adding."
+      }
+    ]
+  },
+  "m203-4-1-b": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 2: Finding a Side with SOH CAH TOA",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The three ratios",
+        "t": 15.633
+      },
+      {
+        "title": "Four steps",
+        "t": 34.884
+      },
+      {
+        "title": "A guy wire",
+        "t": 64.091
+      },
+      {
+        "title": "How high is the kite?",
+        "t": 109.569
+      },
+      {
+        "title": "Degree mode",
+        "t": 136.769
+      },
+      {
+        "title": "Your turn",
+        "t": 164.455
+      },
+      {
+        "title": "Summary",
+        "t": 200.876
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1-b:q",
+        "t": 176.646,
+        "prompt": "A ramp makes an angle of $5^\\circ$ with the ground and has a horizontal run of $8$ m. How high does it rise, to the nearest hundredth of a metre?",
+        "choices": [
+          "$0.70$ m",
+          "$91.44$ m",
+          "$8.03$ m",
+          "$7.97$ m"
+        ],
+        "answer": 0,
+        "working": "The run is adjacent and the rise is opposite: $\\tan 5^\\circ = \\dfrac{h}{8}$, so $h = 8\\tan 5^\\circ \\approx 0.70$ m. B divides instead of multiplying."
+      }
+    ]
+  },
+  "m203-4-1-c": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 3: Finding an Angle",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undo the ratio",
+        "t": 17.297
+      },
+      {
+        "title": "How steep is the ramp?",
+        "t": 51.525
+      },
+      {
+        "title": "Setting a ladder",
+        "t": 86.983
+      },
+      {
+        "title": "Does the angle make sense?",
+        "t": 124.903
+      },
+      {
+        "title": "Your turn",
+        "t": 146.01
+      },
+      {
+        "title": "Summary",
+        "t": 184.483
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1-c:q",
+        "t": 157.296,
+        "prompt": "A $12$ m zip line drops $3$ m from start to finish. What angle does it make with the horizontal, to the nearest tenth of a degree?",
+        "choices": [
+          "$14.5^\\circ$",
+          "$75.5^\\circ$",
+          "$14.0^\\circ$",
+          "$0.3^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The drop is opposite and the line is the hypotenuse: $\\sin\\theta = \\dfrac{3}{12} = 0.25$, so $\\theta = \\sin^{-1}(0.25) \\approx 14.5^\\circ$. B uses cosine, and C uses tangent."
+      }
+    ]
   }
 }
