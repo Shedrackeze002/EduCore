@@ -13543,5 +13543,4378 @@
         "working": "A solid boundary is included, so the sign is $\\ge$ or $\\le$; shading above means $y \\ge$."
       }
     ]
+  },
+  "m202-1-1": {
+    "lessonId": "m202-1-1",
+    "title": "Making Conjectures: Inductive Reasoning, Part 1: Conjectures",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Conjectures",
+        "t": 27.998
+      },
+      {
+        "title": "Choosing the conjecture that fits",
+        "t": 73.896
+      },
+      {
+        "title": "Evidence is not proof",
+        "t": 124.585
+      },
+      {
+        "title": "Your turn",
+        "t": 147.969
+      },
+      {
+        "title": "Summary",
+        "t": 183.978
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-1:q",
+        "t": 162.305,
+        "prompt": "Mina notices that $2 \\times 3 = 6$, $4 \\times 5 = 20$ and $6 \\times 7 = 42$. Which conjecture fits all three?",
+        "choices": [
+          "The product is even.",
+          "The product is a multiple of 6.",
+          "The product ends in 0.",
+          "The product is greater than 10."
+        ],
+        "answer": 0,
+        "working": "$6$, $20$ and $42$ are all even. $20$ is not a multiple of 6, $6$ and $42$ do not end in 0, and $6$ is not greater than 10."
+      }
+    ]
+  },
+  "m202-1-1-b": {
+    "lessonId": "m202-1-1",
+    "title": "Making Conjectures: Inductive Reasoning, Part 2: Patterns",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Number patterns",
+        "t": 20.238
+      },
+      {
+        "title": "Predicting with a pattern",
+        "t": 59.998
+      },
+      {
+        "title": "A geometric pattern",
+        "t": 99.809
+      },
+      {
+        "title": "Using the rule",
+        "t": 134.955
+      },
+      {
+        "title": "Your turn",
+        "t": 167.375
+      },
+      {
+        "title": "Summary",
+        "t": 200.628
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-1-b:q",
+        "t": 178.115,
+        "prompt": "Figure 1 has $5$ tiles, Figure 2 has $8$ and Figure 3 has $11$. Which rule fits?",
+        "choices": [
+          "$3n + 2$",
+          "$5n$",
+          "$n + 4$",
+          "$3n + 5$"
+        ],
+        "answer": 0,
+        "working": "$3(1) + 2 = 5$, $3(2) + 2 = 8$ and $3(3) + 2 = 11$. The other rules fit Figure 1 at most."
+      }
+    ]
+  },
+  "m202-1-2": {
+    "lessonId": "m202-1-2",
+    "title": "Counterexamples, Part 1: Disproving a Conjecture",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What is a counterexample?",
+        "t": 19.892
+      },
+      {
+        "title": "Meeting the condition",
+        "t": 65.44
+      },
+      {
+        "title": "Missing the condition",
+        "t": 113.918
+      },
+      {
+        "title": "Your turn",
+        "t": 133.653
+      },
+      {
+        "title": "Summary",
+        "t": 167.909
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-2:q",
+        "t": 144.681,
+        "prompt": "Conjecture: \"If a number is a multiple of 3, then it is odd.\" Which number is a counterexample?",
+        "choices": [
+          "$12$",
+          "$9$",
+          "$7$",
+          "$15$"
+        ],
+        "answer": 0,
+        "working": "$12$ is a multiple of 3, so it meets the condition, but it is even, so the conclusion is false. $7$ is not a multiple of 3."
+      }
+    ]
+  },
+  "m202-1-2-b": {
+    "lessonId": "m202-1-2",
+    "title": "Counterexamples, Part 2: When Patterns Fail",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Forty primes",
+        "t": 21.462
+      },
+      {
+        "title": "Regions in a circle",
+        "t": 53.259
+      },
+      {
+        "title": "Where to look",
+        "t": 88.294
+      },
+      {
+        "title": "Revising a conjecture",
+        "t": 105.868
+      },
+      {
+        "title": "Your turn",
+        "t": 147.382
+      },
+      {
+        "title": "Summary",
+        "t": 177.735
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-2-b:q",
+        "t": 159.053,
+        "prompt": "Conjecture: \"The sum of two numbers is always greater than each of the numbers.\" Which pair is a counterexample?",
+        "choices": [
+          "$3$ and $-1$",
+          "$3$ and $4$",
+          "$0.5$ and $0.5$",
+          "$10$ and $20$"
+        ],
+        "answer": 0,
+        "working": "$3 + (-1) = 2$, which is not greater than $3$. The other pairs all support the conjecture."
+      }
+    ]
+  },
+  "m202-1-3": {
+    "lessonId": "m202-1-3",
+    "title": "Proving Conjectures: Deductive Reasoning, Part 1: Deductive Proof",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two kinds of reasoning",
+        "t": 19.38
+      },
+      {
+        "title": "A deductive argument",
+        "t": 64.528
+      },
+      {
+        "title": "Proving a statement about numbers",
+        "t": 88.037
+      },
+      {
+        "title": "Using the same variable",
+        "t": 135.181
+      },
+      {
+        "title": "Your turn",
+        "t": 151.081
+      },
+      {
+        "title": "Summary",
+        "t": 185.232
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-3:q",
+        "t": 162.474,
+        "prompt": "To prove that the sum of any even integer and any odd integer is odd, how should you write the two integers?",
+        "choices": [
+          "$2m$ and $2n + 1$",
+          "$2n$ and $2n + 1$",
+          "$m$ and $n$",
+          "$2m + 1$ and $2n + 1$"
+        ],
+        "answer": 0,
+        "working": "$2m$ is any even integer and $2n + 1$ is any odd integer. Then $2m + 2n + 1 = 2(m + n) + 1$, which is odd. B only covers consecutive integers."
+      }
+    ]
+  },
+  "m202-1-3-b": {
+    "lessonId": "m202-1-3",
+    "title": "Proving Conjectures: Deductive Reasoning, Part 2: Number Tricks and Invalid Proofs",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proving a number trick",
+        "t": 19.419
+      },
+      {
+        "title": "Valid and invalid proofs",
+        "t": 68.223
+      },
+      {
+        "title": "A proof that 2 = 1?",
+        "t": 92.193
+      },
+      {
+        "title": "Dividing by a variable",
+        "t": 134.326
+      },
+      {
+        "title": "Your turn",
+        "t": 153.35
+      },
+      {
+        "title": "Summary",
+        "t": 186.42
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-3-b:q",
+        "t": 168.631,
+        "prompt": "A student writes: $(-5)^2 = 25$ and $5^2 = 25$, so $(-5)^2 = 5^2$. Taking the square root of both sides, $-5 = 5$. What is the error?",
+        "choices": [
+          "Taking the square root drops the negative root.",
+          "Dividing by zero.",
+          "Relying on examples.",
+          "$(-5)^2$ is not $25$."
+        ],
+        "answer": 0,
+        "working": "If $x^2 = 5^2$, then $x = 5$ or $x = -5$. Taking only the positive root ignores the negative one."
+      }
+    ]
+  },
+  "m202-1-4": {
+    "lessonId": "m202-1-4",
+    "title": "Reasoning to Solve Problems and Puzzles, Part 1: Number and Logic Puzzles",
+    "duration": 182,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A number riddle",
+        "t": 19.944
+      },
+      {
+        "title": "A logic puzzle",
+        "t": 68.545
+      },
+      {
+        "title": "One mark per row",
+        "t": 107.809
+      },
+      {
+        "title": "Your turn",
+        "t": 122.957
+      },
+      {
+        "title": "Summary",
+        "t": 157.1
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-4:q",
+        "t": 133.781,
+        "prompt": "Kai is thinking of a two-digit multiple of $8$. The sum of its digits is $10$. What is the number?",
+        "choices": [
+          "$64$",
+          "$46$",
+          "$28$",
+          "$82$"
+        ],
+        "answer": 0,
+        "working": "Two-digit multiples of 8: $16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96$. Only $64$ has a digit sum of $10$. The others are not multiples of 8."
+      }
+    ]
+  },
+  "m202-1-4-b": {
+    "lessonId": "m202-1-4",
+    "title": "Reasoning to Solve Problems and Puzzles, Part 2: Games and Winning Strategies",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A take-away game",
+        "t": 20.417
+      },
+      {
+        "title": "The first move",
+        "t": 54.744
+      },
+      {
+        "title": "The Tower of Hanoi",
+        "t": 82.715
+      },
+      {
+        "title": "Your turn",
+        "t": 131.454
+      },
+      {
+        "title": "Summary",
+        "t": 162.269
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-4-b:q",
+        "t": 141.052,
+        "prompt": "In the same game, there are $22$ counters and you go first. How many should you take?",
+        "choices": [
+          "$2$",
+          "$1$",
+          "$3$",
+          "You cannot win."
+        ],
+        "answer": 0,
+        "working": "The nearest multiple of 4 below 22 is 20, so take $22 - 20 = 2$. Then leave 16, 12, 8, 4 and 0."
+      }
+    ]
+  },
+  "m202-1-4-c": {
+    "lessonId": "m202-1-4",
+    "title": "Reasoning to Solve Problems and Puzzles, Part 3: Spatial Puzzles",
+    "duration": 169,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A magic square",
+        "t": 17.194
+      },
+      {
+        "title": "Counting squares",
+        "t": 63.848
+      },
+      {
+        "title": "Counting only the small squares",
+        "t": 101.912
+      },
+      {
+        "title": "Your turn",
+        "t": 115.087
+      },
+      {
+        "title": "Summary",
+        "t": 144.377
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-4-c:q",
+        "t": 122.983,
+        "prompt": "How many squares, of all sizes, are in a $4 \\times 4$ grid?",
+        "choices": [
+          "$30$",
+          "$16$",
+          "$20$",
+          "$25$"
+        ],
+        "answer": 0,
+        "working": "$16$ squares that are $1 \\times 1$, $9$ that are $2 \\times 2$, $4$ that are $3 \\times 3$ and $1$ that is $4 \\times 4$: $16 + 9 + 4 + 1 = 30$."
+      }
+    ]
+  },
+  "m202-2-1": {
+    "lessonId": "m202-2-1",
+    "title": "Angles Formed by Parallel Lines, Part 1: Transversals and Angle Pairs",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Transversals",
+        "t": 22.779
+      },
+      {
+        "title": "Angle pairs",
+        "t": 64.035
+      },
+      {
+        "title": "When the lines are parallel",
+        "t": 112.62
+      },
+      {
+        "title": "Your turn",
+        "t": 148.777
+      },
+      {
+        "title": "Summary",
+        "t": 183.695
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-1:q",
+        "t": 161.693,
+        "prompt": "Two angles are between two parallel lines, on the same side of a transversal. What kind of pair are they, and how are they related?",
+        "choices": [
+          "Same-side interior; they add to $180^\\circ$.",
+          "Alternate interior; they are equal.",
+          "Corresponding; they are equal.",
+          "Same-side interior; they are equal."
+        ],
+        "answer": 0,
+        "working": "Between the lines is interior, and on the same side of the transversal is same-side. With parallel lines, same-side interior angles are supplementary."
+      }
+    ]
+  },
+  "m202-2-1-b": {
+    "lessonId": "m202-2-1",
+    "title": "Angles Formed by Parallel Lines, Part 2: Finding Angles with Reasons",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Angles with reasons",
+        "t": 19.445
+      },
+      {
+        "title": "Same-side angles",
+        "t": 70.62
+      },
+      {
+        "title": "Using algebra",
+        "t": 97.718
+      },
+      {
+        "title": "Your turn",
+        "t": 143.344
+      },
+      {
+        "title": "Summary",
+        "t": 181.555
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-1-b:q",
+        "t": 155.982,
+        "prompt": "Two parallel lines are crossed by a transversal. A pair of same-side interior angles measure $(2x + 20)^\\circ$ and $(3x + 10)^\\circ$. What is $x$?",
+        "choices": [
+          "$30$",
+          "$10$",
+          "$34$",
+          "$50$"
+        ],
+        "answer": 0,
+        "working": "Same-side interior angles add to $180^\\circ$: $5x + 30 = 180$, so $5x = 150$ and $x = 30$. The angles are $80^\\circ$ and $100^\\circ$. Setting them equal gives the wrong answer, $10$."
+      }
+    ]
+  },
+  "m202-2-1-c": {
+    "lessonId": "m202-2-1",
+    "title": "Angles Formed by Parallel Lines, Part 3: Extra Lines and Proving Lines Parallel",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A bend between parallel lines",
+        "t": 19.907
+      },
+      {
+        "title": "Proving lines are parallel",
+        "t": 70.296
+      },
+      {
+        "title": "A two-column proof",
+        "t": 103.402
+      },
+      {
+        "title": "Your turn",
+        "t": 140.836
+      },
+      {
+        "title": "Summary",
+        "t": 177.571
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-1-c:q",
+        "t": 155.228,
+        "prompt": "A transversal crosses two lines. A pair of same-side interior angles measure $95^\\circ$ and $85^\\circ$. Are the lines parallel?",
+        "choices": [
+          "Yes: the angles add to $180^\\circ$.",
+          "No: the angles are not equal.",
+          "Yes: both angles are acute.",
+          "No: the angles add to $180^\\circ$."
+        ],
+        "answer": 0,
+        "working": "$95^\\circ + 85^\\circ = 180^\\circ$, so the same-side interior angles are supplementary, and the lines are parallel."
+      }
+    ]
+  },
+  "m202-2-2": {
+    "lessonId": "m202-2-2",
+    "title": "Angles in Triangles, Part 1: The Angle Sum",
+    "duration": 208,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proving the angle sum",
+        "t": 23.486
+      },
+      {
+        "title": "Finding the third angle",
+        "t": 89.944
+      },
+      {
+        "title": "What the sum tells you",
+        "t": 114.943
+      },
+      {
+        "title": "Your turn",
+        "t": 146.21
+      },
+      {
+        "title": "Summary",
+        "t": 178.837
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-2:q",
+        "t": 155.696,
+        "prompt": "A right triangle has one angle of $34^\\circ$. What is its third angle?",
+        "choices": [
+          "$56^\\circ$",
+          "$146^\\circ$",
+          "$34^\\circ$",
+          "$66^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The angles are $90^\\circ$, $34^\\circ$ and $x$: $x = 180^\\circ - 90^\\circ - 34^\\circ = 56^\\circ$."
+      }
+    ]
+  },
+  "m202-2-2-b": {
+    "lessonId": "m202-2-2",
+    "title": "Angles in Triangles, Part 2: Isosceles Triangles and Algebra",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Isosceles triangles",
+        "t": 20.949
+      },
+      {
+        "title": "Angles as expressions",
+        "t": 54.454
+      },
+      {
+        "title": "Combining properties",
+        "t": 98.204
+      },
+      {
+        "title": "Your turn",
+        "t": 147.599
+      },
+      {
+        "title": "Summary",
+        "t": 184.337
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-2-b:q",
+        "t": 160.41,
+        "prompt": "In an isosceles triangle, the angle between the two equal sides is $52^\\circ$. What is each of the other two angles?",
+        "choices": [
+          "$64^\\circ$",
+          "$52^\\circ$",
+          "$128^\\circ$",
+          "$76^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The other two angles are equal: $2x + 52^\\circ = 180^\\circ$, so $2x = 128^\\circ$ and $x = 64^\\circ$."
+      }
+    ]
+  },
+  "m202-2-2-c": {
+    "lessonId": "m202-2-2",
+    "title": "Angles in Triangles, Part 3: Exterior Angles",
+    "duration": 230,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exterior angles",
+        "t": 19.865
+      },
+      {
+        "title": "With algebra",
+        "t": 80.235
+      },
+      {
+        "title": "Adding the wrong angles",
+        "t": 126.419
+      },
+      {
+        "title": "Your turn",
+        "t": 162.68
+      },
+      {
+        "title": "Summary",
+        "t": 201.257
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-2-c:q",
+        "t": 178.354,
+        "prompt": "An exterior angle of a triangle measures $120^\\circ$. One of its non-adjacent interior angles measures $45^\\circ$. What is the other one?",
+        "choices": [
+          "$75^\\circ$",
+          "$60^\\circ$",
+          "$165^\\circ$",
+          "$15^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The exterior angle equals the sum of the non-adjacent interior angles: $45^\\circ + x = 120^\\circ$, so $x = 75^\\circ$."
+      }
+    ]
+  },
+  "m202-2-3": {
+    "lessonId": "m202-2-3",
+    "title": "Angle Properties of Polygons, Part 1: The Interior Angle Sum",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Polygons",
+        "t": 20.386
+      },
+      {
+        "title": "Splitting into triangles",
+        "t": 49.465
+      },
+      {
+        "title": "A dodecagon",
+        "t": 103.689
+      },
+      {
+        "title": "Your turn",
+        "t": 139.231
+      },
+      {
+        "title": "Summary",
+        "t": 171.422
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-3:q",
+        "t": 148.835,
+        "prompt": "What is the sum of the interior angles of a convex heptagon (7 sides)?",
+        "choices": [
+          "$900^\\circ$",
+          "$1260^\\circ$",
+          "$720^\\circ$",
+          "$1080^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$S = 180^\\circ(7 - 2) = 180^\\circ(5) = 900^\\circ$. $1260^\\circ$ is $180^\\circ \\times 7$, which forgets the 2."
+      }
+    ]
+  },
+  "m202-2-3-b": {
+    "lessonId": "m202-2-3",
+    "title": "Angle Properties of Polygons, Part 2: Regular Polygons",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A regular octagon",
+        "t": 23.656
+      },
+      {
+        "title": "The exterior angles",
+        "t": 69.886
+      },
+      {
+        "title": "Finding the number of sides",
+        "t": 118.124
+      },
+      {
+        "title": "Your turn",
+        "t": 161.174
+      },
+      {
+        "title": "Summary",
+        "t": 195.757
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-3-b:q",
+        "t": 172.426,
+        "prompt": "Each interior angle of a regular polygon measures $140^\\circ$. How many sides does it have?",
+        "choices": [
+          "$9$",
+          "$8$",
+          "$10$",
+          "$7$"
+        ],
+        "answer": 0,
+        "working": "Each exterior angle is $180^\\circ - 140^\\circ = 40^\\circ$, so $n = 360^\\circ \\div 40^\\circ = 9$."
+      }
+    ]
+  },
+  "m202-2-3-c": {
+    "lessonId": "m202-2-3",
+    "title": "Angle Properties of Polygons, Part 3: Solving Polygon Problems",
+    "duration": 222,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A missing angle",
+        "t": 21.044
+      },
+      {
+        "title": "Angles as expressions",
+        "t": 60.657
+      },
+      {
+        "title": "Will it tile?",
+        "t": 105.912
+      },
+      {
+        "title": "Your turn",
+        "t": 152.729
+      },
+      {
+        "title": "Summary",
+        "t": 193.894
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-3-c:q",
+        "t": 169.042,
+        "prompt": "Five angles of a convex hexagon measure $130^\\circ$, $110^\\circ$, $125^\\circ$, $140^\\circ$ and $115^\\circ$. What is the sixth angle?",
+        "choices": [
+          "$100^\\circ$",
+          "$80^\\circ$",
+          "$260^\\circ$",
+          "$120^\\circ$"
+        ],
+        "answer": 0,
+        "working": "A hexagon’s angles add to $180^\\circ(4) = 720^\\circ$. The five known angles add to $620^\\circ$, so the sixth is $720^\\circ - 620^\\circ = 100^\\circ$."
+      }
+    ]
+  },
+  "m202-2-4": {
+    "lessonId": "m202-2-4",
+    "title": "Congruent Triangles, Part 1: Corresponding Parts",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Congruent figures",
+        "t": 19.003
+      },
+      {
+        "title": "Naming congruent triangles",
+        "t": 69.446
+      },
+      {
+        "title": "Corresponding parts",
+        "t": 109.301
+      },
+      {
+        "title": "Your turn",
+        "t": 149.537
+      },
+      {
+        "title": "Summary",
+        "t": 181.43
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-4:q",
+        "t": 160.646,
+        "prompt": "$\\triangle JKL \\cong \\triangle RST$. Which side is equal to $KL$?",
+        "choices": [
+          "$ST$",
+          "$RS$",
+          "$RT$",
+          "$JK$"
+        ],
+        "answer": 0,
+        "working": "$K$ matches $S$ and $L$ matches $T$ (second and third letters), so $KL = ST$."
+      }
+    ]
+  },
+  "m202-2-4-b": {
+    "lessonId": "m202-2-4",
+    "title": "Congruent Triangles, Part 2: SSS, SAS and ASA",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three conditions",
+        "t": 20.536
+      },
+      {
+        "title": "Which condition?",
+        "t": 54.231
+      },
+      {
+        "title": "Not enough information",
+        "t": 88.912
+      },
+      {
+        "title": "Using an angle that is not included",
+        "t": 125.562
+      },
+      {
+        "title": "Your turn",
+        "t": 139.414
+      },
+      {
+        "title": "Summary",
+        "t": 177.36
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-4-b:q",
+        "t": 155.612,
+        "prompt": "In $\\triangle ABC$ and $\\triangle DEF$, $AB = DE$, $BC = EF$ and $\\angle C = \\angle F$. Which condition proves them congruent?",
+        "choices": [
+          "None: this is SSA.",
+          "SAS",
+          "SSS",
+          "ASA"
+        ],
+        "answer": 0,
+        "working": "The angle between $AB$ and $BC$ is $\\angle B$, not $\\angle C$. So the angle is not included, and SSA does not prove congruence."
+      }
+    ]
+  },
+  "m202-2-4-c": {
+    "lessonId": "m202-2-4",
+    "title": "Congruent Triangles, Part 3: Congruence Proofs",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A proof with a midpoint",
+        "t": 17.748
+      },
+      {
+        "title": "A common side",
+        "t": 57.294
+      },
+      {
+        "title": "Reasons you will use often",
+        "t": 97.015
+      },
+      {
+        "title": "Your turn",
+        "t": 120.157
+      },
+      {
+        "title": "Summary",
+        "t": 159.672
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-4-c:q",
+        "t": 137.212,
+        "prompt": "$\\triangle PQS$ and $\\triangle RQS$ share side $QS$. $PQ = RQ$ and $\\angle PQS = \\angle RQS$. Which condition proves them congruent?",
+        "choices": [
+          "SAS",
+          "SSS",
+          "ASA",
+          "None: this is SSA."
+        ],
+        "answer": 0,
+        "working": "$PQ = RQ$ (given), $\\angle PQS = \\angle RQS$ (given) and $QS = QS$ (common side). The angle at $Q$ is between $PQ$ and $QS$, so it is included: SAS."
+      }
+    ]
+  },
+  "m202-3-1": {
+    "lessonId": "m202-3-1",
+    "title": "The Sine Law, Part 1: Matching Pairs and the Proof",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Naming the parts",
+        "t": 23.787
+      },
+      {
+        "title": "Biggest across from biggest",
+        "t": 64.975
+      },
+      {
+        "title": "Why it works",
+        "t": 86.708
+      },
+      {
+        "title": "The sine law",
+        "t": 128.618
+      },
+      {
+        "title": "Your turn",
+        "t": 160.573
+      },
+      {
+        "title": "Summary",
+        "t": 189.983
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-1:q",
+        "t": 169.44,
+        "prompt": "In $\\triangle PQR$, which side and angle form a matching pair?",
+        "choices": [
+          "$q$ and $\\angle Q$",
+          "$q$ and $\\angle P$",
+          "$PQ$ and $\\angle Q$",
+          "$r$ and $\\angle P$"
+        ],
+        "answer": 0,
+        "working": "Side $q$ is named after the angle opposite it, $\\angle Q$. Side $PQ$ is $r$, which is opposite $\\angle R$."
+      }
+    ]
+  },
+  "m202-3-1-b": {
+    "lessonId": "m202-3-1",
+    "title": "The Sine Law, Part 2: Finding a Side",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding a side",
+        "t": 18.551
+      },
+      {
+        "title": "Complete the pair first",
+        "t": 70.524
+      },
+      {
+        "title": "Mixing up the pairs",
+        "t": 112.709
+      },
+      {
+        "title": "Your turn",
+        "t": 132.379
+      },
+      {
+        "title": "Summary",
+        "t": 172.751
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-1-b:q",
+        "t": 147.803,
+        "prompt": "In acute $\\triangle DEF$, $\\angle D = 50^\\circ$, $\\angle E = 60^\\circ$ and $d = 10$ m. Determine $e$, to the nearest tenth of a metre.",
+        "choices": [
+          "$11.3$ m",
+          "$8.8$ m",
+          "$9.2$ m",
+          "$12.3$ m"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{e}{\\sin 60^\\circ} = \\dfrac{10}{\\sin 50^\\circ}$, so $e = \\dfrac{10\\sin 60^\\circ}{\\sin 50^\\circ} \\approx 11.3$ m. B flips the sines."
+      }
+    ]
+  },
+  "m202-3-1-c": {
+    "lessonId": "m202-3-1",
+    "title": "The Sine Law, Part 3: Finding an Angle",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding an angle",
+        "t": 17.634
+      },
+      {
+        "title": "Why there is one answer",
+        "t": 65.506
+      },
+      {
+        "title": "Solving the whole triangle",
+        "t": 90.888
+      },
+      {
+        "title": "Your turn",
+        "t": 143.938
+      },
+      {
+        "title": "Summary",
+        "t": 185.301
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-1-c:q",
+        "t": 159.212,
+        "prompt": "In acute $\\triangle ABC$, $a = 9$ cm, $b = 7$ cm and $\\angle A = 64^\\circ$. Determine $\\angle B$, to the nearest degree.",
+        "choices": [
+          "$44^\\circ$",
+          "$46^\\circ$",
+          "$56^\\circ$",
+          "$35^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\sin B = \\dfrac{7\\sin 64^\\circ}{9} \\approx 0.6991$, so $\\angle B = \\sin^{-1}(0.6991) \\approx 44^\\circ$. It is smaller than $64^\\circ$, because $b < a$."
+      }
+    ]
+  },
+  "m202-3-2": {
+    "lessonId": "m202-3-2",
+    "title": "The Cosine Law, Part 1: When the Sine Law Cannot Start",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "No matching pair",
+        "t": 18.72
+      },
+      {
+        "title": "Proving the cosine law",
+        "t": 55.122
+      },
+      {
+        "title": "Three forms",
+        "t": 104.637
+      },
+      {
+        "title": "Your turn",
+        "t": 140.899
+      },
+      {
+        "title": "Summary",
+        "t": 176.371
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-2:q",
+        "t": 150.78,
+        "prompt": "Which set of information gives no matching pair, so the cosine law is needed to start?",
+        "choices": [
+          "$a$, $b$ and $\\angle C$",
+          "$a$, $\\angle A$ and $\\angle B$",
+          "$a$, $b$ and $\\angle A$",
+          "$\\angle A$, $\\angle B$ and $c$"
+        ],
+        "answer": 0,
+        "working": "$\\angle C$ is the contained angle of $a$ and $b$, and $c$ is unknown: SAS. B and C contain the pair $a$ and $\\angle A$, and in D the angle sum gives $\\angle C$ to pair with $c$."
+      }
+    ]
+  },
+  "m202-3-2-b": {
+    "lessonId": "m202-3-2",
+    "title": "The Cosine Law, Part 2: Finding a Side",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two sides and the contained angle",
+        "t": 19.072
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 73.999
+      },
+      {
+        "title": "Order of operations",
+        "t": 107.427
+      },
+      {
+        "title": "Your turn",
+        "t": 141.601
+      },
+      {
+        "title": "Summary",
+        "t": 182.305
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-2-b:q",
+        "t": 155.986,
+        "prompt": "In acute $\\triangle ABC$, $a = 8$ cm, $b = 10$ cm and $\\angle C = 50^\\circ$. Determine $c$, to the nearest tenth of a centimetre.",
+        "choices": [
+          "$7.8$ cm",
+          "$12.8$ cm",
+          "$1.6$ cm",
+          "$61.2$ cm"
+        ],
+        "answer": 0,
+        "working": "$c^2 = 64 + 100 - 160\\cos 50^\\circ \\approx 61.15$, so $c \\approx 7.8$ cm. D forgets the square root, and C subtracts before multiplying."
+      }
+    ]
+  },
+  "m202-3-2-c": {
+    "lessonId": "m202-3-2",
+    "title": "The Cosine Law, Part 3: Finding an Angle and Using Both Laws",
+    "duration": 217,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rearranging for the angle",
+        "t": 18.434
+      },
+      {
+        "title": "Three sides",
+        "t": 46.512
+      },
+      {
+        "title": "Using both laws",
+        "t": 92.321
+      },
+      {
+        "title": "Your turn",
+        "t": 149.865
+      },
+      {
+        "title": "Summary",
+        "t": 188.602
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-2-c:q",
+        "t": 161.575,
+        "prompt": "An acute triangle has sides $6$ cm, $8$ cm and $9$ cm. Determine its largest angle, to the nearest degree.",
+        "choices": [
+          "$79^\\circ$",
+          "$41^\\circ$",
+          "$61^\\circ$",
+          "$101^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The largest angle is opposite $9$: $\\cos\\theta = \\dfrac{6^2 + 8^2 - 9^2}{2(6)(8)} = \\dfrac{19}{96} \\approx 0.1979$, so $\\theta \\approx 79^\\circ$."
+      }
+    ]
+  },
+  "m202-3-3": {
+    "lessonId": "m202-3-3",
+    "title": "Solving Problems with the Sine and Cosine Laws, Part 1: Choosing a Method",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One question",
+        "t": 21.437
+      },
+      {
+        "title": "Which law?",
+        "t": 66.156
+      },
+      {
+        "title": "Two common traps",
+        "t": 104.572
+      },
+      {
+        "title": "Your turn",
+        "t": 132.695
+      },
+      {
+        "title": "Summary",
+        "t": 167.097
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-3:q",
+        "t": 148.006,
+        "prompt": "In $\\triangle KLM$, you know $k = 8$, $\\angle K = 40^\\circ$ and $\\angle L = 75^\\circ$. You want $l$. Which method should you use?",
+        "choices": [
+          "Sine law",
+          "Cosine law",
+          "Angle sum, then cosine law",
+          "SOH CAH TOA"
+        ],
+        "answer": 0,
+        "working": "$k$ and $\\angle K$ are a matching pair, and $l$ is opposite the known $\\angle L$, so $\\dfrac{l}{\\sin 75^\\circ} = \\dfrac{8}{\\sin 40^\\circ}$."
+      }
+    ]
+  },
+  "m202-3-3-b": {
+    "lessonId": "m202-3-3",
+    "title": "Solving Problems with the Sine and Cosine Laws, Part 2: Surveying and Navigation",
+    "duration": 218,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Measuring a lake",
+        "t": 21.42
+      },
+      {
+        "title": "Locating a fire",
+        "t": 89.41
+      },
+      {
+        "title": "Your turn",
+        "t": 153.889
+      },
+      {
+        "title": "Summary",
+        "t": 192.856
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-3-b:q",
+        "t": 170.14,
+        "prompt": "From a point, it is $300$ m to one end of a pond and $250$ m to the other end, with $48^\\circ$ between the lines of sight. How long is the pond, to the nearest metre?",
+        "choices": [
+          "$228$ m",
+          "$391$ m",
+          "$41$ m",
+          "$52\\,130$ m"
+        ],
+        "answer": 0,
+        "working": "$d^2 = 300^2 + 250^2 - 2(300)(250)\\cos 48^\\circ \\approx 52\\,130$, so $d \\approx 228$ m. D forgets the square root, and C subtracts before multiplying."
+      }
+    ]
+  },
+  "m202-3-3-c": {
+    "lessonId": "m202-3-3",
+    "title": "Solving Problems with the Sine and Cosine Laws, Part 3: Problems with Two Steps",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Plan the path",
+        "t": 16.898
+      },
+      {
+        "title": "How high is the balloon?",
+        "t": 54.066
+      },
+      {
+        "title": "Keep the calculator values",
+        "t": 124.631
+      },
+      {
+        "title": "Your turn",
+        "t": 151.724
+      },
+      {
+        "title": "Summary",
+        "t": 194.509
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-3-c:q",
+        "t": 166.593,
+        "prompt": "Two points are $500$ m apart, with a balloon between them. Its angles of elevation are $58^\\circ$ and $50^\\circ$. How high is the balloon, to the nearest metre?",
+        "choices": [
+          "$342$ m",
+          "$403$ m",
+          "$213$ m",
+          "$446$ m"
+        ],
+        "answer": 0,
+        "working": "The top angle is $72^\\circ$. The slanted side from the $58^\\circ$ point is $\\dfrac{500\\sin 50^\\circ}{\\sin 72^\\circ} \\approx 402.73$, so $h \\approx 402.73\\sin 58^\\circ \\approx 342$ m."
+      }
+    ]
+  },
+  "m202-4-1": {
+    "lessonId": "m202-4-1",
+    "title": "Mixed and Entire Radicals, Part 1: Simplifying Radicals",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Amara’s quilt block",
+        "t": 26.585
+      },
+      {
+        "title": "Radicals",
+        "t": 62.799
+      },
+      {
+        "title": "Entire to mixed",
+        "t": 104.457
+      },
+      {
+        "title": "Stopping too early",
+        "t": 158.375
+      },
+      {
+        "title": "Your turn",
+        "t": 175.716
+      },
+      {
+        "title": "Summary",
+        "t": 205.275
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-1:q",
+        "t": 183.709,
+        "prompt": "Write $\\sqrt{98}$ as a mixed radical in simplest form.",
+        "choices": [
+          "$7\\sqrt{2}$",
+          "$2\\sqrt{7}$",
+          "$49\\sqrt{2}$",
+          "$\\sqrt{2}\\sqrt{49}$"
+        ],
+        "answer": 0,
+        "working": "$98 = 49 \\times 2$, so $\\sqrt{98} = \\sqrt{49} \\times \\sqrt{2} = 7\\sqrt{2}$."
+      }
+    ]
+  },
+  "m202-4-1-b": {
+    "lessonId": "m202-4-1",
+    "title": "Mixed and Entire Radicals, Part 2: Mixed to Entire",
+    "duration": 172,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mixed to entire",
+        "t": 20.351
+      },
+      {
+        "title": "Variable radicands",
+        "t": 61.078
+      },
+      {
+        "title": "Your turn",
+        "t": 116.934
+      },
+      {
+        "title": "Summary",
+        "t": 144.234
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-1-b:q",
+        "t": 123.911,
+        "prompt": "Write $6\\sqrt{2}$ as an entire radical.",
+        "choices": [
+          "$\\sqrt{72}$",
+          "$\\sqrt{12}$",
+          "$\\sqrt{38}$",
+          "$\\sqrt{144}$"
+        ],
+        "answer": 0,
+        "working": "$6 = \\sqrt{36}$, so $6\\sqrt{2} = \\sqrt{36} \\times \\sqrt{2} = \\sqrt{72}$. B multiplies $6 \\times 2$ without squaring the $6$."
+      }
+    ]
+  },
+  "m202-4-1-c": {
+    "lessonId": "m202-4-1",
+    "title": "Mixed and Entire Radicals, Part 3: Ordering Radicals and Exact Lengths",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Ordering radicals",
+        "t": 19.022
+      },
+      {
+        "title": "Decimals",
+        "t": 65.294
+      },
+      {
+        "title": "A diagonal brace",
+        "t": 91.077
+      },
+      {
+        "title": "Your turn",
+        "t": 132.553
+      },
+      {
+        "title": "Summary",
+        "t": 163.927
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-1-c:q",
+        "t": 141.198,
+        "prompt": "Order $3\\sqrt{2}$, $2\\sqrt{5}$ and $4$ from least to greatest.",
+        "choices": [
+          "$4 < 3\\sqrt{2} < 2\\sqrt{5}$",
+          "$3\\sqrt{2} < 2\\sqrt{5} < 4$",
+          "$2\\sqrt{5} < 3\\sqrt{2} < 4$",
+          "$4 < 2\\sqrt{5} < 3\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "$3\\sqrt{2} = \\sqrt{18}$, $2\\sqrt{5} = \\sqrt{20}$ and $4 = \\sqrt{16}$, and $16 < 18 < 20$."
+      }
+    ]
+  },
+  "m202-4-2": {
+    "lessonId": "m202-4-2",
+    "title": "Adding, Subtracting and Multiplying Radicals, Part 1: Like Radicals",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Like radicals",
+        "t": 16.632
+      },
+      {
+        "title": "Two kinds of radicals",
+        "t": 55.804
+      },
+      {
+        "title": "Adding the radicands",
+        "t": 83.565
+      },
+      {
+        "title": "Simplify first",
+        "t": 105.614
+      },
+      {
+        "title": "Your turn",
+        "t": 142.795
+      },
+      {
+        "title": "Summary",
+        "t": 169.134
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-2:q",
+        "t": 149.301,
+        "prompt": "Simplify $\\sqrt{50} + \\sqrt{8}$.",
+        "choices": [
+          "$7\\sqrt{2}$",
+          "$\\sqrt{58}$",
+          "$3\\sqrt{2}$",
+          "$10\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "$\\sqrt{50} = 5\\sqrt{2}$ and $\\sqrt{8} = 2\\sqrt{2}$, so the sum is $7\\sqrt{2}$. B adds the radicands."
+      }
+    ]
+  },
+  "m202-4-2-b": {
+    "lessonId": "m202-4-2",
+    "title": "Adding, Subtracting and Multiplying Radicals, Part 2: Perimeters and Products",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Edging a flower bed",
+        "t": 20.895
+      },
+      {
+        "title": "Multiplying radicals",
+        "t": 70.036
+      },
+      {
+        "title": "Squaring a radical",
+        "t": 106.491
+      },
+      {
+        "title": "Your turn",
+        "t": 131.85
+      },
+      {
+        "title": "Summary",
+        "t": 162.365
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-2-b:q",
+        "t": 139.316,
+        "prompt": "Simplify $\\left(3\\sqrt{2}\\right)\\left(4\\sqrt{6}\\right)$.",
+        "choices": [
+          "$24\\sqrt{3}$",
+          "$12\\sqrt{12}$",
+          "$7\\sqrt{8}$",
+          "$12\\sqrt{8}$"
+        ],
+        "answer": 0,
+        "working": "$(3 \\times 4)\\sqrt{2 \\times 6} = 12\\sqrt{12} = 12 \\times 2\\sqrt{3} = 24\\sqrt{3}$. B is correct but not in simplest form."
+      }
+    ]
+  },
+  "m202-4-2-c": {
+    "lessonId": "m202-4-2",
+    "title": "Adding, Subtracting and Multiplying Radicals, Part 3: The Distributive Property",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Distributing a radical",
+        "t": 19.907
+      },
+      {
+        "title": "The area of a garden",
+        "t": 51.862
+      },
+      {
+        "title": "Four products, not two",
+        "t": 100.045
+      },
+      {
+        "title": "Your turn",
+        "t": 120.146
+      },
+      {
+        "title": "Summary",
+        "t": 150.771
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-2-c:q",
+        "t": 129.283,
+        "prompt": "Expand and simplify $\\left(3 + \\sqrt{2}\\right)\\left(1 + \\sqrt{2}\\right)$.",
+        "choices": [
+          "$5 + 4\\sqrt{2}$",
+          "$5$",
+          "$5 + 3\\sqrt{2}$",
+          "$3 + 4\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "$3 + 3\\sqrt{2} + \\sqrt{2} + 2 = 5 + 4\\sqrt{2}$. B keeps only two of the four products."
+      }
+    ]
+  },
+  "m202-4-3": {
+    "lessonId": "m202-4-3",
+    "title": "Dividing Radicals, Part 1: Dividing",
+    "duration": 174,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The quotient property",
+        "t": 25.987
+      },
+      {
+        "title": "Dividing radicals",
+        "t": 57.113
+      },
+      {
+        "title": "A solar array",
+        "t": 88.808
+      },
+      {
+        "title": "Your turn",
+        "t": 124.864
+      },
+      {
+        "title": "Summary",
+        "t": 149.826
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-3:q",
+        "t": 132.615,
+        "prompt": "Simplify $\\dfrac{20\\sqrt{21}}{5\\sqrt{3}}$.",
+        "choices": [
+          "$4\\sqrt{7}$",
+          "$4\\sqrt{18}$",
+          "$15\\sqrt{7}$",
+          "$\\dfrac{4\\sqrt{7}}{3}$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{20}{5} = 4$ and $\\dfrac{21}{3} = 7$, so the quotient is $4\\sqrt{7}$."
+      }
+    ]
+  },
+  "m202-4-3-b": {
+    "lessonId": "m202-4-3",
+    "title": "Dividing Radicals, Part 2: Rationalizing the Denominator",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why rationalize?",
+        "t": 18.048
+      },
+      {
+        "title": "Multiplying by one",
+        "t": 54.52
+      },
+      {
+        "title": "Two things to watch",
+        "t": 97.659
+      },
+      {
+        "title": "Your turn",
+        "t": 129.664
+      },
+      {
+        "title": "Summary",
+        "t": 157.436
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-3-b:q",
+        "t": 137.302,
+        "prompt": "Rationalize the denominator: $\\dfrac{6}{\\sqrt{2}}$.",
+        "choices": [
+          "$3\\sqrt{2}$",
+          "$\\dfrac{6}{2}$",
+          "$6\\sqrt{2}$",
+          "$\\sqrt{3}$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{6}{\\sqrt{2}} \\times \\dfrac{\\sqrt{2}}{\\sqrt{2}} = \\dfrac{6\\sqrt{2}}{2} = 3\\sqrt{2}$. B multiplies only the denominator."
+      }
+    ]
+  },
+  "m202-4-3-c": {
+    "lessonId": "m202-4-3",
+    "title": "Dividing Radicals, Part 3: Two Terms in the Numerator",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A binomial numerator",
+        "t": 20.543
+      },
+      {
+        "title": "Check by estimating",
+        "t": 60.784
+      },
+      {
+        "title": "Another example",
+        "t": 96.906
+      },
+      {
+        "title": "Your turn",
+        "t": 131.231
+      },
+      {
+        "title": "Summary",
+        "t": 166.107
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-3-c:q",
+        "t": 141.277,
+        "prompt": "Simplify $\\dfrac{8 + \\sqrt{12}}{\\sqrt{2}}$ so that the denominator has no radical.",
+        "choices": [
+          "$4\\sqrt{2} + \\sqrt{6}$",
+          "$4\\sqrt{2} + 2\\sqrt{6}$",
+          "$8\\sqrt{2} + \\sqrt{6}$",
+          "$4 + \\sqrt{6}$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{8\\sqrt{2} + \\sqrt{24}}{2} = \\dfrac{8\\sqrt{2} + 2\\sqrt{6}}{2} = 4\\sqrt{2} + \\sqrt{6}$."
+      }
+    ]
+  },
+  "m202-4-4": {
+    "lessonId": "m202-4-4",
+    "title": "Radical Equations, Part 1: Isolate, Then Undo",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undoing a square root",
+        "t": 24.368
+      },
+      {
+        "title": "Undoing a cube root",
+        "t": 63.691
+      },
+      {
+        "title": "Isolate first",
+        "t": 101.019
+      },
+      {
+        "title": "Your turn",
+        "t": 140.22
+      },
+      {
+        "title": "Summary",
+        "t": 171.57
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-4:q",
+        "t": 148.388,
+        "prompt": "Solve $3\\sqrt{x + 2} - 1 = 11$.",
+        "choices": [
+          "$x = 14$",
+          "$x = 16$",
+          "$x = 2$",
+          "$x = 18$"
+        ],
+        "answer": 0,
+        "working": "$3\\sqrt{x + 2} = 12$, so $\\sqrt{x + 2} = 4$ and $x + 2 = 16$, giving $x = 14$. Check: $3\\sqrt{16} - 1 = 11$ ✓"
+      }
+    ]
+  },
+  "m202-4-4-b": {
+    "lessonId": "m202-4-4",
+    "title": "Radical Equations, Part 2: Extraneous Roots",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An equation with no solution",
+        "t": 18.514
+      },
+      {
+        "title": "Skipping the check",
+        "t": 60.017
+      },
+      {
+        "title": "Reasoning with a graph",
+        "t": 88.646
+      },
+      {
+        "title": "Your turn",
+        "t": 149.077
+      },
+      {
+        "title": "Summary",
+        "t": 181.097
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-4-b:q",
+        "t": 157.022,
+        "prompt": "Solve $\\sqrt{2x + 3} + 5 = 2$.",
+        "choices": [
+          "No solution",
+          "$x = 3$",
+          "$x = 0$",
+          "$x = -3$"
+        ],
+        "answer": 0,
+        "working": "$\\sqrt{2x + 3} = -3$, and a square root is never negative. Squaring gives $x = 3$, but $\\sqrt{9} + 5 = 8 \\ne 2$, so it is extraneous."
+      }
+    ]
+  },
+  "m202-4-4-c": {
+    "lessonId": "m202-4-4",
+    "title": "Radical Equations, Part 3: Radical Equations in Context",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How high is the bridge?",
+        "t": 17.902
+      },
+      {
+        "title": "The volume of an exercise ball",
+        "t": 67.396
+      },
+      {
+        "title": "Is it reasonable?",
+        "t": 110.978
+      },
+      {
+        "title": "Your turn",
+        "t": 141.407
+      },
+      {
+        "title": "Summary",
+        "t": 183.461
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-4-c:q",
+        "t": 159.614,
+        "prompt": "In this example, the speed of a wave in water $d$ m deep is modelled by $s = \\sqrt{9.8d}$ m/s. A wave travels at $50$ m/s. How deep is the water, to the nearest tenth of a metre?",
+        "choices": [
+          "$255.1$ m",
+          "$25.5$ m",
+          "$490$ m",
+          "$5.1$ m"
+        ],
+        "answer": 0,
+        "working": "Square both sides: $2500 = 9.8d$, so $d = \\dfrac{2500}{9.8} \\approx 255.1$ m. D divides $50$ by $9.8$ without squaring."
+      }
+    ]
+  },
+  "m202-5-1": {
+    "lessonId": "m202-5-1",
+    "title": "Standard Deviation, Part 1: Measuring Spread",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Same mean, different spread",
+        "t": 20.78
+      },
+      {
+        "title": "Standard deviation",
+        "t": 51.565
+      },
+      {
+        "title": "Route A",
+        "t": 92.094
+      },
+      {
+        "title": "Your turn",
+        "t": 132.205
+      },
+      {
+        "title": "Summary",
+        "t": 165.614
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-1:q",
+        "t": 142.193,
+        "prompt": "Find the population standard deviation of $4,\\ 6,\\ 8,\\ 10,\\ 12$.",
+        "choices": [
+          "$2.83$",
+          "$8$",
+          "$3.16$",
+          "$40$"
+        ],
+        "answer": 0,
+        "working": "$\\mu = 8$. The squared deviations are $16, 4, 0, 4, 16$, which add to $40$. $\\sigma = \\sqrt{\\dfrac{40}{5}} = \\sqrt{8} \\approx 2.83$."
+      }
+    ]
+  },
+  "m202-5-1-b": {
+    "lessonId": "m202-5-1",
+    "title": "Standard Deviation, Part 2: Calculators and Frequency Tables",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two standard deviations",
+        "t": 20.407
+      },
+      {
+        "title": "Goals per game",
+        "t": 53.446
+      },
+      {
+        "title": "The standard deviation",
+        "t": 92.52
+      },
+      {
+        "title": "Your turn",
+        "t": 138.817
+      },
+      {
+        "title": "Summary",
+        "t": 177.466
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-1-b:q",
+        "t": 151.334,
+        "prompt": "The value $1$ occurs twice, $2$ occurs four times and $3$ occurs twice. Find the population standard deviation.",
+        "choices": [
+          "$0.71$",
+          "$0.82$",
+          "$0.76$",
+          "$2$"
+        ],
+        "answer": 0,
+        "working": "$N = 8$ and $\\mu = \\dfrac{2 + 8 + 6}{8} = 2$. $\\Sigma f(x - \\mu)^2 = 2(1) + 4(0) + 2(1) = 4$, so $\\sigma = \\sqrt{\\dfrac{4}{8}} \\approx 0.71$."
+      }
+    ]
+  },
+  "m202-5-1-c": {
+    "lessonId": "m202-5-1",
+    "title": "Standard Deviation, Part 3: Comparing Consistency",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Route B",
+        "t": 17.018
+      },
+      {
+        "title": "Comparing the routes",
+        "t": 50.02
+      },
+      {
+        "title": "Mean versus spread",
+        "t": 94.283
+      },
+      {
+        "title": "Your turn",
+        "t": 127.591
+      },
+      {
+        "title": "Summary",
+        "t": 166.794
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-1-c:q",
+        "t": 146.217,
+        "prompt": "Two archers: Ana’s scores have a mean of $8.2$ and $\\sigma = 0.6$. Ben’s have a mean of $8.5$ and $\\sigma = 1.9$. Who is more consistent?",
+        "choices": [
+          "Ana: her standard deviation is smaller.",
+          "Ben: his mean is higher.",
+          "Ben: his standard deviation is larger.",
+          "They are equally consistent."
+        ],
+        "answer": 0,
+        "working": "Consistency is about spread. Ana’s scores are typically $0.6$ points from her mean, and Ben’s about $1.9$. Ben scores more on average, but Ana is more consistent."
+      }
+    ]
+  },
+  "m202-5-2": {
+    "lessonId": "m202-5-2",
+    "title": "The Normal Distribution, Part 1: The Normal Curve",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The normal curve",
+        "t": 22.458
+      },
+      {
+        "title": "Centre and width",
+        "t": 63.289
+      },
+      {
+        "title": "Using symmetry",
+        "t": 94.726
+      },
+      {
+        "title": "Your turn",
+        "t": 130.772
+      },
+      {
+        "title": "Summary",
+        "t": 160.306
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-2:q",
+        "t": 143.008,
+        "prompt": "Exam marks are normally distributed with a mean of $72\\%$. What percent of students scored above the mean?",
+        "choices": [
+          "$50\\%$",
+          "$68\\%$",
+          "$34\\%$",
+          "$72\\%$"
+        ],
+        "answer": 0,
+        "working": "The normal curve is symmetric about the mean, so half of the data is above it."
+      }
+    ]
+  },
+  "m202-5-2-b": {
+    "lessonId": "m202-5-2",
+    "title": "The Normal Distribution, Part 2: The 68–95–99.7 Rule",
+    "duration": 244,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The rule",
+        "t": 22.696
+      },
+      {
+        "title": "Between 152 and 184",
+        "t": 59.49
+      },
+      {
+        "title": "Splitting the regions",
+        "t": 95.442
+      },
+      {
+        "title": "Taller than 176 cm",
+        "t": 140.727
+      },
+      {
+        "title": "Your turn",
+        "t": 177.322
+      },
+      {
+        "title": "Summary",
+        "t": 211.126
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-2-b:q",
+        "t": 186.005,
+        "prompt": "The heights have $\\mu = 168$ cm and $\\sigma = 8$ cm. What percent of the students are shorter than $152$ cm?",
+        "choices": [
+          "$2.5\\%$",
+          "$5\\%$",
+          "$13.5\\%$",
+          "$47.5\\%$"
+        ],
+        "answer": 0,
+        "working": "$152$ is $2\\sigma$ below the mean. Below it: $2.35\\% + 0.15\\% = 2.5\\%$. B counts both tails."
+      }
+    ]
+  },
+  "m202-5-2-c": {
+    "lessonId": "m202-5-2",
+    "title": "The Normal Distribution, Part 3: Using the Normal Model",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two different distances",
+        "t": 23.035
+      },
+      {
+        "title": "Adding the big percents",
+        "t": 79.263
+      },
+      {
+        "title": "Is the data normal?",
+        "t": 108.29
+      },
+      {
+        "title": "Working backwards",
+        "t": 155.094
+      },
+      {
+        "title": "Your turn",
+        "t": 189.896
+      },
+      {
+        "title": "Summary",
+        "t": 228.465
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-2-c:q",
+        "t": 204.633,
+        "prompt": "Test scores are normally distributed, and about $68\\%$ of them are between $85$ and $115$. Find the mean and the standard deviation.",
+        "choices": [
+          "$\\mu = 100$, $\\sigma = 15$",
+          "$\\mu = 100$, $\\sigma = 30$",
+          "$\\mu = 100$, $\\sigma = 7.5$",
+          "$\\mu = 115$, $\\sigma = 15$"
+        ],
+        "answer": 0,
+        "working": "The mean is halfway: $100$. $68\\%$ is within $1\\sigma$ each side, so the interval is $2\\sigma = 30$ wide, and $\\sigma = 15$."
+      }
+    ]
+  },
+  "m202-5-3": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 1: Standard Deviations from the Mean",
+    "duration": 213,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a z-score measures",
+        "t": 22.853
+      },
+      {
+        "title": "Heights",
+        "t": 53.139
+      },
+      {
+        "title": "From a z-score to a value",
+        "t": 107.286
+      },
+      {
+        "title": "Your turn",
+        "t": 150.906
+      },
+      {
+        "title": "Summary",
+        "t": 187.486
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3:q",
+        "t": 165.147,
+        "prompt": "Battery lives have $\\mu = 50$ h and $\\sigma = 4$ h. What is the z-score of a battery that lasts $44$ h?",
+        "choices": [
+          "$-1.5$",
+          "$1.5$",
+          "$-6$",
+          "$-0.67$"
+        ],
+        "answer": 0,
+        "working": "$z = \\dfrac{44 - 50}{4} = \\dfrac{-6}{4} = -1.5$. It is below the mean, so the z-score is negative."
+      }
+    ]
+  },
+  "m202-5-3-b": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 2: Comparing Results",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Chemistry or English?",
+        "t": 17.446
+      },
+      {
+        "title": "Comparing raw marks",
+        "t": 60.911
+      },
+      {
+        "title": "When lower is better",
+        "t": 84.149
+      },
+      {
+        "title": "Your turn",
+        "t": 126.795
+      },
+      {
+        "title": "Summary",
+        "t": 166.122
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3-b:q",
+        "t": 144.412,
+        "prompt": "Which result is better compared with the others: $82$ on a test with $\\mu = 70$, $\\sigma = 6$, or $90$ on a test with $\\mu = 80$, $\\sigma = 8$?",
+        "choices": [
+          "$82$, with $z = 2$",
+          "$90$, with $z = 1.25$",
+          "$90$, because it is higher",
+          "They are equal."
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{82 - 70}{6} = 2$ and $\\dfrac{90 - 80}{8} = 1.25$. The $82$ is further above its mean."
+      }
+    ]
+  },
+  "m202-5-3-c": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 3: Areas under the Normal Curve",
+    "duration": 234,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A z-score table",
+        "t": 23
+      },
+      {
+        "title": "Below, above and between",
+        "t": 70.571
+      },
+      {
+        "title": "Sketch first",
+        "t": 135.516
+      },
+      {
+        "title": "Your turn",
+        "t": 163.363
+      },
+      {
+        "title": "Summary",
+        "t": 207.236
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3-c:q",
+        "t": 178.827,
+        "prompt": "For the heights ($\\mu = 168$ cm, $\\sigma = 8$ cm), what percent of students are taller than $172$ cm? The table gives $0.6915$ for $z = 0.50$.",
+        "choices": [
+          "$30.9\\%$",
+          "$69.2\\%$",
+          "$50.5\\%$",
+          "$19.2\\%$"
+        ],
+        "answer": 0,
+        "working": "$z = \\dfrac{172 - 168}{8} = 0.5$, and the area to the left is $0.6915$. Taller is to the right: $1 - 0.6915 = 0.3085$, about $30.9\\%$."
+      }
+    ]
+  },
+  "m202-5-3-d": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 4: From a Percent to a Value",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The top 10%",
+        "t": 17.684
+      },
+      {
+        "title": "The wrong side",
+        "t": 73.1
+      },
+      {
+        "title": "The bottom 25%",
+        "t": 103.334
+      },
+      {
+        "title": "Your turn",
+        "t": 139.994
+      },
+      {
+        "title": "Summary",
+        "t": 187.806
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3-d:q",
+        "t": 158.652,
+        "prompt": "For the heights ($\\mu = 168$ cm, $\\sigma = 8$ cm), what height separates the shortest $20\\%$? The closest table area to $0.20$ is $0.2005$, at $z = -0.84$.",
+        "choices": [
+          "$161.3$ cm",
+          "$174.7$ cm",
+          "$166.4$ cm",
+          "$160.0$ cm"
+        ],
+        "answer": 0,
+        "working": "The shortest $20\\%$ is to the left, so use $z = -0.84$: $x = 168 + (-0.84)(8) = 161.28$, about $161.3$ cm. B is the tallest $20\\%$."
+      }
+    ]
+  },
+  "m202-5-4": {
+    "lessonId": "m202-5-4",
+    "title": "Confidence Intervals, Part 1: Margin of Error",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Samples and populations",
+        "t": 24.811
+      },
+      {
+        "title": "The arena poll",
+        "t": 65.006
+      },
+      {
+        "title": "Working backwards",
+        "t": 100.807
+      },
+      {
+        "title": "Your turn",
+        "t": 140.532
+      },
+      {
+        "title": "Summary",
+        "t": 173.201
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-4:q",
+        "t": 153.572,
+        "prompt": "A report says that between $27\\%$ and $35\\%$ of students walk to school. What were the survey result and the margin of error?",
+        "choices": [
+          "$31\\%$, with a margin of $4$ points",
+          "$31\\%$, with a margin of $8$ points",
+          "$27\\%$, with a margin of $8$ points",
+          "$35\\%$, with a margin of $4$ points"
+        ],
+        "answer": 0,
+        "working": "Midpoint: $\\dfrac{27 + 35}{2} = 31$. Half the width: $\\dfrac{35 - 27}{2} = 4$. B uses the whole width."
+      }
+    ]
+  },
+  "m202-5-4-b": {
+    "lessonId": "m202-5-4",
+    "title": "Confidence Intervals, Part 2: Confidence Level and Sample Size",
+    "duration": 224,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Nineteen times out of twenty",
+        "t": 19.002
+      },
+      {
+        "title": "What 95% does not mean",
+        "t": 65.504
+      },
+      {
+        "title": "What changes the margin of error",
+        "t": 85.82
+      },
+      {
+        "title": "Diminishing returns",
+        "t": 135.495
+      },
+      {
+        "title": "Your turn",
+        "t": 161.632
+      },
+      {
+        "title": "Summary",
+        "t": 194.441
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-4-b:q",
+        "t": 173.493,
+        "prompt": "A pollster wants a smaller margin of error while keeping a $95\\%$ confidence level. What should change?",
+        "choices": [
+          "Survey more people.",
+          "Raise the confidence level to $99\\%$.",
+          "Survey fewer people.",
+          "Report the result to more decimal places."
+        ],
+        "answer": 0,
+        "working": "A larger random sample gives a smaller margin of error. B widens the interval, and C makes it wider too."
+      }
+    ]
+  },
+  "m202-5-4-c": {
+    "lessonId": "m202-5-4",
+    "title": "Confidence Intervals, Part 3: Making Decisions",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A majority?",
+        "t": 20.212
+      },
+      {
+        "title": "A close race",
+        "t": 53.075
+      },
+      {
+        "title": "Estimating a number of people",
+        "t": 98.175
+      },
+      {
+        "title": "Your turn",
+        "t": 141.998
+      },
+      {
+        "title": "Summary",
+        "t": 177.404
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-4-c:q",
+        "t": 158.665,
+        "prompt": "A poll finds $52\\%$ support for a new bylaw, accurate to within $3$ percentage points, 19 times out of 20. Can supporters be confident of a majority?",
+        "choices": [
+          "No: the interval includes values below $50\\%$.",
+          "Yes: $52\\%$ is more than $50\\%$.",
+          "Yes: the margin of error is small.",
+          "No: $52\\%$ is less than $95\\%$."
+        ],
+        "answer": 0,
+        "working": "The interval is $49\\%$ to $55\\%$. It includes values below $50\\%$, so a majority is not certain at this confidence level."
+      }
+    ]
+  },
+  "m202-6-1": {
+    "lessonId": "m202-6-1",
+    "title": "Quadratic Functions and Their Graphs, Part 1: Parabolas",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Quadratic functions",
+        "t": 20.108
+      },
+      {
+        "title": "Symmetry in a table",
+        "t": 59.576
+      },
+      {
+        "title": "Reading the graph",
+        "t": 89.34
+      },
+      {
+        "title": "Your turn",
+        "t": 137.896
+      },
+      {
+        "title": "Summary",
+        "t": 170.302
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-1:q",
+        "t": 147.411,
+        "prompt": "A parabola has zeros $-5$ and $1$. What is its axis of symmetry?",
+        "choices": [
+          "$x = -2$",
+          "$x = -3$",
+          "$y = -2$",
+          "$x = 3$"
+        ],
+        "answer": 0,
+        "working": "The axis of symmetry is halfway between the zeros: $\\dfrac{-5 + 1}{2} = -2$, so it is the vertical line $x = -2$."
+      }
+    ]
+  },
+  "m202-6-1-b": {
+    "lessonId": "m202-6-1",
+    "title": "Quadratic Functions and Their Graphs, Part 2: Maximum, Minimum, Domain and Range",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Maximum and minimum",
+        "t": 19.884
+      },
+      {
+        "title": "Two, one or no zeros",
+        "t": 51.141
+      },
+      {
+        "title": "Domain and range",
+        "t": 78.144
+      },
+      {
+        "title": "Two common slips",
+        "t": 122.24
+      },
+      {
+        "title": "Your turn",
+        "t": 153.609
+      },
+      {
+        "title": "Summary",
+        "t": 185.58
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-1-b:q",
+        "t": 163.675,
+        "prompt": "A parabola opens up and has its vertex at $(3, -2)$. What is its range?",
+        "choices": [
+          "$\\{y \\mid y \\ge -2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\le -2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge 3,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "It opens up, so the vertex is the lowest point, and its $y$-coordinate, $-2$, is the minimum value: $y \\ge -2$."
+      }
+    ]
+  },
+  "m202-6-1-c": {
+    "lessonId": "m202-6-1",
+    "title": "Quadratic Functions and Their Graphs, Part 3: Parabolas in Context",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The height of a ball",
+        "t": 18.446
+      },
+      {
+        "title": "Domain and range in context",
+        "t": 65.162
+      },
+      {
+        "title": "Profit and break-even",
+        "t": 98.694
+      },
+      {
+        "title": "Your turn",
+        "t": 129.207
+      },
+      {
+        "title": "Summary",
+        "t": 164.152
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-1-c:q",
+        "t": 142.345,
+        "prompt": "A rocket’s height has its vertex at $(4, 80)$, in seconds and metres, and it lands after $8$ s. Which statement is true?",
+        "choices": [
+          "It reaches $80$ m after $4$ s.",
+          "It reaches $4$ m after $80$ s.",
+          "It is in the air for $4$ s.",
+          "Its range is $0 \\le h \\le 8$."
+        ],
+        "answer": 0,
+        "working": "The vertex gives the time ($4$ s) and the maximum height ($80$ m). It is in the air for $8$ s, and the range is $0 \\le h \\le 80$."
+      }
+    ]
+  },
+  "m202-6-2": {
+    "lessonId": "m202-6-2",
+    "title": "Axis of Symmetry and Optimization, Part 1: Finding the Axis of Symmetry",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the zeros",
+        "t": 19.742
+      },
+      {
+        "title": "Any two points at the same height",
+        "t": 65.988
+      },
+      {
+        "title": "From standard form",
+        "t": 92.328
+      },
+      {
+        "title": "Your turn",
+        "t": 140.268
+      },
+      {
+        "title": "Summary",
+        "t": 171.882
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-2:q",
+        "t": 150.655,
+        "prompt": "The points $(-3, 8)$ and $(5, 8)$ are on a parabola. What is its axis of symmetry?",
+        "choices": [
+          "$x = 1$",
+          "$x = 4$",
+          "$y = 8$",
+          "$x = -4$"
+        ],
+        "answer": 0,
+        "working": "Both points have $y = 8$, so the axis is halfway between them: $x = \\dfrac{-3 + 5}{2} = 1$."
+      }
+    ]
+  },
+  "m202-6-2-b": {
+    "lessonId": "m202-6-2",
+    "title": "Axis of Symmetry and Optimization, Part 2: Maximum and Minimum Values",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Vertex from standard form",
+        "t": 19.69
+      },
+      {
+        "title": "Watch the signs",
+        "t": 57.465
+      },
+      {
+        "title": "Maximum or minimum?",
+        "t": 81.925
+      },
+      {
+        "title": "A pop fly",
+        "t": 104.768
+      },
+      {
+        "title": "Your turn",
+        "t": 155.572
+      },
+      {
+        "title": "Summary",
+        "t": 186.652
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-2-b:q",
+        "t": 164.613,
+        "prompt": "Find the vertex of $y = x^2 - 6x + 2$.",
+        "choices": [
+          "$(3, -7)$",
+          "$(-3, 29)$",
+          "$(3, 2)$",
+          "$(6, 2)$"
+        ],
+        "answer": 0,
+        "working": "$x = -\\dfrac{-6}{2(1)} = 3$, and $y = 9 - 18 + 2 = -7$. B uses the wrong sign for $b$."
+      }
+    ]
+  },
+  "m202-6-2-c": {
+    "lessonId": "m202-6-2",
+    "title": "Axis of Symmetry and Optimization, Part 3: Optimization Problems",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fencing a corral",
+        "t": 21.155
+      },
+      {
+        "title": "The area graph",
+        "t": 70.651
+      },
+      {
+        "title": "Setting a ticket price",
+        "t": 97.105
+      },
+      {
+        "title": "Your turn",
+        "t": 152.762
+      },
+      {
+        "title": "Summary",
+        "t": 192.856
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-2-c:q",
+        "t": 167.594,
+        "prompt": "A farmer has $80$ m of fencing for a rectangular pen against a barn wall, so only three sides need fencing. What is the greatest possible area?",
+        "choices": [
+          "$800\\ \\text{m}^2$",
+          "$400\\ \\text{m}^2$",
+          "$1600\\ \\text{m}^2$",
+          "$20\\ \\text{m}^2$"
+        ],
+        "answer": 0,
+        "working": "$A = x(80 - 2x) = -2x^2 + 80x$. The vertex is at $x = 20$, so the pen is $20$ m by $40$ m, and $A = 800\\ \\text{m}^2$. D gives $x$, not the area."
+      }
+    ]
+  },
+  "m202-6-3": {
+    "lessonId": "m202-6-3",
+    "title": "Quadratic Functions in Factored Form, Part 1: Reading the Zeros",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Factored form",
+        "t": 19.916
+      },
+      {
+        "title": "Reading the zeros",
+        "t": 62.19
+      },
+      {
+        "title": "The sign flips",
+        "t": 96.735
+      },
+      {
+        "title": "Your turn",
+        "t": 117.716
+      },
+      {
+        "title": "Summary",
+        "t": 151.002
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-3:q",
+        "t": 128.559,
+        "prompt": "What are the zeros of $y = -3(x + 4)(x - 2)$?",
+        "choices": [
+          "$-4$ and $2$",
+          "$4$ and $-2$",
+          "$-3$, $-4$ and $2$",
+          "$4$ and $2$"
+        ],
+        "answer": 0,
+        "working": "$x + 4 = 0$ gives $x = -4$, and $x - 2 = 0$ gives $x = 2$. The $-3$ is $a$; it is not a zero."
+      }
+    ]
+  },
+  "m202-6-3-b": {
+    "lessonId": "m202-6-3",
+    "title": "Quadratic Functions in Factored Form, Part 2: Axis, Vertex and Intercepts",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Everything from factored form",
+        "t": 17.269
+      },
+      {
+        "title": "One that opens up",
+        "t": 67.946
+      },
+      {
+        "title": "Standard form or factored form?",
+        "t": 108.692
+      },
+      {
+        "title": "Your turn",
+        "t": 142.114
+      },
+      {
+        "title": "Summary",
+        "t": 175.939
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-3-b:q",
+        "t": 151.645,
+        "prompt": "What is the vertex of $y = (x - 1)(x - 7)$?",
+        "choices": [
+          "$(4, -9)$",
+          "$(4, 9)$",
+          "$(-4, 55)$",
+          "$(0, 7)$"
+        ],
+        "answer": 0,
+        "working": "The axis is $x = \\dfrac{1 + 7}{2} = 4$, and $y = (4 - 1)(4 - 7) = (3)(-3) = -9$."
+      }
+    ]
+  },
+  "m202-6-3-c": {
+    "lessonId": "m202-6-3",
+    "title": "Quadratic Functions in Factored Form, Part 3: Writing Equations and Modelling Arches",
+    "duration": 213,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding a",
+        "t": 18.494
+      },
+      {
+        "title": "A park entrance arch",
+        "t": 69.147
+      },
+      {
+        "title": "Choose a convenient origin",
+        "t": 127.369
+      },
+      {
+        "title": "Your turn",
+        "t": 153.564
+      },
+      {
+        "title": "Summary",
+        "t": 185.829
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-3-c:q",
+        "t": 164.448,
+        "prompt": "A parabola has zeros $0$ and $6$ and passes through $(2, 16)$. What is its equation?",
+        "choices": [
+          "$y = -2x(x - 6)$",
+          "$y = 2x(x - 6)$",
+          "$y = -2x(x + 6)$",
+          "$y = 16x(x - 6)$"
+        ],
+        "answer": 0,
+        "working": "$y = ax(x - 6)$. Substitute $(2, 16)$: $16 = a(2)(-4) = -8a$, so $a = -2$."
+      }
+    ]
+  },
+  "m202-7-1": {
+    "lessonId": "m202-7-1",
+    "title": "Solving Quadratic Equations by Graphing and Factoring, Part 1: Roots and Graphs",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Roots and zeros",
+        "t": 19.452
+      },
+      {
+        "title": "Solving by graphing",
+        "t": 58.566
+      },
+      {
+        "title": "Graphs and exact answers",
+        "t": 106.117
+      },
+      {
+        "title": "Your turn",
+        "t": 125.383
+      },
+      {
+        "title": "Summary",
+        "t": 158.308
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-1:q",
+        "t": 139.616,
+        "prompt": "The graph of $y = ax^2 + bx + c$ lies entirely above the $x$-axis. How many real roots does $ax^2 + bx + c = 0$ have?",
+        "choices": [
+          "None",
+          "One",
+          "Two",
+          "It depends on $a$"
+        ],
+        "answer": 0,
+        "working": "The roots are the $x$-intercepts. A graph entirely above the $x$-axis never meets it, so there are no real roots."
+      }
+    ]
+  },
+  "m202-7-1-b": {
+    "lessonId": "m202-7-1",
+    "title": "Solving Quadratic Equations by Graphing and Factoring, Part 2: Solving by Factoring",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The zero product property",
+        "t": 16.936
+      },
+      {
+        "title": "A trinomial",
+        "t": 44.796
+      },
+      {
+        "title": "Rearrange first",
+        "t": 79.843
+      },
+      {
+        "title": "Get zero on one side first",
+        "t": 101.777
+      },
+      {
+        "title": "Your turn",
+        "t": 133.195
+      },
+      {
+        "title": "Summary",
+        "t": 163.565
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-1-b:q",
+        "t": 140.083,
+        "prompt": "Solve $x^2 - x = 12$.",
+        "choices": [
+          "$x = 4$ or $x = -3$",
+          "$x = -4$ or $x = 3$",
+          "$x = 12$ or $x = 13$",
+          "$x = 0$ or $x = 1$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - x - 12 = 0$, so $(x - 4)(x + 3) = 0$, and $x = 4$ or $x = -3$. Check: $16 - 4 = 12$ ✓"
+      }
+    ]
+  },
+  "m202-7-1-c": {
+    "lessonId": "m202-7-1",
+    "title": "Solving Quadratic Equations by Graphing and Factoring, Part 3: Special Cases and Decomposition",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A common factor",
+        "t": 17.664
+      },
+      {
+        "title": "Special products",
+        "t": 52.261
+      },
+      {
+        "title": "Decomposition",
+        "t": 93.268
+      },
+      {
+        "title": "Your turn",
+        "t": 141.592
+      },
+      {
+        "title": "Summary",
+        "t": 173.093
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-1-c:q",
+        "t": 150.126,
+        "prompt": "Solve $3x^2 + 5x - 2 = 0$.",
+        "choices": [
+          "$x = \\tfrac{1}{3}$ or $x = -2$",
+          "$x = -\\tfrac{1}{3}$ or $x = 2$",
+          "$x = 3$ or $x = -2$",
+          "$x = 1$ or $x = -2$"
+        ],
+        "answer": 0,
+        "working": "$ac = -6$: $6$ and $-1$. $3x^2 + 6x - x - 2 = 3x(x + 2) - 1(x + 2) = (3x - 1)(x + 2) = 0$, so $x = \\tfrac{1}{3}$ or $x = -2$."
+      }
+    ]
+  },
+  "m202-7-2": {
+    "lessonId": "m202-7-2",
+    "title": "The Quadratic Formula, Part 1: Using the Formula",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formula",
+        "t": 22.058
+      },
+      {
+        "title": "Two rational roots",
+        "t": 60.328
+      },
+      {
+        "title": "Check by factoring",
+        "t": 103.54
+      },
+      {
+        "title": "Your turn",
+        "t": 138.932
+      },
+      {
+        "title": "Summary",
+        "t": 172.876
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-2:q",
+        "t": 149.385,
+        "prompt": "Use the quadratic formula to solve $x^2 + 5x + 6 = 0$.",
+        "choices": [
+          "$x = -2$ or $x = -3$",
+          "$x = 2$ or $x = 3$",
+          "$x = -2$ or $x = 3$",
+          "$x = -5$ or $x = 1$"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 25 - 24 = 1$, so $x = \\dfrac{-5 \\pm 1}{2}$: $-2$ or $-3$."
+      }
+    ]
+  },
+  "m202-7-2-b": {
+    "lessonId": "m202-7-2",
+    "title": "The Quadratic Formula, Part 2: Decimal and Exact Roots",
+    "duration": 213,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rounding to the nearest hundredth",
+        "t": 19.466
+      },
+      {
+        "title": "Exact roots",
+        "t": 66.716
+      },
+      {
+        "title": "Three common slips",
+        "t": 108.364
+      },
+      {
+        "title": "Your turn",
+        "t": 146.278
+      },
+      {
+        "title": "Summary",
+        "t": 185.783
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-2-b:q",
+        "t": 157.188,
+        "prompt": "Solve $3x^2 - 2x - 2 = 0$. Round to the nearest hundredth.",
+        "choices": [
+          "$1.22$ or $-0.55$",
+          "$0.55$ or $-1.22$",
+          "$2.88$ or $1.12$",
+          "$3.65$ or $-1.65$"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 4 + 24 = 28$, so $x = \\dfrac{2 \\pm \\sqrt{28}}{6} \\approx 1.22$ or $-0.55$. B uses $b$ instead of $-b$; C divides only the root by $6$; D divides by $2$, not $2a$."
+      }
+    ]
+  },
+  "m202-7-2-c": {
+    "lessonId": "m202-7-2",
+    "title": "The Quadratic Formula, Part 3: How Many Roots, and Choosing a Method",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two, one or none",
+        "t": 17.961
+      },
+      {
+        "title": "No real roots",
+        "t": 53.85
+      },
+      {
+        "title": "Choosing a method",
+        "t": 81.803
+      },
+      {
+        "title": "Your turn",
+        "t": 124.379
+      },
+      {
+        "title": "Summary",
+        "t": 159.465
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-2-c:q",
+        "t": 134.574,
+        "prompt": "How many real roots does $4x^2 - 12x + 9 = 0$ have?",
+        "choices": [
+          "One",
+          "Two",
+          "None",
+          "It cannot be told without graphing."
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 144 - 4(4)(9) = 144 - 144 = 0$, so there is one real root. Indeed $4x^2 - 12x + 9 = (2x - 3)^2$."
+      }
+    ]
+  },
+  "m202-7-3": {
+    "lessonId": "m202-7-3",
+    "title": "Solving Problems with Quadratic Equations, Part 1: A Plan for Problems",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A plan",
+        "t": 20.666
+      },
+      {
+        "title": "Dimensions of a garden",
+        "t": 56.299
+      },
+      {
+        "title": "Rejecting a root",
+        "t": 114.074
+      },
+      {
+        "title": "Your turn",
+        "t": 139.071
+      },
+      {
+        "title": "Summary",
+        "t": 179.236
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-3:q",
+        "t": 150.507,
+        "prompt": "A rectangle is $4$ m longer than it is wide. Its area is $60\\ \\text{m}^2$. How wide is it?",
+        "choices": [
+          "$6$ m",
+          "$10$ m",
+          "$-10$ m",
+          "$15$ m"
+        ],
+        "answer": 0,
+        "working": "$w(w + 4) = 60$, so $w^2 + 4w - 60 = 0$ and $(w + 10)(w - 6) = 0$. Reject $w = -10$: the width is $6$ m (and the length $10$ m)."
+      }
+    ]
+  },
+  "m202-7-3-b": {
+    "lessonId": "m202-7-3",
+    "title": "Solving Problems with Quadratic Equations, Part 2: Projectiles",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The projectile model",
+        "t": 18.974
+      },
+      {
+        "title": "When does it land?",
+        "t": 57.39
+      },
+      {
+        "title": "Two answers that make sense",
+        "t": 116.374
+      },
+      {
+        "title": "Your turn",
+        "t": 158.79
+      },
+      {
+        "title": "Summary",
+        "t": 201.094
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-3-b:q",
+        "t": 171.165,
+        "prompt": "A ball’s height is $h = -4.9t^2 + 9.8t + 2$. When does it hit the ground? Round to the nearest hundredth of a second.",
+        "choices": [
+          "$2.19$ s",
+          "$0.19$ s",
+          "$1.00$ s",
+          "$2.00$ s"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 96.04 + 39.2 = 135.24$, so $t = \\dfrac{-9.8 \\pm \\sqrt{135.24}}{-9.8} \\approx -0.19$ or $2.19$. Reject the negative time. C is when it is highest."
+      }
+    ]
+  },
+  "m202-7-3-c": {
+    "lessonId": "m202-7-3",
+    "title": "Solving Problems with Quadratic Equations, Part 3: Borders and Break-Even Prices",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A frame of uniform width",
+        "t": 18.739
+      },
+      {
+        "title": "A border goes on both sides",
+        "t": 78.377
+      },
+      {
+        "title": "Break-even prices",
+        "t": 96.431
+      },
+      {
+        "title": "Your turn",
+        "t": 144.803
+      },
+      {
+        "title": "Summary",
+        "t": 186.253
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-3-c:q",
+        "t": 158.836,
+        "prompt": "A diagonal path across a rectangular plot is $13$ m long. One side is $7$ m longer than the other. Find the side lengths.",
+        "choices": [
+          "$5$ m and $12$ m",
+          "$6$ m and $13$ m",
+          "$3$ m and $10$ m",
+          "$-12$ m and $-5$ m"
+        ],
+        "answer": 0,
+        "working": "$x^2 + (x + 7)^2 = 169$, so $2x^2 + 14x - 120 = 0$ and $x^2 + 7x - 60 = 0$. $(x + 12)(x - 5) = 0$; reject $-12$. The sides are $5$ m and $12$ m."
+      }
+    ]
+  },
+  "m202-8-1": {
+    "lessonId": "m202-8-1",
+    "title": "Comparing and Interpreting Rates, Part 1: Unit Rates and Better Buys",
+    "duration": 212,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rates and unit rates",
+        "t": 21.021
+      },
+      {
+        "title": "Unit price",
+        "t": 55.731
+      },
+      {
+        "title": "The better buy",
+        "t": 93.19
+      },
+      {
+        "title": "Your turn",
+        "t": 148.45
+      },
+      {
+        "title": "Summary",
+        "t": 185.733
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-1:q",
+        "t": 162.681,
+        "prompt": "Juice costs \\$3.29 for $1.89$ L or \\$1.99 for $1$ L. Which has the lower price per litre?",
+        "choices": [
+          "The $1.89$ L carton, at about \\$1.74 per litre",
+          "The $1$ L carton, at \\$1.99 per litre",
+          "They cost the same per litre.",
+          "The $1.89$ L carton, at about \\$6.22 per litre"
+        ],
+        "answer": 0,
+        "working": "\\$3.29 ÷ 1.89 ≈ \\$1.74 per litre, which is less than \\$1.99 per litre. D multiplies instead of dividing."
+      }
+    ]
+  },
+  "m202-8-1-b": {
+    "lessonId": "m202-8-1",
+    "title": "Comparing and Interpreting Rates, Part 2: Fuel Use and Rates as Slopes",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fuel consumption",
+        "t": 15.973
+      },
+      {
+        "title": "Is a bigger rate better?",
+        "t": 61.492
+      },
+      {
+        "title": "Rates as slopes",
+        "t": 82.865
+      },
+      {
+        "title": "Your turn",
+        "t": 132.167
+      },
+      {
+        "title": "Summary",
+        "t": 166.39
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-1-b:q",
+        "t": 145.31,
+        "prompt": "A van uses $9.4$ L/100 km and a hybrid uses $5.1$ L/100 km. Which statement is true?",
+        "choices": [
+          "The hybrid is more fuel-efficient.",
+          "The van is more fuel-efficient, because $9.4 > 5.1$.",
+          "They are equally fuel-efficient.",
+          "You cannot compare them without the distance."
+        ],
+        "answer": 0,
+        "working": "L/100 km measures fuel used, so a smaller number is better. The hybrid uses less fuel for every $100$ km."
+      }
+    ]
+  },
+  "m202-8-1-c": {
+    "lessonId": "m202-8-1",
+    "title": "Comparing and Interpreting Rates, Part 3: Rates That Change",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Steep, flat and falling",
+        "t": 18.801
+      },
+      {
+        "title": "A bike ride",
+        "t": 42.043
+      },
+      {
+        "title": "Reading the whole trip",
+        "t": 95.308
+      },
+      {
+        "title": "Your turn",
+        "t": 127.242
+      },
+      {
+        "title": "Summary",
+        "t": 161.497
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-1-c:q",
+        "t": 139.742,
+        "prompt": "On a graph of water in a tank against time, one segment is horizontal and another goes down steeply. What do they show?",
+        "choices": [
+          "Horizontal: no change. Steep and down: draining quickly.",
+          "Horizontal: filling quickly. Steep and down: no change.",
+          "Both show the tank filling.",
+          "Horizontal: draining. Steep and down: filling."
+        ],
+        "answer": 0,
+        "working": "A horizontal segment has a rate of $0$, and a steep downward segment has a large negative rate: the amount of water drops quickly."
+      }
+    ]
+  },
+  "m202-8-2": {
+    "lessonId": "m202-8-2",
+    "title": "Solving Problems with Rates, Part 1: Multiply or Divide by a Rate",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A rate works both ways",
+        "t": 19.481
+      },
+      {
+        "title": "Buying gas",
+        "t": 46.113
+      },
+      {
+        "title": "Travel time",
+        "t": 81.143
+      },
+      {
+        "title": "Let the units guide you",
+        "t": 120.326
+      },
+      {
+        "title": "Your turn",
+        "t": 141.166
+      },
+      {
+        "title": "Summary",
+        "t": 180.214
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-2:q",
+        "t": 153.579,
+        "prompt": "In this example, gas costs \\$1.459 per litre. How many litres can you buy with \\$50? Round to the nearest tenth.",
+        "choices": [
+          "$34.3$ L",
+          "$73.0$ L",
+          "$48.5$ L",
+          "$0.03$ L"
+        ],
+        "answer": 0,
+        "working": "You know dollars and the rate is dollars per litre, so divide: \\$50 ÷ \\$1.459 per litre ≈ $34.3$ L. B multiplies instead."
+      }
+    ]
+  },
+  "m202-8-2-b": {
+    "lessonId": "m202-8-2",
+    "title": "Solving Problems with Rates, Part 2: Changing Units Along the Way",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gas for a road trip",
+        "t": 15.123
+      },
+      {
+        "title": "Filling a pool",
+        "t": 65.835
+      },
+      {
+        "title": "Decimal hours are not minutes",
+        "t": 119.945
+      },
+      {
+        "title": "Your turn",
+        "t": 146.203
+      },
+      {
+        "title": "Summary",
+        "t": 190.71
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-2-b:q",
+        "t": 163.532,
+        "prompt": "In this example, a car uses $6.5$ L/100 km and gas costs \\$1.52 per litre. How much does the gas cost for a $300$ km trip?",
+        "choices": [
+          "\\$29.64",
+          "\\$2,964.00",
+          "\\$12.83",
+          "\\$9.88"
+        ],
+        "answer": 0,
+        "working": "$300$ km is $3$ hundreds, so the car uses $3 \\times 6.5 = 19.5$ L. The cost is $19.5 \\times 1.52 =$ \\$29.64. B forgets that the rate is per $100$ km."
+      }
+    ]
+  },
+  "m202-8-2-c": {
+    "lessonId": "m202-8-2",
+    "title": "Solving Problems with Rates, Part 3: Combining Rates and Average Speed",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two hoses",
+        "t": 17.389
+      },
+      {
+        "title": "A leak works against you",
+        "t": 47.507
+      },
+      {
+        "title": "Average speed for a whole trip",
+        "t": 76.796
+      },
+      {
+        "title": "Do not average the speeds",
+        "t": 126.525
+      },
+      {
+        "title": "Your turn",
+        "t": 149.714
+      },
+      {
+        "title": "Summary",
+        "t": 189.067
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-2-c:q",
+        "t": 164.622,
+        "prompt": "You drive $100$ km at $50$ km/h, then $100$ km at $100$ km/h. What is your average speed for the whole trip?",
+        "choices": [
+          "about $66.7$ km/h",
+          "$75$ km/h",
+          "$80$ km/h",
+          "$150$ km/h"
+        ],
+        "answer": 0,
+        "working": "The times are $100 \\div 50 = 2$ h and $100 \\div 100 = 1$ h, so you drive $200$ km in $3$ h: $200 \\div 3 \\approx 66.7$ km/h. B is the mean of the speeds."
+      }
+    ]
+  },
+  "m202-8-3": {
+    "lessonId": "m202-8-3",
+    "title": "Scale Diagrams, Part 1: Scale Factor",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Scale diagrams",
+        "t": 23.013
+      },
+      {
+        "title": "Finding a scale factor",
+        "t": 54.665
+      },
+      {
+        "title": "Same units first",
+        "t": 98.993
+      },
+      {
+        "title": "Mixing units",
+        "t": 135.639
+      },
+      {
+        "title": "Your turn",
+        "t": 153.457
+      },
+      {
+        "title": "Summary",
+        "t": 188.276
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-3:q",
+        "t": 164.149,
+        "prompt": "A table $2.4$ m long is drawn $8$ cm long. What scale factor was used?",
+        "choices": [
+          "$k = \\dfrac{1}{30}$",
+          "$k \\approx 3.33$",
+          "$k = 30$",
+          "$k = \\dfrac{1}{3}$"
+        ],
+        "answer": 0,
+        "working": "$2.4$ m $= 240$ cm, so $k = \\dfrac{8}{240} = \\dfrac{1}{30}$, a reduction. B divides $8 \\div 2.4$ without converting."
+      }
+    ]
+  },
+  "m202-8-3-b": {
+    "lessonId": "m202-8-3",
+    "title": "Scale Diagrams, Part 2: Scales Written as Ratios",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What 1 : n means",
+        "t": 17.402
+      },
+      {
+        "title": "A floor plan",
+        "t": 52.071
+      },
+      {
+        "title": "A hiking map",
+        "t": 90.262
+      },
+      {
+        "title": "Your turn",
+        "t": 135.166
+      },
+      {
+        "title": "Summary",
+        "t": 169.47
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-3-b:q",
+        "t": 147.037,
+        "prompt": "On a $1 : 25\\,000$ map, a lake is $4.2$ cm across. How wide is the real lake?",
+        "choices": [
+          "$1.05$ km",
+          "$10.5$ km",
+          "$105$ km",
+          "$0.105$ km"
+        ],
+        "answer": 0,
+        "working": "$4.2 \\times 25\\,000 = 105\\,000$ cm, and $105\\,000 \\div 100\\,000 = 1.05$ km."
+      }
+    ]
+  },
+  "m202-8-3-c": {
+    "lessonId": "m202-8-3",
+    "title": "Scale Diagrams, Part 3: Finding and Choosing a Scale",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding n",
+        "t": 20.564
+      },
+      {
+        "title": "A road map",
+        "t": 40.828
+      },
+      {
+        "title": "Will it fit?",
+        "t": 93.082
+      },
+      {
+        "title": "Your turn",
+        "t": 143.802
+      },
+      {
+        "title": "Summary",
+        "t": 182.272
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-3-c:q",
+        "t": 156.63,
+        "prompt": "Two lakes are $3.6$ km apart. On a map, they are $4.8$ cm apart. What is the scale of the map?",
+        "choices": [
+          "$1 : 75\\,000$",
+          "$1 : 750$",
+          "$1 : 7500$",
+          "$1 : 1.33$"
+        ],
+        "answer": 0,
+        "working": "$3.6$ km $= 360\\,000$ cm, so $n = \\dfrac{360\\,000}{4.8} = 75\\,000$. D divides $4.8 \\div 3.6$ without converting."
+      }
+    ]
+  },
+  "m202-8-4": {
+    "lessonId": "m202-8-4",
+    "title": "Similar Objects: Length, Area and Volume, Part 1: Areas Grow by k²",
+    "duration": 237,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Similar objects",
+        "t": 23.314
+      },
+      {
+        "title": "Why area grows by k squared",
+        "t": 52.142
+      },
+      {
+        "title": "The area rule",
+        "t": 89.54
+      },
+      {
+        "title": "A larger tank",
+        "t": 113.195
+      },
+      {
+        "title": "Multiplying an area by k",
+        "t": 157.544
+      },
+      {
+        "title": "Your turn",
+        "t": 177.591
+      },
+      {
+        "title": "Summary",
+        "t": 214.185
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-4:q",
+        "t": 192.599,
+        "prompt": "Two triangles are similar with scale factor $k = 4$. The small triangle has an area of $5\\ \\text{cm}^2$. What is the area of the large triangle?",
+        "choices": [
+          "$80\\ \\text{cm}^2$",
+          "$20\\ \\text{cm}^2$",
+          "$320\\ \\text{cm}^2$",
+          "$25\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "Areas are multiplied by $k^2 = 16$, so the area is $5 \\times 16 = 80\\ \\text{cm}^2$. B multiplies by $k$, and C by $k^3$."
+      }
+    ]
+  },
+  "m202-8-4-b": {
+    "lessonId": "m202-8-4",
+    "title": "Similar Objects: Length, Area and Volume, Part 2: Volumes Grow by k³",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why volume grows by k cubed",
+        "t": 19.452
+      },
+      {
+        "title": "The volume rule",
+        "t": 58.888
+      },
+      {
+        "title": "Lengths, areas, volumes",
+        "t": 85.222
+      },
+      {
+        "title": "A bigger can",
+        "t": 118.888
+      },
+      {
+        "title": "Your turn",
+        "t": 158.37
+      },
+      {
+        "title": "Summary",
+        "t": 190.364
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-4-b:q",
+        "t": 169.584,
+        "prompt": "A small box holds $3$ L. A similar box has every length twice as long. How much does it hold?",
+        "choices": [
+          "$24$ L",
+          "$6$ L",
+          "$12$ L",
+          "$9$ L"
+        ],
+        "answer": 0,
+        "working": "Capacity is a volume, so multiply by $k^3 = 2^3 = 8$: $3 \\times 8 = 24$ L. B multiplies by $k$, and C by $k^2$."
+      }
+    ]
+  },
+  "m202-8-4-c": {
+    "lessonId": "m202-8-4",
+    "title": "Similar Objects: Length, Area and Volume, Part 3: Working Back to the Scale Factor",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undo the power",
+        "t": 18.141
+      },
+      {
+        "title": "From areas to a length",
+        "t": 38.261
+      },
+      {
+        "title": "From volumes to a surface area",
+        "t": 75.699
+      },
+      {
+        "title": "Go through k",
+        "t": 116.561
+      },
+      {
+        "title": "Your turn",
+        "t": 137.237
+      },
+      {
+        "title": "Summary",
+        "t": 182.258
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-8-4-c:q",
+        "t": 155.719,
+        "prompt": "Two similar boxes have volumes of $27\\ \\text{cm}^3$ and $125\\ \\text{cm}^3$. The small box has a surface area of $54\\ \\text{cm}^2$. What is the surface area of the large box?",
+        "choices": [
+          "$150\\ \\text{cm}^2$",
+          "$250\\ \\text{cm}^2$",
+          "$90\\ \\text{cm}^2$",
+          "$126\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$k^3 = \\dfrac{125}{27}$, so $k = \\dfrac{5}{3}$ and $k^2 = \\dfrac{25}{9}$. $54 \\times \\dfrac{25}{9} = 150\\ \\text{cm}^2$. B multiplies by the volume ratio."
+      }
+    ]
+  },
+  "m202-9-1": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 1: A Good Research Question",
+    "duration": 212,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four qualities",
+        "t": 26.258
+      },
+      {
+        "title": "Weak questions",
+        "t": 60.406
+      },
+      {
+        "title": "Improving a question",
+        "t": 96.622
+      },
+      {
+        "title": "Too big",
+        "t": 138.37
+      },
+      {
+        "title": "Your turn",
+        "t": 158.999
+      },
+      {
+        "title": "Summary",
+        "t": 184.817
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1:q",
+        "t": 165.023,
+        "prompt": "Which is the best research question?",
+        "choices": [
+          "Is there a relationship between daily screen time and hours of sleep for students in our grade?",
+          "Is screen time bad?",
+          "Why are phones ruining teenagers?",
+          "How many people own a phone?"
+        ],
+        "answer": 0,
+        "working": "A is focused, measurable and neutral. B asks for an opinion, C assumes the answer, and D is answered by a single fact."
+      }
+    ]
+  },
+  "m202-9-1-b": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 2: Data, Sources and Fair Questions",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Primary and secondary data",
+        "t": 21.041
+      },
+      {
+        "title": "Which kind of data?",
+        "t": 41.984
+      },
+      {
+        "title": "Can you trust the source?",
+        "t": 77.448
+      },
+      {
+        "title": "Biased questions",
+        "t": 103.525
+      },
+      {
+        "title": "Leading questions",
+        "t": 134.842
+      },
+      {
+        "title": "Your turn",
+        "t": 155.11
+      },
+      {
+        "title": "Summary",
+        "t": 182.805
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1-b:q",
+        "t": 161.423,
+        "prompt": "Which survey question is **not** biased?",
+        "choices": [
+          "How many hours of homework do you do on a typical school night?",
+          "Don’t you agree that we get too much homework?",
+          "Most students think homework is useless. Do you?",
+          "Is the pointless homework load too heavy?"
+        ],
+        "answer": 0,
+        "working": "A asks for a number without suggesting an answer. B opens with “Don’t you agree”, C tells people what others think, and D uses the loaded word “pointless”."
+      }
+    ]
+  },
+  "m202-9-1-c": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 3: Fair Samples",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Populations and samples",
+        "t": 18.903
+      },
+      {
+        "title": "Four kinds of bias",
+        "t": 52.473
+      },
+      {
+        "title": "Choosing a sample",
+        "t": 97.652
+      },
+      {
+        "title": "Your turn",
+        "t": 136.738
+      },
+      {
+        "title": "Summary",
+        "t": 169.231
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1-c:q",
+        "t": 149.475,
+        "prompt": "To learn how Albertans feel about a new park, a researcher surveys only people walking in the park. What kind of bias is this?",
+        "choices": [
+          "sampling bias",
+          "measurement bias",
+          "non-response bias",
+          "There is no bias."
+        ],
+        "answer": 0,
+        "working": "People already using the park are not typical of all Albertans, so the sample does not represent the population."
+      }
+    ]
+  },
+  "m202-9-1-d": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 4: From Plan to Presentation",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A complete plan",
+        "t": 16.956
+      },
+      {
+        "title": "A plan for first frost",
+        "t": 63.887
+      },
+      {
+        "title": "State the limits",
+        "t": 114.414
+      },
+      {
+        "title": "Your turn",
+        "t": 140.019
+      },
+      {
+        "title": "Summary",
+        "t": 178.37
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1-d:q",
+        "t": 159.198,
+        "prompt": "Jordan’s plan: “Question: Do students who play sports have higher average marks? Data: a survey of $50$ randomly chosen students at my school. Presentation: a poster.” Which part of the plan is missing?",
+        "choices": [
+          "the analysis tools",
+          "the research question",
+          "how the data will be collected",
+          "the presentation"
+        ],
+        "answer": 0,
+        "working": "The plan has a question, data and collection (a random survey) and a presentation, but it never says how the data will be analyzed, for example by comparing the mean marks of the two groups."
+      }
+    ]
+  },
+  "m203-1-1": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 1: Rise over Run",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rise, run and slope",
+        "t": 20.695
+      },
+      {
+        "title": "Bigger means steeper",
+        "t": 36.289
+      },
+      {
+        "title": "A wheelchair ramp",
+        "t": 65.992
+      },
+      {
+        "title": "Same units first",
+        "t": 105.709
+      },
+      {
+        "title": "Your turn",
+        "t": 138.855
+      },
+      {
+        "title": "Summary",
+        "t": 172.945
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1:q",
+        "t": 149.291,
+        "prompt": "A ramp rises $20$ cm over a horizontal run of $3$ m. What is its slope?",
+        "choices": [
+          "$\\dfrac{1}{15}$",
+          "$\\dfrac{20}{3}$",
+          "$\\dfrac{3}{20}$",
+          "$15$"
+        ],
+        "answer": 0,
+        "working": "$3$ m $= 300$ cm, so the slope is $\\dfrac{20}{300} = \\dfrac{1}{15}$. B mixes centimetres and metres, and C divides the run by the rise."
+      }
+    ]
+  },
+  "m203-1-1-b": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 2: Finding a Missing Rise or Run",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rearranging the formula",
+        "t": 19.958
+      },
+      {
+        "title": "How high does the roof rise?",
+        "t": 39.534
+      },
+      {
+        "title": "How long must the ramp be?",
+        "t": 69.07
+      },
+      {
+        "title": "Stairs",
+        "t": 107.468
+      },
+      {
+        "title": "Your turn",
+        "t": 135.405
+      },
+      {
+        "title": "Summary",
+        "t": 172.516
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1-b:q",
+        "t": 148.762,
+        "prompt": "In this example, a ramp may have a slope of at most $\\dfrac{1}{15}$. It must rise $40$ cm. What is the shortest run it can have?",
+        "choices": [
+          "$600$ cm",
+          "$2.7$ cm",
+          "$55$ cm",
+          "$40$ cm"
+        ],
+        "answer": 0,
+        "working": "$\\text{run} = \\dfrac{\\text{rise}}{\\text{slope}} = 40 \\div \\dfrac{1}{15} = 40 \\times 15 = 600$ cm. B divides $40$ by $15$ instead."
+      }
+    ]
   }
 }

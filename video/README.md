@@ -61,8 +61,9 @@ In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, 
 or KaTeX sets it as subtraction ("− 3"); the script check asks for that too. On screen, write
 money in text as `\$4`, as in the lessons, and keep it out of `$...$` maths.
 Words the voice gets wrong are respelled for it in `speechText` (`src/video/words.ts`): "biweekly"
-is voiced as "bi-weekly", "deci" as "dessy", and hyphenated sizes ("eight-by-twelve") as
-separate words; the captions keep the script's spelling. Add a word there when a check finds one.
+is voiced as "bi-weekly", "deci" as "dessy", hyphenated sizes ("eight-by-twelve") as
+separate words, and a lone letter with 's ("Route B's", which came out "Route B to Cast") by the
+letter's name ("Bee's"); the captions keep the script's spelling. Add a word there when a check finds one.
 After each build, listen to the lines that `pronunciation.txt` marks CHECK.
 
 ## Writing a script
@@ -174,6 +175,15 @@ See `src/video/script.ts` for every element and option. In short:
    with the same contents are skipped, so a run can be repeated; `--dry-run` shows where each would go.
    If Drive is not set up, make zip packs instead: `video/tools/pack.sh <course>-unit<N> <ids in
    order>` gives one zip per video (each well under 30 MB) and one for the whole unit.
+7. Keep room on the disk by moving finished courses to Drive. A cloud session has a fixed disk
+   allowance, and a course leaves about 40 MB a video in `video/out/` and `video/.cache/`; with
+   too little left, a render or the browser tests fail with "no space left on device". The owner
+   wants finished videos cleared once Drive holds them, so when free space (`df -h /`) falls
+   under about 6 GB, run `video/tools/free-disk.sh math-20-1 math-20-2` (course ids). For each
+   course it runs the upload again, and only when every scripted video is reported with all four
+   files `unchanged` (identical copies in Drive) does it delete the course's narration
+   (`video/.cache/<id>.wav`) and rendered folders (`video/out/<id>/`); `--dry-run` reports what
+   it would free. Never clear the course still rendering: `render-units.sh` would start it again.
 
 Lessons learned while scripting (the script check does not catch these):
 
@@ -185,6 +195,9 @@ Lessons learned while scripting (the script check does not catch these):
 - Keep bar graph category labels to a word or two, or they overlap.
 - Break long maths over several lines (or narrow `leftWidth`) so it fits its column; give a
   crowded figure its own scene.
+- The voice blurs a few phrases into other words: "In proofs" (heard as "Improves"), "Congruent
+  figures" ("Congrant") and "prove congruence," ("Congress"). When a key term is blurred, reword
+  the line ("Figures that are congruent…") and check it with `video/tools/hear.ts`.
 - Use `\dfrac` for fractions in Math 20-4 maths lines, and state every rate, tax or rule inside
   the question (see `CLAUDE.md`).
 

@@ -15,7 +15,7 @@ const video: Explainer = {
       main: [{ kind: 'title', id: 'title', kicker: 'Math 20-2 · Lesson 2.4 · Part 2', title: 'SSS, SAS and ASA', subtitle: 'Three pairs are enough' }],
       lines: [
         { say: 'Congruent triangles have six pairs of equal parts. But to prove two triangles are congruent, you only need to check three, if they are the right three.', show: 'title' },
-        { say: 'In this video, you will learn the three conditions that prove congruence, and two that do not.' },
+        { say: 'In this video, you will learn three ways to prove that two triangles are congruent, and two that do not work.' },
       ],
     },
     {

@@ -82,7 +82,7 @@ const video: Explainer = {
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Deductive reasoning uses known facts to reach a conclusion that must be true.', 'Write even integers as $2n$ and odd integers as $2n + 1$.', 'Use different variables for numbers that can be different.'] }],
       lines: [
         { say: 'Let’s sum up. Deductive reasoning uses facts known to be true, to reach a conclusion that must be true.', show: 'sum.0' },
-        { say: 'In proofs about integers, write even integers as two n, and odd integers as two n plus one.', show: 'sum.1' },
+        { say: 'When you write a proof about integers, write even integers as two n, and odd integers as two n plus one.', show: 'sum.1' },
         { say: 'And use different variables for numbers that can be different. In part two, we prove a number trick, and find the errors in invalid proofs. See you there!', show: 'sum.2' },
       ],
     },

@@ -256,7 +256,15 @@ items ship or decisions change.
      holds 86 Math 20-1 MP4s). Two narration lines a listener could mishear were reworded first.
      Session restarts stopped the first detached renders three times; a cloud session reclaims an
      idle session, so renders now run as tracked tasks that stop cleanly before two hours.
-   - Next: render Math 20-2, 20-3 and 20-4 the same way, each course with its own pull request
+   - Built: Math 20-2, all 89 videos at the calm pace (2:49 to 4:16, about 5.1 hours in all),
+     rendered unit by unit and uploaded to Drive. The pronunciation check found four real slips, fixed before the course was done: "In
+     proofs", "Congruent figures" and "prove congruence" were reworded, and a lone letter with 's ("Route B's", which
+     came out "Route B to Cast") is now voiced by the letter's name ("Bee's") for every course.
+     The disk filled up during the course; the old upload packs and the narration of the courses
+     already in Drive (checked file by file) were deleted with the owner's agreement, and the
+     video guide now says to free each course's narration once Drive holds it.
+   - Rendering: Math 20-3 (90 videos in 8 units), unit by unit into Drive.
+   - Next: render Math 20-4 the same way, with its own pull request
      and Drive upload (about six minutes a video). Then script and render the other courses in
      order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), explaining each lesson as simply as
      possible, with parts split by idea.

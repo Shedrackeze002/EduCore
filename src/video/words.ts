@@ -16,7 +16,12 @@ export function speechText(say: string): string {
     return sentenceStart && nextWord ? m : 'Eh';
   });
   // Mnemonics in capitals would be spelled out letter by letter ("S-O-H"); say them as words.
-  const words = letters.replace(/\bSOH CAH TOA\b/g, 'soh-cah-toa').replace(/\b(SOH|CAH|TOA)\b/g, (m) => m[0] + m.slice(1).toLowerCase());
+  const words = letters
+    .replace(/\bSOH CAH TOA\b/g, 'soh-cah-toa')
+    .replace(/\b(SOH|CAH|TOA)\b/g, (m) => m[0] + m.slice(1).toLowerCase())
+    // A lone letter with 's ("Route B's times") is garbled ("Route B to Cast times", "Store C2Ks"),
+    // so the letter is spelled as it sounds. A is already "Eh" above.
+    .replace(/\b([B-Z])(?=[’']s\b)/g, (l) => LETTER_NAMES[l]);
   // Words the voice gets wrong, respelled as they sound ("biweekly" comes out "boy-weekly", "deci"
   // as "Desai"), and sizes like "eight-by-twelve", which run together, said as separate words.
   return words
@@ -24,6 +29,11 @@ export function speechText(say: string): string {
     .replace(/\b([Dd])eci\b/g, '$1essy')
     .replace(/(\w)-by-(\w)/g, '$1 by $2');
 }
+
+const LETTER_NAMES: Record<string, string> = {
+  B: 'Bee', C: 'See', D: 'Dee', E: 'Ee', F: 'Eff', G: 'Gee', H: 'Aitch', I: 'Eye', J: 'Jay', K: 'Kay', L: 'El', M: 'Em',
+  N: 'En', O: 'Oh', P: 'Pee', Q: 'Cue', R: 'Ar', S: 'Ess', T: 'Tee', U: 'You', V: 'Vee', W: 'Double-you', X: 'Ex', Y: 'Why', Z: 'Zed',
+};
 
 const SMALL: Record<string, number> = {
   zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
