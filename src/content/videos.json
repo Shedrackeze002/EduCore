@@ -18810,5 +18810,554 @@
         "working": "Two coats: $620 \\times 2 = 1240\\ \\text{ft}^2$. $1240 \\div 250 = 4.96$, so round up to $5$. C forgets the second coat."
       }
     ]
+  },
+  "m203-2-3-c": {
+    "lessonId": "m203-2-3",
+    "title": "Surface Area on the Job, Part 3: Composite Objects",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Which surfaces?",
+        "t": 22.032
+      },
+      {
+        "title": "Painting a grain bin",
+        "t": 42.019
+      },
+      {
+        "title": "Your turn",
+        "t": 112.123
+      },
+      {
+        "title": "Summary",
+        "t": 155.114
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-3-c:q",
+        "t": 125.542,
+        "prompt": "A propane tank is a cylinder $2$ m long with a hemisphere on each end. The radius is $0.5$ m. What is its surface area, to the nearest hundredth of a square metre?",
+        "choices": [
+          "$9.42\\ \\text{m}^2$",
+          "$7.85\\ \\text{m}^2$",
+          "$11.00\\ \\text{m}^2$",
+          "$6.28\\ \\text{m}^2$"
+        ],
+        "answer": 0,
+        "working": "Curved side: $2\\pi(0.5)(2) = 2\\pi$. Two hemispheres make one sphere: $4\\pi(0.5)^2 = \\pi$. Total $3\\pi \\approx 9.42\\ \\text{m}^2$. No flat circles: they are joins."
+      }
+    ]
+  },
+  "m203-3-1": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 1: Volume of a Prism",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What volume measures",
+        "t": 21.18
+      },
+      {
+        "title": "Base times height",
+        "t": 51.367
+      },
+      {
+        "title": "A storage crate",
+        "t": 77.837
+      },
+      {
+        "title": "Square units or cubic units?",
+        "t": 107.123
+      },
+      {
+        "title": "Your turn",
+        "t": 126.029
+      },
+      {
+        "title": "Summary",
+        "t": 158.032
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1:q",
+        "t": 138.858,
+        "prompt": "A concrete pad is $6$ m long, $4$ m wide and $0.15$ m thick. How much concrete does it need?",
+        "choices": [
+          "$3.6\\ \\text{m}^3$",
+          "$24\\ \\text{m}^3$",
+          "$10.15\\ \\text{m}^3$",
+          "$36\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = 6 \\times 4 \\times 0.15 = 3.6\\ \\text{m}^3$. B is the area of the top, not the volume."
+      }
+    ]
+  },
+  "m203-3-1-b": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 2: Triangular and Other Prisms",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Which face is the base?",
+        "t": 17.702
+      },
+      {
+        "title": "An A-frame tent",
+        "t": 38.129
+      },
+      {
+        "title": "A pool with a sloping floor",
+        "t": 69.564
+      },
+      {
+        "title": "Your turn",
+        "t": 116.062
+      },
+      {
+        "title": "Summary",
+        "t": 163.793
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1-b:q",
+        "t": 136.064,
+        "prompt": "A wheelchair ramp is a triangular prism. Its side is a right triangle with a run of $3.6$ m and a rise of $0.3$ m, and the ramp is $1.2$ m wide. How much concrete fills it?",
+        "choices": [
+          "$0.648\\ \\text{m}^3$",
+          "$1.296\\ \\text{m}^3$",
+          "$5.1\\ \\text{m}^3$",
+          "$0.54\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "Side: $\\tfrac12 \\times 3.6 \\times 0.3 = 0.54\\ \\text{m}^2$. $V = 0.54 \\times 1.2 = 0.648\\ \\text{m}^3$. B forgets the one half."
+      }
+    ]
+  },
+  "m203-3-1-c": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 3: Volume and Capacity",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Capacity",
+        "t": 20.471
+      },
+      {
+        "title": "An aquarium",
+        "t": 57.454
+      },
+      {
+        "title": "Soil for a raised bed",
+        "t": 89.908
+      },
+      {
+        "title": "Mixing units",
+        "t": 130.401
+      },
+      {
+        "title": "Your turn",
+        "t": 150.324
+      },
+      {
+        "title": "Summary",
+        "t": 181.276
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1-c:q",
+        "t": 161.04,
+        "prompt": "A cooler’s inside is $50$ cm by $30$ cm by $32$ cm. How many litres does it hold?",
+        "choices": [
+          "$48$ L",
+          "$48\\,000$ L",
+          "$4.8$ L",
+          "$480$ L"
+        ],
+        "answer": 0,
+        "working": "$V = 50 \\times 30 \\times 32 = 48\\,000\\ \\text{cm}^3$, and $48\\,000 \\div 1000 = 48$ L."
+      }
+    ]
+  },
+  "m203-3-1-d": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 4: Volume of a Cylinder",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Base times height again",
+        "t": 20.03
+      },
+      {
+        "title": "A water tank",
+        "t": 37.692
+      },
+      {
+        "title": "A stock tank in gallons",
+        "t": 78.008
+      },
+      {
+        "title": "Squaring the diameter",
+        "t": 118.974
+      },
+      {
+        "title": "Your turn",
+        "t": 144.237
+      },
+      {
+        "title": "Summary",
+        "t": 180.428
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1-d:q",
+        "t": 154.68,
+        "prompt": "A can has a diameter of $8$ cm and a height of $12$ cm. How many millilitres does it hold, to the nearest millilitre?",
+        "choices": [
+          "$603$ mL",
+          "$2413$ mL",
+          "$302$ mL",
+          "$151$ mL"
+        ],
+        "answer": 0,
+        "working": "$r = 4$, so $V = \\pi(4)^2(12) = 192\\pi \\approx 603\\ \\text{cm}^3 = 603$ mL. B squares the diameter."
+      }
+    ]
+  },
+  "m203-3-2": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 1: Pyramids Hold One Third",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three pyramids fill a prism",
+        "t": 21.277
+      },
+      {
+        "title": "A glass paperweight",
+        "t": 53.11
+      },
+      {
+        "title": "A hip-roof attic",
+        "t": 77.637
+      },
+      {
+        "title": "Do not forget the third",
+        "t": 106.842
+      },
+      {
+        "title": "Your turn",
+        "t": 125.837
+      },
+      {
+        "title": "Summary",
+        "t": 156.895
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2:q",
+        "t": 136.197,
+        "prompt": "A square pyramid has a base side of $6$ m and a height of $10$ m. What is its volume?",
+        "choices": [
+          "$120\\ \\text{m}^3$",
+          "$360\\ \\text{m}^3$",
+          "$20\\ \\text{m}^3$",
+          "$180\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\tfrac13 \\times 36 \\times 10 = 120\\ \\text{m}^3$. B forgets the one third."
+      }
+    ]
+  },
+  "m203-3-2-b": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 2: Cones",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One third of a cylinder",
+        "t": 18.667
+      },
+      {
+        "title": "A road-salt pile",
+        "t": 33.532
+      },
+      {
+        "title": "Height, not slant height",
+        "t": 61.944
+      },
+      {
+        "title": "Slant height in a volume formula",
+        "t": 109.508
+      },
+      {
+        "title": "Your turn",
+        "t": 127.716
+      },
+      {
+        "title": "Summary",
+        "t": 159.779
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2-b:q",
+        "t": 139.279,
+        "prompt": "A cone-shaped funnel has a radius of $6$ cm and a height of $8$ cm. How much does it hold, to the nearest cubic centimetre?",
+        "choices": [
+          "$302\\ \\text{cm}^3$",
+          "$905\\ \\text{cm}^3$",
+          "$101\\ \\text{cm}^3$",
+          "$377\\ \\text{cm}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\tfrac13 \\pi(6)^2(8) = 96\\pi \\approx 302\\ \\text{cm}^3$. B forgets the one third."
+      }
+    ]
+  },
+  "m203-3-2-c": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 3: Spheres and Hemispheres",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formulas",
+        "t": 17.036
+      },
+      {
+        "title": "A basketball",
+        "t": 44.311
+      },
+      {
+        "title": "A mixing bowl",
+        "t": 74.396
+      },
+      {
+        "title": "A ball in a box",
+        "t": 106.519
+      },
+      {
+        "title": "Cubing the diameter",
+        "t": 141.894
+      },
+      {
+        "title": "Your turn",
+        "t": 158.201
+      },
+      {
+        "title": "Summary",
+        "t": 192.626
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2-c:q",
+        "t": 167.559,
+        "prompt": "A spherical ornament has a radius of $3$ cm. What is its volume, to the nearest tenth of a cubic centimetre?",
+        "choices": [
+          "$113.1\\ \\text{cm}^3$",
+          "$904.8\\ \\text{cm}^3$",
+          "$37.7\\ \\text{cm}^3$",
+          "$56.5\\ \\text{cm}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\tfrac43 \\pi(3)^3 = 36\\pi \\approx 113.1\\ \\text{cm}^3$. B uses the diameter, $6$, in place of the radius. D is a hemisphere."
+      }
+    ]
+  },
+  "m203-3-2-d": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 4: Composite Objects",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A propane tank",
+        "t": 21.074
+      },
+      {
+        "title": "An ice cream cone",
+        "t": 70.743
+      },
+      {
+        "title": "Plan the parts",
+        "t": 111.18
+      },
+      {
+        "title": "Your turn",
+        "t": 135.398
+      },
+      {
+        "title": "Summary",
+        "t": 174.014
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2-d:q",
+        "t": 148.608,
+        "prompt": "A grain silo is a cylinder with a radius of $3$ m and a height of $10$ m, topped with a hemisphere. What is its volume, to the nearest tenth of a cubic metre?",
+        "choices": [
+          "$339.3\\ \\text{m}^3$",
+          "$395.8\\ \\text{m}^3$",
+          "$282.7\\ \\text{m}^3$",
+          "$113.1\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "Cylinder: $\\pi(3)^2(10) = 90\\pi$. Hemisphere: $\\tfrac23 \\pi(3)^3 = 18\\pi$. Total $108\\pi \\approx 339.3\\ \\text{m}^3$. B uses a whole sphere, and C leaves out the top."
+      }
+    ]
+  },
+  "m203-3-3": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 1: Converting Cubic Units",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One cubic yard",
+        "t": 21.225
+      },
+      {
+        "title": "Cube the factor",
+        "t": 42.218
+      },
+      {
+        "title": "Using the length factor",
+        "t": 69.903
+      },
+      {
+        "title": "Concrete for a patio",
+        "t": 91.634
+      },
+      {
+        "title": "Your turn",
+        "t": 124.099
+      },
+      {
+        "title": "Summary",
+        "t": 160.079
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3:q",
+        "t": 134.102,
+        "prompt": "A trench needs $135\\ \\text{ft}^3$ of gravel. How many cubic yards is that?",
+        "choices": [
+          "$5\\ \\text{yd}^3$",
+          "$45\\ \\text{yd}^3$",
+          "$15\\ \\text{yd}^3$",
+          "$3645\\ \\text{yd}^3$"
+        ],
+        "answer": 0,
+        "working": "Cubic yards are bigger, so divide by $27$: $135 \\div 27 = 5\\ \\text{yd}^3$. B divides by $3$, and C by $9$."
+      }
+    ]
+  },
+  "m203-3-3-b": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 2: Concrete, Water and Fuel",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The plan",
+        "t": 20.033
+      },
+      {
+        "title": "A garage pad",
+        "t": 42.457
+      },
+      {
+        "title": "Forgetting the thickness",
+        "t": 65.931
+      },
+      {
+        "title": "Filling a diesel tank",
+        "t": 88.438
+      },
+      {
+        "title": "Your turn",
+        "t": 134.384
+      },
+      {
+        "title": "Summary",
+        "t": 171.866
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3-b:q",
+        "t": 147.287,
+        "prompt": "A sidewalk section is $10$ m long, $1.5$ m wide and $8$ cm thick. How much concrete does it need?",
+        "choices": [
+          "$1.2\\ \\text{m}^3$",
+          "$120\\ \\text{m}^3$",
+          "$12\\ \\text{m}^3$",
+          "$0.12\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "$8$ cm $= 0.08$ m, so $V = 10 \\times 1.5 \\times 0.08 = 1.2\\ \\text{m}^3$. B forgets to convert the thickness."
+      }
+    ]
   }
 }
