@@ -16548,5 +16548,291 @@
         "working": "The axis is $x = \\dfrac{1 + 7}{2} = 4$, and $y = (4 - 1)(4 - 7) = (3)(-3) = -9$."
       }
     ]
+  },
+  "m202-6-3-c": {
+    "lessonId": "m202-6-3",
+    "title": "Quadratic Functions in Factored Form, Part 3: Writing Equations and Modelling Arches",
+    "duration": 213,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding a",
+        "t": 18.494
+      },
+      {
+        "title": "A park entrance arch",
+        "t": 69.147
+      },
+      {
+        "title": "Choose a convenient origin",
+        "t": 127.369
+      },
+      {
+        "title": "Your turn",
+        "t": 153.564
+      },
+      {
+        "title": "Summary",
+        "t": 185.829
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-3-c:q",
+        "t": 164.448,
+        "prompt": "A parabola has zeros $0$ and $6$ and passes through $(2, 16)$. What is its equation?",
+        "choices": [
+          "$y = -2x(x - 6)$",
+          "$y = 2x(x - 6)$",
+          "$y = -2x(x + 6)$",
+          "$y = 16x(x - 6)$"
+        ],
+        "answer": 0,
+        "working": "$y = ax(x - 6)$. Substitute $(2, 16)$: $16 = a(2)(-4) = -8a$, so $a = -2$."
+      }
+    ]
+  },
+  "m202-7-1": {
+    "lessonId": "m202-7-1",
+    "title": "Solving Quadratic Equations by Graphing and Factoring, Part 1: Roots and Graphs",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Roots and zeros",
+        "t": 19.452
+      },
+      {
+        "title": "Solving by graphing",
+        "t": 58.566
+      },
+      {
+        "title": "Graphs and exact answers",
+        "t": 106.117
+      },
+      {
+        "title": "Your turn",
+        "t": 125.383
+      },
+      {
+        "title": "Summary",
+        "t": 158.308
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-1:q",
+        "t": 139.616,
+        "prompt": "The graph of $y = ax^2 + bx + c$ lies entirely above the $x$-axis. How many real roots does $ax^2 + bx + c = 0$ have?",
+        "choices": [
+          "None",
+          "One",
+          "Two",
+          "It depends on $a$"
+        ],
+        "answer": 0,
+        "working": "The roots are the $x$-intercepts. A graph entirely above the $x$-axis never meets it, so there are no real roots."
+      }
+    ]
+  },
+  "m202-7-1-b": {
+    "lessonId": "m202-7-1",
+    "title": "Solving Quadratic Equations by Graphing and Factoring, Part 2: Solving by Factoring",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The zero product property",
+        "t": 16.936
+      },
+      {
+        "title": "A trinomial",
+        "t": 44.796
+      },
+      {
+        "title": "Rearrange first",
+        "t": 79.843
+      },
+      {
+        "title": "Get zero on one side first",
+        "t": 101.777
+      },
+      {
+        "title": "Your turn",
+        "t": 133.195
+      },
+      {
+        "title": "Summary",
+        "t": 163.565
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-1-b:q",
+        "t": 140.083,
+        "prompt": "Solve $x^2 - x = 12$.",
+        "choices": [
+          "$x = 4$ or $x = -3$",
+          "$x = -4$ or $x = 3$",
+          "$x = 12$ or $x = 13$",
+          "$x = 0$ or $x = 1$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - x - 12 = 0$, so $(x - 4)(x + 3) = 0$, and $x = 4$ or $x = -3$. Check: $16 - 4 = 12$ ✓"
+      }
+    ]
+  },
+  "m202-7-1-c": {
+    "lessonId": "m202-7-1",
+    "title": "Solving Quadratic Equations by Graphing and Factoring, Part 3: Special Cases and Decomposition",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A common factor",
+        "t": 17.664
+      },
+      {
+        "title": "Special products",
+        "t": 52.261
+      },
+      {
+        "title": "Decomposition",
+        "t": 93.268
+      },
+      {
+        "title": "Your turn",
+        "t": 141.592
+      },
+      {
+        "title": "Summary",
+        "t": 173.093
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-1-c:q",
+        "t": 150.126,
+        "prompt": "Solve $3x^2 + 5x - 2 = 0$.",
+        "choices": [
+          "$x = \\tfrac{1}{3}$ or $x = -2$",
+          "$x = -\\tfrac{1}{3}$ or $x = 2$",
+          "$x = 3$ or $x = -2$",
+          "$x = 1$ or $x = -2$"
+        ],
+        "answer": 0,
+        "working": "$ac = -6$: $6$ and $-1$. $3x^2 + 6x - x - 2 = 3x(x + 2) - 1(x + 2) = (3x - 1)(x + 2) = 0$, so $x = \\tfrac{1}{3}$ or $x = -2$."
+      }
+    ]
+  },
+  "m202-7-2": {
+    "lessonId": "m202-7-2",
+    "title": "The Quadratic Formula, Part 1: Using the Formula",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formula",
+        "t": 22.058
+      },
+      {
+        "title": "Two rational roots",
+        "t": 60.328
+      },
+      {
+        "title": "Check by factoring",
+        "t": 103.54
+      },
+      {
+        "title": "Your turn",
+        "t": 138.932
+      },
+      {
+        "title": "Summary",
+        "t": 172.876
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-2:q",
+        "t": 149.385,
+        "prompt": "Use the quadratic formula to solve $x^2 + 5x + 6 = 0$.",
+        "choices": [
+          "$x = -2$ or $x = -3$",
+          "$x = 2$ or $x = 3$",
+          "$x = -2$ or $x = 3$",
+          "$x = -5$ or $x = 1$"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 25 - 24 = 1$, so $x = \\dfrac{-5 \\pm 1}{2}$: $-2$ or $-3$."
+      }
+    ]
+  },
+  "m202-7-2-b": {
+    "lessonId": "m202-7-2",
+    "title": "The Quadratic Formula, Part 2: Decimal and Exact Roots",
+    "duration": 213,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rounding to the nearest hundredth",
+        "t": 19.466
+      },
+      {
+        "title": "Exact roots",
+        "t": 66.716
+      },
+      {
+        "title": "Three common slips",
+        "t": 108.364
+      },
+      {
+        "title": "Your turn",
+        "t": 146.278
+      },
+      {
+        "title": "Summary",
+        "t": 185.783
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-2-b:q",
+        "t": 157.188,
+        "prompt": "Solve $3x^2 - 2x - 2 = 0$. Round to the nearest hundredth.",
+        "choices": [
+          "$1.22$ or $-0.55$",
+          "$0.55$ or $-1.22$",
+          "$2.88$ or $1.12$",
+          "$3.65$ or $-1.65$"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 4 + 24 = 28$, so $x = \\dfrac{2 \\pm \\sqrt{28}}{6} \\approx 1.22$ or $-0.55$. B uses $b$ instead of $-b$; C divides only the root by $6$; D divides by $2$, not $2a$."
+      }
+    ]
   }
 }
