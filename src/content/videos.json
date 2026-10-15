@@ -14029,5 +14029,146 @@
         "working": "Between the lines is interior, and on the same side of the transversal is same-side. With parallel lines, same-side interior angles are supplementary."
       }
     ]
+  },
+  "m202-2-1-b": {
+    "lessonId": "m202-2-1",
+    "title": "Angles Formed by Parallel Lines, Part 2: Finding Angles with Reasons",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Angles with reasons",
+        "t": 19.445
+      },
+      {
+        "title": "Same-side angles",
+        "t": 70.62
+      },
+      {
+        "title": "Using algebra",
+        "t": 97.718
+      },
+      {
+        "title": "Your turn",
+        "t": 143.344
+      },
+      {
+        "title": "Summary",
+        "t": 181.555
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-1-b:q",
+        "t": 155.982,
+        "prompt": "Two parallel lines are crossed by a transversal. A pair of same-side interior angles measure $(2x + 20)^\\circ$ and $(3x + 10)^\\circ$. What is $x$?",
+        "choices": [
+          "$30$",
+          "$10$",
+          "$34$",
+          "$50$"
+        ],
+        "answer": 0,
+        "working": "Same-side interior angles add to $180^\\circ$: $5x + 30 = 180$, so $5x = 150$ and $x = 30$. The angles are $80^\\circ$ and $100^\\circ$. Setting them equal gives the wrong answer, $10$."
+      }
+    ]
+  },
+  "m202-2-1-c": {
+    "lessonId": "m202-2-1",
+    "title": "Angles Formed by Parallel Lines, Part 3: Extra Lines and Proving Lines Parallel",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A bend between parallel lines",
+        "t": 19.907
+      },
+      {
+        "title": "Proving lines are parallel",
+        "t": 70.296
+      },
+      {
+        "title": "A two-column proof",
+        "t": 103.402
+      },
+      {
+        "title": "Your turn",
+        "t": 140.836
+      },
+      {
+        "title": "Summary",
+        "t": 177.571
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-1-c:q",
+        "t": 155.228,
+        "prompt": "A transversal crosses two lines. A pair of same-side interior angles measure $95^\\circ$ and $85^\\circ$. Are the lines parallel?",
+        "choices": [
+          "Yes: the angles add to $180^\\circ$.",
+          "No: the angles are not equal.",
+          "Yes: both angles are acute.",
+          "No: the angles add to $180^\\circ$."
+        ],
+        "answer": 0,
+        "working": "$95^\\circ + 85^\\circ = 180^\\circ$, so the same-side interior angles are supplementary, and the lines are parallel."
+      }
+    ]
+  },
+  "m202-2-2": {
+    "lessonId": "m202-2-2",
+    "title": "Angles in Triangles, Part 1: The Angle Sum",
+    "duration": 208,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proving the angle sum",
+        "t": 23.486
+      },
+      {
+        "title": "Finding the third angle",
+        "t": 89.944
+      },
+      {
+        "title": "What the sum tells you",
+        "t": 114.943
+      },
+      {
+        "title": "Your turn",
+        "t": 146.21
+      },
+      {
+        "title": "Summary",
+        "t": 178.837
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-2:q",
+        "t": 155.696,
+        "prompt": "A right triangle has one angle of $34^\\circ$. What is its third angle?",
+        "choices": [
+          "$56^\\circ$",
+          "$146^\\circ$",
+          "$34^\\circ$",
+          "$66^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The angles are $90^\\circ$, $34^\\circ$ and $x$: $x = 180^\\circ - 90^\\circ - 34^\\circ = 56^\\circ$."
+      }
+    ]
   }
 }
