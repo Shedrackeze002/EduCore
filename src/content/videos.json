@@ -20986,5 +20986,213 @@
         "working": "$820.00 + 200.00 - 120.00 = 900.00$. B subtracts the deposit and adds the cheque."
       }
     ]
+  },
+  "m203-7-1": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 1: Simple Interest",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Principal, rate and time",
+        "t": 20.975
+      },
+      {
+        "title": "A GIC with simple interest",
+        "t": 52.711
+      },
+      {
+        "title": "Same interest every year",
+        "t": 105.83
+      },
+      {
+        "title": "The rate as a decimal",
+        "t": 139.742
+      },
+      {
+        "title": "Your turn",
+        "t": 173.852
+      },
+      {
+        "title": "Summary",
+        "t": 217.665
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1:q",
+        "t": 187.601,
+        "prompt": "Jaxon puts \\$1,200 into a GIC that pays $4\\%$ simple interest per year. What is it worth after $3$ years?",
+        "choices": [
+          "\\$1,344.00",
+          "\\$144.00",
+          "\\$15,600.00",
+          "\\$1,248.00"
+        ],
+        "answer": 0,
+        "working": "$I = 1{,}200 \\times 0.04 \\times 3 = 144$, so $A = 1{,}200 + 144 = 1{,}344$. B is only the interest, and C uses $4$ instead of $0.04$."
+      }
+    ]
+  },
+  "m203-7-1-b": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 2: Time in Months and Missing Values",
+    "duration": 248,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Time in months",
+        "t": 19.783
+      },
+      {
+        "title": "Mixing months and years",
+        "t": 72.222
+      },
+      {
+        "title": "Rearranging the formula",
+        "t": 92.42
+      },
+      {
+        "title": "Finding the rate",
+        "t": 116.566
+      },
+      {
+        "title": "Finding the time",
+        "t": 146.955
+      },
+      {
+        "title": "Your turn",
+        "t": 186.925
+      },
+      {
+        "title": "Summary",
+        "t": 224.949
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1-b:q",
+        "t": 199.67,
+        "prompt": "A loan of \\$2,000 charges $6\\%$ simple interest per year. How much interest is charged for $8$ months?",
+        "choices": [
+          "\\$80.00",
+          "\\$960.00",
+          "\\$120.00",
+          "\\$10.00"
+        ],
+        "answer": 0,
+        "working": "$t = \\dfrac{8}{12}$ of a year, so $I = 2{,}000 \\times 0.06 \\times \\dfrac{8}{12} = 80$. B uses $t = 8$, and C is the interest for a whole year."
+      }
+    ]
+  },
+  "m203-7-1-c": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 3: Compound Interest",
+    "duration": 289,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Interest on interest",
+        "t": 18.084
+      },
+      {
+        "title": "The compound interest formula",
+        "t": 79.642
+      },
+      {
+        "title": "Compounded monthly",
+        "t": 125.311
+      },
+      {
+        "title": "Calculator keystrokes",
+        "t": 184.695
+      },
+      {
+        "title": "Your turn",
+        "t": 221.23
+      },
+      {
+        "title": "Summary",
+        "t": 260.63
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1-c:q",
+        "t": 232.327,
+        "prompt": "\\$3,000 earns $6\\%$ per year, compounded quarterly. What is it worth after $2$ years?",
+        "choices": [
+          "\\$3,379.48",
+          "\\$3,360.00",
+          "\\$3,370.80",
+          "\\$3,180.00"
+        ],
+        "answer": 0,
+        "working": "$n = 4$ and $nt = 8$: $A = 3{,}000\\left(1 + \\dfrac{0.06}{4}\\right)^{8} = 3{,}000(1.015)^8 \\approx 3{,}379.48$. B is simple interest, and C compounds once a year."
+      }
+    ]
+  },
+  "m203-7-1-d": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 4: Simple and Compound Compared",
+    "duration": 239,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "On a graph",
+        "t": 18.639
+      },
+      {
+        "title": "Ten years at 4%",
+        "t": 61.051
+      },
+      {
+        "title": "How often it compounds",
+        "t": 103.41
+      },
+      {
+        "title": "Borrowers pay it too",
+        "t": 146.501
+      },
+      {
+        "title": "Your turn",
+        "t": 166.825
+      },
+      {
+        "title": "Summary",
+        "t": 214.916
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1-d:q",
+        "t": 180.48,
+        "prompt": "\\$2,000 is invested for $15$ years at $5\\%$. How much more does it earn compounded annually than with simple interest?",
+        "choices": [
+          "\\$657.86",
+          "\\$1,500.00",
+          "\\$2,157.86",
+          "\\$4,157.86"
+        ],
+        "answer": 0,
+        "working": "Simple: $2{,}000 + 2{,}000 \\times 0.05 \\times 15 = 3{,}500$. Compound: $2{,}000(1.05)^{15} \\approx 4{,}157.86$. The difference is $657.86$. D is the compound amount itself."
+      }
+    ]
   }
 }
