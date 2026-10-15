@@ -14973,5 +14973,291 @@
         "working": "The top angle is $72^\\circ$. The slanted side from the $58^\\circ$ point is $\\dfrac{500\\sin 50^\\circ}{\\sin 72^\\circ} \\approx 402.73$, so $h \\approx 402.73\\sin 58^\\circ \\approx 342$ m."
       }
     ]
+  },
+  "m202-4-1": {
+    "lessonId": "m202-4-1",
+    "title": "Mixed and Entire Radicals, Part 1: Simplifying Radicals",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Amara’s quilt block",
+        "t": 26.585
+      },
+      {
+        "title": "Radicals",
+        "t": 62.799
+      },
+      {
+        "title": "Entire to mixed",
+        "t": 104.457
+      },
+      {
+        "title": "Stopping too early",
+        "t": 158.375
+      },
+      {
+        "title": "Your turn",
+        "t": 175.716
+      },
+      {
+        "title": "Summary",
+        "t": 205.275
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-1:q",
+        "t": 183.709,
+        "prompt": "Write $\\sqrt{98}$ as a mixed radical in simplest form.",
+        "choices": [
+          "$7\\sqrt{2}$",
+          "$2\\sqrt{7}$",
+          "$49\\sqrt{2}$",
+          "$\\sqrt{2}\\sqrt{49}$"
+        ],
+        "answer": 0,
+        "working": "$98 = 49 \\times 2$, so $\\sqrt{98} = \\sqrt{49} \\times \\sqrt{2} = 7\\sqrt{2}$."
+      }
+    ]
+  },
+  "m202-4-1-b": {
+    "lessonId": "m202-4-1",
+    "title": "Mixed and Entire Radicals, Part 2: Mixed to Entire",
+    "duration": 172,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mixed to entire",
+        "t": 20.351
+      },
+      {
+        "title": "Variable radicands",
+        "t": 61.078
+      },
+      {
+        "title": "Your turn",
+        "t": 116.934
+      },
+      {
+        "title": "Summary",
+        "t": 144.234
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-1-b:q",
+        "t": 123.911,
+        "prompt": "Write $6\\sqrt{2}$ as an entire radical.",
+        "choices": [
+          "$\\sqrt{72}$",
+          "$\\sqrt{12}$",
+          "$\\sqrt{38}$",
+          "$\\sqrt{144}$"
+        ],
+        "answer": 0,
+        "working": "$6 = \\sqrt{36}$, so $6\\sqrt{2} = \\sqrt{36} \\times \\sqrt{2} = \\sqrt{72}$. B multiplies $6 \\times 2$ without squaring the $6$."
+      }
+    ]
+  },
+  "m202-4-1-c": {
+    "lessonId": "m202-4-1",
+    "title": "Mixed and Entire Radicals, Part 3: Ordering Radicals and Exact Lengths",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Ordering radicals",
+        "t": 19.022
+      },
+      {
+        "title": "Decimals",
+        "t": 65.294
+      },
+      {
+        "title": "A diagonal brace",
+        "t": 91.077
+      },
+      {
+        "title": "Your turn",
+        "t": 132.553
+      },
+      {
+        "title": "Summary",
+        "t": 163.927
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-1-c:q",
+        "t": 141.198,
+        "prompt": "Order $3\\sqrt{2}$, $2\\sqrt{5}$ and $4$ from least to greatest.",
+        "choices": [
+          "$4 < 3\\sqrt{2} < 2\\sqrt{5}$",
+          "$3\\sqrt{2} < 2\\sqrt{5} < 4$",
+          "$2\\sqrt{5} < 3\\sqrt{2} < 4$",
+          "$4 < 2\\sqrt{5} < 3\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "$3\\sqrt{2} = \\sqrt{18}$, $2\\sqrt{5} = \\sqrt{20}$ and $4 = \\sqrt{16}$, and $16 < 18 < 20$."
+      }
+    ]
+  },
+  "m202-4-2": {
+    "lessonId": "m202-4-2",
+    "title": "Adding, Subtracting and Multiplying Radicals, Part 1: Like Radicals",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Like radicals",
+        "t": 16.632
+      },
+      {
+        "title": "Two kinds of radicals",
+        "t": 55.804
+      },
+      {
+        "title": "Adding the radicands",
+        "t": 83.565
+      },
+      {
+        "title": "Simplify first",
+        "t": 105.614
+      },
+      {
+        "title": "Your turn",
+        "t": 142.795
+      },
+      {
+        "title": "Summary",
+        "t": 169.134
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-2:q",
+        "t": 149.301,
+        "prompt": "Simplify $\\sqrt{50} + \\sqrt{8}$.",
+        "choices": [
+          "$7\\sqrt{2}$",
+          "$\\sqrt{58}$",
+          "$3\\sqrt{2}$",
+          "$10\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "$\\sqrt{50} = 5\\sqrt{2}$ and $\\sqrt{8} = 2\\sqrt{2}$, so the sum is $7\\sqrt{2}$. B adds the radicands."
+      }
+    ]
+  },
+  "m202-4-2-b": {
+    "lessonId": "m202-4-2",
+    "title": "Adding, Subtracting and Multiplying Radicals, Part 2: Perimeters and Products",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Edging a flower bed",
+        "t": 20.895
+      },
+      {
+        "title": "Multiplying radicals",
+        "t": 70.036
+      },
+      {
+        "title": "Squaring a radical",
+        "t": 106.491
+      },
+      {
+        "title": "Your turn",
+        "t": 131.85
+      },
+      {
+        "title": "Summary",
+        "t": 162.365
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-2-b:q",
+        "t": 139.316,
+        "prompt": "Simplify $\\left(3\\sqrt{2}\\right)\\left(4\\sqrt{6}\\right)$.",
+        "choices": [
+          "$24\\sqrt{3}$",
+          "$12\\sqrt{12}$",
+          "$7\\sqrt{8}$",
+          "$12\\sqrt{8}$"
+        ],
+        "answer": 0,
+        "working": "$(3 \\times 4)\\sqrt{2 \\times 6} = 12\\sqrt{12} = 12 \\times 2\\sqrt{3} = 24\\sqrt{3}$. B is correct but not in simplest form."
+      }
+    ]
+  },
+  "m202-4-2-c": {
+    "lessonId": "m202-4-2",
+    "title": "Adding, Subtracting and Multiplying Radicals, Part 3: The Distributive Property",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Distributing a radical",
+        "t": 19.907
+      },
+      {
+        "title": "The area of a garden",
+        "t": 51.862
+      },
+      {
+        "title": "Four products, not two",
+        "t": 100.045
+      },
+      {
+        "title": "Your turn",
+        "t": 120.146
+      },
+      {
+        "title": "Summary",
+        "t": 150.771
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-2-c:q",
+        "t": 129.283,
+        "prompt": "Expand and simplify $\\left(3 + \\sqrt{2}\\right)\\left(1 + \\sqrt{2}\\right)$.",
+        "choices": [
+          "$5 + 4\\sqrt{2}$",
+          "$5$",
+          "$5 + 3\\sqrt{2}$",
+          "$3 + 4\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "$3 + 3\\sqrt{2} + \\sqrt{2} + 2 = 5 + 4\\sqrt{2}$. B keeps only two of the four products."
+      }
+    ]
   }
 }
