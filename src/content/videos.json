@@ -11546,5 +11546,573 @@
         "working": "No real roots: $b^2 - 4ac = 16 - 4k < 0$, so $16 < 4k$ and $k > 4$."
       }
     ]
+  },
+  "m201-4-4-c": {
+    "lessonId": "m201-4-4",
+    "title": "The Discriminant and Applications, Part 3: Triangles, Projectiles and Frames",
+    "duration": 249,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A right triangle",
+        "t": 18.468
+      },
+      {
+        "title": "A projectile",
+        "t": 66.763
+      },
+      {
+        "title": "A frame",
+        "t": 129.124
+      },
+      {
+        "title": "Your turn",
+        "t": 184.578
+      },
+      {
+        "title": "Summary",
+        "t": 223.536
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-4-c:q",
+        "t": 196.139,
+        "prompt": "A rectangle is $2$ m longer than it is wide, and its area is $48\\text{ m}^2$. How wide is it?",
+        "choices": [
+          "$6$ m",
+          "$8$ m",
+          "$-8$ m",
+          "$24$ m"
+        ],
+        "answer": 0,
+        "working": "$w(w + 2) = 48$, so $w^2 + 2w - 48 = (w - 6)(w + 8) = 0$. Reject $-8$: $w = 6$."
+      }
+    ]
+  },
+  "m201-5-1": {
+    "lessonId": "m201-5-1",
+    "title": "Working with Radicals, Part 1: Simplest Form",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Radicals",
+        "t": 26.438
+      },
+      {
+        "title": "Entire to mixed",
+        "t": 79.374
+      },
+      {
+        "title": "Stopping too early",
+        "t": 133.81
+      },
+      {
+        "title": "Your turn",
+        "t": 162.3
+      },
+      {
+        "title": "Summary",
+        "t": 196.291
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-1:q",
+        "t": 169.121,
+        "prompt": "Write $\\sqrt{72}$ in simplest form.",
+        "choices": [
+          "$6\\sqrt{2}$",
+          "$2\\sqrt{18}$",
+          "$3\\sqrt{8}$",
+          "$36\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "The largest perfect square dividing $72$ is $36$: $\\sqrt{72} = \\sqrt{36}\\,\\sqrt{2} = 6\\sqrt{2}$."
+      }
+    ]
+  },
+  "m201-5-1-b": {
+    "lessonId": "m201-5-1",
+    "title": "Working with Radicals, Part 2: Variables and Comparing",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Variable radicands",
+        "t": 20.536
+      },
+      {
+        "title": "Mixed to entire",
+        "t": 76.614
+      },
+      {
+        "title": "Comparing radicals",
+        "t": 108.87
+      },
+      {
+        "title": "Your turn",
+        "t": 164.838
+      },
+      {
+        "title": "Summary",
+        "t": 195.714
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-1-b:q",
+        "t": 172.402,
+        "prompt": "Which is greater, $5\\sqrt{2}$ or $3\\sqrt{6}$?",
+        "choices": [
+          "$3\\sqrt{6}$",
+          "$5\\sqrt{2}$",
+          "They are equal.",
+          "It cannot be decided without a calculator."
+        ],
+        "answer": 0,
+        "working": "$5\\sqrt{2} = \\sqrt{50}$ and $3\\sqrt{6} = \\sqrt{54}$. Since $54 > 50$, $3\\sqrt{6}$ is greater."
+      }
+    ]
+  },
+  "m201-5-1-c": {
+    "lessonId": "m201-5-1",
+    "title": "Working with Radicals, Part 3: Adding and Subtracting",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Like radicals",
+        "t": 18.571
+      },
+      {
+        "title": "Simplify, then combine",
+        "t": 40.104
+      },
+      {
+        "title": "Variable radicands",
+        "t": 90.817
+      },
+      {
+        "title": "Adding radicands",
+        "t": 129.098
+      },
+      {
+        "title": "Your turn",
+        "t": 157.114
+      },
+      {
+        "title": "Summary",
+        "t": 189.475
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-1-c:q",
+        "t": 164.627,
+        "prompt": "Simplify $\\sqrt{75} - \\sqrt{12}$.",
+        "choices": [
+          "$3\\sqrt{3}$",
+          "$\\sqrt{63}$",
+          "$7\\sqrt{3}$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "$\\sqrt{75} = 5\\sqrt{3}$ and $\\sqrt{12} = 2\\sqrt{3}$, so $\\sqrt{75} - \\sqrt{12} = 3\\sqrt{3}$."
+      }
+    ]
+  },
+  "m201-5-2": {
+    "lessonId": "m201-5-2",
+    "title": "Multiplying and Dividing Radicals, Part 1: Multiplying",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying monomials",
+        "t": 19.259
+      },
+      {
+        "title": "Multiplying binomials",
+        "t": 73.125
+      },
+      {
+        "title": "Squaring a binomial",
+        "t": 112.963
+      },
+      {
+        "title": "Your turn",
+        "t": 141.128
+      },
+      {
+        "title": "Summary",
+        "t": 171.083
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-2:q",
+        "t": 147.878,
+        "prompt": "Expand $\\left(1 + \\sqrt{5}\\right)^2$.",
+        "choices": [
+          "$6 + 2\\sqrt{5}$",
+          "$6$",
+          "$6 + \\sqrt{5}$",
+          "$1 + 2\\sqrt{5}$"
+        ],
+        "answer": 0,
+        "working": "$\\left(1 + \\sqrt{5}\\right)^2 = 1 + \\sqrt{5} + \\sqrt{5} + 5 = 6 + 2\\sqrt{5}$."
+      }
+    ]
+  },
+  "m201-5-2-b": {
+    "lessonId": "m201-5-2",
+    "title": "Multiplying and Dividing Radicals, Part 2: Conjugates and Rationalizing",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Conjugates",
+        "t": 22.603
+      },
+      {
+        "title": "Rationalizing",
+        "t": 69.265
+      },
+      {
+        "title": "Reduce at the end",
+        "t": 108.89
+      },
+      {
+        "title": "Your turn",
+        "t": 141.849
+      },
+      {
+        "title": "Summary",
+        "t": 172.687
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-2-b:q",
+        "t": 148.136,
+        "prompt": "Rationalize $\\dfrac{3}{\\sqrt{6}}$.",
+        "choices": [
+          "$\\dfrac{\\sqrt{6}}{2}$",
+          "$\\dfrac{\\sqrt{6}}{6}$",
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{3}{\\sqrt{6}} \\times \\dfrac{\\sqrt{6}}{\\sqrt{6}} = \\dfrac{3\\sqrt{6}}{6} = \\dfrac{\\sqrt{6}}{2}$."
+      }
+    ]
+  },
+  "m201-5-2-c": {
+    "lessonId": "m201-5-2",
+    "title": "Multiplying and Dividing Radicals, Part 3: Binomial Denominators",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Using a conjugate",
+        "t": 20.254
+      },
+      {
+        "title": "Radicals on top and bottom",
+        "t": 54.706
+      },
+      {
+        "title": "With variables",
+        "t": 87.456
+      },
+      {
+        "title": "Your turn",
+        "t": 132.49
+      },
+      {
+        "title": "Summary",
+        "t": 165.596
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-2-c:q",
+        "t": 139.505,
+        "prompt": "Rationalize $\\dfrac{2}{\\sqrt{3} - 1}$.",
+        "choices": [
+          "$\\sqrt{3} + 1$",
+          "$\\sqrt{3} - 1$",
+          "$2\\sqrt{3} + 2$",
+          "$\\dfrac{2\\sqrt{3}}{3}$"
+        ],
+        "answer": 0,
+        "working": "Multiply by $\\dfrac{\\sqrt{3} + 1}{\\sqrt{3} + 1}$. The denominator is $3 - 1 = 2$, so the result is $\\dfrac{2\\left(\\sqrt{3} + 1\\right)}{2} = \\sqrt{3} + 1$."
+      }
+    ]
+  },
+  "m201-5-3": {
+    "lessonId": "m201-5-3",
+    "title": "Radical Equations, Part 1: Restrictions and Squaring",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Restrictions",
+        "t": 22.911
+      },
+      {
+        "title": "Two conditions",
+        "t": 75.5
+      },
+      {
+        "title": "Solving by squaring",
+        "t": 105.289
+      },
+      {
+        "title": "Your turn",
+        "t": 150.468
+      },
+      {
+        "title": "Summary",
+        "t": 183.055
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-3:q",
+        "t": 158.383,
+        "prompt": "State the restriction on $x$ in $\\sqrt{10 - 5x}$.",
+        "choices": [
+          "$x \\le 2$",
+          "$x \\ge 2$",
+          "$x \\ge -2$",
+          "$x \\le 10$"
+        ],
+        "answer": 0,
+        "working": "$10 - 5x \\ge 0$, so $-5x \\ge -10$. Dividing by $-5$ reverses the inequality: $x \\le 2$."
+      }
+    ]
+  },
+  "m201-5-3-b": {
+    "lessonId": "m201-5-3",
+    "title": "Radical Equations, Part 2: Extraneous Roots",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why squaring adds roots",
+        "t": 17.155
+      },
+      {
+        "title": "A quadratic after squaring",
+        "t": 50.821
+      },
+      {
+        "title": "No solution",
+        "t": 117.651
+      },
+      {
+        "title": "Your turn",
+        "t": 148.825
+      },
+      {
+        "title": "Summary",
+        "t": 183.58
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-3-b:q",
+        "t": 156.343,
+        "prompt": "Solve $\\sqrt{x + 1} = x - 1$.",
+        "choices": [
+          "$x = 3$",
+          "$x = 0$ or $x = 3$",
+          "$x = 0$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Squaring gives $x + 1 = x^2 - 2x + 1$, so $x^2 - 3x = 0$ and $x = 0$ or $x = 3$. Check: $x = 0$ gives $1 \\ne -1$, so it is extraneous; $x = 3$ gives $2 = 2$."
+      }
+    ]
+  },
+  "m201-5-3-c": {
+    "lessonId": "m201-5-3",
+    "title": "Radical Equations, Part 3: Two Radicals and Models",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Squaring twice",
+        "t": 20.128
+      },
+      {
+        "title": "The length of a pendulum",
+        "t": 67.827
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 118.24
+      },
+      {
+        "title": "Your turn",
+        "t": 140.907
+      },
+      {
+        "title": "Summary",
+        "t": 174.868
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-3-c:q",
+        "t": 148.598,
+        "prompt": "Solve $\\sqrt{x + 5} = \\sqrt{x} + 1$.",
+        "choices": [
+          "$x = 4$",
+          "$x = 2$",
+          "$x = 16$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Squaring gives $x + 5 = x + 2\\sqrt{x} + 1$, so $2\\sqrt{x} = 4$, $\\sqrt{x} = 2$ and $x = 4$. Check: $\\sqrt{9} = 3 = \\sqrt{4} + 1$."
+      }
+    ]
+  },
+  "m201-6-1": {
+    "lessonId": "m201-6-1",
+    "title": "Rational Expressions, Part 1: Non-Permissible Values",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rational expressions",
+        "t": 26.682
+      },
+      {
+        "title": "Finding restrictions",
+        "t": 65.763
+      },
+      {
+        "title": "A non-monic denominator",
+        "t": 102.265
+      },
+      {
+        "title": "Your turn",
+        "t": 141.301
+      },
+      {
+        "title": "Summary",
+        "t": 175.96
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-1:q",
+        "t": 152.611,
+        "prompt": "What are the non-permissible values of $\\dfrac{x - 3}{x^2 - 9x + 14}$?",
+        "choices": [
+          "$x \\ne 2,\\ 7$",
+          "$x \\ne 3$",
+          "$x \\ne 2,\\ 3,\\ 7$",
+          "$x \\ne -2,\\ -7$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 9x + 14 = (x - 2)(x - 7)$, which is $0$ when $x = 2$ or $x = 7$."
+      }
+    ]
+  },
+  "m201-6-1-b": {
+    "lessonId": "m201-6-1",
+    "title": "Rational Expressions, Part 2: Equivalent Expressions",
+    "duration": 208,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Never zero",
+        "t": 20.515
+      },
+      {
+        "title": "Equivalent expressions",
+        "t": 56.418
+      },
+      {
+        "title": "Restrictions travel",
+        "t": 94.734
+      },
+      {
+        "title": "Your turn",
+        "t": 141.354
+      },
+      {
+        "title": "Summary",
+        "t": 179.823
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-1-b:q",
+        "t": 157.245,
+        "prompt": "$\\dfrac{(x + 3)(x - 4)}{(x - 4)(x + 1)}$ simplifies to $\\dfrac{x + 3}{x + 1}$. What are the restrictions?",
+        "choices": [
+          "$x \\ne 4,\\ -1$",
+          "$x \\ne -1$",
+          "$x \\ne 4$",
+          "$x \\ne -3,\\ 4,\\ -1$"
+        ],
+        "answer": 0,
+        "working": "The restrictions come from the original denominator, $(x - 4)(x + 1)$: $x \\ne 4$ and $x \\ne -1$."
+      }
+    ]
   }
 }
