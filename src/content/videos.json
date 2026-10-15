@@ -20935,5 +20935,56 @@
         "working": "$350.00 + 900.00 - 1{,}020.50 = 229.50$. B adds the withdrawals instead of subtracting them."
       }
     ]
+  },
+  "m203-6-2-d": {
+    "lessonId": "m203-6-2",
+    "title": "Banking Services, Part 4: Reconciling an Account",
+    "duration": 251,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Register and statement",
+        "t": 17.712
+      },
+      {
+        "title": "What to adjust",
+        "t": 43.5
+      },
+      {
+        "title": "Reconciling for June",
+        "t": 75.093
+      },
+      {
+        "title": "Adjusting the wrong record",
+        "t": 152.372
+      },
+      {
+        "title": "Your turn",
+        "t": 184.444
+      },
+      {
+        "title": "Summary",
+        "t": 226.357
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-2-d:q",
+        "t": 202.546,
+        "prompt": "A statement balance is \\$820.00. A cheque for \\$120.00 is outstanding, and a deposit of \\$200.00 is not on the statement. What is the adjusted statement balance?",
+        "choices": [
+          "\\$900.00",
+          "\\$740.00",
+          "\\$1,140.00",
+          "\\$500.00"
+        ],
+        "answer": 0,
+        "working": "$820.00 + 200.00 - 120.00 = 900.00$. B subtracts the deposit and adds the cheque."
+      }
+    ]
   }
 }
