@@ -14170,5 +14170,240 @@
         "working": "The angles are $90^\\circ$, $34^\\circ$ and $x$: $x = 180^\\circ - 90^\\circ - 34^\\circ = 56^\\circ$."
       }
     ]
+  },
+  "m202-2-2-b": {
+    "lessonId": "m202-2-2",
+    "title": "Angles in Triangles, Part 2: Isosceles Triangles and Algebra",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Isosceles triangles",
+        "t": 20.949
+      },
+      {
+        "title": "Angles as expressions",
+        "t": 54.454
+      },
+      {
+        "title": "Combining properties",
+        "t": 98.204
+      },
+      {
+        "title": "Your turn",
+        "t": 147.599
+      },
+      {
+        "title": "Summary",
+        "t": 184.337
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-2-b:q",
+        "t": 160.41,
+        "prompt": "In an isosceles triangle, the angle between the two equal sides is $52^\\circ$. What is each of the other two angles?",
+        "choices": [
+          "$64^\\circ$",
+          "$52^\\circ$",
+          "$128^\\circ$",
+          "$76^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The other two angles are equal: $2x + 52^\\circ = 180^\\circ$, so $2x = 128^\\circ$ and $x = 64^\\circ$."
+      }
+    ]
+  },
+  "m202-2-2-c": {
+    "lessonId": "m202-2-2",
+    "title": "Angles in Triangles, Part 3: Exterior Angles",
+    "duration": 230,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exterior angles",
+        "t": 19.865
+      },
+      {
+        "title": "With algebra",
+        "t": 80.235
+      },
+      {
+        "title": "Adding the wrong angles",
+        "t": 126.419
+      },
+      {
+        "title": "Your turn",
+        "t": 162.68
+      },
+      {
+        "title": "Summary",
+        "t": 201.257
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-2-c:q",
+        "t": 178.354,
+        "prompt": "An exterior angle of a triangle measures $120^\\circ$. One of its non-adjacent interior angles measures $45^\\circ$. What is the other one?",
+        "choices": [
+          "$75^\\circ$",
+          "$60^\\circ$",
+          "$165^\\circ$",
+          "$15^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The exterior angle equals the sum of the non-adjacent interior angles: $45^\\circ + x = 120^\\circ$, so $x = 75^\\circ$."
+      }
+    ]
+  },
+  "m202-2-3": {
+    "lessonId": "m202-2-3",
+    "title": "Angle Properties of Polygons, Part 1: The Interior Angle Sum",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Polygons",
+        "t": 20.386
+      },
+      {
+        "title": "Splitting into triangles",
+        "t": 49.465
+      },
+      {
+        "title": "A dodecagon",
+        "t": 103.689
+      },
+      {
+        "title": "Your turn",
+        "t": 139.231
+      },
+      {
+        "title": "Summary",
+        "t": 171.422
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-3:q",
+        "t": 148.835,
+        "prompt": "What is the sum of the interior angles of a convex heptagon (7 sides)?",
+        "choices": [
+          "$900^\\circ$",
+          "$1260^\\circ$",
+          "$720^\\circ$",
+          "$1080^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$S = 180^\\circ(7 - 2) = 180^\\circ(5) = 900^\\circ$. $1260^\\circ$ is $180^\\circ \\times 7$, which forgets the 2."
+      }
+    ]
+  },
+  "m202-2-3-b": {
+    "lessonId": "m202-2-3",
+    "title": "Angle Properties of Polygons, Part 2: Regular Polygons",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A regular octagon",
+        "t": 23.656
+      },
+      {
+        "title": "The exterior angles",
+        "t": 69.886
+      },
+      {
+        "title": "Finding the number of sides",
+        "t": 118.124
+      },
+      {
+        "title": "Your turn",
+        "t": 161.174
+      },
+      {
+        "title": "Summary",
+        "t": 195.757
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-3-b:q",
+        "t": 172.426,
+        "prompt": "Each interior angle of a regular polygon measures $140^\\circ$. How many sides does it have?",
+        "choices": [
+          "$9$",
+          "$8$",
+          "$10$",
+          "$7$"
+        ],
+        "answer": 0,
+        "working": "Each exterior angle is $180^\\circ - 140^\\circ = 40^\\circ$, so $n = 360^\\circ \\div 40^\\circ = 9$."
+      }
+    ]
+  },
+  "m202-2-3-c": {
+    "lessonId": "m202-2-3",
+    "title": "Angle Properties of Polygons, Part 3: Solving Polygon Problems",
+    "duration": 222,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A missing angle",
+        "t": 21.044
+      },
+      {
+        "title": "Angles as expressions",
+        "t": 60.657
+      },
+      {
+        "title": "Will it tile?",
+        "t": 105.912
+      },
+      {
+        "title": "Your turn",
+        "t": 152.729
+      },
+      {
+        "title": "Summary",
+        "t": 193.894
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-3-c:q",
+        "t": 169.042,
+        "prompt": "Five angles of a convex hexagon measure $130^\\circ$, $110^\\circ$, $125^\\circ$, $140^\\circ$ and $115^\\circ$. What is the sixth angle?",
+        "choices": [
+          "$100^\\circ$",
+          "$80^\\circ$",
+          "$260^\\circ$",
+          "$120^\\circ$"
+        ],
+        "answer": 0,
+        "working": "A hexagon’s angles add to $180^\\circ(4) = 720^\\circ$. The five known angles add to $620^\\circ$, so the sixth is $720^\\circ - 620^\\circ = 100^\\circ$."
+      }
+    ]
   }
 }
