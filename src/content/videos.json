@@ -19892,5 +19892,675 @@
         "working": "$\\dfrac{40}{\\tan 30^\\circ} \\approx 69.28$ and $\\dfrac{40}{\\tan 50^\\circ} \\approx 33.56$. Subtract: about $35.7$ m."
       }
     ]
+  },
+  "m203-4-3-b": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 2: Roof Trusses",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Parts of a truss",
+        "t": 20.384
+      },
+      {
+        "title": "King post and diagonal web",
+        "t": 50.922
+      },
+      {
+        "title": "Your turn",
+        "t": 123.545
+      },
+      {
+        "title": "Summary",
+        "t": 160.018
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3-b:q",
+        "t": 135.936,
+        "prompt": "A truss spans $30$ ft, and its rafters make a $22^\\circ$ angle with the bottom chord. How tall is the king post, to the nearest tenth of a foot?",
+        "choices": [
+          "$6.1$ ft",
+          "$12.1$ ft",
+          "$5.6$ ft",
+          "$37.1$ ft"
+        ],
+        "answer": 0,
+        "working": "Half the span is $15$ ft, adjacent to $22^\\circ$: $k = 15\\tan 22^\\circ \\approx 6.06$ ft. B uses the whole span, and C uses sine."
+      }
+    ]
+  },
+  "m203-4-3-c": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 3: Stairs with a Landing",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The step angle",
+        "t": 19.412
+      },
+      {
+        "title": "The stringers",
+        "t": 47.845
+      },
+      {
+        "title": "From bottom to top",
+        "t": 89.866
+      },
+      {
+        "title": "Forgetting the landing",
+        "t": 139.745
+      },
+      {
+        "title": "Your turn",
+        "t": 155.25
+      },
+      {
+        "title": "Summary",
+        "t": 187.198
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3-c:q",
+        "t": 166.771,
+        "prompt": "Stairs have $17$ cm risers and $28$ cm treads. What angle do they make with the floor, to the nearest tenth of a degree?",
+        "choices": [
+          "$31.3^\\circ$",
+          "$58.7^\\circ$",
+          "$37.4^\\circ$",
+          "$0.6^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\tan\\alpha = \\dfrac{17}{28}$, so $\\alpha \\approx 31.3^\\circ$. B divides the tread by the riser."
+      }
+    ]
+  },
+  "m203-4-3-d": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 4: The Diagonal of a Box",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Will the pipe fit?",
+        "t": 21.942
+      },
+      {
+        "title": "The angle with the floor",
+        "t": 84
+      },
+      {
+        "title": "Use d squared",
+        "t": 111.529
+      },
+      {
+        "title": "Your turn",
+        "t": 134.285
+      },
+      {
+        "title": "Summary",
+        "t": 169.035
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3-d:q",
+        "t": 146.877,
+        "prompt": "A storage box is $60$ cm long, $40$ cm wide and $30$ cm high. What is the longest straight rod that fits inside, to the nearest centimetre?",
+        "choices": [
+          "$78$ cm",
+          "$72$ cm",
+          "$130$ cm",
+          "$50$ cm"
+        ],
+        "answer": 0,
+        "working": "$p^2 = 60^2 + 40^2 + 30^2 = 3600 + 1600 + 900 = 6100$, so $p \\approx 78.1$ cm. B is the floor diagonal only."
+      }
+    ]
+  },
+  "m203-5-1": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 1: Reading a Scale",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three ways to write a scale",
+        "t": 20.855
+      },
+      {
+        "title": "A floor plan",
+        "t": 55.223
+      },
+      {
+        "title": "Mixing units in a ratio",
+        "t": 99.298
+      },
+      {
+        "title": "Your turn",
+        "t": 122.249
+      },
+      {
+        "title": "Summary",
+        "t": 154.666
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1:q",
+        "t": 134.333,
+        "prompt": "On a $1 : 200$ site plan, a driveway is $9.5$ cm long. How long is the real driveway?",
+        "choices": [
+          "$19$ m",
+          "$1900$ m",
+          "$1.9$ m",
+          "$47.5$ m"
+        ],
+        "answer": 0,
+        "working": "$9.5 \\times 200 = 1900$ cm, and $1900 \\div 100 = 19$ m. B forgets to convert centimetres to metres."
+      }
+    ]
+  },
+  "m203-5-1-b": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 2: Drawing Lengths and Imperial Scales",
+    "duration": 173,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Drawing a garage wall",
+        "t": 16.562
+      },
+      {
+        "title": "Imperial scales",
+        "t": 55.368
+      },
+      {
+        "title": "A two-unit scale as a ratio",
+        "t": 85.523
+      },
+      {
+        "title": "Your turn",
+        "t": 114.644
+      },
+      {
+        "title": "Summary",
+        "t": 147.544
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1-b:q",
+        "t": 127.33,
+        "prompt": "A plan uses the scale $1$ cm represents $2$ m. A fence is $13$ m long. How long should it be drawn?",
+        "choices": [
+          "$6.5$ cm",
+          "$26$ cm",
+          "$15$ cm",
+          "$0.65$ cm"
+        ],
+        "answer": 0,
+        "working": "From real life to the drawing, divide: $13 \\div 2 = 6.5$ cm. B multiplies instead."
+      }
+    ]
+  },
+  "m203-5-1-c": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 3: Finding the Scale",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Scale factor",
+        "t": 20.179
+      },
+      {
+        "title": "A model pickup",
+        "t": 41.466
+      },
+      {
+        "title": "An enlarged drawing",
+        "t": 83.705
+      },
+      {
+        "title": "Same units first",
+        "t": 108.891
+      },
+      {
+        "title": "Your turn",
+        "t": 129.272
+      },
+      {
+        "title": "Summary",
+        "t": 169.072
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1-c:q",
+        "t": 141.734,
+        "prompt": "A model train car is $16$ cm long. The real car is $13.92$ m long. What is the scale?",
+        "choices": [
+          "$1 : 87$",
+          "$1 : 0.87$",
+          "$1 : 8.7$",
+          "$87 : 1$"
+        ],
+        "answer": 0,
+        "working": "$13.92$ m $= 1392$ cm, and $1392 \\div 16 = 87$, so the scale is $1 : 87$. D has the parts the wrong way round."
+      }
+    ]
+  },
+  "m203-5-1-d": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 4: Area and Volume with a Scale Factor",
+    "duration": 223,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "k squared and k cubed",
+        "t": 19.388
+      },
+      {
+        "title": "A bigger sign",
+        "t": 51
+      },
+      {
+        "title": "A model grain bin",
+        "t": 82.446
+      },
+      {
+        "title": "Working backward",
+        "t": 122.504
+      },
+      {
+        "title": "Your turn",
+        "t": 158.741
+      },
+      {
+        "title": "Summary",
+        "t": 196.44
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1-d:q",
+        "t": 172.903,
+        "prompt": "A patio is redesigned with every length $3$ times as long. The old patio used $40$ paving stones. About how many does the new patio need?",
+        "choices": [
+          "$360$",
+          "$120$",
+          "$1080$",
+          "$43$"
+        ],
+        "answer": 0,
+        "working": "Area is multiplied by $k^2 = 3^2 = 9$, so it needs about $40 \\times 9 = 360$ stones. B multiplies by $k$, and C by $k^3$."
+      }
+    ]
+  },
+  "m203-5-2": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 1: Top Views and Counting Cubes",
+    "duration": 161,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three views",
+        "t": 23.619
+      },
+      {
+        "title": "A top view with numbers",
+        "t": 51.952
+      },
+      {
+        "title": "Hidden cubes",
+        "t": 93.784
+      },
+      {
+        "title": "Your turn",
+        "t": 111.949
+      },
+      {
+        "title": "Summary",
+        "t": 138.592
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2:q",
+        "t": 118.902,
+        "prompt": "How many cubes are in the stack shown by this top view?",
+        "choices": [
+          "$13$",
+          "$6$",
+          "$9$",
+          "$4$"
+        ],
+        "answer": 0,
+        "working": "$4 + 2 + 3 + 1 + 2 + 1 = 13$. B counts the spots, not the cubes."
+      }
+    ]
+  },
+  "m203-5-2-b": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 2: Front and Side Views",
+    "duration": 155,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The front view",
+        "t": 17.32
+      },
+      {
+        "title": "The right side view",
+        "t": 57.105
+      },
+      {
+        "title": "Tallest, not total",
+        "t": 86.107
+      },
+      {
+        "title": "Your turn",
+        "t": 104.011
+      },
+      {
+        "title": "Summary",
+        "t": 132.011
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2-b:q",
+        "t": 112.039,
+        "prompt": "What are the column heights of the front view, left to right?",
+        "choices": [
+          "$3$, $4$",
+          "$4$, $6$",
+          "$1$, $4$",
+          "$3$, $2$"
+        ],
+        "answer": 0,
+        "working": "Left column: $1$ and $3$, tallest $3$. Right column: $4$ and $2$, tallest $4$. B adds the stacks."
+      }
+    ]
+  },
+  "m203-5-2-c": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 3: Isometric Drawings",
+    "duration": 164,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Isometric drawing",
+        "t": 19.449
+      },
+      {
+        "title": "Views of a crate",
+        "t": 54.155
+      },
+      {
+        "title": "Pictures and plans",
+        "t": 86.237
+      },
+      {
+        "title": "Your turn",
+        "t": 105.661
+      },
+      {
+        "title": "Summary",
+        "t": 135.12
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2-c:q",
+        "t": 116.469,
+        "prompt": "A box is $4$ ft long across the front, $2$ ft deep and $3$ ft tall. What is its top view?",
+        "choices": [
+          "a rectangle $4$ ft by $2$ ft",
+          "a rectangle $4$ ft by $3$ ft",
+          "a rectangle $2$ ft by $3$ ft",
+          "a square $4$ ft by $4$ ft"
+        ],
+        "answer": 0,
+        "working": "Looking down, you see the length and the depth: $4$ ft by $2$ ft. B is the front view, and C is the side view."
+      }
+    ]
+  },
+  "m203-5-2-d": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 4: Working Backward from Views",
+    "duration": 165,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The views",
+        "t": 19.34
+      },
+      {
+        "title": "Fill in the top view",
+        "t": 45.912
+      },
+      {
+        "title": "Two views are not always enough",
+        "t": 85.573
+      },
+      {
+        "title": "Your turn",
+        "t": 106.352
+      },
+      {
+        "title": "Summary",
+        "t": 144.533
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2-d:q",
+        "t": 121.623,
+        "prompt": "A structure on a $2$ by $2$ base has a front view of two columns, each $2$ tall, and a right side view of two columns, each $2$ tall. What is the most cubes it could have?",
+        "choices": [
+          "$8$",
+          "$4$",
+          "$6$",
+          "$16$"
+        ],
+        "answer": 0,
+        "working": "Every column and every row is $2$ tall, so each of the $4$ spots can hold up to $2$: at most $2 \\times 4 = 8$ cubes."
+      }
+    ]
+  },
+  "m203-5-3": {
+    "lessonId": "m203-5-3",
+    "title": "Exploded Views and Components, Part 1: Reading an Exploded View",
+    "duration": 163,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exploded views and components",
+        "t": 19.759
+      },
+      {
+        "title": "Parts of a bookshelf",
+        "t": 50.648
+      },
+      {
+        "title": "Your turn",
+        "t": 100.982
+      },
+      {
+        "title": "Summary",
+        "t": 138.789
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-3:q",
+        "t": 118.239,
+        "prompt": "An exploded view of a small table shows a top (A), 4 legs (B) and 4 rails (C). Each leg is fastened with 2 screws. How many parts and screws are needed?",
+        "choices": [
+          "$9$ parts and $8$ screws",
+          "$3$ parts and $8$ screws",
+          "$9$ parts and $2$ screws",
+          "$12$ parts and $8$ screws"
+        ],
+        "answer": 0,
+        "working": "Parts: $1 + 4 + 4 = 9$. Screws: $4$ legs $\\times\\ 2 = 8$. B counts the labels, not the parts."
+      }
+    ]
+  },
+  "m203-5-3-b": {
+    "lessonId": "m203-5-3",
+    "title": "Exploded Views and Components, Part 2: Parts Lists and Costs",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A parts list",
+        "t": 17.069
+      },
+      {
+        "title": "Pricing the parts",
+        "t": 44.619
+      },
+      {
+        "title": "Forgetting the quantity",
+        "t": 78.462
+      },
+      {
+        "title": "A part is missing",
+        "t": 94.98
+      },
+      {
+        "title": "Your turn",
+        "t": 123.824
+      },
+      {
+        "title": "Summary",
+        "t": 158.069
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-3-b:q",
+        "t": 136.014,
+        "prompt": "A kit needs $6$ brackets at \\$2.40 each and $24$ screws at \\$0.15 each. What do they cost in all?",
+        "choices": [
+          "\\$18.00",
+          "\\$2.55",
+          "\\$14.40",
+          "\\$3.60"
+        ],
+        "answer": 0,
+        "working": "$6 \\times 2.40 = 14.40$ and $24 \\times 0.15 = 3.60$, so the total is \\$18.00. B adds only the unit prices."
+      }
+    ]
+  },
+  "m203-5-3-c": {
+    "lessonId": "m203-5-3",
+    "title": "Exploded Views and Components, Part 3: Assembly Order and Comparing Costs",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Building a deck",
+        "t": 18.013
+      },
+      {
+        "title": "Reading the dashed lines",
+        "t": 48.367
+      },
+      {
+        "title": "Buying for a class",
+        "t": 77.408
+      },
+      {
+        "title": "Parts or a kit?",
+        "t": 115.603
+      },
+      {
+        "title": "Your turn",
+        "t": 139.462
+      },
+      {
+        "title": "Summary",
+        "t": 166.528
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-3-c:q",
+        "t": 145.824,
+        "prompt": "Which part of a garden shed goes on **last**?",
+        "choices": [
+          "the roof shingles",
+          "the floor frame",
+          "the wall studs",
+          "the roof rafters"
+        ],
+        "answer": 0,
+        "working": "The floor frame holds the walls, the walls hold the rafters, and the shingles cover the rafters, so the shingles go on last."
+      }
+    ]
   }
 }

@@ -79,9 +79,9 @@ const video: Explainer = {
     {
       chapter: 'Summary',
       layout: 'center',
-      main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Assemble from the part that holds everything up to the outside layer.', 'If the view is to scale, multiply drawing lengths by the scale.', 'Multiply for the number of items, then add tax once at the end.'] }],
+      main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Build from the part that holds everything up, out to the outside layer.', 'If the view is to scale, multiply drawing lengths by the scale.', 'Multiply for the number of items, then add tax once at the end.'] }],
       lines: [
-        { say: 'Let’s sum up. Assemble from the part that holds everything up, to the outside layer.', show: 'sum.0' },
+        { say: 'Let’s sum up. Build from the part that holds everything up, out to the outside layer.', show: 'sum.0' },
         { say: 'If the view is drawn to scale, multiply drawing lengths by the scale.', show: 'sum.1' },
         { say: 'And multiply for the number of items, then add any tax once, at the end. Practise these skills in your lesson. See you next time!', show: 'sum.2' },
       ],
