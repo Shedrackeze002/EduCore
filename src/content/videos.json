@@ -15400,5 +15400,530 @@
         "working": "$\\dfrac{8\\sqrt{2} + \\sqrt{24}}{2} = \\dfrac{8\\sqrt{2} + 2\\sqrt{6}}{2} = 4\\sqrt{2} + \\sqrt{6}$."
       }
     ]
+  },
+  "m202-4-4": {
+    "lessonId": "m202-4-4",
+    "title": "Radical Equations, Part 1: Isolate, Then Undo",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undoing a square root",
+        "t": 24.368
+      },
+      {
+        "title": "Undoing a cube root",
+        "t": 63.691
+      },
+      {
+        "title": "Isolate first",
+        "t": 101.019
+      },
+      {
+        "title": "Your turn",
+        "t": 140.22
+      },
+      {
+        "title": "Summary",
+        "t": 171.57
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-4:q",
+        "t": 148.388,
+        "prompt": "Solve $3\\sqrt{x + 2} - 1 = 11$.",
+        "choices": [
+          "$x = 14$",
+          "$x = 16$",
+          "$x = 2$",
+          "$x = 18$"
+        ],
+        "answer": 0,
+        "working": "$3\\sqrt{x + 2} = 12$, so $\\sqrt{x + 2} = 4$ and $x + 2 = 16$, giving $x = 14$. Check: $3\\sqrt{16} - 1 = 11$ ✓"
+      }
+    ]
+  },
+  "m202-4-4-b": {
+    "lessonId": "m202-4-4",
+    "title": "Radical Equations, Part 2: Extraneous Roots",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An equation with no solution",
+        "t": 18.514
+      },
+      {
+        "title": "Skipping the check",
+        "t": 60.017
+      },
+      {
+        "title": "Reasoning with a graph",
+        "t": 88.646
+      },
+      {
+        "title": "Your turn",
+        "t": 149.077
+      },
+      {
+        "title": "Summary",
+        "t": 181.097
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-4-b:q",
+        "t": 157.022,
+        "prompt": "Solve $\\sqrt{2x + 3} + 5 = 2$.",
+        "choices": [
+          "No solution",
+          "$x = 3$",
+          "$x = 0$",
+          "$x = -3$"
+        ],
+        "answer": 0,
+        "working": "$\\sqrt{2x + 3} = -3$, and a square root is never negative. Squaring gives $x = 3$, but $\\sqrt{9} + 5 = 8 \\ne 2$, so it is extraneous."
+      }
+    ]
+  },
+  "m202-4-4-c": {
+    "lessonId": "m202-4-4",
+    "title": "Radical Equations, Part 3: Radical Equations in Context",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How high is the bridge?",
+        "t": 17.902
+      },
+      {
+        "title": "The volume of an exercise ball",
+        "t": 67.396
+      },
+      {
+        "title": "Is it reasonable?",
+        "t": 110.978
+      },
+      {
+        "title": "Your turn",
+        "t": 141.407
+      },
+      {
+        "title": "Summary",
+        "t": 183.461
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-4-4-c:q",
+        "t": 159.614,
+        "prompt": "In this example, the speed of a wave in water $d$ m deep is modelled by $s = \\sqrt{9.8d}$ m/s. A wave travels at $50$ m/s. How deep is the water, to the nearest tenth of a metre?",
+        "choices": [
+          "$255.1$ m",
+          "$25.5$ m",
+          "$490$ m",
+          "$5.1$ m"
+        ],
+        "answer": 0,
+        "working": "Square both sides: $2500 = 9.8d$, so $d = \\dfrac{2500}{9.8} \\approx 255.1$ m. D divides $50$ by $9.8$ without squaring."
+      }
+    ]
+  },
+  "m202-5-1": {
+    "lessonId": "m202-5-1",
+    "title": "Standard Deviation, Part 1: Measuring Spread",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Same mean, different spread",
+        "t": 20.78
+      },
+      {
+        "title": "Standard deviation",
+        "t": 52.029
+      },
+      {
+        "title": "Route A",
+        "t": 92.558
+      },
+      {
+        "title": "Your turn",
+        "t": 132.669
+      },
+      {
+        "title": "Summary",
+        "t": 166.078
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-1:q",
+        "t": 142.657,
+        "prompt": "Find the population standard deviation of $4,\\ 6,\\ 8,\\ 10,\\ 12$.",
+        "choices": [
+          "$2.83$",
+          "$8$",
+          "$3.16$",
+          "$40$"
+        ],
+        "answer": 0,
+        "working": "$\\mu = 8$. The squared deviations are $16, 4, 0, 4, 16$, which add to $40$. $\\sigma = \\sqrt{\\dfrac{40}{5}} = \\sqrt{8} \\approx 2.83$."
+      }
+    ]
+  },
+  "m202-5-1-b": {
+    "lessonId": "m202-5-1",
+    "title": "Standard Deviation, Part 2: Calculators and Frequency Tables",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two standard deviations",
+        "t": 20.407
+      },
+      {
+        "title": "Goals per game",
+        "t": 53.446
+      },
+      {
+        "title": "The standard deviation",
+        "t": 92.52
+      },
+      {
+        "title": "Your turn",
+        "t": 138.817
+      },
+      {
+        "title": "Summary",
+        "t": 177.466
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-1-b:q",
+        "t": 151.334,
+        "prompt": "The value $1$ occurs twice, $2$ occurs four times and $3$ occurs twice. Find the population standard deviation.",
+        "choices": [
+          "$0.71$",
+          "$0.82$",
+          "$0.76$",
+          "$2$"
+        ],
+        "answer": 0,
+        "working": "$N = 8$ and $\\mu = \\dfrac{2 + 8 + 6}{8} = 2$. $\\Sigma f(x - \\mu)^2 = 2(1) + 4(0) + 2(1) = 4$, so $\\sigma = \\sqrt{\\dfrac{4}{8}} \\approx 0.71$."
+      }
+    ]
+  },
+  "m202-5-1-c": {
+    "lessonId": "m202-5-1",
+    "title": "Standard Deviation, Part 3: Comparing Consistency",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Route B",
+        "t": 17.018
+      },
+      {
+        "title": "Comparing the routes",
+        "t": 50.453
+      },
+      {
+        "title": "Mean versus spread",
+        "t": 95.08
+      },
+      {
+        "title": "Your turn",
+        "t": 128.388
+      },
+      {
+        "title": "Summary",
+        "t": 167.591
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-1-c:q",
+        "t": 147.014,
+        "prompt": "Two archers: Ana’s scores have a mean of $8.2$ and $\\sigma = 0.6$. Ben’s have a mean of $8.5$ and $\\sigma = 1.9$. Who is more consistent?",
+        "choices": [
+          "Ana: her standard deviation is smaller.",
+          "Ben: his mean is higher.",
+          "Ben: his standard deviation is larger.",
+          "They are equally consistent."
+        ],
+        "answer": 0,
+        "working": "Consistency is about spread. Ana’s scores are typically $0.6$ points from her mean, and Ben’s about $1.9$. Ben scores more on average, but Ana is more consistent."
+      }
+    ]
+  },
+  "m202-5-2": {
+    "lessonId": "m202-5-2",
+    "title": "The Normal Distribution, Part 1: The Normal Curve",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The normal curve",
+        "t": 22.458
+      },
+      {
+        "title": "Centre and width",
+        "t": 63.289
+      },
+      {
+        "title": "Using symmetry",
+        "t": 94.726
+      },
+      {
+        "title": "Your turn",
+        "t": 130.772
+      },
+      {
+        "title": "Summary",
+        "t": 160.306
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-2:q",
+        "t": 143.008,
+        "prompt": "Exam marks are normally distributed with a mean of $72\\%$. What percent of students scored above the mean?",
+        "choices": [
+          "$50\\%$",
+          "$68\\%$",
+          "$34\\%$",
+          "$72\\%$"
+        ],
+        "answer": 0,
+        "working": "The normal curve is symmetric about the mean, so half of the data is above it."
+      }
+    ]
+  },
+  "m202-5-2-b": {
+    "lessonId": "m202-5-2",
+    "title": "The Normal Distribution, Part 2: The 68–95–99.7 Rule",
+    "duration": 244,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The rule",
+        "t": 22.696
+      },
+      {
+        "title": "Between 152 and 184",
+        "t": 59.49
+      },
+      {
+        "title": "Splitting the regions",
+        "t": 95.442
+      },
+      {
+        "title": "Taller than 176 cm",
+        "t": 140.727
+      },
+      {
+        "title": "Your turn",
+        "t": 177.322
+      },
+      {
+        "title": "Summary",
+        "t": 211.126
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-2-b:q",
+        "t": 186.005,
+        "prompt": "The heights have $\\mu = 168$ cm and $\\sigma = 8$ cm. What percent of the students are shorter than $152$ cm?",
+        "choices": [
+          "$2.5\\%$",
+          "$5\\%$",
+          "$13.5\\%$",
+          "$47.5\\%$"
+        ],
+        "answer": 0,
+        "working": "$152$ is $2\\sigma$ below the mean. Below it: $2.35\\% + 0.15\\% = 2.5\\%$. B counts both tails."
+      }
+    ]
+  },
+  "m202-5-2-c": {
+    "lessonId": "m202-5-2",
+    "title": "The Normal Distribution, Part 3: Using the Normal Model",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two different distances",
+        "t": 23.035
+      },
+      {
+        "title": "Adding the big percents",
+        "t": 79.263
+      },
+      {
+        "title": "Is the data normal?",
+        "t": 108.29
+      },
+      {
+        "title": "Working backwards",
+        "t": 155.094
+      },
+      {
+        "title": "Your turn",
+        "t": 189.896
+      },
+      {
+        "title": "Summary",
+        "t": 228.465
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-2-c:q",
+        "t": 204.633,
+        "prompt": "Test scores are normally distributed, and about $68\\%$ of them are between $85$ and $115$. Find the mean and the standard deviation.",
+        "choices": [
+          "$\\mu = 100$, $\\sigma = 15$",
+          "$\\mu = 100$, $\\sigma = 30$",
+          "$\\mu = 100$, $\\sigma = 7.5$",
+          "$\\mu = 115$, $\\sigma = 15$"
+        ],
+        "answer": 0,
+        "working": "The mean is halfway: $100$. $68\\%$ is within $1\\sigma$ each side, so the interval is $2\\sigma = 30$ wide, and $\\sigma = 15$."
+      }
+    ]
+  },
+  "m202-5-3": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 1: Standard Deviations from the Mean",
+    "duration": 213,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a z-score measures",
+        "t": 22.853
+      },
+      {
+        "title": "Heights",
+        "t": 53.139
+      },
+      {
+        "title": "From a z-score to a value",
+        "t": 107.286
+      },
+      {
+        "title": "Your turn",
+        "t": 150.906
+      },
+      {
+        "title": "Summary",
+        "t": 187.486
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3:q",
+        "t": 165.147,
+        "prompt": "Battery lives have $\\mu = 50$ h and $\\sigma = 4$ h. What is the z-score of a battery that lasts $44$ h?",
+        "choices": [
+          "$-1.5$",
+          "$1.5$",
+          "$-6$",
+          "$-0.67$"
+        ],
+        "answer": 0,
+        "working": "$z = \\dfrac{44 - 50}{4} = \\dfrac{-6}{4} = -1.5$. It is below the mean, so the z-score is negative."
+      }
+    ]
+  },
+  "m202-5-3-b": {
+    "lessonId": "m202-5-3",
+    "title": "Z-Scores, Part 2: Comparing Results",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Chemistry or English?",
+        "t": 17.446
+      },
+      {
+        "title": "Comparing raw marks",
+        "t": 60.911
+      },
+      {
+        "title": "When lower is better",
+        "t": 84.149
+      },
+      {
+        "title": "Your turn",
+        "t": 126.795
+      },
+      {
+        "title": "Summary",
+        "t": 166.122
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-3-b:q",
+        "t": 144.412,
+        "prompt": "Which result is better compared with the others: $82$ on a test with $\\mu = 70$, $\\sigma = 6$, or $90$ on a test with $\\mu = 80$, $\\sigma = 8$?",
+        "choices": [
+          "$82$, with $z = 2$",
+          "$90$, with $z = 1.25$",
+          "$90$, because it is higher",
+          "They are equal."
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{82 - 70}{6} = 2$ and $\\dfrac{90 - 80}{8} = 1.25$. The $82$ is further above its mean."
+      }
+    ]
   }
 }
