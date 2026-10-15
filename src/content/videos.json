@@ -17614,5 +17614,111 @@
         "working": "$k^3 = \\dfrac{125}{27}$, so $k = \\dfrac{5}{3}$ and $k^2 = \\dfrac{25}{9}$. $54 \\times \\dfrac{25}{9} = 150\\ \\text{cm}^2$. B multiplies by the volume ratio."
       }
     ]
+  },
+  "m202-9-1": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 1: A Good Research Question",
+    "duration": 212,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four qualities",
+        "t": 26.258
+      },
+      {
+        "title": "Weak questions",
+        "t": 60.406
+      },
+      {
+        "title": "Improving a question",
+        "t": 96.622
+      },
+      {
+        "title": "Too big",
+        "t": 138.37
+      },
+      {
+        "title": "Your turn",
+        "t": 158.999
+      },
+      {
+        "title": "Summary",
+        "t": 184.817
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1:q",
+        "t": 165.023,
+        "prompt": "Which is the best research question?",
+        "choices": [
+          "Is there a relationship between daily screen time and hours of sleep for students in our grade?",
+          "Is screen time bad?",
+          "Why are phones ruining teenagers?",
+          "How many people own a phone?"
+        ],
+        "answer": 0,
+        "working": "A is focused, measurable and neutral. B asks for an opinion, C assumes the answer, and D is answered by a single fact."
+      }
+    ]
+  },
+  "m202-9-1-b": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 2: Data, Sources and Fair Questions",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Primary and secondary data",
+        "t": 21.041
+      },
+      {
+        "title": "Which kind of data?",
+        "t": 41.984
+      },
+      {
+        "title": "Can you trust the source?",
+        "t": 77.448
+      },
+      {
+        "title": "Biased questions",
+        "t": 103.525
+      },
+      {
+        "title": "Leading questions",
+        "t": 134.842
+      },
+      {
+        "title": "Your turn",
+        "t": 155.11
+      },
+      {
+        "title": "Summary",
+        "t": 182.805
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1-b:q",
+        "t": 161.423,
+        "prompt": "Which survey question is **not** biased?",
+        "choices": [
+          "How many hours of homework do you do on a typical school night?",
+          "Don’t you agree that we get too much homework?",
+          "Most students think homework is useless. Do you?",
+          "Is the pointless homework load too heavy?"
+        ],
+        "answer": 0,
+        "working": "A asks for a number without suggesting an answer. B opens with “Don’t you agree”, C tells people what others think, and D uses the loaded word “pointless”."
+      }
+    ]
   }
 }
