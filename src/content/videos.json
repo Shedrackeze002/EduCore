@@ -12165,5 +12165,518 @@
         "working": "$\\dfrac{(x - 3)(x + 3)}{(x + 2)(x + 3)} = \\dfrac{x - 3}{x + 2}$, with $x \\ne -2,\\ -3$ from the original denominator."
       }
     ]
+  },
+  "m201-6-2": {
+    "lessonId": "m201-6-2",
+    "title": "Multiplying and Dividing Rational Expressions, Part 1: Multiplying",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying",
+        "t": 23.305
+      },
+      {
+        "title": "Monomials",
+        "t": 61.842
+      },
+      {
+        "title": "Polynomials",
+        "t": 92.919
+      },
+      {
+        "title": "Your turn",
+        "t": 134.597
+      },
+      {
+        "title": "Summary",
+        "t": 177.458
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-2:q",
+        "t": 146.235,
+        "prompt": "Simplify $\\dfrac{x + 1}{x - 2} \\times \\dfrac{x^2 - 4}{3x + 3}$.",
+        "choices": [
+          "$\\dfrac{x + 2}{3}$, $x \\ne -1,\\ 2$",
+          "$\\dfrac{x + 2}{3}$, $x \\ne 2$",
+          "$\\dfrac{x - 2}{3}$, $x \\ne -1,\\ 2$",
+          "$\\dfrac{x + 2}{3x}$, $x \\ne -1,\\ 2$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{x + 1}{x - 2} \\times \\dfrac{(x - 2)(x + 2)}{3(x + 1)} = \\dfrac{x + 2}{3}$. The denominators give $x \\ne 2$ and $x \\ne -1$."
+      }
+    ]
+  },
+  "m201-6-2-b": {
+    "lessonId": "m201-6-2",
+    "title": "Multiplying and Dividing Rational Expressions, Part 2: Dividing",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Dividing",
+        "t": 20.011
+      },
+      {
+        "title": "An example",
+        "t": 54.56
+      },
+      {
+        "title": "The hidden restriction",
+        "t": 91.238
+      },
+      {
+        "title": "Mixed operations",
+        "t": 115.027
+      },
+      {
+        "title": "Your turn",
+        "t": 164.252
+      },
+      {
+        "title": "Summary",
+        "t": 203.302
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-2-b:q",
+        "t": 175.364,
+        "prompt": "What are the restrictions on $\\dfrac{x}{x + 1} \\div \\dfrac{x - 5}{x + 2}$?",
+        "choices": [
+          "$x \\ne -2,\\ -1,\\ 5$",
+          "$x \\ne -2,\\ -1$",
+          "$x \\ne -1,\\ 5$",
+          "$x \\ne 0,\\ -1,\\ -2,\\ 5$"
+        ],
+        "answer": 0,
+        "working": "The denominators give $x \\ne -1$ and $x \\ne -2$, and the divisor’s numerator gives $x \\ne 5$."
+      }
+    ]
+  },
+  "m201-6-3": {
+    "lessonId": "m201-6-3",
+    "title": "Adding and Subtracting Rational Expressions, Part 1: Common Denominators",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Monomial denominators",
+        "t": 26.249
+      },
+      {
+        "title": "Numerators with two terms",
+        "t": 82.829
+      },
+      {
+        "title": "Binomial denominators",
+        "t": 116.396
+      },
+      {
+        "title": "Your turn",
+        "t": 167.289
+      },
+      {
+        "title": "Summary",
+        "t": 204.644
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-3:q",
+        "t": 174.758,
+        "prompt": "Simplify $\\dfrac{2}{x} + \\dfrac{3}{x^2}$.",
+        "choices": [
+          "$\\dfrac{2x + 3}{x^2}$",
+          "$\\dfrac{5}{x^2}$",
+          "$\\dfrac{5}{x + x^2}$",
+          "$\\dfrac{6}{x^3}$"
+        ],
+        "answer": 0,
+        "working": "The LCD is $x^2$: $\\dfrac{2x}{x^2} + \\dfrac{3}{x^2} = \\dfrac{2x + 3}{x^2}$, with $x \\ne 0$."
+      }
+    ]
+  },
+  "m201-6-3-b": {
+    "lessonId": "m201-6-3",
+    "title": "Adding and Subtracting Rational Expressions, Part 2: Factoring Denominators",
+    "duration": 218,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A shared factor",
+        "t": 23.195
+      },
+      {
+        "title": "Opposite denominators",
+        "t": 82.176
+      },
+      {
+        "title": "Simplify at the end",
+        "t": 111.637
+      },
+      {
+        "title": "Your turn",
+        "t": 153.42
+      },
+      {
+        "title": "Summary",
+        "t": 191.761
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-3-b:q",
+        "t": 162.762,
+        "prompt": "Simplify $\\dfrac{4}{x^2 - 4} + \\dfrac{1}{x + 2}$.",
+        "choices": [
+          "$\\dfrac{1}{x - 2}$, $x \\ne \\pm 2$",
+          "$\\dfrac{5}{x^2 + x - 2}$",
+          "$\\dfrac{x + 6}{(x - 2)(x + 2)}$",
+          "$\\dfrac{1}{x - 2}$, $x \\ne 2$"
+        ],
+        "answer": 0,
+        "working": "The LCD is $(x - 2)(x + 2)$: $\\dfrac{4 + (x - 2)}{(x - 2)(x + 2)} = \\dfrac{x + 2}{(x - 2)(x + 2)} = \\dfrac{1}{x - 2}$, with $x \\ne \\pm 2$."
+      }
+    ]
+  },
+  "m201-6-4": {
+    "lessonId": "m201-6-4",
+    "title": "Rational Equations, Part 1: Multiplying by the LCD",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying by the LCD",
+        "t": 26.111
+      },
+      {
+        "title": "Extraneous roots",
+        "t": 81.811
+      },
+      {
+        "title": "Your turn",
+        "t": 129.731
+      },
+      {
+        "title": "Summary",
+        "t": 164.327
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-4:q",
+        "t": 138.495,
+        "prompt": "Solve $\\dfrac{5}{x} - \\dfrac{1}{3x} = \\dfrac{2}{3}$.",
+        "choices": [
+          "$x = 7$",
+          "$x = \\tfrac{1}{7}$",
+          "$x = 6$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Multiply every term by $3x$: $15 - 1 = 2x$, so $x = 7$. Check: $\\tfrac{5}{7} - \\tfrac{1}{21} = \\tfrac{14}{21} = \\tfrac{2}{3}$."
+      }
+    ]
+  },
+  "m201-6-4-b": {
+    "lessonId": "m201-6-4",
+    "title": "Rational Equations, Part 2: Quadratic Results",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A quadratic result",
+        "t": 18.411
+      },
+      {
+        "title": "Check against the restrictions",
+        "t": 64.968
+      },
+      {
+        "title": "A number problem",
+        "t": 99.639
+      },
+      {
+        "title": "Your turn",
+        "t": 137.039
+      },
+      {
+        "title": "Summary",
+        "t": 178.987
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-4-b:q",
+        "t": 148.611,
+        "prompt": "Solve $\\dfrac{1}{x - 2} + \\dfrac{x}{x + 2} = \\dfrac{4}{x^2 - 4}$.",
+        "choices": [
+          "$x = -1$",
+          "$x = 2$ or $x = -1$",
+          "$x = 2$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Multiply by $(x - 2)(x + 2)$: $(x + 2) + x(x - 2) = 4$, so $x^2 - x - 2 = 0$ and $x = 2$ or $x = -1$. Reject $x = 2$, which is non-permissible."
+      }
+    ]
+  },
+  "m201-6-4-c": {
+    "lessonId": "m201-6-4",
+    "title": "Rational Equations, Part 3: Work and Travel Problems",
+    "duration": 235,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Working together",
+        "t": 19.775
+      },
+      {
+        "title": "One worker is slower",
+        "t": 64.577
+      },
+      {
+        "title": "Travel with a current",
+        "t": 114.415
+      },
+      {
+        "title": "Your turn",
+        "t": 172.504
+      },
+      {
+        "title": "Summary",
+        "t": 207.168
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-4-c:q",
+        "t": 182.413,
+        "prompt": "Jo can paint a fence in $3$ h, and Sam in $6$ h. How long will they take together?",
+        "choices": [
+          "$2$ h",
+          "$4.5$ h",
+          "$9$ h",
+          "$1.5$ h"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{1}{3} + \\dfrac{1}{6} = \\dfrac{2}{6} + \\dfrac{1}{6} = \\dfrac{1}{2}$, so $\\dfrac{1}{t} = \\dfrac{1}{2}$ and $t = 2$."
+      }
+    ]
+  },
+  "m201-7-1": {
+    "lessonId": "m201-7-1",
+    "title": "Absolute Value, Part 1: Distance from Zero",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Distance from zero",
+        "t": 27.572
+      },
+      {
+        "title": "Evaluating",
+        "t": 76.439
+      },
+      {
+        "title": "Splitting the bars",
+        "t": 116.206
+      },
+      {
+        "title": "Your turn",
+        "t": 142.825
+      },
+      {
+        "title": "Summary",
+        "t": 177.96
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-1:q",
+        "t": 154.709,
+        "prompt": "Evaluate $2|{-}5| - |1 - 4|$.",
+        "choices": [
+          "$7$",
+          "$13$",
+          "$-13$",
+          "$-7$"
+        ],
+        "answer": 0,
+        "working": "$2|{-}5| = 2(5) = 10$ and $|1 - 4| = |{-}3| = 3$, so the value is $10 - 3 = 7$."
+      }
+    ]
+  },
+  "m201-7-1-b": {
+    "lessonId": "m201-7-1",
+    "title": "Absolute Value, Part 2: Distance and Change",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Distance between two numbers",
+        "t": 22.836
+      },
+      {
+        "title": "The size of a change",
+        "t": 59.346
+      },
+      {
+        "title": "Total distance and net change",
+        "t": 97.874
+      },
+      {
+        "title": "Your turn",
+        "t": 139.313
+      },
+      {
+        "title": "Summary",
+        "t": 179.991
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-1-b:q",
+        "t": 155.652,
+        "prompt": "A hiker goes from an elevation of 1,200 m down to 950 m, then up to 1,400 m. What is the total vertical distance?",
+        "choices": [
+          "$700$ m",
+          "$200$ m",
+          "$2{,}350$ m",
+          "$450$ m"
+        ],
+        "answer": 0,
+        "working": "$|950 - 1200| + |1400 - 950| = 250 + 450 = 700$ m."
+      }
+    ]
+  },
+  "m201-7-2": {
+    "lessonId": "m201-7-2",
+    "title": "Absolute Value Functions, Part 1: Reflecting the Negative Part",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reflecting the negative part",
+        "t": 23.478
+      },
+      {
+        "title": "Intercepts, domain and range",
+        "t": 75.469
+      },
+      {
+        "title": "Your turn",
+        "t": 121.737
+      },
+      {
+        "title": "Summary",
+        "t": 152.077
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-2:q",
+        "t": 131.816,
+        "prompt": "What is the $y$-intercept of $y = |3x - 6|$?",
+        "choices": [
+          "$6$",
+          "$-6$",
+          "$2$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "$|3(0) - 6| = |{-}6| = 6$."
+      }
+    ]
+  },
+  "m201-7-2-b": {
+    "lessonId": "m201-7-2",
+    "title": "Absolute Value Functions, Part 2: Quadratics",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A quadratic",
+        "t": 20.652
+      },
+      {
+        "title": "Not crossing the axis",
+        "t": 69.906
+      },
+      {
+        "title": "Finding the range quickly",
+        "t": 107.111
+      },
+      {
+        "title": "Your turn",
+        "t": 134.545
+      },
+      {
+        "title": "Summary",
+        "t": 169.896
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-2-b:q",
+        "t": 144.008,
+        "prompt": "What is the range of $y = |x^2 - 4|$?",
+        "choices": [
+          "$\\{y \\mid y \\ge 0,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge -4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "The vertex of $y = x^2 - 4$ is $(0, -4)$, below the $x$-axis, and the parabola opens up, so it crosses the axis. The range of $y = |x^2 - 4|$ is $y \\ge 0$."
+      }
+    ]
   }
 }
