@@ -78,7 +78,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Congruent figures have the same size and shape.', 'Tick marks show equal sides; arcs show equal angles.', 'The order of the letters shows which parts correspond.'] }],
       lines: [
-        { say: 'Let’s sum up. Congruent figures have exactly the same size and shape.', show: 'sum.0' },
+        { say: 'Let’s sum up. Figures that are congruent have exactly the same size and shape.', show: 'sum.0' },
         { say: 'In diagrams, tick marks show equal sides, and arcs show equal angles.', show: 'sum.1' },
         { say: 'And in a congruence statement, the order of the letters shows which parts correspond. In part two, we prove triangles congruent with just three pairs of parts. See you there!', show: 'sum.2' },
       ],

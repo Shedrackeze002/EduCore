@@ -14452,5 +14452,526 @@
         "working": "$K$ matches $S$ and $L$ matches $T$ (second and third letters), so $KL = ST$."
       }
     ]
+  },
+  "m202-2-4-b": {
+    "lessonId": "m202-2-4",
+    "title": "Congruent Triangles, Part 2: SSS, SAS and ASA",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three conditions",
+        "t": 19.6
+      },
+      {
+        "title": "Which condition?",
+        "t": 53.295
+      },
+      {
+        "title": "Not enough information",
+        "t": 87.976
+      },
+      {
+        "title": "Using an angle that is not included",
+        "t": 124.626
+      },
+      {
+        "title": "Your turn",
+        "t": 138.478
+      },
+      {
+        "title": "Summary",
+        "t": 176.424
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-4-b:q",
+        "t": 154.676,
+        "prompt": "In $\\triangle ABC$ and $\\triangle DEF$, $AB = DE$, $BC = EF$ and $\\angle C = \\angle F$. Which condition proves them congruent?",
+        "choices": [
+          "None: this is SSA.",
+          "SAS",
+          "SSS",
+          "ASA"
+        ],
+        "answer": 0,
+        "working": "The angle between $AB$ and $BC$ is $\\angle B$, not $\\angle C$. So the angle is not included, and SSA does not prove congruence."
+      }
+    ]
+  },
+  "m202-2-4-c": {
+    "lessonId": "m202-2-4",
+    "title": "Congruent Triangles, Part 3: Congruence Proofs",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A proof with a midpoint",
+        "t": 17.748
+      },
+      {
+        "title": "A common side",
+        "t": 57.294
+      },
+      {
+        "title": "Reasons you will use often",
+        "t": 97.015
+      },
+      {
+        "title": "Your turn",
+        "t": 120.157
+      },
+      {
+        "title": "Summary",
+        "t": 159.672
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-4-c:q",
+        "t": 137.212,
+        "prompt": "$\\triangle PQS$ and $\\triangle RQS$ share side $QS$. $PQ = RQ$ and $\\angle PQS = \\angle RQS$. Which condition proves them congruent?",
+        "choices": [
+          "SAS",
+          "SSS",
+          "ASA",
+          "None: this is SSA."
+        ],
+        "answer": 0,
+        "working": "$PQ = RQ$ (given), $\\angle PQS = \\angle RQS$ (given) and $QS = QS$ (common side). The angle at $Q$ is between $PQ$ and $QS$, so it is included: SAS."
+      }
+    ]
+  },
+  "m202-3-1": {
+    "lessonId": "m202-3-1",
+    "title": "The Sine Law, Part 1: Matching Pairs and the Proof",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Naming the parts",
+        "t": 23.787
+      },
+      {
+        "title": "Biggest across from biggest",
+        "t": 64.975
+      },
+      {
+        "title": "Why it works",
+        "t": 86.708
+      },
+      {
+        "title": "The sine law",
+        "t": 128.618
+      },
+      {
+        "title": "Your turn",
+        "t": 160.573
+      },
+      {
+        "title": "Summary",
+        "t": 189.983
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-1:q",
+        "t": 169.44,
+        "prompt": "In $\\triangle PQR$, which side and angle form a matching pair?",
+        "choices": [
+          "$q$ and $\\angle Q$",
+          "$q$ and $\\angle P$",
+          "$PQ$ and $\\angle Q$",
+          "$r$ and $\\angle P$"
+        ],
+        "answer": 0,
+        "working": "Side $q$ is named after the angle opposite it, $\\angle Q$. Side $PQ$ is $r$, which is opposite $\\angle R$."
+      }
+    ]
+  },
+  "m202-3-1-b": {
+    "lessonId": "m202-3-1",
+    "title": "The Sine Law, Part 2: Finding a Side",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding a side",
+        "t": 18.551
+      },
+      {
+        "title": "Complete the pair first",
+        "t": 70.524
+      },
+      {
+        "title": "Mixing up the pairs",
+        "t": 112.709
+      },
+      {
+        "title": "Your turn",
+        "t": 132.379
+      },
+      {
+        "title": "Summary",
+        "t": 172.751
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-1-b:q",
+        "t": 147.803,
+        "prompt": "In acute $\\triangle DEF$, $\\angle D = 50^\\circ$, $\\angle E = 60^\\circ$ and $d = 10$ m. Determine $e$, to the nearest tenth of a metre.",
+        "choices": [
+          "$11.3$ m",
+          "$8.8$ m",
+          "$9.2$ m",
+          "$12.3$ m"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{e}{\\sin 60^\\circ} = \\dfrac{10}{\\sin 50^\\circ}$, so $e = \\dfrac{10\\sin 60^\\circ}{\\sin 50^\\circ} \\approx 11.3$ m. B flips the sines."
+      }
+    ]
+  },
+  "m202-3-1-c": {
+    "lessonId": "m202-3-1",
+    "title": "The Sine Law, Part 3: Finding an Angle",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Finding an angle",
+        "t": 17.634
+      },
+      {
+        "title": "Why there is one answer",
+        "t": 65.506
+      },
+      {
+        "title": "Solving the whole triangle",
+        "t": 90.888
+      },
+      {
+        "title": "Your turn",
+        "t": 143.938
+      },
+      {
+        "title": "Summary",
+        "t": 185.301
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-1-c:q",
+        "t": 159.212,
+        "prompt": "In acute $\\triangle ABC$, $a = 9$ cm, $b = 7$ cm and $\\angle A = 64^\\circ$. Determine $\\angle B$, to the nearest degree.",
+        "choices": [
+          "$44^\\circ$",
+          "$46^\\circ$",
+          "$56^\\circ$",
+          "$35^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\sin B = \\dfrac{7\\sin 64^\\circ}{9} \\approx 0.6991$, so $\\angle B = \\sin^{-1}(0.6991) \\approx 44^\\circ$. It is smaller than $64^\\circ$, because $b < a$."
+      }
+    ]
+  },
+  "m202-3-2": {
+    "lessonId": "m202-3-2",
+    "title": "The Cosine Law, Part 1: When the Sine Law Cannot Start",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "No matching pair",
+        "t": 18.72
+      },
+      {
+        "title": "Proving the cosine law",
+        "t": 55.122
+      },
+      {
+        "title": "Three forms",
+        "t": 104.637
+      },
+      {
+        "title": "Your turn",
+        "t": 140.899
+      },
+      {
+        "title": "Summary",
+        "t": 176.371
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-2:q",
+        "t": 150.78,
+        "prompt": "Which set of information gives no matching pair, so the cosine law is needed to start?",
+        "choices": [
+          "$a$, $b$ and $\\angle C$",
+          "$a$, $\\angle A$ and $\\angle B$",
+          "$a$, $b$ and $\\angle A$",
+          "$\\angle A$, $\\angle B$ and $c$"
+        ],
+        "answer": 0,
+        "working": "$\\angle C$ is the contained angle of $a$ and $b$, and $c$ is unknown: SAS. B and C contain the pair $a$ and $\\angle A$, and in D the angle sum gives $\\angle C$ to pair with $c$."
+      }
+    ]
+  },
+  "m202-3-2-b": {
+    "lessonId": "m202-3-2",
+    "title": "The Cosine Law, Part 2: Finding a Side",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two sides and the contained angle",
+        "t": 19.072
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 73.999
+      },
+      {
+        "title": "Order of operations",
+        "t": 107.427
+      },
+      {
+        "title": "Your turn",
+        "t": 141.601
+      },
+      {
+        "title": "Summary",
+        "t": 182.305
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-2-b:q",
+        "t": 155.986,
+        "prompt": "In acute $\\triangle ABC$, $a = 8$ cm, $b = 10$ cm and $\\angle C = 50^\\circ$. Determine $c$, to the nearest tenth of a centimetre.",
+        "choices": [
+          "$7.8$ cm",
+          "$12.8$ cm",
+          "$1.6$ cm",
+          "$61.2$ cm"
+        ],
+        "answer": 0,
+        "working": "$c^2 = 64 + 100 - 160\\cos 50^\\circ \\approx 61.15$, so $c \\approx 7.8$ cm. D forgets the square root, and C subtracts before multiplying."
+      }
+    ]
+  },
+  "m202-3-2-c": {
+    "lessonId": "m202-3-2",
+    "title": "The Cosine Law, Part 3: Finding an Angle and Using Both Laws",
+    "duration": 217,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rearranging for the angle",
+        "t": 18.434
+      },
+      {
+        "title": "Three sides",
+        "t": 46.512
+      },
+      {
+        "title": "Using both laws",
+        "t": 92.321
+      },
+      {
+        "title": "Your turn",
+        "t": 149.865
+      },
+      {
+        "title": "Summary",
+        "t": 188.602
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-2-c:q",
+        "t": 161.575,
+        "prompt": "An acute triangle has sides $6$ cm, $8$ cm and $9$ cm. Determine its largest angle, to the nearest degree.",
+        "choices": [
+          "$79^\\circ$",
+          "$41^\\circ$",
+          "$61^\\circ$",
+          "$101^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The largest angle is opposite $9$: $\\cos\\theta = \\dfrac{6^2 + 8^2 - 9^2}{2(6)(8)} = \\dfrac{19}{96} \\approx 0.1979$, so $\\theta \\approx 79^\\circ$."
+      }
+    ]
+  },
+  "m202-3-3": {
+    "lessonId": "m202-3-3",
+    "title": "Solving Problems with the Sine and Cosine Laws, Part 1: Choosing a Method",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One question",
+        "t": 21.437
+      },
+      {
+        "title": "Which law?",
+        "t": 66.156
+      },
+      {
+        "title": "Two common traps",
+        "t": 104.572
+      },
+      {
+        "title": "Your turn",
+        "t": 132.695
+      },
+      {
+        "title": "Summary",
+        "t": 167.097
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-3:q",
+        "t": 148.006,
+        "prompt": "In $\\triangle KLM$, you know $k = 8$, $\\angle K = 40^\\circ$ and $\\angle L = 75^\\circ$. You want $l$. Which method should you use?",
+        "choices": [
+          "Sine law",
+          "Cosine law",
+          "Angle sum, then cosine law",
+          "SOH CAH TOA"
+        ],
+        "answer": 0,
+        "working": "$k$ and $\\angle K$ are a matching pair, and $l$ is opposite the known $\\angle L$, so $\\dfrac{l}{\\sin 75^\\circ} = \\dfrac{8}{\\sin 40^\\circ}$."
+      }
+    ]
+  },
+  "m202-3-3-b": {
+    "lessonId": "m202-3-3",
+    "title": "Solving Problems with the Sine and Cosine Laws, Part 2: Surveying and Navigation",
+    "duration": 218,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Measuring a lake",
+        "t": 21.42
+      },
+      {
+        "title": "Locating a fire",
+        "t": 89.41
+      },
+      {
+        "title": "Your turn",
+        "t": 153.889
+      },
+      {
+        "title": "Summary",
+        "t": 192.856
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-3-b:q",
+        "t": 170.14,
+        "prompt": "From a point, it is $300$ m to one end of a pond and $250$ m to the other end, with $48^\\circ$ between the lines of sight. How long is the pond, to the nearest metre?",
+        "choices": [
+          "$228$ m",
+          "$391$ m",
+          "$41$ m",
+          "$52\\,130$ m"
+        ],
+        "answer": 0,
+        "working": "$d^2 = 300^2 + 250^2 - 2(300)(250)\\cos 48^\\circ \\approx 52\\,130$, so $d \\approx 228$ m. D forgets the square root, and C subtracts before multiplying."
+      }
+    ]
+  },
+  "m202-3-3-c": {
+    "lessonId": "m202-3-3",
+    "title": "Solving Problems with the Sine and Cosine Laws, Part 3: Problems with Two Steps",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Plan the path",
+        "t": 16.898
+      },
+      {
+        "title": "How high is the balloon?",
+        "t": 54.066
+      },
+      {
+        "title": "Keep the calculator values",
+        "t": 124.631
+      },
+      {
+        "title": "Your turn",
+        "t": 151.724
+      },
+      {
+        "title": "Summary",
+        "t": 194.509
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-3-3-c:q",
+        "t": 166.593,
+        "prompt": "Two points are $500$ m apart, with a balloon between them. Its angles of elevation are $58^\\circ$ and $50^\\circ$. How high is the balloon, to the nearest metre?",
+        "choices": [
+          "$342$ m",
+          "$403$ m",
+          "$213$ m",
+          "$446$ m"
+        ],
+        "answer": 0,
+        "working": "The top angle is $72^\\circ$. The slanted side from the $58^\\circ$ point is $\\dfrac{500\\sin 50^\\circ}{\\sin 72^\\circ} \\approx 402.73$, so $h \\approx 402.73\\sin 58^\\circ \\approx 342$ m."
+      }
+    ]
   }
 }
