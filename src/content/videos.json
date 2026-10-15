@@ -20562,5 +20562,378 @@
         "working": "The floor frame holds the walls, the walls hold the rafters, and the shingles cover the rafters, so the shingles go on last."
       }
     ]
+  },
+  "m203-6-1": {
+    "lessonId": "m203-6-1",
+    "title": "Personal Budgets, Part 1: Gross Pay and Net Pay",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gross pay, deductions and net pay",
+        "t": 21.021
+      },
+      {
+        "title": "Net pay for a month",
+        "t": 62.431
+      },
+      {
+        "title": "Reading a pay stub",
+        "t": 121.938
+      },
+      {
+        "title": "Budget with net pay",
+        "t": 169.244
+      },
+      {
+        "title": "Your turn",
+        "t": 190.37
+      },
+      {
+        "title": "Summary",
+        "t": 241.979
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-1:q",
+        "t": 206.977,
+        "prompt": "Sam earns \\$17.50 an hour and works $120$ hours in a month. In this example, deductions take $18\\%$ of gross pay. What is Sam’s net pay?",
+        "choices": [
+          "\\$1,722.00",
+          "\\$2,100.00",
+          "\\$378.00",
+          "\\$2,478.00"
+        ],
+        "answer": 0,
+        "working": "Gross: $17.50 \\times 120 = 2{,}100.00$. Deductions: $2{,}100.00 \\times 0.18 = 378.00$. Net: $2{,}100.00 - 378.00 = 1{,}722.00$. B is the gross pay."
+      }
+    ]
+  },
+  "m203-6-1-b": {
+    "lessonId": "m203-6-1",
+    "title": "Personal Budgets, Part 2: Expenses, Surplus and Deficit",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fixed and variable expenses",
+        "t": 15.275
+      },
+      {
+        "title": "Yearly costs",
+        "t": 56.831
+      },
+      {
+        "title": "Amara’s expenses",
+        "t": 88.001
+      },
+      {
+        "title": "Surplus or deficit",
+        "t": 126.807
+      },
+      {
+        "title": "Missing an expense",
+        "t": 176.217
+      },
+      {
+        "title": "Your turn",
+        "t": 208.725
+      },
+      {
+        "title": "Summary",
+        "t": 251.473
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-1-b:q",
+        "t": 225.251,
+        "prompt": "Leah’s net income is \\$1,900.00 a month, and her expenses total \\$1,985.50. Does Leah’s budget have a surplus or a deficit, and how much?",
+        "choices": [
+          "a deficit of \\$85.50",
+          "a surplus of \\$85.50",
+          "a deficit of \\$185.50",
+          "a surplus of \\$1,985.50"
+        ],
+        "answer": 0,
+        "working": "Expenses are more than income, so there is a deficit: $1{,}985.50 - 1{,}900.00 = 85.50$. B has the right amount, but calls it a surplus."
+      }
+    ]
+  },
+  "m203-6-1-c": {
+    "lessonId": "m203-6-1",
+    "title": "Personal Budgets, Part 3: Percent of Income and Circle Graphs",
+    "duration": 284,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Percent of income",
+        "t": 19.809
+      },
+      {
+        "title": "Comparing with a guideline",
+        "t": 77.646
+      },
+      {
+        "title": "A circle graph",
+        "t": 130.416
+      },
+      {
+        "title": "Two directions",
+        "t": 184.545
+      },
+      {
+        "title": "Your turn",
+        "t": 217.44
+      },
+      {
+        "title": "Summary",
+        "t": 257.969
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-1-c:q",
+        "t": 231.917,
+        "prompt": "Noor’s net income is \\$1,800 a month, and the phone plan costs \\$63 a month. What percent of Noor’s income is the phone plan?",
+        "choices": [
+          "$3.5\\%$",
+          "$35\\%$",
+          "$0.035\\%$",
+          "$28.6\\%$"
+        ],
+        "answer": 0,
+        "working": "$63 \\div 1{,}800 = 0.035$, and $0.035 \\times 100 = 3.5\\%$. C forgets to multiply by $100$, and D divides the wrong way."
+      }
+    ]
+  },
+  "m203-6-1-d": {
+    "lessonId": "m203-6-1",
+    "title": "Personal Budgets, Part 4: Saving for a Goal",
+    "duration": 270,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Planning for a goal",
+        "t": 18.29
+      },
+      {
+        "title": "Saving for a damage deposit",
+        "t": 44.824
+      },
+      {
+        "title": "Where to cut",
+        "t": 110.331
+      },
+      {
+        "title": "How many months?",
+        "t": 146.273
+      },
+      {
+        "title": "Rounding the months down",
+        "t": 188.546
+      },
+      {
+        "title": "Your turn",
+        "t": 205.716
+      },
+      {
+        "title": "Summary",
+        "t": 244.063
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-1-d:q",
+        "t": 219.082,
+        "prompt": "Eli can save \\$160 a month toward a \\$1,350 laptop. How many months will it take?",
+        "choices": [
+          "$9$ months",
+          "$8$ months",
+          "$8.4$ months",
+          "$10$ months"
+        ],
+        "answer": 0,
+        "working": "$1{,}350 \\div 160 \\approx 8.44$. After $8$ months Eli has only \\$1,280, so it takes $9$ months. B rounds down."
+      }
+    ]
+  },
+  "m203-6-2": {
+    "lessonId": "m203-6-2",
+    "title": "Banking Services, Part 1: Service Charges",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Accounts and transactions",
+        "t": 20.686
+      },
+      {
+        "title": "Counting transactions",
+        "t": 54.162
+      },
+      {
+        "title": "A limited plan",
+        "t": 78.807
+      },
+      {
+        "title": "Only the extras cost extra",
+        "t": 125.515
+      },
+      {
+        "title": "ATM fees",
+        "t": 148.29
+      },
+      {
+        "title": "Your turn",
+        "t": 180.09
+      },
+      {
+        "title": "Summary",
+        "t": 226.584
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-2:q",
+        "t": 197.977,
+        "prompt": "A plan costs \\$5.50 a month, includes $15$ transactions, and charges \\$0.75 for each extra. Ana makes $23$ transactions in a month. What is Ana’s service charge?",
+        "choices": [
+          "\\$11.50",
+          "\\$22.75",
+          "\\$6.00",
+          "\\$5.50"
+        ],
+        "answer": 0,
+        "working": "Extras: $23 - 15 = 8$, and $8 \\times 0.75 = 6.00$. Service charge: $5.50 + 6.00 = 11.50$. B charges for all $23$ transactions, and C leaves out the monthly fee."
+      }
+    ]
+  },
+  "m203-6-2-b": {
+    "lessonId": "m203-6-2",
+    "title": "Banking Services, Part 2: Comparing Plans and the Break-Even Point",
+    "duration": 235,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two plans",
+        "t": 20.277
+      },
+      {
+        "title": "The break-even point",
+        "t": 65.793
+      },
+      {
+        "title": "Finding it without a table",
+        "t": 102.243
+      },
+      {
+        "title": "Forgetting the included transactions",
+        "t": 141.733
+      },
+      {
+        "title": "Your turn",
+        "t": 157.563
+      },
+      {
+        "title": "Summary",
+        "t": 203.421
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-2-b:q",
+        "t": 176.92,
+        "prompt": "Plan A costs \\$2.50 a month, includes $6$ transactions, and charges \\$0.75 for each extra. Plan B costs \\$8.50 a month with unlimited transactions. What is the break-even point?",
+        "choices": [
+          "$14$ transactions",
+          "$8$ transactions",
+          "$20$ transactions",
+          "$6$ transactions"
+        ],
+        "answer": 0,
+        "working": "$8.50 - 2.50 = 6.00$, and $6.00 \\div 0.75 = 8$ extra transactions. Add the included ones: $6 + 8 = 14$. B forgets the included transactions."
+      }
+    ]
+  },
+  "m203-6-2-c": {
+    "lessonId": "m203-6-2",
+    "title": "Banking Services, Part 3: Overdrafts and Statements",
+    "duration": 282,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Overdrafts",
+        "t": 19.278
+      },
+      {
+        "title": "The cost of an overdraft",
+        "t": 40.223
+      },
+      {
+        "title": "Reading a statement",
+        "t": 102.652
+      },
+      {
+        "title": "Checking the closing balance",
+        "t": 145.765
+      },
+      {
+        "title": "Keep a running balance",
+        "t": 188
+      },
+      {
+        "title": "Your turn",
+        "t": 208.949
+      },
+      {
+        "title": "Summary",
+        "t": 253.153
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-2-c:q",
+        "t": 225.576,
+        "prompt": "A statement shows an opening balance of \\$350.00, deposits of \\$900.00, and withdrawals of \\$1,020.50. What is the closing balance?",
+        "choices": [
+          "\\$229.50",
+          "\\$2,270.50",
+          "\\$670.50",
+          "\\$120.50"
+        ],
+        "answer": 0,
+        "working": "$350.00 + 900.00 - 1{,}020.50 = 229.50$. B adds the withdrawals instead of subtracting them."
+      }
+    ]
   }
 }

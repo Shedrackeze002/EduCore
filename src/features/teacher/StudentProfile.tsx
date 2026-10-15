@@ -76,7 +76,7 @@ export default function StudentProfile() {
             {p.fullName}
           </span>
         }
-        subtitle={`${p.username ?? p.email} · joined ${fmtDate(p.createdAt, 'MMM d, yyyy')}`}
+        subtitle={`${p.nameOnly ? 'Joined with the class link' : (p.username ?? p.email)} · joined ${fmtDate(p.createdAt, 'MMM d, yyyy')}`}
         actions={
           <>
             <GenerateButton classId={classId} studentId={studentId} label="Analyse with AI" size="md" />

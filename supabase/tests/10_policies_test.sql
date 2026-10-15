@@ -676,6 +676,87 @@ reset role;
 select _assert((select count(*) from video_links) = 0, 'an administrator removes a link');
 select _assert((select count(*) from admin_audit_log where action = 'video_link_removed' and details ->> 'video' = 'm10c-2-1') = 1, 'removing a link is audited');
 
+-- ---------------------------------------------------------------- joining by link with a name
+-- join-class (the service role) makes name-only accounts and asks the teacher; anyone with the
+-- link sees just the class's and teacher's names.
+grant select on ctx to service_role;
+select set_config('request.jwt.claims', '{"role":"anon"}', false);
+set role anon;
+select _assert((select class_name from class_for_join((select lower(join_code) from ctx))) = 'Math 10C', 'anyone with the link sees the class name');
+select _assert((select count(*) from class_for_join('ZZZZZZ')) = 0, 'an unknown link shows nothing');
+select _fails($$select request_to_join_by_name('00000000-0000-0000-0000-0000000000b1', (select class_id from ctx))$$, 'anon cannot make requests by name');
+select _fails($$select name_only_takeover('00000000-0000-0000-0000-0000000000b1')$$, 'anon cannot take over accounts');
+select _fails($$select prune_name_only_accounts()$$, 'anon cannot prune accounts');
+reset role;
+
+insert into auth.users (id, email, raw_app_meta_data) values
+  ('00000000-0000-0000-0000-0000000000c1', 'n-1@students.educore.local', '{"role":"student","full_name":"Ama Mensah"}'),
+  ('00000000-0000-0000-0000-0000000000c2', 'n-2@students.educore.local', '{"role":"student","full_name":"ama  mensah"}'),
+  ('00000000-0000-0000-0000-0000000000c3', 'n-3@students.educore.local', '{"role":"student","full_name":"Kofi Boateng"}');
+update profiles set name_only = true where id in ('00000000-0000-0000-0000-0000000000c1', '00000000-0000-0000-0000-0000000000c2', '00000000-0000-0000-0000-0000000000c3');
+set role service_role;
+select request_to_join_by_name('00000000-0000-0000-0000-0000000000c1', (select class_id from ctx));
+reset role;
+select _fails($$select request_to_join_by_name('00000000-0000-0000-0000-0000000000b1', (select class_id from ctx))$$, 'only name-only students ask by name');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000c1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select request_to_join_by_name('00000000-0000-0000-0000-0000000000c1', (select class_id from ctx))$$, 'students cannot call the service function');
+select _fails($$select name_only_takeover('00000000-0000-0000-0000-0000000000c1')$$, 'students cannot look up a takeover');
+select _fails($$select decide_join_requests((select class_id from ctx), '[]')$$, 'students cannot decide requests in bulk');
+select _assert((select status from my_join_requests()) = 'pending' and not (select linked from my_join_requests()), 'the name-only student waits for the teacher');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select name_only and email is null and match_id is null from class_join_requests((select class_id from ctx)) where full_name = 'Ama Mensah'), 'the teacher sees a name from the link, with no email');
+select _assert((select decide_join_requests((select class_id from ctx), jsonb_build_array(jsonb_build_object('id', id, 'approve', true))) from join_requests where student_id = '00000000-0000-0000-0000-0000000000c1') = 1, 'the teacher approves in bulk');
+reset role;
+select _assert(exists (select 1 from enrollments where class_id = (select class_id from ctx) and student_id = '00000000-0000-0000-0000-0000000000c1'), 'approval enrols the name-only student');
+
+-- Ama comes back on another device (c2, the same name typed differently); Kofi is a stranger.
+set role service_role;
+select request_to_join_by_name('00000000-0000-0000-0000-0000000000c2', (select class_id from ctx));
+select request_to_join_by_name('00000000-0000-0000-0000-0000000000c3', (select class_id from ctx));
+reset role;
+create temp table nj as select r.id, r.student_id from join_requests r where r.student_id in ('00000000-0000-0000-0000-0000000000c2', '00000000-0000-0000-0000-0000000000c3');
+grant select on nj to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select decide_join_requests((select class_id from ctx), '[]')$$, 'other teachers cannot decide in bulk');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select match_id = '00000000-0000-0000-0000-0000000000c1' and match_name = 'Ama Mensah' from class_join_requests((select class_id from ctx)) where student_id = '00000000-0000-0000-0000-0000000000c2'), 'the teacher sees the matching student already in the class');
+select _assert((select match_id is null from class_join_requests((select class_id from ctx)) where student_id = '00000000-0000-0000-0000-0000000000c3'), 'a new name matches nobody');
+select _fails($$select decide_join_requests((select class_id from ctx), jsonb_build_array(jsonb_build_object('id', (select id from nj where student_id = '00000000-0000-0000-0000-0000000000c2'), 'approve', true, 'sameAs', '00000000-0000-0000-0000-0000000000b1')))$$, 'a request cannot take over a student with their own email account');
+select _assert(decide_join_requests((select class_id from ctx), jsonb_build_array(
+  jsonb_build_object('id', (select id from nj where student_id = '00000000-0000-0000-0000-0000000000c2'), 'approve', true, 'sameAs', '00000000-0000-0000-0000-0000000000c1'),
+  jsonb_build_object('id', (select id from nj where student_id = '00000000-0000-0000-0000-0000000000c3'), 'approve', false))) = 2, 'the teacher matches one and declines the other at once');
+reset role;
+select _assert(not exists (select 1 from enrollments where student_id = '00000000-0000-0000-0000-0000000000c2'), 'a matched device is not enrolled as a new student');
+select _assert((select status from join_requests where student_id = '00000000-0000-0000-0000-0000000000c3') = 'declined', 'the stranger is declined');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000c2","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select linked from my_join_requests()), 'the device learns it was matched');
+reset role;
+set role service_role;
+select _assert(name_only_takeover('00000000-0000-0000-0000-0000000000c2') = '00000000-0000-0000-0000-0000000000c1', 'the device may take over the matched student');
+select _assert(name_only_takeover('00000000-0000-0000-0000-0000000000c3') is null, 'a declined device takes over nothing');
+reset role;
+
+-- The daily clean-up removes the declined stranger, and keeps the student in the class and the
+-- device that is about to take over.
+update auth.users set created_at = now() - interval '3 days' where id in ('00000000-0000-0000-0000-0000000000c1', '00000000-0000-0000-0000-0000000000c2', '00000000-0000-0000-0000-0000000000c3');
+update join_requests set decided_at = now() - interval '2 days' where student_id = '00000000-0000-0000-0000-0000000000c3';
+select _assert(prune_name_only_accounts() = 1, 'one stale name-only account is removed');
+select _assert(not exists (select 1 from profiles where id = '00000000-0000-0000-0000-0000000000c3'), 'the declined stranger is gone');
+select _assert(exists (select 1 from profiles where id = '00000000-0000-0000-0000-0000000000c1') and exists (select 1 from profiles where id = '00000000-0000-0000-0000-0000000000c2'), 'the class member and the matched device stay');
+select _assert(not has_function_privilege('authenticated', 'public.prune_name_only_accounts()', 'execute'), 'users cannot prune accounts');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;

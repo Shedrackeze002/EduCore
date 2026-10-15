@@ -16,8 +16,9 @@ import { JoinRequestsCard } from './JoinRequests.tsx';
 
 type Sort = 'name' | 'mastery' | 'average' | 'missing' | 'active';
 
+/** The class link: students open it and type just their name; the teacher lets them in. */
 export function joinLink(code: string): string {
-  return `${window.location.origin}${import.meta.env.BASE_URL}signup?code=${encodeURIComponent(code)}`;
+  return `${window.location.origin}${import.meta.env.BASE_URL}join/${encodeURIComponent(code)}`;
 }
 
 export default function StudentsPage() {
@@ -137,7 +138,7 @@ export default function StudentsPage() {
                           <Avatar name={r.s.fullName} color={r.s.avatarColor} size={32} />
                           <span>
                             <span className="block font-medium">{r.s.fullName}</span>
-                            <span className="block text-xs text-ink-3">{r.s.username ?? r.s.email}</span>
+                            <span className="block text-xs text-ink-3">{r.s.nameOnly ? 'Joined with the class link' : (r.s.username ?? r.s.email)}</span>
                           </span>
                         </Link>
                       </td>
@@ -300,7 +301,7 @@ function AddStudentsModal({ cls, onClose }: { cls: ClassRoom; onClose: () => voi
             onChange={setTab}
             items={[
               { value: 'create', label: 'Create accounts' },
-              { value: 'code', label: 'Share class code' },
+              { value: 'code', label: 'Share class link' },
             ]}
           />
           {tab === 'create' ? (
@@ -311,7 +312,7 @@ function AddStudentsModal({ cls, onClose }: { cls: ClassRoom; onClose: () => voi
             </>
           ) : (
             <div className="space-y-4 text-center">
-              <p className="text-sm text-ink-3">Students create their own account and join with this code.</p>
+              <p className="text-sm text-ink-3">Students open the link and type just their first and last name: no email or password. You approve them on this page. Students who already have a Gradileo account can enter the code instead.</p>
               <div className="font-mono text-5xl font-bold tracking-[0.3em] text-brand-800">{cls.joinCode}</div>
               <div className="flex items-center gap-2 rounded-xl border border-line bg-surface-2/60 p-2 text-left text-sm">
                 <span className="min-w-0 flex-1 truncate px-1 font-mono text-xs">{link}</span>

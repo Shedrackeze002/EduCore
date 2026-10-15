@@ -32,13 +32,15 @@ export const toProfile = (r: Row): Profile => ({
   id: r.id,
   role: r.role,
   fullName: r.full_name,
-  email: r.email,
+  // A student who joined with the class link has only an internal address, never shown.
+  email: r.name_only ? '' : r.email,
   username: r.username,
   avatarColor: r.avatar_color,
   createdAt: r.created_at,
   platformAdmin: !!r.platform_admin,
   teacherStatus: r.teacher_status ?? null,
   disabled: !!r.disabled_at,
+  nameOnly: !!r.name_only,
 });
 
 export const toClass = (r: Row): ClassRoom => ({
@@ -266,6 +268,7 @@ export const toMyJoinRequest = (r: Row): MyJoinRequest => ({
   status: r.status === 'approved' || r.status === 'declined' ? r.status : 'pending',
   createdAt: r.created_at,
   decidedAt: r.decided_at ?? null,
+  linked: !!r.linked,
 });
 
 export const toClassJoinRequest = (r: Row): ClassJoinRequest => ({
@@ -275,6 +278,8 @@ export const toClassJoinRequest = (r: Row): ClassJoinRequest => ({
   email: r.email ?? '',
   message: r.message ?? null,
   createdAt: r.created_at,
+  nameOnly: !!r.name_only,
+  match: r.match_id ? { studentId: r.match_id, fullName: r.match_name } : null,
 });
 
 export const toCourseRequest = (r: Row): CourseRequest => ({

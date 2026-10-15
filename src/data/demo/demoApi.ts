@@ -36,6 +36,8 @@ import type {
   CourseRequest,
   CourseRequestInput,
   CourseRequestStatus,
+  JoinDecision,
+  JoinLinkClass,
   JoinResult,
   LessonEdit,
   LessonEditInput,
@@ -61,6 +63,7 @@ import { buildSeed, DEMO_PASSWORD, DEMO_TEACHER_EMAIL } from './seed.ts';
 import { buildAnalystInput } from './analyst.ts';
 import { simulatedResponses } from './liveSim.ts';
 import { uid, joinCode as makeJoinCode, friendlyPassword } from '@/lib/ids.ts';
+import { cleanNamePart, sameName } from '@/lib/names.ts';
 import { YOUTUBE_ID } from '@/video/youtube.ts';
 
 const SESSION_KEY = 'educore-demo-session';
@@ -69,7 +72,8 @@ const COLORS = ['#6a43e3', '#2a78d6', '#0c8c4a', '#b45309', '#d03b3b', '#c2417a'
 function strip(u: DemoUser): Profile {
   const { password: _pw, ...p } = u;
   void _pw;
-  return p;
+  // A student who joined with the class link has only an internal address, never shown.
+  return p.nameOnly ? { ...p, email: '' } : p;
 }
 
 function sessionGet(): string | null {
@@ -395,7 +399,7 @@ export class DemoApi implements DataApi {
       .flatMap((r) => {
         const c = this.db.classes.find((x) => x.id === r.classId);
         if (!c) return [];
-        return [{ id: r.id, classId: c.id, className: c.name, section: c.section, courseId: c.courseId, teacherName: this.db.users.find((u) => u.id === c.teacherId)?.fullName ?? null, status: r.status, createdAt: r.createdAt, decidedAt: r.decidedAt }];
+        return [{ id: r.id, classId: c.id, className: c.name, section: c.section, courseId: c.courseId, teacherName: this.db.users.find((u) => u.id === c.teacherId)?.fullName ?? null, status: r.status, createdAt: r.createdAt, decidedAt: r.decidedAt, linked: r.status === 'approved' && !!r.sameAs }];
       });
   }
 
@@ -407,8 +411,105 @@ export class DemoApi implements DataApi {
       .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
       .flatMap((r) => {
         const u = this.db.users.find((x) => x.id === r.studentId);
-        return u ? [{ id: r.id, studentId: u.id, fullName: u.fullName, email: u.email, message: r.message, createdAt: r.createdAt }] : [];
+        if (!u) return [];
+        // A name-only student already in the class with the same name is most likely this student on another device.
+        const match = u.nameOnly
+          ? this.db.enrollments
+              .filter((e) => e.classId === classId && e.studentId !== u.id)
+              .map((e) => this.db.users.find((x) => x.id === e.studentId))
+              .find((s) => s?.nameOnly && sameName(s.fullName, u.fullName))
+          : undefined;
+        return [{ id: r.id, studentId: u.id, fullName: u.fullName, email: u.nameOnly ? '' : u.email, message: r.message, createdAt: r.createdAt, nameOnly: !!u.nameOnly, match: match ? { studentId: match.id, fullName: match.fullName } : null }];
       });
+  }
+
+  async decideJoinRequests(classId: string, decisions: JoinDecision[]): Promise<void> {
+    await this.ready;
+    const c = this.requireTeacherOf(classId);
+    for (const d of decisions) {
+      const r = this.db.joinRequests!.find((x) => x.id === d.requestId && x.classId === classId);
+      if (!r || r.status !== 'pending') continue;
+      if (d.approve && d.sameAs) {
+        const device = this.db.users.find((u) => u.id === r.studentId);
+        const target = this.db.users.find((u) => u.id === d.sameAs);
+        const inClass = this.db.enrollments.some((e) => e.classId === classId && e.studentId === d.sameAs);
+        if (!device?.nameOnly || !target?.nameOnly || !inClass || target.id === device.id) throw new Error('Only a student who joined with the class link can be matched to one already in the class.');
+        Object.assign(r, { status: 'approved', sameAs: target.id, decidedAt: nowIso() });
+      } else if (d.approve) {
+        Object.assign(r, { status: 'approved', decidedAt: nowIso() });
+        if (!this.db.enrollments.some((e) => e.classId === classId && e.studentId === r.studentId)) this.db.enrollments.push({ classId, studentId: r.studentId, joinedAt: nowIso() });
+        this.notify(r.studentId, 'announcement', `You joined ${c.name}`, 'Your teacher approved your request. The class is now in your course list.', '/s');
+      } else {
+        Object.assign(r, { status: 'declined', decidedAt: nowIso() });
+        this.notify(r.studentId, 'announcement', `Your request to join ${c.name} was declined`, 'Check the class link with your teacher.', '/s/join');
+      }
+    }
+    this.persist();
+  }
+
+  private joinableClass(code: string) {
+    return this.db.classes.find((x) => x.joinCode === code.trim().toUpperCase() && !x.archived && x.kind !== 'self');
+  }
+
+  async classForJoinLink(code: string): Promise<JoinLinkClass | null> {
+    await this.ready;
+    const c = this.joinableClass(code);
+    return c ? { className: c.name, teacherName: this.db.users.find((u) => u.id === c.teacherId)?.fullName ?? null } : null;
+  }
+
+  async joinWithName(code: string, firstName: string, lastName: string) {
+    await this.ready;
+    await delay(250);
+    const parts = [cleanNamePart(firstName, 'first name'), cleanNamePart(lastName, 'last name')];
+    for (const p of parts) if ('error' in p) throw new Error(p.error);
+    const fullName = parts.map((p) => ('value' in p ? p.value : '')).join(' ');
+    const c = this.joinableClass(code);
+    if (!c) throw new Error('This class link is not valid. Ask your teacher for the link again.');
+    if (this.db.joinRequests!.filter((r) => r.classId === c.id && r.status === 'pending').length >= 60) {
+      throw new Error('Many students are waiting to join this class. Ask your teacher to approve them, then try again.');
+    }
+    const u: DemoUser = {
+      id: uid('u'),
+      role: 'student',
+      fullName,
+      email: `${uid('n')}@students.educore.local`,
+      username: null,
+      avatarColor: COLORS[this.db.users.length % COLORS.length],
+      createdAt: nowIso(),
+      password: uid('pw'),
+      teacherStatus: null,
+      lastSignInAt: nowIso(),
+      nameOnly: true,
+    };
+    this.db.users.push(u);
+    // Anyone with the link can use it, so a name always waits for the teacher.
+    this.addJoinRequest(c, u, null);
+    this.persist();
+    sessionSet(u.id);
+    this.seenNotifications = new Set();
+    this.authListeners.forEach((l) => l(strip(u)));
+    const teacherName = this.db.users.find((x) => x.id === c.teacherId)?.fullName ?? null;
+    return { profile: strip(u), result: { status: 'pending' as const, classId: c.id, className: c.name, teacherName } };
+  }
+
+  async claimMatchedAccount() {
+    await this.ready;
+    const me = this.me();
+    if (!me.nameOnly) throw new Error('Only a student who joined with a class link can do this.');
+    const r = this.db
+      .joinRequests!.filter((x) => x.studentId === me.id && x.status === 'approved' && x.sameAs)
+      .sort((a, b) => (b.decidedAt ?? '').localeCompare(a.decidedAt ?? ''))[0];
+    const target = r && this.db.users.find((u) => u.id === r.sameAs && u.nameOnly && !u.disabled);
+    if (!r || !target || !this.db.enrollments.some((e) => e.classId === r.classId && e.studentId === target.id)) return null;
+    // The device's own account was only ever a request to join; it goes now.
+    this.db.users = this.db.users.filter((u) => u.id !== me.id);
+    this.db.joinRequests = this.db.joinRequests!.filter((x) => x.studentId !== me.id);
+    this.db.notifications = this.db.notifications.filter((n) => n.userId !== me.id);
+    this.persist();
+    sessionSet(target.id);
+    this.seenNotifications = new Set(this.db.notifications.filter((n) => n.userId === target.id).map((n) => n.id));
+    this.authListeners.forEach((l) => l(strip(target)));
+    return strip(target);
   }
 
   async decideJoinRequest(requestId: string, approve: boolean): Promise<void> {

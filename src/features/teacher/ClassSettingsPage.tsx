@@ -78,7 +78,7 @@ export default function ClassSettingsPage() {
       </Card>
 
       <Card>
-        <CardHeader title="Join code" subtitle="Students who sign up themselves enter this code to join." icon={<KeyRound className="h-5 w-5" />} />
+        <CardHeader title="Join code" subtitle="Share the join link: students type just their name, and you approve them. Students with a Gradileo account can enter the code." icon={<KeyRound className="h-5 w-5" />} />
         <CardBody className="space-y-5 pt-4">
           <div className="flex flex-wrap items-center gap-4">
             <div className="font-mono text-3xl font-bold tracking-[0.25em] text-brand-800">{c.joinCode}</div>

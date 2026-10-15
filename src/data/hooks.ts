@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api } from './index.ts';
 import type { Integrity } from '@engine/integrity.ts';
-import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, CourseRequestInput, CourseRequestStatus, LessonEditInput, LessonEditStatus, ItemRef, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
+import type { AdminUserFilter, Assignment, BoardInput, ClassSettings, CourseRequestInput, CourseRequestStatus, LessonEditInput, LessonEditStatus, ItemRef, JoinDecision, LessonPrefs, PlatformSettings, ProposedAction, Resource, StoredResponse } from './types.ts';
 
 export const qk = {
   me: ['me'] as const,
@@ -88,7 +88,33 @@ export function useStartSelfPaced() {
 }
 
 /** A student's requests to join teachers' classes. */
-export const useMyJoinRequests = (enabled = true) => useQuery({ queryKey: qk.myJoinRequests, queryFn: () => api().listMyJoinRequests(), enabled });
+export const useMyJoinRequests = (enabled = true, refetchInterval: number | false = false) =>
+  useQuery({ queryKey: qk.myJoinRequests, queryFn: () => api().listMyJoinRequests(), enabled, refetchInterval });
+
+/** The class behind a join link (no sign-in needed). */
+export const useClassForJoin = (code: string | undefined) =>
+  useQuery({ queryKey: ['join-link', code ?? ''], queryFn: () => api().classForJoinLink(code!), enabled: !!code, retry: false, staleTime: 60_000 });
+
+/** Joins a class by link with only a name; this device is signed in to the new account. */
+export function useJoinWithName() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { code: string; firstName: string; lastName: string }) => api().joinWithName(v.code, v.firstName, v.lastName),
+    onSuccess: () => qc.invalidateQueries(),
+  });
+}
+
+/** The teacher's decisions on several join requests at once. */
+export function useDecideJoinRequests(classId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (decisions: JoinDecision[]) => api().decideJoinRequests(classId, decisions),
+    onSettled: async () => {
+      await qc.invalidateQueries({ queryKey: qk.joinRequests(classId) });
+      await qc.invalidateQueries({ queryKey: qk.roster(classId) });
+    },
+  });
+}
 
 /** A class's pending join requests (teacher). */
 export const useJoinRequests = (classId: string | undefined) => useQuery({ queryKey: qk.joinRequests(classId ?? ''), queryFn: () => api().listJoinRequests(classId!), enabled: !!classId });

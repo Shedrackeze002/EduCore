@@ -71,7 +71,7 @@ export default function SettingsPage() {
             <Avatar name={name || me.fullName} color={color} size={56} />
             <div className="min-w-0">
               <div className="font-semibold">{me.fullName}</div>
-              <div className="text-sm text-ink-3">{me.username ? `Username: ${me.username}` : me.email}</div>
+              <div className="text-sm text-ink-3">{me.nameOnly ? 'Joined with a class link: this device keeps you signed in.' : me.username ? `Username: ${me.username}` : me.email}</div>
             </div>
           </div>
           <Input label="Full name" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} />

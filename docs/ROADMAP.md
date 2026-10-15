@@ -297,7 +297,28 @@ items ship or decisions change.
      tool for all of them such as Buffer. Each week Claude puts the next week's posts in Drive
      (media, caption for each platform and posting time) for scheduling; where a tool can be
      connected to Claude, Claude schedules them directly. A weekly scheduled task keeps it going.
-3. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+3. **Join a class by link, with just a name** (the owner's decision, 15 October 2026: collect as
+   little as possible, and adjust later if needed). The teacher shares the class link; a student
+   opens it and types a first and last name, nothing else: no email, username or password.
+   - The device the student joined on remembers them. The teacher sees the names waiting, selects
+     all, unticks anyone they do not recognize, and approves (or denies) them in one go.
+   - A student on a new device, or after clearing the browser, opens the link and types their
+     name again; the teacher sees that it matches a student already in the class, and approving
+     reconnects them to their progress. A shared classroom device offers "Not you? Switch student".
+   - Nothing reaches the class without the teacher's approval; a class can have only so many names
+     waiting, and denied ones are cleared.
+   - Built: the class link (`/join/CODE`), the `join-class` Edge Function (makes the account and
+     signs the device in; its password is random and never leaves the function), the teacher's
+     list with every name ticked (untick, then approve or decline the ticked ones), the "same
+     student" match for a student on a new device, a waiting page that opens the class on its own,
+     and a daily clean-up of name-only accounts that never got in. Names typed in lower case are
+     capitalized. Students with a Gradileo account can still use the code.
+4. **Students' questions during a presentation** (the owner's idea, 15 October 2026). While the
+   teacher presents, students send questions about the lesson from their own devices. Each one
+   pops up on the teacher's screen to answer or skip; at the end, a "Questions" slide lists them,
+   and it is left out when nobody asked anything. Proposed: a student may ask anonymously to
+   classmates (the teacher always sees the name).
+5. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
    for example "Draft with AI") and the AI drafts the questions from the course curriculum and
@@ -313,9 +334,22 @@ items ship or decisions change.
      mastered, using the mastery data.
    - Auto-graded questions come from the engine's generators (fresh numbers for each student);
      the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
-     marking guides. The teacher previews everything, regenerates or edits single questions, and
-     publishes; nothing reaches students without the teacher's approval.
-4. **Other subjects**, once mathematics is complete.
+     marking guides. The teacher who asked for them previews everything, regenerates or edits
+     single questions, and publishes; nothing reaches students without that teacher's approval
+     (no administrator review in between).
+6. **AI report cards** (the owner's idea, 15 October 2026). For each student, from their mastery
+   and work: how they are doing, strengths, next steps, tips for the student and for parents, and
+   feedback. The teacher who asks for it reviews and edits it before it reaches the student or a
+   parent (not an administrator: the review is the teacher's), and shares it on request as a PDF
+   or a private link.
+7. **Class forum** (the owner's idea, 15 October 2026). Students post questions for their class
+   and choose who sees each one. Proposed choices: private to the teacher, the whole class, or the
+   whole class without their name shown to classmates. The teacher can always see and moderate
+   every post (the students are children), with notifications for new posts and replies.
+8. **Other subjects**, once mathematics is complete.
+9. **An introduction video for Gradileo** (the owner's idea, 15 October 2026), made when the
+   platform is about 80% ready: why students, teachers and parents should use it, covering every
+   feature, in the same style as the explainer videos.
 
 ## Hosting
 

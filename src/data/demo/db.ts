@@ -79,6 +79,8 @@ export interface DemoJoinRequest {
   message: string | null;
   createdAt: string;
   decidedAt: string | null;
+  /** Approved as this student already in the class: the requesting device takes over that account. */
+  sameAs?: string | null;
 }
 
 export const DB_KEY = 'educore-demo-db-v1';

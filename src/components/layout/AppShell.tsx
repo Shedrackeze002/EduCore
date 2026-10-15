@@ -97,6 +97,10 @@ export function AppShell({ role }: { role: ShellRole }) {
   const classId = role === 'teacher' ? match?.params.classId : undefined;
   const nav = role === 'teacher' ? teacherNav(classId) : role === 'admin' ? ADMIN_NAV : STUDENT_NAV;
   const isAdmin = !!user?.platformAdmin && !user.disabled;
+  // A student who joined with the class link has no password: signing out leaves this device.
+  const nameOnlySignOut = async () => {
+    if (window.confirm(`Sign ${user?.fullName ?? 'this student'} out of this device? To come back, open the class link and type your name again; your teacher lets you back in.`)) await signOut();
+  };
   const [drawer, setDrawer] = useState(false);
   const loc = useLocation();
   useEffect(() => setDrawer(false), [loc.pathname]);
@@ -142,7 +146,7 @@ export function AppShell({ role }: { role: ShellRole }) {
             <div className="flex-1" />
             {demoApi() && <Badge tone="warn" className="hidden sm:inline-flex">Demo mode</Badge>}
             <NotificationBell />
-            <UserMenu name={user?.fullName ?? ''} color={user?.avatarColor} email={user?.email ?? ''} onSignOut={signOut} role={role} isAdmin={isAdmin} />
+            <UserMenu name={user?.fullName ?? ''} color={user?.avatarColor} email={user?.email ?? ''} onSignOut={user?.nameOnly ? nameOnlySignOut : signOut} role={role} isAdmin={isAdmin} />
           </div>
         </header>
         <main className={cn('mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8', role === 'student' && 'pb-28 lg:pb-8')}>

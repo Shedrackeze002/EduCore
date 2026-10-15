@@ -10,6 +10,7 @@ import { ErrorBoundary } from './components/layout/ErrorBoundary.tsx';
 const Landing = lazy(() => import('./features/landing/LandingPage.tsx'));
 const Login = lazy(() => import('./features/auth/LoginPage.tsx'));
 const Signup = lazy(() => import('./features/auth/SignupPage.tsx'));
+const JoinWithName = lazy(() => import('./features/auth/JoinWithNamePage.tsx'));
 const Privacy = lazy(() => import('./features/legal/PrivacyPage.tsx'));
 const Terms = lazy(() => import('./features/legal/TermsPage.tsx'));
 const NotificationsPage = lazy(() => import('./features/notifications/NotificationsPage.tsx'));
@@ -76,6 +77,7 @@ export default function App() {
                   <Route path="/" element={<HomeRedirect />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/join/:code" element={<JoinWithName />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/terms" element={<Terms />} />
 
