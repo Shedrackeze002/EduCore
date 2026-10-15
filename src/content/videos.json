@@ -12114,5 +12114,56 @@
         "working": "The restrictions come from the original denominator, $(x - 4)(x + 1)$: $x \\ne 4$ and $x \\ne -1$."
       }
     ]
+  },
+  "m201-6-1-c": {
+    "lessonId": "m201-6-1",
+    "title": "Rational Expressions, Part 3: Simplifying",
+    "duration": 222,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three steps",
+        "t": 18.839
+      },
+      {
+        "title": "A trinomial over a difference of squares",
+        "t": 60.427
+      },
+      {
+        "title": "Opposite factors",
+        "t": 100.036
+      },
+      {
+        "title": "Cancelling terms",
+        "t": 137.315
+      },
+      {
+        "title": "Your turn",
+        "t": 163.438
+      },
+      {
+        "title": "Summary",
+        "t": 200.076
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-1-c:q",
+        "t": 173.042,
+        "prompt": "Simplify $\\dfrac{x^2 - 9}{x^2 + 5x + 6}$.",
+        "choices": [
+          "$\\dfrac{x - 3}{x + 2}$, $x \\ne -2,\\ -3$",
+          "$\\dfrac{x - 3}{x + 2}$, $x \\ne -2$",
+          "$\\dfrac{-9}{5x + 6}$",
+          "$\\dfrac{x + 3}{x + 2}$, $x \\ne -2,\\ -3$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{(x - 3)(x + 3)}{(x + 2)(x + 3)} = \\dfrac{x - 3}{x + 2}$, with $x \\ne -2,\\ -3$ from the original denominator."
+      }
+    ]
   }
 }

@@ -157,7 +157,10 @@ See `src/video/script.ts` for every element and option. In short:
    `video/tools/render-units.sh math20-1 m201-u4 m201-u5`) renders each unfinished video one at a
    time, about six minutes each on four cores, and uploads each unit to Drive once all of its
    videos are done (step 6). A session restart stops background jobs, so run the same command
-   again after one: finished videos are marked (`video/out/<id>/.rendered`) and skipped. Commit
+   again after one: finished videos are marked (`video/out/<id>/.rendered`) and skipped. In a
+   cloud session, run it as a tracked background task (an idle session is reclaimed, which kills
+   detached jobs) with `RENDER_MINUTES=110` so it stops cleanly between videos before the
+   two-hour limit on such tasks, then run it again. Commit
    `src/content/videos.json` as units finish. (`npx tsx video/build.ts <ids>` builds given videos
    directly.)
 4. Check the narration: `python3 video/tools/pronunciation.py video/out/<id>/pronunciation.txt …`
