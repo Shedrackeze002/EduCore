@@ -175,6 +175,12 @@ See `src/video/script.ts` for every element and option. In short:
    with the same contents are skipped, so a run can be repeated; `--dry-run` shows where each would go.
    If Drive is not set up, make zip packs instead: `video/tools/pack.sh <course>-unit<N> <ids in
    order>` gives one zip per video (each well under 30 MB) and one for the whole unit.
+7. Free disk space once a course is in Drive. A cloud session has a fixed disk allowance, and a
+   course leaves about 40 MB a video in `video/out/` and `video/.cache/`; with too little left, a
+   render or the browser tests fail with "no space left on device". Run the upload for the
+   whole course again (`drive-upload.ts math-20-2`): when every file is reported `unchanged`,
+   Drive holds identical copies, and the course's narration (`video/.cache/<id>.wav`) can be
+   deleted; the build makes it again if a video is ever re-rendered.
 
 Lessons learned while scripting (the script check does not catch these):
 
