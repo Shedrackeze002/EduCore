@@ -13136,5 +13136,99 @@
         "working": "$x^2 = x + 6$, so $x^2 - x - 6 = (x - 3)(x + 2) = 0$. Then $y = x + 6$ gives $(3, 9)$ and $(-2, 4)$."
       }
     ]
+  },
+  "m201-8-2-b": {
+    "lessonId": "m201-8-2",
+    "title": "Solving Systems Algebraically, Part 2: Tangents and Elimination",
+    "duration": 223,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One solution or none",
+        "t": 20.551
+      },
+      {
+        "title": "Elimination",
+        "t": 82.159
+      },
+      {
+        "title": "When the x² terms cancel",
+        "t": 142.349
+      },
+      {
+        "title": "Your turn",
+        "t": 165.673
+      },
+      {
+        "title": "Summary",
+        "t": 197.341
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-2-b:q",
+        "t": 176.186,
+        "prompt": "Solve the system $y = x^2 + 1$ and $y = 2x^2 - 3$.",
+        "choices": [
+          "$(2, 5)$ and $(-2, 5)$",
+          "$(2, 5)$ only",
+          "$(4, 17)$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Subtract: $0 = (2x^2 - 3) - (x^2 + 1) = x^2 - 4$, so $x = \\pm 2$, and $y = 2^2 + 1 = 5$ for both."
+      }
+    ]
+  },
+  "m201-8-2-c": {
+    "lessonId": "m201-8-2",
+    "title": "Solving Systems Algebraically, Part 3: Problems",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two numbers",
+        "t": 16.906
+      },
+      {
+        "title": "A rocket and a drone",
+        "t": 70.402
+      },
+      {
+        "title": "Answers that do not fit",
+        "t": 122.233
+      },
+      {
+        "title": "Your turn",
+        "t": 144.702
+      },
+      {
+        "title": "Summary",
+        "t": 180.098
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-2-c:q",
+        "t": 153.763,
+        "prompt": "Two positive numbers differ by $3$, and their product is $40$. What are they?",
+        "choices": [
+          "$5$ and $8$",
+          "$-8$ and $-5$",
+          "$4$ and $10$",
+          "$3$ and $40$"
+        ],
+        "answer": 0,
+        "working": "$x(x + 3) = 40$, so $x^2 + 3x - 40 = (x + 8)(x - 5) = 0$. Both numbers are positive, so $x = 5$, and the numbers are $5$ and $8$."
+      }
+    ]
   }
 }
