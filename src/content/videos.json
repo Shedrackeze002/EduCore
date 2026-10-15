@@ -17720,5 +17720,150 @@
         "working": "A asks for a number without suggesting an answer. B opens with “Don’t you agree”, C tells people what others think, and D uses the loaded word “pointless”."
       }
     ]
+  },
+  "m202-9-1-c": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 3: Fair Samples",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Populations and samples",
+        "t": 18.903
+      },
+      {
+        "title": "Four kinds of bias",
+        "t": 52.473
+      },
+      {
+        "title": "Choosing a sample",
+        "t": 97.652
+      },
+      {
+        "title": "Your turn",
+        "t": 136.738
+      },
+      {
+        "title": "Summary",
+        "t": 169.231
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1-c:q",
+        "t": 149.475,
+        "prompt": "To learn how Albertans feel about a new park, a researcher surveys only people walking in the park. What kind of bias is this?",
+        "choices": [
+          "sampling bias",
+          "measurement bias",
+          "non-response bias",
+          "There is no bias."
+        ],
+        "answer": 0,
+        "working": "People already using the park are not typical of all Albertans, so the sample does not represent the population."
+      }
+    ]
+  },
+  "m202-9-1-d": {
+    "lessonId": "m202-9-1",
+    "title": "Planning a Research Project, Part 4: From Plan to Presentation",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A complete plan",
+        "t": 16.956
+      },
+      {
+        "title": "A plan for first frost",
+        "t": 63.887
+      },
+      {
+        "title": "State the limits",
+        "t": 114.414
+      },
+      {
+        "title": "Your turn",
+        "t": 140.019
+      },
+      {
+        "title": "Summary",
+        "t": 178.37
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-9-1-d:q",
+        "t": 159.198,
+        "prompt": "Jordan’s plan: “Question: Do students who play sports have higher average marks? Data: a survey of $50$ randomly chosen students at my school. Presentation: a poster.” Which part of the plan is missing?",
+        "choices": [
+          "the analysis tools",
+          "the research question",
+          "how the data will be collected",
+          "the presentation"
+        ],
+        "answer": 0,
+        "working": "The plan has a question, data and collection (a random survey) and a presentation, but it never says how the data will be analyzed, for example by comparing the mean marks of the two groups."
+      }
+    ]
+  },
+  "m203-1-1": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 1: Rise over Run",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rise, run and slope",
+        "t": 20.695
+      },
+      {
+        "title": "Bigger means steeper",
+        "t": 36.289
+      },
+      {
+        "title": "A wheelchair ramp",
+        "t": 65.992
+      },
+      {
+        "title": "Same units first",
+        "t": 105.709
+      },
+      {
+        "title": "Your turn",
+        "t": 138.855
+      },
+      {
+        "title": "Summary",
+        "t": 172.945
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1:q",
+        "t": 149.291,
+        "prompt": "A ramp rises $20$ cm over a horizontal run of $3$ m. What is its slope?",
+        "choices": [
+          "$\\dfrac{1}{15}$",
+          "$\\dfrac{20}{3}$",
+          "$\\dfrac{3}{20}$",
+          "$15$"
+        ],
+        "answer": 0,
+        "working": "$3$ m $= 300$ cm, so the slope is $\\dfrac{20}{300} = \\dfrac{1}{15}$. B mixes centimetres and metres, and C divides the run by the rise."
+      }
+    ]
   }
 }
