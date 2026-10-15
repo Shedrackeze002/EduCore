@@ -16501,5 +16501,52 @@
         "working": "$x + 4 = 0$ gives $x = -4$, and $x - 2 = 0$ gives $x = 2$. The $-3$ is $a$; it is not a zero."
       }
     ]
+  },
+  "m202-6-3-b": {
+    "lessonId": "m202-6-3",
+    "title": "Quadratic Functions in Factored Form, Part 2: Axis, Vertex and Intercepts",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Everything from factored form",
+        "t": 17.269
+      },
+      {
+        "title": "One that opens up",
+        "t": 67.946
+      },
+      {
+        "title": "Standard form or factored form?",
+        "t": 108.692
+      },
+      {
+        "title": "Your turn",
+        "t": 142.114
+      },
+      {
+        "title": "Summary",
+        "t": 175.939
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-3-b:q",
+        "t": 151.645,
+        "prompt": "What is the vertex of $y = (x - 1)(x - 7)$?",
+        "choices": [
+          "$(4, -9)$",
+          "$(4, 9)$",
+          "$(-4, 55)$",
+          "$(0, 7)$"
+        ],
+        "answer": 0,
+        "working": "The axis is $x = \\dfrac{1 + 7}{2} = 4$, and $y = (4 - 1)(4 - 7) = (3)(-3) = -9$."
+      }
+    ]
   }
 }
