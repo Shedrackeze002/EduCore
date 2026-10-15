@@ -108,3 +108,48 @@ test('an administrator links an explainer video, and the lesson plays it and pau
   await expect(section.locator('[data-fake-youtube="abcdefghijk"]')).toHaveCount(1);
   expect(errors).toEqual([]);
 });
+
+test('present mode plays each explainer part as a slide just before the section it teaches', async ({ context, page }) => {
+  await fakeYouTube(context);
+  // The slide embeds YouTube's own player; a blank page stands in for it.
+  await context.route('https://www.youtube-nocookie.com/embed/**', (r) => r.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Player</title>' }));
+  const errors = trackErrors(page);
+  await signInDemo(page, 'Teacher');
+
+  // Only part 1 of the lesson's two parts is on YouTube.
+  await page.goto('/admin/videos');
+  const part1 = manifest['m10c-2-1'];
+  const row = page.getByRole('listitem').filter({ hasText: part1.title }).filter({ hasText: 'm10c-2-1 ·' });
+  await row.getByLabel('YouTube link').fill('https://youtu.be/dQw4w9WgXcQ');
+  await row.getByRole('button', { name: 'Link video' }).click();
+  await expect(row.getByText('On YouTube', { exact: true })).toBeVisible();
+
+  // The video comes right after the introduction, before the lesson's first section; part 2 has no slide.
+  await page.goto('/present/c_math10a/m10c-2-1');
+  const slide = page.locator('[aria-roledescription="slide"]');
+  await expect(slide).toHaveAttribute('aria-label', /^Slide 1 of \d+: The Tangent Ratio$/);
+  await page.keyboard.press('o');
+  const overview = page.getByRole('dialog', { name: 'All slides' });
+  // The slide kinds are set in capitals, so compare them in lower case.
+  const titles = (await overview.getByRole('button').filter({ hasText: /^(Video|Introduction|Teaching)/i }).allInnerTexts()).map((t) => t.toLowerCase());
+  const at = titles.findIndex((t) => t.startsWith('video'));
+  // The slide is titled by the part ("Naming the Sides"); the deck already names the lesson.
+  const partTitle = part1.title.replace(/^.*?Part \d+:\s*/, '');
+  expect(titles[at]).toContain(partTitle.toLowerCase());
+  expect(titles[at - 1]).toMatch(/^introduction/);
+  expect(titles[at + 1]).toContain('naming the sides');
+  expect(titles.filter((t) => t.startsWith('video'))).toHaveLength(1);
+
+  // Its slide plays the video with captions on, ready for the teacher to start.
+  await overview.getByRole('button').filter({ hasText: /^video/i }).filter({ hasText: partTitle }).click();
+  await expect(slide).toHaveAttribute('aria-label', new RegExp(partTitle));
+  const player = slide.locator('iframe');
+  await expect(player).toHaveAttribute('src', /^https:\/\/www\.youtube-nocookie\.com\/embed\/dQw4w9WgXcQ\?.*cc_load_policy=1/);
+  await expect(slide.getByText(/Explainer video · Part 1 of 2 · \d+:\d\d/)).toBeVisible();
+
+  // The teacher carries on presenting: the next slide is the section the video taught.
+  await page.keyboard.press('ArrowRight');
+  await expect(slide).toHaveAttribute('aria-label', /Naming the sides/);
+  await expect(slide.locator('iframe')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});

@@ -221,4 +221,7 @@ started after they were added sees them. The tool never prints their values.
    follow the script word for word, timed to the narration. The lesson player shows captions from
    the start.
 5. In Gradileo, open **Admin console → Videos** and paste the video's YouTube link. Its lesson
-   then shows the video and pauses at each "Your turn" to ask the question.
+   then shows the video and pauses at each "Your turn" to ask the question, and present mode
+   plays it on a slide of its own just before the lesson section it teaches (part 1 opens the
+   lesson; a later part goes to the section its title names). Teachers can hide it there, like
+   any other part, with **Choose what to show**.

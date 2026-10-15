@@ -263,12 +263,41 @@ items ship or decisions change.
      The disk filled up during the course; the old upload packs and the narration of the courses
      already in Drive (checked file by file) were deleted with the owner's agreement, and the
      video guide now says to free each course's narration once Drive holds it.
+   - Built (the owner's request, 15 October 2026): present mode plays the lesson's explainer
+     videos. Each part that is on YouTube gets a slide just before the section it teaches, with
+     YouTube's player and our captions on; the teacher plays it, then carries on with the next
+     slide. Part 1 opens the lesson; a later part goes to the section its title names, or else an
+     even split. Teachers can hide a video slide with "Choose what to show".
    - Rendering: Math 20-3 (90 videos in 8 units), unit by unit into Drive.
    - Next: render Math 20-4 the same way, with its own pull request
      and Drive upload (about six minutes a video). Then script and render the other courses in
      order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), explaining each lesson as simply as
      possible, with parts split by idea.
-2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
+   has no social pages yet. Open them, then post three times a week across all of them, with
+   Claude coordinating: preparing each week's posts, keeping the schedule and reporting. It runs
+   alongside the explainer videos, which render in the background.
+   - Pages (to confirm with the owner): Instagram, TikTok, Facebook, LinkedIn and YouTube Shorts on
+     the YouTube channel, all with the same handle (`@gradileo`, or `@gradileomath` if taken). The
+     audience is high-school students (the platforms are for ages 13 and up), parents and
+     teachers; posts about the Grade 5 to 9 courses speak to parents and teachers, not to children.
+   - The owner opens the accounts (sign-up needs a person, a phone and acceptance of each
+     platform's terms), with admin@gradileo.com as the email and two-step sign-in on. Claude never
+     handles the passwords.
+   - Profile kit, by Claude: profile picture (`video/out/channel/profile-800x800.png`), a cover
+     or banner in each platform's size, a bio within each platform's limit, and the link to
+     gradileo.com, in Drive under `Gradileo social/`.
+   - Posts: Monday, Wednesday and Friday. A mix of a short vertical clip cut from an explainer
+     (a "Your turn" question as the hook, captions on, the answer in the next post or the
+     comments), a worked example or study tip as an image or carousel, and news about Gradileo
+     for students, parents and teachers. Each post links to the full video or lesson. Show the
+     owner a sample week before the first one goes out.
+   - Scheduling (to settle with the owner): each platform's own free scheduler (Meta Business
+     Suite for Facebook and Instagram, TikTok's web scheduler, YouTube Studio, LinkedIn), or one
+     tool for all of them such as Buffer. Each week Claude puts the next week's posts in Drive
+     (media, caption for each platform and posting time) for scheduling; where a tool can be
+     connected to Claude, Claude schedules them directly. A weekly scheduled task keeps it going.
+3. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
    for example "Draft with AI") and the AI drafts the questions from the course curriculum and
@@ -286,7 +315,7 @@ items ship or decisions change.
      the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
      marking guides. The teacher previews everything, regenerates or edits single questions, and
      publishes; nothing reaches students without the teacher's approval.
-3. **Other subjects**, once mathematics is complete.
+4. **Other subjects**, once mathematics is complete.
 
 ## Hosting
 

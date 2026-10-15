@@ -17916,5 +17916,2651 @@
         "working": "$\\text{run} = \\dfrac{\\text{rise}}{\\text{slope}} = 40 \\div \\dfrac{1}{15} = 40 \\times 15 = 600$ cm. B divides $40$ by $15$ instead."
       }
     ]
+  },
+  "m203-1-1-c": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 3: Percent Grade",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Grade",
+        "t": 18.765
+      },
+      {
+        "title": "A highway grade",
+        "t": 33.479
+      },
+      {
+        "title": "Working backwards",
+        "t": 61.866
+      },
+      {
+        "title": "A 100% grade",
+        "t": 101.563
+      },
+      {
+        "title": "Your turn",
+        "t": 129.981
+      },
+      {
+        "title": "Summary",
+        "t": 165.614
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1-c:q",
+        "t": 141.792,
+        "prompt": "A bike trail climbs $18$ m over a horizontal distance of $240$ m. What is its grade?",
+        "choices": [
+          "$7.5\\%$",
+          "$0.075\\%$",
+          "$13.3\\%$",
+          "$18\\%$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{18}{240} = 0.075$, and $0.075 \\times 100\\% = 7.5\\%$. B forgets to multiply by $100\\%$, and C divides the run by the rise."
+      }
+    ]
+  },
+  "m203-1-1-d": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 4: Roof Pitch and Comparing Slopes",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pitch",
+        "t": 17.264
+      },
+      {
+        "title": "Measuring a pitch",
+        "t": 36.106
+      },
+      {
+        "title": "Using a pitch",
+        "t": 68.804
+      },
+      {
+        "title": "Compare slopes as decimals",
+        "t": 101.241
+      },
+      {
+        "title": "Your turn",
+        "t": 135.302
+      },
+      {
+        "title": "Summary",
+        "t": 166.924
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1-d:q",
+        "t": 145.142,
+        "prompt": "Which is steepest: a $10\\%$ grade, a 2/12 pitch, or a slope of $\\dfrac{1}{8}$?",
+        "choices": [
+          "the 2/12 pitch",
+          "the $10\\%$ grade",
+          "the slope of $\\dfrac{1}{8}$",
+          "They are all the same."
+        ],
+        "answer": 0,
+        "working": "As decimals: $0.10$, $2 \\div 12 \\approx 0.167$ and $1 \\div 8 = 0.125$. The 2/12 pitch has the largest slope."
+      }
+    ]
+  },
+  "m203-1-2": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 1: Rate of Change from a Table",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rate of change",
+        "t": 21.017
+      },
+      {
+        "title": "Fuel in a generator",
+        "t": 42.933
+      },
+      {
+        "title": "Same order, top and bottom",
+        "t": 96.695
+      },
+      {
+        "title": "Your turn",
+        "t": 127.818
+      },
+      {
+        "title": "Summary",
+        "t": 167.859
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2:q",
+        "t": 142.433,
+        "prompt": "A candle is $24$ cm tall when lit. After $3$ h it is $16.5$ cm tall. What is the rate of change of its height?",
+        "choices": [
+          "$-2.5$ cm/h",
+          "$2.5$ cm/h",
+          "$-7.5$ cm/h",
+          "$-0.4$ cm/h"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{16.5 - 24}{3 - 0} = \\dfrac{-7.5}{3} = -2.5$ cm/h. The height goes down, so the rate is negative. D divides the wrong way."
+      }
+    ]
+  },
+  "m203-1-2-b": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 2: What the Rate Means",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Renting a cargo van",
+        "t": 18.577
+      },
+      {
+        "title": "Read the units aloud",
+        "t": 47.698
+      },
+      {
+        "title": "The fixed part",
+        "t": 73.124
+      },
+      {
+        "title": "Predicting a cost",
+        "t": 103.77
+      },
+      {
+        "title": "Your turn",
+        "t": 129.886
+      },
+      {
+        "title": "Summary",
+        "t": 173.425
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2-b:q",
+        "t": 145.971,
+        "prompt": "A plumber charges \\$150 for a $2$ h job and \\$255 for a $3.5$ h job. What is the rate of change, and what does it mean?",
+        "choices": [
+          "\\$70 per hour: each extra hour adds \\$70",
+          "\\$75 per hour: the plumber earns \\$75 per job",
+          "\\$105 per hour: each hour adds \\$105",
+          "\\$0.014 per hour"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{255 - 150}{3.5 - 2} = \\dfrac{105}{1.5} = 70$ dollars per hour. C forgets to divide by the change in time."
+      }
+    ]
+  },
+  "m203-1-2-c": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 3: The Slope of a Line Graph",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Draining a stock tank",
+        "t": 16.205
+      },
+      {
+        "title": "Use the axis scales",
+        "t": 54.779
+      },
+      {
+        "title": "Predicting from the rate",
+        "t": 81.822
+      },
+      {
+        "title": "Your turn",
+        "t": 109.845
+      },
+      {
+        "title": "Summary",
+        "t": 153.004
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2-c:q",
+        "t": 127.494,
+        "prompt": "A line graph of a hiker’s elevation passes through $(1, 1350)$ and $(4, 1800)$, with time in hours and elevation in metres. What is the rate of change?",
+        "choices": [
+          "$150$ m/h",
+          "$450$ m/h",
+          "$-150$ m/h",
+          "$0.0067$ m/h"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{1800 - 1350}{4 - 1} = \\dfrac{450}{3} = 150$ m/h. B forgets to divide by the change in time."
+      }
+    ]
+  },
+  "m203-1-2-d": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 4: Graphs with Several Pieces",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading the pieces",
+        "t": 19.019
+      },
+      {
+        "title": "A delivery truck",
+        "t": 38.848
+      },
+      {
+        "title": "When was it fastest?",
+        "t": 82.103
+      },
+      {
+        "title": "Your turn",
+        "t": 110.56
+      },
+      {
+        "title": "Summary",
+        "t": 154.709
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2-d:q",
+        "t": 131.554,
+        "prompt": "A graph of water in a rain barrel has three pieces: $0$ to $2$ h rises from $20$ L to $80$ L, $2$ to $5$ h is flat, and $5$ to $6$ h falls to $30$ L. Which piece changes fastest?",
+        "choices": [
+          "the last piece, at $-50$ L/h",
+          "the first piece, at $30$ L/h",
+          "the flat piece",
+          "They all change at the same rate."
+        ],
+        "answer": 0,
+        "working": "First: $\\dfrac{80 - 20}{2} = 30$ L/h. Flat: $0$. Last: $\\dfrac{30 - 80}{1} = -50$ L/h. The size $50$ is the largest."
+      }
+    ]
+  },
+  "m203-1-3": {
+    "lessonId": "m203-1-3",
+    "title": "Proportions and Unit Analysis, Part 1: Setting Up a Proportion",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proportion",
+        "t": 21.477
+      },
+      {
+        "title": "Mixing herbicide",
+        "t": 43.583
+      },
+      {
+        "title": "Spreading fertilizer",
+        "t": 90.652
+      },
+      {
+        "title": "Flipping one ratio",
+        "t": 122.06
+      },
+      {
+        "title": "Your turn",
+        "t": 152.028
+      },
+      {
+        "title": "Summary",
+        "t": 186.147
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-3:q",
+        "t": 164.274,
+        "prompt": "A recipe uses $3$ cups of flour for every $2$ dozen cookies. How much flour is needed for $7$ dozen cookies?",
+        "choices": [
+          "$10.5$ cups",
+          "$4.7$ cups",
+          "$14$ cups",
+          "$0.86$ cups"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{3 \\text{ cups}}{2 \\text{ dozen}} = \\dfrac{x}{7 \\text{ dozen}}$, so $x = \\dfrac{3 \\times 7}{2} = 10.5$ cups. B flips one ratio."
+      }
+    ]
+  },
+  "m203-1-3-b": {
+    "lessonId": "m203-1-3",
+    "title": "Proportions and Unit Analysis, Part 2: Rounding Up and Conversion Factors",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Paint for a community hall",
+        "t": 21.588
+      },
+      {
+        "title": "Think about the job",
+        "t": 68.027
+      },
+      {
+        "title": "Conversion factors",
+        "t": 83.927
+      },
+      {
+        "title": "Price per pound",
+        "t": 104.87
+      },
+      {
+        "title": "Your turn",
+        "t": 140.356
+      },
+      {
+        "title": "Summary",
+        "t": 174.107
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-3-b:q",
+        "t": 152.876,
+        "prompt": "A bag of grass seed covers $45$ m². How many bags are needed for a $310$ m² yard?",
+        "choices": [
+          "$7$ bags",
+          "$6$ bags",
+          "$6.9$ bags",
+          "$14$ bags"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{310}{45} \\approx 6.89$. Six bags are not enough, so buy $7$."
+      }
+    ]
+  },
+  "m203-1-3-c": {
+    "lessonId": "m203-1-3",
+    "title": "Proportions and Unit Analysis, Part 3: Chains of Conversion Factors",
+    "duration": 219,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Unit analysis",
+        "t": 21.848
+      },
+      {
+        "title": "km/h to m/s",
+        "t": 48.72
+      },
+      {
+        "title": "A sprayer rate",
+        "t": 87.518
+      },
+      {
+        "title": "Check the size",
+        "t": 136.821
+      },
+      {
+        "title": "Your turn",
+        "t": 162.29
+      },
+      {
+        "title": "Summary",
+        "t": 197.985
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-3-c:q",
+        "t": 172.702,
+        "prompt": "A conveyor belt moves at $15$ m/s. What is its speed in km/h?",
+        "choices": [
+          "$54$ km/h",
+          "$4.17$ km/h",
+          "$0.25$ km/h",
+          "$900$ km/h"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{15\\text{ m}}{1\\text{ s}} \\times \\dfrac{1\\text{ km}}{1000\\text{ m}} \\times \\dfrac{3600\\text{ s}}{1\\text{ h}} = \\dfrac{15 \\times 3600}{1000} = 54$ km/h."
+      }
+    ]
+  },
+  "m203-2-1": {
+    "lessonId": "m203-2-1",
+    "title": "Surface Area, Part 1: Nets and Rectangular Prisms",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Nets",
+        "t": 23.659
+      },
+      {
+        "title": "A plywood crate",
+        "t": 62.551
+      },
+      {
+        "title": "Only the faces the job needs",
+        "t": 113.718
+      },
+      {
+        "title": "Your turn",
+        "t": 158.151
+      },
+      {
+        "title": "Summary",
+        "t": 190.778
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-1:q",
+        "t": 171.121,
+        "prompt": "An open-top planter box is $4$ ft long, $2$ ft wide and $1$ ft high. How much wood covers its outside faces?",
+        "choices": [
+          "$20\\ \\text{ft}^2$",
+          "$28\\ \\text{ft}^2$",
+          "$8\\ \\text{ft}^2$",
+          "$14\\ \\text{ft}^2$"
+        ],
+        "answer": 0,
+        "working": "Bottom: $4 \\times 2 = 8$. Front and back: $2 \\times 4 \\times 1 = 8$. Ends: $2 \\times 2 \\times 1 = 4$. $8 + 8 + 4 = 20\\ \\text{ft}^2$. B includes a top."
+      }
+    ]
+  },
+  "m203-2-1-b": {
+    "lessonId": "m203-2-1",
+    "title": "Surface Area, Part 2: Triangular Prisms",
+    "duration": 182,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A tent with a floor",
+        "t": 20.166
+      },
+      {
+        "title": "Its net",
+        "t": 42.171
+      },
+      {
+        "title": "Height or sloped side?",
+        "t": 77.864
+      },
+      {
+        "title": "Your turn",
+        "t": 114.542
+      },
+      {
+        "title": "Summary",
+        "t": 156.001
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-1-b:q",
+        "t": 132.097,
+        "prompt": "A closed wedge is a triangular prism $10$ cm long. Its ends are right triangles with legs $6$ cm and $8$ cm and hypotenuse $10$ cm. What is its surface area?",
+        "choices": [
+          "$288\\ \\text{cm}^2$",
+          "$240\\ \\text{cm}^2$",
+          "$336\\ \\text{cm}^2$",
+          "$264\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "Ends: $2 \\times \\tfrac12 \\times 6 \\times 8 = 48$. Rectangles: $(6 + 8 + 10) \\times 10 = 240$. $48 + 240 = 288\\ \\text{cm}^2$. B forgets the ends."
+      }
+    ]
+  },
+  "m203-2-1-c": {
+    "lessonId": "m203-2-1",
+    "title": "Surface Area, Part 3: Cylinders",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The net of a cylinder",
+        "t": 18.984
+      },
+      {
+        "title": "A closed water tank",
+        "t": 61.345
+      },
+      {
+        "title": "A round duct",
+        "t": 101.643
+      },
+      {
+        "title": "Diameter or radius?",
+        "t": 131.074
+      },
+      {
+        "title": "Your turn",
+        "t": 151.299
+      },
+      {
+        "title": "Summary",
+        "t": 188.869
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-1-c:q",
+        "t": 161.711,
+        "prompt": "A closed can has a diameter of $10$ cm and a height of $12$ cm. What is its surface area, to the nearest square centimetre?",
+        "choices": [
+          "$534\\ \\text{cm}^2$",
+          "$1382\\ \\text{cm}^2$",
+          "$377\\ \\text{cm}^2$",
+          "$456\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$r = 5$. $2\\pi(5)^2 + 2\\pi(5)(12) = 50\\pi + 120\\pi = 170\\pi \\approx 534\\ \\text{cm}^2$. B uses the diameter as the radius."
+      }
+    ]
+  },
+  "m203-2-2": {
+    "lessonId": "m203-2-2",
+    "title": "Surface Area of Pyramids, Cones and Spheres, Part 1: Pyramids",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pyramids and slant height",
+        "t": 21.7
+      },
+      {
+        "title": "The net of a square pyramid",
+        "t": 41.464
+      },
+      {
+        "title": "A glass paperweight",
+        "t": 67.965
+      },
+      {
+        "title": "Roofs leave out the base",
+        "t": 99.951
+      },
+      {
+        "title": "Your turn",
+        "t": 120.235
+      },
+      {
+        "title": "Summary",
+        "t": 157.534
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-2:q",
+        "t": 134.076,
+        "prompt": "A gazebo roof is a square pyramid with a base side of $12$ ft and a slant height of $10$ ft. How much roofing covers the four faces?",
+        "choices": [
+          "$240\\ \\text{ft}^2$",
+          "$384\\ \\text{ft}^2$",
+          "$480\\ \\text{ft}^2$",
+          "$120\\ \\text{ft}^2$"
+        ],
+        "answer": 0,
+        "working": "A roof has no base: $4 \\times \\tfrac12 \\times 12 \\times 10 = 240\\ \\text{ft}^2$. B adds the base, and C forgets the one half."
+      }
+    ]
+  },
+  "m203-2-2-b": {
+    "lessonId": "m203-2-2",
+    "title": "Surface Area of Pyramids, Cones and Spheres, Part 2: Cones",
+    "duration": 182,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The parts of a cone",
+        "t": 17.195
+      },
+      {
+        "title": "The formula",
+        "t": 30.807
+      },
+      {
+        "title": "A cone-shaped roof",
+        "t": 59.08
+      },
+      {
+        "title": "A closed cone",
+        "t": 93.173
+      },
+      {
+        "title": "Your turn",
+        "t": 119.855
+      },
+      {
+        "title": "Summary",
+        "t": 158.387
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-2-b:q",
+        "t": 133.618,
+        "prompt": "A party hat is a cone with no base. Its diameter is $16$ cm and its slant height is $20$ cm. How much paper makes the hat, to the nearest square centimetre?",
+        "choices": [
+          "$503\\ \\text{cm}^2$",
+          "$1005\\ \\text{cm}^2$",
+          "$704\\ \\text{cm}^2$",
+          "$1257\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$r = 8$, so $\\pi r s = \\pi(8)(20) = 160\\pi \\approx 503\\ \\text{cm}^2$. B uses the diameter, and C adds a base."
+      }
+    ]
+  },
+  "m203-2-2-c": {
+    "lessonId": "m203-2-2",
+    "title": "Surface Area of Pyramids, Cones and Spheres, Part 3: Height or Slant Height?",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A right triangle inside",
+        "t": 21.097
+      },
+      {
+        "title": "A sheet-metal funnel",
+        "t": 53.47
+      },
+      {
+        "title": "A pyramid roof",
+        "t": 88.865
+      },
+      {
+        "title": "Height is not slant height",
+        "t": 128.483
+      },
+      {
+        "title": "Your turn",
+        "t": 146.014
+      },
+      {
+        "title": "Summary",
+        "t": 177.229
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-2-c:q",
+        "t": 155.478,
+        "prompt": "A cone has a radius of $6$ cm and a height of $8$ cm. What is its slant height?",
+        "choices": [
+          "$10$ cm",
+          "$14$ cm",
+          "$5.3$ cm",
+          "$100$ cm"
+        ],
+        "answer": 0,
+        "working": "$s = \\sqrt{8^2 + 6^2} = \\sqrt{100} = 10$ cm. B adds the lengths, and D forgets the square root."
+      }
+    ]
+  },
+  "m203-2-2-d": {
+    "lessonId": "m203-2-2",
+    "title": "Surface Area of Pyramids, Cones and Spheres, Part 4: Spheres and Hemispheres",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Spheres",
+        "t": 19.82
+      },
+      {
+        "title": "A basketball",
+        "t": 40.473
+      },
+      {
+        "title": "Hemispheres",
+        "t": 70.472
+      },
+      {
+        "title": "A dome roof",
+        "t": 98.522
+      },
+      {
+        "title": "Your turn",
+        "t": 123.308
+      },
+      {
+        "title": "Summary",
+        "t": 158.599
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-2-d:q",
+        "t": 133.85,
+        "prompt": "A solid wooden hemisphere has a radius of $4$ cm. What is its total surface area, to the nearest square centimetre?",
+        "choices": [
+          "$151\\ \\text{cm}^2$",
+          "$101\\ \\text{cm}^2$",
+          "$201\\ \\text{cm}^2$",
+          "$50\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$3\\pi r^2 = 3\\pi(4)^2 = 48\\pi \\approx 151\\ \\text{cm}^2$. B is the curved part only, and C is a whole sphere."
+      }
+    ]
+  },
+  "m203-2-3": {
+    "lessonId": "m203-2-3",
+    "title": "Surface Area on the Job, Part 1: Converting Square Units",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One square foot",
+        "t": 22.372
+      },
+      {
+        "title": "Square the factor",
+        "t": 47.879
+      },
+      {
+        "title": "Two conversions",
+        "t": 82.601
+      },
+      {
+        "title": "Using the length factor",
+        "t": 113.904
+      },
+      {
+        "title": "Your turn",
+        "t": 141.361
+      },
+      {
+        "title": "Summary",
+        "t": 170.889
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-3:q",
+        "t": 150.6,
+        "prompt": "A room needs $45$ square yards of carpet. How many square feet is that?",
+        "choices": [
+          "$405\\ \\text{ft}^2$",
+          "$135\\ \\text{ft}^2$",
+          "$5\\ \\text{ft}^2$",
+          "$15\\ \\text{ft}^2$"
+        ],
+        "answer": 0,
+        "working": "Square feet are smaller, so multiply by $3 \\times 3 = 9$: $45 \\times 9 = 405\\ \\text{ft}^2$. B multiplies by $3$ only."
+      }
+    ]
+  },
+  "m203-2-3-b": {
+    "lessonId": "m203-2-3",
+    "title": "Surface Area on the Job, Part 2: How Much to Buy and What It Costs",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Painting a shed",
+        "t": 19.506
+      },
+      {
+        "title": "Coats and waste",
+        "t": 73.2
+      },
+      {
+        "title": "Material cost",
+        "t": 97.557
+      },
+      {
+        "title": "Your turn",
+        "t": 149.703
+      },
+      {
+        "title": "Summary",
+        "t": 188.303
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-3-b:q",
+        "t": 163.253,
+        "prompt": "A fence has $620\\ \\text{ft}^2$ to stain, with two coats. One can covers $250\\ \\text{ft}^2$. How many cans are needed?",
+        "choices": [
+          "$5$ cans",
+          "$4$ cans",
+          "$3$ cans",
+          "$2.48$ cans"
+        ],
+        "answer": 0,
+        "working": "Two coats: $620 \\times 2 = 1240\\ \\text{ft}^2$. $1240 \\div 250 = 4.96$, so round up to $5$. C forgets the second coat."
+      }
+    ]
+  },
+  "m203-2-3-c": {
+    "lessonId": "m203-2-3",
+    "title": "Surface Area on the Job, Part 3: Composite Objects",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Which surfaces?",
+        "t": 22.032
+      },
+      {
+        "title": "Painting a grain bin",
+        "t": 42.019
+      },
+      {
+        "title": "Your turn",
+        "t": 112.123
+      },
+      {
+        "title": "Summary",
+        "t": 155.114
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-3-c:q",
+        "t": 125.542,
+        "prompt": "A propane tank is a cylinder $2$ m long with a hemisphere on each end. The radius is $0.5$ m. What is its surface area, to the nearest hundredth of a square metre?",
+        "choices": [
+          "$9.42\\ \\text{m}^2$",
+          "$7.85\\ \\text{m}^2$",
+          "$11.00\\ \\text{m}^2$",
+          "$6.28\\ \\text{m}^2$"
+        ],
+        "answer": 0,
+        "working": "Curved side: $2\\pi(0.5)(2) = 2\\pi$. Two hemispheres make one sphere: $4\\pi(0.5)^2 = \\pi$. Total $3\\pi \\approx 9.42\\ \\text{m}^2$. No flat circles: they are joins."
+      }
+    ]
+  },
+  "m203-3-1": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 1: Volume of a Prism",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What volume measures",
+        "t": 21.18
+      },
+      {
+        "title": "Base times height",
+        "t": 51.367
+      },
+      {
+        "title": "A storage crate",
+        "t": 77.837
+      },
+      {
+        "title": "Square units or cubic units?",
+        "t": 107.123
+      },
+      {
+        "title": "Your turn",
+        "t": 126.029
+      },
+      {
+        "title": "Summary",
+        "t": 158.032
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1:q",
+        "t": 138.858,
+        "prompt": "A concrete pad is $6$ m long, $4$ m wide and $0.15$ m thick. How much concrete does it need?",
+        "choices": [
+          "$3.6\\ \\text{m}^3$",
+          "$24\\ \\text{m}^3$",
+          "$10.15\\ \\text{m}^3$",
+          "$36\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = 6 \\times 4 \\times 0.15 = 3.6\\ \\text{m}^3$. B is the area of the top, not the volume."
+      }
+    ]
+  },
+  "m203-3-1-b": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 2: Triangular and Other Prisms",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Which face is the base?",
+        "t": 17.702
+      },
+      {
+        "title": "An A-frame tent",
+        "t": 38.129
+      },
+      {
+        "title": "A pool with a sloping floor",
+        "t": 69.564
+      },
+      {
+        "title": "Your turn",
+        "t": 116.062
+      },
+      {
+        "title": "Summary",
+        "t": 163.793
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1-b:q",
+        "t": 136.064,
+        "prompt": "A wheelchair ramp is a triangular prism. Its side is a right triangle with a run of $3.6$ m and a rise of $0.3$ m, and the ramp is $1.2$ m wide. How much concrete fills it?",
+        "choices": [
+          "$0.648\\ \\text{m}^3$",
+          "$1.296\\ \\text{m}^3$",
+          "$5.1\\ \\text{m}^3$",
+          "$0.54\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "Side: $\\tfrac12 \\times 3.6 \\times 0.3 = 0.54\\ \\text{m}^2$. $V = 0.54 \\times 1.2 = 0.648\\ \\text{m}^3$. B forgets the one half."
+      }
+    ]
+  },
+  "m203-3-1-c": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 3: Volume and Capacity",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Capacity",
+        "t": 20.471
+      },
+      {
+        "title": "An aquarium",
+        "t": 57.454
+      },
+      {
+        "title": "Soil for a raised bed",
+        "t": 89.908
+      },
+      {
+        "title": "Mixing units",
+        "t": 130.401
+      },
+      {
+        "title": "Your turn",
+        "t": 150.324
+      },
+      {
+        "title": "Summary",
+        "t": 181.276
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1-c:q",
+        "t": 161.04,
+        "prompt": "A cooler’s inside is $50$ cm by $30$ cm by $32$ cm. How many litres does it hold?",
+        "choices": [
+          "$48$ L",
+          "$48\\,000$ L",
+          "$4.8$ L",
+          "$480$ L"
+        ],
+        "answer": 0,
+        "working": "$V = 50 \\times 30 \\times 32 = 48\\,000\\ \\text{cm}^3$, and $48\\,000 \\div 1000 = 48$ L."
+      }
+    ]
+  },
+  "m203-3-1-d": {
+    "lessonId": "m203-3-1",
+    "title": "Volume and Capacity, Part 4: Volume of a Cylinder",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Base times height again",
+        "t": 20.03
+      },
+      {
+        "title": "A water tank",
+        "t": 37.692
+      },
+      {
+        "title": "A stock tank in gallons",
+        "t": 78.008
+      },
+      {
+        "title": "Squaring the diameter",
+        "t": 118.974
+      },
+      {
+        "title": "Your turn",
+        "t": 144.237
+      },
+      {
+        "title": "Summary",
+        "t": 180.428
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-1-d:q",
+        "t": 154.68,
+        "prompt": "A can has a diameter of $8$ cm and a height of $12$ cm. How many millilitres does it hold, to the nearest millilitre?",
+        "choices": [
+          "$603$ mL",
+          "$2413$ mL",
+          "$302$ mL",
+          "$151$ mL"
+        ],
+        "answer": 0,
+        "working": "$r = 4$, so $V = \\pi(4)^2(12) = 192\\pi \\approx 603\\ \\text{cm}^3 = 603$ mL. B squares the diameter."
+      }
+    ]
+  },
+  "m203-3-2": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 1: Pyramids Hold One Third",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three pyramids fill a prism",
+        "t": 21.277
+      },
+      {
+        "title": "A glass paperweight",
+        "t": 53.11
+      },
+      {
+        "title": "A hip-roof attic",
+        "t": 77.637
+      },
+      {
+        "title": "Do not forget the third",
+        "t": 106.842
+      },
+      {
+        "title": "Your turn",
+        "t": 125.837
+      },
+      {
+        "title": "Summary",
+        "t": 156.895
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2:q",
+        "t": 136.197,
+        "prompt": "A square pyramid has a base side of $6$ m and a height of $10$ m. What is its volume?",
+        "choices": [
+          "$120\\ \\text{m}^3$",
+          "$360\\ \\text{m}^3$",
+          "$20\\ \\text{m}^3$",
+          "$180\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\tfrac13 \\times 36 \\times 10 = 120\\ \\text{m}^3$. B forgets the one third."
+      }
+    ]
+  },
+  "m203-3-2-b": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 2: Cones",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One third of a cylinder",
+        "t": 18.667
+      },
+      {
+        "title": "A road-salt pile",
+        "t": 33.532
+      },
+      {
+        "title": "Height, not slant height",
+        "t": 61.944
+      },
+      {
+        "title": "Slant height in a volume formula",
+        "t": 109.508
+      },
+      {
+        "title": "Your turn",
+        "t": 127.716
+      },
+      {
+        "title": "Summary",
+        "t": 159.779
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2-b:q",
+        "t": 139.279,
+        "prompt": "A cone-shaped funnel has a radius of $6$ cm and a height of $8$ cm. How much does it hold, to the nearest cubic centimetre?",
+        "choices": [
+          "$302\\ \\text{cm}^3$",
+          "$905\\ \\text{cm}^3$",
+          "$101\\ \\text{cm}^3$",
+          "$377\\ \\text{cm}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\tfrac13 \\pi(6)^2(8) = 96\\pi \\approx 302\\ \\text{cm}^3$. B forgets the one third."
+      }
+    ]
+  },
+  "m203-3-2-c": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 3: Spheres and Hemispheres",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formulas",
+        "t": 17.036
+      },
+      {
+        "title": "A basketball",
+        "t": 44.311
+      },
+      {
+        "title": "A mixing bowl",
+        "t": 74.396
+      },
+      {
+        "title": "A ball in a box",
+        "t": 106.519
+      },
+      {
+        "title": "Cubing the diameter",
+        "t": 141.894
+      },
+      {
+        "title": "Your turn",
+        "t": 158.201
+      },
+      {
+        "title": "Summary",
+        "t": 192.626
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2-c:q",
+        "t": 167.559,
+        "prompt": "A spherical ornament has a radius of $3$ cm. What is its volume, to the nearest tenth of a cubic centimetre?",
+        "choices": [
+          "$113.1\\ \\text{cm}^3$",
+          "$904.8\\ \\text{cm}^3$",
+          "$37.7\\ \\text{cm}^3$",
+          "$56.5\\ \\text{cm}^3$"
+        ],
+        "answer": 0,
+        "working": "$V = \\tfrac43 \\pi(3)^3 = 36\\pi \\approx 113.1\\ \\text{cm}^3$. B uses the diameter, $6$, in place of the radius. D is a hemisphere."
+      }
+    ]
+  },
+  "m203-3-2-d": {
+    "lessonId": "m203-3-2",
+    "title": "Volume of Pyramids, Cones and Spheres, Part 4: Composite Objects",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A propane tank",
+        "t": 21.074
+      },
+      {
+        "title": "An ice cream cone",
+        "t": 70.743
+      },
+      {
+        "title": "Plan the parts",
+        "t": 111.18
+      },
+      {
+        "title": "Your turn",
+        "t": 135.398
+      },
+      {
+        "title": "Summary",
+        "t": 174.014
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-2-d:q",
+        "t": 148.608,
+        "prompt": "A grain silo is a cylinder with a radius of $3$ m and a height of $10$ m, topped with a hemisphere. What is its volume, to the nearest tenth of a cubic metre?",
+        "choices": [
+          "$339.3\\ \\text{m}^3$",
+          "$395.8\\ \\text{m}^3$",
+          "$282.7\\ \\text{m}^3$",
+          "$113.1\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "Cylinder: $\\pi(3)^2(10) = 90\\pi$. Hemisphere: $\\tfrac23 \\pi(3)^3 = 18\\pi$. Total $108\\pi \\approx 339.3\\ \\text{m}^3$. B uses a whole sphere, and C leaves out the top."
+      }
+    ]
+  },
+  "m203-3-3": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 1: Converting Cubic Units",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One cubic yard",
+        "t": 21.225
+      },
+      {
+        "title": "Cube the factor",
+        "t": 42.218
+      },
+      {
+        "title": "Using the length factor",
+        "t": 69.903
+      },
+      {
+        "title": "Concrete for a patio",
+        "t": 91.634
+      },
+      {
+        "title": "Your turn",
+        "t": 124.099
+      },
+      {
+        "title": "Summary",
+        "t": 160.079
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3:q",
+        "t": 134.102,
+        "prompt": "A trench needs $135\\ \\text{ft}^3$ of gravel. How many cubic yards is that?",
+        "choices": [
+          "$5\\ \\text{yd}^3$",
+          "$45\\ \\text{yd}^3$",
+          "$15\\ \\text{yd}^3$",
+          "$3645\\ \\text{yd}^3$"
+        ],
+        "answer": 0,
+        "working": "Cubic yards are bigger, so divide by $27$: $135 \\div 27 = 5\\ \\text{yd}^3$. B divides by $3$, and C by $9$."
+      }
+    ]
+  },
+  "m203-3-3-b": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 2: Concrete, Water and Fuel",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The plan",
+        "t": 20.033
+      },
+      {
+        "title": "A garage pad",
+        "t": 42.457
+      },
+      {
+        "title": "Forgetting the thickness",
+        "t": 65.931
+      },
+      {
+        "title": "Filling a diesel tank",
+        "t": 88.438
+      },
+      {
+        "title": "Your turn",
+        "t": 134.384
+      },
+      {
+        "title": "Summary",
+        "t": 171.866
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3-b:q",
+        "t": 147.287,
+        "prompt": "A sidewalk section is $10$ m long, $1.5$ m wide and $8$ cm thick. How much concrete does it need?",
+        "choices": [
+          "$1.2\\ \\text{m}^3$",
+          "$120\\ \\text{m}^3$",
+          "$12\\ \\text{m}^3$",
+          "$0.12\\ \\text{m}^3$"
+        ],
+        "answer": 0,
+        "working": "$8$ cm $= 0.08$ m, so $V = 10 \\times 1.5 \\times 0.08 = 1.2\\ \\text{m}^3$. B forgets to convert the thickness."
+      }
+    ]
+  },
+  "m203-3-3-c": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 3: Loads, Trips and Time",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two rules",
+        "t": 19.392
+      },
+      {
+        "title": "Emptying a grain bin",
+        "t": 39.73
+      },
+      {
+        "title": "Filling a pool",
+        "t": 89.512
+      },
+      {
+        "title": "Your turn",
+        "t": 134.899
+      },
+      {
+        "title": "Summary",
+        "t": 168.79
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3-c:q",
+        "t": 147.876,
+        "prompt": "A job needs $52\\ \\text{m}^3$ of gravel. A dump truck carries $12\\ \\text{m}^3$ per load. How many loads are needed?",
+        "choices": [
+          "$5$ loads",
+          "$4$ loads",
+          "$4.3$ loads",
+          "$624$ loads"
+        ],
+        "answer": 0,
+        "working": "$52 \\div 12 \\approx 4.33$. Four loads leave $4\\ \\text{m}^3$ short, so round up to $5$."
+      }
+    ]
+  },
+  "m203-3-3-d": {
+    "lessonId": "m203-3-3",
+    "title": "Volume on the Job, Part 4: Working Backward to a Missing Length",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How thick is the pad?",
+        "t": 19.174
+      },
+      {
+        "title": "How tall is the tank?",
+        "t": 52.009
+      },
+      {
+        "title": "A spherical tank",
+        "t": 94.312
+      },
+      {
+        "title": "Square root or cube root?",
+        "t": 125.742
+      },
+      {
+        "title": "Your turn",
+        "t": 154.032
+      },
+      {
+        "title": "Summary",
+        "t": 188.701
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-3-3-d:q",
+        "t": 167.32,
+        "prompt": "A rectangular planter $2$ m long and $0.5$ m wide holds $0.4\\ \\text{m}^3$ of soil. How deep is the soil?",
+        "choices": [
+          "$0.4$ m",
+          "$0.8$ m",
+          "$0.2$ m",
+          "$2.5$ m"
+        ],
+        "answer": 0,
+        "working": "$0.4 = 2 \\times 0.5 \\times h = 1 \\times h$, so $h = 0.4$ m."
+      }
+    ]
+  },
+  "m203-4-1": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 1: Naming Sides and the Pythagorean Theorem",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Naming the sides",
+        "t": 19.081
+      },
+      {
+        "title": "The Pythagorean theorem",
+        "t": 52.179
+      },
+      {
+        "title": "A brace for a farm gate",
+        "t": 73.555
+      },
+      {
+        "title": "How high does the ladder reach?",
+        "t": 98.864
+      },
+      {
+        "title": "Your turn",
+        "t": 136.083
+      },
+      {
+        "title": "Summary",
+        "t": 171.305
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1:q",
+        "t": 147.916,
+        "prompt": "A rectangular field is $80$ m long and $60$ m wide. How long is the path along its diagonal?",
+        "choices": [
+          "$100$ m",
+          "$140$ m",
+          "$52.9$ m",
+          "$70$ m"
+        ],
+        "answer": 0,
+        "working": "$c^2 = 80^2 + 60^2 = 6400 + 3600 = 10\\,000$, so $c = 100$ m. C subtracts instead of adding."
+      }
+    ]
+  },
+  "m203-4-1-b": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 2: Finding a Side with SOH CAH TOA",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The three ratios",
+        "t": 15.633
+      },
+      {
+        "title": "Four steps",
+        "t": 34.884
+      },
+      {
+        "title": "A guy wire",
+        "t": 64.091
+      },
+      {
+        "title": "How high is the kite?",
+        "t": 109.569
+      },
+      {
+        "title": "Degree mode",
+        "t": 136.769
+      },
+      {
+        "title": "Your turn",
+        "t": 164.455
+      },
+      {
+        "title": "Summary",
+        "t": 200.876
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1-b:q",
+        "t": 176.646,
+        "prompt": "A ramp makes an angle of $5^\\circ$ with the ground and has a horizontal run of $8$ m. How high does it rise, to the nearest hundredth of a metre?",
+        "choices": [
+          "$0.70$ m",
+          "$91.44$ m",
+          "$8.03$ m",
+          "$7.97$ m"
+        ],
+        "answer": 0,
+        "working": "The run is adjacent and the rise is opposite: $\\tan 5^\\circ = \\dfrac{h}{8}$, so $h = 8\\tan 5^\\circ \\approx 0.70$ m. B divides instead of multiplying."
+      }
+    ]
+  },
+  "m203-4-1-c": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 3: Finding an Angle",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undo the ratio",
+        "t": 17.297
+      },
+      {
+        "title": "How steep is the ramp?",
+        "t": 51.525
+      },
+      {
+        "title": "Setting a ladder",
+        "t": 86.983
+      },
+      {
+        "title": "Does the angle make sense?",
+        "t": 124.903
+      },
+      {
+        "title": "Your turn",
+        "t": 146.01
+      },
+      {
+        "title": "Summary",
+        "t": 184.483
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1-c:q",
+        "t": 157.296,
+        "prompt": "A $12$ m zip line drops $3$ m from start to finish. What angle does it make with the horizontal, to the nearest tenth of a degree?",
+        "choices": [
+          "$14.5^\\circ$",
+          "$75.5^\\circ$",
+          "$14.0^\\circ$",
+          "$0.3^\\circ$"
+        ],
+        "answer": 0,
+        "working": "The drop is opposite and the line is the hypotenuse: $\\sin\\theta = \\dfrac{3}{12} = 0.25$, so $\\theta = \\sin^{-1}(0.25) \\approx 14.5^\\circ$. B uses cosine, and C uses tangent."
+      }
+    ]
+  },
+  "m203-4-1-d": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 4: Solving a Whole Problem",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A rafter for a 6/12 roof",
+        "t": 17.741
+      },
+      {
+        "title": "Check another way",
+        "t": 72.921
+      },
+      {
+        "title": "Good habits",
+        "t": 94.073
+      },
+      {
+        "title": "Your turn",
+        "t": 126.376
+      },
+      {
+        "title": "Summary",
+        "t": 162.14
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1-d:q",
+        "t": 136.568,
+        "prompt": "A roof has a 4/12 pitch and a rafter run of $12$ ft. How long is each rafter, to the nearest tenth of a foot?",
+        "choices": [
+          "$12.6$ ft",
+          "$16.0$ ft",
+          "$12.0$ ft",
+          "$11.4$ ft"
+        ],
+        "answer": 0,
+        "working": "The rise is $12 \\times \\dfrac{4}{12} = 4$ ft, so $L = \\sqrt{12^2 + 4^2} = \\sqrt{160} \\approx 12.6$ ft. B adds the rise and the run."
+      }
+    ]
+  },
+  "m203-4-2": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 1: Angles of Elevation and Depression",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two angles from the horizontal",
+        "t": 20.21
+      },
+      {
+        "title": "They are equal",
+        "t": 47.251
+      },
+      {
+        "title": "A truck below a grain elevator",
+        "t": 71.703
+      },
+      {
+        "title": "Not from the wall",
+        "t": 114.116
+      },
+      {
+        "title": "Your turn",
+        "t": 132.931
+      },
+      {
+        "title": "Summary",
+        "t": 171.418
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2:q",
+        "t": 146.694,
+        "prompt": "From the top of a $60$ m cliff, the angle of depression to a canoe is $25^\\circ$. How far is the canoe from the base of the cliff?",
+        "choices": [
+          "$128.7$ m",
+          "$28.0$ m",
+          "$142.0$ m",
+          "$54.4$ m"
+        ],
+        "answer": 0,
+        "working": "The angle at the canoe is $25^\\circ$. $\\tan 25^\\circ = \\dfrac{60}{d}$, so $d = \\dfrac{60}{\\tan 25^\\circ} \\approx 128.7$ m. B multiplies instead of dividing."
+      }
+    ]
+  },
+  "m203-4-2-b": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 2: Triangles on Opposite Sides",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A plan",
+        "t": 19.999
+      },
+      {
+        "title": "Opposite sides of a tower",
+        "t": 43.377
+      },
+      {
+        "title": "A ladder in an alley",
+        "t": 98.837
+      },
+      {
+        "title": "Your turn",
+        "t": 148.605
+      },
+      {
+        "title": "Summary",
+        "t": 194.251
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2-b:q",
+        "t": 165.516,
+        "prompt": "Two people stand on opposite sides of a $30$ m flagpole, in line with it. Their angles of elevation to the top are $40^\\circ$ and $55^\\circ$. How far apart are they?",
+        "choices": [
+          "$56.8$ m",
+          "$14.7$ m",
+          "$68.0$ m",
+          "$35.8$ m"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{30}{\\tan 40^\\circ} \\approx 35.75$ and $\\dfrac{30}{\\tan 55^\\circ} \\approx 21.01$. Opposite sides, so add: about $56.8$ m. B subtracts."
+      }
+    ]
+  },
+  "m203-4-2-c": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 3: One Triangle Inside the Other",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two boats from a cliff",
+        "t": 18.184
+      },
+      {
+        "title": "An antenna on a roof",
+        "t": 69.534
+      },
+      {
+        "title": "Keep the digits",
+        "t": 116.018
+      },
+      {
+        "title": "Your turn",
+        "t": 132.76
+      },
+      {
+        "title": "Summary",
+        "t": 176.718
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2-c:q",
+        "t": 149.05,
+        "prompt": "From $25$ m away, the angle of elevation to the bottom of a flag on a pole is $20^\\circ$, and to the top of the flag is $28^\\circ$. How tall is the flag?",
+        "choices": [
+          "$4.2$ m",
+          "$22.4$ m",
+          "$13.3$ m",
+          "$9.1$ m"
+        ],
+        "answer": 0,
+        "working": "$25\\tan 28^\\circ \\approx 13.29$ and $25\\tan 20^\\circ \\approx 9.10$. Subtract: about $4.2$ m. B adds the two heights."
+      }
+    ]
+  },
+  "m203-4-2-d": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 4: Find the Shared Side First",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A buoy and a boat",
+        "t": 18.254
+      },
+      {
+        "title": "A second guy wire",
+        "t": 75.765
+      },
+      {
+        "title": "Your turn",
+        "t": 128.368
+      },
+      {
+        "title": "Summary",
+        "t": 179.427
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2-d:q",
+        "t": 147.391,
+        "prompt": "From the top of a lighthouse, the angle of depression to a buoy $50$ m from the base is $40^\\circ$. A ship in line beyond the buoy is at an angle of depression of $15^\\circ$. How far is the ship from the buoy?",
+        "choices": [
+          "$106.6$ m",
+          "$156.6$ m",
+          "$42.0$ m",
+          "$206.6$ m"
+        ],
+        "answer": 0,
+        "working": "$h = 50\\tan 40^\\circ \\approx 41.95$ m. Ship: $\\dfrac{41.95}{\\tan 15^\\circ} \\approx 156.57$ m from the base. $156.57 - 50 \\approx 106.6$ m. B is the distance from the base."
+      }
+    ]
+  },
+  "m203-4-3": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 1: A Plan and Survey Sightings",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A plan",
+        "t": 23.183
+      },
+      {
+        "title": "Three survey stakes",
+        "t": 69.687
+      },
+      {
+        "title": "Your turn",
+        "t": 137.031
+      },
+      {
+        "title": "Summary",
+        "t": 179.939
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3:q",
+        "t": 152.341,
+        "prompt": "Two stakes are in line with the base of a $40$ m tower. The angles of elevation to the top are $50^\\circ$ and $30^\\circ$. How far apart are the stakes?",
+        "choices": [
+          "$35.7$ m",
+          "$69.3$ m",
+          "$33.6$ m",
+          "$102.9$ m"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{40}{\\tan 30^\\circ} \\approx 69.28$ and $\\dfrac{40}{\\tan 50^\\circ} \\approx 33.56$. Subtract: about $35.7$ m."
+      }
+    ]
+  },
+  "m203-4-3-b": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 2: Roof Trusses",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Parts of a truss",
+        "t": 20.384
+      },
+      {
+        "title": "King post and diagonal web",
+        "t": 50.922
+      },
+      {
+        "title": "Your turn",
+        "t": 123.545
+      },
+      {
+        "title": "Summary",
+        "t": 160.018
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3-b:q",
+        "t": 135.936,
+        "prompt": "A truss spans $30$ ft, and its rafters make a $22^\\circ$ angle with the bottom chord. How tall is the king post, to the nearest tenth of a foot?",
+        "choices": [
+          "$6.1$ ft",
+          "$12.1$ ft",
+          "$5.6$ ft",
+          "$37.1$ ft"
+        ],
+        "answer": 0,
+        "working": "Half the span is $15$ ft, adjacent to $22^\\circ$: $k = 15\\tan 22^\\circ \\approx 6.06$ ft. B uses the whole span, and C uses sine."
+      }
+    ]
+  },
+  "m203-4-3-c": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 3: Stairs with a Landing",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The step angle",
+        "t": 19.412
+      },
+      {
+        "title": "The stringers",
+        "t": 47.845
+      },
+      {
+        "title": "From bottom to top",
+        "t": 89.866
+      },
+      {
+        "title": "Forgetting the landing",
+        "t": 139.745
+      },
+      {
+        "title": "Your turn",
+        "t": 155.25
+      },
+      {
+        "title": "Summary",
+        "t": 187.198
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3-c:q",
+        "t": 166.771,
+        "prompt": "Stairs have $17$ cm risers and $28$ cm treads. What angle do they make with the floor, to the nearest tenth of a degree?",
+        "choices": [
+          "$31.3^\\circ$",
+          "$58.7^\\circ$",
+          "$37.4^\\circ$",
+          "$0.6^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\tan\\alpha = \\dfrac{17}{28}$, so $\\alpha \\approx 31.3^\\circ$. B divides the tread by the riser."
+      }
+    ]
+  },
+  "m203-4-3-d": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 4: The Diagonal of a Box",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Will the pipe fit?",
+        "t": 21.942
+      },
+      {
+        "title": "The angle with the floor",
+        "t": 84
+      },
+      {
+        "title": "Use d squared",
+        "t": 111.529
+      },
+      {
+        "title": "Your turn",
+        "t": 134.285
+      },
+      {
+        "title": "Summary",
+        "t": 169.035
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3-d:q",
+        "t": 146.877,
+        "prompt": "A storage box is $60$ cm long, $40$ cm wide and $30$ cm high. What is the longest straight rod that fits inside, to the nearest centimetre?",
+        "choices": [
+          "$78$ cm",
+          "$72$ cm",
+          "$130$ cm",
+          "$50$ cm"
+        ],
+        "answer": 0,
+        "working": "$p^2 = 60^2 + 40^2 + 30^2 = 3600 + 1600 + 900 = 6100$, so $p \\approx 78.1$ cm. B is the floor diagonal only."
+      }
+    ]
+  },
+  "m203-5-1": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 1: Reading a Scale",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three ways to write a scale",
+        "t": 20.855
+      },
+      {
+        "title": "A floor plan",
+        "t": 55.223
+      },
+      {
+        "title": "Mixing units in a ratio",
+        "t": 99.298
+      },
+      {
+        "title": "Your turn",
+        "t": 122.249
+      },
+      {
+        "title": "Summary",
+        "t": 154.666
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1:q",
+        "t": 134.333,
+        "prompt": "On a $1 : 200$ site plan, a driveway is $9.5$ cm long. How long is the real driveway?",
+        "choices": [
+          "$19$ m",
+          "$1900$ m",
+          "$1.9$ m",
+          "$47.5$ m"
+        ],
+        "answer": 0,
+        "working": "$9.5 \\times 200 = 1900$ cm, and $1900 \\div 100 = 19$ m. B forgets to convert centimetres to metres."
+      }
+    ]
+  },
+  "m203-5-1-b": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 2: Drawing Lengths and Imperial Scales",
+    "duration": 173,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Drawing a garage wall",
+        "t": 16.562
+      },
+      {
+        "title": "Imperial scales",
+        "t": 55.368
+      },
+      {
+        "title": "A two-unit scale as a ratio",
+        "t": 85.523
+      },
+      {
+        "title": "Your turn",
+        "t": 114.644
+      },
+      {
+        "title": "Summary",
+        "t": 147.544
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1-b:q",
+        "t": 127.33,
+        "prompt": "A plan uses the scale $1$ cm represents $2$ m. A fence is $13$ m long. How long should it be drawn?",
+        "choices": [
+          "$6.5$ cm",
+          "$26$ cm",
+          "$15$ cm",
+          "$0.65$ cm"
+        ],
+        "answer": 0,
+        "working": "From real life to the drawing, divide: $13 \\div 2 = 6.5$ cm. B multiplies instead."
+      }
+    ]
+  },
+  "m203-5-1-c": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 3: Finding the Scale",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Scale factor",
+        "t": 20.179
+      },
+      {
+        "title": "A model pickup",
+        "t": 41.466
+      },
+      {
+        "title": "An enlarged drawing",
+        "t": 83.705
+      },
+      {
+        "title": "Same units first",
+        "t": 108.891
+      },
+      {
+        "title": "Your turn",
+        "t": 129.272
+      },
+      {
+        "title": "Summary",
+        "t": 169.072
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1-c:q",
+        "t": 141.734,
+        "prompt": "A model train car is $16$ cm long. The real car is $13.92$ m long. What is the scale?",
+        "choices": [
+          "$1 : 87$",
+          "$1 : 0.87$",
+          "$1 : 8.7$",
+          "$87 : 1$"
+        ],
+        "answer": 0,
+        "working": "$13.92$ m $= 1392$ cm, and $1392 \\div 16 = 87$, so the scale is $1 : 87$. D has the parts the wrong way round."
+      }
+    ]
+  },
+  "m203-5-1-d": {
+    "lessonId": "m203-5-1",
+    "title": "Scale Drawings and Models, Part 4: Area and Volume with a Scale Factor",
+    "duration": 223,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "k squared and k cubed",
+        "t": 19.388
+      },
+      {
+        "title": "A bigger sign",
+        "t": 51
+      },
+      {
+        "title": "A model grain bin",
+        "t": 82.446
+      },
+      {
+        "title": "Working backward",
+        "t": 122.504
+      },
+      {
+        "title": "Your turn",
+        "t": 158.741
+      },
+      {
+        "title": "Summary",
+        "t": 196.44
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-1-d:q",
+        "t": 172.903,
+        "prompt": "A patio is redesigned with every length $3$ times as long. The old patio used $40$ paving stones. About how many does the new patio need?",
+        "choices": [
+          "$360$",
+          "$120$",
+          "$1080$",
+          "$43$"
+        ],
+        "answer": 0,
+        "working": "Area is multiplied by $k^2 = 3^2 = 9$, so it needs about $40 \\times 9 = 360$ stones. B multiplies by $k$, and C by $k^3$."
+      }
+    ]
+  },
+  "m203-5-2": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 1: Top Views and Counting Cubes",
+    "duration": 161,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three views",
+        "t": 23.619
+      },
+      {
+        "title": "A top view with numbers",
+        "t": 51.952
+      },
+      {
+        "title": "Hidden cubes",
+        "t": 93.784
+      },
+      {
+        "title": "Your turn",
+        "t": 111.949
+      },
+      {
+        "title": "Summary",
+        "t": 138.592
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2:q",
+        "t": 118.902,
+        "prompt": "How many cubes are in the stack shown by this top view?",
+        "choices": [
+          "$13$",
+          "$6$",
+          "$9$",
+          "$4$"
+        ],
+        "answer": 0,
+        "working": "$4 + 2 + 3 + 1 + 2 + 1 = 13$. B counts the spots, not the cubes."
+      }
+    ]
+  },
+  "m203-5-2-b": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 2: Front and Side Views",
+    "duration": 155,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The front view",
+        "t": 17.32
+      },
+      {
+        "title": "The right side view",
+        "t": 57.105
+      },
+      {
+        "title": "Tallest, not total",
+        "t": 86.107
+      },
+      {
+        "title": "Your turn",
+        "t": 104.011
+      },
+      {
+        "title": "Summary",
+        "t": 132.011
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2-b:q",
+        "t": 112.039,
+        "prompt": "What are the column heights of the front view, left to right?",
+        "choices": [
+          "$3$, $4$",
+          "$4$, $6$",
+          "$1$, $4$",
+          "$3$, $2$"
+        ],
+        "answer": 0,
+        "working": "Left column: $1$ and $3$, tallest $3$. Right column: $4$ and $2$, tallest $4$. B adds the stacks."
+      }
+    ]
+  },
+  "m203-5-2-c": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 3: Isometric Drawings",
+    "duration": 164,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Isometric drawing",
+        "t": 19.449
+      },
+      {
+        "title": "Views of a crate",
+        "t": 54.155
+      },
+      {
+        "title": "Pictures and plans",
+        "t": 86.237
+      },
+      {
+        "title": "Your turn",
+        "t": 105.661
+      },
+      {
+        "title": "Summary",
+        "t": 135.12
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2-c:q",
+        "t": 116.469,
+        "prompt": "A box is $4$ ft long across the front, $2$ ft deep and $3$ ft tall. What is its top view?",
+        "choices": [
+          "a rectangle $4$ ft by $2$ ft",
+          "a rectangle $4$ ft by $3$ ft",
+          "a rectangle $2$ ft by $3$ ft",
+          "a square $4$ ft by $4$ ft"
+        ],
+        "answer": 0,
+        "working": "Looking down, you see the length and the depth: $4$ ft by $2$ ft. B is the front view, and C is the side view."
+      }
+    ]
+  },
+  "m203-5-2-d": {
+    "lessonId": "m203-5-2",
+    "title": "Views of Three-Dimensional Objects, Part 4: Working Backward from Views",
+    "duration": 165,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The views",
+        "t": 19.34
+      },
+      {
+        "title": "Fill in the top view",
+        "t": 45.912
+      },
+      {
+        "title": "Two views are not always enough",
+        "t": 85.573
+      },
+      {
+        "title": "Your turn",
+        "t": 106.352
+      },
+      {
+        "title": "Summary",
+        "t": 144.533
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-2-d:q",
+        "t": 121.623,
+        "prompt": "A structure on a $2$ by $2$ base has a front view of two columns, each $2$ tall, and a right side view of two columns, each $2$ tall. What is the most cubes it could have?",
+        "choices": [
+          "$8$",
+          "$4$",
+          "$6$",
+          "$16$"
+        ],
+        "answer": 0,
+        "working": "Every column and every row is $2$ tall, so each of the $4$ spots can hold up to $2$: at most $2 \\times 4 = 8$ cubes."
+      }
+    ]
+  },
+  "m203-5-3": {
+    "lessonId": "m203-5-3",
+    "title": "Exploded Views and Components, Part 1: Reading an Exploded View",
+    "duration": 163,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exploded views and components",
+        "t": 19.759
+      },
+      {
+        "title": "Parts of a bookshelf",
+        "t": 50.648
+      },
+      {
+        "title": "Your turn",
+        "t": 100.982
+      },
+      {
+        "title": "Summary",
+        "t": 138.789
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-3:q",
+        "t": 118.239,
+        "prompt": "An exploded view of a small table shows a top (A), 4 legs (B) and 4 rails (C). Each leg is fastened with 2 screws. How many parts and screws are needed?",
+        "choices": [
+          "$9$ parts and $8$ screws",
+          "$3$ parts and $8$ screws",
+          "$9$ parts and $2$ screws",
+          "$12$ parts and $8$ screws"
+        ],
+        "answer": 0,
+        "working": "Parts: $1 + 4 + 4 = 9$. Screws: $4$ legs $\\times\\ 2 = 8$. B counts the labels, not the parts."
+      }
+    ]
+  },
+  "m203-5-3-b": {
+    "lessonId": "m203-5-3",
+    "title": "Exploded Views and Components, Part 2: Parts Lists and Costs",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A parts list",
+        "t": 17.069
+      },
+      {
+        "title": "Pricing the parts",
+        "t": 44.619
+      },
+      {
+        "title": "Forgetting the quantity",
+        "t": 78.462
+      },
+      {
+        "title": "A part is missing",
+        "t": 94.98
+      },
+      {
+        "title": "Your turn",
+        "t": 123.824
+      },
+      {
+        "title": "Summary",
+        "t": 158.069
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-3-b:q",
+        "t": 136.014,
+        "prompt": "A kit needs $6$ brackets at \\$2.40 each and $24$ screws at \\$0.15 each. What do they cost in all?",
+        "choices": [
+          "\\$18.00",
+          "\\$2.55",
+          "\\$14.40",
+          "\\$3.60"
+        ],
+        "answer": 0,
+        "working": "$6 \\times 2.40 = 14.40$ and $24 \\times 0.15 = 3.60$, so the total is \\$18.00. B adds only the unit prices."
+      }
+    ]
+  },
+  "m203-5-3-c": {
+    "lessonId": "m203-5-3",
+    "title": "Exploded Views and Components, Part 3: Assembly Order and Comparing Costs",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Building a deck",
+        "t": 18.013
+      },
+      {
+        "title": "Reading the dashed lines",
+        "t": 48.367
+      },
+      {
+        "title": "Buying for a class",
+        "t": 77.408
+      },
+      {
+        "title": "Parts or a kit?",
+        "t": 115.603
+      },
+      {
+        "title": "Your turn",
+        "t": 139.462
+      },
+      {
+        "title": "Summary",
+        "t": 166.528
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-5-3-c:q",
+        "t": 145.824,
+        "prompt": "Which part of a garden shed goes on **last**?",
+        "choices": [
+          "the roof shingles",
+          "the floor frame",
+          "the wall studs",
+          "the roof rafters"
+        ],
+        "answer": 0,
+        "working": "The floor frame holds the walls, the walls hold the rafters, and the shingles cover the rafters, so the shingles go on last."
+      }
+    ]
   }
 }

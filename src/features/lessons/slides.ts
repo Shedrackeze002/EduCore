@@ -31,6 +31,23 @@ export interface Slide {
   items: SlideItem[];
   /** A link resource shown as an embedded activity. */
   url?: string;
+  /** The lesson's explainer video this slide plays. */
+  explainer?: SlideExplainer;
+}
+
+/** One part of a lesson's explainer video, for its slide in present mode. */
+export interface SlideExplainer {
+  id: string;
+  title: string;
+  /** Seconds. */
+  duration: number;
+  /** Chapter titles, in order. */
+  chapters: string[];
+  /** Which part this is (1-based), of how many. */
+  part: number;
+  parts: number;
+  /** The video on YouTube; a part that is not uploaded yet keeps its place but has no slide. */
+  youtubeId?: string;
 }
 
 /** FNV-1a, enough to tell lesson blocks apart. */
@@ -168,12 +185,83 @@ function pack(groups: Group[]): Group[] {
   return out;
 }
 
-export function buildSlides(content: LessonContent, lessonTitle: string, resources: SlideResource[] = []): Slide[] {
+const STOP_WORDS = new Set(['an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'how', 'in', 'into', 'is', 'it', 'its', 'of', 'on', 'or', 'part', 'the', 'to', 'what', 'when', 'with', 'you', 'your']);
+/** Chapters every video has, which say nothing about where it belongs. */
+const GENERIC_CHAPTER = /^(introduction|intro|recap|review|your turn|summary|wrap[- ]?up)$/i;
+
+/** The words of a title that can match another title: lower case, plural "s" dropped. */
+function titleWords(s: string): Set<string> {
+  const words = s
+    .toLowerCase()
+    .replace(/[’']s\b/g, '')
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w.length > 1 && !STOP_WORDS.has(w))
+    .map((w) => w.replace(/ies$/, 'y').replace(/([^s])s$/, '$1'));
+  return new Set(words);
+}
+
+/**
+ * The lesson section each explainer part starts at (an index into `sections`), so its slide comes
+ * just before that section. Part 1 opens the lesson. A later part goes to the section that shares
+ * most words (the earlier on a tie) with the first idea in its subtitle ("Part 2: Finding Sides
+ * and Angles"), or else the whole subtitle, or else its first chapter that names a section's
+ * topic; a part that matches nothing goes where an even
+ * split of the lesson puts it. Parts keep their order, each after the one before when there are
+ * sections enough.
+ */
+export function placeExplainers(sections: string[], parts: Array<Pick<SlideExplainer, 'title' | 'chapters'>>): number[] {
+  const sectionWords = sections.map(titleWords);
+  const last = sections.length - 1;
+  let prev = 0;
+  return parts.map((p, i) => {
+    if (!sections.length) return -1;
+    if (i === 0) return (prev = 0);
+    const from = Math.min(prev + 1, last);
+    // A part starts with the first idea its subtitle names ("Circle Graphs and Fair Surveys").
+    const subtitle = p.title.replace(/^.*?:\s*/, '');
+    const topics = [subtitle.split(/,|\band\b|&/)[0], subtitle, ...p.chapters.filter((c) => !GENERIC_CHAPTER.test(c.trim()))];
+    let at = -1;
+    for (const topic of topics) {
+      const words = titleWords(topic);
+      let best = 0;
+      for (let j = from; j <= last; j++) {
+        const shared = [...words].filter((w) => sectionWords[j].has(w)).length;
+        if (shared > best) {
+          best = shared;
+          at = j;
+        }
+      }
+      if (best > 0) break;
+    }
+    if (at < 0) at = Math.max(from, Math.min(last, Math.round((i * sections.length) / parts.length)));
+    return (prev = at);
+  });
+}
+
+export function buildSlides(content: LessonContent, lessonTitle: string, resources: SlideResource[] = [], explainers: SlideExplainer[] = []): Slide[] {
   const key = keyer();
   const slides: Slide[] = [{ id: 'title', kind: 'title', title: lessonTitle, items: [] }];
   if (content.intro.length) slides.push({ id: 'hook', kind: 'hook', title: 'Let’s begin', items: content.intro.flatMap((b) => itemsOf(b, key(b))) });
   const of = content.sections.length;
+  // Each explainer part plays just before the section it teaches; its key is the video's id, so a
+  // teacher's choice to hide it survives a new upload.
+  const placed = placeExplainers(
+    content.sections.map((s) => s.title),
+    explainers,
+  );
+  const videosAt = (si: number) => {
+    explainers.forEach((e, k) => {
+      if (placed[k] !== si || !e.youtubeId) return;
+      const item: SlideItem = { key: `xv-${e.id}`, blockKey: `xv-${e.id}`, block: { type: 'video', url: `https://www.youtube.com/watch?v=${e.youtubeId}`, title: e.title } };
+      const part = si >= 0 ? { n: si + 1, of, first: false, title: content.sections[si].title } : undefined;
+      // The deck already names the lesson, so the slide is titled by the part ("Units and Referents").
+      const title = e.title.replace(/^.*?\bPart \d+:\s*/, '') || e.title;
+      slides.push({ id: `xv-${e.id}`, kind: 'video', title, part, items: [item], explainer: e });
+    });
+  };
+  if (!of) videosAt(-1);
   content.sections.forEach((s, si) => {
+    videosAt(si);
     const groups: Group[] = [];
     let cur: SlideItem[] = [];
     const flush = () => {
