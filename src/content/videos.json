@@ -13543,5 +13543,491 @@
         "working": "A solid boundary is included, so the sign is $\\ge$ or $\\le$; shading above means $y \\ge$."
       }
     ]
+  },
+  "m202-1-1": {
+    "lessonId": "m202-1-1",
+    "title": "Making Conjectures: Inductive Reasoning, Part 1: Conjectures",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Conjectures",
+        "t": 27.998
+      },
+      {
+        "title": "Choosing the conjecture that fits",
+        "t": 73.896
+      },
+      {
+        "title": "Evidence is not proof",
+        "t": 124.585
+      },
+      {
+        "title": "Your turn",
+        "t": 147.969
+      },
+      {
+        "title": "Summary",
+        "t": 183.978
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-1:q",
+        "t": 162.305,
+        "prompt": "Mina notices that $2 \\times 3 = 6$, $4 \\times 5 = 20$ and $6 \\times 7 = 42$. Which conjecture fits all three?",
+        "choices": [
+          "The product is even.",
+          "The product is a multiple of 6.",
+          "The product ends in 0.",
+          "The product is greater than 10."
+        ],
+        "answer": 0,
+        "working": "$6$, $20$ and $42$ are all even. $20$ is not a multiple of 6, $6$ and $42$ do not end in 0, and $6$ is not greater than 10."
+      }
+    ]
+  },
+  "m202-1-1-b": {
+    "lessonId": "m202-1-1",
+    "title": "Making Conjectures: Inductive Reasoning, Part 2: Patterns",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Number patterns",
+        "t": 20.238
+      },
+      {
+        "title": "Predicting with a pattern",
+        "t": 59.998
+      },
+      {
+        "title": "A geometric pattern",
+        "t": 99.809
+      },
+      {
+        "title": "Using the rule",
+        "t": 134.955
+      },
+      {
+        "title": "Your turn",
+        "t": 167.375
+      },
+      {
+        "title": "Summary",
+        "t": 200.628
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-1-b:q",
+        "t": 178.115,
+        "prompt": "Figure 1 has $5$ tiles, Figure 2 has $8$ and Figure 3 has $11$. Which rule fits?",
+        "choices": [
+          "$3n + 2$",
+          "$5n$",
+          "$n + 4$",
+          "$3n + 5$"
+        ],
+        "answer": 0,
+        "working": "$3(1) + 2 = 5$, $3(2) + 2 = 8$ and $3(3) + 2 = 11$. The other rules fit Figure 1 at most."
+      }
+    ]
+  },
+  "m202-1-2": {
+    "lessonId": "m202-1-2",
+    "title": "Counterexamples, Part 1: Disproving a Conjecture",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What is a counterexample?",
+        "t": 19.892
+      },
+      {
+        "title": "Meeting the condition",
+        "t": 65.44
+      },
+      {
+        "title": "Missing the condition",
+        "t": 113.918
+      },
+      {
+        "title": "Your turn",
+        "t": 133.653
+      },
+      {
+        "title": "Summary",
+        "t": 167.909
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-2:q",
+        "t": 144.681,
+        "prompt": "Conjecture: \"If a number is a multiple of 3, then it is odd.\" Which number is a counterexample?",
+        "choices": [
+          "$12$",
+          "$9$",
+          "$7$",
+          "$15$"
+        ],
+        "answer": 0,
+        "working": "$12$ is a multiple of 3, so it meets the condition, but it is even, so the conclusion is false. $7$ is not a multiple of 3."
+      }
+    ]
+  },
+  "m202-1-2-b": {
+    "lessonId": "m202-1-2",
+    "title": "Counterexamples, Part 2: When Patterns Fail",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Forty primes",
+        "t": 21.462
+      },
+      {
+        "title": "Regions in a circle",
+        "t": 53.259
+      },
+      {
+        "title": "Where to look",
+        "t": 88.294
+      },
+      {
+        "title": "Revising a conjecture",
+        "t": 105.868
+      },
+      {
+        "title": "Your turn",
+        "t": 147.382
+      },
+      {
+        "title": "Summary",
+        "t": 177.735
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-2-b:q",
+        "t": 159.053,
+        "prompt": "Conjecture: \"The sum of two numbers is always greater than each of the numbers.\" Which pair is a counterexample?",
+        "choices": [
+          "$3$ and $-1$",
+          "$3$ and $4$",
+          "$0.5$ and $0.5$",
+          "$10$ and $20$"
+        ],
+        "answer": 0,
+        "working": "$3 + (-1) = 2$, which is not greater than $3$. The other pairs all support the conjecture."
+      }
+    ]
+  },
+  "m202-1-3": {
+    "lessonId": "m202-1-3",
+    "title": "Proving Conjectures: Deductive Reasoning, Part 1: Deductive Proof",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two kinds of reasoning",
+        "t": 19.38
+      },
+      {
+        "title": "A deductive argument",
+        "t": 64.528
+      },
+      {
+        "title": "Proving a statement about numbers",
+        "t": 88.037
+      },
+      {
+        "title": "Using the same variable",
+        "t": 135.181
+      },
+      {
+        "title": "Your turn",
+        "t": 151.081
+      },
+      {
+        "title": "Summary",
+        "t": 185.232
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-3:q",
+        "t": 162.474,
+        "prompt": "To prove that the sum of any even integer and any odd integer is odd, how should you write the two integers?",
+        "choices": [
+          "$2m$ and $2n + 1$",
+          "$2n$ and $2n + 1$",
+          "$m$ and $n$",
+          "$2m + 1$ and $2n + 1$"
+        ],
+        "answer": 0,
+        "working": "$2m$ is any even integer and $2n + 1$ is any odd integer. Then $2m + 2n + 1 = 2(m + n) + 1$, which is odd. B only covers consecutive integers."
+      }
+    ]
+  },
+  "m202-1-3-b": {
+    "lessonId": "m202-1-3",
+    "title": "Proving Conjectures: Deductive Reasoning, Part 2: Number Tricks and Invalid Proofs",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proving a number trick",
+        "t": 19.419
+      },
+      {
+        "title": "Valid and invalid proofs",
+        "t": 68.223
+      },
+      {
+        "title": "A proof that 2 = 1?",
+        "t": 92.193
+      },
+      {
+        "title": "Dividing by a variable",
+        "t": 134.326
+      },
+      {
+        "title": "Your turn",
+        "t": 153.35
+      },
+      {
+        "title": "Summary",
+        "t": 186.42
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-3-b:q",
+        "t": 168.631,
+        "prompt": "A student writes: $(-5)^2 = 25$ and $5^2 = 25$, so $(-5)^2 = 5^2$. Taking the square root of both sides, $-5 = 5$. What is the error?",
+        "choices": [
+          "Taking the square root drops the negative root.",
+          "Dividing by zero.",
+          "Relying on examples.",
+          "$(-5)^2$ is not $25$."
+        ],
+        "answer": 0,
+        "working": "If $x^2 = 5^2$, then $x = 5$ or $x = -5$. Taking only the positive root ignores the negative one."
+      }
+    ]
+  },
+  "m202-1-4": {
+    "lessonId": "m202-1-4",
+    "title": "Reasoning to Solve Problems and Puzzles, Part 1: Number and Logic Puzzles",
+    "duration": 182,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A number riddle",
+        "t": 19.944
+      },
+      {
+        "title": "A logic puzzle",
+        "t": 68.545
+      },
+      {
+        "title": "One mark per row",
+        "t": 107.809
+      },
+      {
+        "title": "Your turn",
+        "t": 122.957
+      },
+      {
+        "title": "Summary",
+        "t": 157.1
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-4:q",
+        "t": 133.781,
+        "prompt": "Kai is thinking of a two-digit multiple of $8$. The sum of its digits is $10$. What is the number?",
+        "choices": [
+          "$64$",
+          "$46$",
+          "$28$",
+          "$82$"
+        ],
+        "answer": 0,
+        "working": "Two-digit multiples of 8: $16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96$. Only $64$ has a digit sum of $10$. The others are not multiples of 8."
+      }
+    ]
+  },
+  "m202-1-4-b": {
+    "lessonId": "m202-1-4",
+    "title": "Reasoning to Solve Problems and Puzzles, Part 2: Games and Winning Strategies",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A take-away game",
+        "t": 20.417
+      },
+      {
+        "title": "The first move",
+        "t": 54.744
+      },
+      {
+        "title": "The Tower of Hanoi",
+        "t": 82.715
+      },
+      {
+        "title": "Your turn",
+        "t": 131.454
+      },
+      {
+        "title": "Summary",
+        "t": 162.269
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-4-b:q",
+        "t": 141.052,
+        "prompt": "In the same game, there are $22$ counters and you go first. How many should you take?",
+        "choices": [
+          "$2$",
+          "$1$",
+          "$3$",
+          "You cannot win."
+        ],
+        "answer": 0,
+        "working": "The nearest multiple of 4 below 22 is 20, so take $22 - 20 = 2$. Then leave 16, 12, 8, 4 and 0."
+      }
+    ]
+  },
+  "m202-1-4-c": {
+    "lessonId": "m202-1-4",
+    "title": "Reasoning to Solve Problems and Puzzles, Part 3: Spatial Puzzles",
+    "duration": 169,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A magic square",
+        "t": 17.194
+      },
+      {
+        "title": "Counting squares",
+        "t": 63.848
+      },
+      {
+        "title": "Counting only the small squares",
+        "t": 101.912
+      },
+      {
+        "title": "Your turn",
+        "t": 115.087
+      },
+      {
+        "title": "Summary",
+        "t": 144.377
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-1-4-c:q",
+        "t": 122.983,
+        "prompt": "How many squares, of all sizes, are in a $4 \\times 4$ grid?",
+        "choices": [
+          "$30$",
+          "$16$",
+          "$20$",
+          "$25$"
+        ],
+        "answer": 0,
+        "working": "$16$ squares that are $1 \\times 1$, $9$ that are $2 \\times 2$, $4$ that are $3 \\times 3$ and $1$ that is $4 \\times 4$: $16 + 9 + 4 + 1 = 30$."
+      }
+    ]
+  },
+  "m202-2-1": {
+    "lessonId": "m202-2-1",
+    "title": "Angles Formed by Parallel Lines, Part 1: Transversals and Angle Pairs",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Transversals",
+        "t": 22.779
+      },
+      {
+        "title": "Angle pairs",
+        "t": 64.035
+      },
+      {
+        "title": "When the lines are parallel",
+        "t": 112.62
+      },
+      {
+        "title": "Your turn",
+        "t": 148.777
+      },
+      {
+        "title": "Summary",
+        "t": 183.695
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-1:q",
+        "t": 161.693,
+        "prompt": "Two angles are between two parallel lines, on the same side of a transversal. What kind of pair are they, and how are they related?",
+        "choices": [
+          "Same-side interior; they add to $180^\\circ$.",
+          "Alternate interior; they are equal.",
+          "Corresponding; they are equal.",
+          "Same-side interior; they are equal."
+        ],
+        "answer": 0,
+        "working": "Between the lines is interior, and on the same side of the transversal is same-side. With parallel lines, same-side interior angles are supplementary."
+      }
+    ]
   }
 }
