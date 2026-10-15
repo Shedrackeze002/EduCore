@@ -10931,5 +10931,52 @@
         "working": "$x = -\\dfrac{6}{2(-1)} = 3$, and $y = -(3)^2 + 6(3) + 1 = -9 + 18 + 1 = 10$."
       }
     ]
+  },
+  "m201-3-4": {
+    "lessonId": "m201-3-4",
+    "title": "Solving Optimization Problems, Part 1: Maximum and Minimum Values",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Optimal values",
+        "t": 19.855
+      },
+      {
+        "title": "A number problem",
+        "t": 72.881
+      },
+      {
+        "title": "Maximum height",
+        "t": 110.805
+      },
+      {
+        "title": "Your turn",
+        "t": 167.777
+      },
+      {
+        "title": "Summary",
+        "t": 203.474
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-4:q",
+        "t": 176.37,
+        "prompt": "Two numbers have a sum of $20$. What is the largest possible product?",
+        "choices": [
+          "$100$",
+          "$10$",
+          "$20$",
+          "$400$"
+        ],
+        "answer": 0,
+        "working": "The product $P = x(20 - x)$ has zeros $0$ and $20$, so the vertex is at $x = 10$. Both numbers are $10$, and $P = 100$."
+      }
+    ]
   }
 }
