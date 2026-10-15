@@ -17916,5 +17916,401 @@
         "working": "$\\text{run} = \\dfrac{\\text{rise}}{\\text{slope}} = 40 \\div \\dfrac{1}{15} = 40 \\times 15 = 600$ cm. B divides $40$ by $15$ instead."
       }
     ]
+  },
+  "m203-1-1-c": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 3: Percent Grade",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Grade",
+        "t": 18.765
+      },
+      {
+        "title": "A highway grade",
+        "t": 33.479
+      },
+      {
+        "title": "Working backwards",
+        "t": 61.866
+      },
+      {
+        "title": "A 100% grade",
+        "t": 101.563
+      },
+      {
+        "title": "Your turn",
+        "t": 129.981
+      },
+      {
+        "title": "Summary",
+        "t": 165.614
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1-c:q",
+        "t": 141.792,
+        "prompt": "A bike trail climbs $18$ m over a horizontal distance of $240$ m. What is its grade?",
+        "choices": [
+          "$7.5\\%$",
+          "$0.075\\%$",
+          "$13.3\\%$",
+          "$18\\%$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{18}{240} = 0.075$, and $0.075 \\times 100\\% = 7.5\\%$. B forgets to multiply by $100\\%$, and C divides the run by the rise."
+      }
+    ]
+  },
+  "m203-1-1-d": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 4: Roof Pitch and Comparing Slopes",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pitch",
+        "t": 17.264
+      },
+      {
+        "title": "Measuring a pitch",
+        "t": 36.106
+      },
+      {
+        "title": "Using a pitch",
+        "t": 68.804
+      },
+      {
+        "title": "Compare slopes as decimals",
+        "t": 101.241
+      },
+      {
+        "title": "Your turn",
+        "t": 135.302
+      },
+      {
+        "title": "Summary",
+        "t": 166.924
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1-d:q",
+        "t": 145.142,
+        "prompt": "Which is steepest: a $10\\%$ grade, a 2/12 pitch, or a slope of $\\dfrac{1}{8}$?",
+        "choices": [
+          "the 2/12 pitch",
+          "the $10\\%$ grade",
+          "the slope of $\\dfrac{1}{8}$",
+          "They are all the same."
+        ],
+        "answer": 0,
+        "working": "As decimals: $0.10$, $2 \\div 12 \\approx 0.167$ and $1 \\div 8 = 0.125$. The 2/12 pitch has the largest slope."
+      }
+    ]
+  },
+  "m203-1-2": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 1: Rate of Change from a Table",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rate of change",
+        "t": 21.017
+      },
+      {
+        "title": "Fuel in a generator",
+        "t": 42.933
+      },
+      {
+        "title": "Same order, top and bottom",
+        "t": 96.695
+      },
+      {
+        "title": "Your turn",
+        "t": 127.818
+      },
+      {
+        "title": "Summary",
+        "t": 167.859
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2:q",
+        "t": 142.433,
+        "prompt": "A candle is $24$ cm tall when lit. After $3$ h it is $16.5$ cm tall. What is the rate of change of its height?",
+        "choices": [
+          "$-2.5$ cm/h",
+          "$2.5$ cm/h",
+          "$-7.5$ cm/h",
+          "$-0.4$ cm/h"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{16.5 - 24}{3 - 0} = \\dfrac{-7.5}{3} = -2.5$ cm/h. The height goes down, so the rate is negative. D divides the wrong way."
+      }
+    ]
+  },
+  "m203-1-2-b": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 2: What the Rate Means",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Renting a cargo van",
+        "t": 18.577
+      },
+      {
+        "title": "Read the units aloud",
+        "t": 47.698
+      },
+      {
+        "title": "The fixed part",
+        "t": 73.124
+      },
+      {
+        "title": "Predicting a cost",
+        "t": 103.77
+      },
+      {
+        "title": "Your turn",
+        "t": 129.886
+      },
+      {
+        "title": "Summary",
+        "t": 173.425
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2-b:q",
+        "t": 145.971,
+        "prompt": "A plumber charges \\$150 for a $2$ h job and \\$255 for a $3.5$ h job. What is the rate of change, and what does it mean?",
+        "choices": [
+          "\\$70 per hour: each extra hour adds \\$70",
+          "\\$75 per hour: the plumber earns \\$75 per job",
+          "\\$105 per hour: each hour adds \\$105",
+          "\\$0.014 per hour"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{255 - 150}{3.5 - 2} = \\dfrac{105}{1.5} = 70$ dollars per hour. C forgets to divide by the change in time."
+      }
+    ]
+  },
+  "m203-1-2-c": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 3: The Slope of a Line Graph",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Draining a stock tank",
+        "t": 16.205
+      },
+      {
+        "title": "Use the axis scales",
+        "t": 54.779
+      },
+      {
+        "title": "Predicting from the rate",
+        "t": 81.822
+      },
+      {
+        "title": "Your turn",
+        "t": 109.845
+      },
+      {
+        "title": "Summary",
+        "t": 153.004
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2-c:q",
+        "t": 127.494,
+        "prompt": "A line graph of a hiker’s elevation passes through $(1, 1350)$ and $(4, 1800)$, with time in hours and elevation in metres. What is the rate of change?",
+        "choices": [
+          "$150$ m/h",
+          "$450$ m/h",
+          "$-150$ m/h",
+          "$0.0067$ m/h"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{1800 - 1350}{4 - 1} = \\dfrac{450}{3} = 150$ m/h. B forgets to divide by the change in time."
+      }
+    ]
+  },
+  "m203-1-2-d": {
+    "lessonId": "m203-1-2",
+    "title": "Rate of Change, Part 4: Graphs with Several Pieces",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading the pieces",
+        "t": 19.019
+      },
+      {
+        "title": "A delivery truck",
+        "t": 38.848
+      },
+      {
+        "title": "When was it fastest?",
+        "t": 82.103
+      },
+      {
+        "title": "Your turn",
+        "t": 110.56
+      },
+      {
+        "title": "Summary",
+        "t": 154.709
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-2-d:q",
+        "t": 131.554,
+        "prompt": "A graph of water in a rain barrel has three pieces: $0$ to $2$ h rises from $20$ L to $80$ L, $2$ to $5$ h is flat, and $5$ to $6$ h falls to $30$ L. Which piece changes fastest?",
+        "choices": [
+          "the last piece, at $-50$ L/h",
+          "the first piece, at $30$ L/h",
+          "the flat piece",
+          "They all change at the same rate."
+        ],
+        "answer": 0,
+        "working": "First: $\\dfrac{80 - 20}{2} = 30$ L/h. Flat: $0$. Last: $\\dfrac{30 - 80}{1} = -50$ L/h. The size $50$ is the largest."
+      }
+    ]
+  },
+  "m203-1-3": {
+    "lessonId": "m203-1-3",
+    "title": "Proportions and Unit Analysis, Part 1: Setting Up a Proportion",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proportion",
+        "t": 21.477
+      },
+      {
+        "title": "Mixing herbicide",
+        "t": 43.583
+      },
+      {
+        "title": "Spreading fertilizer",
+        "t": 90.652
+      },
+      {
+        "title": "Flipping one ratio",
+        "t": 122.06
+      },
+      {
+        "title": "Your turn",
+        "t": 152.028
+      },
+      {
+        "title": "Summary",
+        "t": 186.147
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-3:q",
+        "t": 164.274,
+        "prompt": "A recipe uses $3$ cups of flour for every $2$ dozen cookies. How much flour is needed for $7$ dozen cookies?",
+        "choices": [
+          "$10.5$ cups",
+          "$4.7$ cups",
+          "$14$ cups",
+          "$0.86$ cups"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{3 \\text{ cups}}{2 \\text{ dozen}} = \\dfrac{x}{7 \\text{ dozen}}$, so $x = \\dfrac{3 \\times 7}{2} = 10.5$ cups. B flips one ratio."
+      }
+    ]
+  },
+  "m203-1-3-b": {
+    "lessonId": "m203-1-3",
+    "title": "Proportions and Unit Analysis, Part 2: Rounding Up and Conversion Factors",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Paint for a community hall",
+        "t": 21.588
+      },
+      {
+        "title": "Think about the job",
+        "t": 68.027
+      },
+      {
+        "title": "Conversion factors",
+        "t": 83.927
+      },
+      {
+        "title": "Price per pound",
+        "t": 104.87
+      },
+      {
+        "title": "Your turn",
+        "t": 140.356
+      },
+      {
+        "title": "Summary",
+        "t": 174.107
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-3-b:q",
+        "t": 152.876,
+        "prompt": "A bag of grass seed covers $45$ m². How many bags are needed for a $310$ m² yard?",
+        "choices": [
+          "$7$ bags",
+          "$6$ bags",
+          "$6.9$ bags",
+          "$14$ bags"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{310}{45} \\approx 6.89$. Six bags are not enough, so buy $7$."
+      }
+    ]
   }
 }
