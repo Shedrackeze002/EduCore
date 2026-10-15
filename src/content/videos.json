@@ -17865,5 +17865,56 @@
         "working": "$3$ m $= 300$ cm, so the slope is $\\dfrac{20}{300} = \\dfrac{1}{15}$. B mixes centimetres and metres, and C divides the run by the rise."
       }
     ]
+  },
+  "m203-1-1-b": {
+    "lessonId": "m203-1-1",
+    "title": "Slope, Part 2: Finding a Missing Rise or Run",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rearranging the formula",
+        "t": 19.958
+      },
+      {
+        "title": "How high does the roof rise?",
+        "t": 39.534
+      },
+      {
+        "title": "How long must the ramp be?",
+        "t": 69.07
+      },
+      {
+        "title": "Stairs",
+        "t": 107.468
+      },
+      {
+        "title": "Your turn",
+        "t": 135.405
+      },
+      {
+        "title": "Summary",
+        "t": 172.516
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-1-1-b:q",
+        "t": 148.762,
+        "prompt": "In this example, a ramp may have a slope of at most $\\dfrac{1}{15}$. It must rise $40$ cm. What is the shortest run it can have?",
+        "choices": [
+          "$600$ cm",
+          "$2.7$ cm",
+          "$55$ cm",
+          "$40$ cm"
+        ],
+        "answer": 0,
+        "working": "$\\text{run} = \\dfrac{\\text{rise}}{\\text{slope}} = 40 \\div \\dfrac{1}{15} = 40 \\times 15 = 600$ cm. B divides $40$ by $15$ instead."
+      }
+    ]
   }
 }
