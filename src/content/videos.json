@@ -9516,7 +9516,7 @@
   "m201-1-1-b": {
     "lessonId": "m201-1-1",
     "title": "Arithmetic Sequences, Part 2: Missing Terms and Positions",
-    "duration": 204,
+    "duration": 253,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9525,33 +9525,33 @@
       },
       {
         "title": "From two terms",
-        "t": 15.187
+        "t": 19.118
       },
       {
         "title": "Which term is it?",
-        "t": 48.708
+        "t": 60.984
       },
       {
         "title": "Not a term",
-        "t": 88.962
+        "t": 109.81
       },
       {
         "title": "Theatre seats",
-        "t": 114.821
+        "t": 142.456
       },
       {
         "title": "Your turn",
-        "t": 156.19
+        "t": 193.981
       },
       {
         "title": "Summary",
-        "t": 186.868
+        "t": 230.602
       }
     ],
     "cues": [
       {
         "id": "m201-1-1-b:q",
-        "t": 166.113,
+        "t": 205.891,
         "prompt": "In an arithmetic sequence, $t_3 = 11$ and $t_8 = 31$. Find the common difference $d$.",
         "choices": [
           "$4$",
@@ -9567,7 +9567,7 @@
   "m201-1-2": {
     "lessonId": "m201-1-2",
     "title": "Arithmetic Series, Part 1: Reverse and Add",
-    "duration": 178,
+    "duration": 222,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9576,33 +9576,33 @@
       },
       {
         "title": "Partial sums",
-        "t": 19.259
+        "t": 23.283
       },
       {
         "title": "Reverse and add",
-        "t": 50.591
+        "t": 62.327
       },
       {
         "title": "The formulas",
-        "t": 74.213
+        "t": 92.536
       },
       {
         "title": "Using a formula",
-        "t": 109.713
+        "t": 136.677
       },
       {
         "title": "Your turn",
-        "t": 133.545
+        "t": 166.989
       },
       {
         "title": "Summary",
-        "t": 160.845
+        "t": 199.527
       }
     ],
     "cues": [
       {
         "id": "m201-1-2:q",
-        "t": 141.285,
+        "t": 175.943,
         "prompt": "Find the sum of the first $10$ terms of $2 + 5 + 8 + \\cdots$",
         "choices": [
           "$155$",
@@ -9618,7 +9618,7 @@
   "m201-1-2-b": {
     "lessonId": "m201-1-2",
     "title": "Arithmetic Series, Part 2: Finding n, and Problems",
-    "duration": 189,
+    "duration": 232,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9627,29 +9627,29 @@
       },
       {
         "title": "When the last term is given",
-        "t": 17.764
+        "t": 21.895
       },
       {
         "title": "A pile of logs",
-        "t": 59.829
+        "t": 73.097
       },
       {
         "title": "How many rows?",
-        "t": 90.055
+        "t": 110.227
       },
       {
         "title": "Your turn",
-        "t": 139.705
+        "t": 171.311
       },
       {
         "title": "Summary",
-        "t": 173.421
+        "t": 211.015
       }
     ],
     "cues": [
       {
         "id": "m201-1-2-b:q",
-        "t": 147.769,
+        "t": 180.738,
         "prompt": "Find the sum of $4 + 9 + 14 + \\cdots + 99$.",
         "choices": [
           "$1030$",
@@ -9665,7 +9665,7 @@
   "m201-1-3": {
     "lessonId": "m201-1-3",
     "title": "Geometric Sequences, Part 1: The Common Ratio",
-    "duration": 214,
+    "duration": 263,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9674,33 +9674,33 @@
       },
       {
         "title": "The common ratio",
-        "t": 21.767
+        "t": 26.288
       },
       {
         "title": "Geometric or arithmetic?",
-        "t": 59.904
+        "t": 73.681
       },
       {
         "title": "The general term",
-        "t": 90.099
+        "t": 111.4
       },
       {
         "title": "A negative ratio",
-        "t": 124.358
+        "t": 153.507
       },
       {
         "title": "Your turn",
-        "t": 163.876
+        "t": 201.599
       },
       {
         "title": "Summary",
-        "t": 193.508
+        "t": 237.01
       }
     ],
     "cues": [
       {
         "id": "m201-1-3:q",
-        "t": 171.79,
+        "t": 210.961,
         "prompt": "Find $t_6$ for the geometric sequence $5,\\ 15,\\ 45,\\ \\ldots$",
         "choices": [
           "$1215$",
@@ -9716,7 +9716,7 @@
   "m201-1-3-b": {
     "lessonId": "m201-1-3",
     "title": "Geometric Sequences, Part 2: Missing Terms, Growth and Decay",
-    "duration": 234,
+    "duration": 287,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9725,33 +9725,33 @@
       },
       {
         "title": "From two terms",
-        "t": 15.896
+        "t": 20.26
       },
       {
         "title": "Which term is it?",
-        "t": 75.165
+        "t": 91.33
       },
       {
         "title": "Depreciation",
-        "t": 103.232
+        "t": 126.806
       },
       {
         "title": "A bouncing ball",
-        "t": 143.448
+        "t": 175.69
       },
       {
         "title": "Your turn",
-        "t": 175.61
+        "t": 215.408
       },
       {
         "title": "Summary",
-        "t": 208.258
+        "t": 253.906
       }
     ],
     "cues": [
       {
         "id": "m201-1-3-b:q",
-        "t": 187.558,
+        "t": 229.193,
         "prompt": "A town of $8000$ people grows by $5\\%$ each year. Which expression gives its population after $6$ years?",
         "choices": [
           "$8000(1.05)^6$",
@@ -9767,7 +9767,7 @@
   "m201-1-4": {
     "lessonId": "m201-1-4",
     "title": "Geometric Series, Part 1: The Sum Formula",
-    "duration": 197,
+    "duration": 240,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9776,29 +9776,29 @@
       },
       {
         "title": "Multiply and subtract",
-        "t": 21.594
+        "t": 26.237
       },
       {
         "title": "The formulas",
-        "t": 60.706
+        "t": 74.312
       },
       {
         "title": "Finding sums",
-        "t": 102.738
+        "t": 125.47
       },
       {
         "title": "Your turn",
-        "t": 146.027
+        "t": 177.628
       },
       {
         "title": "Summary",
-        "t": 175.519
+        "t": 212.82
       }
     ],
     "cues": [
       {
         "id": "m201-1-4:q",
-        "t": 154.145,
+        "t": 187.14,
         "prompt": "Find the sum of the first $6$ terms of $4 + 12 + 36 + \\cdots$",
         "choices": [
           "$1456$",
@@ -9814,7 +9814,7 @@
   "m201-1-4-b": {
     "lessonId": "m201-1-4",
     "title": "Geometric Series, Part 2: Last Terms, Salaries and Bounces",
-    "duration": 206,
+    "duration": 250,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9823,29 +9823,29 @@
       },
       {
         "title": "From the last term",
-        "t": 18.179
+        "t": 22.248
       },
       {
         "title": "A salary with raises",
-        "t": 65.507
+        "t": 79.866
       },
       {
         "title": "A bouncing ball",
-        "t": 104.559
+        "t": 126.58
       },
       {
         "title": "Your turn",
-        "t": 154.829
+        "t": 187.719
       },
       {
         "title": "Summary",
-        "t": 180.984
+        "t": 218.996
       }
     ],
     "cues": [
       {
         "id": "m201-1-4-b:q",
-        "t": 162.857,
+        "t": 197.192,
         "prompt": "Find the sum of $1 + 2 + 4 + \\cdots + 512$.",
         "choices": [
           "$1023$",
@@ -9861,7 +9861,7 @@
   "m201-1-5": {
     "lessonId": "m201-1-5",
     "title": "Infinite Geometric Series, Part 1: Converging to a Sum",
-    "duration": 193,
+    "duration": 239,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9870,33 +9870,33 @@
       },
       {
         "title": "Partial sums",
-        "t": 18.938
+        "t": 23.144
       },
       {
         "title": "Converge or diverge",
-        "t": 45.774
+        "t": 56.589
       },
       {
         "title": "The test and the sum",
-        "t": 80.654
+        "t": 100.419
       },
       {
         "title": "Using the formula",
-        "t": 124.54
+        "t": 153.952
       },
       {
         "title": "Your turn",
-        "t": 143.138
+        "t": 177.205
       },
       {
         "title": "Summary",
-        "t": 167.049
+        "t": 206.1
       }
     ],
     "cues": [
       {
         "id": "m201-1-5:q",
-        "t": 149.207,
+        "t": 184.337,
         "prompt": "Which infinite geometric series converges?",
         "choices": [
           "$9 + 3 + 1 + \\cdots$",
@@ -9912,7 +9912,7 @@
   "m201-1-5-b": {
     "lessonId": "m201-1-5",
     "title": "Infinite Geometric Series, Part 2: Using the Sum",
-    "duration": 215,
+    "duration": 263,
     "voice": "af_heart",
     "chapters": [
       {
@@ -9921,33 +9921,33 @@
       },
       {
         "title": "A negative ratio",
-        "t": 19.488
+        "t": 24.09
       },
       {
         "title": "A ratio with a variable",
-        "t": 66.138
+        "t": 79.807
       },
       {
         "title": "Bouncing forever",
-        "t": 88.82
+        "t": 109.138
       },
       {
         "title": "A repeating decimal",
-        "t": 128.122
+        "t": 156.672
       },
       {
         "title": "Your turn",
-        "t": 168.158
+        "t": 204.943
       },
       {
         "title": "Summary",
-        "t": 194.849
+        "t": 236.749
       }
     ],
     "cues": [
       {
         "id": "m201-1-5-b:q",
-        "t": 174.672,
+        "t": 212.67,
         "prompt": "Find the sum of $12 - 6 + 3 - \\cdots$",
         "choices": [
           "$8$",
@@ -9957,6 +9957,3590 @@
         ],
         "answer": 0,
         "working": "$r = -\\frac{1}{2}$, and $S_\\infty = \\dfrac{12}{1 - \\left(-\\frac{1}{2}\\right)} = \\dfrac{12}{1.5} = 8$."
+      }
+    ]
+  },
+  "m201-2-1": {
+    "lessonId": "m201-2-1",
+    "title": "Angles in Standard Position, Part 1: Reference Angles",
+    "duration": 278,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Standard position",
+        "t": 24.775
+      },
+      {
+        "title": "Reference angles",
+        "t": 87.635
+      },
+      {
+        "title": "Two examples",
+        "t": 134.764
+      },
+      {
+        "title": "One reference angle, four angles",
+        "t": 183.029
+      },
+      {
+        "title": "Your turn",
+        "t": 221.234
+      },
+      {
+        "title": "Summary",
+        "t": 251.293
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-1:q",
+        "t": 228.757,
+        "prompt": "Find the reference angle of $\\theta = 250^\\circ$.",
+        "choices": [
+          "$70^\\circ$",
+          "$20^\\circ$",
+          "$110^\\circ$",
+          "$250^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$250^\\circ$ is in quadrant III, so $\\theta_R = 250^\\circ - 180^\\circ = 70^\\circ$."
+      }
+    ]
+  },
+  "m201-2-1-b": {
+    "lessonId": "m201-2-1",
+    "title": "Angles in Standard Position, Part 2: Special Triangles",
+    "duration": 187,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "45°–45°–90°",
+        "t": 23.622
+      },
+      {
+        "title": "30°–60°–90°",
+        "t": 57.434
+      },
+      {
+        "title": "Exact values",
+        "t": 89.036
+      },
+      {
+        "title": "Your turn",
+        "t": 130.771
+      },
+      {
+        "title": "Summary",
+        "t": 158.804
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-1-b:q",
+        "t": 138.601,
+        "prompt": "What is the exact value of $\\cos 60^\\circ$?",
+        "choices": [
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$\\sqrt{3}$",
+          "$\\dfrac{\\sqrt{2}}{2}$"
+        ],
+        "answer": 0,
+        "working": "In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side adjacent to $60^\\circ$ is $1$ and the hypotenuse is $2$: $\\cos 60^\\circ = \\dfrac{1}{2}$."
+      }
+    ]
+  },
+  "m201-2-1-c": {
+    "lessonId": "m201-2-1",
+    "title": "Angles in Standard Position, Part 3: Exact Values in Every Quadrant",
+    "duration": 219,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "x, y and r",
+        "t": 21.386
+      },
+      {
+        "title": "Using the reference angle",
+        "t": 79.12
+      },
+      {
+        "title": "Quadrantal angles",
+        "t": 121.676
+      },
+      {
+        "title": "Your turn",
+        "t": 154.062
+      },
+      {
+        "title": "Summary",
+        "t": 187.553
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-1-c:q",
+        "t": 161.926,
+        "prompt": "What is the exact value of $\\sin 300^\\circ$?",
+        "choices": [
+          "$-\\dfrac{\\sqrt{3}}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$-\\dfrac{1}{2}$",
+          "$\\dfrac{1}{2}$"
+        ],
+        "answer": 0,
+        "working": "Quadrant IV: $\\theta_R = 60^\\circ$ and $y < 0$, so $\\sin 300^\\circ = -\\sin 60^\\circ = -\\dfrac{\\sqrt{3}}{2}$."
+      }
+    ]
+  },
+  "m201-2-2": {
+    "lessonId": "m201-2-2",
+    "title": "Trigonometric Ratios of Any Angle, Part 1: Points and CAST",
+    "duration": 266,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A point on the arm",
+        "t": 23.515
+      },
+      {
+        "title": "Finding the angle",
+        "t": 73.395
+      },
+      {
+        "title": "The CAST rule",
+        "t": 119.645
+      },
+      {
+        "title": "Locating an angle",
+        "t": 163.702
+      },
+      {
+        "title": "Your turn",
+        "t": 198.637
+      },
+      {
+        "title": "Summary",
+        "t": 232.556
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-2:q",
+        "t": 209.217,
+        "prompt": "$P(-6, -8)$ is on the terminal arm of $\\theta$. What is $\\sin\\theta$?",
+        "choices": [
+          "$-\\dfrac{4}{5}$",
+          "$\\dfrac{4}{5}$",
+          "$-\\dfrac{3}{5}$",
+          "$\\dfrac{4}{3}$"
+        ],
+        "answer": 0,
+        "working": "$r = \\sqrt{36 + 64} = 10$, so $\\sin\\theta = \\dfrac{-8}{10} = -\\dfrac{4}{5}$."
+      }
+    ]
+  },
+  "m201-2-2-b": {
+    "lessonId": "m201-2-2",
+    "title": "Trigonometric Ratios of Any Angle, Part 2: Solving for Angles",
+    "duration": 254,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From one ratio",
+        "t": 26.19
+      },
+      {
+        "title": "Solving an equation",
+        "t": 82.936
+      },
+      {
+        "title": "With a calculator",
+        "t": 126.454
+      },
+      {
+        "title": "Your turn",
+        "t": 191.973
+      },
+      {
+        "title": "Summary",
+        "t": 229.087
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-2-b:q",
+        "t": 203,
+        "prompt": "Solve $\\cos\\theta = \\dfrac{1}{2}$ for $0^\\circ \\le \\theta < 360^\\circ$.",
+        "choices": [
+          "$60^\\circ$ and $300^\\circ$",
+          "$60^\\circ$ only",
+          "$60^\\circ$ and $120^\\circ$",
+          "$120^\\circ$ and $240^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\theta_R = 60^\\circ$, and cosine is positive in quadrants I and IV: $60^\\circ$ and $360^\\circ - 60^\\circ = 300^\\circ$."
+      }
+    ]
+  },
+  "m201-2-3": {
+    "lessonId": "m201-2-3",
+    "title": "The Sine Law, Part 1: Finding Sides",
+    "duration": 258,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Oblique triangles",
+        "t": 21.429
+      },
+      {
+        "title": "Why it works",
+        "t": 51.164
+      },
+      {
+        "title": "Finding a side",
+        "t": 107.106
+      },
+      {
+        "title": "Find the third angle first",
+        "t": 149.043
+      },
+      {
+        "title": "Your turn",
+        "t": 190.966
+      },
+      {
+        "title": "Summary",
+        "t": 230.133
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-3:q",
+        "t": 206.843,
+        "prompt": "In $\\triangle ABC$, $\\angle A = 40^\\circ$, $\\angle C = 75^\\circ$ and $a = 8$ cm. Which equation gives $c$?",
+        "choices": [
+          "$c = \\dfrac{8\\sin 75^\\circ}{\\sin 40^\\circ}$",
+          "$c = \\dfrac{8\\sin 40^\\circ}{\\sin 75^\\circ}$",
+          "$c = 8\\sin 75^\\circ$",
+          "$c = \\dfrac{\\sin 75^\\circ}{8\\sin 40^\\circ}$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{c}{\\sin 75^\\circ} = \\dfrac{8}{\\sin 40^\\circ}$, so $c = \\dfrac{8\\sin 75^\\circ}{\\sin 40^\\circ} \\approx 12.0$ cm."
+      }
+    ]
+  },
+  "m201-2-3-b": {
+    "lessonId": "m201-2-3",
+    "title": "The Sine Law, Part 2: Finding Angles",
+    "duration": 286,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An acute angle",
+        "t": 21.379
+      },
+      {
+        "title": "Two angles, one sine",
+        "t": 75.951
+      },
+      {
+        "title": "An obtuse angle",
+        "t": 120.782
+      },
+      {
+        "title": "Fire lookouts",
+        "t": 175.54
+      },
+      {
+        "title": "Your turn",
+        "t": 224.258
+      },
+      {
+        "title": "Summary",
+        "t": 260.455
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-3-b:q",
+        "t": 233.892,
+        "prompt": "$\\sin B = 0.5$ and $\\angle B$ is obtuse. What is $\\angle B$?",
+        "choices": [
+          "$150^\\circ$",
+          "$30^\\circ$",
+          "$120^\\circ$",
+          "$210^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\sin^{-1}(0.5) = 30^\\circ$, and the obtuse angle with the same sine is $180^\\circ - 30^\\circ = 150^\\circ$."
+      }
+    ]
+  },
+  "m201-2-4": {
+    "lessonId": "m201-2-4",
+    "title": "The Ambiguous Case, Part 1: How Many Triangles?",
+    "duration": 250,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A swinging gate",
+        "t": 24.815
+      },
+      {
+        "title": "Counting the triangles",
+        "t": 64.151
+      },
+      {
+        "title": "Using the height",
+        "t": 101.181
+      },
+      {
+        "title": "An obtuse angle",
+        "t": 153.197
+      },
+      {
+        "title": "Your turn",
+        "t": 186.26
+      },
+      {
+        "title": "Summary",
+        "t": 219.26
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-4:q",
+        "t": 199.521,
+        "prompt": "$\\angle A = 40^\\circ$, $b = 10$ cm and $a = 8$ cm. How many triangles are possible?",
+        "choices": [
+          "two",
+          "one",
+          "none",
+          "three"
+        ],
+        "answer": 0,
+        "working": "$h = 10\\sin 40^\\circ \\approx 6.43$, and $6.43 < 8 < 10$, so there are two triangles."
+      }
+    ]
+  },
+  "m201-2-4-b": {
+    "lessonId": "m201-2-4",
+    "title": "The Ambiguous Case, Part 2: Solving Both Triangles",
+    "duration": 276,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two angles for B",
+        "t": 20.667
+      },
+      {
+        "title": "Finish each triangle",
+        "t": 81.3
+      },
+      {
+        "title": "Cell tower range",
+        "t": 129.465
+      },
+      {
+        "title": "Your turn",
+        "t": 215.293
+      },
+      {
+        "title": "Summary",
+        "t": 250.96
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-4-b:q",
+        "t": 228.244,
+        "prompt": "In an ambiguous case, $\\sin B \\approx 0.7660$. What are the two possible measures of $\\angle B$?",
+        "choices": [
+          "$50^\\circ$ and $130^\\circ$",
+          "$50^\\circ$ and $140^\\circ$",
+          "$40^\\circ$ and $140^\\circ$",
+          "$50^\\circ$ and $230^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\sin^{-1}(0.7660) \\approx 50^\\circ$, and its supplement is $180^\\circ - 50^\\circ = 130^\\circ$."
+      }
+    ]
+  },
+  "m201-2-5": {
+    "lessonId": "m201-2-5",
+    "title": "The Cosine Law, Part 1: Finding a Side",
+    "duration": 279,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proving the cosine law",
+        "t": 23.775
+      },
+      {
+        "title": "The Pythagorean link",
+        "t": 76.102
+      },
+      {
+        "title": "Finding a side",
+        "t": 112.848
+      },
+      {
+        "title": "An obtuse angle",
+        "t": 155.448
+      },
+      {
+        "title": "Your turn",
+        "t": 211.55
+      },
+      {
+        "title": "Summary",
+        "t": 250.722
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-5:q",
+        "t": 222.52,
+        "prompt": "In $\\triangle ABC$, $b = 5$, $c = 7$ and $\\angle A = 60^\\circ$. Find $a$.",
+        "choices": [
+          "$\\sqrt{39} \\approx 6.2$",
+          "$\\sqrt{74} \\approx 8.6$",
+          "$\\sqrt{109} \\approx 10.4$",
+          "$7$"
+        ],
+        "answer": 0,
+        "working": "$a^2 = 25 + 49 - 2(5)(7)(0.5) = 74 - 35 = 39$, so $a = \\sqrt{39} \\approx 6.2$."
+      }
+    ]
+  },
+  "m201-2-5-b": {
+    "lessonId": "m201-2-5",
+    "title": "The Cosine Law, Part 2: Finding Angles and Choosing a Law",
+    "duration": 237,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rearranging the law",
+        "t": 21.23
+      },
+      {
+        "title": "The largest angle",
+        "t": 62.284
+      },
+      {
+        "title": "Choosing a law",
+        "t": 123.009
+      },
+      {
+        "title": "Your turn",
+        "t": 165.25
+      },
+      {
+        "title": "Summary",
+        "t": 203.567
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-5-b:q",
+        "t": 177.263,
+        "prompt": "In $\\triangle ABC$, $a = 8$, $b = 5$ and $c = 6$. Which expression gives $\\cos A$?",
+        "choices": [
+          "$\\dfrac{5^2 + 6^2 - 8^2}{2(5)(6)}$",
+          "$\\dfrac{8^2 + 5^2 - 6^2}{2(8)(5)}$",
+          "$\\dfrac{5^2 + 6^2 + 8^2}{2(5)(6)}$",
+          "$\\dfrac{8^2 - 5^2 - 6^2}{2(5)(6)}$"
+        ],
+        "answer": 0,
+        "working": "The side opposite $\\angle A$, $a = 8$, is the one subtracted: $\\cos A = \\dfrac{25 + 36 - 64}{60} = -0.05$, so $\\angle A \\approx 92.9^\\circ$."
+      }
+    ]
+  },
+  "m201-2-5-c": {
+    "lessonId": "m201-2-5",
+    "title": "The Cosine Law, Part 3: Two-Step Problems",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The height of a tree",
+        "t": 17.516
+      },
+      {
+        "title": "Paddling across a lake",
+        "t": 83.292
+      },
+      {
+        "title": "Your turn",
+        "t": 139.476
+      },
+      {
+        "title": "Summary",
+        "t": 173.487
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-2-5-c:q",
+        "t": 152.835,
+        "prompt": "A triangle has two sides of $10$ m and $14$ m, with a $35^\\circ$ angle between them. Which law finds the third side?",
+        "choices": [
+          "the cosine law",
+          "the sine law",
+          "SOH CAH TOA",
+          "the Pythagorean theorem"
+        ],
+        "answer": 0,
+        "working": "Two sides and the contained angle (SAS): there is no complete side–angle pair, so use the cosine law."
+      }
+    ]
+  },
+  "m201-3-1": {
+    "lessonId": "m201-3-1",
+    "title": "Quadratic Functions in Vertex Form, Part 1: Transforming y = x²",
+    "duration": 236,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Parabolas",
+        "t": 25.631
+      },
+      {
+        "title": "Stretching with a",
+        "t": 85.874
+      },
+      {
+        "title": "Translating with p and q",
+        "t": 127.446
+      },
+      {
+        "title": "Your turn",
+        "t": 173.754
+      },
+      {
+        "title": "Summary",
+        "t": 209.631
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-1:q",
+        "t": 186.124,
+        "prompt": "How is the graph of $y = (x + 5)^2 - 2$ related to the graph of $y = x^2$?",
+        "choices": [
+          "$5$ units left, $2$ units down",
+          "$5$ units right, $2$ units down",
+          "$5$ units left, $2$ units up",
+          "$2$ units left, $5$ units down"
+        ],
+        "answer": 0,
+        "working": "$x + 5 = x - (-5)$, so $p = -5$: $5$ units left. $q = -2$: $2$ units down."
+      }
+    ]
+  },
+  "m201-3-1-b": {
+    "lessonId": "m201-3-1",
+    "title": "Quadratic Functions in Vertex Form, Part 2: Reading the Features",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Describing transformations",
+        "t": 20.291
+      },
+      {
+        "title": "Why (p, q) is the vertex",
+        "t": 62.581
+      },
+      {
+        "title": "Features from the equation",
+        "t": 111.018
+      },
+      {
+        "title": "Your turn",
+        "t": 149.389
+      },
+      {
+        "title": "Summary",
+        "t": 185.888
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-1-b:q",
+        "t": 161.977,
+        "prompt": "What is the vertex of $y = 3(x - 2)^2 + 7$, and is it a maximum or a minimum?",
+        "choices": [
+          "$(2, 7)$, minimum",
+          "$(-2, 7)$, minimum",
+          "$(2, 7)$, maximum",
+          "$(7, 2)$, minimum"
+        ],
+        "answer": 0,
+        "working": "$p = 2$ and $q = 7$, so the vertex is $(2, 7)$. $a = 3 > 0$, so the parabola opens up and $7$ is the minimum value."
+      }
+    ]
+  },
+  "m201-3-1-c": {
+    "lessonId": "m201-3-1",
+    "title": "Quadratic Functions in Vertex Form, Part 3: Domain, Range and Models",
+    "duration": 258,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range",
+        "t": 22.059
+      },
+      {
+        "title": "q, not p",
+        "t": 76.888
+      },
+      {
+        "title": "Mapping points",
+        "t": 104.109
+      },
+      {
+        "title": "A thrown ball",
+        "t": 153.175
+      },
+      {
+        "title": "Your turn",
+        "t": 195.073
+      },
+      {
+        "title": "Summary",
+        "t": 229.271
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-1-c:q",
+        "t": 204.507,
+        "prompt": "What is the range of $y = -(x - 1)^2 + 4$?",
+        "choices": [
+          "$\\{y \\mid y \\le 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\le 1,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "The vertex is $(1, 4)$ and $a = -1 < 0$, so the parabola opens down and $4$ is the maximum value: $y \\le 4$."
+      }
+    ]
+  },
+  "m201-3-2": {
+    "lessonId": "m201-3-2",
+    "title": "Writing Quadratic Functions in Vertex Form, Part 1: The Equation",
+    "duration": 233,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Vertex and a point",
+        "t": 23.973
+      },
+      {
+        "title": "From a graph",
+        "t": 75.421
+      },
+      {
+        "title": "A parabolic arch",
+        "t": 122.463
+      },
+      {
+        "title": "Your turn",
+        "t": 173.182
+      },
+      {
+        "title": "Summary",
+        "t": 205.823
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-2:q",
+        "t": 183.737,
+        "prompt": "A parabola has vertex $(1, -2)$ and passes through $(3, 6)$. What is $a$?",
+        "choices": [
+          "$2$",
+          "$4$",
+          "$\\tfrac{1}{2}$",
+          "$-2$"
+        ],
+        "answer": 0,
+        "working": "$6 = a(3 - 1)^2 - 2$, so $6 = 4a - 2$, $4a = 8$ and $a = 2$."
+      }
+    ]
+  },
+  "m201-3-2-b": {
+    "lessonId": "m201-3-2",
+    "title": "Writing Quadratic Functions in Vertex Form, Part 2: Intercepts",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How many x-intercepts?",
+        "t": 16.311
+      },
+      {
+        "title": "The signs of a and q",
+        "t": 52.5
+      },
+      {
+        "title": "Finding the intercepts",
+        "t": 85.398
+      },
+      {
+        "title": "Irrational intercepts",
+        "t": 134.409
+      },
+      {
+        "title": "Your turn",
+        "t": 175.109
+      },
+      {
+        "title": "Summary",
+        "t": 205.2
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-2-b:q",
+        "t": 184.149,
+        "prompt": "What are the $x$-intercepts of $y = (x + 2)^2 - 9$?",
+        "choices": [
+          "$1$ and $-5$",
+          "$1$ only",
+          "$-1$ and $5$",
+          "$7$ and $-11$"
+        ],
+        "answer": 0,
+        "working": "$(x + 2)^2 = 9$, so $x + 2 = \\pm 3$ and $x = 1$ or $x = -5$."
+      }
+    ]
+  },
+  "m201-3-3": {
+    "lessonId": "m201-3-3",
+    "title": "Quadratic Functions in Standard Form, Part 1: The Axis of Symmetry",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Standard form",
+        "t": 24.407
+      },
+      {
+        "title": "Why x = −b/2a",
+        "t": 66.737
+      },
+      {
+        "title": "Vertex from standard form",
+        "t": 123.244
+      },
+      {
+        "title": "Your turn",
+        "t": 181.674
+      },
+      {
+        "title": "Summary",
+        "t": 216.426
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-3:q",
+        "t": 190.786,
+        "prompt": "What is the vertex of $y = x^2 + 4x - 1$?",
+        "choices": [
+          "$(-2, -5)$",
+          "$(2, 11)$",
+          "$(-4, -1)$",
+          "$(-2, -13)$"
+        ],
+        "answer": 0,
+        "working": "$x = -\\dfrac{4}{2(1)} = -2$, and $y = (-2)^2 + 4(-2) - 1 = 4 - 8 - 1 = -5$."
+      }
+    ]
+  },
+  "m201-3-3-b": {
+    "lessonId": "m201-3-3",
+    "title": "Quadratic Functions in Standard Form, Part 2: Completing the Square",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Making a perfect square",
+        "t": 18.937
+      },
+      {
+        "title": "When a = 1",
+        "t": 61.29
+      },
+      {
+        "title": "When a ≠ 1",
+        "t": 93.262
+      },
+      {
+        "title": "Check it",
+        "t": 143.559
+      },
+      {
+        "title": "Your turn",
+        "t": 178.824
+      },
+      {
+        "title": "Summary",
+        "t": 213.803
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-3-b:q",
+        "t": 187.935,
+        "prompt": "Write $y = x^2 - 10x + 4$ in vertex form.",
+        "choices": [
+          "$y = (x - 5)^2 - 21$",
+          "$y = (x - 5)^2 + 29$",
+          "$y = (x + 5)^2 - 21$",
+          "$y = (x - 10)^2 + 4$"
+        ],
+        "answer": 0,
+        "working": "Half of $-10$ is $-5$, and $(-5)^2 = 25$: $y = (x^2 - 10x + 25) - 25 + 4 = (x - 5)^2 - 21$."
+      }
+    ]
+  },
+  "m201-3-3-c": {
+    "lessonId": "m201-3-3",
+    "title": "Quadratic Functions in Standard Form, Part 3: Analyzing a Function",
+    "duration": 222,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fractions in the vertex",
+        "t": 19.093
+      },
+      {
+        "title": "The features",
+        "t": 72.983
+      },
+      {
+        "title": "A model rocket",
+        "t": 106.463
+      },
+      {
+        "title": "Your turn",
+        "t": 157.125
+      },
+      {
+        "title": "Summary",
+        "t": 194.893
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-3-c:q",
+        "t": 167.485,
+        "prompt": "What is the maximum value of $y = -x^2 + 6x + 1$?",
+        "choices": [
+          "$10$",
+          "$3$",
+          "$28$",
+          "$-26$"
+        ],
+        "answer": 0,
+        "working": "$x = -\\dfrac{6}{2(-1)} = 3$, and $y = -(3)^2 + 6(3) + 1 = -9 + 18 + 1 = 10$."
+      }
+    ]
+  },
+  "m201-3-4": {
+    "lessonId": "m201-3-4",
+    "title": "Solving Optimization Problems, Part 1: Maximum and Minimum Values",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Optimal values",
+        "t": 19.855
+      },
+      {
+        "title": "A number problem",
+        "t": 72.881
+      },
+      {
+        "title": "Maximum height",
+        "t": 110.805
+      },
+      {
+        "title": "Your turn",
+        "t": 167.777
+      },
+      {
+        "title": "Summary",
+        "t": 203.474
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-4:q",
+        "t": 176.37,
+        "prompt": "Two numbers have a sum of $20$. What is the largest possible product?",
+        "choices": [
+          "$100$",
+          "$10$",
+          "$20$",
+          "$400$"
+        ],
+        "answer": 0,
+        "working": "The product $P = x(20 - x)$ has zeros $0$ and $20$, so the vertex is at $x = 10$. Both numbers are $10$, and $P = 100$."
+      }
+    ]
+  },
+  "m201-3-4-b": {
+    "lessonId": "m201-3-4",
+    "title": "Solving Optimization Problems, Part 2: Area and Revenue",
+    "duration": 241,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fencing against a wall",
+        "t": 22.815
+      },
+      {
+        "title": "The domain and the answer",
+        "t": 79.185
+      },
+      {
+        "title": "Ticket prices",
+        "t": 114.004
+      },
+      {
+        "title": "Your turn",
+        "t": 174.453
+      },
+      {
+        "title": "Summary",
+        "t": 215.154
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-4-b:q",
+        "t": 189.41,
+        "prompt": "In this example, a store sells $200$ shirts a week at \\$10 each. For every \\$1 increase in price, $10$ fewer shirts are sold. What price maximizes revenue?",
+        "choices": [
+          "\\$15",
+          "\\$5",
+          "\\$2250",
+          "\\$30"
+        ],
+        "answer": 0,
+        "working": "The zeros of $R(x) = (10 + x)(200 - 10x)$ are $x = -10$ and $x = 20$, so $x = 5$ and the price is \\$15."
+      }
+    ]
+  },
+  "m201-4-1": {
+    "lessonId": "m201-4-1",
+    "title": "Factoring Polynomial Expressions, Part 1: Decomposition",
+    "duration": 222,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Product ac, sum b",
+        "t": 23.899
+      },
+      {
+        "title": "A negative constant",
+        "t": 66.392
+      },
+      {
+        "title": "Two variables",
+        "t": 112.062
+      },
+      {
+        "title": "Your turn",
+        "t": 157.403
+      },
+      {
+        "title": "Summary",
+        "t": 193.253
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-1:q",
+        "t": 165.017,
+        "prompt": "Factor $2x^2 + 5x - 12$.",
+        "choices": [
+          "$(2x - 3)(x + 4)$",
+          "$(2x + 3)(x - 4)$",
+          "$(2x - 4)(x + 3)$",
+          "$(2x + 4)(x - 3)$"
+        ],
+        "answer": 0,
+        "working": "$ac = -24$, and $8 + (-3) = 5$: $2x^2 + 8x - 3x - 12 = 2x(x + 4) - 3(x + 4) = (2x - 3)(x + 4)$."
+      }
+    ]
+  },
+  "m201-4-1-b": {
+    "lessonId": "m201-4-1",
+    "title": "Factoring Polynomial Expressions, Part 2: Common Factors and Differences of Squares",
+    "duration": 230,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Common factors first",
+        "t": 20.177
+      },
+      {
+        "title": "A fraction in front",
+        "t": 65.002
+      },
+      {
+        "title": "Difference of squares",
+        "t": 104.311
+      },
+      {
+        "title": "Your turn",
+        "t": 173.994
+      },
+      {
+        "title": "Summary",
+        "t": 202.894
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-1-b:q",
+        "t": 181.369,
+        "prompt": "Factor $2x^2 - 50$ completely.",
+        "choices": [
+          "$2(x - 5)(x + 5)$",
+          "$2(x - 5)^2$",
+          "$(2x - 10)(x + 5)$",
+          "$2(x^2 - 25)$"
+        ],
+        "answer": 0,
+        "working": "Remove the common factor $2$: $2(x^2 - 25)$. Then $x^2 - 25 = (x - 5)(x + 5)$."
+      }
+    ]
+  },
+  "m201-4-1-c": {
+    "lessonId": "m201-4-1",
+    "title": "Factoring Polynomial Expressions, Part 3: Substitution",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A repeated binomial",
+        "t": 24.756
+      },
+      {
+        "title": "x to the fourth",
+        "t": 74.396
+      },
+      {
+        "title": "A difference of squares",
+        "t": 112.243
+      },
+      {
+        "title": "Your turn",
+        "t": 154.683
+      },
+      {
+        "title": "Summary",
+        "t": 186.198
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-1-c:q",
+        "t": 161.583,
+        "prompt": "Factor $(x + 3)^2 - 4$.",
+        "choices": [
+          "$(x + 1)(x + 5)$",
+          "$(x - 1)(x + 5)$",
+          "$(x + 1)(x - 5)$",
+          "$(x - 2)(x + 2)$"
+        ],
+        "answer": 0,
+        "working": "Let $u = x + 3$: $u^2 - 4 = (u - 2)(u + 2) = (x + 3 - 2)(x + 3 + 2) = (x + 1)(x + 5)$."
+      }
+    ]
+  },
+  "m201-4-2": {
+    "lessonId": "m201-4-2",
+    "title": "Solving Quadratic Equations, Part 1: Roots and Graphs",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Roots, zeros and x-intercepts",
+        "t": 22.863
+      },
+      {
+        "title": "Check the roots",
+        "t": 71.509
+      },
+      {
+        "title": "How many roots?",
+        "t": 96.348
+      },
+      {
+        "title": "Solving f(x) = k",
+        "t": 134.806
+      },
+      {
+        "title": "Your turn",
+        "t": 174.56
+      },
+      {
+        "title": "Summary",
+        "t": 204.725
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-2:q",
+        "t": 180.744,
+        "prompt": "Which equation has no real roots?",
+        "choices": [
+          "$x^2 + 2 = 0$",
+          "$x^2 - 2 = 0$",
+          "$x^2 = 0$",
+          "$(x - 2)^2 - 1 = 0$"
+        ],
+        "answer": 0,
+        "working": "The graph of $y = x^2 + 2$ has its vertex at $(0, 2)$, above the $x$-axis, and opens up, so it never meets the axis."
+      }
+    ]
+  },
+  "m201-4-2-b": {
+    "lessonId": "m201-4-2",
+    "title": "Solving Quadratic Equations, Part 2: The Zero Product Property",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Zero product property",
+        "t": 21.025
+      },
+      {
+        "title": "Solving by factoring",
+        "t": 53.826
+      },
+      {
+        "title": "The other side must be zero",
+        "t": 93.373
+      },
+      {
+        "title": "Your turn",
+        "t": 145.363
+      },
+      {
+        "title": "Summary",
+        "t": 182.168
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-2-b:q",
+        "t": 152.877,
+        "prompt": "Solve $x^2 - 5x = 14$.",
+        "choices": [
+          "$x = 7$ or $x = -2$",
+          "$x = -7$ or $x = 2$",
+          "$x = 14$ or $x = 19$",
+          "$x = 0$ or $x = 5$"
+        ],
+        "answer": 0,
+        "working": "Subtract $14$: $x^2 - 5x - 14 = 0$, so $(x - 7)(x + 2) = 0$ and $x = 7$ or $x = -2$."
+      }
+    ]
+  },
+  "m201-4-2-c": {
+    "lessonId": "m201-4-2",
+    "title": "Solving Quadratic Equations, Part 3: Standard Form First",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 20.194
+      },
+      {
+        "title": "Never divide by the variable",
+        "t": 75.526
+      },
+      {
+        "title": "A known root",
+        "t": 109.9
+      },
+      {
+        "title": "Your turn",
+        "t": 149.022
+      },
+      {
+        "title": "Summary",
+        "t": 180.913
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-2-c:q",
+        "t": 155.563,
+        "prompt": "Solve $2x^2 = 8x$.",
+        "choices": [
+          "$x = 0$ or $x = 4$",
+          "$x = 4$",
+          "$x = 0$",
+          "$x = -4$ or $x = 4$"
+        ],
+        "answer": 0,
+        "working": "$2x^2 - 8x = 0$, so $2x(x - 4) = 0$ and $x = 0$ or $x = 4$."
+      }
+    ]
+  },
+  "m201-4-3": {
+    "lessonId": "m201-4-3",
+    "title": "Completing the Square and the Quadratic Formula, Part 1: Square Roots",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Taking square roots",
+        "t": 26.533
+      },
+      {
+        "title": "Three cases",
+        "t": 56.24
+      },
+      {
+        "title": "Completing the square",
+        "t": 103.168
+      },
+      {
+        "title": "Your turn",
+        "t": 152.24
+      },
+      {
+        "title": "Summary",
+        "t": 190.213
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-3:q",
+        "t": 162.247,
+        "prompt": "Solve $x^2 - 4x - 1 = 0$ by completing the square.",
+        "choices": [
+          "$x = 2 \\pm \\sqrt{5}$",
+          "$x = -2 \\pm \\sqrt{5}$",
+          "$x = 2 \\pm \\sqrt{3}$",
+          "$x = 2 + \\sqrt{5}$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 4x = 1$. Add $(-2)^2 = 4$ to both sides: $(x - 2)^2 = 5$, so $x = 2 \\pm \\sqrt{5}$."
+      }
+    ]
+  },
+  "m201-4-3-b": {
+    "lessonId": "m201-4-3",
+    "title": "Completing the Square and the Quadratic Formula, Part 2: Deriving the Formula",
+    "duration": 238,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "When a ≠ 1",
+        "t": 19.724
+      },
+      {
+        "title": "With letters",
+        "t": 68.085
+      },
+      {
+        "title": "Check with numbers",
+        "t": 132.322
+      },
+      {
+        "title": "Your turn",
+        "t": 172.82
+      },
+      {
+        "title": "Summary",
+        "t": 207.649
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-3-b:q",
+        "t": 183.923,
+        "prompt": "For $2x^2 - 3x - 5 = 0$, what is $b^2 - 4ac$?",
+        "choices": [
+          "$49$",
+          "$-31$",
+          "$-49$",
+          "$31$"
+        ],
+        "answer": 0,
+        "working": "$a = 2$, $b = -3$ and $c = -5$: $(-3)^2 - 4(2)(-5) = 9 + 40 = 49$."
+      }
+    ]
+  },
+  "m201-4-3-c": {
+    "lessonId": "m201-4-3",
+    "title": "Completing the Square and the Quadratic Formula, Part 3: Using the Formula",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exact roots",
+        "t": 20.345
+      },
+      {
+        "title": "Decimal roots",
+        "t": 75.057
+      },
+      {
+        "title": "Two common slips",
+        "t": 109.806
+      },
+      {
+        "title": "Your turn",
+        "t": 142.234
+      },
+      {
+        "title": "Summary",
+        "t": 180.003
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-3-c:q",
+        "t": 151.899,
+        "prompt": "Solve $x^2 - 2x - 4 = 0$. Give exact roots.",
+        "choices": [
+          "$x = 1 \\pm \\sqrt{5}$",
+          "$x = -1 \\pm \\sqrt{5}$",
+          "$x = 2 \\pm \\sqrt{5}$",
+          "$x = 1 \\pm 2\\sqrt{5}$"
+        ],
+        "answer": 0,
+        "working": "$x = \\dfrac{2 \\pm \\sqrt{4 + 16}}{2} = \\dfrac{2 \\pm 2\\sqrt{5}}{2} = 1 \\pm \\sqrt{5}$."
+      }
+    ]
+  },
+  "m201-4-4": {
+    "lessonId": "m201-4-4",
+    "title": "The Discriminant and Applications, Part 1: The Discriminant",
+    "duration": 220,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The discriminant",
+        "t": 20.286
+      },
+      {
+        "title": "Predicting the roots",
+        "t": 74.225
+      },
+      {
+        "title": "Standard form first",
+        "t": 130.169
+      },
+      {
+        "title": "Your turn",
+        "t": 159.399
+      },
+      {
+        "title": "Summary",
+        "t": 190.818
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-4:q",
+        "t": 169.356,
+        "prompt": "How many real roots does $3x^2 + 2x + 1 = 0$ have?",
+        "choices": [
+          "No real roots",
+          "One real root",
+          "Two distinct real roots",
+          "Two rational roots"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 2^2 - 4(3)(1) = 4 - 12 = -8 < 0$, so there are no real roots."
+      }
+    ]
+  },
+  "m201-4-4-b": {
+    "lessonId": "m201-4-4",
+    "title": "The Discriminant and Applications, Part 2: Unknown Coefficients and Problems",
+    "duration": 229,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One real root",
+        "t": 19.097
+      },
+      {
+        "title": "Two distinct real roots",
+        "t": 57.889
+      },
+      {
+        "title": "Solving problems",
+        "t": 91.87
+      },
+      {
+        "title": "Your turn",
+        "t": 161.271
+      },
+      {
+        "title": "Summary",
+        "t": 197.571
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-4-b:q",
+        "t": 172.456,
+        "prompt": "For which values of $k$ does $x^2 + 4x + k = 0$ have no real roots?",
+        "choices": [
+          "$k > 4$",
+          "$k < 4$",
+          "$k = 4$",
+          "$k > 16$"
+        ],
+        "answer": 0,
+        "working": "No real roots: $b^2 - 4ac = 16 - 4k < 0$, so $16 < 4k$ and $k > 4$."
+      }
+    ]
+  },
+  "m201-4-4-c": {
+    "lessonId": "m201-4-4",
+    "title": "The Discriminant and Applications, Part 3: Triangles, Projectiles and Frames",
+    "duration": 249,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A right triangle",
+        "t": 18.468
+      },
+      {
+        "title": "A projectile",
+        "t": 66.763
+      },
+      {
+        "title": "A frame",
+        "t": 129.124
+      },
+      {
+        "title": "Your turn",
+        "t": 184.578
+      },
+      {
+        "title": "Summary",
+        "t": 223.536
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-4-c:q",
+        "t": 196.139,
+        "prompt": "A rectangle is $2$ m longer than it is wide, and its area is $48\\text{ m}^2$. How wide is it?",
+        "choices": [
+          "$6$ m",
+          "$8$ m",
+          "$-8$ m",
+          "$24$ m"
+        ],
+        "answer": 0,
+        "working": "$w(w + 2) = 48$, so $w^2 + 2w - 48 = (w - 6)(w + 8) = 0$. Reject $-8$: $w = 6$."
+      }
+    ]
+  },
+  "m201-5-1": {
+    "lessonId": "m201-5-1",
+    "title": "Working with Radicals, Part 1: Simplest Form",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Radicals",
+        "t": 26.438
+      },
+      {
+        "title": "Entire to mixed",
+        "t": 79.374
+      },
+      {
+        "title": "Stopping too early",
+        "t": 133.81
+      },
+      {
+        "title": "Your turn",
+        "t": 162.3
+      },
+      {
+        "title": "Summary",
+        "t": 196.291
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-1:q",
+        "t": 169.121,
+        "prompt": "Write $\\sqrt{72}$ in simplest form.",
+        "choices": [
+          "$6\\sqrt{2}$",
+          "$2\\sqrt{18}$",
+          "$3\\sqrt{8}$",
+          "$36\\sqrt{2}$"
+        ],
+        "answer": 0,
+        "working": "The largest perfect square dividing $72$ is $36$: $\\sqrt{72} = \\sqrt{36}\\,\\sqrt{2} = 6\\sqrt{2}$."
+      }
+    ]
+  },
+  "m201-5-1-b": {
+    "lessonId": "m201-5-1",
+    "title": "Working with Radicals, Part 2: Variables and Comparing",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Variable radicands",
+        "t": 20.536
+      },
+      {
+        "title": "Mixed to entire",
+        "t": 76.614
+      },
+      {
+        "title": "Comparing radicals",
+        "t": 108.87
+      },
+      {
+        "title": "Your turn",
+        "t": 164.838
+      },
+      {
+        "title": "Summary",
+        "t": 195.714
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-1-b:q",
+        "t": 172.402,
+        "prompt": "Which is greater, $5\\sqrt{2}$ or $3\\sqrt{6}$?",
+        "choices": [
+          "$3\\sqrt{6}$",
+          "$5\\sqrt{2}$",
+          "They are equal.",
+          "It cannot be decided without a calculator."
+        ],
+        "answer": 0,
+        "working": "$5\\sqrt{2} = \\sqrt{50}$ and $3\\sqrt{6} = \\sqrt{54}$. Since $54 > 50$, $3\\sqrt{6}$ is greater."
+      }
+    ]
+  },
+  "m201-5-1-c": {
+    "lessonId": "m201-5-1",
+    "title": "Working with Radicals, Part 3: Adding and Subtracting",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Like radicals",
+        "t": 18.571
+      },
+      {
+        "title": "Simplify, then combine",
+        "t": 40.104
+      },
+      {
+        "title": "Variable radicands",
+        "t": 90.817
+      },
+      {
+        "title": "Adding radicands",
+        "t": 129.098
+      },
+      {
+        "title": "Your turn",
+        "t": 157.114
+      },
+      {
+        "title": "Summary",
+        "t": 189.475
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-1-c:q",
+        "t": 164.627,
+        "prompt": "Simplify $\\sqrt{75} - \\sqrt{12}$.",
+        "choices": [
+          "$3\\sqrt{3}$",
+          "$\\sqrt{63}$",
+          "$7\\sqrt{3}$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "$\\sqrt{75} = 5\\sqrt{3}$ and $\\sqrt{12} = 2\\sqrt{3}$, so $\\sqrt{75} - \\sqrt{12} = 3\\sqrt{3}$."
+      }
+    ]
+  },
+  "m201-5-2": {
+    "lessonId": "m201-5-2",
+    "title": "Multiplying and Dividing Radicals, Part 1: Multiplying",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying monomials",
+        "t": 19.259
+      },
+      {
+        "title": "Multiplying binomials",
+        "t": 73.125
+      },
+      {
+        "title": "Squaring a binomial",
+        "t": 112.963
+      },
+      {
+        "title": "Your turn",
+        "t": 141.128
+      },
+      {
+        "title": "Summary",
+        "t": 171.083
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-2:q",
+        "t": 147.878,
+        "prompt": "Expand $\\left(1 + \\sqrt{5}\\right)^2$.",
+        "choices": [
+          "$6 + 2\\sqrt{5}$",
+          "$6$",
+          "$6 + \\sqrt{5}$",
+          "$1 + 2\\sqrt{5}$"
+        ],
+        "answer": 0,
+        "working": "$\\left(1 + \\sqrt{5}\\right)^2 = 1 + \\sqrt{5} + \\sqrt{5} + 5 = 6 + 2\\sqrt{5}$."
+      }
+    ]
+  },
+  "m201-5-2-b": {
+    "lessonId": "m201-5-2",
+    "title": "Multiplying and Dividing Radicals, Part 2: Conjugates and Rationalizing",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Conjugates",
+        "t": 22.603
+      },
+      {
+        "title": "Rationalizing",
+        "t": 69.265
+      },
+      {
+        "title": "Reduce at the end",
+        "t": 108.89
+      },
+      {
+        "title": "Your turn",
+        "t": 141.849
+      },
+      {
+        "title": "Summary",
+        "t": 172.687
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-2-b:q",
+        "t": 148.136,
+        "prompt": "Rationalize $\\dfrac{3}{\\sqrt{6}}$.",
+        "choices": [
+          "$\\dfrac{\\sqrt{6}}{2}$",
+          "$\\dfrac{\\sqrt{6}}{6}$",
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{3}{\\sqrt{6}} \\times \\dfrac{\\sqrt{6}}{\\sqrt{6}} = \\dfrac{3\\sqrt{6}}{6} = \\dfrac{\\sqrt{6}}{2}$."
+      }
+    ]
+  },
+  "m201-5-2-c": {
+    "lessonId": "m201-5-2",
+    "title": "Multiplying and Dividing Radicals, Part 3: Binomial Denominators",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Using a conjugate",
+        "t": 20.254
+      },
+      {
+        "title": "Radicals on top and bottom",
+        "t": 54.706
+      },
+      {
+        "title": "With variables",
+        "t": 87.456
+      },
+      {
+        "title": "Your turn",
+        "t": 132.49
+      },
+      {
+        "title": "Summary",
+        "t": 165.596
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-2-c:q",
+        "t": 139.505,
+        "prompt": "Rationalize $\\dfrac{2}{\\sqrt{3} - 1}$.",
+        "choices": [
+          "$\\sqrt{3} + 1$",
+          "$\\sqrt{3} - 1$",
+          "$2\\sqrt{3} + 2$",
+          "$\\dfrac{2\\sqrt{3}}{3}$"
+        ],
+        "answer": 0,
+        "working": "Multiply by $\\dfrac{\\sqrt{3} + 1}{\\sqrt{3} + 1}$. The denominator is $3 - 1 = 2$, so the result is $\\dfrac{2\\left(\\sqrt{3} + 1\\right)}{2} = \\sqrt{3} + 1$."
+      }
+    ]
+  },
+  "m201-5-3": {
+    "lessonId": "m201-5-3",
+    "title": "Radical Equations, Part 1: Restrictions and Squaring",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Restrictions",
+        "t": 22.911
+      },
+      {
+        "title": "Two conditions",
+        "t": 75.5
+      },
+      {
+        "title": "Solving by squaring",
+        "t": 105.289
+      },
+      {
+        "title": "Your turn",
+        "t": 150.468
+      },
+      {
+        "title": "Summary",
+        "t": 183.055
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-3:q",
+        "t": 158.383,
+        "prompt": "State the restriction on $x$ in $\\sqrt{10 - 5x}$.",
+        "choices": [
+          "$x \\le 2$",
+          "$x \\ge 2$",
+          "$x \\ge -2$",
+          "$x \\le 10$"
+        ],
+        "answer": 0,
+        "working": "$10 - 5x \\ge 0$, so $-5x \\ge -10$. Dividing by $-5$ reverses the inequality: $x \\le 2$."
+      }
+    ]
+  },
+  "m201-5-3-b": {
+    "lessonId": "m201-5-3",
+    "title": "Radical Equations, Part 2: Extraneous Roots",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why squaring adds roots",
+        "t": 17.155
+      },
+      {
+        "title": "A quadratic after squaring",
+        "t": 50.821
+      },
+      {
+        "title": "No solution",
+        "t": 117.651
+      },
+      {
+        "title": "Your turn",
+        "t": 148.825
+      },
+      {
+        "title": "Summary",
+        "t": 183.58
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-3-b:q",
+        "t": 156.343,
+        "prompt": "Solve $\\sqrt{x + 1} = x - 1$.",
+        "choices": [
+          "$x = 3$",
+          "$x = 0$ or $x = 3$",
+          "$x = 0$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Squaring gives $x + 1 = x^2 - 2x + 1$, so $x^2 - 3x = 0$ and $x = 0$ or $x = 3$. Check: $x = 0$ gives $1 \\ne -1$, so it is extraneous; $x = 3$ gives $2 = 2$."
+      }
+    ]
+  },
+  "m201-5-3-c": {
+    "lessonId": "m201-5-3",
+    "title": "Radical Equations, Part 3: Two Radicals and Models",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Squaring twice",
+        "t": 20.128
+      },
+      {
+        "title": "The length of a pendulum",
+        "t": 67.827
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 118.24
+      },
+      {
+        "title": "Your turn",
+        "t": 140.907
+      },
+      {
+        "title": "Summary",
+        "t": 174.868
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-5-3-c:q",
+        "t": 148.598,
+        "prompt": "Solve $\\sqrt{x + 5} = \\sqrt{x} + 1$.",
+        "choices": [
+          "$x = 4$",
+          "$x = 2$",
+          "$x = 16$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Squaring gives $x + 5 = x + 2\\sqrt{x} + 1$, so $2\\sqrt{x} = 4$, $\\sqrt{x} = 2$ and $x = 4$. Check: $\\sqrt{9} = 3 = \\sqrt{4} + 1$."
+      }
+    ]
+  },
+  "m201-6-1": {
+    "lessonId": "m201-6-1",
+    "title": "Rational Expressions, Part 1: Non-Permissible Values",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rational expressions",
+        "t": 26.682
+      },
+      {
+        "title": "Finding restrictions",
+        "t": 65.763
+      },
+      {
+        "title": "A non-monic denominator",
+        "t": 102.265
+      },
+      {
+        "title": "Your turn",
+        "t": 141.301
+      },
+      {
+        "title": "Summary",
+        "t": 175.96
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-1:q",
+        "t": 152.611,
+        "prompt": "What are the non-permissible values of $\\dfrac{x - 3}{x^2 - 9x + 14}$?",
+        "choices": [
+          "$x \\ne 2,\\ 7$",
+          "$x \\ne 3$",
+          "$x \\ne 2,\\ 3,\\ 7$",
+          "$x \\ne -2,\\ -7$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 9x + 14 = (x - 2)(x - 7)$, which is $0$ when $x = 2$ or $x = 7$."
+      }
+    ]
+  },
+  "m201-6-1-b": {
+    "lessonId": "m201-6-1",
+    "title": "Rational Expressions, Part 2: Equivalent Expressions",
+    "duration": 208,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Never zero",
+        "t": 20.515
+      },
+      {
+        "title": "Equivalent expressions",
+        "t": 56.418
+      },
+      {
+        "title": "Restrictions travel",
+        "t": 94.734
+      },
+      {
+        "title": "Your turn",
+        "t": 141.354
+      },
+      {
+        "title": "Summary",
+        "t": 179.823
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-1-b:q",
+        "t": 157.245,
+        "prompt": "$\\dfrac{(x + 3)(x - 4)}{(x - 4)(x + 1)}$ simplifies to $\\dfrac{x + 3}{x + 1}$. What are the restrictions?",
+        "choices": [
+          "$x \\ne 4,\\ -1$",
+          "$x \\ne -1$",
+          "$x \\ne 4$",
+          "$x \\ne -3,\\ 4,\\ -1$"
+        ],
+        "answer": 0,
+        "working": "The restrictions come from the original denominator, $(x - 4)(x + 1)$: $x \\ne 4$ and $x \\ne -1$."
+      }
+    ]
+  },
+  "m201-6-1-c": {
+    "lessonId": "m201-6-1",
+    "title": "Rational Expressions, Part 3: Simplifying",
+    "duration": 222,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three steps",
+        "t": 18.839
+      },
+      {
+        "title": "A trinomial over a difference of squares",
+        "t": 60.427
+      },
+      {
+        "title": "Opposite factors",
+        "t": 100.036
+      },
+      {
+        "title": "Cancelling terms",
+        "t": 137.315
+      },
+      {
+        "title": "Your turn",
+        "t": 163.438
+      },
+      {
+        "title": "Summary",
+        "t": 200.076
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-1-c:q",
+        "t": 173.042,
+        "prompt": "Simplify $\\dfrac{x^2 - 9}{x^2 + 5x + 6}$.",
+        "choices": [
+          "$\\dfrac{x - 3}{x + 2}$, $x \\ne -2,\\ -3$",
+          "$\\dfrac{x - 3}{x + 2}$, $x \\ne -2$",
+          "$\\dfrac{-9}{5x + 6}$",
+          "$\\dfrac{x + 3}{x + 2}$, $x \\ne -2,\\ -3$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{(x - 3)(x + 3)}{(x + 2)(x + 3)} = \\dfrac{x - 3}{x + 2}$, with $x \\ne -2,\\ -3$ from the original denominator."
+      }
+    ]
+  },
+  "m201-6-2": {
+    "lessonId": "m201-6-2",
+    "title": "Multiplying and Dividing Rational Expressions, Part 1: Multiplying",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying",
+        "t": 23.305
+      },
+      {
+        "title": "Monomials",
+        "t": 61.842
+      },
+      {
+        "title": "Polynomials",
+        "t": 92.919
+      },
+      {
+        "title": "Your turn",
+        "t": 134.597
+      },
+      {
+        "title": "Summary",
+        "t": 177.458
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-2:q",
+        "t": 146.235,
+        "prompt": "Simplify $\\dfrac{x + 1}{x - 2} \\times \\dfrac{x^2 - 4}{3x + 3}$.",
+        "choices": [
+          "$\\dfrac{x + 2}{3}$, $x \\ne -1,\\ 2$",
+          "$\\dfrac{x + 2}{3}$, $x \\ne 2$",
+          "$\\dfrac{x - 2}{3}$, $x \\ne -1,\\ 2$",
+          "$\\dfrac{x + 2}{3x}$, $x \\ne -1,\\ 2$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{x + 1}{x - 2} \\times \\dfrac{(x - 2)(x + 2)}{3(x + 1)} = \\dfrac{x + 2}{3}$. The denominators give $x \\ne 2$ and $x \\ne -1$."
+      }
+    ]
+  },
+  "m201-6-2-b": {
+    "lessonId": "m201-6-2",
+    "title": "Multiplying and Dividing Rational Expressions, Part 2: Dividing",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Dividing",
+        "t": 20.011
+      },
+      {
+        "title": "An example",
+        "t": 54.56
+      },
+      {
+        "title": "The hidden restriction",
+        "t": 91.238
+      },
+      {
+        "title": "Mixed operations",
+        "t": 115.027
+      },
+      {
+        "title": "Your turn",
+        "t": 164.252
+      },
+      {
+        "title": "Summary",
+        "t": 203.302
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-2-b:q",
+        "t": 175.364,
+        "prompt": "What are the restrictions on $\\dfrac{x}{x + 1} \\div \\dfrac{x - 5}{x + 2}$?",
+        "choices": [
+          "$x \\ne -2,\\ -1,\\ 5$",
+          "$x \\ne -2,\\ -1$",
+          "$x \\ne -1,\\ 5$",
+          "$x \\ne 0,\\ -1,\\ -2,\\ 5$"
+        ],
+        "answer": 0,
+        "working": "The denominators give $x \\ne -1$ and $x \\ne -2$, and the divisor’s numerator gives $x \\ne 5$."
+      }
+    ]
+  },
+  "m201-6-3": {
+    "lessonId": "m201-6-3",
+    "title": "Adding and Subtracting Rational Expressions, Part 1: Common Denominators",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Monomial denominators",
+        "t": 26.249
+      },
+      {
+        "title": "Numerators with two terms",
+        "t": 82.829
+      },
+      {
+        "title": "Binomial denominators",
+        "t": 116.396
+      },
+      {
+        "title": "Your turn",
+        "t": 167.289
+      },
+      {
+        "title": "Summary",
+        "t": 204.644
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-3:q",
+        "t": 174.758,
+        "prompt": "Simplify $\\dfrac{2}{x} + \\dfrac{3}{x^2}$.",
+        "choices": [
+          "$\\dfrac{2x + 3}{x^2}$",
+          "$\\dfrac{5}{x^2}$",
+          "$\\dfrac{5}{x + x^2}$",
+          "$\\dfrac{6}{x^3}$"
+        ],
+        "answer": 0,
+        "working": "The LCD is $x^2$: $\\dfrac{2x}{x^2} + \\dfrac{3}{x^2} = \\dfrac{2x + 3}{x^2}$, with $x \\ne 0$."
+      }
+    ]
+  },
+  "m201-6-3-b": {
+    "lessonId": "m201-6-3",
+    "title": "Adding and Subtracting Rational Expressions, Part 2: Factoring Denominators",
+    "duration": 218,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A shared factor",
+        "t": 23.195
+      },
+      {
+        "title": "Opposite denominators",
+        "t": 82.176
+      },
+      {
+        "title": "Simplify at the end",
+        "t": 111.637
+      },
+      {
+        "title": "Your turn",
+        "t": 153.42
+      },
+      {
+        "title": "Summary",
+        "t": 191.761
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-3-b:q",
+        "t": 162.762,
+        "prompt": "Simplify $\\dfrac{4}{x^2 - 4} + \\dfrac{1}{x + 2}$.",
+        "choices": [
+          "$\\dfrac{1}{x - 2}$, $x \\ne \\pm 2$",
+          "$\\dfrac{5}{x^2 + x - 2}$",
+          "$\\dfrac{x + 6}{(x - 2)(x + 2)}$",
+          "$\\dfrac{1}{x - 2}$, $x \\ne 2$"
+        ],
+        "answer": 0,
+        "working": "The LCD is $(x - 2)(x + 2)$: $\\dfrac{4 + (x - 2)}{(x - 2)(x + 2)} = \\dfrac{x + 2}{(x - 2)(x + 2)} = \\dfrac{1}{x - 2}$, with $x \\ne \\pm 2$."
+      }
+    ]
+  },
+  "m201-6-4": {
+    "lessonId": "m201-6-4",
+    "title": "Rational Equations, Part 1: Multiplying by the LCD",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplying by the LCD",
+        "t": 26.111
+      },
+      {
+        "title": "Extraneous roots",
+        "t": 81.811
+      },
+      {
+        "title": "Your turn",
+        "t": 129.731
+      },
+      {
+        "title": "Summary",
+        "t": 164.327
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-4:q",
+        "t": 138.495,
+        "prompt": "Solve $\\dfrac{5}{x} - \\dfrac{1}{3x} = \\dfrac{2}{3}$.",
+        "choices": [
+          "$x = 7$",
+          "$x = \\tfrac{1}{7}$",
+          "$x = 6$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Multiply every term by $3x$: $15 - 1 = 2x$, so $x = 7$. Check: $\\tfrac{5}{7} - \\tfrac{1}{21} = \\tfrac{14}{21} = \\tfrac{2}{3}$."
+      }
+    ]
+  },
+  "m201-6-4-b": {
+    "lessonId": "m201-6-4",
+    "title": "Rational Equations, Part 2: Quadratic Results",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A quadratic result",
+        "t": 18.411
+      },
+      {
+        "title": "Check against the restrictions",
+        "t": 64.968
+      },
+      {
+        "title": "A number problem",
+        "t": 99.639
+      },
+      {
+        "title": "Your turn",
+        "t": 137.039
+      },
+      {
+        "title": "Summary",
+        "t": 178.987
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-4-b:q",
+        "t": 148.611,
+        "prompt": "Solve $\\dfrac{1}{x - 2} + \\dfrac{x}{x + 2} = \\dfrac{4}{x^2 - 4}$.",
+        "choices": [
+          "$x = -1$",
+          "$x = 2$ or $x = -1$",
+          "$x = 2$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Multiply by $(x - 2)(x + 2)$: $(x + 2) + x(x - 2) = 4$, so $x^2 - x - 2 = 0$ and $x = 2$ or $x = -1$. Reject $x = 2$, which is non-permissible."
+      }
+    ]
+  },
+  "m201-6-4-c": {
+    "lessonId": "m201-6-4",
+    "title": "Rational Equations, Part 3: Work and Travel Problems",
+    "duration": 235,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Working together",
+        "t": 19.775
+      },
+      {
+        "title": "One worker is slower",
+        "t": 64.577
+      },
+      {
+        "title": "Travel with a current",
+        "t": 114.415
+      },
+      {
+        "title": "Your turn",
+        "t": 172.504
+      },
+      {
+        "title": "Summary",
+        "t": 207.168
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-6-4-c:q",
+        "t": 182.413,
+        "prompt": "Jo can paint a fence in $3$ h, and Sam in $6$ h. How long will they take together?",
+        "choices": [
+          "$2$ h",
+          "$4.5$ h",
+          "$9$ h",
+          "$1.5$ h"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{1}{3} + \\dfrac{1}{6} = \\dfrac{2}{6} + \\dfrac{1}{6} = \\dfrac{1}{2}$, so $\\dfrac{1}{t} = \\dfrac{1}{2}$ and $t = 2$."
+      }
+    ]
+  },
+  "m201-7-1": {
+    "lessonId": "m201-7-1",
+    "title": "Absolute Value, Part 1: Distance from Zero",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Distance from zero",
+        "t": 27.572
+      },
+      {
+        "title": "Evaluating",
+        "t": 76.439
+      },
+      {
+        "title": "Splitting the bars",
+        "t": 116.206
+      },
+      {
+        "title": "Your turn",
+        "t": 142.825
+      },
+      {
+        "title": "Summary",
+        "t": 177.96
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-1:q",
+        "t": 154.709,
+        "prompt": "Evaluate $2|{-}5| - |1 - 4|$.",
+        "choices": [
+          "$7$",
+          "$13$",
+          "$-13$",
+          "$-7$"
+        ],
+        "answer": 0,
+        "working": "$2|{-}5| = 2(5) = 10$ and $|1 - 4| = |{-}3| = 3$, so the value is $10 - 3 = 7$."
+      }
+    ]
+  },
+  "m201-7-1-b": {
+    "lessonId": "m201-7-1",
+    "title": "Absolute Value, Part 2: Distance and Change",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Distance between two numbers",
+        "t": 22.836
+      },
+      {
+        "title": "The size of a change",
+        "t": 59.346
+      },
+      {
+        "title": "Total distance and net change",
+        "t": 97.874
+      },
+      {
+        "title": "Your turn",
+        "t": 139.313
+      },
+      {
+        "title": "Summary",
+        "t": 179.991
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-1-b:q",
+        "t": 155.652,
+        "prompt": "A hiker goes from an elevation of 1,200 m down to 950 m, then up to 1,400 m. What is the total vertical distance?",
+        "choices": [
+          "$700$ m",
+          "$200$ m",
+          "$2{,}350$ m",
+          "$450$ m"
+        ],
+        "answer": 0,
+        "working": "$|950 - 1200| + |1400 - 950| = 250 + 450 = 700$ m."
+      }
+    ]
+  },
+  "m201-7-2": {
+    "lessonId": "m201-7-2",
+    "title": "Absolute Value Functions, Part 1: Reflecting the Negative Part",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reflecting the negative part",
+        "t": 23.478
+      },
+      {
+        "title": "Intercepts, domain and range",
+        "t": 75.469
+      },
+      {
+        "title": "Your turn",
+        "t": 121.737
+      },
+      {
+        "title": "Summary",
+        "t": 152.077
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-2:q",
+        "t": 131.816,
+        "prompt": "What is the $y$-intercept of $y = |3x - 6|$?",
+        "choices": [
+          "$6$",
+          "$-6$",
+          "$2$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "$|3(0) - 6| = |{-}6| = 6$."
+      }
+    ]
+  },
+  "m201-7-2-b": {
+    "lessonId": "m201-7-2",
+    "title": "Absolute Value Functions, Part 2: Quadratics",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A quadratic",
+        "t": 20.652
+      },
+      {
+        "title": "Not crossing the axis",
+        "t": 69.906
+      },
+      {
+        "title": "Finding the range quickly",
+        "t": 107.111
+      },
+      {
+        "title": "Your turn",
+        "t": 134.545
+      },
+      {
+        "title": "Summary",
+        "t": 169.896
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-2-b:q",
+        "t": 144.008,
+        "prompt": "What is the range of $y = |x^2 - 4|$?",
+        "choices": [
+          "$\\{y \\mid y \\ge 0,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge -4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "The vertex of $y = x^2 - 4$ is $(0, -4)$, below the $x$-axis, and the parabola opens up, so it crosses the axis. The range of $y = |x^2 - 4|$ is $y \\ge 0$."
+      }
+    ]
+  },
+  "m201-7-2-c": {
+    "lessonId": "m201-7-2",
+    "title": "Absolute Value Functions, Part 3: Piecewise Form",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Piecewise functions",
+        "t": 17.34
+      },
+      {
+        "title": "A linear function",
+        "t": 45.029
+      },
+      {
+        "title": "A quadratic function",
+        "t": 81.453
+      },
+      {
+        "title": "A negative coefficient",
+        "t": 116.112
+      },
+      {
+        "title": "Your turn",
+        "t": 149.123
+      },
+      {
+        "title": "Summary",
+        "t": 183.601
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-2-c:q",
+        "t": 158.816,
+        "prompt": "Which is the piecewise form of $y = |x + 3|$?",
+        "choices": [
+          "$y = x + 3$ if $x \\ge -3$; $y = -x - 3$ if $x < -3$",
+          "$y = x + 3$ if $x \\ge 3$; $y = -x - 3$ if $x < 3$",
+          "$y = x + 3$ if $x \\ge -3$; $y = x - 3$ if $x < -3$",
+          "$y = -x - 3$ if $x \\ge -3$; $y = x + 3$ if $x < -3$"
+        ],
+        "answer": 0,
+        "working": "$x + 3 \\ge 0$ when $x \\ge -3$. For $x < -3$, $y = -(x + 3) = -x - 3$."
+      }
+    ]
+  },
+  "m201-7-3": {
+    "lessonId": "m201-7-3",
+    "title": "Absolute Value Equations, Part 1: Two Cases",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two cases",
+        "t": 25.959
+      },
+      {
+        "title": "A linear expression",
+        "t": 61.189
+      },
+      {
+        "title": "Isolate it first",
+        "t": 94.344
+      },
+      {
+        "title": "Your turn",
+        "t": 135.331
+      },
+      {
+        "title": "Summary",
+        "t": 165.291
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-3:q",
+        "t": 143.072,
+        "prompt": "Solve $|x + 2| = 6$.",
+        "choices": [
+          "$x = 4$ or $x = -8$",
+          "$x = 4$",
+          "$x = -4$ or $x = 8$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "$x + 2 = 6$ gives $x = 4$, and $x + 2 = -6$ gives $x = -8$."
+      }
+    ]
+  },
+  "m201-7-3-b": {
+    "lessonId": "m201-7-3",
+    "title": "Absolute Value Equations, Part 2: Extraneous Solutions",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A variable on the right",
+        "t": 21.07
+      },
+      {
+        "title": "Check both",
+        "t": 74.524
+      },
+      {
+        "title": "Your turn",
+        "t": 122.043
+      },
+      {
+        "title": "Summary",
+        "t": 158.252
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-3-b:q",
+        "t": 131.231,
+        "prompt": "Solve $|x - 1| = 2x + 4$.",
+        "choices": [
+          "$x = -1$",
+          "$x = -5$ or $x = -1$",
+          "$x = -5$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Case 1 gives $x = -5$, but then the right side is $-6$, so it is extraneous. Case 2 gives $3x = -3$ and $x = -1$: $|{-}2| = 2 = 2(-1) + 4$."
+      }
+    ]
+  },
+  "m201-7-3-c": {
+    "lessonId": "m201-7-3",
+    "title": "Absolute Value Equations, Part 3: Quadratic Expressions",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Up to four solutions",
+        "t": 22.095
+      },
+      {
+        "title": "A case with no real roots",
+        "t": 59.611
+      },
+      {
+        "title": "Rejecting roots",
+        "t": 96.573
+      },
+      {
+        "title": "Your turn",
+        "t": 145.595
+      },
+      {
+        "title": "Summary",
+        "t": 178.727
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-3-c:q",
+        "t": 154.018,
+        "prompt": "Solve $|x^2 - 10| = 6$.",
+        "choices": [
+          "$x = \\pm 2$ or $x = \\pm 4$",
+          "$x = \\pm 4$",
+          "$x = \\pm 2$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 10 = 6$ gives $x^2 = 16$ and $x = \\pm 4$; $x^2 - 10 = -6$ gives $x^2 = 4$ and $x = \\pm 2$."
+      }
+    ]
+  },
+  "m201-7-4": {
+    "lessonId": "m201-7-4",
+    "title": "Reciprocal Functions, Part 1: Asymptotes and Invariant Points",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The reciprocal of a function",
+        "t": 28.411
+      },
+      {
+        "title": "Asymptotes and invariant points",
+        "t": 82.187
+      },
+      {
+        "title": "Your turn",
+        "t": 132.455
+      },
+      {
+        "title": "Summary",
+        "t": 161.36
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-4:q",
+        "t": 141.491,
+        "prompt": "Where is the vertical asymptote of $y = \\dfrac{1}{x + 4}$?",
+        "choices": [
+          "$x = -4$",
+          "$x = 4$",
+          "$y = -4$",
+          "$y = 0$"
+        ],
+        "answer": 0,
+        "working": "$x + 4 = 0$ when $x = -4$, so the reciprocal is undefined there."
+      }
+    ]
+  },
+  "m201-7-4-b": {
+    "lessonId": "m201-7-4",
+    "title": "Reciprocal Functions, Part 2: Features and Sketching",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the equation",
+        "t": 19.921
+      },
+      {
+        "title": "Sketching",
+        "t": 75.072
+      },
+      {
+        "title": "Your turn",
+        "t": 119.211
+      },
+      {
+        "title": "Summary",
+        "t": 153.493
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-4-b:q",
+        "t": 127.995,
+        "prompt": "What are the invariant points of $y = \\dfrac{1}{x - 5}$?",
+        "choices": [
+          "$(6, 1)$ and $(4, -1)$",
+          "$(5, 0)$",
+          "$(6, -1)$ and $(4, 1)$",
+          "$(1, 6)$ and $(-1, 4)$"
+        ],
+        "answer": 0,
+        "working": "$x - 5 = 1$ gives $x = 6$, the point $(6, 1)$; $x - 5 = -1$ gives $x = 4$, the point $(4, -1)$."
+      }
+    ]
+  },
+  "m201-7-4-c": {
+    "lessonId": "m201-7-4",
+    "title": "Reciprocal Functions, Part 3: Quadratic Functions",
+    "duration": 217,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three cases",
+        "t": 17.484
+      },
+      {
+        "title": "An example",
+        "t": 77.769
+      },
+      {
+        "title": "Working backwards",
+        "t": 132.435
+      },
+      {
+        "title": "Your turn",
+        "t": 161.729
+      },
+      {
+        "title": "Summary",
+        "t": 192.935
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-4-c:q",
+        "t": 171.208,
+        "prompt": "How many vertical asymptotes does $y = \\dfrac{1}{x^2 + 4}$ have?",
+        "choices": [
+          "None",
+          "One",
+          "Two",
+          "Four"
+        ],
+        "answer": 0,
+        "working": "$x^2 + 4 \\ge 4$, so it is never $0$. There are no vertical asymptotes, and the graph has one branch."
+      }
+    ]
+  },
+  "m201-8-1": {
+    "lessonId": "m201-8-1",
+    "title": "Solving Systems Graphically, Part 1: A Line and a Parabola",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Systems and solutions",
+        "t": 25.94
+      },
+      {
+        "title": "Solving by graphing",
+        "t": 76.302
+      },
+      {
+        "title": "Your turn",
+        "t": 128.84
+      },
+      {
+        "title": "Summary",
+        "t": 160.296
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-1:q",
+        "t": 139.503,
+        "prompt": "Which point is a solution of the system $y = x^2$ and $y = x + 2$?",
+        "choices": [
+          "$(2, 4)$",
+          "$(1, 1)$",
+          "$(0, 2)$",
+          "$(4, 2)$"
+        ],
+        "answer": 0,
+        "working": "$(2, 4)$ makes both equations true: $2^2 = 4$ and $2 + 2 = 4$."
+      }
+    ]
+  },
+  "m201-8-1-b": {
+    "lessonId": "m201-8-1",
+    "title": "Solving Systems Graphically, Part 2: Two Parabolas",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two parabolas",
+        "t": 19.721
+      },
+      {
+        "title": "Trusting an estimate",
+        "t": 57.738
+      },
+      {
+        "title": "Predicting the number of solutions",
+        "t": 81.115
+      },
+      {
+        "title": "Other patterns",
+        "t": 119.815
+      },
+      {
+        "title": "Your turn",
+        "t": 156.113
+      },
+      {
+        "title": "Summary",
+        "t": 187.382
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-1-b:q",
+        "t": 167.872,
+        "prompt": "How many solutions does the system $y = x^2 + 2$ and $y = x^2 - 3$ have?",
+        "choices": [
+          "None",
+          "One",
+          "Two",
+          "Infinitely many"
+        ],
+        "answer": 0,
+        "working": "Both parabolas have $a = 1$ and the axis $x = 0$: one is the other translated $5$ units down, so they never meet."
+      }
+    ]
+  },
+  "m201-8-2": {
+    "lessonId": "m201-8-2",
+    "title": "Solving Systems Algebraically, Part 1: Substitution",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Substitution",
+        "t": 21.036
+      },
+      {
+        "title": "A line in general form",
+        "t": 72.715
+      },
+      {
+        "title": "Your turn",
+        "t": 118.369
+      },
+      {
+        "title": "Summary",
+        "t": 152.787
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-2:q",
+        "t": 127.558,
+        "prompt": "Solve the system $y = x^2$ and $y = x + 6$.",
+        "choices": [
+          "$(3, 9)$ and $(-2, 4)$",
+          "$(3, 9)$ only",
+          "$(-3, 9)$ and $(2, 4)$",
+          "$(3, 6)$ and $(-2, 6)$"
+        ],
+        "answer": 0,
+        "working": "$x^2 = x + 6$, so $x^2 - x - 6 = (x - 3)(x + 2) = 0$. Then $y = x + 6$ gives $(3, 9)$ and $(-2, 4)$."
+      }
+    ]
+  },
+  "m201-8-2-b": {
+    "lessonId": "m201-8-2",
+    "title": "Solving Systems Algebraically, Part 2: Tangents and Elimination",
+    "duration": 223,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One solution or none",
+        "t": 20.551
+      },
+      {
+        "title": "Elimination",
+        "t": 82.159
+      },
+      {
+        "title": "When the x² terms cancel",
+        "t": 142.349
+      },
+      {
+        "title": "Your turn",
+        "t": 165.673
+      },
+      {
+        "title": "Summary",
+        "t": 197.341
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-2-b:q",
+        "t": 176.186,
+        "prompt": "Solve the system $y = x^2 + 1$ and $y = 2x^2 - 3$.",
+        "choices": [
+          "$(2, 5)$ and $(-2, 5)$",
+          "$(2, 5)$ only",
+          "$(4, 17)$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Subtract: $0 = (2x^2 - 3) - (x^2 + 1) = x^2 - 4$, so $x = \\pm 2$, and $y = 2^2 + 1 = 5$ for both."
+      }
+    ]
+  },
+  "m201-8-2-c": {
+    "lessonId": "m201-8-2",
+    "title": "Solving Systems Algebraically, Part 3: Problems",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two numbers",
+        "t": 16.906
+      },
+      {
+        "title": "A rocket and a drone",
+        "t": 70.402
+      },
+      {
+        "title": "Answers that do not fit",
+        "t": 122.233
+      },
+      {
+        "title": "Your turn",
+        "t": 144.702
+      },
+      {
+        "title": "Summary",
+        "t": 180.098
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-2-c:q",
+        "t": 153.763,
+        "prompt": "Two positive numbers differ by $3$, and their product is $40$. What are they?",
+        "choices": [
+          "$5$ and $8$",
+          "$-8$ and $-5$",
+          "$4$ and $10$",
+          "$3$ and $40$"
+        ],
+        "answer": 0,
+        "working": "$x(x + 3) = 40$, so $x^2 + 3x - 40 = (x + 8)(x - 5) = 0$. Both numbers are positive, so $x = 5$, and the numbers are $5$ and $8$."
+      }
+    ]
+  },
+  "m201-9-1": {
+    "lessonId": "m201-9-1",
+    "title": "Linear Inequalities in Two Variables, Part 1: Graphing",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Solutions",
+        "t": 27.993
+      },
+      {
+        "title": "The boundary and the shading",
+        "t": 73.755
+      },
+      {
+        "title": "Your turn",
+        "t": 137.222
+      },
+      {
+        "title": "Summary",
+        "t": 167.247
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-1:q",
+        "t": 146.034,
+        "prompt": "Is $(4, 1)$ a solution of $2x - 3y > 6$?",
+        "choices": [
+          "No",
+          "Yes",
+          "Only if the boundary is solid",
+          "It is on the boundary"
+        ],
+        "answer": 0,
+        "working": "$2(4) - 3(1) = 5$, and $5 > 6$ is false, so $(4, 1)$ is not a solution."
+      }
+    ]
+  },
+  "m201-9-1-b": {
+    "lessonId": "m201-9-1",
+    "title": "Linear Inequalities in Two Variables, Part 2: Checking and Modelling",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Solving for y",
+        "t": 19.188
+      },
+      {
+        "title": "When y is alone",
+        "t": 54.176
+      },
+      {
+        "title": "Ticket sales",
+        "t": 75.684
+      },
+      {
+        "title": "Your turn",
+        "t": 144.522
+      },
+      {
+        "title": "Summary",
+        "t": 176.65
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-1-b:q",
+        "t": 157.773,
+        "prompt": "In this example, a bake sale sells muffins at \\$2 and cookies at \\$1, and must take in more than \\$80. Which inequality fits, for $m$ muffins and $c$ cookies?",
+        "choices": [
+          "$2m + c > 80$",
+          "$2m + c \\ge 80$",
+          "$2m + c < 80$",
+          "$m + 2c > 80$"
+        ],
+        "answer": 0,
+        "working": "The money taken in is $2m + c$, and \"more than\" means $>$."
+      }
+    ]
+  },
+  "m201-9-2": {
+    "lessonId": "m201-9-2",
+    "title": "Quadratic Inequalities in One Variable, Part 1: Test Intervals",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a graph",
+        "t": 23.59
+      },
+      {
+        "title": "Test intervals",
+        "t": 77.034
+      },
+      {
+        "title": "Your turn",
+        "t": 135.949
+      },
+      {
+        "title": "Summary",
+        "t": 168.414
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-2:q",
+        "t": 143.312,
+        "prompt": "Solve $x^2 - 4x < 0$.",
+        "choices": [
+          "$0 < x < 4$",
+          "$0 \\le x \\le 4$",
+          "$x < 0$ or $x > 4$",
+          "$x < 4$"
+        ],
+        "answer": 0,
+        "working": "$x(x - 4) = 0$ at $x = 0$ and $x = 4$. Testing $x = 2$ gives $4 - 8 = -4 < 0$, so the middle interval works, and $<$ leaves out the roots."
+      }
+    ]
+  },
+  "m201-9-2-b": {
+    "lessonId": "m201-9-2",
+    "title": "Quadratic Inequalities in One Variable, Part 2: Sign Diagrams",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A sign diagram",
+        "t": 18.95
+      },
+      {
+        "title": "On a number line",
+        "t": 75.761
+      },
+      {
+        "title": "Your turn",
+        "t": 106.915
+      },
+      {
+        "title": "Summary",
+        "t": 140.409
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-2-b:q",
+        "t": 115.404,
+        "prompt": "Solve $(x - 1)(x + 5) \\ge 0$.",
+        "choices": [
+          "$x \\le -5$ or $x \\ge 1$",
+          "$-5 \\le x \\le 1$",
+          "$x < -5$ or $x > 1$",
+          "$x \\ge 1$"
+        ],
+        "answer": 0,
+        "working": "The roots are $-5$ and $1$. Both factors are negative when $x < -5$, and both positive when $x > 1$, so the product is positive outside the roots; $\\ge$ includes them."
+      }
+    ]
+  },
+  "m201-9-2-c": {
+    "lessonId": "m201-9-2",
+    "title": "Quadratic Inequalities in One Variable, Part 3: Rearranging and Problems",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A negative leading coefficient",
+        "t": 22.346
+      },
+      {
+        "title": "A projectile",
+        "t": 64.275
+      },
+      {
+        "title": "Square roots of inequalities",
+        "t": 114.532
+      },
+      {
+        "title": "Your turn",
+        "t": 146.025
+      },
+      {
+        "title": "Summary",
+        "t": 180.902
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-2-c:q",
+        "t": 152.178,
+        "prompt": "Solve $x^2 \\ge 16$.",
+        "choices": [
+          "$x \\le -4$ or $x \\ge 4$",
+          "$x \\ge 4$",
+          "$-4 \\le x \\le 4$",
+          "$x \\ge \\pm 4$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 16 = (x - 4)(x + 4) \\ge 0$, which is true outside the roots: $x \\le -4$ or $x \\ge 4$."
+      }
+    ]
+  },
+  "m201-9-3": {
+    "lessonId": "m201-9-3",
+    "title": "Quadratic Inequalities in Two Variables, Part 1: Graphing the Region",
+    "duration": 230,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Testing points",
+        "t": 25.132
+      },
+      {
+        "title": "Graphing the region",
+        "t": 79.877
+      },
+      {
+        "title": "Above and below",
+        "t": 135.665
+      },
+      {
+        "title": "Your turn",
+        "t": 170.807
+      },
+      {
+        "title": "Summary",
+        "t": 199.664
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-3:q",
+        "t": 179.201,
+        "prompt": "Is $(2, 5)$ a solution of $y \\le x^2 + 1$?",
+        "choices": [
+          "Yes: it is on the boundary, which is included.",
+          "No: it is on the boundary.",
+          "Yes: it is above the parabola.",
+          "No: it is below the parabola."
+        ],
+        "answer": 0,
+        "working": "$2^2 + 1 = 5$, and $5 \\le 5$ is true. The point is on the solid boundary, so it is a solution."
+      }
+    ]
+  },
+  "m201-9-3-b": {
+    "lessonId": "m201-9-3",
+    "title": "Quadratic Inequalities in Two Variables, Part 2: Reading Graphs and Models",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From graph to inequality",
+        "t": 17.997
+      },
+      {
+        "title": "Will the truck fit?",
+        "t": 72.244
+      },
+      {
+        "title": "Your turn",
+        "t": 124.662
+      },
+      {
+        "title": "Summary",
+        "t": 158.528
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-9-3-b:q",
+        "t": 136.114,
+        "prompt": "Which inequality describes the region on and above the solid parabola $y = x^2 - 4$?",
+        "choices": [
+          "$y \\ge x^2 - 4$",
+          "$y > x^2 - 4$",
+          "$y \\le x^2 - 4$",
+          "$y < x^2 - 4$"
+        ],
+        "answer": 0,
+        "working": "A solid boundary is included, so the sign is $\\ge$ or $\\le$; shading above means $y \\ge$."
       }
     ]
   }

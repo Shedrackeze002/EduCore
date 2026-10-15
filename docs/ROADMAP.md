@@ -251,10 +251,15 @@ items ship or decisions change.
      each task). The repository needs no change: each thread starts from a fresh clone and reads
      `CLAUDE.md`, and the video workflow and its tools are in `video/README.md` and `video/tools/`.
      The project's threads must use the environment that holds the `GDRIVE_*` keys.
-   - Next: render Math 20-1, 20-2, 20-3 and 20-4, unit by unit, each course with its own pull
-     request and upload packs (about five minutes a video, so about 30 hours in all). Then script
-     and render the other courses in order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), each
-     lesson split into parts of about three minutes when it needs more.
+   - Built: Math 20-1, all 86 videos at the calm pace (2:48 to 4:47, about 5.3 hours in all),
+     rendered unit by unit with `video/tools/render-units.sh` and uploaded to Drive (checked: Drive
+     holds 86 Math 20-1 MP4s). Two narration lines a listener could mishear were reworded first.
+     Session restarts stopped the first detached renders three times; a cloud session reclaims an
+     idle session, so renders now run as tracked tasks that stop cleanly before two hours.
+   - Next: render Math 20-2, 20-3 and 20-4 the same way, each course with its own pull request
+     and Drive upload (about six minutes a video). Then script and render the other courses in
+     order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), explaining each lesson as simply as
+     possible, with parts split by idea.
 2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;

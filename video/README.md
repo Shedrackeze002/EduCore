@@ -153,8 +153,16 @@ See `src/video/script.ts` for every element and option. In short:
    `CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome` and `NODE_USE_ENV_PROXY=1`),
    then `python3 video/tools/contact-sheet.py sheet.png <ids>` and look at every still: no clipped
    maths, overlapping labels or cut-off questions.
-3. Render unit by unit with `npx tsx video/build.ts <ids>` (about five minutes a video on four
-   cores), and commit `src/content/videos.json` as each batch finishes.
+3. Render unit by unit: `video/tools/render-units.sh <course dir> <unit id>...` (for example
+   `video/tools/render-units.sh math20-1 m201-u4 m201-u5`) renders each unfinished video one at a
+   time, about six minutes each on four cores, and uploads each unit to Drive once all of its
+   videos are done (step 6). A session restart stops background jobs, so run the same command
+   again after one: finished videos are marked (`video/out/<id>/.rendered`) and skipped. In a
+   cloud session, run it as a tracked background task (an idle session is reclaimed, which kills
+   detached jobs) with `RENDER_MINUTES=110` so it stops cleanly between videos before the
+   two-hour limit on such tasks, then run it again. Commit
+   `src/content/videos.json` as units finish. (`npx tsx video/build.ts <ids>` builds given videos
+   directly.)
 4. Check the narration: `python3 video/tools/pronunciation.py video/out/<id>/pronunciation.txt …`
    lists the lines whose words really differ. Try a respelling with
    `npx tsx video/tools/hear.ts "the line"` and add real mistakes to `speechText`.
