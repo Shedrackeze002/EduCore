@@ -20562,5 +20562,56 @@
         "working": "The floor frame holds the walls, the walls hold the rafters, and the shingles cover the rafters, so the shingles go on last."
       }
     ]
+  },
+  "m203-6-1": {
+    "lessonId": "m203-6-1",
+    "title": "Personal Budgets, Part 1: Gross Pay and Net Pay",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gross pay, deductions and net pay",
+        "t": 21.021
+      },
+      {
+        "title": "Net pay for a month",
+        "t": 62.431
+      },
+      {
+        "title": "Reading a pay stub",
+        "t": 121.938
+      },
+      {
+        "title": "Budget with net pay",
+        "t": 169.244
+      },
+      {
+        "title": "Your turn",
+        "t": 190.37
+      },
+      {
+        "title": "Summary",
+        "t": 241.979
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-1:q",
+        "t": 206.977,
+        "prompt": "Sam earns \\$17.50 an hour and works $120$ hours in a month. In this example, deductions take $18\\%$ of gross pay. What is Sam’s net pay?",
+        "choices": [
+          "\\$1,722.00",
+          "\\$2,100.00",
+          "\\$378.00",
+          "\\$2,478.00"
+        ],
+        "answer": 0,
+        "working": "Gross: $17.50 \\times 120 = 2{,}100.00$. Deductions: $2{,}100.00 \\times 0.18 = 378.00$. Net: $2{,}100.00 - 378.00 = 1{,}722.00$. B is the gross pay."
+      }
+    ]
   }
 }
