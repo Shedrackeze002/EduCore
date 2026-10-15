@@ -16066,5 +16066,440 @@
         "working": "Midpoint: $\\dfrac{27 + 35}{2} = 31$. Half the width: $\\dfrac{35 - 27}{2} = 4$. B uses the whole width."
       }
     ]
+  },
+  "m202-5-4-b": {
+    "lessonId": "m202-5-4",
+    "title": "Confidence Intervals, Part 2: Confidence Level and Sample Size",
+    "duration": 224,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Nineteen times out of twenty",
+        "t": 19.002
+      },
+      {
+        "title": "What 95% does not mean",
+        "t": 65.504
+      },
+      {
+        "title": "What changes the margin of error",
+        "t": 85.82
+      },
+      {
+        "title": "Diminishing returns",
+        "t": 135.495
+      },
+      {
+        "title": "Your turn",
+        "t": 161.632
+      },
+      {
+        "title": "Summary",
+        "t": 194.441
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-4-b:q",
+        "t": 173.493,
+        "prompt": "A pollster wants a smaller margin of error while keeping a $95\\%$ confidence level. What should change?",
+        "choices": [
+          "Survey more people.",
+          "Raise the confidence level to $99\\%$.",
+          "Survey fewer people.",
+          "Report the result to more decimal places."
+        ],
+        "answer": 0,
+        "working": "A larger random sample gives a smaller margin of error. B widens the interval, and C makes it wider too."
+      }
+    ]
+  },
+  "m202-5-4-c": {
+    "lessonId": "m202-5-4",
+    "title": "Confidence Intervals, Part 3: Making Decisions",
+    "duration": 203,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A majority?",
+        "t": 20.212
+      },
+      {
+        "title": "A close race",
+        "t": 53.075
+      },
+      {
+        "title": "Estimating a number of people",
+        "t": 98.175
+      },
+      {
+        "title": "Your turn",
+        "t": 141.998
+      },
+      {
+        "title": "Summary",
+        "t": 177.404
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-5-4-c:q",
+        "t": 158.665,
+        "prompt": "A poll finds $52\\%$ support for a new bylaw, accurate to within $3$ percentage points, 19 times out of 20. Can supporters be confident of a majority?",
+        "choices": [
+          "No: the interval includes values below $50\\%$.",
+          "Yes: $52\\%$ is more than $50\\%$.",
+          "Yes: the margin of error is small.",
+          "No: $52\\%$ is less than $95\\%$."
+        ],
+        "answer": 0,
+        "working": "The interval is $49\\%$ to $55\\%$. It includes values below $50\\%$, so a majority is not certain at this confidence level."
+      }
+    ]
+  },
+  "m202-6-1": {
+    "lessonId": "m202-6-1",
+    "title": "Quadratic Functions and Their Graphs, Part 1: Parabolas",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Quadratic functions",
+        "t": 20.108
+      },
+      {
+        "title": "Symmetry in a table",
+        "t": 59.576
+      },
+      {
+        "title": "Reading the graph",
+        "t": 89.34
+      },
+      {
+        "title": "Your turn",
+        "t": 137.896
+      },
+      {
+        "title": "Summary",
+        "t": 170.302
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-1:q",
+        "t": 147.411,
+        "prompt": "A parabola has zeros $-5$ and $1$. What is its axis of symmetry?",
+        "choices": [
+          "$x = -2$",
+          "$x = -3$",
+          "$y = -2$",
+          "$x = 3$"
+        ],
+        "answer": 0,
+        "working": "The axis of symmetry is halfway between the zeros: $\\dfrac{-5 + 1}{2} = -2$, so it is the vertical line $x = -2$."
+      }
+    ]
+  },
+  "m202-6-1-b": {
+    "lessonId": "m202-6-1",
+    "title": "Quadratic Functions and Their Graphs, Part 2: Maximum, Minimum, Domain and Range",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Maximum and minimum",
+        "t": 19.884
+      },
+      {
+        "title": "Two, one or no zeros",
+        "t": 51.141
+      },
+      {
+        "title": "Domain and range",
+        "t": 78.144
+      },
+      {
+        "title": "Two common slips",
+        "t": 122.24
+      },
+      {
+        "title": "Your turn",
+        "t": 153.609
+      },
+      {
+        "title": "Summary",
+        "t": 185.58
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-1-b:q",
+        "t": 163.675,
+        "prompt": "A parabola opens up and has its vertex at $(3, -2)$. What is its range?",
+        "choices": [
+          "$\\{y \\mid y \\ge -2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\le -2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\ge 3,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "It opens up, so the vertex is the lowest point, and its $y$-coordinate, $-2$, is the minimum value: $y \\ge -2$."
+      }
+    ]
+  },
+  "m202-6-1-c": {
+    "lessonId": "m202-6-1",
+    "title": "Quadratic Functions and Their Graphs, Part 3: Parabolas in Context",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The height of a ball",
+        "t": 18.446
+      },
+      {
+        "title": "Domain and range in context",
+        "t": 65.162
+      },
+      {
+        "title": "Profit and break-even",
+        "t": 98.694
+      },
+      {
+        "title": "Your turn",
+        "t": 129.207
+      },
+      {
+        "title": "Summary",
+        "t": 164.152
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-1-c:q",
+        "t": 142.345,
+        "prompt": "A rocket’s height has its vertex at $(4, 80)$, in seconds and metres, and it lands after $8$ s. Which statement is true?",
+        "choices": [
+          "It reaches $80$ m after $4$ s.",
+          "It reaches $4$ m after $80$ s.",
+          "It is in the air for $4$ s.",
+          "Its range is $0 \\le h \\le 8$."
+        ],
+        "answer": 0,
+        "working": "The vertex gives the time ($4$ s) and the maximum height ($80$ m). It is in the air for $8$ s, and the range is $0 \\le h \\le 80$."
+      }
+    ]
+  },
+  "m202-6-2": {
+    "lessonId": "m202-6-2",
+    "title": "Axis of Symmetry and Optimization, Part 1: Finding the Axis of Symmetry",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the zeros",
+        "t": 19.742
+      },
+      {
+        "title": "Any two points at the same height",
+        "t": 65.988
+      },
+      {
+        "title": "From standard form",
+        "t": 92.328
+      },
+      {
+        "title": "Your turn",
+        "t": 140.268
+      },
+      {
+        "title": "Summary",
+        "t": 171.882
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-2:q",
+        "t": 150.655,
+        "prompt": "The points $(-3, 8)$ and $(5, 8)$ are on a parabola. What is its axis of symmetry?",
+        "choices": [
+          "$x = 1$",
+          "$x = 4$",
+          "$y = 8$",
+          "$x = -4$"
+        ],
+        "answer": 0,
+        "working": "Both points have $y = 8$, so the axis is halfway between them: $x = \\dfrac{-3 + 5}{2} = 1$."
+      }
+    ]
+  },
+  "m202-6-2-b": {
+    "lessonId": "m202-6-2",
+    "title": "Axis of Symmetry and Optimization, Part 2: Maximum and Minimum Values",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Vertex from standard form",
+        "t": 19.69
+      },
+      {
+        "title": "Watch the signs",
+        "t": 57.465
+      },
+      {
+        "title": "Maximum or minimum?",
+        "t": 81.925
+      },
+      {
+        "title": "A pop fly",
+        "t": 104.768
+      },
+      {
+        "title": "Your turn",
+        "t": 155.572
+      },
+      {
+        "title": "Summary",
+        "t": 186.652
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-2-b:q",
+        "t": 164.613,
+        "prompt": "Find the vertex of $y = x^2 - 6x + 2$.",
+        "choices": [
+          "$(3, -7)$",
+          "$(-3, 29)$",
+          "$(3, 2)$",
+          "$(6, 2)$"
+        ],
+        "answer": 0,
+        "working": "$x = -\\dfrac{-6}{2(1)} = 3$, and $y = 9 - 18 + 2 = -7$. B uses the wrong sign for $b$."
+      }
+    ]
+  },
+  "m202-6-2-c": {
+    "lessonId": "m202-6-2",
+    "title": "Axis of Symmetry and Optimization, Part 3: Optimization Problems",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fencing a corral",
+        "t": 21.155
+      },
+      {
+        "title": "The area graph",
+        "t": 70.651
+      },
+      {
+        "title": "Setting a ticket price",
+        "t": 97.105
+      },
+      {
+        "title": "Your turn",
+        "t": 152.762
+      },
+      {
+        "title": "Summary",
+        "t": 192.856
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-2-c:q",
+        "t": 167.594,
+        "prompt": "A farmer has $80$ m of fencing for a rectangular pen against a barn wall, so only three sides need fencing. What is the greatest possible area?",
+        "choices": [
+          "$800\\ \\text{m}^2$",
+          "$400\\ \\text{m}^2$",
+          "$1600\\ \\text{m}^2$",
+          "$20\\ \\text{m}^2$"
+        ],
+        "answer": 0,
+        "working": "$A = x(80 - 2x) = -2x^2 + 80x$. The vertex is at $x = 20$, so the pen is $20$ m by $40$ m, and $A = 800\\ \\text{m}^2$. D gives $x$, not the area."
+      }
+    ]
+  },
+  "m202-6-3": {
+    "lessonId": "m202-6-3",
+    "title": "Quadratic Functions in Factored Form, Part 1: Reading the Zeros",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Factored form",
+        "t": 19.916
+      },
+      {
+        "title": "Reading the zeros",
+        "t": 62.19
+      },
+      {
+        "title": "The sign flips",
+        "t": 96.735
+      },
+      {
+        "title": "Your turn",
+        "t": 117.716
+      },
+      {
+        "title": "Summary",
+        "t": 151.002
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-6-3:q",
+        "t": 128.559,
+        "prompt": "What are the zeros of $y = -3(x + 4)(x - 2)$?",
+        "choices": [
+          "$-4$ and $2$",
+          "$4$ and $-2$",
+          "$-3$, $-4$ and $2$",
+          "$4$ and $2$"
+        ],
+        "answer": 0,
+        "working": "$x + 4 = 0$ gives $x = -4$, and $x - 2 = 0$ gives $x = 2$. The $-3$ is $a$; it is not a zero."
+      }
+    ]
   }
 }
