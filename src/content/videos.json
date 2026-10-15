@@ -10978,5 +10978,52 @@
         "working": "The product $P = x(20 - x)$ has zeros $0$ and $20$, so the vertex is at $x = 10$. Both numbers are $10$, and $P = 100$."
       }
     ]
+  },
+  "m201-3-4-b": {
+    "lessonId": "m201-3-4",
+    "title": "Solving Optimization Problems, Part 2: Area and Revenue",
+    "duration": 241,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fencing against a wall",
+        "t": 22.815
+      },
+      {
+        "title": "The domain and the answer",
+        "t": 79.185
+      },
+      {
+        "title": "Ticket prices",
+        "t": 114.004
+      },
+      {
+        "title": "Your turn",
+        "t": 174.453
+      },
+      {
+        "title": "Summary",
+        "t": 215.154
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-3-4-b:q",
+        "t": 189.41,
+        "prompt": "In this example, a store sells $200$ shirts a week at \\$10 each. For every \\$1 increase in price, $10$ fewer shirts are sold. What price maximizes revenue?",
+        "choices": [
+          "\\$15",
+          "\\$5",
+          "\\$2250",
+          "\\$30"
+        ],
+        "answer": 0,
+        "working": "The zeros of $R(x) = (10 + x)(200 - 10x)$ are $x = -10$ and $x = 20$, so $x = 5$ and the price is \\$15."
+      }
+    ]
   }
 }
