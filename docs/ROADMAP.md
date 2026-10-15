@@ -268,7 +268,31 @@ items ship or decisions change.
      and Drive upload (about six minutes a video). Then script and render the other courses in
      order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), explaining each lesson as simply as
      possible, with parts split by idea.
-2. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
+   has no social pages yet. Open them, then post three times a week across all of them, with
+   Claude coordinating: preparing each week's posts, keeping the schedule and reporting. It runs
+   alongside the explainer videos, which render in the background.
+   - Pages (to confirm with the owner): Instagram, TikTok, Facebook, LinkedIn and YouTube Shorts on
+     the YouTube channel, all with the same handle (`@gradileo`, or `@gradileomath` if taken). The
+     audience is high-school students (the platforms are for ages 13 and up), parents and
+     teachers; posts about the Grade 5 to 9 courses speak to parents and teachers, not to children.
+   - The owner opens the accounts (sign-up needs a person, a phone and acceptance of each
+     platform's terms), with admin@gradileo.com as the email and two-step sign-in on. Claude never
+     handles the passwords.
+   - Profile kit, by Claude: profile picture (`video/out/channel/profile-800x800.png`), a cover
+     or banner in each platform's size, a bio within each platform's limit, and the link to
+     gradileo.com, in Drive under `Gradileo social/`.
+   - Posts: Monday, Wednesday and Friday. A mix of a short vertical clip cut from an explainer
+     (a "Your turn" question as the hook, captions on, the answer in the next post or the
+     comments), a worked example or study tip as an image or carousel, and news about Gradileo
+     for students, parents and teachers. Each post links to the full video or lesson. Show the
+     owner a sample week before the first one goes out.
+   - Scheduling (to settle with the owner): each platform's own free scheduler (Meta Business
+     Suite for Facebook and Instagram, TikTok's web scheduler, YouTube Studio, LinkedIn), or one
+     tool for all of them such as Buffer. Each week Claude puts the next week's posts in Drive
+     (media, caption for each platform and posting time) for scheduling; where a tool can be
+     connected to Claude, Claude schedules them directly. A weekly scheduled task keeps it going.
+3. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
    for example "Draft with AI") and the AI drafts the questions from the course curriculum and
@@ -286,7 +310,7 @@ items ship or decisions change.
      the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
      marking guides. The teacher previews everything, regenerates or edits single questions, and
      publishes; nothing reaches students without the teacher's approval.
-3. **Other subjects**, once mathematics is complete.
+4. **Other subjects**, once mathematics is complete.
 
 ## Hosting
 

@@ -19614,5 +19614,283 @@
         "working": "The drop is opposite and the line is the hypotenuse: $\\sin\\theta = \\dfrac{3}{12} = 0.25$, so $\\theta = \\sin^{-1}(0.25) \\approx 14.5^\\circ$. B uses cosine, and C uses tangent."
       }
     ]
+  },
+  "m203-4-1-d": {
+    "lessonId": "m203-4-1",
+    "title": "Right Triangle Review, Part 4: Solving a Whole Problem",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A rafter for a 6/12 roof",
+        "t": 17.741
+      },
+      {
+        "title": "Check another way",
+        "t": 72.921
+      },
+      {
+        "title": "Good habits",
+        "t": 94.073
+      },
+      {
+        "title": "Your turn",
+        "t": 126.376
+      },
+      {
+        "title": "Summary",
+        "t": 162.14
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-1-d:q",
+        "t": 136.568,
+        "prompt": "A roof has a 4/12 pitch and a rafter run of $12$ ft. How long is each rafter, to the nearest tenth of a foot?",
+        "choices": [
+          "$12.6$ ft",
+          "$16.0$ ft",
+          "$12.0$ ft",
+          "$11.4$ ft"
+        ],
+        "answer": 0,
+        "working": "The rise is $12 \\times \\dfrac{4}{12} = 4$ ft, so $L = \\sqrt{12^2 + 4^2} = \\sqrt{160} \\approx 12.6$ ft. B adds the rise and the run."
+      }
+    ]
+  },
+  "m203-4-2": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 1: Angles of Elevation and Depression",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two angles from the horizontal",
+        "t": 20.21
+      },
+      {
+        "title": "They are equal",
+        "t": 47.251
+      },
+      {
+        "title": "A truck below a grain elevator",
+        "t": 71.703
+      },
+      {
+        "title": "Not from the wall",
+        "t": 114.116
+      },
+      {
+        "title": "Your turn",
+        "t": 132.931
+      },
+      {
+        "title": "Summary",
+        "t": 171.418
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2:q",
+        "t": 146.694,
+        "prompt": "From the top of a $60$ m cliff, the angle of depression to a canoe is $25^\\circ$. How far is the canoe from the base of the cliff?",
+        "choices": [
+          "$128.7$ m",
+          "$28.0$ m",
+          "$142.0$ m",
+          "$54.4$ m"
+        ],
+        "answer": 0,
+        "working": "The angle at the canoe is $25^\\circ$. $\\tan 25^\\circ = \\dfrac{60}{d}$, so $d = \\dfrac{60}{\\tan 25^\\circ} \\approx 128.7$ m. B multiplies instead of dividing."
+      }
+    ]
+  },
+  "m203-4-2-b": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 2: Triangles on Opposite Sides",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A plan",
+        "t": 19.999
+      },
+      {
+        "title": "Opposite sides of a tower",
+        "t": 43.377
+      },
+      {
+        "title": "A ladder in an alley",
+        "t": 98.837
+      },
+      {
+        "title": "Your turn",
+        "t": 148.605
+      },
+      {
+        "title": "Summary",
+        "t": 194.251
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2-b:q",
+        "t": 165.516,
+        "prompt": "Two people stand on opposite sides of a $30$ m flagpole, in line with it. Their angles of elevation to the top are $40^\\circ$ and $55^\\circ$. How far apart are they?",
+        "choices": [
+          "$56.8$ m",
+          "$14.7$ m",
+          "$68.0$ m",
+          "$35.8$ m"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{30}{\\tan 40^\\circ} \\approx 35.75$ and $\\dfrac{30}{\\tan 55^\\circ} \\approx 21.01$. Opposite sides, so add: about $56.8$ m. B subtracts."
+      }
+    ]
+  },
+  "m203-4-2-c": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 3: One Triangle Inside the Other",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two boats from a cliff",
+        "t": 18.184
+      },
+      {
+        "title": "An antenna on a roof",
+        "t": 69.534
+      },
+      {
+        "title": "Keep the digits",
+        "t": 116.018
+      },
+      {
+        "title": "Your turn",
+        "t": 132.76
+      },
+      {
+        "title": "Summary",
+        "t": 176.718
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2-c:q",
+        "t": 149.05,
+        "prompt": "From $25$ m away, the angle of elevation to the bottom of a flag on a pole is $20^\\circ$, and to the top of the flag is $28^\\circ$. How tall is the flag?",
+        "choices": [
+          "$4.2$ m",
+          "$22.4$ m",
+          "$13.3$ m",
+          "$9.1$ m"
+        ],
+        "answer": 0,
+        "working": "$25\\tan 28^\\circ \\approx 13.29$ and $25\\tan 20^\\circ \\approx 9.10$. Subtract: about $4.2$ m. B adds the two heights."
+      }
+    ]
+  },
+  "m203-4-2-d": {
+    "lessonId": "m203-4-2",
+    "title": "Problems with Two Right Triangles, Part 4: Find the Shared Side First",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A buoy and a boat",
+        "t": 18.254
+      },
+      {
+        "title": "A second guy wire",
+        "t": 75.765
+      },
+      {
+        "title": "Your turn",
+        "t": 128.368
+      },
+      {
+        "title": "Summary",
+        "t": 179.427
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-2-d:q",
+        "t": 147.391,
+        "prompt": "From the top of a lighthouse, the angle of depression to a buoy $50$ m from the base is $40^\\circ$. A ship in line beyond the buoy is at an angle of depression of $15^\\circ$. How far is the ship from the buoy?",
+        "choices": [
+          "$106.6$ m",
+          "$156.6$ m",
+          "$42.0$ m",
+          "$206.6$ m"
+        ],
+        "answer": 0,
+        "working": "$h = 50\\tan 40^\\circ \\approx 41.95$ m. Ship: $\\dfrac{41.95}{\\tan 15^\\circ} \\approx 156.57$ m from the base. $156.57 - 50 \\approx 106.6$ m. B is the distance from the base."
+      }
+    ]
+  },
+  "m203-4-3": {
+    "lessonId": "m203-4-3",
+    "title": "Chains of Right Triangles, Part 1: A Plan and Survey Sightings",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A plan",
+        "t": 23.183
+      },
+      {
+        "title": "Three survey stakes",
+        "t": 69.687
+      },
+      {
+        "title": "Your turn",
+        "t": 137.031
+      },
+      {
+        "title": "Summary",
+        "t": 179.939
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-4-3:q",
+        "t": 152.341,
+        "prompt": "Two stakes are in line with the base of a $40$ m tower. The angles of elevation to the top are $50^\\circ$ and $30^\\circ$. How far apart are the stakes?",
+        "choices": [
+          "$35.7$ m",
+          "$69.3$ m",
+          "$33.6$ m",
+          "$102.9$ m"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{40}{\\tan 30^\\circ} \\approx 69.28$ and $\\dfrac{40}{\\tan 50^\\circ} \\approx 33.56$. Subtract: about $35.7$ m."
+      }
+    ]
   }
 }
