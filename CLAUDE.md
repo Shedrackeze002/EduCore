@@ -46,3 +46,7 @@ deploys by hand.)
   Keep the owner's personal details, such as their email address, out of the repository.
 - Explainer videos: follow `video/README.md` ("Making a course's videos, step by step"); the tools
   are in `video/tools/`.
+- Keep room on the disk: the owner wants finished videos moved to Google Drive and cleared from
+  the session, so a render never runs out of space. When free space (`df -h /`) falls under about
+  6 GB, run `video/tools/free-disk.sh <course id>…` on finished courses. It deletes a course only
+  after Drive is checked to hold every file of every video, and never the course still rendering.
