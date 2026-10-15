@@ -16834,5 +16834,52 @@
         "working": "$b^2 - 4ac = 4 + 24 = 28$, so $x = \\dfrac{2 \\pm \\sqrt{28}}{6} \\approx 1.22$ or $-0.55$. B uses $b$ instead of $-b$; C divides only the root by $6$; D divides by $2$, not $2a$."
       }
     ]
+  },
+  "m202-7-2-c": {
+    "lessonId": "m202-7-2",
+    "title": "The Quadratic Formula, Part 3: How Many Roots, and Choosing a Method",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two, one or none",
+        "t": 17.961
+      },
+      {
+        "title": "No real roots",
+        "t": 53.85
+      },
+      {
+        "title": "Choosing a method",
+        "t": 81.803
+      },
+      {
+        "title": "Your turn",
+        "t": 124.379
+      },
+      {
+        "title": "Summary",
+        "t": 159.465
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-7-2-c:q",
+        "t": 134.574,
+        "prompt": "How many real roots does $4x^2 - 12x + 9 = 0$ have?",
+        "choices": [
+          "One",
+          "Two",
+          "None",
+          "It cannot be told without graphing."
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 144 - 4(4)(9) = 144 - 144 = 0$, so there is one real root. Indeed $4x^2 - 12x + 9 = (2x - 3)^2$."
+      }
+    ]
   }
 }
