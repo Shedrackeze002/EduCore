@@ -328,12 +328,14 @@ items ship or decisions change.
      mastered, using the mastery data.
    - Auto-graded questions come from the engine's generators (fresh numbers for each student);
      the AI writes the questions the generators cannot (open-ended, canvas) with answer keys and
-     marking guides. The teacher previews everything, regenerates or edits single questions, and
-     publishes; nothing reaches students without the teacher's approval.
+     marking guides. The teacher who asked for them previews everything, regenerates or edits
+     single questions, and publishes; nothing reaches students without that teacher's approval
+     (no administrator review in between).
 6. **AI report cards** (the owner's idea, 15 October 2026). For each student, from their mastery
    and work: how they are doing, strengths, next steps, tips for the student and for parents, and
-   feedback. The teacher reviews and edits each one before it reaches a student or parent, and
-   shares it on request as a PDF or a private link.
+   feedback. The teacher who asks for it reviews and edits it before it reaches the student or a
+   parent (not an administrator: the review is the teacher's), and shares it on request as a PDF
+   or a private link.
 7. **Class forum** (the owner's idea, 15 October 2026). Students post questions for their class
    and choose who sees each one. Proposed choices: private to the teacher, the whole class, or the
    whole class without their name shown to classmates. The teacher can always see and moderate
