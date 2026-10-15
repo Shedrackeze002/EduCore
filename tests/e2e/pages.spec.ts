@@ -335,8 +335,9 @@ test('a student asks to join a class with its code and the teacher approves', as
   await teacher.reload();
   await teacher.getByRole('link', { name: /waiting for you to approve/ }).click();
   await expect(teacher.getByText('1 student wants to join')).toBeVisible();
-  await teacher.getByRole('button', { name: 'Approve Ada Learner' }).click();
-  await expect(teacher.getByText('Student added to the class')).toBeVisible();
+  await expect(teacher.getByRole('checkbox', { name: 'Select Ada Learner' })).toBeChecked();
+  await teacher.getByRole('button', { name: 'Approve 1 student' }).click();
+  await expect(teacher.getByText('Student let in')).toBeVisible();
   await expect(teacher.getByRole('link', { name: /Ada Learner/ })).toBeVisible();
 
   // The student is now in the class.

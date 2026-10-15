@@ -23,6 +23,8 @@ export interface Profile {
   /** Teachers who sign up themselves may need an administrator's approval. */
   teacherStatus?: TeacherStatus | null;
   disabled?: boolean;
+  /** Joined a class by link with only a name: no email or password, and this device keeps the session. */
+  nameOnly?: boolean;
 }
 
 export interface ClassSettings {
@@ -114,6 +116,8 @@ export interface MyJoinRequest {
   status: 'pending' | 'approved' | 'declined';
   createdAt: string;
   decidedAt: string | null;
+  /** Approved as a student already in the class: this device takes over that student's account. */
+  linked: boolean;
 }
 
 /** A pending request to join a class, as the teacher sees it. */
@@ -121,9 +125,27 @@ export interface ClassJoinRequest {
   id: string;
   studentId: string;
   fullName: string;
+  /** Empty for a student who joined with the class link. */
   email: string;
   message: string | null;
   createdAt: string;
+  /** Joined with the class link, with only a name. */
+  nameOnly: boolean;
+  /** A student in the class who joined the same way with the same name: most likely the same student on another device. */
+  match: { studentId: string; fullName: string } | null;
+}
+
+/** The teacher's decision on one request; `sameAs` approves it as that student already in the class. */
+export interface JoinDecision {
+  requestId: string;
+  approve: boolean;
+  sameAs?: string | null;
+}
+
+/** A class as someone with its link sees it before joining. */
+export interface JoinLinkClass {
+  className: string;
+  teacherName: string | null;
 }
 
 export interface ClassRoom {

@@ -15,6 +15,7 @@ import { courseMastery, masteryMap, recommendedSkills, selfPacedLessons, skillLa
 import { useStudentClass } from '../shared/useStudentClass.ts';
 import { clearReviewSkills, reviewSkills } from './review.ts';
 import { MyRequests } from './JoinClassPage.tsx';
+import { WaitingToJoin } from './WaitingToJoin.tsx';
 import { TypeIcon } from '../shared/TypeIcon.tsx';
 import { cn } from '@/lib/cn.ts';
 
@@ -67,7 +68,7 @@ export default function StudentHome() {
   }, [events.data]);
 
   if (isLoading) return <PageSpinner />;
-  if (!cls) return <GetStarted name={me.fullName.split(' ')[0]} />;
+  if (!cls) return me.nameOnly ? <WaitingToJoin /> : <GetStarted name={me.fullName.split(' ')[0]} />;
 
   return (
     <div className="space-y-6">

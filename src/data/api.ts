@@ -25,6 +25,8 @@ import type {
   LessonEditInput,
   LessonEditStatus,
   ClassSettings,
+  JoinDecision,
+  JoinLinkClass,
   JoinResult,
   MyJoinRequest,
   Insight,
@@ -83,6 +85,20 @@ export interface DataApi {
   listMyJoinRequests(): Promise<MyJoinRequest[]>;
   listJoinRequests(classId: string): Promise<ClassJoinRequest[]>;
   decideJoinRequest(requestId: string, approve: boolean): Promise<void>;
+  /** Several decisions at once (the teacher ticks the names they know). */
+  decideJoinRequests(classId: string, decisions: JoinDecision[]): Promise<void>;
+  /** The class behind a join link, or null when the link is not valid. Needs no sign-in. */
+  classForJoinLink(code: string): Promise<JoinLinkClass | null>;
+  /**
+   * Joins a class by link with only a first and last name: makes a student account without an
+   * email or password, signs this device in to it, and asks the teacher.
+   */
+  joinWithName(code: string, firstName: string, lastName: string): Promise<{ profile: Profile; result: JoinResult }>;
+  /**
+   * When the teacher matched this device's request to a student already in the class, this device
+   * takes over that student's account. Returns the student's profile, or null when there is nothing to take over.
+   */
+  claimMatchedAccount(): Promise<Profile | null>;
   /** A student's own self-paced class for a course (made the first time); every lesson is open. */
   startSelfPaced(courseId: string): Promise<ClassRoom>;
   listRoster(classId: string): Promise<Profile[]>;

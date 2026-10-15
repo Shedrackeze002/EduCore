@@ -23,6 +23,8 @@ import type {
   LessonEditInput,
   LessonEditStatus,
   ItemRef,
+  JoinDecision,
+  JoinLinkClass,
   JoinResult,
   NewStudentCredential,
   PlatformSettings,
@@ -75,6 +77,12 @@ function fail(error: { message: string } | null): void {
 }
 
 const DISABLED_MESSAGE = 'This account has been disabled. Please contact your school administrator.';
+
+/** A random sign-in from the join-class function, used once by this device (never shown). */
+interface Credentials {
+  email: string;
+  password: string;
+}
 
 export class SupabaseApi implements DataApi {
   readonly mode = 'supabase' as const;
@@ -284,6 +292,38 @@ export class SupabaseApi implements DataApi {
   async decideJoinRequest(requestId: string, approve: boolean) {
     const { error } = await this.client.rpc('decide_join_request', { p_request_id: requestId, p_approve: approve });
     fail(error);
+  }
+
+  async decideJoinRequests(classId: string, decisions: JoinDecision[]) {
+    const { error } = await this.client.rpc('decide_join_requests', {
+      p_class_id: classId,
+      p_decisions: decisions.map((d) => ({ id: d.requestId, approve: d.approve, sameAs: d.approve ? (d.sameAs ?? null) : null })),
+    });
+    fail(error);
+  }
+
+  async classForJoinLink(code: string): Promise<JoinLinkClass | null> {
+    const { data, error } = await this.client.rpc('class_for_join', { p_code: code.trim().toUpperCase() });
+    fail(error);
+    const row = ((data ?? []) as Array<{ class_name: string; teacher_name: string | null }>)[0];
+    return row ? { className: row.class_name, teacherName: row.teacher_name ?? null } : null;
+  }
+
+  async joinWithName(code: string, firstName: string, lastName: string) {
+    const res = await this.invoke<{ credentials: Credentials; result: JoinResult }>('join-class', {
+      action: 'join',
+      code: code.trim().toUpperCase(),
+      firstName,
+      lastName,
+    });
+    return { profile: await this.signIn(res.credentials.email, res.credentials.password), result: res.result };
+  }
+
+  async claimMatchedAccount() {
+    const res = await this.invoke<{ credentials: Credentials | null }>('join-class', { action: 'claim' });
+    if (!res.credentials) return null;
+    // Signing in replaces this device's session (its own account is gone) with the student's.
+    return this.signIn(res.credentials.email, res.credentials.password);
   }
 
   async startSelfPaced(courseId: string) {

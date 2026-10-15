@@ -25,7 +25,9 @@ export default function LoginPage() {
       const u = await api().signIn(id, pw);
       setUser(u);
       const next = params.get('next');
-      navigate(next && next.startsWith(u.role === 'teacher' ? '/t' : '/s') ? next : u.role === 'teacher' ? '/t' : '/s', { replace: true });
+      // Only pages in the app: the signed-in area, or (for a student) back to a class link.
+      const ok = !!next && (next.startsWith(u.role === 'teacher' ? '/t' : '/s') || (u.role === 'student' && /^\/join\/[A-Za-z0-9]{4,12}$/.test(next)));
+      navigate(ok ? next : u.role === 'teacher' ? '/t' : '/s', { replace: true });
     } catch (e) {
       setError((e as Error).message);
     } finally {

@@ -307,6 +307,12 @@ items ship or decisions change.
      reconnects them to their progress. A shared classroom device offers "Not you? Switch student".
    - Nothing reaches the class without the teacher's approval; a class can have only so many names
      waiting, and denied ones are cleared.
+   - Built: the class link (`/join/CODE`), the `join-class` Edge Function (makes the account and
+     signs the device in; its password is random and never leaves the function), the teacher's
+     list with every name ticked (untick, then approve or decline the ticked ones), the "same
+     student" match for a student on a new device, a waiting page that opens the class on its own,
+     and a daily clean-up of name-only accounts that never got in. Names typed in lower case are
+     capitalized. Students with a Gradileo account can still use the code.
 4. **Students' questions during a presentation** (the owner's idea, 15 October 2026). While the
    teacher presents, students send questions about the lesson from their own devices. Each one
    pops up on the teacher's screen to answer or skip; at the end, a "Questions" slide lists them,
