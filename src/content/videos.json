@@ -18661,5 +18661,154 @@
         "working": "$s = \\sqrt{8^2 + 6^2} = \\sqrt{100} = 10$ cm. B adds the lengths, and D forgets the square root."
       }
     ]
+  },
+  "m203-2-2-d": {
+    "lessonId": "m203-2-2",
+    "title": "Surface Area of Pyramids, Cones and Spheres, Part 4: Spheres and Hemispheres",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Spheres",
+        "t": 19.82
+      },
+      {
+        "title": "A basketball",
+        "t": 40.473
+      },
+      {
+        "title": "Hemispheres",
+        "t": 70.472
+      },
+      {
+        "title": "A dome roof",
+        "t": 98.522
+      },
+      {
+        "title": "Your turn",
+        "t": 123.308
+      },
+      {
+        "title": "Summary",
+        "t": 158.599
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-2-d:q",
+        "t": 133.85,
+        "prompt": "A solid wooden hemisphere has a radius of $4$ cm. What is its total surface area, to the nearest square centimetre?",
+        "choices": [
+          "$151\\ \\text{cm}^2$",
+          "$101\\ \\text{cm}^2$",
+          "$201\\ \\text{cm}^2$",
+          "$50\\ \\text{cm}^2$"
+        ],
+        "answer": 0,
+        "working": "$3\\pi r^2 = 3\\pi(4)^2 = 48\\pi \\approx 151\\ \\text{cm}^2$. B is the curved part only, and C is a whole sphere."
+      }
+    ]
+  },
+  "m203-2-3": {
+    "lessonId": "m203-2-3",
+    "title": "Surface Area on the Job, Part 1: Converting Square Units",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One square foot",
+        "t": 22.372
+      },
+      {
+        "title": "Square the factor",
+        "t": 47.879
+      },
+      {
+        "title": "Two conversions",
+        "t": 82.601
+      },
+      {
+        "title": "Using the length factor",
+        "t": 113.904
+      },
+      {
+        "title": "Your turn",
+        "t": 141.361
+      },
+      {
+        "title": "Summary",
+        "t": 170.889
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-3:q",
+        "t": 150.6,
+        "prompt": "A room needs $45$ square yards of carpet. How many square feet is that?",
+        "choices": [
+          "$405\\ \\text{ft}^2$",
+          "$135\\ \\text{ft}^2$",
+          "$5\\ \\text{ft}^2$",
+          "$15\\ \\text{ft}^2$"
+        ],
+        "answer": 0,
+        "working": "Square feet are smaller, so multiply by $3 \\times 3 = 9$: $45 \\times 9 = 405\\ \\text{ft}^2$. B multiplies by $3$ only."
+      }
+    ]
+  },
+  "m203-2-3-b": {
+    "lessonId": "m203-2-3",
+    "title": "Surface Area on the Job, Part 2: How Much to Buy and What It Costs",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Painting a shed",
+        "t": 19.506
+      },
+      {
+        "title": "Coats and waste",
+        "t": 73.2
+      },
+      {
+        "title": "Material cost",
+        "t": 97.557
+      },
+      {
+        "title": "Your turn",
+        "t": 149.703
+      },
+      {
+        "title": "Summary",
+        "t": 188.303
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-2-3-b:q",
+        "t": 163.253,
+        "prompt": "A fence has $620\\ \\text{ft}^2$ to stain, with two coats. One can covers $250\\ \\text{ft}^2$. How many cans are needed?",
+        "choices": [
+          "$5$ cans",
+          "$4$ cans",
+          "$3$ cans",
+          "$2.48$ cans"
+        ],
+        "answer": 0,
+        "working": "Two coats: $620 \\times 2 = 1240\\ \\text{ft}^2$. $1240 \\div 250 = 4.96$, so round up to $5$. C forgets the second coat."
+      }
+    ]
   }
 }
