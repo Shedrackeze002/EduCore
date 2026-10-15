@@ -11025,5 +11025,526 @@
         "working": "The zeros of $R(x) = (10 + x)(200 - 10x)$ are $x = -10$ and $x = 20$, so $x = 5$ and the price is \\$15."
       }
     ]
+  },
+  "m201-4-1": {
+    "lessonId": "m201-4-1",
+    "title": "Factoring Polynomial Expressions, Part 1: Decomposition",
+    "duration": 222,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Product ac, sum b",
+        "t": 23.899
+      },
+      {
+        "title": "A negative constant",
+        "t": 66.392
+      },
+      {
+        "title": "Two variables",
+        "t": 112.062
+      },
+      {
+        "title": "Your turn",
+        "t": 157.403
+      },
+      {
+        "title": "Summary",
+        "t": 193.253
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-1:q",
+        "t": 165.017,
+        "prompt": "Factor $2x^2 + 5x - 12$.",
+        "choices": [
+          "$(2x - 3)(x + 4)$",
+          "$(2x + 3)(x - 4)$",
+          "$(2x - 4)(x + 3)$",
+          "$(2x + 4)(x - 3)$"
+        ],
+        "answer": 0,
+        "working": "$ac = -24$, and $8 + (-3) = 5$: $2x^2 + 8x - 3x - 12 = 2x(x + 4) - 3(x + 4) = (2x - 3)(x + 4)$."
+      }
+    ]
+  },
+  "m201-4-1-b": {
+    "lessonId": "m201-4-1",
+    "title": "Factoring Polynomial Expressions, Part 2: Common Factors and Differences of Squares",
+    "duration": 230,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Common factors first",
+        "t": 20.177
+      },
+      {
+        "title": "A fraction in front",
+        "t": 65.002
+      },
+      {
+        "title": "Difference of squares",
+        "t": 104.311
+      },
+      {
+        "title": "Your turn",
+        "t": 173.994
+      },
+      {
+        "title": "Summary",
+        "t": 202.894
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-1-b:q",
+        "t": 181.369,
+        "prompt": "Factor $2x^2 - 50$ completely.",
+        "choices": [
+          "$2(x - 5)(x + 5)$",
+          "$2(x - 5)^2$",
+          "$(2x - 10)(x + 5)$",
+          "$2(x^2 - 25)$"
+        ],
+        "answer": 0,
+        "working": "Remove the common factor $2$: $2(x^2 - 25)$. Then $x^2 - 25 = (x - 5)(x + 5)$."
+      }
+    ]
+  },
+  "m201-4-1-c": {
+    "lessonId": "m201-4-1",
+    "title": "Factoring Polynomial Expressions, Part 3: Substitution",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A repeated binomial",
+        "t": 24.756
+      },
+      {
+        "title": "x to the fourth",
+        "t": 74.396
+      },
+      {
+        "title": "A difference of squares",
+        "t": 112.243
+      },
+      {
+        "title": "Your turn",
+        "t": 154.683
+      },
+      {
+        "title": "Summary",
+        "t": 186.198
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-1-c:q",
+        "t": 161.583,
+        "prompt": "Factor $(x + 3)^2 - 4$.",
+        "choices": [
+          "$(x + 1)(x + 5)$",
+          "$(x - 1)(x + 5)$",
+          "$(x + 1)(x - 5)$",
+          "$(x - 2)(x + 2)$"
+        ],
+        "answer": 0,
+        "working": "Let $u = x + 3$: $u^2 - 4 = (u - 2)(u + 2) = (x + 3 - 2)(x + 3 + 2) = (x + 1)(x + 5)$."
+      }
+    ]
+  },
+  "m201-4-2": {
+    "lessonId": "m201-4-2",
+    "title": "Solving Quadratic Equations, Part 1: Roots and Graphs",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Roots, zeros and x-intercepts",
+        "t": 22.863
+      },
+      {
+        "title": "Check the roots",
+        "t": 71.509
+      },
+      {
+        "title": "How many roots?",
+        "t": 96.348
+      },
+      {
+        "title": "Solving f(x) = k",
+        "t": 134.806
+      },
+      {
+        "title": "Your turn",
+        "t": 174.56
+      },
+      {
+        "title": "Summary",
+        "t": 204.725
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-2:q",
+        "t": 180.744,
+        "prompt": "Which equation has no real roots?",
+        "choices": [
+          "$x^2 + 2 = 0$",
+          "$x^2 - 2 = 0$",
+          "$x^2 = 0$",
+          "$(x - 2)^2 - 1 = 0$"
+        ],
+        "answer": 0,
+        "working": "The graph of $y = x^2 + 2$ has its vertex at $(0, 2)$, above the $x$-axis, and opens up, so it never meets the axis."
+      }
+    ]
+  },
+  "m201-4-2-b": {
+    "lessonId": "m201-4-2",
+    "title": "Solving Quadratic Equations, Part 2: The Zero Product Property",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Zero product property",
+        "t": 21.025
+      },
+      {
+        "title": "Solving by factoring",
+        "t": 53.826
+      },
+      {
+        "title": "The other side must be zero",
+        "t": 93.373
+      },
+      {
+        "title": "Your turn",
+        "t": 145.363
+      },
+      {
+        "title": "Summary",
+        "t": 182.168
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-2-b:q",
+        "t": 152.877,
+        "prompt": "Solve $x^2 - 5x = 14$.",
+        "choices": [
+          "$x = 7$ or $x = -2$",
+          "$x = -7$ or $x = 2$",
+          "$x = 14$ or $x = 19$",
+          "$x = 0$ or $x = 5$"
+        ],
+        "answer": 0,
+        "working": "Subtract $14$: $x^2 - 5x - 14 = 0$, so $(x - 7)(x + 2) = 0$ and $x = 7$ or $x = -2$."
+      }
+    ]
+  },
+  "m201-4-2-c": {
+    "lessonId": "m201-4-2",
+    "title": "Solving Quadratic Equations, Part 3: Standard Form First",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 20.194
+      },
+      {
+        "title": "Never divide by the variable",
+        "t": 75.526
+      },
+      {
+        "title": "A known root",
+        "t": 109.9
+      },
+      {
+        "title": "Your turn",
+        "t": 149.022
+      },
+      {
+        "title": "Summary",
+        "t": 180.913
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-2-c:q",
+        "t": 155.563,
+        "prompt": "Solve $2x^2 = 8x$.",
+        "choices": [
+          "$x = 0$ or $x = 4$",
+          "$x = 4$",
+          "$x = 0$",
+          "$x = -4$ or $x = 4$"
+        ],
+        "answer": 0,
+        "working": "$2x^2 - 8x = 0$, so $2x(x - 4) = 0$ and $x = 0$ or $x = 4$."
+      }
+    ]
+  },
+  "m201-4-3": {
+    "lessonId": "m201-4-3",
+    "title": "Completing the Square and the Quadratic Formula, Part 1: Square Roots",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Taking square roots",
+        "t": 26.533
+      },
+      {
+        "title": "Three cases",
+        "t": 56.24
+      },
+      {
+        "title": "Completing the square",
+        "t": 103.168
+      },
+      {
+        "title": "Your turn",
+        "t": 152.24
+      },
+      {
+        "title": "Summary",
+        "t": 190.213
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-3:q",
+        "t": 162.247,
+        "prompt": "Solve $x^2 - 4x - 1 = 0$ by completing the square.",
+        "choices": [
+          "$x = 2 \\pm \\sqrt{5}$",
+          "$x = -2 \\pm \\sqrt{5}$",
+          "$x = 2 \\pm \\sqrt{3}$",
+          "$x = 2 + \\sqrt{5}$"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 4x = 1$. Add $(-2)^2 = 4$ to both sides: $(x - 2)^2 = 5$, so $x = 2 \\pm \\sqrt{5}$."
+      }
+    ]
+  },
+  "m201-4-3-b": {
+    "lessonId": "m201-4-3",
+    "title": "Completing the Square and the Quadratic Formula, Part 2: Deriving the Formula",
+    "duration": 238,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "When a ≠ 1",
+        "t": 19.724
+      },
+      {
+        "title": "With letters",
+        "t": 68.085
+      },
+      {
+        "title": "Check with numbers",
+        "t": 132.322
+      },
+      {
+        "title": "Your turn",
+        "t": 172.82
+      },
+      {
+        "title": "Summary",
+        "t": 207.649
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-3-b:q",
+        "t": 183.923,
+        "prompt": "For $2x^2 - 3x - 5 = 0$, what is $b^2 - 4ac$?",
+        "choices": [
+          "$49$",
+          "$-31$",
+          "$-49$",
+          "$31$"
+        ],
+        "answer": 0,
+        "working": "$a = 2$, $b = -3$ and $c = -5$: $(-3)^2 - 4(2)(-5) = 9 + 40 = 49$."
+      }
+    ]
+  },
+  "m201-4-3-c": {
+    "lessonId": "m201-4-3",
+    "title": "Completing the Square and the Quadratic Formula, Part 3: Using the Formula",
+    "duration": 205,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exact roots",
+        "t": 20.345
+      },
+      {
+        "title": "Decimal roots",
+        "t": 75.057
+      },
+      {
+        "title": "Two common slips",
+        "t": 109.806
+      },
+      {
+        "title": "Your turn",
+        "t": 142.234
+      },
+      {
+        "title": "Summary",
+        "t": 180.003
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-3-c:q",
+        "t": 151.899,
+        "prompt": "Solve $x^2 - 2x - 4 = 0$. Give exact roots.",
+        "choices": [
+          "$x = 1 \\pm \\sqrt{5}$",
+          "$x = -1 \\pm \\sqrt{5}$",
+          "$x = 2 \\pm \\sqrt{5}$",
+          "$x = 1 \\pm 2\\sqrt{5}$"
+        ],
+        "answer": 0,
+        "working": "$x = \\dfrac{2 \\pm \\sqrt{4 + 16}}{2} = \\dfrac{2 \\pm 2\\sqrt{5}}{2} = 1 \\pm \\sqrt{5}$."
+      }
+    ]
+  },
+  "m201-4-4": {
+    "lessonId": "m201-4-4",
+    "title": "The Discriminant and Applications, Part 1: The Discriminant",
+    "duration": 220,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The discriminant",
+        "t": 20.286
+      },
+      {
+        "title": "Predicting the roots",
+        "t": 74.225
+      },
+      {
+        "title": "Standard form first",
+        "t": 130.169
+      },
+      {
+        "title": "Your turn",
+        "t": 159.399
+      },
+      {
+        "title": "Summary",
+        "t": 190.818
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-4:q",
+        "t": 169.356,
+        "prompt": "How many real roots does $3x^2 + 2x + 1 = 0$ have?",
+        "choices": [
+          "No real roots",
+          "One real root",
+          "Two distinct real roots",
+          "Two rational roots"
+        ],
+        "answer": 0,
+        "working": "$b^2 - 4ac = 2^2 - 4(3)(1) = 4 - 12 = -8 < 0$, so there are no real roots."
+      }
+    ]
+  },
+  "m201-4-4-b": {
+    "lessonId": "m201-4-4",
+    "title": "The Discriminant and Applications, Part 2: Unknown Coefficients and Problems",
+    "duration": 229,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One real root",
+        "t": 19.097
+      },
+      {
+        "title": "Two distinct real roots",
+        "t": 57.889
+      },
+      {
+        "title": "Solving problems",
+        "t": 91.87
+      },
+      {
+        "title": "Your turn",
+        "t": 161.271
+      },
+      {
+        "title": "Summary",
+        "t": 197.571
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-4-4-b:q",
+        "t": 172.456,
+        "prompt": "For which values of $k$ does $x^2 + 4x + k = 0$ have no real roots?",
+        "choices": [
+          "$k > 4$",
+          "$k < 4$",
+          "$k = 4$",
+          "$k > 16$"
+        ],
+        "answer": 0,
+        "working": "No real roots: $b^2 - 4ac = 16 - 4k < 0$, so $16 < 4k$ and $k > 4$."
+      }
+    ]
   }
 }
