@@ -12678,5 +12678,463 @@
         "working": "The vertex of $y = x^2 - 4$ is $(0, -4)$, below the $x$-axis, and the parabola opens up, so it crosses the axis. The range of $y = |x^2 - 4|$ is $y \\ge 0$."
       }
     ]
+  },
+  "m201-7-2-c": {
+    "lessonId": "m201-7-2",
+    "title": "Absolute Value Functions, Part 3: Piecewise Form",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Piecewise functions",
+        "t": 17.34
+      },
+      {
+        "title": "A linear function",
+        "t": 45.029
+      },
+      {
+        "title": "A quadratic function",
+        "t": 81.453
+      },
+      {
+        "title": "A negative coefficient",
+        "t": 116.112
+      },
+      {
+        "title": "Your turn",
+        "t": 149.123
+      },
+      {
+        "title": "Summary",
+        "t": 183.601
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-2-c:q",
+        "t": 158.816,
+        "prompt": "Which is the piecewise form of $y = |x + 3|$?",
+        "choices": [
+          "$y = x + 3$ if $x \\ge -3$; $y = -x - 3$ if $x < -3$",
+          "$y = x + 3$ if $x \\ge 3$; $y = -x - 3$ if $x < 3$",
+          "$y = x + 3$ if $x \\ge -3$; $y = x - 3$ if $x < -3$",
+          "$y = -x - 3$ if $x \\ge -3$; $y = x + 3$ if $x < -3$"
+        ],
+        "answer": 0,
+        "working": "$x + 3 \\ge 0$ when $x \\ge -3$. For $x < -3$, $y = -(x + 3) = -x - 3$."
+      }
+    ]
+  },
+  "m201-7-3": {
+    "lessonId": "m201-7-3",
+    "title": "Absolute Value Equations, Part 1: Two Cases",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two cases",
+        "t": 25.959
+      },
+      {
+        "title": "A linear expression",
+        "t": 61.189
+      },
+      {
+        "title": "Isolate it first",
+        "t": 94.344
+      },
+      {
+        "title": "Your turn",
+        "t": 135.331
+      },
+      {
+        "title": "Summary",
+        "t": 165.291
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-3:q",
+        "t": 143.072,
+        "prompt": "Solve $|x + 2| = 6$.",
+        "choices": [
+          "$x = 4$ or $x = -8$",
+          "$x = 4$",
+          "$x = -4$ or $x = 8$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "$x + 2 = 6$ gives $x = 4$, and $x + 2 = -6$ gives $x = -8$."
+      }
+    ]
+  },
+  "m201-7-3-b": {
+    "lessonId": "m201-7-3",
+    "title": "Absolute Value Equations, Part 2: Extraneous Solutions",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A variable on the right",
+        "t": 21.07
+      },
+      {
+        "title": "Check both",
+        "t": 74.524
+      },
+      {
+        "title": "Your turn",
+        "t": 122.043
+      },
+      {
+        "title": "Summary",
+        "t": 158.252
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-3-b:q",
+        "t": 131.231,
+        "prompt": "Solve $|x - 1| = 2x + 4$.",
+        "choices": [
+          "$x = -1$",
+          "$x = -5$ or $x = -1$",
+          "$x = -5$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "Case 1 gives $x = -5$, but then the right side is $-6$, so it is extraneous. Case 2 gives $3x = -3$ and $x = -1$: $|{-}2| = 2 = 2(-1) + 4$."
+      }
+    ]
+  },
+  "m201-7-3-c": {
+    "lessonId": "m201-7-3",
+    "title": "Absolute Value Equations, Part 3: Quadratic Expressions",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Up to four solutions",
+        "t": 22.095
+      },
+      {
+        "title": "A case with no real roots",
+        "t": 59.611
+      },
+      {
+        "title": "Rejecting roots",
+        "t": 96.573
+      },
+      {
+        "title": "Your turn",
+        "t": 145.595
+      },
+      {
+        "title": "Summary",
+        "t": 178.727
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-3-c:q",
+        "t": 154.018,
+        "prompt": "Solve $|x^2 - 10| = 6$.",
+        "choices": [
+          "$x = \\pm 2$ or $x = \\pm 4$",
+          "$x = \\pm 4$",
+          "$x = \\pm 2$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "$x^2 - 10 = 6$ gives $x^2 = 16$ and $x = \\pm 4$; $x^2 - 10 = -6$ gives $x^2 = 4$ and $x = \\pm 2$."
+      }
+    ]
+  },
+  "m201-7-4": {
+    "lessonId": "m201-7-4",
+    "title": "Reciprocal Functions, Part 1: Asymptotes and Invariant Points",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The reciprocal of a function",
+        "t": 28.411
+      },
+      {
+        "title": "Asymptotes and invariant points",
+        "t": 82.187
+      },
+      {
+        "title": "Your turn",
+        "t": 132.455
+      },
+      {
+        "title": "Summary",
+        "t": 161.36
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-4:q",
+        "t": 141.491,
+        "prompt": "Where is the vertical asymptote of $y = \\dfrac{1}{x + 4}$?",
+        "choices": [
+          "$x = -4$",
+          "$x = 4$",
+          "$y = -4$",
+          "$y = 0$"
+        ],
+        "answer": 0,
+        "working": "$x + 4 = 0$ when $x = -4$, so the reciprocal is undefined there."
+      }
+    ]
+  },
+  "m201-7-4-b": {
+    "lessonId": "m201-7-4",
+    "title": "Reciprocal Functions, Part 2: Features and Sketching",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the equation",
+        "t": 19.921
+      },
+      {
+        "title": "Sketching",
+        "t": 75.072
+      },
+      {
+        "title": "Your turn",
+        "t": 119.211
+      },
+      {
+        "title": "Summary",
+        "t": 153.493
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-4-b:q",
+        "t": 127.995,
+        "prompt": "What are the invariant points of $y = \\dfrac{1}{x - 5}$?",
+        "choices": [
+          "$(6, 1)$ and $(4, -1)$",
+          "$(5, 0)$",
+          "$(6, -1)$ and $(4, 1)$",
+          "$(1, 6)$ and $(-1, 4)$"
+        ],
+        "answer": 0,
+        "working": "$x - 5 = 1$ gives $x = 6$, the point $(6, 1)$; $x - 5 = -1$ gives $x = 4$, the point $(4, -1)$."
+      }
+    ]
+  },
+  "m201-7-4-c": {
+    "lessonId": "m201-7-4",
+    "title": "Reciprocal Functions, Part 3: Quadratic Functions",
+    "duration": 217,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three cases",
+        "t": 17.484
+      },
+      {
+        "title": "An example",
+        "t": 77.769
+      },
+      {
+        "title": "Working backwards",
+        "t": 132.435
+      },
+      {
+        "title": "Your turn",
+        "t": 161.729
+      },
+      {
+        "title": "Summary",
+        "t": 192.935
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-7-4-c:q",
+        "t": 171.208,
+        "prompt": "How many vertical asymptotes does $y = \\dfrac{1}{x^2 + 4}$ have?",
+        "choices": [
+          "None",
+          "One",
+          "Two",
+          "Four"
+        ],
+        "answer": 0,
+        "working": "$x^2 + 4 \\ge 4$, so it is never $0$. There are no vertical asymptotes, and the graph has one branch."
+      }
+    ]
+  },
+  "m201-8-1": {
+    "lessonId": "m201-8-1",
+    "title": "Solving Systems Graphically, Part 1: A Line and a Parabola",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Systems and solutions",
+        "t": 25.94
+      },
+      {
+        "title": "Solving by graphing",
+        "t": 76.302
+      },
+      {
+        "title": "Your turn",
+        "t": 128.84
+      },
+      {
+        "title": "Summary",
+        "t": 160.296
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-1:q",
+        "t": 139.503,
+        "prompt": "Which point is a solution of the system $y = x^2$ and $y = x + 2$?",
+        "choices": [
+          "$(2, 4)$",
+          "$(1, 1)$",
+          "$(0, 2)$",
+          "$(4, 2)$"
+        ],
+        "answer": 0,
+        "working": "$(2, 4)$ makes both equations true: $2^2 = 4$ and $2 + 2 = 4$."
+      }
+    ]
+  },
+  "m201-8-1-b": {
+    "lessonId": "m201-8-1",
+    "title": "Solving Systems Graphically, Part 2: Two Parabolas",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two parabolas",
+        "t": 19.721
+      },
+      {
+        "title": "Trusting an estimate",
+        "t": 57.738
+      },
+      {
+        "title": "Predicting the number of solutions",
+        "t": 81.115
+      },
+      {
+        "title": "Other patterns",
+        "t": 119.815
+      },
+      {
+        "title": "Your turn",
+        "t": 156.113
+      },
+      {
+        "title": "Summary",
+        "t": 187.382
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-1-b:q",
+        "t": 167.872,
+        "prompt": "How many solutions does the system $y = x^2 + 2$ and $y = x^2 - 3$ have?",
+        "choices": [
+          "None",
+          "One",
+          "Two",
+          "Infinitely many"
+        ],
+        "answer": 0,
+        "working": "Both parabolas have $a = 1$ and the axis $x = 0$: one is the other translated $5$ units down, so they never meet."
+      }
+    ]
+  },
+  "m201-8-2": {
+    "lessonId": "m201-8-2",
+    "title": "Solving Systems Algebraically, Part 1: Substitution",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Substitution",
+        "t": 21.036
+      },
+      {
+        "title": "A line in general form",
+        "t": 72.715
+      },
+      {
+        "title": "Your turn",
+        "t": 118.369
+      },
+      {
+        "title": "Summary",
+        "t": 152.787
+      }
+    ],
+    "cues": [
+      {
+        "id": "m201-8-2:q",
+        "t": 127.558,
+        "prompt": "Solve the system $y = x^2$ and $y = x + 6$.",
+        "choices": [
+          "$(3, 9)$ and $(-2, 4)$",
+          "$(3, 9)$ only",
+          "$(-3, 9)$ and $(2, 4)$",
+          "$(3, 6)$ and $(-2, 6)$"
+        ],
+        "answer": 0,
+        "working": "$x^2 = x + 6$, so $x^2 - x - 6 = (x - 3)(x + 2) = 0$. Then $y = x + 6$ gives $(3, 9)$ and $(-2, 4)$."
+      }
+    ]
   }
 }
