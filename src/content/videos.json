@@ -13743,7 +13743,7 @@
   "m202-1-3": {
     "lessonId": "m202-1-3",
     "title": "Proving Conjectures: Deductive Reasoning, Part 1: Deductive Proof",
-    "duration": 214,
+    "duration": 215,
     "voice": "af_heart",
     "chapters": [
       {
@@ -14403,6 +14403,53 @@
         ],
         "answer": 0,
         "working": "A hexagon’s angles add to $180^\\circ(4) = 720^\\circ$. The five known angles add to $620^\\circ$, so the sixth is $720^\\circ - 620^\\circ = 100^\\circ$."
+      }
+    ]
+  },
+  "m202-2-4": {
+    "lessonId": "m202-2-4",
+    "title": "Congruent Triangles, Part 1: Corresponding Parts",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Congruent figures",
+        "t": 19.003
+      },
+      {
+        "title": "Naming congruent triangles",
+        "t": 69.446
+      },
+      {
+        "title": "Corresponding parts",
+        "t": 109.301
+      },
+      {
+        "title": "Your turn",
+        "t": 149.537
+      },
+      {
+        "title": "Summary",
+        "t": 181.43
+      }
+    ],
+    "cues": [
+      {
+        "id": "m202-2-4:q",
+        "t": 160.646,
+        "prompt": "$\\triangle JKL \\cong \\triangle RST$. Which side is equal to $KL$?",
+        "choices": [
+          "$ST$",
+          "$RS$",
+          "$RT$",
+          "$JK$"
+        ],
+        "answer": 0,
+        "working": "$K$ matches $S$ and $L$ matches $T$ (second and third letters), so $KL = ST$."
       }
     ]
   }
