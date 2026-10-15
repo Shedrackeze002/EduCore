@@ -263,6 +263,11 @@ items ship or decisions change.
      The disk filled up during the course; the old upload packs and the narration of the courses
      already in Drive (checked file by file) were deleted with the owner's agreement, and the
      video guide now says to free each course's narration once Drive holds it.
+   - Built (the owner's request, 15 October 2026): present mode plays the lesson's explainer
+     videos. Each part that is on YouTube gets a slide just before the section it teaches, with
+     YouTube's player and our captions on; the teacher plays it, then carries on with the next
+     slide. Part 1 opens the lesson; a later part goes to the section its title names, or else an
+     even split. Teachers can hide a video slide with "Choose what to show".
    - Rendering: Math 20-3 (90 videos in 8 units), unit by unit into Drive.
    - Next: render Math 20-4 the same way, with its own pull request
      and Drive upload (about six minutes a video). Then script and render the other courses in

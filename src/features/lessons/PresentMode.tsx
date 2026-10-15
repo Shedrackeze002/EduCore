@@ -13,7 +13,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { BookOpen, ChevronLeft, ChevronRight, EyeOff, LayoutGrid, Maximize2, Minimize2, MonitorOff, PenLine, Settings2, Shuffle, SquarePen, Timer, X } from 'lucide-react';
 import { lessonById, unitById } from '@engine/curriculum/index.ts';
 import { Button, Menu, PageSpinner, Switch, useToast } from '@/components/ui/index.ts';
-import { useBoards, useCloseLiveQuestion, useLessonPrefs, useLiveAnswers, useLiveQuestion, useOpenLiveQuestion, useResources, useRoster, useSaveBoard, useSetHiddenBlocks } from '@/data/hooks.ts';
+import { useBoards, useCloseLiveQuestion, useLessonPrefs, useLiveAnswers, useLiveQuestion, useOpenLiveQuestion, useResources, useRoster, useSaveBoard, useSetHiddenBlocks, useVideoLinks } from '@/data/hooks.ts';
+import { videosForLesson } from '@/content/videos.ts';
 import { freshSeed } from '@engine/rng.ts';
 import { LivePanel } from '@/features/live/LivePanel.tsx';
 import { inkCommit, inkDoc, inkRedo, inkUndo, type InkDoc } from '@/lib/ink.ts';
@@ -92,7 +93,13 @@ export default function PresentMode() {
         .map((r) => ({ id: r.id, kind: r.kind as 'video' | 'link', url: r.url!, title: r.title })),
     [resources.data, lessonId],
   );
-  const allSlides = useMemo(() => (content && meta ? buildSlides(content, meta.title, lessonResources) : []), [content, meta, lessonResources]);
+  // The lesson's explainer videos, each part on a slide before the section it teaches (once it is on YouTube).
+  const videoLinks = useVideoLinks();
+  const explainers = useMemo(() => {
+    const parts = videosForLesson(lessonId);
+    return parts.map((v, i) => ({ id: v.id, title: v.title, duration: v.duration, chapters: v.chapters.map((c) => c.title), part: i + 1, parts: parts.length, youtubeId: videoLinks.data?.[v.id] }));
+  }, [lessonId, videoLinks.data]);
+  const allSlides = useMemo(() => (content && meta ? buildSlides(content, meta.title, lessonResources, explainers) : []), [content, meta, lessonResources, explainers]);
   const hidden = useMemo(() => new Set(prefs.data?.hidden ?? []), [prefs.data]);
   const [editing, setEditing] = useState(false);
   const slides = useMemo(() => (editing ? allSlides : presentedSlides(allSlides, hidden)), [editing, allSlides, hidden]);

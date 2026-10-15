@@ -4,15 +4,49 @@
  * Interactive checks are the same activities as on the lesson page.
  */
 import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
-import { AlertTriangle, BookMarked, CheckCircle2, Clock, ExternalLink, Eye, EyeOff, Info, Lightbulb, ListChecks, PartyPopper, Smartphone, Sparkles, Target } from 'lucide-react';
+import { AlertTriangle, BookMarked, CheckCircle2, Clock, ExternalLink, Eye, EyeOff, Info, Lightbulb, ListChecks, PartyPopper, PlayCircle, Smartphone, Sparkles, Target } from 'lucide-react';
 import type { Block } from '@/content/lessonParser.ts';
 import { skillInfo } from '@engine/curriculum/index.ts';
 import { Markdown } from '@/components/math/Markdown.tsx';
 import { Figure } from '@/components/figures/Figure.tsx';
 import { cn } from '@/lib/cn.ts';
 import { CheckBlock, VideoEmbed } from '../LessonBlocks.tsx';
-import { activityEmbedUrl, fixedSlide, type ItemReveal, type Slide, type SlideItem } from '../slides.ts';
+import { activityEmbedUrl, fixedSlide, type ItemReveal, type Slide, type SlideExplainer, type SlideItem } from '../slides.ts';
 import { FitContent, SLIDE_H, SLIDE_W } from './fit.tsx';
+
+const minutes = (s: number) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+
+/**
+ * A lesson's explainer video on its slide: YouTube's player with its own play, pause and full
+ * screen controls, and our captions on from the start. Moving to another slide stops it.
+ */
+function ExplainerEmbed({ video, still }: { video: SlideExplainer; still?: boolean }) {
+  const id = encodeURIComponent(video.youtubeId ?? '');
+  return (
+    <div className="overflow-hidden rounded-[28px] border border-line bg-black">
+      <div className="relative aspect-video">
+        {still ? (
+          // The overview and transitions show the video's thumbnail instead of a player.
+          <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" className="absolute inset-0 h-full w-full object-cover opacity-80" />
+        ) : (
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&playsinline=1&cc_load_policy=1&cc_lang_pref=en`}
+            title={video.title}
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+        )}
+      </div>
+      <div className="flex items-center gap-3 bg-surface px-6 py-3 text-[22px] font-medium text-ink-2">
+        <PlayCircle className="h-7 w-7 text-brand" />
+        <span>
+          Explainer video{video.parts > 1 ? ` · Part ${video.part} of ${video.parts}` : ''} · {minutes(video.duration)}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export interface DeckLesson {
   number: string;
@@ -166,6 +200,7 @@ export function SlideView({ slide, reveal, index, total, lesson, still, editing,
   const visualItem = (it: SlideItem, k: number): ReactNode => {
     const b = it.block;
     if (b.type === 'figure') return wrap(it, k, <div style={{ zoom: 1.35 }}><Figure fig={b.figure} className="border-0 bg-transparent" /></div>, 'fx-zoom');
+    if (b.type === 'video' && slide.explainer) return wrap(it, k, <ExplainerEmbed video={slide.explainer} still={still} />, 'fx-zoom');
     if (b.type === 'video') return wrap(it, k, still ? <div className="aspect-video rounded-[28px] bg-black/80" /> : <VideoEmbed url={b.url} title={b.title} />, 'fx-zoom');
     return textItem(it, k);
   };

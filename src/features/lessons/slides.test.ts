@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseLesson } from '@/content/lessonParser.ts';
-import { activityEmbedUrl, buildSlides, lastStep, presentedSlides, revealAt, splitMarkdown, stepFor } from './slides.ts';
+import { activityEmbedUrl, buildSlides, lastStep, placeExplainers, presentedSlides, revealAt, splitMarkdown, stepFor, type SlideExplainer } from './slides.ts';
 
 const LESSON = `A hook sentence.
 
@@ -135,6 +135,59 @@ describe('slides', () => {
       expect(lastStep(s)).toBe(0);
       expect(revealAt(s, 0).every((r) => r.visible)).toBe(true);
     }
+  });
+});
+
+describe('explainer videos in present mode', () => {
+  const part = (title: string, chapters: string[]) => ({ title, chapters });
+
+  it('puts each part before the section its first chapter names', () => {
+    // Math 10C lesson 2.1 and its two parts.
+    const sections = ['Naming the sides', 'Similar triangles have equal ratios', 'Finding a side length', 'Finding an angle'];
+    const parts = [
+      part('The Tangent Ratio, Part 1: Naming the Sides', ['Introduction', 'Naming the sides', 'Similar triangles', 'The tangent ratio', 'Your turn', 'Summary']),
+      part('The Tangent Ratio, Part 2: Finding Sides and Angles', ['Recap', 'Finding a side', 'Unknown on the bottom', 'Finding an angle', 'Your turn', 'Summary']),
+    ];
+    expect(placeExplainers(sections, parts)).toEqual([0, 2]);
+  });
+
+  it('places later parts by their subtitle, then their chapters, then an even split, in order', () => {
+    // Math 20-1 lesson 1.2: part 2's chapters name no section, but its subtitle names the last one.
+    const series = ['Series and partial sums', 'Reverse and add', 'Using the formulas', 'Problems with arithmetic series'];
+    const parts = [
+      part('Arithmetic Series, Part 1: Reverse and Add', ['Introduction', 'Partial sums', 'Reverse and add', 'The formulas', 'Your turn']),
+      part('Arithmetic Series, Part 2: Finding n, and Problems', ['Introduction', 'When the last term is given', 'A pile of logs', 'How many rows?']),
+    ];
+    expect(placeExplainers(series, parts)).toEqual([0, 3]);
+    // Nothing in common: the parts share the lesson evenly.
+    expect(placeExplainers(['Alpha', 'Beta', 'Gamma', 'Delta'], [part('X, Part 1: One', ['Zeta']), part('X, Part 2: Two', ['Eta'])])).toEqual([0, 2]);
+    // Part 1 opens the lesson, and a later part never goes before an earlier one: part 2's match
+    // (Circles) is behind it, so it goes where the even split puts it.
+    expect(placeExplainers(['Circles', 'Squares', 'Triangles'], [part('Shapes, Part 1: Squares', ['Squares']), part('Shapes, Part 2: Circles', ['Circles'])])).toEqual([0, 2]);
+    // The first idea a subtitle names decides between two sections it covers.
+    expect(placeExplainers(['Tally charts', 'Bar graphs', 'Circle graphs', 'Fair surveys and the best graph'], [part('Graphs, Part 1: Tallies and Bar Graphs', []), part('Graphs, Part 2: Circle Graphs and Fair Surveys', [])])).toEqual([0, 2]);
+    expect(placeExplainers([], [part('A', ['B'])])).toEqual([-1]);
+  });
+
+  const explainer = (id: string, n: number, chapters: string[], youtubeId?: string): SlideExplainer => ({ id, title: `Adding, Part ${n}: Idea ${n}`, duration: 200, chapters, part: n, parts: 2, youtubeId });
+  const content = parseLesson(LESSON);
+  const videos = [explainer('v-1', 1, ['First idea']), explainer('v-1-b', 2, ['Second idea'], 'dQw4w9WgXcQ')];
+
+  it('gives each part on YouTube a video slide before its section, and none to a part not uploaded yet', () => {
+    const slides = buildSlides(content, 'Adding numbers', [], videos);
+    expect(slides.map((s) => s.id).filter((id) => id.startsWith('xv-'))).toEqual(['xv-v-1-b']);
+    const at = slides.findIndex((s) => s.id === 'xv-v-1-b');
+    expect(slides[at]).toMatchObject({ kind: 'video', title: 'Idea 2', part: { n: 2, title: 'Second idea' }, explainer: { youtubeId: 'dQw4w9WgXcQ' } });
+    expect(slides[at + 1].part).toMatchObject({ n: 2, first: true });
+    expect(slides[at - 1].part?.n).toBe(1);
+    expect(lastStep(slides[at])).toBe(0);
+  });
+
+  it('can be hidden like any other part, and a lesson without sections plays them after the hook', () => {
+    const slides = buildSlides(content, 'Adding numbers', [], videos);
+    expect(presentedSlides(slides, new Set(['xv-v-1-b'])).some((s) => s.kind === 'video')).toBe(false);
+    const short = buildSlides(parseLesson('Just a hook.'), 'Short', [], [explainer('v-2', 1, ['Anything'], 'abcdefghijk')]);
+    expect(short.map((s) => s.kind)).toEqual(['title', 'hook', 'video', 'end']);
   });
 });
 
