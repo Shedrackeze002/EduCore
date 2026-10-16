@@ -22296,5 +22296,119 @@
         "working": "Leave a multiple of $4$: $15 - 3 = 12$. Taking $1$ leaves $14$, and taking $2$ leaves $13$, neither a multiple of $4$."
       }
     ]
+  },
+  "m204-1-1": {
+    "lessonId": "m204-1-1",
+    "title": "Integers and the Order of Operations, Part 1: Working with Integers",
+    "duration": 240,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Integers",
+        "t": 21.739
+      },
+      {
+        "title": "A cold morning",
+        "t": 45.235
+      },
+      {
+        "title": "Subtracting a negative",
+        "t": 83.094
+      },
+      {
+        "title": "Multiplying and dividing",
+        "t": 107.748
+      },
+      {
+        "title": "A cold front",
+        "t": 136.918
+      },
+      {
+        "title": "Your turn",
+        "t": 181.061
+      },
+      {
+        "title": "Summary",
+        "t": 212.25
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-1:q",
+        "t": 190.75,
+        "prompt": "The temperature drops $2$ degrees every hour for $6$ hours. What is the total change?",
+        "choices": [
+          "$-12$ degrees",
+          "$12$ degrees",
+          "$-8$ degrees",
+          "$4$ degrees"
+        ],
+        "answer": 0,
+        "working": "A drop of $2$ is $-2$, and $6 \\times (-2) = -12$. B forgets that a drop is negative."
+      }
+    ]
+  },
+  "m204-1-1-b": {
+    "lessonId": "m204-1-1",
+    "title": "Integers and the Order of Operations, Part 2: The Order of Operations",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "BEDMAS",
+        "t": 19.421
+      },
+      {
+        "title": "Multiply before you add",
+        "t": 48.405
+      },
+      {
+        "title": "Going left to right",
+        "t": 72.995
+      },
+      {
+        "title": "Brackets first",
+        "t": 89.283
+      },
+      {
+        "title": "Left to right",
+        "t": 112.524
+      },
+      {
+        "title": "An exponent",
+        "t": 145.123
+      },
+      {
+        "title": "Your turn",
+        "t": 169.945
+      },
+      {
+        "title": "Summary",
+        "t": 199.65
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-1-b:q",
+        "t": 177.839,
+        "prompt": "Calculate $6 + (-12) \\div 3$.",
+        "choices": [
+          "$2$",
+          "$-2$",
+          "$-6$",
+          "$10$"
+        ],
+        "answer": 0,
+        "working": "Divide first: $(-12) \\div 3 = -4$. Then add: $6 + (-4) = 2$. B adds first, working left to right."
+      }
+    ]
   }
 }
