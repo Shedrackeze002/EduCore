@@ -23285,5 +23285,593 @@
         "working": "With the coupon: $3.00 - 0.60 = 2.40$, and $2.40 \\div 6 = 0.40$. Box of $10$: $4.50 \\div 10 = 0.45$. C forgets the coupon."
       }
     ]
+  },
+  "m204-2-2": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 1: Discounts and Sale Prices",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Discount and sale price",
+        "t": 13.239
+      },
+      {
+        "title": "A hoodie on sale",
+        "t": 36.85
+      },
+      {
+        "title": "Jeans at 30% off",
+        "t": 68.863
+      },
+      {
+        "title": "Stopping too soon",
+        "t": 107.338
+      },
+      {
+        "title": "Your turn",
+        "t": 129.206
+      },
+      {
+        "title": "Summary",
+        "t": 167.899
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2:q",
+        "t": 140.255,
+        "prompt": "A drill is regularly \\$120. It is $15\\%$ off. What is the sale price?",
+        "choices": [
+          "\\$102.00",
+          "\\$18.00",
+          "\\$105.00",
+          "\\$138.00"
+        ],
+        "answer": 0,
+        "working": "Discount: $0.15 \\times 120 = 18$. Sale price: $120 - 18 = 102$. B is the discount, and C takes off \\$15 instead of $15\\%$."
+      }
+    ]
+  },
+  "m204-2-2-b": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 2: Two Deals at Once",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Second item 50% off",
+        "t": 17.515
+      },
+      {
+        "title": "Two discounts in a row",
+        "t": 56.232
+      },
+      {
+        "title": "Not 30% off",
+        "t": 91.633
+      },
+      {
+        "title": "Your turn",
+        "t": 117.899
+      },
+      {
+        "title": "Summary",
+        "t": 159.426
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2-b:q",
+        "t": 131.161,
+        "prompt": "A jacket is regularly \\$80. It is $25\\%$ off, then another $10\\%$ off at the till. What is the final price?",
+        "choices": [
+          "\\$54.00",
+          "\\$52.00",
+          "\\$60.00",
+          "\\$26.00"
+        ],
+        "answer": 0,
+        "working": "After $25\\%$ off: $0.75 \\times 80 = 60$. After another $10\\%$ off: $0.9 \\times 60 = 54$. B adds the discounts to make $35\\%$, and C forgets the second discount."
+      }
+    ]
+  },
+  "m204-2-2-c": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 3: Subtotal, GST and Total",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Subtotal and GST",
+        "t": 16.439
+      },
+      {
+        "title": "Reading a receipt",
+        "t": 42.337
+      },
+      {
+        "title": "Working it out",
+        "t": 59.607
+      },
+      {
+        "title": "A quick estimate",
+        "t": 108.231
+      },
+      {
+        "title": "Your turn",
+        "t": 138.296
+      },
+      {
+        "title": "Summary",
+        "t": 177.026
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2-c:q",
+        "t": 150.136,
+        "prompt": "A subtotal is \\$24.60. In this example, GST is $5\\%$. What is the total?",
+        "choices": [
+          "\\$25.83",
+          "\\$1.23",
+          "\\$24.60",
+          "\\$29.60"
+        ],
+        "answer": 0,
+        "working": "GST: $0.05 \\times 24.60 = 1.23$. Total: $24.60 + 1.23 = 25.83$. B is only the GST, and D adds \\$5 instead of $5\\%$."
+      }
+    ]
+  },
+  "m204-2-2-d": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 4: Paying, Change and Comparing Stores",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Paying with a $50 bill",
+        "t": 16.955
+      },
+      {
+        "title": "Count up to check",
+        "t": 39.121
+      },
+      {
+        "title": "A bigger bill",
+        "t": 69.605
+      },
+      {
+        "title": "Comparing two stores",
+        "t": 108.489
+      },
+      {
+        "title": "Your turn",
+        "t": 147.058
+      },
+      {
+        "title": "Summary",
+        "t": 182.015
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2-d:q",
+        "t": 157.97,
+        "prompt": "Your total is \\$17.35. You pay with a \\$20 bill. How much change should you get?",
+        "choices": [
+          "\\$2.65",
+          "\\$3.65",
+          "\\$2.75",
+          "\\$37.35"
+        ],
+        "answer": 0,
+        "working": "$20.00 - 17.35 = 2.65$. Count up: $17.35 + 0.05 = 17.40$, $+ 0.60 = 18.00$, $+ 2.00 = 20.00$, so $0.05 + 0.60 + 2 = 2.65$."
+      }
+    ]
+  },
+  "m204-2-3": {
+    "lessonId": "m204-2-3",
+    "title": "Paying Over Time, Part 1: Instalment Plans and the Finance Charge",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Down payment and instalments",
+        "t": 24.206
+      },
+      {
+        "title": "A TV plan",
+        "t": 45.019
+      },
+      {
+        "title": "Forgetting the down payment",
+        "t": 80.833
+      },
+      {
+        "title": "The finance charge",
+        "t": 96.01
+      },
+      {
+        "title": "Your turn",
+        "t": 120.577
+      },
+      {
+        "title": "Summary",
+        "t": 159.686
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-3:q",
+        "t": 135.771,
+        "prompt": "A stereo costs \\$340 cash. The plan is \\$50 down and $10$ monthly payments of \\$32. What is the finance charge?",
+        "choices": [
+          "\\$30",
+          "\\$370",
+          "\\$320",
+          "\\$50"
+        ],
+        "answer": 0,
+        "working": "Total cost: $50 + 10 \\times 32 = 370$. Finance charge: $370 - 340 = 30$. B is the total cost of the plan."
+      }
+    ]
+  },
+  "m204-2-3-b": {
+    "lessonId": "m204-2-3",
+    "title": "Paying Over Time, Part 2: No Money Down and Weekly Payments",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "No money down",
+        "t": 18.451
+      },
+      {
+        "title": "Rent-to-own",
+        "t": 67.058
+      },
+      {
+        "title": "How long is 78 weeks?",
+        "t": 115.596
+      },
+      {
+        "title": "Your turn",
+        "t": 143.828
+      },
+      {
+        "title": "Summary",
+        "t": 184.151
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-3-b:q",
+        "t": 158.471,
+        "prompt": "A phone costs \\$999 cash, or \\$0 down and $36$ monthly payments of \\$35. What is the finance charge?",
+        "choices": [
+          "\\$261",
+          "\\$1,260",
+          "\\$35",
+          "\\$999"
+        ],
+        "answer": 0,
+        "working": "Total cost: $36 \\times 35 = 1{,}260$. Finance charge: $1{,}260 - 999 = 261$. B is the total cost of the plan."
+      }
+    ]
+  },
+  "m204-2-3-c": {
+    "lessonId": "m204-2-3",
+    "title": "Paying Over Time, Part 3: Comparing Payment Plans",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "20% down",
+        "t": 17.386
+      },
+      {
+        "title": "Which plan costs less?",
+        "t": 72.037
+      },
+      {
+        "title": "Look at the total",
+        "t": 125.123
+      },
+      {
+        "title": "Your turn",
+        "t": 139.357
+      },
+      {
+        "title": "Summary",
+        "t": 185.903
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-3-c:q",
+        "t": 155.828,
+        "prompt": "A fridge costs \\$1,200 cash. The plan is $10\\%$ down, then $18$ monthly payments of \\$66. What is the total cost of the plan?",
+        "choices": [
+          "\\$1,308.00",
+          "\\$1,188.00",
+          "\\$1,200.00",
+          "\\$108.00"
+        ],
+        "answer": 0,
+        "working": "Down: $0.1 \\times 1{,}200 = 120$. Payments: $18 \\times 66 = 1{,}188$. Total: $120 + 1{,}188 = 1{,}308$. B forgets the down payment, and D is the finance charge."
+      }
+    ]
+  },
+  "m204-3-1": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 1: Gross Pay from an Hourly Wage",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Hourly wage and gross pay",
+        "t": 22.408
+      },
+      {
+        "title": "Pay for one week",
+        "t": 44
+      },
+      {
+        "title": "Two rates",
+        "t": 91.474
+      },
+      {
+        "title": "Your turn",
+        "t": 133.535
+      },
+      {
+        "title": "Summary",
+        "t": 176.318
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1:q",
+        "t": 150.288,
+        "prompt": "Nadia earns \\$15.00 per hour on weekdays and \\$18.00 per hour on weekends. This week Nadia worked $20$ weekday hours and $6$ weekend hours. What is the gross pay?",
+        "choices": [
+          "\\$408.00",
+          "\\$390.00",
+          "\\$468.00",
+          "\\$429.00"
+        ],
+        "answer": 0,
+        "working": "Weekdays: $20 \\times 15.00 = 300.00$. Weekends: $6 \\times 18.00 = 108.00$. Gross pay: $300.00 + 108.00 = 408.00$. B pays every hour at the weekday rate, and C at the weekend rate."
+      }
+    ]
+  },
+  "m204-3-1-b": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 2: Reading a Timecard",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Minutes as hours",
+        "t": 16.701
+      },
+      {
+        "title": "Count up across noon",
+        "t": 46.954
+      },
+      {
+        "title": "Pay from a timecard",
+        "t": 73.716
+      },
+      {
+        "title": "6 h 30 min is not 6.30 h",
+        "t": 119.949
+      },
+      {
+        "title": "Your turn",
+        "t": 139.961
+      },
+      {
+        "title": "Summary",
+        "t": 179.632
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1-b:q",
+        "t": 152.553,
+        "prompt": "A shift runs from 8:00 a.m. to 2:45 p.m., with a 30-minute unpaid break. How many paid hours is that?",
+        "choices": [
+          "$6.25$ h",
+          "$6.75$ h",
+          "$6.15$ h",
+          "$7.25$ h"
+        ],
+        "answer": 0,
+        "working": "8:00 a.m. to noon is $4$ h, noon to 2:00 p.m. is $2$ h, then $45$ min: $6.75$ h. Take away the break: $6.75 - 0.5 = 6.25$ h. B forgets the break, and C treats minutes as decimals."
+      }
+    ]
+  },
+  "m204-3-1-c": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 3: Overtime Pay",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Overtime",
+        "t": 16.817
+      },
+      {
+        "title": "Overtime rates",
+        "t": 44.539
+      },
+      {
+        "title": "A long day",
+        "t": 68.6
+      },
+      {
+        "title": "Only the extra hours",
+        "t": 112.431
+      },
+      {
+        "title": "Your turn",
+        "t": 130.612
+      },
+      {
+        "title": "Summary",
+        "t": 177.279
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1-c:q",
+        "t": 145.705,
+        "prompt": "Theo earns \\$20.00 per hour. Hours over $8$ in a day are paid at time-and-a-half. On Friday Theo worked $10$ hours. What is the gross pay for the day?",
+        "choices": [
+          "\\$220.00",
+          "\\$300.00",
+          "\\$200.00",
+          "\\$240.00"
+        ],
+        "answer": 0,
+        "working": "Regular: $8 \\times 20.00 = 160.00$. Overtime: $2 \\times 30.00 = 60.00$. Gross pay: $160.00 + 60.00 = 220.00$. B pays every hour at time-and-a-half, C forgets overtime, and D uses double time."
+      }
+    ]
+  },
+  "m204-3-1-d": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 4: Overtime Day by Day",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A weekly timecard",
+        "t": 17.255
+      },
+      {
+        "title": "Pay for the week",
+        "t": 58.868
+      },
+      {
+        "title": "Read the rule",
+        "t": 107.397
+      },
+      {
+        "title": "Your turn",
+        "t": 127.181
+      },
+      {
+        "title": "Summary",
+        "t": 178.152
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1-d:q",
+        "t": 144.465,
+        "prompt": "Ava earns \\$16.00 per hour. Hours over $8$ in a day are paid at time-and-a-half. Ava worked $10$ hours on Monday, $6$ on Tuesday and $9$ on Wednesday. What is the gross pay?",
+        "choices": [
+          "\\$424.00",
+          "\\$400.00",
+          "\\$448.00",
+          "\\$600.00"
+        ],
+        "answer": 0,
+        "working": "Overtime: $2 + 1 = 3$ h at $1.5 \\times 16.00 = 24.00$, so $72.00$. Regular: $8 + 6 + 8 = 22$ h, so $22 \\times 16.00 = 352.00$. Gross pay: $352.00 + 72.00 = 424.00$. B forgets overtime, and C uses double time."
+      }
+    ]
+  },
+  "m204-3-2": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 1: Salary",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Salary",
+        "t": 18.614
+      },
+      {
+        "title": "How often you are paid",
+        "t": 38.748
+      },
+      {
+        "title": "Two weeks or twice a month?",
+        "t": 75.031
+      },
+      {
+        "title": "Your turn",
+        "t": 114.188
+      },
+      {
+        "title": "Summary",
+        "t": 149.943
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2:q",
+        "t": 125.704,
+        "prompt": "Diego earns a salary of \\$45,600 a year, paid monthly. How much is each pay?",
+        "choices": [
+          "\\$3,800.00",
+          "\\$1,900.00",
+          "\\$1,753.85",
+          "\\$876.92"
+        ],
+        "answer": 0,
+        "working": "Monthly means $12$ pays: $45{,}600 \\div 12 = 3{,}800.00$. B divides by $24$, C by $26$, and D by $52$."
+      }
+    ]
   }
 }
