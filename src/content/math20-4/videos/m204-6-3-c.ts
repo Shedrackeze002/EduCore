@@ -86,7 +86,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Fahrenheit to Celsius: C = (F − 32) ÷ 1.8.', 'Subtract 32 first, then divide by 1.8.', 'Use benchmarks to check.'] }],
       lines: [
-        { say: 'Let’s sum up. To change Fahrenheit to Celsius, use C equals F minus 32, divided by 1.8.', show: 'sum.0' },
+        { say: 'Let’s sum up. To change Fahrenheit to Celsius, use the formula C equals F minus 32, divided by 1.8.', show: 'sum.0' },
         { say: 'Subtract 32 first, then divide by 1.8.', show: 'sum.1' },
         { say: 'And use benchmarks to check that the answer makes sense. Practise these skills in your lesson. See you next time!', show: 'sum.2' },
       ],

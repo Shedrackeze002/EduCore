@@ -24,7 +24,7 @@ const video: Explainer = {
         { kind: 'math', id: 'm', size: 'md', lines: ['110 \\div 1.6 = 68.75 \\approx 69 \\text{ mi/h}'] },
       ],
       lines: [
-        { say: 'In this example, a highway speed limit is 110 kilometres per hour. What is this in miles per hour, to the nearest whole number? Use one mile is about 1.6 kilometres.', show: 'q' },
+        { say: 'In this example, a highway speed limit is 110 kilometres per hour. What is this in miles per hour, to the nearest whole number? Use the fact that one mile is about 1.6 kilometres.', show: 'q' },
         { say: 'A mile is longer than a kilometre, so divide: 110 divided by 1.6 is 68.75.', show: 'm', focus: 'm' },
         { say: 'Round only at the end, to the place the question asks for. The nearest whole number is 69, so the limit is about 69 miles per hour.' },
         { say: 'Estimate to check: a mile is about 1.5 kilometres, and 110 divided by 1.5 is about 73. Close enough to trust 69. So a sign of 69 miles per hour across the border means about the same speed as 110 here.' },

@@ -25240,5 +25240,922 @@
         "working": "$504.00 = 16.80h$, so $h = 504.00 \\div 16.80 = 30$. B multiplies instead of dividing, and C subtracts."
       }
     ]
+  },
+  "m204-5-2-d": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 4: Checking Your Answer",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How to check",
+        "t": 17.568
+      },
+      {
+        "title": "Catching a mistake",
+        "t": 40.297
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 85.315
+      },
+      {
+        "title": "Your turn",
+        "t": 111.122
+      },
+      {
+        "title": "Summary",
+        "t": 155.568
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2-d:q",
+        "t": 124.901,
+        "prompt": "Ella solved $5p - 12 = 33$ and got $p = 4.2$. Check the answer. What is the correct solution?",
+        "choices": [
+          "$p = 9$",
+          "$p = 4.2$",
+          "$p = 6.6$",
+          "$p = 225$"
+        ],
+        "answer": 0,
+        "working": "Check: $5 \\times 4.2 - 12 = 9$, not $33$. Add $12$: $5p = 45$, so $p = 9$. Check: $5 \\times 9 - 12 = 33$. B subtracted $12$ instead of adding it, and C forgets the $12$."
+      }
+    ]
+  },
+  "m204-5-3": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 1: Tables of Values",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Relationships and tables",
+        "t": 21.307
+      },
+      {
+        "title": "A table for P = 15h",
+        "t": 48.312
+      },
+      {
+        "title": "The pattern",
+        "t": 89.899
+      },
+      {
+        "title": "Your turn",
+        "t": 115.984
+      },
+      {
+        "title": "Summary",
+        "t": 153.154
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3:q",
+        "t": 127.061,
+        "prompt": "The rule is $P = 16h$. What are the pay values for $1$, $2$, $3$ and $4$ hours?",
+        "choices": [
+          "$16, 32, 48, 64$",
+          "$16, 17, 18, 19$",
+          "$17, 18, 19, 20$",
+          "$16, 36, 56, 76$"
+        ],
+        "answer": 0,
+        "working": "$16 \\times 1 = 16$, $16 \\times 2 = 32$, $16 \\times 3 = 48$, $16 \\times 4 = 64$. Each hour adds $16$. B adds $1$ each time, and C adds the hours to $16$."
+      }
+    ]
+  },
+  "m204-5-3-b": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 2: Reading a Graph",
+    "duration": 171,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A graph",
+        "t": 14.126
+      },
+      {
+        "title": "Reading forwards",
+        "t": 41.165
+      },
+      {
+        "title": "Reading backwards",
+        "t": 77.207
+      },
+      {
+        "title": "Your turn",
+        "t": 109.429
+      },
+      {
+        "title": "Summary",
+        "t": 147.298
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3-b:q",
+        "t": 124.271,
+        "prompt": "On the graph of $P = 15h$, you start at $105$ on the pay axis, go across to the line, then down. Which number of hours do you land on?",
+        "choices": [
+          "$7$",
+          "$90$",
+          "$1{,}575$",
+          "$6$"
+        ],
+        "answer": 0,
+        "working": "$105 \\div 15 = 7$, so the point is $(7,\\ 105)$. Check: $15 \\times 7 = 105$. C multiplies instead of dividing."
+      }
+    ]
+  },
+  "m204-5-3-c": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 3: Rules with a Start Value",
+    "duration": 163,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A start value",
+        "t": 18.363
+      },
+      {
+        "title": "A taxi fare",
+        "t": 49.049
+      },
+      {
+        "title": "Forgetting the start value",
+        "t": 85.982
+      },
+      {
+        "title": "Your turn",
+        "t": 105.773
+      },
+      {
+        "title": "Summary",
+        "t": 141.031
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3-c:q",
+        "t": 119.767,
+        "prompt": "A taxi charges $C = 5 + 3d$, where $C$ is in dollars and $d$ is in kilometres. What is the fare for $4$ km?",
+        "choices": [
+          "\\$17",
+          "\\$12",
+          "\\$32",
+          "\\$5"
+        ],
+        "answer": 0,
+        "working": "$C = 5 + 3 \\times 4 = 5 + 12 = 17$. B forgets the start value, C adds first, and D is only the start value."
+      }
+    ]
+  },
+  "m204-5-3-d": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 4: Matching a Rule to a Graph",
+    "duration": 162,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two points from the rule",
+        "t": 15.511
+      },
+      {
+        "title": "Which line?",
+        "t": 52.072
+      },
+      {
+        "title": "Your turn",
+        "t": 102.091
+      },
+      {
+        "title": "Summary",
+        "t": 137.796
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3-d:q",
+        "t": 113.686,
+        "prompt": "A line meets the vertical axis at $30$ and goes up $10$ for each hour to the right. Which rule does it show?",
+        "choices": [
+          "$C = 30 + 10h$",
+          "$C = 10 + 30h$",
+          "$C = 40h$",
+          "$C = 30h$"
+        ],
+        "answer": 0,
+        "working": "The start value is $30$ and the rate is $10$ per hour, so $C = 30 + 10h$. B swaps the start value and the rate."
+      }
+    ]
+  },
+  "m204-6-1": {
+    "lessonId": "m204-6-1",
+    "title": "Converting Units, Part 1: SI Units",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "SI units",
+        "t": 23.017
+      },
+      {
+        "title": "Multiply or divide?",
+        "t": 59.024
+      },
+      {
+        "title": "Rope and flour",
+        "t": 78.607
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 121.094
+      },
+      {
+        "title": "Your turn",
+        "t": 144.335
+      },
+      {
+        "title": "Summary",
+        "t": 180.258
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-1:q",
+        "t": 153.894,
+        "prompt": "A jug holds $3500$ mL of juice. How many litres is that?",
+        "choices": [
+          "$3.5$ L",
+          "$3\\,500\\,000$ L",
+          "$35$ L",
+          "$350$ L"
+        ],
+        "answer": 0,
+        "working": "$1$ L $= 1000$ mL. Litres are bigger, so divide: $3500 \\div 1000 = 3.5$ L. B multiplies, and C and D divide by $100$ and $10$."
+      }
+    ]
+  },
+  "m204-6-1-b": {
+    "lessonId": "m204-6-1",
+    "title": "Converting Units, Part 2: Imperial Units",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Imperial units",
+        "t": 18.817
+      },
+      {
+        "title": "A foot is 12 inches",
+        "t": 43.359
+      },
+      {
+        "title": "Cheese at a deli",
+        "t": 73.871
+      },
+      {
+        "title": "Not 10 or 100",
+        "t": 98.938
+      },
+      {
+        "title": "Your turn",
+        "t": 118.279
+      },
+      {
+        "title": "Summary",
+        "t": 149.415
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-1-b:q",
+        "t": 126.055,
+        "prompt": "A roll of fabric is $4$ yd long. How many feet is that?",
+        "choices": [
+          "$12$ ft",
+          "$48$ ft",
+          "$1.33$ ft",
+          "$400$ ft"
+        ],
+        "answer": 0,
+        "working": "$1$ yd $= 3$ ft. Feet are smaller, so multiply: $4 \\times 3 = 12$ ft. B uses $12$, C divides, and D uses $100$."
+      }
+    ]
+  },
+  "m204-6-1-c": {
+    "lessonId": "m204-6-1",
+    "title": "Converting Units, Part 3: Mixed Units",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Height in inches",
+        "t": 15.892
+      },
+      {
+        "title": "A window in feet and inches",
+        "t": 51.872
+      },
+      {
+        "title": "5 ft 8 in is not 5.8 ft",
+        "t": 88.29
+      },
+      {
+        "title": "Your turn",
+        "t": 119.37
+      },
+      {
+        "title": "Summary",
+        "t": 152.446
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-1-c:q",
+        "t": 128.152,
+        "prompt": "A baby weighs $7$ lb $6$ oz. What is the weight in ounces?",
+        "choices": [
+          "$118$ oz",
+          "$76$ oz",
+          "$90$ oz",
+          "$7.6$ oz"
+        ],
+        "answer": 0,
+        "working": "$7 \\times 16 = 112$ oz, and $112 + 6 = 118$ oz. B uses $10$ instead of $16$, and C uses $12$."
+      }
+    ]
+  },
+  "m204-6-2": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 1: Conversion Factors",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Conversion factors",
+        "t": 26.02
+      },
+      {
+        "title": "An inch and a centimetre",
+        "t": 59.029
+      },
+      {
+        "title": "A ruler from the United States",
+        "t": 85.489
+      },
+      {
+        "title": "Your turn",
+        "t": 127.31
+      },
+      {
+        "title": "Summary",
+        "t": 165.193
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2:q",
+        "t": 140.148,
+        "prompt": "A tablet screen is $10$ in across. Use $1$ in $= 2.54$ cm. How many centimetres is that?",
+        "choices": [
+          "$25.4$ cm",
+          "$3.94$ cm",
+          "$254$ cm",
+          "$12.54$ cm"
+        ],
+        "answer": 0,
+        "working": "$10 \\times 2.54 = 25.4$ cm. Estimate: $10 \\times 2.5 = 25$. B divides, and D adds."
+      }
+    ]
+  },
+  "m204-6-2-b": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 2: Multiply or Divide?",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The rule",
+        "t": 19.331
+      },
+      {
+        "title": "A TV in centimetres",
+        "t": 37.975
+      },
+      {
+        "title": "Dog food in kilograms",
+        "t": 72.452
+      },
+      {
+        "title": "Dividing when you should multiply",
+        "t": 110.197
+      },
+      {
+        "title": "Your turn",
+        "t": 133.968
+      },
+      {
+        "title": "Summary",
+        "t": 169.062
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2-b:q",
+        "t": 146.306,
+        "prompt": "A suitcase weighs $44$ lb. Use $1$ kg $\\approx 2.2$ lb. What is its mass in kilograms?",
+        "choices": [
+          "$20$ kg",
+          "$96.8$ kg",
+          "$41.8$ kg",
+          "$46.2$ kg"
+        ],
+        "answer": 0,
+        "working": "A kilogram is bigger, so divide: $44 \\div 2.2 = 20$ kg. B multiplies, and C and D subtract or add."
+      }
+    ]
+  },
+  "m204-6-2-c": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 3: Speeds and Heights",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A speed in miles per hour",
+        "t": 16.434
+      },
+      {
+        "title": "A height in two steps",
+        "t": 74.138
+      },
+      {
+        "title": "Your turn",
+        "t": 124.514
+      },
+      {
+        "title": "Summary",
+        "t": 170.997
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2-c:q",
+        "t": 139.773,
+        "prompt": "A basketball player is $6$ ft $1$ in tall. Use $1$ in $= 2.54$ cm. What is the height in centimetres, to the nearest tenth?",
+        "choices": [
+          "$185.4$ cm",
+          "$154.9$ cm",
+          "$28.7$ cm",
+          "$15.5$ cm"
+        ],
+        "answer": 0,
+        "working": "Step 1: $6 \\times 12 + 1 = 73$ in. Step 2: $73 \\times 2.54 = 185.42 \\approx 185.4$ cm. B uses $6.1$ ft as $61$ in, and C divides."
+      }
+    ]
+  },
+  "m204-6-2-d": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 4: Filling a Gas Tank",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gallons to litres",
+        "t": 17.19
+      },
+      {
+        "title": "Rounding too early",
+        "t": 71.405
+      },
+      {
+        "title": "Planning a road trip",
+        "t": 101.56
+      },
+      {
+        "title": "Your turn",
+        "t": 144.547
+      },
+      {
+        "title": "Summary",
+        "t": 190.622
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2-d:q",
+        "t": 161.921,
+        "prompt": "A car has a $15$-gallon (US) tank. Gas costs \\$1.60 per litre. Use $1$ US gallon $\\approx 3.79$ L. What does it cost to fill the empty tank?",
+        "choices": [
+          "\\$90.96",
+          "\\$24.00",
+          "\\$91.20",
+          "\\$6.33"
+        ],
+        "answer": 0,
+        "working": "Litres: $15 \\times 3.79 = 56.85$ L. Cost: $56.85 \\times 1.60 = 90.96$. B forgets to convert, and C rounds to $57$ L too early."
+      }
+    ]
+  },
+  "m204-6-3": {
+    "lessonId": "m204-6-3",
+    "title": "Temperature, Part 1: Two Temperature Scales",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two scales",
+        "t": 25.264
+      },
+      {
+        "title": "Benchmark temperatures",
+        "t": 51.221
+      },
+      {
+        "title": "On both scales",
+        "t": 77.812
+      },
+      {
+        "title": "Which temperature makes sense?",
+        "t": 105.393
+      },
+      {
+        "title": "Your turn",
+        "t": 149.707
+      },
+      {
+        "title": "Summary",
+        "t": 181.772
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-3:q",
+        "t": 156.893,
+        "prompt": "Which temperature makes sense for the inside of a fridge?",
+        "choices": [
+          "$4^\\circ$C",
+          "$4^\\circ$F",
+          "$40^\\circ$C",
+          "$75^\\circ$F"
+        ],
+        "answer": 0,
+        "working": "A fridge is cold but above freezing: just above $0^\\circ$C. $4^\\circ$F is below freezing, $40^\\circ$C is hotter than your body, and $75^\\circ$F is warmer than a room."
+      }
+    ]
+  },
+  "m204-6-3-b": {
+    "lessonId": "m204-6-3",
+    "title": "Temperature, Part 2: Celsius to Fahrenheit",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formula",
+        "t": 17.359
+      },
+      {
+        "title": "Weather for a cousin",
+        "t": 43.658
+      },
+      {
+        "title": "A cold day",
+        "t": 79.213
+      },
+      {
+        "title": "Multiply first",
+        "t": 107.162
+      },
+      {
+        "title": "A quick check",
+        "t": 130.713
+      },
+      {
+        "title": "Your turn",
+        "t": 154.168
+      },
+      {
+        "title": "Summary",
+        "t": 190.818
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-3-b:q",
+        "t": 165.599,
+        "prompt": "Use $F = 1.8C + 32$. What is $15^\\circ$C in degrees Fahrenheit?",
+        "choices": [
+          "$59^\\circ$F",
+          "$84.6^\\circ$F",
+          "$27^\\circ$F",
+          "$47^\\circ$F"
+        ],
+        "answer": 0,
+        "working": "$1.8 \\times 15 = 27$, and $27 + 32 = 59$. B adds first, C forgets to add $32$, and D adds $32$ to $15$ without multiplying."
+      }
+    ]
+  },
+  "m204-6-3-c": {
+    "lessonId": "m204-6-3",
+    "title": "Temperature, Part 3: Fahrenheit to Celsius",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undo in reverse order",
+        "t": 17.836
+      },
+      {
+        "title": "A US recipe",
+        "t": 46.174
+      },
+      {
+        "title": "Is the food hot enough?",
+        "t": 86.393
+      },
+      {
+        "title": "Subtract first",
+        "t": 128.613
+      },
+      {
+        "title": "Your turn",
+        "t": 148.806
+      },
+      {
+        "title": "Summary",
+        "t": 190.665
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-3-c:q",
+        "t": 162.335,
+        "prompt": "Use $C = (F - 32) \\div 1.8$. What is $104^\\circ$F in degrees Celsius?",
+        "choices": [
+          "$40^\\circ$C",
+          "$25.8^\\circ$C",
+          "$129.6^\\circ$C",
+          "$72^\\circ$C"
+        ],
+        "answer": 0,
+        "working": "$104 - 32 = 72$, and $72 \\div 1.8 = 40$. B divides first, C multiplies by $1.8$, and D forgets to divide."
+      }
+    ]
+  },
+  "m204-7-1": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 1: Perimeter of a Rectangle",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Perimeter",
+        "t": 20.291
+      },
+      {
+        "title": "Fencing a dog run",
+        "t": 40.507
+      },
+      {
+        "title": "All four sides",
+        "t": 91.151
+      },
+      {
+        "title": "Your turn",
+        "t": 115.973
+      },
+      {
+        "title": "Summary",
+        "t": 152.093
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1:q",
+        "t": 126.964,
+        "prompt": "A rectangular patio is $12$ m long and $7.5$ m wide. What is its perimeter?",
+        "choices": [
+          "$39$ m",
+          "$19.5$ m",
+          "$90$ m",
+          "$27$ m"
+        ],
+        "answer": 0,
+        "working": "$P = 2 \\times (12 + 7.5) = 2 \\times 19.5 = 39$ m. B adds only two sides, and C multiplies, which gives the area."
+      }
+    ]
+  },
+  "m204-7-1-b": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 2: Other Shapes with Straight Sides",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An L-shaped room",
+        "t": 17.828
+      },
+      {
+        "title": "A triangle",
+        "t": 51.486
+      },
+      {
+        "title": "Missing a side",
+        "t": 74.928
+      },
+      {
+        "title": "A regular shape",
+        "t": 91.774
+      },
+      {
+        "title": "Your turn",
+        "t": 123.767
+      },
+      {
+        "title": "Summary",
+        "t": 158.902
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1-b:q",
+        "t": 136.825,
+        "prompt": "A deck is a regular octagon. An octagon has $8$ sides. Each side is $1.2$ m. What is the perimeter?",
+        "choices": [
+          "$9.6$ m",
+          "$7.2$ m",
+          "$4.8$ m",
+          "$9.2$ m"
+        ],
+        "answer": 0,
+        "working": "$8 \\times 1.2 = 9.6$ m. B uses $6$ sides, C uses $4$, and D adds $8 + 1.2$."
+      }
+    ]
+  },
+  "m204-7-1-c": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 3: Circumference of a Circle",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Parts of a circle",
+        "t": 15.841
+      },
+      {
+        "title": "C = π × d",
+        "t": 37.733
+      },
+      {
+        "title": "Starting from the radius",
+        "t": 80.997
+      },
+      {
+        "title": "Your turn",
+        "t": 127.017
+      },
+      {
+        "title": "Summary",
+        "t": 166.53
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1-c:q",
+        "t": 139.225,
+        "prompt": "A bike wheel has a radius of $0.35$ m. What is its circumference, to the nearest tenth of a metre?",
+        "choices": [
+          "$2.2$ m",
+          "$1.1$ m",
+          "$0.7$ m",
+          "$0.4$ m"
+        ],
+        "answer": 0,
+        "working": "$d = 2 \\times 0.35 = 0.7$ m. $C = \\pi \\times 0.7 \\approx 2.20$ m. B uses the radius, and C is the diameter."
+      }
+    ]
+  },
+  "m204-7-1-d": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 4: The Cost of Edging and Fencing",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Edging a garden",
+        "t": 16.648
+      },
+      {
+        "title": "Around, not across",
+        "t": 64.818
+      },
+      {
+        "title": "Buying whole pieces",
+        "t": 89.369
+      },
+      {
+        "title": "Your turn",
+        "t": 121.487
+      },
+      {
+        "title": "Summary",
+        "t": 159.778
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1-d:q",
+        "t": 134.449,
+        "prompt": "A rectangular yard is $10$ m by $7$ m. Fencing costs \\$12.50 per metre. What will the fencing cost?",
+        "choices": [
+          "\\$425.00",
+          "\\$875.00",
+          "\\$212.50",
+          "\\$34.00"
+        ],
+        "answer": 0,
+        "working": "Perimeter: $10 + 7 + 10 + 7 = 34$ m. Cost: $34 \\times 12.50 = 425.00$. B uses the area, $70$ m², C uses only two sides, and D is the perimeter, not the cost."
+      }
+    ]
   }
 }
