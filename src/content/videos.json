@@ -24856,5 +24856,295 @@
         "working": "Total: $1{,}350 + 180 + 60 = 1{,}590$. Each: $1{,}590 \\div 3 = 530$. B is the total, C splits it two ways, and D shares only the rent."
       }
     ]
+  },
+  "m204-4-4-d": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 4: How Much Rent Can You Afford?",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A rule of thumb",
+        "t": 16.554
+      },
+      {
+        "title": "Using the 30% guideline",
+        "t": 40.873
+      },
+      {
+        "title": "With a roommate",
+        "t": 92.161
+      },
+      {
+        "title": "Your turn",
+        "t": 126.783
+      },
+      {
+        "title": "Summary",
+        "t": 164.391
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4-d:q",
+        "t": 139.252,
+        "prompt": "Ravi takes home \\$3,100 a month. Using the $30\\%$ guideline, what is the most rent Ravi should pay?",
+        "choices": [
+          "\\$930",
+          "\\$2,170",
+          "\\$310",
+          "\\$1,033.33"
+        ],
+        "answer": 0,
+        "working": "$0.3 \\times 3{,}100 = 930$. B is the $70\\%$ that is left, C is only $10\\%$, and D divides by $3$."
+      }
+    ]
+  },
+  "m204-5-1": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 1: Substituting into a Formula",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Formulas and variables",
+        "t": 23.88
+      },
+      {
+        "title": "Side by side means multiply",
+        "t": 49.56
+      },
+      {
+        "title": "Pay for a shift",
+        "t": 76.954
+      },
+      {
+        "title": "Your turn",
+        "t": 127.54
+      },
+      {
+        "title": "Summary",
+        "t": 162.29
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1:q",
+        "t": 139.751,
+        "prompt": "Use $E = rh$. Malik earns \\$17.25 per hour and works $8$ hours. What is the pay?",
+        "choices": [
+          "\\$138.00",
+          "\\$25.25",
+          "\\$13.80",
+          "\\$172.50"
+        ],
+        "answer": 0,
+        "working": "$E = 17.25 \\times 8 = 138.00$. B adds instead of multiplying, and D works ten hours."
+      }
+    ]
+  },
+  "m204-5-1-b": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 2: Formulas with More Than One Step",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fencing a yard",
+        "t": 18.264
+      },
+      {
+        "title": "A taxi fare",
+        "t": 72.665
+      },
+      {
+        "title": "Multiply before you add",
+        "t": 119.292
+      },
+      {
+        "title": "Your turn",
+        "t": 140.108
+      },
+      {
+        "title": "Summary",
+        "t": 178.6
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1-b:q",
+        "t": 155.225,
+        "prompt": "A taxi charges $C = 3.5 + 2d$, where $C$ is in dollars and $d$ is in kilometres. What is the fare for a $9$ km ride?",
+        "choices": [
+          "\\$21.50",
+          "\\$49.50",
+          "\\$14.50",
+          "\\$18.00"
+        ],
+        "answer": 0,
+        "working": "$C = 3.5 + 2 \\times 9 = 3.5 + 18 = 21.5$. B adds first, and D forgets the starting fee."
+      }
+    ]
+  },
+  "m204-5-1-c": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 3: The Temperature Formula",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The temperature formula",
+        "t": 20.547
+      },
+      {
+        "title": "A warm day",
+        "t": 43.656
+      },
+      {
+        "title": "A quick estimate",
+        "t": 76.416
+      },
+      {
+        "title": "A cold morning",
+        "t": 96.561
+      },
+      {
+        "title": "Your turn",
+        "t": 145.183
+      },
+      {
+        "title": "Summary",
+        "t": 181.776
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1-c:q",
+        "t": 157.06,
+        "prompt": "Use $F = 1.8C + 32$. What is $-10^\\circ\\text{C}$ in degrees Fahrenheit?",
+        "choices": [
+          "$14^\\circ\\text{F}$",
+          "$50^\\circ\\text{F}$",
+          "$-50^\\circ\\text{F}$",
+          "$-18^\\circ\\text{F}$"
+        ],
+        "answer": 0,
+        "working": "$F = 1.8 \\times (-10) + 32 = -18 + 32 = 14$. B uses $+10$, and D forgets to add $32$."
+      }
+    ]
+  },
+  "m204-5-1-d": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 4: Formulas in Two-Step Jobs",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "New flooring",
+        "t": 19.24
+      },
+      {
+        "title": "Fencing a yard",
+        "t": 69.87
+      },
+      {
+        "title": "Area or perimeter?",
+        "t": 105.875
+      },
+      {
+        "title": "Your turn",
+        "t": 128.037
+      },
+      {
+        "title": "Summary",
+        "t": 169.401
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1-d:q",
+        "t": 142.23,
+        "prompt": "A room is $5.2$ m long and $3.5$ m wide. Carpet costs \\$32.00 per square metre. What will the carpet cost?",
+        "choices": [
+          "\\$582.40",
+          "\\$556.80",
+          "\\$18.20",
+          "\\$544.00"
+        ],
+        "answer": 0,
+        "working": "Area: $5.2 \\times 3.5 = 18.2\\ \\text{m}^2$. Cost: $18.2 \\times 32.00 = 582.40$. B uses the perimeter, $17.4$ m, and C is the area, not the cost."
+      }
+    ]
+  },
+  "m204-5-2": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 1: Inverse Operations",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Equations and inverse operations",
+        "t": 25.554
+      },
+      {
+        "title": "One step: adding",
+        "t": 58.786
+      },
+      {
+        "title": "One step: multiplying",
+        "t": 87.123
+      },
+      {
+        "title": "One step: dividing",
+        "t": 109.638
+      },
+      {
+        "title": "Your turn",
+        "t": 133.874
+      },
+      {
+        "title": "Summary",
+        "t": 165.094
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2:q",
+        "t": 140.695,
+        "prompt": "Solve $y - 9 = 14$.",
+        "choices": [
+          "$y = 23$",
+          "$y = 5$",
+          "$y = -23$",
+          "$y = 126$"
+        ],
+        "answer": 0,
+        "working": "To undo $-\\ 9$, add $9$ to both sides: $y = 14 + 9 = 23$. Check: $23 - 9 = 14$. B subtracts instead of adding."
+      }
+    ]
   }
 }

@@ -43,7 +43,7 @@ const video: Explainer = {
         { say: 'Write down each letter. P is 2,500. r is six percent, which is 0.06. And t is three years.', show: 'm.0', focus: 'm.0' },
         { say: 'Then I equals P r t: 2,500 times 0.06 times three is 450 dollars.', show: 'm.1', focus: 'm.1' },
         { say: 'Check: one year of interest is 2,500 times 0.06, 150 dollars, and three years is 450. So Kwame pays 450 dollars in interest.' },
-        { say: 'Notice how each letter matters. Borrow more, at a higher rate, or for longer, and you pay more interest.' },
+        { say: 'Notice how each letter matters. If you borrow more, at a higher rate, or for longer, you pay more interest.' },
       ],
     },
     {

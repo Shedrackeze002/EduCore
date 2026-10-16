@@ -70,7 +70,7 @@ const video: Explainer = {
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Interest is charged on the unpaid balance.', 'Paying more now means less interest later.', 'Pay in full whenever you can.'] }],
       lines: [
         { say: 'Let’s sum up. Interest is charged on the unpaid balance.', show: 'sum.0' },
-        { say: 'Paying more now means less interest later.', show: 'sum.1' },
+        { say: 'Paying more now means you pay less interest later.', show: 'sum.1' },
         { say: 'And whenever you can, pay the full balance, so you pay no interest at all. Practise these skills in your lesson. See you next time!', show: 'sum.2' },
       ],
     },
