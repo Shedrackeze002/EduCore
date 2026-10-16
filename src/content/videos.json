@@ -23187,5 +23187,103 @@
         "working": "$400 \\div 100 = 4$ groups, and $3.20 \\div 4 = 0.80$. B divides by $400$ instead of $4$, and C divides the wrong way."
       }
     ]
+  },
+  "m204-2-1-c": {
+    "lessonId": "m204-2-1",
+    "title": "Unit Price and the Best Buy, Part 3: Finding the Best Buy",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The best buy",
+        "t": 17.194
+      },
+      {
+        "title": "Three bags of rice",
+        "t": 35.464
+      },
+      {
+        "title": "A quick check",
+        "t": 90.204
+      },
+      {
+        "title": "Bigger is always cheaper?",
+        "t": 119.365
+      },
+      {
+        "title": "Your turn",
+        "t": 135.631
+      },
+      {
+        "title": "Summary",
+        "t": 174.571
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-1-c:q",
+        "t": 148.419,
+        "prompt": "Laundry soap costs \\$7.50 for $2$ L or \\$17.50 for $5$ L. Which is the best buy?",
+        "choices": [
+          "the $5$ L jug, at \\$3.50 per litre",
+          "the $2$ L jug, at \\$3.75 per litre",
+          "They cost the same per litre.",
+          "the $5$ L jug, at \\$17.50 per litre"
+        ],
+        "answer": 0,
+        "working": "$7.50 \\div 2 = 3.75$ and $17.50 \\div 5 = 3.50$, so the $5$ L jug costs less per litre."
+      }
+    ]
+  },
+  "m204-2-1-d": {
+    "lessonId": "m204-2-1",
+    "title": "Unit Price and the Best Buy, Part 4: Deals, Coupons and Common Sense",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Is the deal better?",
+        "t": 18.33
+      },
+      {
+        "title": "Using a coupon",
+        "t": 63.289
+      },
+      {
+        "title": "Common sense",
+        "t": 113.019
+      },
+      {
+        "title": "Your turn",
+        "t": 139.933
+      },
+      {
+        "title": "Summary",
+        "t": 179.136
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-1-d:q",
+        "t": 156.896,
+        "prompt": "Granola bars: a box of $6$ for \\$3.00, with a coupon for \\$0.60 off, or a box of $10$ for \\$4.50. Which is the better buy per bar?",
+        "choices": [
+          "the box of $6$ with the coupon, at \\$0.40 per bar",
+          "the box of $10$, at \\$0.45 per bar",
+          "the box of $6$, at \\$0.50 per bar",
+          "They cost the same per bar."
+        ],
+        "answer": 0,
+        "working": "With the coupon: $3.00 - 0.60 = 2.40$, and $2.40 \\div 6 = 0.40$. Box of $10$: $4.50 \\div 10 = 0.45$. C forgets the coupon."
+      }
+    ]
   }
 }
