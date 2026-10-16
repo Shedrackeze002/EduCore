@@ -273,10 +273,20 @@ items ship or decisions change.
      pronunciation check's real slips were fixed first: "break-even" (heard "Bray-Keevan") is now
      said as two words for every course (the video with it was rendered again), and a line in
      lesson 5.3 was reworded.
-   - Rendering: Math 20-4 (111 videos in 9 units), unit by unit into Drive, with its own pull
-     request (about six minutes a video). Then script and render the other courses in
-     order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), explaining each lesson as simply as
-     possible, with parts split by idea.
+   - Built: Math 20-4, all 111 videos at the calm pace (2:38 to 4:00, about 5.9 hours in all),
+     rendered unit by unit and uploaded to Drive (checked: Drive holds every file of all 111).
+     The pronunciation check found real slips, each fixed and the video rendered again before
+     the course was done: "GST", "HST" and "EI" are now voiced letter by letter for every course
+     ("GST" often sounded like "GSD", "EI" like "I"), and nine lines were reworded ("92 minus
+     eighty", "out of 100", "the litres used", "less interest later", a swallowed sentence about
+     borrowing, "use C equals", "Use one mile is about", "put both lengths"). Every Math 20 course
+     is now rendered and in Drive (376 videos).
+   - Waiting on the owner: whether to re-render ten finished videos from earlier courses that say
+     "GST" or "EI" (Math 10-3: m103-1-3, m103-1-3-b, m103-2-4, m103-2-4-b, m103-4-4-b,
+     m103-5-4-b; Math 10-4: m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The check
+     heard "GSD" or "I" in some of their lines; about an hour to redo and replace in Drive.
+   - Next: script and render the other courses in order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
+     and 9), explaining each lesson as simply as possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
    has no social pages yet. Open them, then post three times a week across all of them, with
    Claude coordinating: preparing each week's posts, keeping the schedule and reporting. It runs
