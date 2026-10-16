@@ -25722,7 +25722,7 @@
   "m204-6-2-c": {
     "lessonId": "m204-6-2",
     "title": "SI and Imperial, Part 3: Speeds and Heights",
-    "duration": 194,
+    "duration": 195,
     "voice": "af_heart",
     "chapters": [
       {
@@ -25735,21 +25735,21 @@
       },
       {
         "title": "A height in two steps",
-        "t": 74.138
+        "t": 75.113
       },
       {
         "title": "Your turn",
-        "t": 124.514
+        "t": 125.489
       },
       {
         "title": "Summary",
-        "t": 170.997
+        "t": 171.972
       }
     ],
     "cues": [
       {
         "id": "m204-6-2-c:q",
-        "t": 139.773,
+        "t": 140.748,
         "prompt": "A basketball player is $6$ ft $1$ in tall. Use $1$ in $= 2.54$ cm. What is the height in centimetres, to the nearest tenth?",
         "choices": [
           "$185.4$ cm",
@@ -25918,7 +25918,7 @@
   "m204-6-3-c": {
     "lessonId": "m204-6-3",
     "title": "Temperature, Part 3: Fahrenheit to Celsius",
-    "duration": 216,
+    "duration": 217,
     "voice": "af_heart",
     "chapters": [
       {
@@ -26249,6 +26249,574 @@
         ],
         "answer": 0,
         "working": "$A = 8 \\times 5 \\div 2 = 40 \\div 2 = 20$ m². B forgets to divide by $2$, and C adds the base and height."
+      }
+    ]
+  },
+  "m204-7-2-c": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 3: Area of a Parallelogram",
+    "duration": 172,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A parallelogram",
+        "t": 17.879
+      },
+      {
+        "title": "A parking stall",
+        "t": 46.335
+      },
+      {
+        "title": "The slanted side",
+        "t": 91.251
+      },
+      {
+        "title": "Your turn",
+        "t": 113.066
+      },
+      {
+        "title": "Summary",
+        "t": 149.597
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2-c:q",
+        "t": 126.275,
+        "prompt": "A parallelogram has a base of $7$ m and a height of $4$ m. Its slanted sides are $5$ m long. What is its area?",
+        "choices": [
+          "$28$ m²",
+          "$35$ m²",
+          "$14$ m²",
+          "$140$ m²"
+        ],
+        "answer": 0,
+        "working": "$A = b \\times h = 7 \\times 4 = 28$ m². B uses the slanted side, C divides by $2$ like a triangle, and D multiplies all three numbers."
+      }
+    ]
+  },
+  "m204-7-2-d": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 4: Area of a Circle",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The area formula",
+        "t": 15.792
+      },
+      {
+        "title": "A circular patio",
+        "t": 36.184
+      },
+      {
+        "title": "A pizza",
+        "t": 72.011
+      },
+      {
+        "title": "Your turn",
+        "t": 119.669
+      },
+      {
+        "title": "Summary",
+        "t": 153.951
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2-d:q",
+        "t": 129.449,
+        "prompt": "A round rug has a diameter of $4$ m. What is its area, to the nearest tenth?",
+        "choices": [
+          "$12.6$ m²",
+          "$50.3$ m²",
+          "$12.6$ m",
+          "$6.3$ m²"
+        ],
+        "answer": 0,
+        "working": "$r = 4 \\div 2 = 2$ m. $A = \\pi \\times 2 \\times 2 \\approx 12.57$ m². B uses the diameter, and C is the circumference, a length."
+      }
+    ]
+  },
+  "m204-7-3": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 1: Adding the Parts",
+    "duration": 169,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Composite shapes",
+        "t": 18.575
+      },
+      {
+        "title": "An L-shaped kitchen floor",
+        "t": 36.852
+      },
+      {
+        "title": "No overlaps",
+        "t": 85.269
+      },
+      {
+        "title": "Your turn",
+        "t": 112.647
+      },
+      {
+        "title": "Summary",
+        "t": 150.089
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3:q",
+        "t": 125.74,
+        "prompt": "An L-shaped deck splits into a $5$ m by $3$ m rectangle and a $4$ m by $2$ m rectangle. What is its total area?",
+        "choices": [
+          "$23$ m²",
+          "$120$ m²",
+          "$14$ m²",
+          "$15$ m²"
+        ],
+        "answer": 0,
+        "working": "$5 \\times 3 = 15$ and $4 \\times 2 = 8$, so $15 + 8 = 23$ m². B multiplies the two areas, C adds the four lengths, and D is only one part."
+      }
+    ]
+  },
+  "m204-7-3-b": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 2: Taking Away and Half Circles",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mowing around a flower bed",
+        "t": 16.852
+      },
+      {
+        "title": "A stage with a rounded front",
+        "t": 54.686
+      },
+      {
+        "title": "Halve the circle",
+        "t": 99.302
+      },
+      {
+        "title": "Your turn",
+        "t": 118.296
+      },
+      {
+        "title": "Summary",
+        "t": 155.734
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3-b:q",
+        "t": 132.176,
+        "prompt": "A yard is $10$ m by $6$ m. A pond that is $2$ m by $1.5$ m is in the yard. What area of grass is left?",
+        "choices": [
+          "$57$ m²",
+          "$63$ m²",
+          "$60$ m²",
+          "$3$ m²"
+        ],
+        "answer": 0,
+        "working": "Yard: $10 \\times 6 = 60$ m². Pond: $2 \\times 1.5 = 3$ m². Grass: $60 - 3 = 57$ m². B adds the pond, C forgets it, and D is the pond."
+      }
+    ]
+  },
+  "m204-7-3-c": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 3: How Much Material to Buy",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Divide, then round up",
+        "t": 19.399
+      },
+      {
+        "title": "Boxes of flooring",
+        "t": 39.585
+      },
+      {
+        "title": "Never round down",
+        "t": 76.361
+      },
+      {
+        "title": "Grass seed",
+        "t": 100.982
+      },
+      {
+        "title": "Your turn",
+        "t": 125.731
+      },
+      {
+        "title": "Summary",
+        "t": 168.347
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3-c:q",
+        "t": 138.685,
+        "prompt": "A lawn is $5$ m by $5$ m. One roll of sod covers $0.8$ m². How many rolls are needed?",
+        "choices": [
+          "$32$ rolls",
+          "$31$ rolls",
+          "$20$ rolls",
+          "$31.25$ rolls"
+        ],
+        "answer": 0,
+        "working": "Area: $5 \\times 5 = 25$ m². $25 \\div 0.8 = 31.25$, so round up to $32$ rolls. B rounds down, C multiplies, and D cannot be bought."
+      }
+    ]
+  },
+  "m204-7-3-d": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 4: Waste and GST",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Waste and GST",
+        "t": 19.165
+      },
+      {
+        "title": "Flooring with waste and GST",
+        "t": 46.413
+      },
+      {
+        "title": "Add the waste to the area",
+        "t": 107.547
+      },
+      {
+        "title": "Your turn",
+        "t": 133.897
+      },
+      {
+        "title": "Summary",
+        "t": 184.367
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3-d:q",
+        "t": 151.61,
+        "prompt": "A floor is $20$ m². Add $10\\%$ for waste. Each box covers $2.5$ m² and costs \\$30.00. GST is $5\\%$. What is the total cost?",
+        "choices": [
+          "\\$283.50",
+          "\\$270.00",
+          "\\$252.00",
+          "\\$13.50"
+        ],
+        "answer": 0,
+        "working": "$20 \\times 1.1 = 22$ m². $22 \\div 2.5 = 8.8$, so $9$ boxes. $9 \\times 30 = 270.00$. GST: $13.50$. Total: $283.50$. B forgets GST, C forgets the waste, and D is the GST only."
+      }
+    ]
+  },
+  "m204-8-1": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 1: What a Scale Means",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Scale drawings",
+        "t": 18.997
+      },
+      {
+        "title": "The size of a living room",
+        "t": 50.777
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 95.915
+      },
+      {
+        "title": "Your turn",
+        "t": 117.744
+      },
+      {
+        "title": "Summary",
+        "t": 152.775
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1:q",
+        "t": 131.773,
+        "prompt": "On a floor plan, $1$ cm represents $2$ m. A bedroom is $2.5$ cm long on the plan. How long is the real bedroom?",
+        "choices": [
+          "$5$ m",
+          "$1.25$ m",
+          "$4.5$ m",
+          "$50$ m"
+        ],
+        "answer": 0,
+        "working": "$2.5 \\times 2 = 5$ m. B divides, and C adds."
+      }
+    ]
+  },
+  "m204-8-1-b": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 2: Measuring a Plan",
+    "duration": 173,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A wall on a garage plan",
+        "t": 14.827
+      },
+      {
+        "title": "Start at zero",
+        "t": 58.134
+      },
+      {
+        "title": "Measure carefully",
+        "t": 90.966
+      },
+      {
+        "title": "Your turn",
+        "t": 112.444
+      },
+      {
+        "title": "Summary",
+        "t": 154.276
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1-b:q",
+        "t": 129.108,
+        "prompt": "A line on a plan starts at the $2$ cm mark and ends at the $8.5$ cm mark. On the plan, $1$ cm represents $3$ m. How long is the real wall?",
+        "choices": [
+          "$19.5$ m",
+          "$25.5$ m",
+          "$6.5$ m",
+          "$31.5$ m"
+        ],
+        "answer": 0,
+        "working": "Plan length: $8.5 - 2 = 6.5$ cm. Real: $6.5 \\times 3 = 19.5$ m. B uses only the end mark, C is the plan length, and D adds the marks."
+      }
+    ]
+  },
+  "m204-8-1-c": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 3: Ratio Scales",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Ratio scales",
+        "t": 18.329
+      },
+      {
+        "title": "A kitchen wall",
+        "t": 38.117
+      },
+      {
+        "title": "From real to drawing",
+        "t": 83.026
+      },
+      {
+        "title": "Your turn",
+        "t": 121.879
+      },
+      {
+        "title": "Summary",
+        "t": 160.983
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1-c:q",
+        "t": 135.414,
+        "prompt": "A deck plan uses a scale of $1 : 40$. The deck is $9$ cm long on the plan. How long is the real deck, in metres?",
+        "choices": [
+          "$3.6$ m",
+          "$360$ m",
+          "$0.225$ m",
+          "$36$ m"
+        ],
+        "answer": 0,
+        "working": "$9 \\times 40 = 360$ cm, and $360 \\div 100 = 3.6$ m. B forgets to change centimetres to metres, and C divides."
+      }
+    ]
+  },
+  "m204-8-1-d": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 4: Finding the Scale and the Area",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A model truck",
+        "t": 18.409
+      },
+      {
+        "title": "Same units first",
+        "t": 55.604
+      },
+      {
+        "title": "Flooring for a room",
+        "t": 77.67
+      },
+      {
+        "title": "Your turn",
+        "t": 127.466
+      },
+      {
+        "title": "Summary",
+        "t": 165.303
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1-d:q",
+        "t": 138.154,
+        "prompt": "A model boat is $30$ cm long. The real boat is $9$ m long. What is the scale?",
+        "choices": [
+          "$1 : 30$",
+          "$1 : 0.3$",
+          "$1 : 3.3$",
+          "$1 : 270$"
+        ],
+        "answer": 0,
+        "working": "$9$ m $= 900$ cm. $900 \\div 30 = 30$, so the scale is $1 : 30$. B divides $9$ by $30$, mixing metres and centimetres, and D multiplies."
+      }
+    ]
+  },
+  "m204-8-2": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 1: Map Scales",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Map scale",
+        "t": 18.1
+      },
+      {
+        "title": "A ratio scale",
+        "t": 53.994
+      },
+      {
+        "title": "Two towns",
+        "t": 99.558
+      },
+      {
+        "title": "Your turn",
+        "t": 127.483
+      },
+      {
+        "title": "Summary",
+        "t": 167.217
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2:q",
+        "t": 140.039,
+        "prompt": "A map has a scale of $1 : 500\\,000$. Two lakes are $4$ cm apart on the map. How far apart are they?",
+        "choices": [
+          "$20$ km",
+          "$2\\,000\\,000$ km",
+          "$5$ km",
+          "$125$ km"
+        ],
+        "answer": 0,
+        "working": "$1$ cm represents $500\\,000 \\div 100\\,000 = 5$ km. $4 \\times 5 = 20$ km. B forgets to change centimetres to kilometres, and C is the distance for $1$ cm."
+      }
+    ]
+  },
+  "m204-8-2-b": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 2: Routes with Several Legs",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the farm to town",
+        "t": 15.334
+      },
+      {
+        "title": "Two ways, one answer",
+        "t": 62.262
+      },
+      {
+        "title": "Every leg",
+        "t": 91.283
+      },
+      {
+        "title": "Your turn",
+        "t": 115.538
+      },
+      {
+        "title": "Summary",
+        "t": 157.348
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2-b:q",
+        "t": 133.718,
+        "prompt": "A route has three legs: $2.4$ cm, $1.8$ cm and $3.3$ cm on the map. On the map, $1$ cm represents $4$ km. How long is the route?",
+        "choices": [
+          "$30$ km",
+          "$22.8$ km",
+          "$7.5$ km",
+          "$9.6$ km"
+        ],
+        "answer": 0,
+        "working": "Map total: $2.4 + 1.8 + 3.3 = 7.5$ cm. Real: $7.5 \\times 4 = 30$ km. B leaves out the middle leg, and C is the map length."
       }
     ]
   }
