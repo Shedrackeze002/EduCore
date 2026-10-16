@@ -801,7 +801,7 @@ select _assert((select count(*) from class_questions where status = 'new') = 5, 
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b2","role":"authenticated"}', false);
 set role authenticated;
 select _assert((select count(*) from class_questions) = 0, 'students do not see classmates'' questions');
-select ask_class_question((select class_id from ctx), 'Is this on the test?', true);
+select _assert((select not anonymous from ask_class_question((select class_id from ctx), 'Is this on the test?', null)), 'names show to the class unless the student hides them');
 reset role;
 
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);

@@ -108,7 +108,8 @@ with "Ask a question"; `ask_class_question` checks the student is in the class, 
 (at most 300 characters), allows five in ten minutes, and ties it to the presentation
 (`presented_at`). Each new question pops up on the teacher's screen (Answer shows it large; Skip
 moves on), and a "Questions" slide before the end lists them, left out when nobody asked anything.
-A student chooses whether the class's screen shows their name (hidden by default); the teacher's
+The class's screen shows the student's first name and last initial unless the student ticks
+"Hide my name from the class" (then "A student asks"); the teacher's
 lesson page lists every question with the student's name. The teacher can turn questions off in
 present mode's settings, for example to prepare at home without the class seeing.
 

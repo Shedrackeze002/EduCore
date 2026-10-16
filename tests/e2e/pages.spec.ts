@@ -277,10 +277,10 @@ test('students ask questions while the teacher presents; they pop up, and a Ques
   await student.getByRole('button', { name: 'Send question' }).click();
   await expect(student.getByText('You asked one question.')).toBeVisible();
 
-  // It pops up on the teacher's screen, without the student's name.
+  // It pops up on the teacher's screen with the student's first name and last initial.
   const popup = teacher.getByRole('alertdialog', { name: 'A question from the class' });
   await expect(popup.getByText(question)).toBeVisible();
-  await expect(popup.getByText('A student asks')).toBeVisible();
+  await expect(popup.getByText('Amara O. asks')).toBeVisible();
   await expect(teacher.getByRole('button', { name: '1 new question' })).toBeVisible();
   await popup.getByRole('button', { name: 'Answer' }).click();
   const answering = teacher.getByRole('dialog', { name: 'Answering a question from the class' });
@@ -291,7 +291,15 @@ test('students ask questions while the teacher presents; they pop up, and a Ques
   // The student sees it was answered.
   await student.getByRole('button', { name: 'Ask a question' }).click();
   await expect(student.getByRole('dialog').getByText('Answered')).toBeVisible();
-  await student.keyboard.press('Escape');
+
+  // A student can keep their name off the class's screen; the teacher skips this one for now.
+  await student.getByLabel('Your question').fill('Can you go over the example again?');
+  await student.getByLabel('Hide my name from the class').check();
+  await student.getByRole('button', { name: 'Send question' }).click();
+  await expect(student.getByText('You asked 2 questions.')).toBeVisible();
+  await expect(popup.getByText('A student asks')).toBeVisible();
+  await popup.getByRole('button', { name: 'Skip' }).click();
+  await expect(popup).toHaveCount(0);
 
   // The Questions slide comes before the end and lists what the class asked.
   await teacher.keyboard.press('o');
@@ -305,7 +313,9 @@ test('students ask questions while the teacher presents; they pop up, and a Ques
   await teacher.getByRole('button', { name: 'Exit presentation' }).click();
   await expect(teacher.getByText('Questions from the class')).toBeVisible();
   await expect(teacher.getByText(question)).toBeVisible();
-  await expect(teacher.getByText(/name kept off the class/)).toBeVisible();
+  await expect(teacher.getByText('Amara Okafor').first()).toBeVisible();
+  await expect(teacher.getByText(/name kept off the class/)).toHaveCount(1);
+
 
   // Once the teacher stops presenting, the student can no longer ask.
   await expect(student.getByRole('button', { name: 'Ask a question' })).toHaveCount(0);

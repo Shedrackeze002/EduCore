@@ -1,8 +1,8 @@
 /**
  * Students' questions during a presentation. While the teacher presents a lesson to the class, a
  * banner on every student page lets a student send a question from their own device. It pops up
- * on the teacher's screen; the class sees it without the student's name unless the student
- * chooses to show it (the teacher always sees who asked).
+ * on the teacher's screen with the student's first name and last initial, unless the student
+ * chooses to hide their name from the class (the teacher always sees who asked).
  */
 import { useState } from 'react';
 import { MessageCircleQuestion, Presentation as PresentationIcon } from 'lucide-react';
@@ -50,14 +50,14 @@ function AskQuestionModal({ open, onClose, classId, presentation, mine }: { open
   const ask = useAskQuestion(classId);
   const toast = useToast();
   const [body, setBody] = useState('');
-  const [showName, setShowName] = useState(false);
+  const [hideName, setHideName] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const lesson = lessonById(presentation.lessonId);
 
   const send = async () => {
     setError(null);
     try {
-      await ask.mutateAsync({ body, anonymous: !showName });
+      await ask.mutateAsync({ body, anonymous: hideName });
       setBody('');
       toast({ kind: 'success', title: 'Question sent', body: 'It shows on your teacher’s screen.' });
       onClose();
@@ -92,8 +92,8 @@ function AskQuestionModal({ open, onClose, classId, presentation, mine }: { open
       >
         <Textarea label="Your question" value={body} onChange={(e) => setBody(e.target.value)} maxLength={MAX} rows={3} hint={`${body.length} / ${MAX}`} placeholder="What would you like your teacher to explain?" />
         <div>
-          <Checkbox checked={showName} onChange={setShowName} label="Show my name to the class" />
-          <p className="mt-1 pl-7 text-sm text-ink-3">{showName ? 'The class sees your first name and last initial.' : 'The class sees “A student asks”. Your teacher still sees your name.'}</p>
+          <Checkbox checked={hideName} onChange={setHideName} label="Hide my name from the class" />
+          <p className="mt-1 pl-7 text-sm text-ink-3">{hideName ? 'The class sees “A student asks”. Your teacher still sees your name.' : 'The class sees your first name and last initial with your question.'}</p>
         </div>
         {error && <p className="rounded-xl bg-bad-soft px-3 py-2 text-sm text-bad-ink">{error}</p>}
       </form>
