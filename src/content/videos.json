@@ -23387,7 +23387,7 @@
   "m204-2-2-c": {
     "lessonId": "m204-2-2",
     "title": "Sales, Discounts and Taxes, Part 3: Subtotal, GST and Total",
-    "duration": 199,
+    "duration": 201,
     "voice": "af_heart",
     "chapters": [
       {
@@ -23396,33 +23396,33 @@
       },
       {
         "title": "Subtotal and GST",
-        "t": 16.439
+        "t": 16.569
       },
       {
         "title": "Reading a receipt",
-        "t": 42.337
+        "t": 42.772
       },
       {
         "title": "Working it out",
-        "t": 59.607
+        "t": 60.24
       },
       {
         "title": "A quick estimate",
-        "t": 108.231
+        "t": 109.69
       },
       {
         "title": "Your turn",
-        "t": 138.296
+        "t": 139.755
       },
       {
         "title": "Summary",
-        "t": 177.026
+        "t": 178.834
       }
     ],
     "cues": [
       {
         "id": "m204-2-2-c:q",
-        "t": 150.136,
+        "t": 151.794,
         "prompt": "A subtotal is \\$24.60. In this example, GST is $5\\%$. What is the total?",
         "choices": [
           "\\$25.83",
@@ -23463,17 +23463,17 @@
       },
       {
         "title": "Your turn",
-        "t": 147.058
+        "t": 147.36
       },
       {
         "title": "Summary",
-        "t": 182.015
+        "t": 182.317
       }
     ],
     "cues": [
       {
         "id": "m204-2-2-d:q",
-        "t": 157.97,
+        "t": 158.272,
         "prompt": "Your total is \\$17.35. You pay with a \\$20 bill. How much change should you get?",
         "choices": [
           "\\$2.65",
