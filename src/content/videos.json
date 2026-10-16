@@ -23873,5 +23873,894 @@
         "working": "Monthly means $12$ pays: $45{,}600 \\div 12 = 3{,}800.00$. B divides by $24$, C by $26$, and D by $52$."
       }
     ]
+  },
+  "m204-3-2-b": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 2: Commission",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Commission",
+        "t": 16.9
+      },
+      {
+        "title": "Selling furniture",
+        "t": 29.75
+      },
+      {
+        "title": "Base salary plus commission",
+        "t": 67.344
+      },
+      {
+        "title": "Which job pays more?",
+        "t": 114.734
+      },
+      {
+        "title": "Your turn",
+        "t": 150.707
+      },
+      {
+        "title": "Summary",
+        "t": 199.314
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2-b:q",
+        "t": 166.687,
+        "prompt": "Jasmine earns \\$250 a week plus $4\\%$ of sales. This week Jasmine sold \\$7,200 worth of phones. What is the pay for the week?",
+        "choices": [
+          "\\$538.00",
+          "\\$288.00",
+          "\\$278.80",
+          "\\$7,450.00"
+        ],
+        "answer": 0,
+        "working": "Commission: $0.04 \\times 7{,}200 = 288.00$. Total: $250.00 + 288.00 = 538.00$. B forgets the base, C uses $0.004$, and D adds the base to the sales."
+      }
+    ]
+  },
+  "m204-3-2-c": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 3: Piecework",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Piecework",
+        "t": 18.23
+      },
+      {
+        "title": "Packing boxes",
+        "t": 38.128
+      },
+      {
+        "title": "Pay per hour",
+        "t": 78.964
+      },
+      {
+        "title": "Your turn",
+        "t": 118.98
+      },
+      {
+        "title": "Summary",
+        "t": 159.326
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2-c:q",
+        "t": 132.716,
+        "prompt": "A berry picker earns \\$0.75 per basket. In a $6$-hour shift, the picker fills $96$ baskets. What is the pay per hour?",
+        "choices": [
+          "\\$12.00",
+          "\\$72.00",
+          "\\$16.00",
+          "\\$4.50"
+        ],
+        "answer": 0,
+        "working": "Pay: $0.75 \\times 96 = 72.00$. Per hour: $72.00 \\div 6 = 12.00$. B is the pay for the shift, and C is the baskets per hour."
+      }
+    ]
+  },
+  "m204-3-2-d": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 4: Sharing Tips",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Tips",
+        "t": 15.023
+      },
+      {
+        "title": "A tip pool",
+        "t": 40.132
+      },
+      {
+        "title": "Check the shares",
+        "t": 79.152
+      },
+      {
+        "title": "Your turn",
+        "t": 112.778
+      },
+      {
+        "title": "Summary",
+        "t": 157.686
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2-d:q",
+        "t": 129.404,
+        "prompt": "Zoe, Raj and Lena share \\$270 in tips by hours worked. Zoe worked $5$ hours, Raj $4$ hours and Lena $6$ hours. How much does Lena get?",
+        "choices": [
+          "\\$108.00",
+          "\\$90.00",
+          "\\$18.00",
+          "\\$72.00"
+        ],
+        "answer": 0,
+        "working": "Total hours: $5 + 4 + 6 = 15$. Per hour: $270 \\div 15 = 18.00$. Lena: $6 \\times 18.00 = 108.00$. B shares equally, C is the tips per hour, and D is Raj’s share."
+      }
+    ]
+  },
+  "m204-3-3": {
+    "lessonId": "m204-3-3",
+    "title": "Deductions and Net Pay, Part 1: Reading a Pay Stub",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pay stub and net pay",
+        "t": 17.693
+      },
+      {
+        "title": "Common deductions",
+        "t": 35.674
+      },
+      {
+        "title": "Net pay from a pay stub",
+        "t": 70.051
+      },
+      {
+        "title": "Your turn",
+        "t": 113.983
+      },
+      {
+        "title": "Summary",
+        "t": 161.005
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-3:q",
+        "t": 134.047,
+        "prompt": "A pay stub shows gross pay of \\$960.00. The deductions are CPP \\$48.00, EI \\$16.00, income tax \\$96.00 and union dues \\$12.00. What is the net pay?",
+        "choices": [
+          "\\$788.00",
+          "\\$864.00",
+          "\\$172.00",
+          "\\$1,132.00"
+        ],
+        "answer": 0,
+        "working": "Total deductions: $48 + 16 + 96 + 12 = 172$. Net pay: $960.00 - 172.00 = 788.00$. B takes off only the income tax, and C is the total deductions."
+      }
+    ]
+  },
+  "m204-3-3-b": {
+    "lessonId": "m204-3-3",
+    "title": "Deductions and Net Pay, Part 2: Deductions from Percents",
+    "duration": 219,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Percent deductions",
+        "t": 16.618
+      },
+      {
+        "title": "Three percent deductions",
+        "t": 38.951
+      },
+      {
+        "title": "Net pay",
+        "t": 94.113
+      },
+      {
+        "title": "Your turn",
+        "t": 142.659
+      },
+      {
+        "title": "Summary",
+        "t": 195.274
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-3-b:q",
+        "t": 159.096,
+        "prompt": "Gross pay is \\$850.00. Suppose $5\\%$ is taken for CPP, $2\\%$ for EI and $10\\%$ for income tax. What is the net pay?",
+        "choices": [
+          "\\$705.50",
+          "\\$144.50",
+          "\\$833.00",
+          "\\$994.50"
+        ],
+        "answer": 0,
+        "working": "CPP: $42.50$. EI: $17.00$. Income tax: $85.00$. Total: $144.50$. Net pay: $850.00 - 144.50 = 705.50$. B is the total deductions, C takes off only EI, and D adds the deductions."
+      }
+    ]
+  },
+  "m204-3-3-c": {
+    "lessonId": "m204-3-3",
+    "title": "Deductions and Net Pay, Part 3: From Hours to Net Pay",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gross pay and deductions",
+        "t": 16.021
+      },
+      {
+        "title": "Net pay",
+        "t": 66.721
+      },
+      {
+        "title": "Gross pay first",
+        "t": 102.744
+      },
+      {
+        "title": "Your turn",
+        "t": 119.535
+      },
+      {
+        "title": "Summary",
+        "t": 174.248
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-3-c:q",
+        "t": 139.063,
+        "prompt": "Sam works $30$ hours at \\$18.00 per hour. Suppose $5\\%$ is taken for CPP, $2\\%$ for EI and $10\\%$ for income tax, and union dues are \\$10.00. What is the net pay?",
+        "choices": [
+          "\\$438.20",
+          "\\$448.20",
+          "\\$101.80",
+          "\\$14.94"
+        ],
+        "answer": 0,
+        "working": "Gross pay: $30 \\times 18.00 = 540.00$. Deductions: $27.00 + 10.80 + 54.00 + 10.00 = 101.80$. Net pay: $540.00 - 101.80 = 438.20$. B forgets the union dues, C is the total deductions, and D takes the percents off the hourly wage."
+      }
+    ]
+  },
+  "m204-4-1": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 1: Income and Expenses",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Budget, income and expenses",
+        "t": 21.62
+      },
+      {
+        "title": "Money left over",
+        "t": 57.965
+      },
+      {
+        "title": "Take-home pay",
+        "t": 101.129
+      },
+      {
+        "title": "Your turn",
+        "t": 122.705
+      },
+      {
+        "title": "Summary",
+        "t": 170.15
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1:q",
+        "t": 143.98,
+        "prompt": "Tomas takes home \\$1,850 a month. His expenses are rent \\$820, phone \\$60, bus pass \\$110, groceries \\$350 and entertainment \\$90. How much is left over each month?",
+        "choices": [
+          "\\$420",
+          "\\$1,430",
+          "\\$510",
+          "\\$3,280"
+        ],
+        "answer": 0,
+        "working": "Expenses: $820 + 60 + 110 + 350 + 90 = 1{,}430$. Left over: $1{,}850 - 1{,}430 = 420$. B is the total expenses, and C forgets the entertainment."
+      }
+    ]
+  },
+  "m204-4-1-b": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 2: Fixed and Variable Expenses",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fixed and variable",
+        "t": 18.876
+      },
+      {
+        "title": "Sorting a budget",
+        "t": 48.838
+      },
+      {
+        "title": "Track your spending",
+        "t": 123.797
+      },
+      {
+        "title": "Your turn",
+        "t": 140.831
+      },
+      {
+        "title": "Summary",
+        "t": 173.532
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1-b:q",
+        "t": 147.615,
+        "prompt": "Which list has only **variable** expenses?",
+        "choices": [
+          "groceries, gas for a car, eating out",
+          "rent, groceries, clothing",
+          "phone plan, bus pass, car insurance",
+          "rent, gas for a car, phone plan"
+        ],
+        "answer": 0,
+        "working": "Groceries, gas and eating out change from month to month. Rent, a phone plan, a bus pass and car insurance are fixed. C is a list of fixed expenses only."
+      }
+    ]
+  },
+  "m204-4-1-c": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 3: Budgets as Percents",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading a circle graph",
+        "t": 20.871
+      },
+      {
+        "title": "Percent of income",
+        "t": 77.842
+      },
+      {
+        "title": "Your turn",
+        "t": 127.072
+      },
+      {
+        "title": "Summary",
+        "t": 167.414
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1-c:q",
+        "t": 140.26,
+        "prompt": "Lena takes home \\$2,500 a month and pays \\$900 for rent. What percent of the take-home pay goes to rent?",
+        "choices": [
+          "$36\\%$",
+          "$277.8\\%$",
+          "$0.36\\%$",
+          "$64\\%$"
+        ],
+        "answer": 0,
+        "working": "$900 \\div 2{,}500 \\times 100 = 36\\%$. B divides the wrong way, C forgets to multiply by $100$, and D is the percent that is left."
+      }
+    ]
+  },
+  "m204-4-1-d": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 4: Saving for a Goal",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Save each month",
+        "t": 20.424
+      },
+      {
+        "title": "Costs that do not come every month",
+        "t": 67.747
+      },
+      {
+        "title": "Pay yourself first",
+        "t": 96.119
+      },
+      {
+        "title": "Your turn",
+        "t": 112.816
+      },
+      {
+        "title": "Summary",
+        "t": 156.158
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1-d:q",
+        "t": 129.194,
+        "prompt": "Kiara wants \\$1,200 for a damage deposit in $8$ months. Right now Kiara has \\$90 left over each month. How much less must Kiara spend each month?",
+        "choices": [
+          "\\$60",
+          "\\$150",
+          "\\$90",
+          "\\$1,110"
+        ],
+        "answer": 0,
+        "working": "Save each month: $1{,}200 \\div 8 = 150$. Short by $150 - 90 = 60$. B is the monthly savings, and D subtracts the \\$90 from the whole goal."
+      }
+    ]
+  },
+  "m204-4-2": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 1: What Is Interest?",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Principal, interest and rate",
+        "t": 19.021
+      },
+      {
+        "title": "One year of interest",
+        "t": 45.216
+      },
+      {
+        "title": "Year after year",
+        "t": 79.254
+      },
+      {
+        "title": "Your turn",
+        "t": 118.129
+      },
+      {
+        "title": "Summary",
+        "t": 161.686
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2:q",
+        "t": 132.459,
+        "prompt": "Felix puts \\$1,500 in a savings account that pays $4\\%$ per year simple interest. How much interest does it earn in $2$ years?",
+        "choices": [
+          "\\$120",
+          "\\$60",
+          "\\$1,620",
+          "\\$12,000"
+        ],
+        "answer": 0,
+        "working": "One year: $1{,}500 \\times 0.04 = 60$. Two years: $60 \\times 2 = 120$. B is one year only, C is the total in the account, and D uses $4$ instead of $0.04$."
+      }
+    ]
+  },
+  "m204-4-2-b": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 2: The Formula I = Prt",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The simple interest formula",
+        "t": 16.794
+      },
+      {
+        "title": "A loan for tools",
+        "t": 46.892
+      },
+      {
+        "title": "Change the percent",
+        "t": 103.98
+      },
+      {
+        "title": "Your turn",
+        "t": 138.245
+      },
+      {
+        "title": "Summary",
+        "t": 178.588
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2-b:q",
+        "t": 151.612,
+        "prompt": "A loan of \\$1,800 charges $5\\%$ per year simple interest. How much interest is charged in $4$ years?",
+        "choices": [
+          "\\$360",
+          "\\$90",
+          "\\$36,000",
+          "\\$2,160"
+        ],
+        "answer": 0,
+        "working": "$I = 1{,}800 \\times 0.05 \\times 4 = 360$. B is one year only, C uses $r = 5$, and D is the principal plus the interest."
+      }
+    ]
+  },
+  "m204-4-2-c": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 3: Months and the Total Amount",
+    "duration": 208,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Months and the total",
+        "t": 19.214
+      },
+      {
+        "title": "A car loan for 18 months",
+        "t": 40.499
+      },
+      {
+        "title": "Savings for 8 months",
+        "t": 93.826
+      },
+      {
+        "title": "Your turn",
+        "t": 143.525
+      },
+      {
+        "title": "Summary",
+        "t": 188.63
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2-c:q",
+        "t": 156.43,
+        "prompt": "A loan of \\$2,400 is for $9$ months at $6\\%$ per year simple interest. What is the total to pay back?",
+        "choices": [
+          "\\$2,508",
+          "\\$108",
+          "\\$3,696",
+          "\\$2,544"
+        ],
+        "answer": 0,
+        "working": "$t = 9 \\div 12 = 0.75$. $I = 2{,}400 \\times 0.06 \\times 0.75 = 108$. $A = 2{,}400 + 108 = 2{,}508$. B is the interest only, C uses $t = 9$, and D uses a whole year."
+      }
+    ]
+  },
+  "m204-4-2-d": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 4: Finding the Rate or the Time",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Work backwards",
+        "t": 19.833
+      },
+      {
+        "title": "Finding the rate",
+        "t": 35.782
+      },
+      {
+        "title": "Finding the time",
+        "t": 85.942
+      },
+      {
+        "title": "Your turn",
+        "t": 133.251
+      },
+      {
+        "title": "Summary",
+        "t": 174.261
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2-d:q",
+        "t": 147.222,
+        "prompt": "A loan of \\$1,200 at $4\\%$ per year simple interest cost \\$72 in interest. How many months was the loan?",
+        "choices": [
+          "$18$ months",
+          "$1.5$ months",
+          "$15$ months",
+          "$12$ months"
+        ],
+        "answer": 0,
+        "working": "$72 = 1{,}200 \\times 0.04 \\times t = 48t$, so $t = 72 \\div 48 = 1.5$ years, which is $1.5 \\times 12 = 18$ months. B forgets to change years to months."
+      }
+    ]
+  },
+  "m204-4-3": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 1: How a Credit Card Bill Works",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Credit and balances",
+        "t": 22.308
+      },
+      {
+        "title": "Reading a statement",
+        "t": 55.021
+      },
+      {
+        "title": "Interest for one month",
+        "t": 98.4
+      },
+      {
+        "title": "Your turn",
+        "t": 124.592
+      },
+      {
+        "title": "Summary",
+        "t": 169.481
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3:q",
+        "t": 139.937,
+        "prompt": "An unpaid balance is \\$650. The card charges $1.5\\%$ per month on the unpaid balance. How much interest is charged this month?",
+        "choices": [
+          "\\$9.75",
+          "\\$97.50",
+          "\\$975.00",
+          "\\$659.75"
+        ],
+        "answer": 0,
+        "working": "$1.5\\% = 0.015$, and $650 \\times 0.015 = 9.75$. B uses $0.15$, C uses $1.5$, and D is the new balance."
+      }
+    ]
+  },
+  "m204-4-3-b": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 2: Yearly Rates and Monthly Interest",
+    "duration": 195,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One month from a yearly rate",
+        "t": 20.45
+      },
+      {
+        "title": "Divide by 12",
+        "t": 73.673
+      },
+      {
+        "title": "The minimum payment trap",
+        "t": 94.239
+      },
+      {
+        "title": "Your turn",
+        "t": 134.172
+      },
+      {
+        "title": "Summary",
+        "t": 171.467
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3-b:q",
+        "t": 147.105,
+        "prompt": "An unpaid balance is \\$2,400. The card charges $18\\%$ per year. What is the interest for one month?",
+        "choices": [
+          "\\$36.00",
+          "\\$432.00",
+          "\\$133.33",
+          "\\$2,436.00"
+        ],
+        "answer": 0,
+        "working": "$2{,}400 \\times 0.18 \\div 12 = 36.00$. B is the interest for a whole year, and D is the new balance."
+      }
+    ]
+  },
+  "m204-4-3-c": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 3: The Cost of a Loan",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Cost of borrowing",
+        "t": 16.791
+      },
+      {
+        "title": "A loan for a used car",
+        "t": 41.012
+      },
+      {
+        "title": "Longer loans cost more",
+        "t": 97.609
+      },
+      {
+        "title": "Your turn",
+        "t": 133.058
+      },
+      {
+        "title": "Summary",
+        "t": 176.176
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3-c:q",
+        "t": 147.294,
+        "prompt": "Ivy borrows \\$6,000 and pays it back with $36$ monthly payments of \\$189.50. What is the cost of borrowing?",
+        "choices": [
+          "\\$822",
+          "\\$6,822",
+          "\\$189.50",
+          "\\$6,189.50"
+        ],
+        "answer": 0,
+        "working": "Total paid: $189.50 \\times 36 = 6{,}822$. Cost of borrowing: $6{,}822 - 6{,}000 = 822$. B is the total paid."
+      }
+    ]
+  },
+  "m204-4-3-d": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 4: Why Paying the Full Balance Matters",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three ways to pay",
+        "t": 18.292
+      },
+      {
+        "title": "Interest next month",
+        "t": 75.447
+      },
+      {
+        "title": "Your turn",
+        "t": 111.632
+      },
+      {
+        "title": "Summary",
+        "t": 159.554
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3-d:q",
+        "t": 128.834,
+        "prompt": "A statement balance is \\$1,200. The card charges $2\\%$ per month on the unpaid balance. If you pay \\$400, how much interest is charged next month?",
+        "choices": [
+          "\\$16.00",
+          "\\$24.00",
+          "\\$8.00",
+          "\\$0.00"
+        ],
+        "answer": 0,
+        "working": "Unpaid: $1{,}200 - 400 = 800$. Interest: $800 \\times 0.02 = 16.00$. B uses the whole balance, and C uses the amount paid."
+      }
+    ]
+  },
+  "m204-4-4": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 1: The Monthly Cost of a Vehicle",
+    "duration": 187,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "More than the payment",
+        "t": 18.761
+      },
+      {
+        "title": "The real cost of a car",
+        "t": 52.289
+      },
+      {
+        "title": "Every cost, every month",
+        "t": 95.494
+      },
+      {
+        "title": "Your turn",
+        "t": 115.538
+      },
+      {
+        "title": "Summary",
+        "t": 166.351
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4:q",
+        "t": 134.814,
+        "prompt": "A car payment is \\$310 a month. Insurance is \\$1,920 a year, gas is \\$140 a month and maintenance is \\$45 a month. What is the total monthly cost?",
+        "choices": [
+          "\\$655",
+          "\\$495",
+          "\\$2,415",
+          "\\$310"
+        ],
+        "answer": 0,
+        "working": "Insurance: $1{,}920 \\div 12 = 160$. Total: $310 + 160 + 140 + 45 = 655$. B forgets the insurance, C adds the yearly insurance, and D is only the payment."
+      }
+    ]
   }
 }
