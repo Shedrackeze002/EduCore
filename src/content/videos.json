@@ -26157,5 +26157,99 @@
         "working": "Perimeter: $10 + 7 + 10 + 7 = 34$ m. Cost: $34 \\times 12.50 = 425.00$. B uses the area, $70$ m², C uses only two sides, and D is the perimeter, not the cost."
       }
     ]
+  },
+  "m204-7-2": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 1: Area of a Rectangle",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square units",
+        "t": 18.421
+      },
+      {
+        "title": "A = l × w",
+        "t": 53.471
+      },
+      {
+        "title": "Area or perimeter?",
+        "t": 89.108
+      },
+      {
+        "title": "Your turn",
+        "t": 115.894
+      },
+      {
+        "title": "Summary",
+        "t": 146.671
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2:q",
+        "t": 126.436,
+        "prompt": "A rectangular lawn is $5.5$ m long and $4$ m wide. What is its area?",
+        "choices": [
+          "$22$ m²",
+          "$19$ m",
+          "$9.5$ m²",
+          "$44$ m²"
+        ],
+        "answer": 0,
+        "working": "$A = 5.5 \\times 4 = 22$ m². B is the perimeter, and C adds the length and width."
+      }
+    ]
+  },
+  "m204-7-2-b": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 2: Area of a Triangle",
+    "duration": 158,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Base and height",
+        "t": 16.368
+      },
+      {
+        "title": "Half of a rectangle",
+        "t": 48.861
+      },
+      {
+        "title": "A triangular flower bed",
+        "t": 72.81
+      },
+      {
+        "title": "Your turn",
+        "t": 105.324
+      },
+      {
+        "title": "Summary",
+        "t": 136.26
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2-b:q",
+        "t": 115.609,
+        "prompt": "A triangular sail has a base of $8$ m and a height of $5$ m. What is its area?",
+        "choices": [
+          "$20$ m²",
+          "$40$ m²",
+          "$13$ m²",
+          "$6.5$ m²"
+        ],
+        "answer": 0,
+        "working": "$A = 8 \\times 5 \\div 2 = 40 \\div 2 = 20$ m². B forgets to divide by $2$, and C adds the base and height."
+      }
+    ]
   }
 }
