@@ -291,13 +291,13 @@ items ship or decisions change.
    has no social pages yet. Open them, then post three times a week across all of them, with
    Claude coordinating: preparing each week's posts, keeping the schedule and reporting. It runs
    alongside the explainer videos, which render in the background.
-   - Pages (to confirm with the owner): Instagram, TikTok, Facebook, LinkedIn and YouTube Shorts on
-     the YouTube channel, all with the same handle (`@gradileo`, or `@gradileomath` if taken). The
+   - Pages (the owner's choice, 16 October 2026): Facebook, Instagram, LinkedIn and TikTok, with
+     the same handle on each where it is free (`@gradileo`, or `@gradileomath` if taken). The
      audience is high-school students (the platforms are for ages 13 and up), parents and
      teachers; posts about the Grade 5 to 9 courses speak to parents and teachers, not to children.
-   - The owner opens the accounts (sign-up needs a person, a phone and acceptance of each
-     platform's terms), with admin@gradileo.com as the email and two-step sign-in on. Claude never
-     handles the passwords.
+   - The owner opens the accounts this weekend (sign-up needs a person, a phone and acceptance of
+     each platform's terms), with admin@gradileo.com as the email and two-step sign-in on, and
+     shares the links. Claude never handles the passwords.
    - Profile kit, by Claude: profile picture (`video/out/channel/profile-800x800.png`), a cover
      or banner in each platform's size, a bio within each platform's limit, and the link to
      gradileo.com, in Drive under `Gradileo social/`.
@@ -306,11 +306,27 @@ items ship or decisions change.
      comments), a worked example or study tip as an image or carousel, and news about Gradileo
      for students, parents and teachers. Each post links to the full video or lesson. Show the
      owner a sample week before the first one goes out.
-   - Scheduling (to settle with the owner): each platform's own free scheduler (Meta Business
-     Suite for Facebook and Instagram, TikTok's web scheduler, YouTube Studio, LinkedIn), or one
-     tool for all of them such as Buffer. Each week Claude puts the next week's posts in Drive
-     (media, caption for each platform and posting time) for scheduling; where a tool can be
-     connected to Claude, Claude schedules them directly. A weekly scheduled task keeps it going.
+   - Posting by API (the owner would like it automated; checked 16 October 2026, to confirm in
+     each developer site):
+     - Facebook and Instagram: one Meta developer app. Its own admins' Page and Instagram
+       professional account (Business or Creator, linked to the Page) can post through the Graph
+       API without App Review, since the app only acts on our accounts. Facebook can schedule a
+       post 10 minutes to 30 days ahead; Instagram allows 100 posts a day. Feasible now.
+     - TikTok: the Content Posting API works at once, but an app that has not passed TikTok's audit
+       can only post privately. The audit asks for a demo video, the privacy policy and the
+       verified domain (gradileo.com has both), a few weeks. Until then the API can put each video
+       in the account's drafts, and the owner taps Post in the app.
+     - LinkedIn: posting as a company page needs the Community Management API, which LinkedIn
+       grants after reviewing the app, and only for a verified company page.
+     - Simplest overall: a scheduling service with apps already approved (Buffer and others post
+       to all four), at a monthly cost. Otherwise our own scheduled task posts to Facebook and
+       Instagram from the start, TikTok goes to drafts until the audit, and LinkedIn waits for its
+       review.
+     - Keys: the access tokens go in the environment's secrets (never in chat or the repository);
+       Claude names them only.
+   - Each week Claude prepares the next week's posts (media, a caption for each platform and the
+     posting time) in Drive, and posts or schedules them where an API or tool allows. A weekly
+     scheduled task keeps it going.
 3. **Join a class by link, with just a name** (the owner's decision, 15 October 2026: collect as
    little as possible, and adjust later if needed). The teacher shares the class link; a student
    opens it and types a first and last name, nothing else: no email, username or password.
