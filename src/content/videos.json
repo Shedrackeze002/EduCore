@@ -22889,7 +22889,7 @@
   "m204-1-4": {
     "lessonId": "m204-1-4",
     "title": "Percent Problems, Part 1: Percent of a Number",
-    "duration": 183,
+    "duration": 184,
     "voice": "af_heart",
     "chapters": [
       {
@@ -23004,25 +23004,25 @@
       },
       {
         "title": "Dividing by the new amount",
-        "t": 76.827
+        "t": 76.851
       },
       {
         "title": "A percent decrease",
-        "t": 93.946
+        "t": 93.97
       },
       {
         "title": "Your turn",
-        "t": 128.064
+        "t": 128.088
       },
       {
         "title": "Summary",
-        "t": 161.679
+        "t": 161.703
       }
     ],
     "cues": [
       {
         "id": "m204-1-4-c:q",
-        "t": 139.151,
+        "t": 139.175,
         "prompt": "The price of gas drops from \\$1.50 to \\$1.20 per litre. What is the percent decrease?",
         "choices": [
           "$20\\%$",
