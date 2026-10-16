@@ -21402,5 +21402,205 @@
         "working": "$600 \\times 0.1899 \\div 365 \\times 31 \\approx 9.68$. B uses $18.99$ instead of $0.1899$, and C is the interest for a whole year."
       }
     ]
+  },
+  "m203-7-3-b": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 2: The New Balance and the Minimum Payment",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The minimum payment",
+        "t": 16.645
+      },
+      {
+        "title": "Next month’s statement",
+        "t": 29.407
+      },
+      {
+        "title": "Step by step",
+        "t": 63.127
+      },
+      {
+        "title": "Cash advances",
+        "t": 116.609
+      },
+      {
+        "title": "Your turn",
+        "t": 135.095
+      },
+      {
+        "title": "Summary",
+        "t": 185.904
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-b:q",
+        "t": 157.505,
+        "prompt": "A statement balance is \\$900.00, and \\$300.00 is paid. Interest is charged on the unpaid amount at $19.99\\%$ per year for $30$ days, and there are \\$75.50 in new purchases. What is the new balance?",
+        "choices": [
+          "\\$685.36",
+          "\\$690.29",
+          "\\$609.86",
+          "\\$990.29"
+        ],
+        "answer": 0,
+        "working": "Unpaid: $900 - 300 = 600$. Interest: $600 \\times 0.1999 \\div 365 \\times 30 \\approx 9.86$. New balance: $600 + 9.86 + 75.50 = 685.36$. B charges interest on the whole \\$900, and C leaves out the new purchases."
+      }
+    ]
+  },
+  "m203-7-3-c": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 3: The Cost of Carrying a Balance",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Interest on interest",
+        "t": 16.013
+      },
+      {
+        "title": "Two months on the card",
+        "t": 32.065
+      },
+      {
+        "title": "Choosing a card",
+        "t": 99.457
+      },
+      {
+        "title": "Your turn",
+        "t": 157.431
+      },
+      {
+        "title": "Summary",
+        "t": 208.31
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-c:q",
+        "t": 179.471,
+        "prompt": "You expect to carry an average balance of \\$1,000 for a year. Card A charges $21.99\\%$ with no fee. Card B charges $11.99\\%$ with a \\$79 annual fee. Which costs less, and by how much?",
+        "choices": [
+          "Card B, by \\$21.00",
+          "Card A, by \\$21.00",
+          "Card B, by \\$100.00",
+          "Card A, by \\$79.00"
+        ],
+        "answer": 0,
+        "working": "Card A: $1{,}000 \\times 0.2199 = 219.90$. Card B: $1{,}000 \\times 0.1199 + 79 = 198.90$. Card B costs \\$21.00 less. C forgets the fee."
+      }
+    ]
+  },
+  "m203-7-3-d": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 4: The Cost of a Loan",
+    "duration": 195,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Loans and terms",
+        "t": 15.666
+      },
+      {
+        "title": "A truck loan",
+        "t": 35.302
+      },
+      {
+        "title": "Mixing months and years",
+        "t": 80.176
+      },
+      {
+        "title": "As a percent",
+        "t": 100.541
+      },
+      {
+        "title": "Your turn",
+        "t": 125.791
+      },
+      {
+        "title": "Summary",
+        "t": 170.731
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-d:q",
+        "t": 139.501,
+        "prompt": "A car loan of \\$15,000 has payments of \\$295.50 a month for $5$ years. What is the finance charge?",
+        "choices": [
+          "\\$2,730.00",
+          "\\$17,730.00",
+          "\\$1,477.50",
+          "\\$3,546.00"
+        ],
+        "answer": 0,
+        "working": "$5 \\times 12 = 60$ payments, and $295.50 \\times 60 = 17{,}730.00$. Finance charge: $17{,}730.00 - 15{,}000 = 2{,}730.00$. B is the total paid."
+      }
+    ]
+  },
+  "m203-7-3-e": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 5: Comparing Credit Options",
+    "duration": 233,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Dealer or bank?",
+        "t": 16.681
+      },
+      {
+        "title": "Rent-to-own",
+        "t": 72.319
+      },
+      {
+        "title": "A rent-to-own TV",
+        "t": 88.998
+      },
+      {
+        "title": "Saving up instead",
+        "t": 135.676
+      },
+      {
+        "title": "Your turn",
+        "t": 161.699
+      },
+      {
+        "title": "Summary",
+        "t": 208.693
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-e:q",
+        "t": 177.901,
+        "prompt": "A laptop has a cash price of \\$649.99, or $52$ weekly rent-to-own payments of \\$21.99. What is the finance charge?",
+        "choices": [
+          "\\$493.49",
+          "\\$1,143.48",
+          "\\$1,793.47",
+          "\\$405.53"
+        ],
+        "answer": 0,
+        "working": "$21.99 \\times 52 = 1{,}143.48$, and $1{,}143.48 - 649.99 = 493.49$. B is the total of the payments, and C adds the cash price instead of subtracting it."
+      }
+    ]
   }
 }
