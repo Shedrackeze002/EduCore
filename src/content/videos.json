@@ -24762,5 +24762,99 @@
         "working": "Insurance: $1{,}920 \\div 12 = 160$. Total: $310 + 160 + 140 + 45 = 655$. B forgets the insurance, C adds the yearly insurance, and D is only the payment."
       }
     ]
+  },
+  "m204-4-4-b": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 2: Fuel Costs",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fuel economy",
+        "t": 16.492
+      },
+      {
+        "title": "Gas for one month",
+        "t": 44.503
+      },
+      {
+        "title": "A car or a pickup truck?",
+        "t": 96.351
+      },
+      {
+        "title": "Your turn",
+        "t": 140.743
+      },
+      {
+        "title": "Summary",
+        "t": 183.372
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4-b:q",
+        "t": 157.57,
+        "prompt": "A car uses $7.5$ L/100 km and drives $1200$ km a month. Gas costs \\$1.60 per litre. What is the monthly gas cost?",
+        "choices": [
+          "\\$144.00",
+          "\\$14,400.00",
+          "\\$90.00",
+          "\\$12.00"
+        ],
+        "answer": 0,
+        "working": "Litres: $1200 \\div 100 \\times 7.5 = 12 \\times 7.5 = 90$ L. Cost: $90 \\times 1.60 = 144.00$. B forgets to divide by $100$, and C is the litres, not the dollars."
+      }
+    ]
+  },
+  "m204-4-4-c": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 3: Renting a Home",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rent and other costs",
+        "t": 17.02
+      },
+      {
+        "title": "Sharing a place",
+        "t": 54.601
+      },
+      {
+        "title": "Move-in costs",
+        "t": 104.69
+      },
+      {
+        "title": "Your turn",
+        "t": 126.797
+      },
+      {
+        "title": "Summary",
+        "t": 169.407
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4-c:q",
+        "t": 145.83,
+        "prompt": "Three roommates share an apartment. Rent is \\$1,350, utilities are \\$180 and internet is \\$60 a month. They split the costs equally. What does each person pay?",
+        "choices": [
+          "\\$530",
+          "\\$1,590",
+          "\\$795",
+          "\\$450"
+        ],
+        "answer": 0,
+        "working": "Total: $1{,}350 + 180 + 60 = 1{,}590$. Each: $1{,}590 \\div 3 = 530$. B is the total, C splits it two ways, and D shares only the rent."
+      }
+    ]
   }
 }
