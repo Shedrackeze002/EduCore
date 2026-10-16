@@ -79,7 +79,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Percent means out of 100.', 'Percent of a number: change to a decimal, then multiply.', '10%: move the decimal point; 5% is half of that.'] }],
       lines: [
-        { say: 'Let’s sum up. Percent means out of 100.', show: 'sum.0' },
+        { say: 'Let’s sum up. Percent means per hundred, or out of a hundred.', show: 'sum.0' },
         { say: 'To find a percent of a number, change the percent to a decimal, then multiply.', show: 'sum.1' },
         { say: 'And to find ten percent in your head, move the decimal point one place left; five percent is half of that. In part two, we find what percent one number is of another. See you there!', show: 'sum.2' },
       ],

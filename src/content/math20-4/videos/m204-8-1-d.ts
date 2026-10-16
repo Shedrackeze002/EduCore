@@ -76,7 +76,7 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Find a scale: same units, then real ÷ drawing.', 'Real area: scale the length and width first.', 'Then multiply them.'] }],
       lines: [
-        { say: 'Let’s sum up. To find a scale, put both lengths in the same unit, then divide the real length by the drawing length.', show: 'sum.0' },
+        { say: 'Let’s sum up. To find a scale, put the two lengths in the same unit, then divide the real length by the drawing length.', show: 'sum.0' },
         { say: 'To find a real area, scale the length and the width first.', show: 'sum.1' },
         { say: 'Then multiply them. Practise these skills in your lesson. See you next time!', show: 'sum.2' },
       ],

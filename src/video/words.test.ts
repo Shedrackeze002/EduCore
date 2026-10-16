@@ -44,6 +44,8 @@ describe('speechText', () => {
     expect(speechText('Paid biweekly, Mei gets 26 cheques. Biweekly pay.')).toBe('Paid bi-weekly, Mei gets 26 cheques. Bi-weekly pay.');
     expect(speechText('Deci means one tenth, and decimal is a word.')).toBe('Dessy means one tenth, and decimal is a word.');
     expect(speechText('The break-even point. Break-even prices.')).toBe('The break even point. Break even prices.');
+    expect(speechText('The GST is 5%. Add GST and HST, not GSTR.')).toBe('The G S T is 5%. Add G S T and H S T, not GSTR.');
+    expect(speechText('EI: 0.02 times 960. CPP, EI and tax, not EIS.')).toBe('E I: 0.02 times 960. CPP, E I and tax, not EIS.');
     expect(speechText('An eight-by-twelve print and a two-by-four.')).toBe('An eight by twelve print and a two by four.');
   });
 });

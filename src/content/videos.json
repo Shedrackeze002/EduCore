@@ -22296,5 +22296,5398 @@
         "working": "Leave a multiple of $4$: $15 - 3 = 12$. Taking $1$ leaves $14$, and taking $2$ leaves $13$, neither a multiple of $4$."
       }
     ]
+  },
+  "m204-1-1": {
+    "lessonId": "m204-1-1",
+    "title": "Integers and the Order of Operations, Part 1: Working with Integers",
+    "duration": 240,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Integers",
+        "t": 21.739
+      },
+      {
+        "title": "A cold morning",
+        "t": 45.235
+      },
+      {
+        "title": "Subtracting a negative",
+        "t": 83.094
+      },
+      {
+        "title": "Multiplying and dividing",
+        "t": 107.748
+      },
+      {
+        "title": "A cold front",
+        "t": 136.918
+      },
+      {
+        "title": "Your turn",
+        "t": 181.061
+      },
+      {
+        "title": "Summary",
+        "t": 212.25
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-1:q",
+        "t": 190.75,
+        "prompt": "The temperature drops $2$ degrees every hour for $6$ hours. What is the total change?",
+        "choices": [
+          "$-12$ degrees",
+          "$12$ degrees",
+          "$-8$ degrees",
+          "$4$ degrees"
+        ],
+        "answer": 0,
+        "working": "A drop of $2$ is $-2$, and $6 \\times (-2) = -12$. B forgets that a drop is negative."
+      }
+    ]
+  },
+  "m204-1-1-b": {
+    "lessonId": "m204-1-1",
+    "title": "Integers and the Order of Operations, Part 2: The Order of Operations",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "BEDMAS",
+        "t": 19.421
+      },
+      {
+        "title": "Multiply before you add",
+        "t": 48.405
+      },
+      {
+        "title": "Going left to right",
+        "t": 72.995
+      },
+      {
+        "title": "Brackets first",
+        "t": 89.283
+      },
+      {
+        "title": "Left to right",
+        "t": 112.524
+      },
+      {
+        "title": "An exponent",
+        "t": 145.123
+      },
+      {
+        "title": "Your turn",
+        "t": 169.945
+      },
+      {
+        "title": "Summary",
+        "t": 199.65
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-1-b:q",
+        "t": 177.839,
+        "prompt": "Calculate $6 + (-12) \\div 3$.",
+        "choices": [
+          "$2$",
+          "$-2$",
+          "$-6$",
+          "$10$"
+        ],
+        "answer": 0,
+        "working": "Divide first: $(-12) \\div 3 = -4$. Then add: $6 + (-4) = 2$. B adds first, working left to right."
+      }
+    ]
+  },
+  "m204-1-1-c": {
+    "lessonId": "m204-1-1",
+    "title": "Integers and the Order of Operations, Part 3: Integers at Work and at Home",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The mean",
+        "t": 15.603
+      },
+      {
+        "title": "Mean overnight low",
+        "t": 30.766
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 68.049
+      },
+      {
+        "title": "Paying back a loan",
+        "t": 93.177
+      },
+      {
+        "title": "Your turn",
+        "t": 137.107
+      },
+      {
+        "title": "Summary",
+        "t": 172.034
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-1-c:q",
+        "t": 150.348,
+        "prompt": "The overnight lows for four nights were $-4$, $-9$, $3$ and $-6$ degrees. What is the mean low?",
+        "choices": [
+          "$-4$ degrees",
+          "$4$ degrees",
+          "$-5.5$ degrees",
+          "$-16$ degrees"
+        ],
+        "answer": 0,
+        "working": "Total: $-4 + (-9) + 3 + (-6) = -16$. Mean: $-16 \\div 4 = -4$. C treats the $3$ as $-3$, and D forgets to divide."
+      }
+    ]
+  },
+  "m204-1-2": {
+    "lessonId": "m204-1-2",
+    "title": "Fractions and Mixed Numbers, Part 1: Mixed Numbers and Improper Fractions",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two kinds of fractions",
+        "t": 18.487
+      },
+      {
+        "title": "The same amount",
+        "t": 38.376
+      },
+      {
+        "title": "Mixed to improper",
+        "t": 65.723
+      },
+      {
+        "title": "Improper to mixed",
+        "t": 98.356
+      },
+      {
+        "title": "Adding instead of multiplying",
+        "t": 117.79
+      },
+      {
+        "title": "Your turn",
+        "t": 136.569
+      },
+      {
+        "title": "Summary",
+        "t": 165.696
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-2:q",
+        "t": 143.881,
+        "prompt": "Write $3\\tfrac58$ as an improper fraction.",
+        "choices": [
+          "$\\dfrac{29}{8}$",
+          "$\\dfrac88$",
+          "$\\dfrac{24}{8}$",
+          "$\\dfrac{23}{8}$"
+        ],
+        "answer": 0,
+        "working": "$3 \\times 8 = 24$, and $24 + 5 = 29$, so $3\\tfrac58 = \\tfrac{29}{8}$. B adds $3$ and $5$, and C forgets to add the $5$."
+      }
+    ]
+  },
+  "m204-1-2-b": {
+    "lessonId": "m204-1-2",
+    "title": "Fractions and Mixed Numbers, Part 2: Adding and Subtracting",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Same denominators",
+        "t": 18.254
+      },
+      {
+        "title": "A common denominator",
+        "t": 48.545
+      },
+      {
+        "title": "Cutting a board",
+        "t": 76.07
+      },
+      {
+        "title": "Check with an estimate",
+        "t": 121.157
+      },
+      {
+        "title": "Your turn",
+        "t": 134.215
+      },
+      {
+        "title": "Summary",
+        "t": 169.779
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-2-b:q",
+        "t": 144.971,
+        "prompt": "A pipe is $4\\tfrac38$ feet long. You cut off $1\\tfrac34$ feet. How much is left?",
+        "choices": [
+          "$2\\tfrac58$ feet",
+          "$3\\tfrac38$ feet",
+          "$6\\tfrac18$ feet",
+          "$2\\tfrac38$ feet"
+        ],
+        "answer": 0,
+        "working": "$4\\tfrac38 = \\tfrac{35}{8}$ and $1\\tfrac34 = \\tfrac{14}{8}$, so $\\tfrac{35}{8} - \\tfrac{14}{8} = \\tfrac{21}{8} = 2\\tfrac58$. C adds instead of subtracting."
+      }
+    ]
+  },
+  "m204-1-2-c": {
+    "lessonId": "m204-1-2",
+    "title": "Fractions and Mixed Numbers, Part 3: Multiplying",
+    "duration": 186,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three steps",
+        "t": 15.518
+      },
+      {
+        "title": "Doubling a recipe",
+        "t": 40.419
+      },
+      {
+        "title": "Part of a shift",
+        "t": 71.678
+      },
+      {
+        "title": "Multiplying the parts separately",
+        "t": 112.86
+      },
+      {
+        "title": "Your turn",
+        "t": 134.305
+      },
+      {
+        "title": "Summary",
+        "t": 164.894
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-2-c:q",
+        "t": 144.172,
+        "prompt": "A recipe uses $1\\tfrac13$ cups of sugar. How much sugar do $3$ batches need?",
+        "choices": [
+          "$4$ cups",
+          "$3\\tfrac13$ cups",
+          "$\\tfrac49$ cup",
+          "$4\\tfrac13$ cups"
+        ],
+        "answer": 0,
+        "working": "$1\\tfrac13 = \\tfrac43$, and $3 \\times \\tfrac43 = \\tfrac{12}{3} = 4$. B multiplies only the whole number."
+      }
+    ]
+  },
+  "m204-1-2-d": {
+    "lessonId": "m204-1-2",
+    "title": "Fractions and Mixed Numbers, Part 4: Two-Step Problems",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Cutting shelves",
+        "t": 18.835
+      },
+      {
+        "title": "Check with an estimate",
+        "t": 57.336
+      },
+      {
+        "title": "Milk for three batches",
+        "t": 72.299
+      },
+      {
+        "title": "Reading the words",
+        "t": 114.698
+      },
+      {
+        "title": "Your turn",
+        "t": 134.438
+      },
+      {
+        "title": "Summary",
+        "t": 169.497
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-2-d:q",
+        "t": 145.883,
+        "prompt": "A roll has $20$ feet of ribbon. You cut $4$ pieces, each $3\\tfrac12$ feet long. How much ribbon is left?",
+        "choices": [
+          "$6$ feet",
+          "$16\\tfrac12$ feet",
+          "$14$ feet",
+          "$8$ feet"
+        ],
+        "answer": 0,
+        "working": "$4 \\times 3\\tfrac12 = 4 \\times \\tfrac72 = 14$ feet, and $20 - 14 = 6$ feet. B subtracts only one piece, and C is the ribbon used."
+      }
+    ]
+  },
+  "m204-1-3": {
+    "lessonId": "m204-1-3",
+    "title": "Ratios, Rates and Proportions, Part 1: Ratios",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a ratio is",
+        "t": 22.569
+      },
+      {
+        "title": "Cashiers to clerks",
+        "t": 51.297
+      },
+      {
+        "title": "The order matters",
+        "t": 84.147
+      },
+      {
+        "title": "A part and the whole",
+        "t": 99.195
+      },
+      {
+        "title": "Your turn",
+        "t": 133.041
+      },
+      {
+        "title": "Summary",
+        "t": 167.52
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-3:q",
+        "t": 145.266,
+        "prompt": "A crew has $15$ carpenters and $10$ labourers. What is the ratio of labourers to carpenters, in simplest form?",
+        "choices": [
+          "$2 : 3$",
+          "$3 : 2$",
+          "$10 : 15$",
+          "$2 : 5$"
+        ],
+        "answer": 0,
+        "working": "Labourers first: $10 : 15$. Both divide by $5$: $2 : 3$. B has the terms in the wrong order, and C is not in simplest form."
+      }
+    ]
+  },
+  "m204-1-3-b": {
+    "lessonId": "m204-1-3",
+    "title": "Ratios, Rates and Proportions, Part 2: Rates and Unit Rates",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rates",
+        "t": 14.406
+      },
+      {
+        "title": "Price per kilogram",
+        "t": 36.502
+      },
+      {
+        "title": "Pay per hour",
+        "t": 64.274
+      },
+      {
+        "title": "Kilometres per hour",
+        "t": 84.478
+      },
+      {
+        "title": "Using a unit rate",
+        "t": 106.116
+      },
+      {
+        "title": "Per",
+        "t": 132.167
+      },
+      {
+        "title": "Your turn",
+        "t": 152.466
+      },
+      {
+        "title": "Summary",
+        "t": 184.537
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-3-b:q",
+        "t": 161.765,
+        "prompt": "A $4$ L jug of milk costs \\$6.20. What is the price per litre?",
+        "choices": [
+          "\\$1.55",
+          "\\$24.80",
+          "\\$0.65",
+          "\\$2.20"
+        ],
+        "answer": 0,
+        "working": "Divide the price by the litres: $6.20 \\div 4 = 1.55$. B multiplies, and C divides the litres by the price."
+      }
+    ]
+  },
+  "m204-1-3-c": {
+    "lessonId": "m204-1-3",
+    "title": "Ratios, Rates and Proportions, Part 3: Proportions",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Proportions",
+        "t": 15.63
+      },
+      {
+        "title": "Juice for a team",
+        "t": 41.927
+      },
+      {
+        "title": "Two-stroke fuel",
+        "t": 62.077
+      },
+      {
+        "title": "Scaling a recipe",
+        "t": 90.64
+      },
+      {
+        "title": "Adding instead of multiplying",
+        "t": 120.441
+      },
+      {
+        "title": "Your turn",
+        "t": 138.992
+      },
+      {
+        "title": "Summary",
+        "t": 173.564
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-3-c:q",
+        "t": 150.43,
+        "prompt": "A recipe uses $3$ cups of flour for $24$ cookies. How much flour is needed for $40$ cookies?",
+        "choices": [
+          "$5$ cups",
+          "$19$ cups",
+          "$15$ cups",
+          "$8$ cups"
+        ],
+        "answer": 0,
+        "working": "For one cookie: $3 \\div 24 = \\tfrac18$ cup. For $40$: $40 \\times \\tfrac18 = 5$ cups. B adds $16$ instead of multiplying."
+      }
+    ]
+  },
+  "m204-1-3-d": {
+    "lessonId": "m204-1-3",
+    "title": "Ratios, Rates and Proportions, Part 4: Sharing a Total in a Ratio",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three steps",
+        "t": 13.92
+      },
+      {
+        "title": "Concrete for a patio",
+        "t": 35.232
+      },
+      {
+        "title": "Sharing a profit",
+        "t": 77.189
+      },
+      {
+        "title": "Dividing by the wrong number",
+        "t": 122.41
+      },
+      {
+        "title": "Your turn",
+        "t": 140.518
+      },
+      {
+        "title": "Summary",
+        "t": 177.708
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-3-d:q",
+        "t": 154.541,
+        "prompt": "Trail mix is nuts, raisins and chocolate in the ratio $4 : 3 : 1$. How much chocolate is in $640$ g of trail mix?",
+        "choices": [
+          "$80$ g",
+          "$160$ g",
+          "$240$ g",
+          "$640$ g"
+        ],
+        "answer": 0,
+        "working": "$4 + 3 + 1 = 8$ parts, and $640 \\div 8 = 80$ g in one part. Chocolate is $1$ part: $80$ g. C is the raisins."
+      }
+    ]
+  },
+  "m204-1-4": {
+    "lessonId": "m204-1-4",
+    "title": "Percent Problems, Part 1: Percent of a Number",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Percent",
+        "t": 16.416
+      },
+      {
+        "title": "Riding the bus",
+        "t": 58.351
+      },
+      {
+        "title": "Without a calculator",
+        "t": 87.818
+      },
+      {
+        "title": "Your turn",
+        "t": 126.891
+      },
+      {
+        "title": "Summary",
+        "t": 157.019
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-4:q",
+        "t": 134.115,
+        "prompt": "What is a $15\\%$ tip on a \\$60 meal?",
+        "choices": [
+          "\\$9.00",
+          "\\$6.00",
+          "\\$15.00",
+          "\\$69.00"
+        ],
+        "answer": 0,
+        "working": "$10\\%$ of \\$60 is \\$6, and $5\\%$ is \\$3, so $15\\%$ is \\$9. B is only $10\\%$, and D is the meal plus the tip."
+      }
+    ]
+  },
+  "m204-1-4-b": {
+    "lessonId": "m204-1-4",
+    "title": "Percent Problems, Part 2: What Percent?",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Part over whole",
+        "t": 16.992
+      },
+      {
+        "title": "A practice test",
+        "t": 32.586
+      },
+      {
+        "title": "Flu shots at work",
+        "t": 65.351
+      },
+      {
+        "title": "Dividing the wrong way",
+        "t": 106.178
+      },
+      {
+        "title": "Your turn",
+        "t": 127.996
+      },
+      {
+        "title": "Summary",
+        "t": 160.27
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-4-b:q",
+        "t": 137.714,
+        "prompt": "A hockey team won $14$ of its $20$ games. What percent of its games did it win?",
+        "choices": [
+          "$70\\%$",
+          "$143\\%$",
+          "$14\\%$",
+          "$30\\%$"
+        ],
+        "answer": 0,
+        "working": "$14 \\div 20 = 0.7$, and $0.7 \\times 100 = 70\\%$. B divides the wrong way, and D is the percent it did not win."
+      }
+    ]
+  },
+  "m204-1-4-c": {
+    "lessonId": "m204-1-4",
+    "title": "Percent Problems, Part 3: Percent Increase and Decrease",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Percent change",
+        "t": 16.002
+      },
+      {
+        "title": "A bus pass goes up",
+        "t": 35.736
+      },
+      {
+        "title": "Dividing by the new amount",
+        "t": 76.851
+      },
+      {
+        "title": "A percent decrease",
+        "t": 93.97
+      },
+      {
+        "title": "Your turn",
+        "t": 128.088
+      },
+      {
+        "title": "Summary",
+        "t": 161.703
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-4-c:q",
+        "t": 139.175,
+        "prompt": "The price of gas drops from \\$1.50 to \\$1.20 per litre. What is the percent decrease?",
+        "choices": [
+          "$20\\%$",
+          "$25\\%$",
+          "$30\\%$",
+          "$80\\%$"
+        ],
+        "answer": 0,
+        "working": "Change: $1.50 - 1.20 = 0.30$. Divide by the original: $0.30 \\div 1.50 = 0.2$, which is $20\\%$. B divides by the new price."
+      }
+    ]
+  },
+  "m204-1-4-d": {
+    "lessonId": "m204-1-4",
+    "title": "Percent Problems, Part 4: New Amounts and Finding the Whole",
+    "duration": 239,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A new rent",
+        "t": 18.61
+      },
+      {
+        "title": "A sale price",
+        "t": 54.645
+      },
+      {
+        "title": "A shortcut",
+        "t": 91.465
+      },
+      {
+        "title": "Finding the whole",
+        "t": 124.7
+      },
+      {
+        "title": "Your turn",
+        "t": 174.242
+      },
+      {
+        "title": "Summary",
+        "t": 210.085
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-1-4-d:q",
+        "t": 184.606,
+        "prompt": "A \\$70 deposit is $20\\%$ of the full price of a bike. What is the full price?",
+        "choices": [
+          "\\$350",
+          "\\$14",
+          "\\$84",
+          "\\$280"
+        ],
+        "answer": 0,
+        "working": "$70 \\div 0.20 = 350$. Check: $20\\%$ of \\$350 is \\$70. B multiplies instead of dividing, and D is what is still owed."
+      }
+    ]
+  },
+  "m204-2-1": {
+    "lessonId": "m204-2-1",
+    "title": "Unit Price and the Best Buy, Part 1: What Is a Unit Price?",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Unit price",
+        "t": 18.013
+      },
+      {
+        "title": "Price for one item",
+        "t": 36.52
+      },
+      {
+        "title": "Money goes first",
+        "t": 63.382
+      },
+      {
+        "title": "Comparing two boxes",
+        "t": 82.554
+      },
+      {
+        "title": "Your turn",
+        "t": 114.029
+      },
+      {
+        "title": "Summary",
+        "t": 143.724
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-1:q",
+        "t": 123.195,
+        "prompt": "A pack of $12$ pencils costs \\$3.60. What is the unit price?",
+        "choices": [
+          "\\$0.30 per pencil",
+          "\\$3.33 per pencil",
+          "\\$43.20 per pencil",
+          "\\$0.36 per pencil"
+        ],
+        "answer": 0,
+        "working": "Money first: $3.60 \\div 12 = 0.30$. B divides the wrong way, and C multiplies."
+      }
+    ]
+  },
+  "m204-2-1-b": {
+    "lessonId": "m204-2-1",
+    "title": "Unit Price and the Best Buy, Part 2: Different Sizes and Units",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Price per 100 g",
+        "t": 20.209
+      },
+      {
+        "title": "Rounding to the nearest cent",
+        "t": 66.165
+      },
+      {
+        "title": "Grams to kilograms",
+        "t": 83.3
+      },
+      {
+        "title": "Litres to groups of 100 mL",
+        "t": 131.502
+      },
+      {
+        "title": "Your turn",
+        "t": 162.88
+      },
+      {
+        "title": "Summary",
+        "t": 199.144
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-1-b:q",
+        "t": 174.49,
+        "prompt": "A $400$ g jar of peanut butter costs \\$3.20. What is the price per $100$ g?",
+        "choices": [
+          "\\$0.80",
+          "\\$0.008",
+          "\\$1.25",
+          "\\$12.80"
+        ],
+        "answer": 0,
+        "working": "$400 \\div 100 = 4$ groups, and $3.20 \\div 4 = 0.80$. B divides by $400$ instead of $4$, and C divides the wrong way."
+      }
+    ]
+  },
+  "m204-2-1-c": {
+    "lessonId": "m204-2-1",
+    "title": "Unit Price and the Best Buy, Part 3: Finding the Best Buy",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The best buy",
+        "t": 17.194
+      },
+      {
+        "title": "Three bags of rice",
+        "t": 35.464
+      },
+      {
+        "title": "A quick check",
+        "t": 90.204
+      },
+      {
+        "title": "Bigger is always cheaper?",
+        "t": 119.365
+      },
+      {
+        "title": "Your turn",
+        "t": 135.631
+      },
+      {
+        "title": "Summary",
+        "t": 174.571
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-1-c:q",
+        "t": 148.419,
+        "prompt": "Laundry soap costs \\$7.50 for $2$ L or \\$17.50 for $5$ L. Which is the best buy?",
+        "choices": [
+          "the $5$ L jug, at \\$3.50 per litre",
+          "the $2$ L jug, at \\$3.75 per litre",
+          "They cost the same per litre.",
+          "the $5$ L jug, at \\$17.50 per litre"
+        ],
+        "answer": 0,
+        "working": "$7.50 \\div 2 = 3.75$ and $17.50 \\div 5 = 3.50$, so the $5$ L jug costs less per litre."
+      }
+    ]
+  },
+  "m204-2-1-d": {
+    "lessonId": "m204-2-1",
+    "title": "Unit Price and the Best Buy, Part 4: Deals, Coupons and Common Sense",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Is the deal better?",
+        "t": 18.33
+      },
+      {
+        "title": "Using a coupon",
+        "t": 63.289
+      },
+      {
+        "title": "Common sense",
+        "t": 113.019
+      },
+      {
+        "title": "Your turn",
+        "t": 139.933
+      },
+      {
+        "title": "Summary",
+        "t": 179.136
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-1-d:q",
+        "t": 156.896,
+        "prompt": "Granola bars: a box of $6$ for \\$3.00, with a coupon for \\$0.60 off, or a box of $10$ for \\$4.50. Which is the better buy per bar?",
+        "choices": [
+          "the box of $6$ with the coupon, at \\$0.40 per bar",
+          "the box of $10$, at \\$0.45 per bar",
+          "the box of $6$, at \\$0.50 per bar",
+          "They cost the same per bar."
+        ],
+        "answer": 0,
+        "working": "With the coupon: $3.00 - 0.60 = 2.40$, and $2.40 \\div 6 = 0.40$. Box of $10$: $4.50 \\div 10 = 0.45$. C forgets the coupon."
+      }
+    ]
+  },
+  "m204-2-2": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 1: Discounts and Sale Prices",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Discount and sale price",
+        "t": 13.239
+      },
+      {
+        "title": "A hoodie on sale",
+        "t": 36.85
+      },
+      {
+        "title": "Jeans at 30% off",
+        "t": 68.863
+      },
+      {
+        "title": "Stopping too soon",
+        "t": 107.338
+      },
+      {
+        "title": "Your turn",
+        "t": 129.206
+      },
+      {
+        "title": "Summary",
+        "t": 167.899
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2:q",
+        "t": 140.255,
+        "prompt": "A drill is regularly \\$120. It is $15\\%$ off. What is the sale price?",
+        "choices": [
+          "\\$102.00",
+          "\\$18.00",
+          "\\$105.00",
+          "\\$138.00"
+        ],
+        "answer": 0,
+        "working": "Discount: $0.15 \\times 120 = 18$. Sale price: $120 - 18 = 102$. B is the discount, and C takes off \\$15 instead of $15\\%$."
+      }
+    ]
+  },
+  "m204-2-2-b": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 2: Two Deals at Once",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Second item 50% off",
+        "t": 17.515
+      },
+      {
+        "title": "Two discounts in a row",
+        "t": 56.232
+      },
+      {
+        "title": "Not 30% off",
+        "t": 91.633
+      },
+      {
+        "title": "Your turn",
+        "t": 117.899
+      },
+      {
+        "title": "Summary",
+        "t": 159.426
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2-b:q",
+        "t": 131.161,
+        "prompt": "A jacket is regularly \\$80. It is $25\\%$ off, then another $10\\%$ off at the till. What is the final price?",
+        "choices": [
+          "\\$54.00",
+          "\\$52.00",
+          "\\$60.00",
+          "\\$26.00"
+        ],
+        "answer": 0,
+        "working": "After $25\\%$ off: $0.75 \\times 80 = 60$. After another $10\\%$ off: $0.9 \\times 60 = 54$. B adds the discounts to make $35\\%$, and C forgets the second discount."
+      }
+    ]
+  },
+  "m204-2-2-c": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 3: Subtotal, GST and Total",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Subtotal and GST",
+        "t": 16.569
+      },
+      {
+        "title": "Reading a receipt",
+        "t": 42.772
+      },
+      {
+        "title": "Working it out",
+        "t": 60.24
+      },
+      {
+        "title": "A quick estimate",
+        "t": 109.69
+      },
+      {
+        "title": "Your turn",
+        "t": 139.755
+      },
+      {
+        "title": "Summary",
+        "t": 178.834
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2-c:q",
+        "t": 151.794,
+        "prompt": "A subtotal is \\$24.60. In this example, GST is $5\\%$. What is the total?",
+        "choices": [
+          "\\$25.83",
+          "\\$1.23",
+          "\\$24.60",
+          "\\$29.60"
+        ],
+        "answer": 0,
+        "working": "GST: $0.05 \\times 24.60 = 1.23$. Total: $24.60 + 1.23 = 25.83$. B is only the GST, and D adds \\$5 instead of $5\\%$."
+      }
+    ]
+  },
+  "m204-2-2-d": {
+    "lessonId": "m204-2-2",
+    "title": "Sales, Discounts and Taxes, Part 4: Paying, Change and Comparing Stores",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Paying with a $50 bill",
+        "t": 16.955
+      },
+      {
+        "title": "Count up to check",
+        "t": 39.121
+      },
+      {
+        "title": "A bigger bill",
+        "t": 69.605
+      },
+      {
+        "title": "Comparing two stores",
+        "t": 108.489
+      },
+      {
+        "title": "Your turn",
+        "t": 147.36
+      },
+      {
+        "title": "Summary",
+        "t": 182.317
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-2-d:q",
+        "t": 158.272,
+        "prompt": "Your total is \\$17.35. You pay with a \\$20 bill. How much change should you get?",
+        "choices": [
+          "\\$2.65",
+          "\\$3.65",
+          "\\$2.75",
+          "\\$37.35"
+        ],
+        "answer": 0,
+        "working": "$20.00 - 17.35 = 2.65$. Count up: $17.35 + 0.05 = 17.40$, $+ 0.60 = 18.00$, $+ 2.00 = 20.00$, so $0.05 + 0.60 + 2 = 2.65$."
+      }
+    ]
+  },
+  "m204-2-3": {
+    "lessonId": "m204-2-3",
+    "title": "Paying Over Time, Part 1: Instalment Plans and the Finance Charge",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Down payment and instalments",
+        "t": 24.206
+      },
+      {
+        "title": "A TV plan",
+        "t": 45.019
+      },
+      {
+        "title": "Forgetting the down payment",
+        "t": 80.833
+      },
+      {
+        "title": "The finance charge",
+        "t": 96.01
+      },
+      {
+        "title": "Your turn",
+        "t": 120.577
+      },
+      {
+        "title": "Summary",
+        "t": 159.686
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-3:q",
+        "t": 135.771,
+        "prompt": "A stereo costs \\$340 cash. The plan is \\$50 down and $10$ monthly payments of \\$32. What is the finance charge?",
+        "choices": [
+          "\\$30",
+          "\\$370",
+          "\\$320",
+          "\\$50"
+        ],
+        "answer": 0,
+        "working": "Total cost: $50 + 10 \\times 32 = 370$. Finance charge: $370 - 340 = 30$. B is the total cost of the plan."
+      }
+    ]
+  },
+  "m204-2-3-b": {
+    "lessonId": "m204-2-3",
+    "title": "Paying Over Time, Part 2: No Money Down and Weekly Payments",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "No money down",
+        "t": 18.451
+      },
+      {
+        "title": "Rent-to-own",
+        "t": 67.058
+      },
+      {
+        "title": "How long is 78 weeks?",
+        "t": 115.596
+      },
+      {
+        "title": "Your turn",
+        "t": 143.828
+      },
+      {
+        "title": "Summary",
+        "t": 184.151
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-3-b:q",
+        "t": 158.471,
+        "prompt": "A phone costs \\$999 cash, or \\$0 down and $36$ monthly payments of \\$35. What is the finance charge?",
+        "choices": [
+          "\\$261",
+          "\\$1,260",
+          "\\$35",
+          "\\$999"
+        ],
+        "answer": 0,
+        "working": "Total cost: $36 \\times 35 = 1{,}260$. Finance charge: $1{,}260 - 999 = 261$. B is the total cost of the plan."
+      }
+    ]
+  },
+  "m204-2-3-c": {
+    "lessonId": "m204-2-3",
+    "title": "Paying Over Time, Part 3: Comparing Payment Plans",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "20% down",
+        "t": 17.386
+      },
+      {
+        "title": "Which plan costs less?",
+        "t": 72.037
+      },
+      {
+        "title": "Look at the total",
+        "t": 125.123
+      },
+      {
+        "title": "Your turn",
+        "t": 139.357
+      },
+      {
+        "title": "Summary",
+        "t": 185.903
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-2-3-c:q",
+        "t": 155.828,
+        "prompt": "A fridge costs \\$1,200 cash. The plan is $10\\%$ down, then $18$ monthly payments of \\$66. What is the total cost of the plan?",
+        "choices": [
+          "\\$1,308.00",
+          "\\$1,188.00",
+          "\\$1,200.00",
+          "\\$108.00"
+        ],
+        "answer": 0,
+        "working": "Down: $0.1 \\times 1{,}200 = 120$. Payments: $18 \\times 66 = 1{,}188$. Total: $120 + 1{,}188 = 1{,}308$. B forgets the down payment, and D is the finance charge."
+      }
+    ]
+  },
+  "m204-3-1": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 1: Gross Pay from an Hourly Wage",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Hourly wage and gross pay",
+        "t": 22.408
+      },
+      {
+        "title": "Pay for one week",
+        "t": 44
+      },
+      {
+        "title": "Two rates",
+        "t": 91.474
+      },
+      {
+        "title": "Your turn",
+        "t": 133.535
+      },
+      {
+        "title": "Summary",
+        "t": 176.318
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1:q",
+        "t": 150.288,
+        "prompt": "Nadia earns \\$15.00 per hour on weekdays and \\$18.00 per hour on weekends. This week Nadia worked $20$ weekday hours and $6$ weekend hours. What is the gross pay?",
+        "choices": [
+          "\\$408.00",
+          "\\$390.00",
+          "\\$468.00",
+          "\\$429.00"
+        ],
+        "answer": 0,
+        "working": "Weekdays: $20 \\times 15.00 = 300.00$. Weekends: $6 \\times 18.00 = 108.00$. Gross pay: $300.00 + 108.00 = 408.00$. B pays every hour at the weekday rate, and C at the weekend rate."
+      }
+    ]
+  },
+  "m204-3-1-b": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 2: Reading a Timecard",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Minutes as hours",
+        "t": 16.701
+      },
+      {
+        "title": "Count up across noon",
+        "t": 46.954
+      },
+      {
+        "title": "Pay from a timecard",
+        "t": 73.716
+      },
+      {
+        "title": "6 h 30 min is not 6.30 h",
+        "t": 119.949
+      },
+      {
+        "title": "Your turn",
+        "t": 139.961
+      },
+      {
+        "title": "Summary",
+        "t": 179.632
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1-b:q",
+        "t": 152.553,
+        "prompt": "A shift runs from 8:00 a.m. to 2:45 p.m., with a 30-minute unpaid break. How many paid hours is that?",
+        "choices": [
+          "$6.25$ h",
+          "$6.75$ h",
+          "$6.15$ h",
+          "$7.25$ h"
+        ],
+        "answer": 0,
+        "working": "8:00 a.m. to noon is $4$ h, noon to 2:00 p.m. is $2$ h, then $45$ min: $6.75$ h. Take away the break: $6.75 - 0.5 = 6.25$ h. B forgets the break, and C treats minutes as decimals."
+      }
+    ]
+  },
+  "m204-3-1-c": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 3: Overtime Pay",
+    "duration": 202,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Overtime",
+        "t": 16.817
+      },
+      {
+        "title": "Overtime rates",
+        "t": 44.539
+      },
+      {
+        "title": "A long day",
+        "t": 68.6
+      },
+      {
+        "title": "Only the extra hours",
+        "t": 112.431
+      },
+      {
+        "title": "Your turn",
+        "t": 130.612
+      },
+      {
+        "title": "Summary",
+        "t": 177.279
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1-c:q",
+        "t": 145.705,
+        "prompt": "Theo earns \\$20.00 per hour. Hours over $8$ in a day are paid at time-and-a-half. On Friday Theo worked $10$ hours. What is the gross pay for the day?",
+        "choices": [
+          "\\$220.00",
+          "\\$300.00",
+          "\\$200.00",
+          "\\$240.00"
+        ],
+        "answer": 0,
+        "working": "Regular: $8 \\times 20.00 = 160.00$. Overtime: $2 \\times 30.00 = 60.00$. Gross pay: $160.00 + 60.00 = 220.00$. B pays every hour at time-and-a-half, C forgets overtime, and D uses double time."
+      }
+    ]
+  },
+  "m204-3-1-d": {
+    "lessonId": "m204-3-1",
+    "title": "Wages and Overtime, Part 4: Overtime Day by Day",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A weekly timecard",
+        "t": 17.255
+      },
+      {
+        "title": "Pay for the week",
+        "t": 58.868
+      },
+      {
+        "title": "Read the rule",
+        "t": 107.397
+      },
+      {
+        "title": "Your turn",
+        "t": 127.181
+      },
+      {
+        "title": "Summary",
+        "t": 178.152
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-1-d:q",
+        "t": 144.465,
+        "prompt": "Ava earns \\$16.00 per hour. Hours over $8$ in a day are paid at time-and-a-half. Ava worked $10$ hours on Monday, $6$ on Tuesday and $9$ on Wednesday. What is the gross pay?",
+        "choices": [
+          "\\$424.00",
+          "\\$400.00",
+          "\\$448.00",
+          "\\$600.00"
+        ],
+        "answer": 0,
+        "working": "Overtime: $2 + 1 = 3$ h at $1.5 \\times 16.00 = 24.00$, so $72.00$. Regular: $8 + 6 + 8 = 22$ h, so $22 \\times 16.00 = 352.00$. Gross pay: $352.00 + 72.00 = 424.00$. B forgets overtime, and C uses double time."
+      }
+    ]
+  },
+  "m204-3-2": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 1: Salary",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Salary",
+        "t": 18.614
+      },
+      {
+        "title": "How often you are paid",
+        "t": 38.748
+      },
+      {
+        "title": "Two weeks or twice a month?",
+        "t": 75.031
+      },
+      {
+        "title": "Your turn",
+        "t": 114.188
+      },
+      {
+        "title": "Summary",
+        "t": 149.943
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2:q",
+        "t": 125.704,
+        "prompt": "Diego earns a salary of \\$45,600 a year, paid monthly. How much is each pay?",
+        "choices": [
+          "\\$3,800.00",
+          "\\$1,900.00",
+          "\\$1,753.85",
+          "\\$876.92"
+        ],
+        "answer": 0,
+        "working": "Monthly means $12$ pays: $45{,}600 \\div 12 = 3{,}800.00$. B divides by $24$, C by $26$, and D by $52$."
+      }
+    ]
+  },
+  "m204-3-2-b": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 2: Commission",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Commission",
+        "t": 16.9
+      },
+      {
+        "title": "Selling furniture",
+        "t": 29.75
+      },
+      {
+        "title": "Base salary plus commission",
+        "t": 67.344
+      },
+      {
+        "title": "Which job pays more?",
+        "t": 114.734
+      },
+      {
+        "title": "Your turn",
+        "t": 150.707
+      },
+      {
+        "title": "Summary",
+        "t": 199.314
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2-b:q",
+        "t": 166.687,
+        "prompt": "Jasmine earns \\$250 a week plus $4\\%$ of sales. This week Jasmine sold \\$7,200 worth of phones. What is the pay for the week?",
+        "choices": [
+          "\\$538.00",
+          "\\$288.00",
+          "\\$278.80",
+          "\\$7,450.00"
+        ],
+        "answer": 0,
+        "working": "Commission: $0.04 \\times 7{,}200 = 288.00$. Total: $250.00 + 288.00 = 538.00$. B forgets the base, C uses $0.004$, and D adds the base to the sales."
+      }
+    ]
+  },
+  "m204-3-2-c": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 3: Piecework",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Piecework",
+        "t": 18.23
+      },
+      {
+        "title": "Packing boxes",
+        "t": 38.128
+      },
+      {
+        "title": "Pay per hour",
+        "t": 78.964
+      },
+      {
+        "title": "Your turn",
+        "t": 118.98
+      },
+      {
+        "title": "Summary",
+        "t": 159.326
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2-c:q",
+        "t": 132.716,
+        "prompt": "A berry picker earns \\$0.75 per basket. In a $6$-hour shift, the picker fills $96$ baskets. What is the pay per hour?",
+        "choices": [
+          "\\$12.00",
+          "\\$72.00",
+          "\\$16.00",
+          "\\$4.50"
+        ],
+        "answer": 0,
+        "working": "Pay: $0.75 \\times 96 = 72.00$. Per hour: $72.00 \\div 6 = 12.00$. B is the pay for the shift, and C is the baskets per hour."
+      }
+    ]
+  },
+  "m204-3-2-d": {
+    "lessonId": "m204-3-2",
+    "title": "Other Ways to Earn, Part 4: Sharing Tips",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Tips",
+        "t": 15.023
+      },
+      {
+        "title": "A tip pool",
+        "t": 40.132
+      },
+      {
+        "title": "Check the shares",
+        "t": 79.152
+      },
+      {
+        "title": "Your turn",
+        "t": 112.778
+      },
+      {
+        "title": "Summary",
+        "t": 157.686
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-2-d:q",
+        "t": 129.404,
+        "prompt": "Zoe, Raj and Lena share \\$270 in tips by hours worked. Zoe worked $5$ hours, Raj $4$ hours and Lena $6$ hours. How much does Lena get?",
+        "choices": [
+          "\\$108.00",
+          "\\$90.00",
+          "\\$18.00",
+          "\\$72.00"
+        ],
+        "answer": 0,
+        "working": "Total hours: $5 + 4 + 6 = 15$. Per hour: $270 \\div 15 = 18.00$. Lena: $6 \\times 18.00 = 108.00$. B shares equally, C is the tips per hour, and D is Raj’s share."
+      }
+    ]
+  },
+  "m204-3-3": {
+    "lessonId": "m204-3-3",
+    "title": "Deductions and Net Pay, Part 1: Reading a Pay Stub",
+    "duration": 187,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pay stub and net pay",
+        "t": 17.693
+      },
+      {
+        "title": "Common deductions",
+        "t": 35.674
+      },
+      {
+        "title": "Net pay from a pay stub",
+        "t": 70.252
+      },
+      {
+        "title": "Your turn",
+        "t": 114.21
+      },
+      {
+        "title": "Summary",
+        "t": 161.381
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-3:q",
+        "t": 134.423,
+        "prompt": "A pay stub shows gross pay of \\$960.00. The deductions are CPP \\$48.00, EI \\$16.00, income tax \\$96.00 and union dues \\$12.00. What is the net pay?",
+        "choices": [
+          "\\$788.00",
+          "\\$864.00",
+          "\\$172.00",
+          "\\$1,132.00"
+        ],
+        "answer": 0,
+        "working": "Total deductions: $48 + 16 + 96 + 12 = 172$. Net pay: $960.00 - 172.00 = 788.00$. B takes off only the income tax, and C is the total deductions."
+      }
+    ]
+  },
+  "m204-3-3-b": {
+    "lessonId": "m204-3-3",
+    "title": "Deductions and Net Pay, Part 2: Deductions from Percents",
+    "duration": 220,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Percent deductions",
+        "t": 16.618
+      },
+      {
+        "title": "Three percent deductions",
+        "t": 39.098
+      },
+      {
+        "title": "Net pay",
+        "t": 94.593
+      },
+      {
+        "title": "Your turn",
+        "t": 143.14
+      },
+      {
+        "title": "Summary",
+        "t": 195.757
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-3-b:q",
+        "t": 159.627,
+        "prompt": "Gross pay is \\$850.00. Suppose $5\\%$ is taken for CPP, $2\\%$ for EI and $10\\%$ for income tax. What is the net pay?",
+        "choices": [
+          "\\$705.50",
+          "\\$144.50",
+          "\\$833.00",
+          "\\$994.50"
+        ],
+        "answer": 0,
+        "working": "CPP: $42.50$. EI: $17.00$. Income tax: $85.00$. Total: $144.50$. Net pay: $850.00 - 144.50 = 705.50$. B is the total deductions, C takes off only EI, and D adds the deductions."
+      }
+    ]
+  },
+  "m204-3-3-c": {
+    "lessonId": "m204-3-3",
+    "title": "Deductions and Net Pay, Part 3: From Hours to Net Pay",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gross pay and deductions",
+        "t": 16.021
+      },
+      {
+        "title": "Net pay",
+        "t": 66.508
+      },
+      {
+        "title": "Gross pay first",
+        "t": 102.531
+      },
+      {
+        "title": "Your turn",
+        "t": 119.322
+      },
+      {
+        "title": "Summary",
+        "t": 174.06
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-3-3-c:q",
+        "t": 138.875,
+        "prompt": "Sam works $30$ hours at \\$18.00 per hour. Suppose $5\\%$ is taken for CPP, $2\\%$ for EI and $10\\%$ for income tax, and union dues are \\$10.00. What is the net pay?",
+        "choices": [
+          "\\$438.20",
+          "\\$448.20",
+          "\\$101.80",
+          "\\$14.94"
+        ],
+        "answer": 0,
+        "working": "Gross pay: $30 \\times 18.00 = 540.00$. Deductions: $27.00 + 10.80 + 54.00 + 10.00 = 101.80$. Net pay: $540.00 - 101.80 = 438.20$. B forgets the union dues, C is the total deductions, and D takes the percents off the hourly wage."
+      }
+    ]
+  },
+  "m204-4-1": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 1: Income and Expenses",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Budget, income and expenses",
+        "t": 21.62
+      },
+      {
+        "title": "Money left over",
+        "t": 57.965
+      },
+      {
+        "title": "Take-home pay",
+        "t": 101.129
+      },
+      {
+        "title": "Your turn",
+        "t": 122.705
+      },
+      {
+        "title": "Summary",
+        "t": 170.15
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1:q",
+        "t": 143.98,
+        "prompt": "Tomas takes home \\$1,850 a month. His expenses are rent \\$820, phone \\$60, bus pass \\$110, groceries \\$350 and entertainment \\$90. How much is left over each month?",
+        "choices": [
+          "\\$420",
+          "\\$1,430",
+          "\\$510",
+          "\\$3,280"
+        ],
+        "answer": 0,
+        "working": "Expenses: $820 + 60 + 110 + 350 + 90 = 1{,}430$. Left over: $1{,}850 - 1{,}430 = 420$. B is the total expenses, and C forgets the entertainment."
+      }
+    ]
+  },
+  "m204-4-1-b": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 2: Fixed and Variable Expenses",
+    "duration": 196,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fixed and variable",
+        "t": 18.876
+      },
+      {
+        "title": "Sorting a budget",
+        "t": 48.838
+      },
+      {
+        "title": "Track your spending",
+        "t": 123.797
+      },
+      {
+        "title": "Your turn",
+        "t": 140.831
+      },
+      {
+        "title": "Summary",
+        "t": 173.532
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1-b:q",
+        "t": 147.615,
+        "prompt": "Which list has only **variable** expenses?",
+        "choices": [
+          "groceries, gas for a car, eating out",
+          "rent, groceries, clothing",
+          "phone plan, bus pass, car insurance",
+          "rent, gas for a car, phone plan"
+        ],
+        "answer": 0,
+        "working": "Groceries, gas and eating out change from month to month. Rent, a phone plan, a bus pass and car insurance are fixed. C is a list of fixed expenses only."
+      }
+    ]
+  },
+  "m204-4-1-c": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 3: Budgets as Percents",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading a circle graph",
+        "t": 20.871
+      },
+      {
+        "title": "Percent of income",
+        "t": 77.842
+      },
+      {
+        "title": "Your turn",
+        "t": 127.072
+      },
+      {
+        "title": "Summary",
+        "t": 167.414
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1-c:q",
+        "t": 140.26,
+        "prompt": "Lena takes home \\$2,500 a month and pays \\$900 for rent. What percent of the take-home pay goes to rent?",
+        "choices": [
+          "$36\\%$",
+          "$277.8\\%$",
+          "$0.36\\%$",
+          "$64\\%$"
+        ],
+        "answer": 0,
+        "working": "$900 \\div 2{,}500 \\times 100 = 36\\%$. B divides the wrong way, C forgets to multiply by $100$, and D is the percent that is left."
+      }
+    ]
+  },
+  "m204-4-1-d": {
+    "lessonId": "m204-4-1",
+    "title": "Making a Budget, Part 4: Saving for a Goal",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Save each month",
+        "t": 20.424
+      },
+      {
+        "title": "Costs that do not come every month",
+        "t": 67.747
+      },
+      {
+        "title": "Pay yourself first",
+        "t": 96.119
+      },
+      {
+        "title": "Your turn",
+        "t": 112.816
+      },
+      {
+        "title": "Summary",
+        "t": 156.158
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-1-d:q",
+        "t": 129.194,
+        "prompt": "Kiara wants \\$1,200 for a damage deposit in $8$ months. Right now Kiara has \\$90 left over each month. How much less must Kiara spend each month?",
+        "choices": [
+          "\\$60",
+          "\\$150",
+          "\\$90",
+          "\\$1,110"
+        ],
+        "answer": 0,
+        "working": "Save each month: $1{,}200 \\div 8 = 150$. Short by $150 - 90 = 60$. B is the monthly savings, and D subtracts the \\$90 from the whole goal."
+      }
+    ]
+  },
+  "m204-4-2": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 1: What Is Interest?",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Principal, interest and rate",
+        "t": 19.021
+      },
+      {
+        "title": "One year of interest",
+        "t": 45.216
+      },
+      {
+        "title": "Year after year",
+        "t": 79.254
+      },
+      {
+        "title": "Your turn",
+        "t": 118.129
+      },
+      {
+        "title": "Summary",
+        "t": 161.686
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2:q",
+        "t": 132.459,
+        "prompt": "Felix puts \\$1,500 in a savings account that pays $4\\%$ per year simple interest. How much interest does it earn in $2$ years?",
+        "choices": [
+          "\\$120",
+          "\\$60",
+          "\\$1,620",
+          "\\$12,000"
+        ],
+        "answer": 0,
+        "working": "One year: $1{,}500 \\times 0.04 = 60$. Two years: $60 \\times 2 = 120$. B is one year only, C is the total in the account, and D uses $4$ instead of $0.04$."
+      }
+    ]
+  },
+  "m204-4-2-b": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 2: The Formula I = Prt",
+    "duration": 199,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The simple interest formula",
+        "t": 16.794
+      },
+      {
+        "title": "A loan for tools",
+        "t": 46.892
+      },
+      {
+        "title": "Change the percent",
+        "t": 104.132
+      },
+      {
+        "title": "Your turn",
+        "t": 138.397
+      },
+      {
+        "title": "Summary",
+        "t": 178.74
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2-b:q",
+        "t": 151.764,
+        "prompt": "A loan of \\$1,800 charges $5\\%$ per year simple interest. How much interest is charged in $4$ years?",
+        "choices": [
+          "\\$360",
+          "\\$90",
+          "\\$36,000",
+          "\\$2,160"
+        ],
+        "answer": 0,
+        "working": "$I = 1{,}800 \\times 0.05 \\times 4 = 360$. B is one year only, C uses $r = 5$, and D is the principal plus the interest."
+      }
+    ]
+  },
+  "m204-4-2-c": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 3: Months and the Total Amount",
+    "duration": 208,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Months and the total",
+        "t": 19.214
+      },
+      {
+        "title": "A car loan for 18 months",
+        "t": 40.499
+      },
+      {
+        "title": "Savings for 8 months",
+        "t": 93.826
+      },
+      {
+        "title": "Your turn",
+        "t": 143.525
+      },
+      {
+        "title": "Summary",
+        "t": 188.63
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2-c:q",
+        "t": 156.43,
+        "prompt": "A loan of \\$2,400 is for $9$ months at $6\\%$ per year simple interest. What is the total to pay back?",
+        "choices": [
+          "\\$2,508",
+          "\\$108",
+          "\\$3,696",
+          "\\$2,544"
+        ],
+        "answer": 0,
+        "working": "$t = 9 \\div 12 = 0.75$. $I = 2{,}400 \\times 0.06 \\times 0.75 = 108$. $A = 2{,}400 + 108 = 2{,}508$. B is the interest only, C uses $t = 9$, and D uses a whole year."
+      }
+    ]
+  },
+  "m204-4-2-d": {
+    "lessonId": "m204-4-2",
+    "title": "Simple Interest, Part 4: Finding the Rate or the Time",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Work backwards",
+        "t": 19.833
+      },
+      {
+        "title": "Finding the rate",
+        "t": 35.782
+      },
+      {
+        "title": "Finding the time",
+        "t": 85.942
+      },
+      {
+        "title": "Your turn",
+        "t": 133.251
+      },
+      {
+        "title": "Summary",
+        "t": 174.261
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-2-d:q",
+        "t": 147.222,
+        "prompt": "A loan of \\$1,200 at $4\\%$ per year simple interest cost \\$72 in interest. How many months was the loan?",
+        "choices": [
+          "$18$ months",
+          "$1.5$ months",
+          "$15$ months",
+          "$12$ months"
+        ],
+        "answer": 0,
+        "working": "$72 = 1{,}200 \\times 0.04 \\times t = 48t$, so $t = 72 \\div 48 = 1.5$ years, which is $1.5 \\times 12 = 18$ months. B forgets to change years to months."
+      }
+    ]
+  },
+  "m204-4-3": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 1: How a Credit Card Bill Works",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Credit and balances",
+        "t": 22.308
+      },
+      {
+        "title": "Reading a statement",
+        "t": 55.021
+      },
+      {
+        "title": "Interest for one month",
+        "t": 98.4
+      },
+      {
+        "title": "Your turn",
+        "t": 124.592
+      },
+      {
+        "title": "Summary",
+        "t": 169.481
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3:q",
+        "t": 139.937,
+        "prompt": "An unpaid balance is \\$650. The card charges $1.5\\%$ per month on the unpaid balance. How much interest is charged this month?",
+        "choices": [
+          "\\$9.75",
+          "\\$97.50",
+          "\\$975.00",
+          "\\$659.75"
+        ],
+        "answer": 0,
+        "working": "$1.5\\% = 0.015$, and $650 \\times 0.015 = 9.75$. B uses $0.15$, C uses $1.5$, and D is the new balance."
+      }
+    ]
+  },
+  "m204-4-3-b": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 2: Yearly Rates and Monthly Interest",
+    "duration": 195,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One month from a yearly rate",
+        "t": 20.45
+      },
+      {
+        "title": "Divide by 12",
+        "t": 73.673
+      },
+      {
+        "title": "The minimum payment trap",
+        "t": 94.239
+      },
+      {
+        "title": "Your turn",
+        "t": 134.172
+      },
+      {
+        "title": "Summary",
+        "t": 171.467
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3-b:q",
+        "t": 147.105,
+        "prompt": "An unpaid balance is \\$2,400. The card charges $18\\%$ per year. What is the interest for one month?",
+        "choices": [
+          "\\$36.00",
+          "\\$432.00",
+          "\\$133.33",
+          "\\$2,436.00"
+        ],
+        "answer": 0,
+        "working": "$2{,}400 \\times 0.18 \\div 12 = 36.00$. B is the interest for a whole year, and D is the new balance."
+      }
+    ]
+  },
+  "m204-4-3-c": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 3: The Cost of a Loan",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Cost of borrowing",
+        "t": 16.791
+      },
+      {
+        "title": "A loan for a used car",
+        "t": 41.012
+      },
+      {
+        "title": "Longer loans cost more",
+        "t": 97.609
+      },
+      {
+        "title": "Your turn",
+        "t": 133.058
+      },
+      {
+        "title": "Summary",
+        "t": 176.176
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3-c:q",
+        "t": 147.294,
+        "prompt": "Ivy borrows \\$6,000 and pays it back with $36$ monthly payments of \\$189.50. What is the cost of borrowing?",
+        "choices": [
+          "\\$822",
+          "\\$6,822",
+          "\\$189.50",
+          "\\$6,189.50"
+        ],
+        "answer": 0,
+        "working": "Total paid: $189.50 \\times 36 = 6{,}822$. Cost of borrowing: $6{,}822 - 6{,}000 = 822$. B is the total paid."
+      }
+    ]
+  },
+  "m204-4-3-d": {
+    "lessonId": "m204-4-3",
+    "title": "Credit Cards and Loans, Part 4: Why Paying the Full Balance Matters",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three ways to pay",
+        "t": 18.292
+      },
+      {
+        "title": "Interest next month",
+        "t": 75.447
+      },
+      {
+        "title": "Your turn",
+        "t": 111.632
+      },
+      {
+        "title": "Summary",
+        "t": 159.554
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-3-d:q",
+        "t": 128.834,
+        "prompt": "A statement balance is \\$1,200. The card charges $2\\%$ per month on the unpaid balance. If you pay \\$400, how much interest is charged next month?",
+        "choices": [
+          "\\$16.00",
+          "\\$24.00",
+          "\\$8.00",
+          "\\$0.00"
+        ],
+        "answer": 0,
+        "working": "Unpaid: $1{,}200 - 400 = 800$. Interest: $800 \\times 0.02 = 16.00$. B uses the whole balance, and C uses the amount paid."
+      }
+    ]
+  },
+  "m204-4-4": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 1: The Monthly Cost of a Vehicle",
+    "duration": 187,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "More than the payment",
+        "t": 18.761
+      },
+      {
+        "title": "The real cost of a car",
+        "t": 52.289
+      },
+      {
+        "title": "Every cost, every month",
+        "t": 95.494
+      },
+      {
+        "title": "Your turn",
+        "t": 115.538
+      },
+      {
+        "title": "Summary",
+        "t": 166.351
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4:q",
+        "t": 134.814,
+        "prompt": "A car payment is \\$310 a month. Insurance is \\$1,920 a year, gas is \\$140 a month and maintenance is \\$45 a month. What is the total monthly cost?",
+        "choices": [
+          "\\$655",
+          "\\$495",
+          "\\$2,415",
+          "\\$310"
+        ],
+        "answer": 0,
+        "working": "Insurance: $1{,}920 \\div 12 = 160$. Total: $310 + 160 + 140 + 45 = 655$. B forgets the insurance, C adds the yearly insurance, and D is only the payment."
+      }
+    ]
+  },
+  "m204-4-4-b": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 2: Fuel Costs",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fuel economy",
+        "t": 16.492
+      },
+      {
+        "title": "Gas for one month",
+        "t": 44.503
+      },
+      {
+        "title": "A car or a pickup truck?",
+        "t": 96.351
+      },
+      {
+        "title": "Your turn",
+        "t": 140.743
+      },
+      {
+        "title": "Summary",
+        "t": 183.372
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4-b:q",
+        "t": 157.57,
+        "prompt": "A car uses $7.5$ L/100 km and drives $1200$ km a month. Gas costs \\$1.60 per litre. What is the monthly gas cost?",
+        "choices": [
+          "\\$144.00",
+          "\\$14,400.00",
+          "\\$90.00",
+          "\\$12.00"
+        ],
+        "answer": 0,
+        "working": "Litres: $1200 \\div 100 \\times 7.5 = 12 \\times 7.5 = 90$ L. Cost: $90 \\times 1.60 = 144.00$. B forgets to divide by $100$, and C is the litres, not the dollars."
+      }
+    ]
+  },
+  "m204-4-4-c": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 3: Renting a Home",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rent and other costs",
+        "t": 17.02
+      },
+      {
+        "title": "Sharing a place",
+        "t": 54.601
+      },
+      {
+        "title": "Move-in costs",
+        "t": 104.69
+      },
+      {
+        "title": "Your turn",
+        "t": 126.797
+      },
+      {
+        "title": "Summary",
+        "t": 169.407
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4-c:q",
+        "t": 145.83,
+        "prompt": "Three roommates share an apartment. Rent is \\$1,350, utilities are \\$180 and internet is \\$60 a month. They split the costs equally. What does each person pay?",
+        "choices": [
+          "\\$530",
+          "\\$1,590",
+          "\\$795",
+          "\\$450"
+        ],
+        "answer": 0,
+        "working": "Total: $1{,}350 + 180 + 60 = 1{,}590$. Each: $1{,}590 \\div 3 = 530$. B is the total, C splits it two ways, and D shares only the rent."
+      }
+    ]
+  },
+  "m204-4-4-d": {
+    "lessonId": "m204-4-4",
+    "title": "Cars and Homes, Part 4: How Much Rent Can You Afford?",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A rule of thumb",
+        "t": 16.554
+      },
+      {
+        "title": "Using the 30% guideline",
+        "t": 40.873
+      },
+      {
+        "title": "With a roommate",
+        "t": 92.161
+      },
+      {
+        "title": "Your turn",
+        "t": 126.783
+      },
+      {
+        "title": "Summary",
+        "t": 164.391
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-4-4-d:q",
+        "t": 139.252,
+        "prompt": "Ravi takes home \\$3,100 a month. Using the $30\\%$ guideline, what is the most rent Ravi should pay?",
+        "choices": [
+          "\\$930",
+          "\\$2,170",
+          "\\$310",
+          "\\$1,033.33"
+        ],
+        "answer": 0,
+        "working": "$0.3 \\times 3{,}100 = 930$. B is the $70\\%$ that is left, C is only $10\\%$, and D divides by $3$."
+      }
+    ]
+  },
+  "m204-5-1": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 1: Substituting into a Formula",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Formulas and variables",
+        "t": 23.88
+      },
+      {
+        "title": "Side by side means multiply",
+        "t": 49.56
+      },
+      {
+        "title": "Pay for a shift",
+        "t": 76.954
+      },
+      {
+        "title": "Your turn",
+        "t": 127.54
+      },
+      {
+        "title": "Summary",
+        "t": 162.29
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1:q",
+        "t": 139.751,
+        "prompt": "Use $E = rh$. Malik earns \\$17.25 per hour and works $8$ hours. What is the pay?",
+        "choices": [
+          "\\$138.00",
+          "\\$25.25",
+          "\\$13.80",
+          "\\$172.50"
+        ],
+        "answer": 0,
+        "working": "$E = 17.25 \\times 8 = 138.00$. B adds instead of multiplying, and D works ten hours."
+      }
+    ]
+  },
+  "m204-5-1-b": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 2: Formulas with More Than One Step",
+    "duration": 200,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Fencing a yard",
+        "t": 18.264
+      },
+      {
+        "title": "A taxi fare",
+        "t": 72.665
+      },
+      {
+        "title": "Multiply before you add",
+        "t": 119.292
+      },
+      {
+        "title": "Your turn",
+        "t": 140.108
+      },
+      {
+        "title": "Summary",
+        "t": 178.6
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1-b:q",
+        "t": 155.225,
+        "prompt": "A taxi charges $C = 3.5 + 2d$, where $C$ is in dollars and $d$ is in kilometres. What is the fare for a $9$ km ride?",
+        "choices": [
+          "\\$21.50",
+          "\\$49.50",
+          "\\$14.50",
+          "\\$18.00"
+        ],
+        "answer": 0,
+        "working": "$C = 3.5 + 2 \\times 9 = 3.5 + 18 = 21.5$. B adds first, and D forgets the starting fee."
+      }
+    ]
+  },
+  "m204-5-1-c": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 3: The Temperature Formula",
+    "duration": 206,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The temperature formula",
+        "t": 20.547
+      },
+      {
+        "title": "A warm day",
+        "t": 43.656
+      },
+      {
+        "title": "A quick estimate",
+        "t": 76.416
+      },
+      {
+        "title": "A cold morning",
+        "t": 96.561
+      },
+      {
+        "title": "Your turn",
+        "t": 145.183
+      },
+      {
+        "title": "Summary",
+        "t": 181.776
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1-c:q",
+        "t": 157.06,
+        "prompt": "Use $F = 1.8C + 32$. What is $-10^\\circ\\text{C}$ in degrees Fahrenheit?",
+        "choices": [
+          "$14^\\circ\\text{F}$",
+          "$50^\\circ\\text{F}$",
+          "$-50^\\circ\\text{F}$",
+          "$-18^\\circ\\text{F}$"
+        ],
+        "answer": 0,
+        "working": "$F = 1.8 \\times (-10) + 32 = -18 + 32 = 14$. B uses $+10$, and D forgets to add $32$."
+      }
+    ]
+  },
+  "m204-5-1-d": {
+    "lessonId": "m204-5-1",
+    "title": "Using Formulas, Part 4: Formulas in Two-Step Jobs",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "New flooring",
+        "t": 19.24
+      },
+      {
+        "title": "Fencing a yard",
+        "t": 69.87
+      },
+      {
+        "title": "Area or perimeter?",
+        "t": 105.875
+      },
+      {
+        "title": "Your turn",
+        "t": 128.037
+      },
+      {
+        "title": "Summary",
+        "t": 169.401
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-1-d:q",
+        "t": 142.23,
+        "prompt": "A room is $5.2$ m long and $3.5$ m wide. Carpet costs \\$32.00 per square metre. What will the carpet cost?",
+        "choices": [
+          "\\$582.40",
+          "\\$556.80",
+          "\\$18.20",
+          "\\$544.00"
+        ],
+        "answer": 0,
+        "working": "Area: $5.2 \\times 3.5 = 18.2\\ \\text{m}^2$. Cost: $18.2 \\times 32.00 = 582.40$. B uses the perimeter, $17.4$ m, and C is the area, not the cost."
+      }
+    ]
+  },
+  "m204-5-2": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 1: Inverse Operations",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Equations and inverse operations",
+        "t": 25.554
+      },
+      {
+        "title": "One step: adding",
+        "t": 58.786
+      },
+      {
+        "title": "One step: multiplying",
+        "t": 87.123
+      },
+      {
+        "title": "One step: dividing",
+        "t": 109.638
+      },
+      {
+        "title": "Your turn",
+        "t": 133.874
+      },
+      {
+        "title": "Summary",
+        "t": 165.094
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2:q",
+        "t": 140.695,
+        "prompt": "Solve $y - 9 = 14$.",
+        "choices": [
+          "$y = 23$",
+          "$y = 5$",
+          "$y = -23$",
+          "$y = 126$"
+        ],
+        "answer": 0,
+        "working": "To undo $-\\ 9$, add $9$ to both sides: $y = 14 + 9 = 23$. Check: $23 - 9 = 14$. B subtracts instead of adding."
+      }
+    ]
+  },
+  "m204-5-2-b": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 2: Two-Step Equations",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reverse order",
+        "t": 20.019
+      },
+      {
+        "title": "Bowling",
+        "t": 64.427
+      },
+      {
+        "title": "Undo the adding first",
+        "t": 110.832
+      },
+      {
+        "title": "Your turn",
+        "t": 133.101
+      },
+      {
+        "title": "Summary",
+        "t": 168.625
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2-b:q",
+        "t": 140.324,
+        "prompt": "Solve $4x - 3 = 25$.",
+        "choices": [
+          "$x = 7$",
+          "$x = 5.5$",
+          "$x = 112$",
+          "$x = 3.25$"
+        ],
+        "answer": 0,
+        "working": "Add $3$ to both sides: $4x = 28$. Divide by $4$: $x = 7$. Check: $4 \\times 7 - 3 = 25$. B subtracts $3$ instead of adding, and D divides first."
+      }
+    ]
+  },
+  "m204-5-2-c": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 3: Using a Formula Backwards",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How many hours?",
+        "t": 19.654
+      },
+      {
+        "title": "How far was the taxi ride?",
+        "t": 74.562
+      },
+      {
+        "title": "Fahrenheit to Celsius",
+        "t": 125.25
+      },
+      {
+        "title": "Your turn",
+        "t": 163.702
+      },
+      {
+        "title": "Summary",
+        "t": 204.829
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2-c:q",
+        "t": 176.981,
+        "prompt": "Use $E = rh$. Jada earned \\$504.00 at \\$16.80 per hour. How many hours did Jada work?",
+        "choices": [
+          "$30$ hours",
+          "$8{,}467.20$ hours",
+          "$487.20$ hours",
+          "$3$ hours"
+        ],
+        "answer": 0,
+        "working": "$504.00 = 16.80h$, so $h = 504.00 \\div 16.80 = 30$. B multiplies instead of dividing, and C subtracts."
+      }
+    ]
+  },
+  "m204-5-2-d": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 4: Checking Your Answer",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How to check",
+        "t": 17.568
+      },
+      {
+        "title": "Catching a mistake",
+        "t": 40.297
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 85.315
+      },
+      {
+        "title": "Your turn",
+        "t": 111.122
+      },
+      {
+        "title": "Summary",
+        "t": 155.568
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2-d:q",
+        "t": 124.901,
+        "prompt": "Ella solved $5p - 12 = 33$ and got $p = 4.2$. Check the answer. What is the correct solution?",
+        "choices": [
+          "$p = 9$",
+          "$p = 4.2$",
+          "$p = 6.6$",
+          "$p = 225$"
+        ],
+        "answer": 0,
+        "working": "Check: $5 \\times 4.2 - 12 = 9$, not $33$. Add $12$: $5p = 45$, so $p = 9$. Check: $5 \\times 9 - 12 = 33$. B subtracted $12$ instead of adding it, and C forgets the $12$."
+      }
+    ]
+  },
+  "m204-5-3": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 1: Tables of Values",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Relationships and tables",
+        "t": 21.307
+      },
+      {
+        "title": "A table for P = 15h",
+        "t": 48.312
+      },
+      {
+        "title": "The pattern",
+        "t": 89.899
+      },
+      {
+        "title": "Your turn",
+        "t": 115.984
+      },
+      {
+        "title": "Summary",
+        "t": 153.154
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3:q",
+        "t": 127.061,
+        "prompt": "The rule is $P = 16h$. What are the pay values for $1$, $2$, $3$ and $4$ hours?",
+        "choices": [
+          "$16, 32, 48, 64$",
+          "$16, 17, 18, 19$",
+          "$17, 18, 19, 20$",
+          "$16, 36, 56, 76$"
+        ],
+        "answer": 0,
+        "working": "$16 \\times 1 = 16$, $16 \\times 2 = 32$, $16 \\times 3 = 48$, $16 \\times 4 = 64$. Each hour adds $16$. B adds $1$ each time, and C adds the hours to $16$."
+      }
+    ]
+  },
+  "m204-5-3-b": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 2: Reading a Graph",
+    "duration": 171,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A graph",
+        "t": 14.126
+      },
+      {
+        "title": "Reading forwards",
+        "t": 41.165
+      },
+      {
+        "title": "Reading backwards",
+        "t": 77.207
+      },
+      {
+        "title": "Your turn",
+        "t": 109.429
+      },
+      {
+        "title": "Summary",
+        "t": 147.298
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3-b:q",
+        "t": 124.271,
+        "prompt": "On the graph of $P = 15h$, you start at $105$ on the pay axis, go across to the line, then down. Which number of hours do you land on?",
+        "choices": [
+          "$7$",
+          "$90$",
+          "$1{,}575$",
+          "$6$"
+        ],
+        "answer": 0,
+        "working": "$105 \\div 15 = 7$, so the point is $(7,\\ 105)$. Check: $15 \\times 7 = 105$. C multiplies instead of dividing."
+      }
+    ]
+  },
+  "m204-5-3-c": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 3: Rules with a Start Value",
+    "duration": 163,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A start value",
+        "t": 18.363
+      },
+      {
+        "title": "A taxi fare",
+        "t": 49.049
+      },
+      {
+        "title": "Forgetting the start value",
+        "t": 85.982
+      },
+      {
+        "title": "Your turn",
+        "t": 105.773
+      },
+      {
+        "title": "Summary",
+        "t": 141.031
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3-c:q",
+        "t": 119.767,
+        "prompt": "A taxi charges $C = 5 + 3d$, where $C$ is in dollars and $d$ is in kilometres. What is the fare for $4$ km?",
+        "choices": [
+          "\\$17",
+          "\\$12",
+          "\\$32",
+          "\\$5"
+        ],
+        "answer": 0,
+        "working": "$C = 5 + 3 \\times 4 = 5 + 12 = 17$. B forgets the start value, C adds first, and D is only the start value."
+      }
+    ]
+  },
+  "m204-5-3-d": {
+    "lessonId": "m204-5-3",
+    "title": "Tables and Graphs, Part 4: Matching a Rule to a Graph",
+    "duration": 162,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two points from the rule",
+        "t": 15.511
+      },
+      {
+        "title": "Which line?",
+        "t": 52.072
+      },
+      {
+        "title": "Your turn",
+        "t": 102.091
+      },
+      {
+        "title": "Summary",
+        "t": 137.796
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-3-d:q",
+        "t": 113.686,
+        "prompt": "A line meets the vertical axis at $30$ and goes up $10$ for each hour to the right. Which rule does it show?",
+        "choices": [
+          "$C = 30 + 10h$",
+          "$C = 10 + 30h$",
+          "$C = 40h$",
+          "$C = 30h$"
+        ],
+        "answer": 0,
+        "working": "The start value is $30$ and the rate is $10$ per hour, so $C = 30 + 10h$. B swaps the start value and the rate."
+      }
+    ]
+  },
+  "m204-6-1": {
+    "lessonId": "m204-6-1",
+    "title": "Converting Units, Part 1: SI Units",
+    "duration": 204,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "SI units",
+        "t": 23.017
+      },
+      {
+        "title": "Multiply or divide?",
+        "t": 59.024
+      },
+      {
+        "title": "Rope and flour",
+        "t": 78.607
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 121.094
+      },
+      {
+        "title": "Your turn",
+        "t": 144.335
+      },
+      {
+        "title": "Summary",
+        "t": 180.258
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-1:q",
+        "t": 153.894,
+        "prompt": "A jug holds $3500$ mL of juice. How many litres is that?",
+        "choices": [
+          "$3.5$ L",
+          "$3\\,500\\,000$ L",
+          "$35$ L",
+          "$350$ L"
+        ],
+        "answer": 0,
+        "working": "$1$ L $= 1000$ mL. Litres are bigger, so divide: $3500 \\div 1000 = 3.5$ L. B multiplies, and C and D divide by $100$ and $10$."
+      }
+    ]
+  },
+  "m204-6-1-b": {
+    "lessonId": "m204-6-1",
+    "title": "Converting Units, Part 2: Imperial Units",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Imperial units",
+        "t": 18.817
+      },
+      {
+        "title": "A foot is 12 inches",
+        "t": 43.359
+      },
+      {
+        "title": "Cheese at a deli",
+        "t": 73.871
+      },
+      {
+        "title": "Not 10 or 100",
+        "t": 98.938
+      },
+      {
+        "title": "Your turn",
+        "t": 118.279
+      },
+      {
+        "title": "Summary",
+        "t": 149.415
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-1-b:q",
+        "t": 126.055,
+        "prompt": "A roll of fabric is $4$ yd long. How many feet is that?",
+        "choices": [
+          "$12$ ft",
+          "$48$ ft",
+          "$1.33$ ft",
+          "$400$ ft"
+        ],
+        "answer": 0,
+        "working": "$1$ yd $= 3$ ft. Feet are smaller, so multiply: $4 \\times 3 = 12$ ft. B uses $12$, C divides, and D uses $100$."
+      }
+    ]
+  },
+  "m204-6-1-c": {
+    "lessonId": "m204-6-1",
+    "title": "Converting Units, Part 3: Mixed Units",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Height in inches",
+        "t": 15.892
+      },
+      {
+        "title": "A window in feet and inches",
+        "t": 51.872
+      },
+      {
+        "title": "5 ft 8 in is not 5.8 ft",
+        "t": 88.29
+      },
+      {
+        "title": "Your turn",
+        "t": 119.37
+      },
+      {
+        "title": "Summary",
+        "t": 152.446
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-1-c:q",
+        "t": 128.152,
+        "prompt": "A baby weighs $7$ lb $6$ oz. What is the weight in ounces?",
+        "choices": [
+          "$118$ oz",
+          "$76$ oz",
+          "$90$ oz",
+          "$7.6$ oz"
+        ],
+        "answer": 0,
+        "working": "$7 \\times 16 = 112$ oz, and $112 + 6 = 118$ oz. B uses $10$ instead of $16$, and C uses $12$."
+      }
+    ]
+  },
+  "m204-6-2": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 1: Conversion Factors",
+    "duration": 191,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Conversion factors",
+        "t": 26.02
+      },
+      {
+        "title": "An inch and a centimetre",
+        "t": 59.029
+      },
+      {
+        "title": "A ruler from the United States",
+        "t": 85.489
+      },
+      {
+        "title": "Your turn",
+        "t": 127.31
+      },
+      {
+        "title": "Summary",
+        "t": 165.193
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2:q",
+        "t": 140.148,
+        "prompt": "A tablet screen is $10$ in across. Use $1$ in $= 2.54$ cm. How many centimetres is that?",
+        "choices": [
+          "$25.4$ cm",
+          "$3.94$ cm",
+          "$254$ cm",
+          "$12.54$ cm"
+        ],
+        "answer": 0,
+        "working": "$10 \\times 2.54 = 25.4$ cm. Estimate: $10 \\times 2.5 = 25$. B divides, and D adds."
+      }
+    ]
+  },
+  "m204-6-2-b": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 2: Multiply or Divide?",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The rule",
+        "t": 19.331
+      },
+      {
+        "title": "A TV in centimetres",
+        "t": 37.975
+      },
+      {
+        "title": "Dog food in kilograms",
+        "t": 72.452
+      },
+      {
+        "title": "Dividing when you should multiply",
+        "t": 110.197
+      },
+      {
+        "title": "Your turn",
+        "t": 133.968
+      },
+      {
+        "title": "Summary",
+        "t": 169.062
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2-b:q",
+        "t": 146.306,
+        "prompt": "A suitcase weighs $44$ lb. Use $1$ kg $\\approx 2.2$ lb. What is its mass in kilograms?",
+        "choices": [
+          "$20$ kg",
+          "$96.8$ kg",
+          "$41.8$ kg",
+          "$46.2$ kg"
+        ],
+        "answer": 0,
+        "working": "A kilogram is bigger, so divide: $44 \\div 2.2 = 20$ kg. B multiplies, and C and D subtract or add."
+      }
+    ]
+  },
+  "m204-6-2-c": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 3: Speeds and Heights",
+    "duration": 195,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A speed in miles per hour",
+        "t": 16.434
+      },
+      {
+        "title": "A height in two steps",
+        "t": 75.113
+      },
+      {
+        "title": "Your turn",
+        "t": 125.489
+      },
+      {
+        "title": "Summary",
+        "t": 171.972
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2-c:q",
+        "t": 140.748,
+        "prompt": "A basketball player is $6$ ft $1$ in tall. Use $1$ in $= 2.54$ cm. What is the height in centimetres, to the nearest tenth?",
+        "choices": [
+          "$185.4$ cm",
+          "$154.9$ cm",
+          "$28.7$ cm",
+          "$15.5$ cm"
+        ],
+        "answer": 0,
+        "working": "Step 1: $6 \\times 12 + 1 = 73$ in. Step 2: $73 \\times 2.54 = 185.42 \\approx 185.4$ cm. B uses $6.1$ ft as $61$ in, and C divides."
+      }
+    ]
+  },
+  "m204-6-2-d": {
+    "lessonId": "m204-6-2",
+    "title": "SI and Imperial, Part 4: Filling a Gas Tank",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Gallons to litres",
+        "t": 17.19
+      },
+      {
+        "title": "Rounding too early",
+        "t": 71.405
+      },
+      {
+        "title": "Planning a road trip",
+        "t": 101.56
+      },
+      {
+        "title": "Your turn",
+        "t": 144.547
+      },
+      {
+        "title": "Summary",
+        "t": 190.622
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-2-d:q",
+        "t": 161.921,
+        "prompt": "A car has a $15$-gallon (US) tank. Gas costs \\$1.60 per litre. Use $1$ US gallon $\\approx 3.79$ L. What does it cost to fill the empty tank?",
+        "choices": [
+          "\\$90.96",
+          "\\$24.00",
+          "\\$91.20",
+          "\\$6.33"
+        ],
+        "answer": 0,
+        "working": "Litres: $15 \\times 3.79 = 56.85$ L. Cost: $56.85 \\times 1.60 = 90.96$. B forgets to convert, and C rounds to $57$ L too early."
+      }
+    ]
+  },
+  "m204-6-3": {
+    "lessonId": "m204-6-3",
+    "title": "Temperature, Part 1: Two Temperature Scales",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two scales",
+        "t": 25.264
+      },
+      {
+        "title": "Benchmark temperatures",
+        "t": 51.221
+      },
+      {
+        "title": "On both scales",
+        "t": 77.812
+      },
+      {
+        "title": "Which temperature makes sense?",
+        "t": 105.393
+      },
+      {
+        "title": "Your turn",
+        "t": 149.707
+      },
+      {
+        "title": "Summary",
+        "t": 181.772
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-3:q",
+        "t": 156.893,
+        "prompt": "Which temperature makes sense for the inside of a fridge?",
+        "choices": [
+          "$4^\\circ$C",
+          "$4^\\circ$F",
+          "$40^\\circ$C",
+          "$75^\\circ$F"
+        ],
+        "answer": 0,
+        "working": "A fridge is cold but above freezing: just above $0^\\circ$C. $4^\\circ$F is below freezing, $40^\\circ$C is hotter than your body, and $75^\\circ$F is warmer than a room."
+      }
+    ]
+  },
+  "m204-6-3-b": {
+    "lessonId": "m204-6-3",
+    "title": "Temperature, Part 2: Celsius to Fahrenheit",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formula",
+        "t": 17.359
+      },
+      {
+        "title": "Weather for a cousin",
+        "t": 43.658
+      },
+      {
+        "title": "A cold day",
+        "t": 79.213
+      },
+      {
+        "title": "Multiply first",
+        "t": 107.162
+      },
+      {
+        "title": "A quick check",
+        "t": 130.713
+      },
+      {
+        "title": "Your turn",
+        "t": 154.168
+      },
+      {
+        "title": "Summary",
+        "t": 190.818
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-3-b:q",
+        "t": 165.599,
+        "prompt": "Use $F = 1.8C + 32$. What is $15^\\circ$C in degrees Fahrenheit?",
+        "choices": [
+          "$59^\\circ$F",
+          "$84.6^\\circ$F",
+          "$27^\\circ$F",
+          "$47^\\circ$F"
+        ],
+        "answer": 0,
+        "working": "$1.8 \\times 15 = 27$, and $27 + 32 = 59$. B adds first, C forgets to add $32$, and D adds $32$ to $15$ without multiplying."
+      }
+    ]
+  },
+  "m204-6-3-c": {
+    "lessonId": "m204-6-3",
+    "title": "Temperature, Part 3: Fahrenheit to Celsius",
+    "duration": 217,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Undo in reverse order",
+        "t": 17.836
+      },
+      {
+        "title": "A US recipe",
+        "t": 46.174
+      },
+      {
+        "title": "Is the food hot enough?",
+        "t": 86.393
+      },
+      {
+        "title": "Subtract first",
+        "t": 128.613
+      },
+      {
+        "title": "Your turn",
+        "t": 148.806
+      },
+      {
+        "title": "Summary",
+        "t": 190.665
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-6-3-c:q",
+        "t": 162.335,
+        "prompt": "Use $C = (F - 32) \\div 1.8$. What is $104^\\circ$F in degrees Celsius?",
+        "choices": [
+          "$40^\\circ$C",
+          "$25.8^\\circ$C",
+          "$129.6^\\circ$C",
+          "$72^\\circ$C"
+        ],
+        "answer": 0,
+        "working": "$104 - 32 = 72$, and $72 \\div 1.8 = 40$. B divides first, C multiplies by $1.8$, and D forgets to divide."
+      }
+    ]
+  },
+  "m204-7-1": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 1: Perimeter of a Rectangle",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Perimeter",
+        "t": 20.291
+      },
+      {
+        "title": "Fencing a dog run",
+        "t": 40.507
+      },
+      {
+        "title": "All four sides",
+        "t": 91.151
+      },
+      {
+        "title": "Your turn",
+        "t": 115.973
+      },
+      {
+        "title": "Summary",
+        "t": 152.093
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1:q",
+        "t": 126.964,
+        "prompt": "A rectangular patio is $12$ m long and $7.5$ m wide. What is its perimeter?",
+        "choices": [
+          "$39$ m",
+          "$19.5$ m",
+          "$90$ m",
+          "$27$ m"
+        ],
+        "answer": 0,
+        "working": "$P = 2 \\times (12 + 7.5) = 2 \\times 19.5 = 39$ m. B adds only two sides, and C multiplies, which gives the area."
+      }
+    ]
+  },
+  "m204-7-1-b": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 2: Other Shapes with Straight Sides",
+    "duration": 180,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An L-shaped room",
+        "t": 17.828
+      },
+      {
+        "title": "A triangle",
+        "t": 51.486
+      },
+      {
+        "title": "Missing a side",
+        "t": 74.928
+      },
+      {
+        "title": "A regular shape",
+        "t": 91.774
+      },
+      {
+        "title": "Your turn",
+        "t": 123.767
+      },
+      {
+        "title": "Summary",
+        "t": 158.902
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1-b:q",
+        "t": 136.825,
+        "prompt": "A deck is a regular octagon. An octagon has $8$ sides. Each side is $1.2$ m. What is the perimeter?",
+        "choices": [
+          "$9.6$ m",
+          "$7.2$ m",
+          "$4.8$ m",
+          "$9.2$ m"
+        ],
+        "answer": 0,
+        "working": "$8 \\times 1.2 = 9.6$ m. B uses $6$ sides, C uses $4$, and D adds $8 + 1.2$."
+      }
+    ]
+  },
+  "m204-7-1-c": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 3: Circumference of a Circle",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Parts of a circle",
+        "t": 15.841
+      },
+      {
+        "title": "C = π × d",
+        "t": 37.733
+      },
+      {
+        "title": "Starting from the radius",
+        "t": 80.997
+      },
+      {
+        "title": "Your turn",
+        "t": 127.017
+      },
+      {
+        "title": "Summary",
+        "t": 166.53
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1-c:q",
+        "t": 139.225,
+        "prompt": "A bike wheel has a radius of $0.35$ m. What is its circumference, to the nearest tenth of a metre?",
+        "choices": [
+          "$2.2$ m",
+          "$1.1$ m",
+          "$0.7$ m",
+          "$0.4$ m"
+        ],
+        "answer": 0,
+        "working": "$d = 2 \\times 0.35 = 0.7$ m. $C = \\pi \\times 0.7 \\approx 2.20$ m. B uses the radius, and C is the diameter."
+      }
+    ]
+  },
+  "m204-7-1-d": {
+    "lessonId": "m204-7-1",
+    "title": "Perimeter, Part 4: The Cost of Edging and Fencing",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Edging a garden",
+        "t": 16.648
+      },
+      {
+        "title": "Around, not across",
+        "t": 64.818
+      },
+      {
+        "title": "Buying whole pieces",
+        "t": 89.369
+      },
+      {
+        "title": "Your turn",
+        "t": 121.487
+      },
+      {
+        "title": "Summary",
+        "t": 159.778
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-1-d:q",
+        "t": 134.449,
+        "prompt": "A rectangular yard is $10$ m by $7$ m. Fencing costs \\$12.50 per metre. What will the fencing cost?",
+        "choices": [
+          "\\$425.00",
+          "\\$875.00",
+          "\\$212.50",
+          "\\$34.00"
+        ],
+        "answer": 0,
+        "working": "Perimeter: $10 + 7 + 10 + 7 = 34$ m. Cost: $34 \\times 12.50 = 425.00$. B uses the area, $70$ m², C uses only two sides, and D is the perimeter, not the cost."
+      }
+    ]
+  },
+  "m204-7-2": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 1: Area of a Rectangle",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square units",
+        "t": 18.421
+      },
+      {
+        "title": "A = l × w",
+        "t": 53.471
+      },
+      {
+        "title": "Area or perimeter?",
+        "t": 89.108
+      },
+      {
+        "title": "Your turn",
+        "t": 115.894
+      },
+      {
+        "title": "Summary",
+        "t": 146.671
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2:q",
+        "t": 126.436,
+        "prompt": "A rectangular lawn is $5.5$ m long and $4$ m wide. What is its area?",
+        "choices": [
+          "$22$ m²",
+          "$19$ m",
+          "$9.5$ m²",
+          "$44$ m²"
+        ],
+        "answer": 0,
+        "working": "$A = 5.5 \\times 4 = 22$ m². B is the perimeter, and C adds the length and width."
+      }
+    ]
+  },
+  "m204-7-2-b": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 2: Area of a Triangle",
+    "duration": 158,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Base and height",
+        "t": 16.368
+      },
+      {
+        "title": "Half of a rectangle",
+        "t": 48.861
+      },
+      {
+        "title": "A triangular flower bed",
+        "t": 72.81
+      },
+      {
+        "title": "Your turn",
+        "t": 105.324
+      },
+      {
+        "title": "Summary",
+        "t": 136.26
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2-b:q",
+        "t": 115.609,
+        "prompt": "A triangular sail has a base of $8$ m and a height of $5$ m. What is its area?",
+        "choices": [
+          "$20$ m²",
+          "$40$ m²",
+          "$13$ m²",
+          "$6.5$ m²"
+        ],
+        "answer": 0,
+        "working": "$A = 8 \\times 5 \\div 2 = 40 \\div 2 = 20$ m². B forgets to divide by $2$, and C adds the base and height."
+      }
+    ]
+  },
+  "m204-7-2-c": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 3: Area of a Parallelogram",
+    "duration": 172,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A parallelogram",
+        "t": 17.879
+      },
+      {
+        "title": "A parking stall",
+        "t": 46.335
+      },
+      {
+        "title": "The slanted side",
+        "t": 91.251
+      },
+      {
+        "title": "Your turn",
+        "t": 113.066
+      },
+      {
+        "title": "Summary",
+        "t": 149.597
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2-c:q",
+        "t": 126.275,
+        "prompt": "A parallelogram has a base of $7$ m and a height of $4$ m. Its slanted sides are $5$ m long. What is its area?",
+        "choices": [
+          "$28$ m²",
+          "$35$ m²",
+          "$14$ m²",
+          "$140$ m²"
+        ],
+        "answer": 0,
+        "working": "$A = b \\times h = 7 \\times 4 = 28$ m². B uses the slanted side, C divides by $2$ like a triangle, and D multiplies all three numbers."
+      }
+    ]
+  },
+  "m204-7-2-d": {
+    "lessonId": "m204-7-2",
+    "title": "Area, Part 4: Area of a Circle",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The area formula",
+        "t": 15.792
+      },
+      {
+        "title": "A circular patio",
+        "t": 36.184
+      },
+      {
+        "title": "A pizza",
+        "t": 72.011
+      },
+      {
+        "title": "Your turn",
+        "t": 119.669
+      },
+      {
+        "title": "Summary",
+        "t": 153.951
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-2-d:q",
+        "t": 129.449,
+        "prompt": "A round rug has a diameter of $4$ m. What is its area, to the nearest tenth?",
+        "choices": [
+          "$12.6$ m²",
+          "$50.3$ m²",
+          "$12.6$ m",
+          "$6.3$ m²"
+        ],
+        "answer": 0,
+        "working": "$r = 4 \\div 2 = 2$ m. $A = \\pi \\times 2 \\times 2 \\approx 12.57$ m². B uses the diameter, and C is the circumference, a length."
+      }
+    ]
+  },
+  "m204-7-3": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 1: Adding the Parts",
+    "duration": 169,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Composite shapes",
+        "t": 18.575
+      },
+      {
+        "title": "An L-shaped kitchen floor",
+        "t": 36.852
+      },
+      {
+        "title": "No overlaps",
+        "t": 85.269
+      },
+      {
+        "title": "Your turn",
+        "t": 112.647
+      },
+      {
+        "title": "Summary",
+        "t": 150.089
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3:q",
+        "t": 125.74,
+        "prompt": "An L-shaped deck splits into a $5$ m by $3$ m rectangle and a $4$ m by $2$ m rectangle. What is its total area?",
+        "choices": [
+          "$23$ m²",
+          "$120$ m²",
+          "$14$ m²",
+          "$15$ m²"
+        ],
+        "answer": 0,
+        "working": "$5 \\times 3 = 15$ and $4 \\times 2 = 8$, so $15 + 8 = 23$ m². B multiplies the two areas, C adds the four lengths, and D is only one part."
+      }
+    ]
+  },
+  "m204-7-3-b": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 2: Taking Away and Half Circles",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mowing around a flower bed",
+        "t": 16.852
+      },
+      {
+        "title": "A stage with a rounded front",
+        "t": 54.686
+      },
+      {
+        "title": "Halve the circle",
+        "t": 99.302
+      },
+      {
+        "title": "Your turn",
+        "t": 118.296
+      },
+      {
+        "title": "Summary",
+        "t": 155.734
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3-b:q",
+        "t": 132.176,
+        "prompt": "A yard is $10$ m by $6$ m. A pond that is $2$ m by $1.5$ m is in the yard. What area of grass is left?",
+        "choices": [
+          "$57$ m²",
+          "$63$ m²",
+          "$60$ m²",
+          "$3$ m²"
+        ],
+        "answer": 0,
+        "working": "Yard: $10 \\times 6 = 60$ m². Pond: $2 \\times 1.5 = 3$ m². Grass: $60 - 3 = 57$ m². B adds the pond, C forgets it, and D is the pond."
+      }
+    ]
+  },
+  "m204-7-3-c": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 3: How Much Material to Buy",
+    "duration": 189,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Divide, then round up",
+        "t": 19.399
+      },
+      {
+        "title": "Boxes of flooring",
+        "t": 39.585
+      },
+      {
+        "title": "Never round down",
+        "t": 76.361
+      },
+      {
+        "title": "Grass seed",
+        "t": 100.982
+      },
+      {
+        "title": "Your turn",
+        "t": 125.731
+      },
+      {
+        "title": "Summary",
+        "t": 168.347
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3-c:q",
+        "t": 138.685,
+        "prompt": "A lawn is $5$ m by $5$ m. One roll of sod covers $0.8$ m². How many rolls are needed?",
+        "choices": [
+          "$32$ rolls",
+          "$31$ rolls",
+          "$20$ rolls",
+          "$31.25$ rolls"
+        ],
+        "answer": 0,
+        "working": "Area: $5 \\times 5 = 25$ m². $25 \\div 0.8 = 31.25$, so round up to $32$ rolls. B rounds down, C multiplies, and D cannot be bought."
+      }
+    ]
+  },
+  "m204-7-3-d": {
+    "lessonId": "m204-7-3",
+    "title": "Composite Shapes, Part 4: Waste and GST",
+    "duration": 211,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Waste and GST",
+        "t": 19.165
+      },
+      {
+        "title": "Flooring with waste and GST",
+        "t": 46.413
+      },
+      {
+        "title": "Add the waste to the area",
+        "t": 107.547
+      },
+      {
+        "title": "Your turn",
+        "t": 133.897
+      },
+      {
+        "title": "Summary",
+        "t": 184.367
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-7-3-d:q",
+        "t": 151.61,
+        "prompt": "A floor is $20$ m². Add $10\\%$ for waste. Each box covers $2.5$ m² and costs \\$30.00. GST is $5\\%$. What is the total cost?",
+        "choices": [
+          "\\$283.50",
+          "\\$270.00",
+          "\\$252.00",
+          "\\$13.50"
+        ],
+        "answer": 0,
+        "working": "$20 \\times 1.1 = 22$ m². $22 \\div 2.5 = 8.8$, so $9$ boxes. $9 \\times 30 = 270.00$. GST: $13.50$. Total: $283.50$. B forgets GST, C forgets the waste, and D is the GST only."
+      }
+    ]
+  },
+  "m204-8-1": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 1: What a Scale Means",
+    "duration": 178,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Scale drawings",
+        "t": 18.997
+      },
+      {
+        "title": "The size of a living room",
+        "t": 50.777
+      },
+      {
+        "title": "Does it make sense?",
+        "t": 95.915
+      },
+      {
+        "title": "Your turn",
+        "t": 117.744
+      },
+      {
+        "title": "Summary",
+        "t": 152.775
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1:q",
+        "t": 131.773,
+        "prompt": "On a floor plan, $1$ cm represents $2$ m. A bedroom is $2.5$ cm long on the plan. How long is the real bedroom?",
+        "choices": [
+          "$5$ m",
+          "$1.25$ m",
+          "$4.5$ m",
+          "$50$ m"
+        ],
+        "answer": 0,
+        "working": "$2.5 \\times 2 = 5$ m. B divides, and C adds."
+      }
+    ]
+  },
+  "m204-8-1-b": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 2: Measuring a Plan",
+    "duration": 173,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A wall on a garage plan",
+        "t": 14.827
+      },
+      {
+        "title": "Start at zero",
+        "t": 58.134
+      },
+      {
+        "title": "Measure carefully",
+        "t": 90.966
+      },
+      {
+        "title": "Your turn",
+        "t": 112.444
+      },
+      {
+        "title": "Summary",
+        "t": 154.276
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1-b:q",
+        "t": 129.108,
+        "prompt": "A line on a plan starts at the $2$ cm mark and ends at the $8.5$ cm mark. On the plan, $1$ cm represents $3$ m. How long is the real wall?",
+        "choices": [
+          "$19.5$ m",
+          "$25.5$ m",
+          "$6.5$ m",
+          "$31.5$ m"
+        ],
+        "answer": 0,
+        "working": "Plan length: $8.5 - 2 = 6.5$ cm. Real: $6.5 \\times 3 = 19.5$ m. B uses only the end mark, C is the plan length, and D adds the marks."
+      }
+    ]
+  },
+  "m204-8-1-c": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 3: Ratio Scales",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Ratio scales",
+        "t": 18.329
+      },
+      {
+        "title": "A kitchen wall",
+        "t": 38.117
+      },
+      {
+        "title": "From real to drawing",
+        "t": 83.026
+      },
+      {
+        "title": "Your turn",
+        "t": 121.879
+      },
+      {
+        "title": "Summary",
+        "t": 160.983
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1-c:q",
+        "t": 135.414,
+        "prompt": "A deck plan uses a scale of $1 : 40$. The deck is $9$ cm long on the plan. How long is the real deck, in metres?",
+        "choices": [
+          "$3.6$ m",
+          "$360$ m",
+          "$0.225$ m",
+          "$36$ m"
+        ],
+        "answer": 0,
+        "working": "$9 \\times 40 = 360$ cm, and $360 \\div 100 = 3.6$ m. B forgets to change centimetres to metres, and C divides."
+      }
+    ]
+  },
+  "m204-8-1-d": {
+    "lessonId": "m204-8-1",
+    "title": "Scale Drawings, Part 4: Finding the Scale and the Area",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A model truck",
+        "t": 18.409
+      },
+      {
+        "title": "Same units first",
+        "t": 55.604
+      },
+      {
+        "title": "Flooring for a room",
+        "t": 77.67
+      },
+      {
+        "title": "Your turn",
+        "t": 127.466
+      },
+      {
+        "title": "Summary",
+        "t": 165.303
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-1-d:q",
+        "t": 138.154,
+        "prompt": "A model boat is $30$ cm long. The real boat is $9$ m long. What is the scale?",
+        "choices": [
+          "$1 : 30$",
+          "$1 : 0.3$",
+          "$1 : 3.3$",
+          "$1 : 270$"
+        ],
+        "answer": 0,
+        "working": "$9$ m $= 900$ cm. $900 \\div 30 = 30$, so the scale is $1 : 30$. B divides $9$ by $30$, mixing metres and centimetres, and D multiplies."
+      }
+    ]
+  },
+  "m204-8-2": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 1: Map Scales",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Map scale",
+        "t": 18.1
+      },
+      {
+        "title": "A ratio scale",
+        "t": 53.994
+      },
+      {
+        "title": "Two towns",
+        "t": 99.558
+      },
+      {
+        "title": "Your turn",
+        "t": 127.483
+      },
+      {
+        "title": "Summary",
+        "t": 167.217
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2:q",
+        "t": 140.039,
+        "prompt": "A map has a scale of $1 : 500\\,000$. Two lakes are $4$ cm apart on the map. How far apart are they?",
+        "choices": [
+          "$20$ km",
+          "$2\\,000\\,000$ km",
+          "$5$ km",
+          "$125$ km"
+        ],
+        "answer": 0,
+        "working": "$1$ cm represents $500\\,000 \\div 100\\,000 = 5$ km. $4 \\times 5 = 20$ km. B forgets to change centimetres to kilometres, and C is the distance for $1$ cm."
+      }
+    ]
+  },
+  "m204-8-2-b": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 2: Routes with Several Legs",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the farm to town",
+        "t": 15.334
+      },
+      {
+        "title": "Two ways, one answer",
+        "t": 62.262
+      },
+      {
+        "title": "Every leg",
+        "t": 91.283
+      },
+      {
+        "title": "Your turn",
+        "t": 115.538
+      },
+      {
+        "title": "Summary",
+        "t": 157.348
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2-b:q",
+        "t": 133.718,
+        "prompt": "A route has three legs: $2.4$ cm, $1.8$ cm and $3.3$ cm on the map. On the map, $1$ cm represents $4$ km. How long is the route?",
+        "choices": [
+          "$30$ km",
+          "$22.8$ km",
+          "$7.5$ km",
+          "$9.6$ km"
+        ],
+        "answer": 0,
+        "working": "Map total: $2.4 + 1.8 + 3.3 = 7.5$ cm. Real: $7.5 \\times 4 = 30$ km. B leaves out the middle leg, and C is the map length."
+      }
+    ]
+  },
+  "m204-8-2-c": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 3: Grid Locations",
+    "duration": 158,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A grid",
+        "t": 17.693
+      },
+      {
+        "title": "Finding places",
+        "t": 48
+      },
+      {
+        "title": "Letter first",
+        "t": 86.637
+      },
+      {
+        "title": "Your turn",
+        "t": 108.265
+      },
+      {
+        "title": "Summary",
+        "t": 135.847
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2-c:q",
+        "t": 117.636,
+        "prompt": "On a grid map, a place is in column D and row $3$. How is its square named?",
+        "choices": [
+          "D3",
+          "3D",
+          "C3",
+          "D4"
+        ],
+        "answer": 0,
+        "working": "Letter first, then number: D3. B writes the number first, and C and D are one square off."
+      }
+    ]
+  },
+  "m204-8-2-d": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 4: Compass Directions",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The compass",
+        "t": 16.597
+      },
+      {
+        "title": "Directions to the arena",
+        "t": 42.612
+      },
+      {
+        "title": "From where?",
+        "t": 76.268
+      },
+      {
+        "title": "Distance on the grid",
+        "t": 92.037
+      },
+      {
+        "title": "Your turn",
+        "t": 118.207
+      },
+      {
+        "title": "Summary",
+        "t": 155.929
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2-d:q",
+        "t": 131.889,
+        "prompt": "On a grid map, the Library is in B5 and the Gas station is in E1. Which direction is the Gas station from the Library?",
+        "choices": [
+          "southeast (SE)",
+          "northwest (NW)",
+          "northeast (NE)",
+          "southwest (SW)"
+        ],
+        "answer": 0,
+        "working": "Start at the Library (B5). E is to the right (east) and row 1 is down (south): southeast. B is the way back."
+      }
+    ]
+  },
+  "m204-8-3": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 1: Speed and Distance",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Speed",
+        "t": 19.368
+      },
+      {
+        "title": "A delivery run",
+        "t": 44.598
+      },
+      {
+        "title": "Part of an hour",
+        "t": 75.907
+      },
+      {
+        "title": "Three forms",
+        "t": 102.25
+      },
+      {
+        "title": "Your turn",
+        "t": 130.002
+      },
+      {
+        "title": "Summary",
+        "t": 162.568
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3:q",
+        "t": 141.265,
+        "prompt": "A bus travels for $4$ hours at an average speed of $75$ km/h. How far does it go?",
+        "choices": [
+          "$300$ km",
+          "$79$ km",
+          "$18.75$ km",
+          "$71$ km"
+        ],
+        "answer": 0,
+        "working": "$\\text{distance} = 75 \\times 4 = 300$ km. B adds, C divides, and D subtracts."
+      }
+    ]
+  },
+  "m204-8-3-b": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 2: Finding the Time or the Speed",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Travel time",
+        "t": 17.696
+      },
+      {
+        "title": "Average speed",
+        "t": 63.699
+      },
+      {
+        "title": "Which way to divide?",
+        "t": 99.805
+      },
+      {
+        "title": "Your turn",
+        "t": 123.507
+      },
+      {
+        "title": "Summary",
+        "t": 161.744
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3-b:q",
+        "t": 136,
+        "prompt": "A truck drives $360$ km at an average speed of $90$ km/h. How long does the trip take?",
+        "choices": [
+          "$4$ h",
+          "$0.25$ h",
+          "$32\\,400$ h",
+          "$270$ h"
+        ],
+        "answer": 0,
+        "working": "$\\text{time} = 360 \\div 90 = 4$ h. Check: $90 \\times 4 = 360$. B divides the wrong way, and C multiplies."
+      }
+    ]
+  },
+  "m204-8-3-c": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 3: Hours and Minutes",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A two-hour-something trip",
+        "t": 18.86
+      },
+      {
+        "title": "Not minutes",
+        "t": 63.218
+      },
+      {
+        "title": "Minutes to a decimal",
+        "t": 95.709
+      },
+      {
+        "title": "Your turn",
+        "t": 131.967
+      },
+      {
+        "title": "Summary",
+        "t": 172.835
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3-c:q",
+        "t": 145.925,
+        "prompt": "A driver goes $150$ km at an average speed of $60$ km/h. How long does the trip take, in hours and minutes?",
+        "choices": [
+          "$2$ h $30$ min",
+          "$2$ h $50$ min",
+          "$2$ h $5$ min",
+          "$3$ h $30$ min"
+        ],
+        "answer": 0,
+        "working": "$150 \\div 60 = 2.5$ h. $0.5 \\times 60 = 30$ min, so $2$ h $30$ min. B reads $0.5$ as $50$ minutes, and C as $5$ minutes."
+      }
+    ]
+  },
+  "m204-8-3-d": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 4: Planning a Trip",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Arrival time",
+        "t": 20.283
+      },
+      {
+        "title": "Kiona’s drive",
+        "t": 34.604
+      },
+      {
+        "title": "Estimate first",
+        "t": 84.027
+      },
+      {
+        "title": "Your turn",
+        "t": 111.891
+      },
+      {
+        "title": "Summary",
+        "t": 152.648
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3-d:q",
+        "t": 127.224,
+        "prompt": "Omar leaves at 9:15 a.m., drives $240$ km at $80$ km/h, and stops for $20$ minutes for fuel. When does Omar arrive?",
+        "choices": [
+          "12:35 p.m.",
+          "12:15 p.m.",
+          "12:55 p.m.",
+          "11:35 a.m."
+        ],
+        "answer": 0,
+        "working": "Driving: $240 \\div 80 = 3$ h. 9:15 a.m. $+ 3$ h $=$ 12:15 p.m., then $+ 20$ min $=$ 12:35 p.m. B forgets the stop."
+      }
+    ]
+  },
+  "m204-9-1": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 1: Line Graphs",
+    "duration": 160,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A line graph",
+        "t": 17.643
+      },
+      {
+        "title": "Reading a change",
+        "t": 45.974
+      },
+      {
+        "title": "Straight up, straight across",
+        "t": 82.881
+      },
+      {
+        "title": "Your turn",
+        "t": 101.427
+      },
+      {
+        "title": "Summary",
+        "t": 136.331
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1:q",
+        "t": 114.819,
+        "prompt": "On a line graph, the grid lines go up by $20$. A point is halfway between the $60$ line and the $80$ line. What value does it show?",
+        "choices": [
+          "$70$",
+          "$65$",
+          "$75$",
+          "$60$"
+        ],
+        "answer": 0,
+        "working": "Halfway between $60$ and $80$ is $(60 + 80) \\div 2 = 70$. D reads the line below."
+      }
+    ]
+  },
+  "m204-9-1-b": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 2: Circle Graphs and Percents",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A circle graph",
+        "t": 16.481
+      },
+      {
+        "title": "Percents into dollars",
+        "t": 49.255
+      },
+      {
+        "title": "A shortcut",
+        "t": 97.482
+      },
+      {
+        "title": "Your turn",
+        "t": 132.393
+      },
+      {
+        "title": "Summary",
+        "t": 172.879
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1-b:q",
+        "t": 147.565,
+        "prompt": "Jordan takes home \\$2,400 a month. Transport is $15\\%$ and Phone is $5\\%$. How much more goes to Transport than to Phone?",
+        "choices": [
+          "\\$240",
+          "\\$360",
+          "\\$120",
+          "\\$10"
+        ],
+        "answer": 0,
+        "working": "$15\\% - 5\\% = 10\\%$, and $0.10 \\times 2400 = 240$. B is the Transport amount, C is the Phone amount, and D is the percent, not dollars."
+      }
+    ]
+  },
+  "m204-9-1-c": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 3: Finding a Percent",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Part over whole",
+        "t": 16.965
+      },
+      {
+        "title": "Part by whole",
+        "t": 60.035
+      },
+      {
+        "title": "Which graph?",
+        "t": 79.666
+      },
+      {
+        "title": "Your turn",
+        "t": 105.246
+      },
+      {
+        "title": "Summary",
+        "t": 142.425
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1-c:q",
+        "t": 115.943,
+        "prompt": "A store had $60$ customers in an hour. $45$ paid by card. What percent paid by card?",
+        "choices": [
+          "$75\\%$",
+          "$133\\%$",
+          "$45\\%$",
+          "$25\\%$"
+        ],
+        "answer": 0,
+        "working": "$45 \\div 60 = 0.75$, and $0.75 \\times 100 = 75\\%$. B divides the wrong way, and D is the percent who did not pay by card."
+      }
+    ]
+  },
+  "m204-9-1-d": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 4: Making a Circle Graph",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Slice angles",
+        "t": 13.093
+      },
+      {
+        "title": "Car washes sold",
+        "t": 39.511
+      },
+      {
+        "title": "Check the total",
+        "t": 107.742
+      },
+      {
+        "title": "Your turn",
+        "t": 134.879
+      },
+      {
+        "title": "Summary",
+        "t": 167.952
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1-d:q",
+        "t": 145.125,
+        "prompt": "In a survey of $60$ people, $15$ chose hockey. What angle should the hockey slice have?",
+        "choices": [
+          "$90^\\circ$",
+          "$25^\\circ$",
+          "$15^\\circ$",
+          "$144^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\tfrac{15}{60} \\times 360 = 90^\\circ$. B is the percent, $25\\%$, and C is the count."
+      }
+    ]
+  },
+  "m204-9-2": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 1: Comparing Two Data Sets",
+    "duration": 167,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Measures of data",
+        "t": 16.761
+      },
+      {
+        "title": "Two servers’ tips",
+        "t": 38.245
+      },
+      {
+        "title": "What it means",
+        "t": 80.361
+      },
+      {
+        "title": "Your turn",
+        "t": 110.626
+      },
+      {
+        "title": "Summary",
+        "t": 145.944
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2:q",
+        "t": 123.67,
+        "prompt": "Set A is $10, 12, 14$. Set B is $2, 12, 22$. Both have a mean of $12$. What is the range of set B?",
+        "choices": [
+          "$20$",
+          "$4$",
+          "$12$",
+          "$24$"
+        ],
+        "answer": 0,
+        "working": "Range of B: $22 - 2 = 20$. B is the range of set A, and C is the mean. Set B is much more spread out."
+      }
+    ]
+  },
+  "m204-9-2-b": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 2: Outliers and the Best Measure",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Outliers",
+        "t": 15.505
+      },
+      {
+        "title": "With and without the outlier",
+        "t": 40.09
+      },
+      {
+        "title": "Which measure?",
+        "t": 97.282
+      },
+      {
+        "title": "Your turn",
+        "t": 117.246
+      },
+      {
+        "title": "Summary",
+        "t": 155.176
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2-b:q",
+        "t": 131.169,
+        "prompt": "Five workers earn \\$15, \\$16, \\$17, \\$18 and \\$64 an hour. Which measure best describes a typical wage?",
+        "choices": [
+          "the median, \\$17",
+          "the mean, \\$26",
+          "the range, \\$49",
+          "the highest, \\$64"
+        ],
+        "answer": 0,
+        "working": "\\$64 is an outlier, so use the median: \\$17. The mean, $130 \\div 5 = 26$, is higher than four of the five wages."
+      }
+    ]
+  },
+  "m204-9-2-c": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 3: Misleading Graphs",
+    "duration": 174,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A graph in an ad",
+        "t": 14.987
+      },
+      {
+        "title": "The real change",
+        "t": 46.248
+      },
+      {
+        "title": "Other tricks",
+        "t": 82.192
+      },
+      {
+        "title": "Your turn",
+        "t": 113.753
+      },
+      {
+        "title": "Summary",
+        "t": 153.937
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2-c:q",
+        "t": 129.29,
+        "prompt": "A graph’s axis starts at $50$. The bars show $52$ and $60$, so the second bar looks $5$ times as tall. By about what percent did the value really grow?",
+        "choices": [
+          "about $15\\%$",
+          "$5$ times",
+          "$8\\%$",
+          "$500\\%$"
+        ],
+        "answer": 0,
+        "working": "Increase: $60 - 52 = 8$. Percent: $8 \\div 52 \\times 100 \\approx 15\\%$. B and D believe the bars, and C forgets to divide by $52$."
+      }
+    ]
+  },
+  "m204-9-2-d": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 4: Misleading Claims",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Ask three questions",
+        "t": 17.736
+      },
+      {
+        "title": "A misleading average",
+        "t": 60.563
+      },
+      {
+        "title": "Trusting “average”",
+        "t": 102.708
+      },
+      {
+        "title": "Your turn",
+        "t": 116.561
+      },
+      {
+        "title": "Summary",
+        "t": 145.735
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2-d:q",
+        "t": 125.878,
+        "prompt": "A town wants to know if people want a new swimming pool. Which survey is **biased**?",
+        "choices": [
+          "asking only people at the old pool",
+          "asking every 10th name on the voters’ list",
+          "asking 500 people at random",
+          "asking people at many different places in town"
+        ],
+        "answer": 0,
+        "working": "People at the pool already swim, so they are likely to want a new one. The other surveys reach a fair mix of the town."
+      }
+    ]
+  },
+  "m204-9-3": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 1: Theoretical Probability",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Theoretical probability",
+        "t": 19.937
+      },
+      {
+        "title": "A spinner",
+        "t": 39.129
+      },
+      {
+        "title": "From 0 to 1",
+        "t": 69.86
+      },
+      {
+        "title": "A bag of marbles",
+        "t": 96.509
+      },
+      {
+        "title": "Your turn",
+        "t": 121.231
+      },
+      {
+        "title": "Summary",
+        "t": 153.172
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3:q",
+        "t": 132.334,
+        "prompt": "A regular die is rolled once. What is the theoretical probability of rolling a number greater than $4$?",
+        "choices": [
+          "$\\dfrac{1}{3}$",
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{2}{3}$",
+          "$\\dfrac{1}{6}$"
+        ],
+        "answer": 0,
+        "working": "Favourable: $5$ and $6$, so $2$. Total: $6$. $P = \\dfrac{2}{6} = \\dfrac{1}{3}$. C counts the numbers $4$ or less, and D counts only one number."
+      }
+    ]
+  },
+  "m204-9-3-b": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 2: Experimental Probability",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Experimental probability",
+        "t": 16.114
+      },
+      {
+        "title": "Drink sizes",
+        "t": 33.513
+      },
+      {
+        "title": "More trials, better results",
+        "t": 82.762
+      },
+      {
+        "title": "Your turn",
+        "t": 113.282
+      },
+      {
+        "title": "Summary",
+        "t": 152.699
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3-b:q",
+        "t": 126.72,
+        "prompt": "Use the coffee shop data: $84$ of $200$ customers ordered a medium. What is the experimental probability of a medium?",
+        "choices": [
+          "$42\\%$",
+          "$84\\%$",
+          "$25\\%$",
+          "$58\\%$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{84}{200} = 0.42 = 42\\%$. B forgets to divide by $200$, C assumes the four sizes are equally likely, and D is the percent who did not order a medium."
+      }
+    ]
+  },
+  "m204-9-3-c": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 3: Making Predictions",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Predictions",
+        "t": 18.012
+      },
+      {
+        "title": "Rolling a die",
+        "t": 33.726
+      },
+      {
+        "title": "Ordering cups",
+        "t": 56.89
+      },
+      {
+        "title": "Not a promise",
+        "t": 90.903
+      },
+      {
+        "title": "Planning staff",
+        "t": 108.573
+      },
+      {
+        "title": "Your turn",
+        "t": 133.981
+      },
+      {
+        "title": "Summary",
+        "t": 169.976
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3-c:q",
+        "t": 147.512,
+        "prompt": "The coffee shop’s records show $P(\\text{small}) = 23\\%$. About how many of $300$ customers will order a small?",
+        "choices": [
+          "about $69$",
+          "about $23$",
+          "about $230$",
+          "about $75$"
+        ],
+        "answer": 0,
+        "working": "$0.23 \\times 300 = 69$. B is the percent, C multiplies by $10$, and D assumes the four sizes are equally likely."
+      }
+    ]
+  },
+  "m204-9-3-d": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 4: Comparing Predictions with Results",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Real rolls",
+        "t": 13.999
+      },
+      {
+        "title": "As percents",
+        "t": 40.024
+      },
+      {
+        "title": "Is that normal?",
+        "t": 67.724
+      },
+      {
+        "title": "A fair coin?",
+        "t": 97.154
+      },
+      {
+        "title": "Your turn",
+        "t": 128.439
+      },
+      {
+        "title": "Summary",
+        "t": 161.788
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3-d:q",
+        "t": 141.535,
+        "prompt": "In Kai’s $120$ rolls, a $5$ came up $17$ times. The prediction was $20$. How does the real result compare?",
+        "choices": [
+          "$3$ fewer than predicted",
+          "$3$ more than predicted",
+          "$17$ fewer than predicted",
+          "exactly as predicted"
+        ],
+        "answer": 0,
+        "working": "$20 - 17 = 3$, so $3$ fewer than predicted. That is normal for $120$ rolls."
+      }
+    ]
   }
 }

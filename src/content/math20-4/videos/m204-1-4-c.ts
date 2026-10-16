@@ -38,7 +38,7 @@ const video: Explainer = {
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['92 - 80 = 12', '12 \\div 80 = 0.15', '0.15 \\times 100 = 15\\%'] }],
       lines: [
         { say: 'A monthly bus pass went from eighty dollars last year to 92 dollars this year. What is the percent increase?', show: ['bg.scale', 'bg.b0', 'bg.b1', 'bg.v0', 'bg.v1'] },
-        { say: 'First, the amount of change: 92 minus eighty is twelve dollars.', show: 'm.0', focus: 'm.0' },
+        { say: 'First, the amount of change: ninety-two minus eighty is twelve dollars.', show: 'm.0', focus: 'm.0' },
         { say: 'Divide by the original amount, last year’s eighty dollars: twelve divided by eighty is 0.15.', show: 'm.1', focus: ['bg.b0', 'm.1'] },
         { say: 'Times 100 is fifteen. The price went up fifteen percent.', show: 'm.2', focus: 'm.2' },
         { say: 'Percents let you compare changes fairly. The same twelve-dollar rise on a 300-dollar phone bill would be only four percent.' },

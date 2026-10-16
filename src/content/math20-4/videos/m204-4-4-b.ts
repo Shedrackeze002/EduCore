@@ -80,8 +80,8 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'bullets', id: 'sum', check: true, items: ['Litres used = distance ÷ 100 × L/100 km.', 'Cost = litres × price per litre.', 'A smaller L/100 km means lower fuel costs.'] }],
       lines: [
-        { say: 'Let’s sum up. The litres used are the distance divided by 100, times the litres per 100 kilometres.', show: 'sum.0' },
-        { say: 'The cost is the litres times the price per litre.', show: 'sum.1' },
+        { say: 'Let’s sum up. The fuel used, in litres, is the distance divided by 100, times the litres per 100 kilometres.', show: 'sum.0' },
+        { say: 'The cost is the fuel used times the price per litre.', show: 'sum.1' },
         { say: 'And a smaller number of litres per 100 kilometres means lower fuel costs. In part three, we rent a home. See you there!', show: 'sum.2' },
       ],
     },
