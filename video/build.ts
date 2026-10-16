@@ -2,7 +2,7 @@
  * Builds explainer videos from their scripts (src/content/<course>/videos/<id>.ts):
  *
  *   npx tsx video/build.ts m10c-2-1 [more ids] [--voice af_heart] [--speed 1] [--fps 30]
- *                                   [--stills] [--quick] [--no-qa] [--thumbnail]
+ *                                   [--pace old] [--stills] [--quick] [--no-qa] [--thumbnail]
  *
  * For each video it voices every line (Kokoro, cached in video/.cache), lays out the timeline from
  * the narration, renders every frame of video/stage.html in Chromium, and writes to video/out/<id>/:
@@ -14,6 +14,8 @@
  * --quick   estimates the narration from the words instead of voicing it (with --stills).
  * --no-qa   skips the Whisper pronunciation check.
  * --thumbnail  makes only the thumbnail (after a change to the script's figures or the design).
+ * --pace old   the faster pace of Math 10C, 10-3 and 10-4 (voice speed 1, shorter pauses), to make
+ *              one of their videos again so it matches the rest of its course.
  */
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
@@ -25,7 +27,7 @@ import { courseOfLesson, lessonById } from '../engine/curriculum/index.ts';
 import { captions, toSrt, toVtt } from '../src/video/captions.ts';
 import { BRAND, checkScript, type Explainer } from '../src/video/script.ts';
 import { speechText } from '../src/video/words.ts';
-import { clock, compile, youtubeChapters, type Timeline } from '../src/video/timeline.ts';
+import { clock, compile, OLD_PACE, TIMING, youtubeChapters, type Timeline } from '../src/video/timeline.ts';
 import { narrate, useCache, type Voice } from './lib/narrate.ts';
 import { normalise, transcribe, wer } from './lib/qa.ts';
 import { writeWav, type Pcm } from './lib/wav.ts';
@@ -43,10 +45,12 @@ const option = (name: string, fallback: string) => {
   const i = args.indexOf(`--${name}`);
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 };
-const ids = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--voice', '--speed', '--fps'].includes(args[i - 1])));
+const ids = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--voice', '--speed', '--fps', '--pace'].includes(args[i - 1])));
 // Speed 0.85 gives about 150 to 155 spoken words a minute on plain sentences, a calm teaching pace
 // (Kokoro's speed is not proportional: 1 gave about 175, which felt rushed, and 0.9 only about 165).
-const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('speed', '0.85')) };
+const oldPace = option('pace', 'calm') === 'old';
+if (oldPace) Object.assign(TIMING, OLD_PACE);
+const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('speed', oldPace ? '1' : '0.85')) };
 const FPS = Number(option('fps', '30'));
 /** Every video runs at least two minutes; a shorter one needs more in its script. */
 const MIN_SECONDS = 120;

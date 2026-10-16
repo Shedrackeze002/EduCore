@@ -26,6 +26,13 @@ export const TIMING = {
   hide: 0.4,
 };
 
+/**
+ * The faster pace Math 10C, 10-3 and 10-4 were made at, before the calm pace (14 October 2026).
+ * Those courses keep it (the owner's decision), so a video of theirs made again uses it too:
+ * `video/build.ts --pace old` (with the voice at speed 1).
+ */
+export const OLD_PACE: Partial<typeof TIMING> = { sceneIn: 0.6, sceneOut: 0.9, gap: 0.35, settle: 0 };
+
 /** How long an element takes to appear. */
 export function revealTime(kind: El['kind']): number {
   switch (kind) {

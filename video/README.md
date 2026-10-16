@@ -49,7 +49,8 @@ The voice is Kokoro (82M parameters, Apache 2.0), which runs on the CPU, so narr
 nothing however many videos we make. The default voice is `af_heart` at speed 0.85, about 150 to
 155 spoken words a minute, with pauses between lines and after each new step so a viewer can read
 it (`TIMING` in `src/video/timeline.ts`). The owner chose this calm pace on 14 October 2026 after
-comparing it with speed 1, which was too fast. Kokoro reads numbers,
+comparing it with speed 1, which was too fast. Math 10C, 10-3 and 10-4 were made at the old pace and keep
+it, so a video of theirs made again uses `--pace old` (speed 1, shorter pauses). Kokoro reads numbers,
 decimals and units as written ("9.4 cm", "0.75"); write maths in words ("tan theta equals x over
 fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit whole numbers
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
