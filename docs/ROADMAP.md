@@ -268,9 +268,13 @@ items ship or decisions change.
      YouTube's player and our captions on; the teacher plays it, then carries on with the next
      slide. Part 1 opens the lesson; a later part goes to the section its title names, or else an
      even split. Teachers can hide a video slide with "Choose what to show".
-   - Rendering: Math 20-3 (90 videos in 8 units), unit by unit into Drive.
-   - Next: render Math 20-4 the same way, with its own pull request
-     and Drive upload (about six minutes a video). Then script and render the other courses in
+   - Built: Math 20-3, all 90 videos at the calm pace (2:35 to 4:49, about 5.1 hours in all),
+     rendered unit by unit and uploaded to Drive (checked: Drive holds every file of all 90). The
+     pronunciation check's real slips were fixed first: "break-even" (heard "Bray-Keevan") is now
+     said as two words for every course (the video with it was rendered again), and a line in
+     lesson 5.3 was reworded.
+   - Rendering: Math 20-4 (111 videos in 9 units), unit by unit into Drive, with its own pull
+     request (about six minutes a video). Then script and render the other courses in
      order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8 and 9), explaining each lesson as simply as
      possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
