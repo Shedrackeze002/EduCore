@@ -335,9 +335,10 @@ items ship or decisions change.
      300 characters, five in ten minutes), the pop-up on the teacher's screen (Answer shows the
      question large; Skip moves on; "Later" tucks it away until the next one), the "Questions"
      slide before the end, and the questions with students' names on the teacher's lesson page.
-     The class's screen shows "A student asks" unless the student ticks "Show my name to the
-     class" (first name and last initial); the teacher always sees who asked. Present mode's
-     settings can turn questions off, for example while preparing at home.
+     The class's screen shows the student's first name and last initial unless the student ticks
+     "Hide my name from the class" (then "A student asks"; the owner's decision, 16 October 2026,
+     that names show by default); the teacher always sees who asked. Present mode's settings can
+     turn questions off, for example while preparing at home.
 5. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
