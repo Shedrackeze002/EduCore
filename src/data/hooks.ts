@@ -16,6 +16,8 @@ export const qk = {
   lessonPrefs: (classId: string, lessonId: string) => ['lessonPrefs', classId, lessonId] as const,
   boards: (classId: string, lessonId: string) => ['boards', classId, lessonId] as const,
   live: (classId: string) => ['live', classId] as const,
+  presentation: (classId: string) => ['presentation', classId] as const,
+  classQuestions: (classId: string, f: { lessonId?: string; presentedAt?: string } = {}) => ['classQuestions', classId, f.lessonId ?? '', f.presentedAt ?? ''] as const,
   joinRequests: (classId: string) => ['joinRequests', classId] as const,
   myJoinRequests: ['myJoinRequests'] as const,
   myCourseRequests: ['myCourseRequests'] as const,
@@ -254,6 +256,51 @@ export function useSubmitLiveAnswer(classId: string | undefined) {
       if (classId) void qc.invalidateQueries({ queryKey: qk.live(classId) });
     },
   });
+}
+
+// ------------------------------------------------------------------ students' questions during a presentation
+
+/** Keeps the class's presentation and its questions up to date in real time. */
+export function useQuestionsFeed(classId: string | undefined) {
+  const qc = useQueryClient();
+  useEffect(() => {
+    if (!classId) return;
+    return api().subscribeQuestions(classId, () => {
+      void qc.invalidateQueries({ queryKey: qk.presentation(classId) });
+      void qc.invalidateQueries({ queryKey: ['classQuestions', classId] });
+    });
+  }, [classId, qc]);
+}
+
+/** What the teacher is presenting to the class now (with a slow poll in case the real-time connection drops). */
+export function usePresentation(classId: string | undefined) {
+  useQuestionsFeed(classId);
+  return useQuery({ queryKey: qk.presentation(classId ?? ''), queryFn: () => api().currentPresentation(classId!), enabled: !!classId, refetchInterval: 60_000 });
+}
+
+/** Teachers get every question in the class; students only their own. `poll` refetches while the page is open. */
+export const useClassQuestions = (classId: string | undefined, filter: { lessonId?: string; presentedAt?: string } = {}, poll = false) =>
+  useQuery({ queryKey: qk.classQuestions(classId ?? '', filter), queryFn: () => api().listClassQuestions(classId!, filter), enabled: !!classId, refetchInterval: poll ? 20_000 : false });
+
+export function useAskQuestion(classId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { body: string; anonymous: boolean }) => api().askQuestion({ classId, ...v }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['classQuestions', classId] }),
+  });
+}
+
+export function useSetQuestionStatus(classId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { id: string; status: 'answered' | 'skipped' }) => api().setQuestionStatus(v.id, v.status),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['classQuestions', classId] }),
+  });
+}
+
+export function useDeleteQuestion(classId: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (id: string) => api().deleteQuestion(id), onSuccess: () => qc.invalidateQueries({ queryKey: ['classQuestions', classId] }) });
 }
 
 export function useSaveAssignment(classId: string) {

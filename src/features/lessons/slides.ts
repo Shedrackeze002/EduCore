@@ -12,7 +12,7 @@
 import type { Block, LessonContent } from '@/content/lessonParser.ts';
 import { skillInfo } from '@engine/curriculum/index.ts';
 
-export type SlideKind = 'title' | 'hook' | 'content' | 'example' | 'check' | 'summary' | 'video' | 'link' | 'end';
+export type SlideKind = 'title' | 'hook' | 'content' | 'example' | 'check' | 'summary' | 'video' | 'link' | 'questions' | 'end';
 
 export interface SlideItem {
   /** Unique within the deck. */
@@ -308,7 +308,15 @@ export function buildSlides(content: LessonContent, lessonTitle: string, resourc
 }
 
 /** Slides whose content the teacher cannot hide. */
-export const fixedSlide = (s: Slide) => s.kind === 'title' || s.kind === 'end';
+export const fixedSlide = (s: Slide) => s.kind === 'title' || s.kind === 'questions' || s.kind === 'end';
+
+/** The "Questions" slide, before the end, lists what the class asked; it is left out when nobody asked anything. */
+export function withQuestionsSlide(slides: Slide[], asked: number): Slide[] {
+  if (asked <= 0) return slides;
+  const q: Slide = { id: 'questions', kind: 'questions', title: 'Questions', items: [] };
+  const end = slides.findIndex((s) => s.kind === 'end');
+  return end < 0 ? [...slides, q] : [...slides.slice(0, end), q, ...slides.slice(end)];
+}
 
 /** The slides to present: hidden blocks removed, and slides left with nothing to show dropped. */
 export function presentedSlides(slides: Slide[], hidden: ReadonlySet<string>): Slide[] {

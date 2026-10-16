@@ -233,6 +233,30 @@ export interface LiveAnswer {
   answeredAt: string;
 }
 
+/** The lesson a teacher is presenting to a class right now. */
+export interface Presentation {
+  classId: string;
+  lessonId: string;
+  startedAt: string;
+}
+
+/** A student's question to the teacher during a presentation. */
+export interface ClassQuestion {
+  id: string;
+  classId: string;
+  lessonId: string;
+  studentId: string;
+  /** The teacher sees every name (and a student their own); null when it is not known. */
+  studentName: string | null;
+  body: string;
+  /** Kept off the class's screen. The teacher still sees who asked. */
+  anonymous: boolean;
+  status: 'new' | 'answered' | 'skipped';
+  /** When the presentation it was asked in began. */
+  presentedAt: string;
+  createdAt: string;
+}
+
 export type AssignmentStatus = 'draft' | 'published' | 'archived';
 
 export interface Assignment {

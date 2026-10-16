@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseLesson } from '@/content/lessonParser.ts';
-import { activityEmbedUrl, buildSlides, lastStep, placeExplainers, presentedSlides, revealAt, splitMarkdown, stepFor, type SlideExplainer } from './slides.ts';
+import { activityEmbedUrl, buildSlides, lastStep, placeExplainers, presentedSlides, revealAt, splitMarkdown, stepFor, withQuestionsSlide, type SlideExplainer } from './slides.ts';
 
 const LESSON = `A hook sentence.
 
@@ -135,6 +135,20 @@ describe('slides', () => {
       expect(lastStep(s)).toBe(0);
       expect(revealAt(s, 0).every((r) => r.visible)).toBe(true);
     }
+  });
+});
+
+describe('the Questions slide', () => {
+  const slides = buildSlides(parseLesson(LESSON), 'Adding numbers', resources);
+
+  it('goes before the end when the class asked something, and is left out otherwise', () => {
+    expect(withQuestionsSlide(slides, 0)).toBe(slides);
+    const withQ = withQuestionsSlide(slides, 3);
+    expect(withQ.map((s) => s.kind).slice(-2)).toEqual(['questions', 'end']);
+    expect(withQ).toHaveLength(slides.length + 1);
+    // It shows everything at once and cannot be hidden.
+    expect(lastStep(withQ[withQ.length - 2])).toBe(0);
+    expect(presentedSlides(withQ, new Set(['no-such-block'])).some((s) => s.kind === 'questions')).toBe(true);
   });
 });
 

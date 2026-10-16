@@ -76,6 +76,8 @@ interface Props {
   onAsk?: (it: SlideItem) => void;
   /** The live question running on this slide, shown in place of its question. */
   live?: { key: string; node: ReactNode };
+  /** What the class asked, on the "Questions" slide. */
+  questions?: ReactNode;
 }
 
 const ACCENT: Record<Slide['kind'], string> = {
@@ -87,6 +89,7 @@ const ACCENT: Record<Slide['kind'], string> = {
   summary: 'var(--good)',
   video: 'var(--brand)',
   link: 'var(--brand)',
+  questions: 'var(--info)',
   end: 'var(--brand)',
 };
 
@@ -122,7 +125,7 @@ function effectOf(b: Block): string {
   }
 }
 
-export function SlideView({ slide, reveal, index, total, lesson, still, editing, hidden, onToggle, onCheckResult, endActions, enterDelay = 0, onAsk, live }: Props) {
+export function SlideView({ slide, reveal, index, total, lesson, still, editing, hidden, onToggle, onCheckResult, endActions, enterDelay = 0, onAsk, live, questions }: Props) {
   // Items already showing when the slide arrives build in one after another.
   const entering = useRef(true);
   const mountOrder = useRef<Map<number, number> | null>(null);
@@ -350,7 +353,7 @@ export function SlideView({ slide, reveal, index, total, lesson, still, editing,
   }
 
   // ------------------------------------------------------------------ every other slide
-  const eyebrow = slide.kind === 'example' ? 'Worked example' : slide.kind === 'check' ? 'Your turn' : slide.kind === 'summary' ? 'Key takeaways' : slide.kind === 'video' ? 'Video' : slide.kind === 'link' ? 'Explore' : slide.kind === 'hook' ? 'Let’s begin' : slide.part ? `Part ${slide.part.n} of ${slide.part.of}` : '';
+  const eyebrow = slide.kind === 'example' ? 'Worked example' : slide.kind === 'check' ? 'Your turn' : slide.kind === 'summary' ? 'Key takeaways' : slide.kind === 'video' ? 'Video' : slide.kind === 'link' ? 'Explore' : slide.kind === 'questions' ? 'From the class' : slide.kind === 'hook' ? 'Let’s begin' : slide.part ? `Part ${slide.part.n} of ${slide.part.of}` : '';
   const title = slide.kind === 'check' ? (slide.items.filter((x) => x.block.type === 'check').length > 1 ? 'Try these on your own' : 'Try this on your own') : slide.title;
   const allHidden = editing && !fixedSlide(slide) && slide.items.length > 0 && slide.items.every(isHidden);
 
@@ -385,6 +388,8 @@ export function SlideView({ slide, reveal, index, total, lesson, still, editing,
         )}
       </ul>
     );
+  } else if (slide.kind === 'questions') {
+    body = questions;
   } else if (slide.kind === 'video') {
     body = <div className="mx-auto w-full max-w-[1180px]">{slide.items.map((it, k) => visualItem(it, k))}</div>;
   } else if (slide.kind === 'link') {

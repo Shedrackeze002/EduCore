@@ -20935,5 +20935,472 @@
         "working": "$350.00 + 900.00 - 1{,}020.50 = 229.50$. B adds the withdrawals instead of subtracting them."
       }
     ]
+  },
+  "m203-6-2-d": {
+    "lessonId": "m203-6-2",
+    "title": "Banking Services, Part 4: Reconciling an Account",
+    "duration": 251,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Register and statement",
+        "t": 17.712
+      },
+      {
+        "title": "What to adjust",
+        "t": 43.5
+      },
+      {
+        "title": "Reconciling for June",
+        "t": 75.093
+      },
+      {
+        "title": "Adjusting the wrong record",
+        "t": 152.372
+      },
+      {
+        "title": "Your turn",
+        "t": 184.444
+      },
+      {
+        "title": "Summary",
+        "t": 226.357
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-6-2-d:q",
+        "t": 202.546,
+        "prompt": "A statement balance is \\$820.00. A cheque for \\$120.00 is outstanding, and a deposit of \\$200.00 is not on the statement. What is the adjusted statement balance?",
+        "choices": [
+          "\\$900.00",
+          "\\$740.00",
+          "\\$1,140.00",
+          "\\$500.00"
+        ],
+        "answer": 0,
+        "working": "$820.00 + 200.00 - 120.00 = 900.00$. B subtracts the deposit and adds the cheque."
+      }
+    ]
+  },
+  "m203-7-1": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 1: Simple Interest",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Principal, rate and time",
+        "t": 20.975
+      },
+      {
+        "title": "A GIC with simple interest",
+        "t": 52.711
+      },
+      {
+        "title": "Same interest every year",
+        "t": 105.83
+      },
+      {
+        "title": "The rate as a decimal",
+        "t": 139.742
+      },
+      {
+        "title": "Your turn",
+        "t": 173.852
+      },
+      {
+        "title": "Summary",
+        "t": 217.665
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1:q",
+        "t": 187.601,
+        "prompt": "Jaxon puts \\$1,200 into a GIC that pays $4\\%$ simple interest per year. What is it worth after $3$ years?",
+        "choices": [
+          "\\$1,344.00",
+          "\\$144.00",
+          "\\$15,600.00",
+          "\\$1,248.00"
+        ],
+        "answer": 0,
+        "working": "$I = 1{,}200 \\times 0.04 \\times 3 = 144$, so $A = 1{,}200 + 144 = 1{,}344$. B is only the interest, and C uses $4$ instead of $0.04$."
+      }
+    ]
+  },
+  "m203-7-1-b": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 2: Time in Months and Missing Values",
+    "duration": 248,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Time in months",
+        "t": 19.783
+      },
+      {
+        "title": "Mixing months and years",
+        "t": 72.222
+      },
+      {
+        "title": "Rearranging the formula",
+        "t": 92.42
+      },
+      {
+        "title": "Finding the rate",
+        "t": 116.566
+      },
+      {
+        "title": "Finding the time",
+        "t": 146.955
+      },
+      {
+        "title": "Your turn",
+        "t": 186.925
+      },
+      {
+        "title": "Summary",
+        "t": 224.949
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1-b:q",
+        "t": 199.67,
+        "prompt": "A loan of \\$2,000 charges $6\\%$ simple interest per year. How much interest is charged for $8$ months?",
+        "choices": [
+          "\\$80.00",
+          "\\$960.00",
+          "\\$120.00",
+          "\\$10.00"
+        ],
+        "answer": 0,
+        "working": "$t = \\dfrac{8}{12}$ of a year, so $I = 2{,}000 \\times 0.06 \\times \\dfrac{8}{12} = 80$. B uses $t = 8$, and C is the interest for a whole year."
+      }
+    ]
+  },
+  "m203-7-1-c": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 3: Compound Interest",
+    "duration": 289,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Interest on interest",
+        "t": 18.084
+      },
+      {
+        "title": "The compound interest formula",
+        "t": 79.642
+      },
+      {
+        "title": "Compounded monthly",
+        "t": 125.311
+      },
+      {
+        "title": "Calculator keystrokes",
+        "t": 184.695
+      },
+      {
+        "title": "Your turn",
+        "t": 221.23
+      },
+      {
+        "title": "Summary",
+        "t": 260.63
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1-c:q",
+        "t": 232.327,
+        "prompt": "\\$3,000 earns $6\\%$ per year, compounded quarterly. What is it worth after $2$ years?",
+        "choices": [
+          "\\$3,379.48",
+          "\\$3,360.00",
+          "\\$3,370.80",
+          "\\$3,180.00"
+        ],
+        "answer": 0,
+        "working": "$n = 4$ and $nt = 8$: $A = 3{,}000\\left(1 + \\dfrac{0.06}{4}\\right)^{8} = 3{,}000(1.015)^8 \\approx 3{,}379.48$. B is simple interest, and C compounds once a year."
+      }
+    ]
+  },
+  "m203-7-1-d": {
+    "lessonId": "m203-7-1",
+    "title": "Simple and Compound Interest, Part 4: Simple and Compound Compared",
+    "duration": 239,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "On a graph",
+        "t": 18.639
+      },
+      {
+        "title": "Ten years at 4%",
+        "t": 61.051
+      },
+      {
+        "title": "How often it compounds",
+        "t": 103.41
+      },
+      {
+        "title": "Borrowers pay it too",
+        "t": 146.501
+      },
+      {
+        "title": "Your turn",
+        "t": 166.825
+      },
+      {
+        "title": "Summary",
+        "t": 214.916
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-1-d:q",
+        "t": 180.48,
+        "prompt": "\\$2,000 is invested for $15$ years at $5\\%$. How much more does it earn compounded annually than with simple interest?",
+        "choices": [
+          "\\$657.86",
+          "\\$1,500.00",
+          "\\$2,157.86",
+          "\\$4,157.86"
+        ],
+        "answer": 0,
+        "working": "Simple: $2{,}000 + 2{,}000 \\times 0.05 \\times 15 = 3{,}500$. Compound: $2{,}000(1.05)^{15} \\approx 4{,}157.86$. The difference is $657.86$. D is the compound amount itself."
+      }
+    ]
+  },
+  "m203-7-2": {
+    "lessonId": "m203-7-2",
+    "title": "The Rule of 72 and Investments, Part 1: The Rule of 72",
+    "duration": 213,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The Rule of 72",
+        "t": 19.14
+      },
+      {
+        "title": "Doubling time",
+        "t": 42.892
+      },
+      {
+        "title": "Working backwards",
+        "t": 68.811
+      },
+      {
+        "title": "A percent, not a decimal",
+        "t": 93.661
+      },
+      {
+        "title": "Rates that do not divide evenly",
+        "t": 123.965
+      },
+      {
+        "title": "Your turn",
+        "t": 157.871
+      },
+      {
+        "title": "Summary",
+        "t": 188.102
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-2:q",
+        "t": 168.695,
+        "prompt": "An investment earns $9\\%$ per year, compounded annually. About how long will it take to double?",
+        "choices": [
+          "about $8$ years",
+          "about $800$ years",
+          "about $648$ years",
+          "about $63$ years"
+        ],
+        "answer": 0,
+        "working": "$72 \\div 9 = 8$, so about $8$ years. B divides by $0.09$ instead of $9$."
+      }
+    ]
+  },
+  "m203-7-2-b": {
+    "lessonId": "m203-7-2",
+    "title": "The Rule of 72 and Investments, Part 2: Doubling Again and Again",
+    "duration": 212,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three doublings",
+        "t": 16.469
+      },
+      {
+        "title": "How close is it?",
+        "t": 56.434
+      },
+      {
+        "title": "Doubling, not adding",
+        "t": 84.133
+      },
+      {
+        "title": "Start early",
+        "t": 109.467
+      },
+      {
+        "title": "Your turn",
+        "t": 146.002
+      },
+      {
+        "title": "Summary",
+        "t": 184.546
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-2-b:q",
+        "t": 160.155,
+        "prompt": "\\$4,000 earns $3\\%$ per year, compounded annually. Use the Rule of 72 to estimate its value in $48$ years.",
+        "choices": [
+          "about \\$16,000",
+          "about \\$8,000",
+          "about \\$12,000",
+          "about \\$32,000"
+        ],
+        "answer": 0,
+        "working": "Doubling time: $72 \\div 3 = 24$ years, so $48 \\div 24 = 2$ doublings: \\$4,000 to \\$8,000 to \\$16,000. B doubles only once."
+      }
+    ]
+  },
+  "m203-7-2-c": {
+    "lessonId": "m203-7-2",
+    "title": "The Rule of 72 and Investments, Part 3: Checking the Rule and Comparing Offers",
+    "duration": 261,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Checking the rule at 6%",
+        "t": 19.131
+      },
+      {
+        "title": "How good is the estimate?",
+        "t": 61.306
+      },
+      {
+        "title": "Simple or compound?",
+        "t": 98.816
+      },
+      {
+        "title": "The exponent",
+        "t": 163.036
+      },
+      {
+        "title": "Your turn",
+        "t": 183.204
+      },
+      {
+        "title": "Summary",
+        "t": 233.153
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-2-c:q",
+        "t": 200.49,
+        "prompt": "For \\$8,000 over $10$ years, Offer A pays $5.5\\%$ simple interest and Offer B pays $5\\%$ compounded quarterly. Which is better, and by how much?",
+        "choices": [
+          "Offer B, by \\$748.96",
+          "Offer A, by \\$748.96",
+          "Offer A, by \\$3,341.83",
+          "Offer B, by \\$5,148.96"
+        ],
+        "answer": 0,
+        "working": "A: $8{,}000 + 8{,}000 \\times 0.055 \\times 10 = 12{,}400$. B: $8{,}000\\left(1 + \\dfrac{0.05}{4}\\right)^{40} \\approx 13{,}148.96$. C uses an exponent of $10$ instead of $40$."
+      }
+    ]
+  },
+  "m203-7-3": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 1: Credit Card Interest",
+    "duration": 221,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Credit and finance charges",
+        "t": 21.553
+      },
+      {
+        "title": "The interest-free period",
+        "t": 39.419
+      },
+      {
+        "title": "Interest for one month",
+        "t": 74.933
+      },
+      {
+        "title": "The rate as a decimal",
+        "t": 126.084
+      },
+      {
+        "title": "Your turn",
+        "t": 146.597
+      },
+      {
+        "title": "Summary",
+        "t": 191.721
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3:q",
+        "t": 162.471,
+        "prompt": "A card charges $18.99\\%$ per year, charged daily. How much interest is charged on an unpaid balance of \\$600 for $31$ days?",
+        "choices": [
+          "\\$9.68",
+          "\\$967.71",
+          "\\$113.94",
+          "\\$9.37"
+        ],
+        "answer": 0,
+        "working": "$600 \\times 0.1899 \\div 365 \\times 31 \\approx 9.68$. B uses $18.99$ instead of $0.1899$, and C is the interest for a whole year."
+      }
+    ]
   }
 }

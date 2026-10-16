@@ -18,6 +18,8 @@ import type {
   Board,
   LiveAnswer,
   LiveQuestion,
+  Presentation,
+  ClassQuestion,
   SkillEvent,
   SkillMastery,
   Submission,
@@ -96,6 +98,21 @@ export const toLiveAnswer = (r: Row): LiveAnswer => ({
   studentId: r.student_id,
   responses: Array.isArray(r.responses) ? r.responses.map((x: unknown) => String(x ?? '')) : [],
   answeredAt: r.answered_at,
+});
+
+export const toPresentation = (r: Row): Presentation => ({ classId: r.class_id, lessonId: r.lesson_id, startedAt: r.started_at });
+
+export const toClassQuestion = (r: Row): ClassQuestion => ({
+  id: r.id,
+  classId: r.class_id,
+  lessonId: r.lesson_id,
+  studentId: r.student_id,
+  studentName: r.student?.full_name ?? null,
+  body: r.body,
+  anonymous: !!r.anonymous,
+  status: r.status,
+  presentedAt: r.presented_at,
+  createdAt: r.created_at,
 });
 
 export const toAssignment = (r: Row): Assignment => ({

@@ -118,3 +118,73 @@ describe('demo live class questions', () => {
     stop();
   });
 });
+
+describe('demo students’ questions during a presentation', () => {
+  let api: Awaited<ReturnType<typeof freshApi>>;
+  let classId: string;
+  beforeEach(async () => {
+    api = await freshApi();
+    await api.signIn(DEMO_TEACHER_EMAIL, DEMO_PASSWORD);
+    classId = (await api.listMyClasses())[0].id;
+  });
+
+  const asStudent = async () => {
+    await api.signOut();
+    await api.signIn(DEMO_STUDENT_EMAIL, DEMO_PASSWORD);
+  };
+  const asTeacher = async () => {
+    await api.signOut();
+    await api.signIn(DEMO_TEACHER_EMAIL, DEMO_PASSWORD);
+  };
+
+  it('takes questions only while the teacher presents, and keeps each presentation’s questions together', async () => {
+    let changes = 0;
+    const stop = api.subscribeQuestions(classId, () => changes++);
+    await asStudent();
+    expect(await api.currentPresentation(classId)).toBeNull();
+    await expect(api.askQuestion({ classId, body: 'Why?', anonymous: true })).rejects.toThrow(/not presenting/);
+
+    await asTeacher();
+    const p = await api.startPresenting(classId, 'm10c-2-1');
+    expect(changes).toBe(1);
+    // The heartbeat keeps the start, and does not wake the class.
+    expect((await api.startPresenting(classId, 'm10c-2-1')).startedAt).toBe(p.startedAt);
+    expect(changes).toBe(1);
+
+    await asStudent();
+    expect(await api.currentPresentation(classId)).toEqual(p);
+    const q = await api.askQuestion({ classId, body: '  Can you show the second step again?  ', anonymous: true });
+    expect(q).toMatchObject({ body: 'Can you show the second step again?', lessonId: 'm10c-2-1', presentedAt: p.startedAt, status: 'new', anonymous: true });
+    await api.askQuestion({ classId, body: 'Does it work for negatives?', anonymous: false });
+    await expect(api.askQuestion({ classId, body: '   ', anonymous: true })).rejects.toThrow(/Type your question/);
+    await expect(api.askQuestion({ classId, body: 'x'.repeat(301), anonymous: true })).rejects.toThrow(/300/);
+    for (const body of ['Three?', 'Four?', 'Five?']) await api.askQuestion({ classId, body, anonymous: true });
+    await expect(api.askQuestion({ classId, body: 'Six?', anonymous: true })).rejects.toThrow(/five questions/);
+    expect((await api.listClassQuestions(classId)).length).toBe(5);
+    await expect(api.setQuestionStatus(q.id, 'answered')).rejects.toThrow();
+    await expect(api.startPresenting(classId, 'm10c-2-1')).rejects.toThrow();
+
+    await asTeacher();
+    // A sample student asks too, so the teacher sees questions from more than one student.
+    expect(await api.simulateClassQuestion(classId)).not.toBeNull();
+    const all = await api.listClassQuestions(classId, { presentedAt: p.startedAt });
+    expect(all.length).toBe(6);
+    expect(all.every((x) => x.studentName)).toBe(true);
+    await api.setQuestionStatus(q.id, 'answered');
+    await api.deleteQuestion(all[0].id);
+    const after = await api.listClassQuestions(classId, { lessonId: 'm10c-2-1' });
+    expect(after.length).toBe(5);
+    expect(after.find((x) => x.id === q.id)?.status).toBe('answered');
+
+    // Out of present mode and back in soon: the same presentation carries on.
+    await api.stopPresenting(classId);
+    await asStudent();
+    expect(await api.currentPresentation(classId)).toBeNull();
+    await asTeacher();
+    expect((await api.startPresenting(classId, 'm10c-2-1')).startedAt).toBe(p.startedAt);
+    // Another lesson starts afresh.
+    expect((await api.startPresenting(classId, 'm10c-2-2')).startedAt >= p.startedAt).toBe(true);
+    expect(await api.listClassQuestions(classId, { lessonId: 'm10c-2-2' })).toEqual([]);
+    stop();
+  });
+});

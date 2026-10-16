@@ -10,10 +10,12 @@
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { BookOpen, ChevronLeft, ChevronRight, EyeOff, LayoutGrid, Maximize2, Minimize2, MonitorOff, PenLine, Settings2, Shuffle, SquarePen, Timer, X } from 'lucide-react';
+import { BookOpen, ChevronLeft, ChevronRight, EyeOff, LayoutGrid, Maximize2, MessageCircleQuestion, Minimize2, MonitorOff, PenLine, Settings2, Shuffle, SquarePen, Timer, X } from 'lucide-react';
 import { lessonById, unitById } from '@engine/curriculum/index.ts';
 import { Button, Menu, PageSpinner, Switch, useToast } from '@/components/ui/index.ts';
-import { useBoards, useCloseLiveQuestion, useLessonPrefs, useLiveAnswers, useLiveQuestion, useOpenLiveQuestion, useResources, useRoster, useSaveBoard, useSetHiddenBlocks, useVideoLinks } from '@/data/hooks.ts';
+import { useBoards, useClassQuestions, useCloseLiveQuestion, useLessonPrefs, useLiveAnswers, useLiveQuestion, useOpenLiveQuestion, useQuestionsFeed, useResources, useRoster, useSaveBoard, useSetHiddenBlocks, useSetQuestionStatus, useVideoLinks } from '@/data/hooks.ts';
+import { api, demoApi } from '@/data/index.ts';
+import type { ClassQuestion, Presentation } from '@/data/types.ts';
 import { videosForLesson } from '@/content/videos.ts';
 import { freshSeed } from '@engine/rng.ts';
 import { LivePanel } from '@/features/live/LivePanel.tsx';
@@ -25,14 +27,16 @@ import { InkToolbar, useInkTools } from '@/features/whiteboard/InkToolbar.tsx';
 import { Whiteboard } from '@/features/whiteboard/Whiteboard.tsx';
 import { useLessonContent } from './LessonView.tsx';
 import { PresentTimer } from './PresentTimer.tsx';
-import { buildSlides, fixedSlide, lastStep, presentedSlides, revealAt, type Slide, type SlideItem } from './slides.ts';
+import { buildSlides, fixedSlide, lastStep, presentedSlides, revealAt, withQuestionsSlide, type Slide, type SlideItem } from './slides.ts';
 import { SlideView, type DeckLesson } from './deck/SlideView.tsx';
 import { SLIDE_H, SLIDE_W, useStageScale } from './deck/fit.tsx';
 import { Confetti } from './deck/Confetti.tsx';
 import { StudentPicker } from './deck/StudentPicker.tsx';
+import { AnsweringView, QuestionPopup, QuestionsSlideBody } from './deck/ClassQuestions.tsx';
 
 const STEPS_KEY = 'educore-present-steps';
 const TX_KEY = 'educore-present-transitions';
+const QUESTIONS_KEY = 'educore-present-questions';
 type TxMode = 'dynamic' | 'fade' | 'off';
 
 interface Transition {
@@ -70,7 +74,7 @@ function Scaled({ scale, children }: { scale: number; children: ReactNode }) {
   return <div style={{ width: SLIDE_W, height: SLIDE_H, transform: `scale(${scale})`, transformOrigin: 'top left' }}>{children}</div>;
 }
 
-const KIND_LABEL: Record<Slide['kind'], string> = { title: 'Title', hook: 'Introduction', content: 'Teaching', example: 'Worked example', check: 'Your turn', summary: 'Key takeaways', video: 'Video', link: 'Activity', end: 'Lesson complete' };
+const KIND_LABEL: Record<Slide['kind'], string> = { title: 'Title', hook: 'Introduction', content: 'Teaching', example: 'Worked example', check: 'Your turn', summary: 'Key takeaways', video: 'Video', link: 'Activity', questions: 'Questions', end: 'Lesson complete' };
 
 export default function PresentMode() {
   const { classId = '', lessonId = '' } = useParams();
@@ -102,7 +106,57 @@ export default function PresentMode() {
   const allSlides = useMemo(() => (content && meta ? buildSlides(content, meta.title, lessonResources, explainers) : []), [content, meta, lessonResources, explainers]);
   const hidden = useMemo(() => new Set(prefs.data?.hidden ?? []), [prefs.data]);
   const [editing, setEditing] = useState(false);
-  const slides = useMemo(() => (editing ? allSlides : presentedSlides(allSlides, hidden)), [editing, allSlides, hidden]);
+  const toast = useToast();
+
+  // Students' questions: while this is open the class can send questions from their devices. Present
+  // mode tells the class it is presenting, and again every minute, so a closed tab ends it by itself.
+  const [questionsOn, setQuestionsOn] = useState(() => getItem(QUESTIONS_KEY) !== 'off');
+  const [presentation, setPresentation] = useState<Presentation | null>(null);
+  useEffect(() => {
+    if (!questionsOn || !classId || !lessonId) return;
+    let done = false;
+    const beat = () =>
+      api()
+        .startPresenting(classId, lessonId)
+        .then((p) => !done && setPresentation(p))
+        .catch(() => undefined);
+    void beat();
+    const t = setInterval(beat, 60_000);
+    return () => {
+      done = true;
+      clearInterval(t);
+      setPresentation(null);
+      void api().stopPresenting(classId).catch(() => undefined);
+    };
+  }, [questionsOn, classId, lessonId]);
+  useQuestionsFeed(presentation ? classId : undefined);
+  const asked = useClassQuestions(presentation ? classId : undefined, { presentedAt: presentation?.startedAt }, true);
+  const questions = useMemo(() => [...(asked.data ?? [])].reverse(), [asked.data]);
+  const setQuestionStatus = useSetQuestionStatus(classId);
+  // Decided here, so the pop-up moves on at once; snoozed with "Later" until another question comes.
+  const [decided, setDecided] = useState<ReadonlySet<string>>(new Set());
+  const [snoozed, setSnoozed] = useState<ReadonlySet<string>>(new Set());
+  const [answering, setAnswering] = useState<ClassQuestion | null>(null);
+  const waiting = questions.filter((q) => q.status === 'new' && !decided.has(q.id));
+  const popup = waiting.find((q) => !snoozed.has(q.id));
+  const decide = useCallback(
+    (q: ClassQuestion, status: 'answered' | 'skipped') => {
+      setDecided((d) => new Set(d).add(q.id));
+      if (status === 'answered') setAnswering(q);
+      setQuestionStatus.mutate(
+        { id: q.id, status },
+        {
+          onError: (e) => {
+            setDecided((d) => new Set([...d].filter((id) => id !== q.id)));
+            toast({ kind: 'error', title: 'Could not update the question', body: (e as Error).message });
+          },
+        },
+      );
+    },
+    [setQuestionStatus, toast],
+  );
+
+  const slides = useMemo(() => withQuestionsSlide(editing ? allSlides : presentedSlides(allSlides, hidden), editing ? 0 : questions.length), [editing, allSlides, hidden, questions.length]);
   const deckLesson: DeckLesson | null = meta
     ? { number: meta.number, title: meta.title, unitLabel: unit ? `Unit ${unit.number} · ${unit.title}` : '', objectives: meta.objectives, vocabulary: meta.vocabulary ?? [], minutes: meta.minutes }
     : null;
@@ -131,7 +185,6 @@ export default function PresentMode() {
   const [blank, setBlank] = useState(false);
   const [confetti, setConfetti] = useState(0);
   const celebrate = useCallback(() => setConfetti((c) => c + 1), []);
-  const toast = useToast();
 
   // Live class questions: one question at a time, shown on the slide it was asked from.
   const live = useLiveQuestion(classId);
@@ -212,7 +265,7 @@ export default function PresentMode() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (boardOpen || pickerOpen) return; // they handle their own keys
+      if (boardOpen || pickerOpen || answering) return; // they handle their own keys
       const t = e.target as HTMLElement | null;
       if (t?.closest?.('input, textarea, select, [contenteditable="true"]')) return;
       if (blank) {
@@ -264,7 +317,7 @@ export default function PresentMode() {
       window.removeEventListener('keydown', onKey);
       document.removeEventListener('fullscreenchange', onFs);
     };
-  }, [boardOpen, pickerOpen, blank, drawing, editing, overview, next, prev, goTo, slides.length, exit, editNote, tools]);
+  }, [boardOpen, pickerOpen, answering, blank, drawing, editing, overview, next, prev, goTo, slides.length, exit, editNote, tools]);
 
   const setHidden = (keys: string[], hide: boolean) => {
     const nextSet = new Set(hidden);
@@ -317,6 +370,21 @@ export default function PresentMode() {
               Live · {liveCount} answered
             </button>
           )}
+          {questions.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                if (waiting.length) return setSnoozed(new Set());
+                const k = slides.findIndex((s) => s.kind === 'questions');
+                if (k >= 0) goTo(k, 0, k >= ix ? 1 : -1);
+              }}
+              className="mr-1 inline-flex h-9 items-center gap-2 rounded-lg bg-info-soft px-3 text-sm font-semibold text-info-ink"
+              title="Questions from the students' devices"
+            >
+              <MessageCircleQuestion className="h-4 w-4" />
+              {waiting.length ? `${waiting.length} new question${waiting.length === 1 ? '' : 's'}` : `Questions · ${questions.length}`}
+            </button>
+          )}
           <HeaderButton label="Slides" shortcut="O" icon={<LayoutGrid className="h-5 w-5" />} on={overview} onClick={() => setOverview(!overview)} />
           <HeaderButton label="Choose what to show" icon={<EyeOff className="h-5 w-5" />} on={editing} onClick={() => (setEditing(!editing), setDrawing(false))} />
           <HeaderButton label="Draw" shortcut="D" icon={<PenLine className="h-5 w-5" />} on={drawing} onClick={() => (setDrawing(!drawing), setEditing(false))} />
@@ -341,6 +409,20 @@ export default function PresentMode() {
                   }}
                   label={<span className="text-sm">Build slides step by step</span>}
                 />
+                <Switch
+                  checked={questionsOn}
+                  onChange={(v) => {
+                    setQuestionsOn(v);
+                    setItem(QUESTIONS_KEY, v ? 'on' : 'off');
+                  }}
+                  label={<span className="text-sm">Students can ask questions</span>}
+                  description={<span className="text-xs">From their own devices, while you present</span>}
+                />
+                {demoApi() && presentation && (
+                  <Button size="sm" variant="secondary" className="w-full" onClick={() => void demoApi()!.simulateClassQuestion(classId)}>
+                    Ask a sample student question
+                  </Button>
+                )}
                 <div>
                   <div className="mb-1.5 text-sm font-medium">Transitions</div>
                   <div className="grid grid-cols-3 gap-1 rounded-xl bg-surface-2 p-1" role="radiogroup" aria-label="Transitions">
@@ -417,6 +499,7 @@ export default function PresentMode() {
                   endActions={endActions}
                   enterDelay={exiting ? 380 : 0}
                   onAsk={(it) => void ask(it, slide.id)}
+                  questions={slide.kind === 'questions' ? <QuestionsSlideBody questions={questions} onAnswer={(q) => (q.status === 'answered' ? setAnswering(q) : decide(q, 'answered'))} /> : undefined}
                   live={
                     liveSlot && live.data && liveSlot.slideId === slide.id
                       ? {
@@ -545,6 +628,10 @@ export default function PresentMode() {
       <PresentTimer open={timerOpen} onClose={() => setTimerOpen(false)} />
       <StudentPicker open={pickerOpen} onClose={() => setPickerOpen(false)} students={roster.data ?? []} onPicked={celebrate} />
       <Confetti fire={confetti} />
+      {popup && slide.kind !== 'questions' && !overview && !boardOpen && !pickerOpen && !answering && (
+        <QuestionPopup key={popup.id} question={popup} waiting={waiting.length} onAnswer={() => decide(popup, 'answered')} onSkip={() => decide(popup, 'skipped')} onLater={() => setSnoozed(new Set(waiting.map((q) => q.id)))} />
+      )}
+      {answering && <AnsweringView question={answering} onDone={() => setAnswering(null)} />}
       {blank && <button type="button" className="fixed inset-0 z-[70] cursor-default bg-black" onClick={() => setBlank(false)} aria-label="Show the slide again" />}
     </div>
   );

@@ -1,17 +1,17 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ExternalLink, FileText, Link2, PencilLine, PenLine, Plus, Presentation, Target, Trash2, Video } from 'lucide-react';
+import { ExternalLink, FileText, Link2, MessageCircleQuestion, PencilLine, PenLine, Plus, Presentation, Target, Trash2, Video } from 'lucide-react';
 import { lessonById } from '@engine/curriculum/index.ts';
 import { LEVELS, type MasteryLevel } from '@engine/mastery.ts';
-import { useAddResource, useBoards, useDeleteBoard, useDeleteResource, useMastery, usePublications, useResources, useRoster, useSetBoardShared, useSetPublished } from '@/data/hooks.ts';
-import type { Board, Resource } from '@/data/types.ts';
-import { Button, Card, CardBody, CardHeader, EmptyState, IconButton, Input, Modal, PageHeader, Switch, Tabs, Textarea, useToast } from '@/components/ui/index.ts';
+import { useAddResource, useBoards, useClassQuestions, useDeleteBoard, useDeleteQuestion, useDeleteResource, useMastery, usePublications, useResources, useRoster, useSetBoardShared, useSetPublished, useSetQuestionStatus } from '@/data/hooks.ts';
+import type { Board, ClassQuestion, Resource } from '@/data/types.ts';
+import { Badge, Button, Card, CardBody, CardHeader, EmptyState, IconButton, Input, Modal, PageHeader, Switch, Tabs, Textarea, useToast } from '@/components/ui/index.ts';
 import { MasteryBar, MasteryLegend } from '@/components/mastery/Mastery.tsx';
 import { LessonView } from '@/features/lessons/LessonView.tsx';
 import { MyLessonEdits, SuggestEditModal, type SectionSource } from '@/features/lessons/SuggestEdit.tsx';
 import { videoEmbedUrl } from '@/features/lessons/LessonBlocks.tsx';
 import { BoardPageCanvas, BoardViewer } from '@/features/whiteboard/BoardView.tsx';
-import { fmtDate } from '@/lib/dates.ts';
+import { fmtDate, fmtDateTime } from '@/lib/dates.ts';
 import { masteryMap, skillLabel, stateOf } from '../shared/derive.ts';
 import { AssignMenu } from './CurriculumPage.tsx';
 import { useClassId } from './shared.tsx';
@@ -100,6 +100,7 @@ export default function TeacherLessonPage() {
         </Card>
       </div>
 
+      <ClassQuestionsCard classId={classId} lessonId={lessonId} />
       <SavedBoards classId={classId} lessonId={lessonId} />
 
       {suggesting && (
@@ -112,6 +113,51 @@ export default function TeacherLessonPage() {
       <SuggestEditModal lessonId={lessonId} source={editing} onClose={() => setEditing(null)} />
       <AddResourceModal open={adding} onClose={() => setAdding(false)} classId={classId} lessonId={lessonId} />
     </div>
+  );
+}
+
+const QUESTION_STATUS: Record<ClassQuestion['status'], { label: string; tone: 'info' | 'good' | 'warn' }> = {
+  new: { label: 'Not answered', tone: 'info' },
+  answered: { label: 'Answered', tone: 'good' },
+  skipped: { label: 'Skipped', tone: 'warn' },
+};
+
+/** Questions students sent from their devices while this lesson was presented, with their names. */
+function ClassQuestionsCard({ classId, lessonId }: { classId: string; lessonId: string }) {
+  const list = useClassQuestions(classId, { lessonId });
+  const setStatus = useSetQuestionStatus(classId);
+  const del = useDeleteQuestion(classId);
+  const questions = list.data ?? [];
+  if (!questions.length) return null;
+  return (
+    <Card>
+      <CardHeader title="Questions from the class" subtitle="Sent from students’ devices while you presented this lesson. Only you see who asked." icon={<MessageCircleQuestion className="h-5 w-5" />} />
+      <CardBody className="divide-y divide-line pt-2">
+        {questions.map((q) => (
+          <div key={q.id} className="flex flex-wrap items-start gap-3 py-3 sm:flex-nowrap">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-x-2 text-sm text-ink-3">
+                <span className="font-semibold text-ink">{q.studentName ?? 'A student'}</span>
+                {q.anonymous && <span>· name kept off the class’s screen</span>}
+                <span>· {fmtDateTime(q.createdAt)}</span>
+              </div>
+              <p className="mt-1 break-words">{q.body}</p>
+            </div>
+            <div className="flex shrink-0 items-center gap-1">
+              <Badge tone={QUESTION_STATUS[q.status].tone}>{QUESTION_STATUS[q.status].label}</Badge>
+              {q.status !== 'answered' && (
+                <Button size="xs" variant="ghost" onClick={() => setStatus.mutate({ id: q.id, status: 'answered' })}>
+                  Mark answered
+                </Button>
+              )}
+              <IconButton label="Delete question" className="h-8 w-8" onClick={() => window.confirm('Delete this question?') && del.mutate(q.id)}>
+                <Trash2 className="h-4 w-4" />
+              </IconButton>
+            </div>
+          </div>
+        ))}
+      </CardBody>
+    </Card>
   );
 }
 

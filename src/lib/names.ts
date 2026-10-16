@@ -21,3 +21,11 @@ export function cleanNamePart(v: string, label: string): { value: string } | { e
 
 /** Two names that are the same apart from capitals and spacing. */
 export const sameName = (a: string, b: string) => a.replace(/\s+/g, ' ').trim().toLowerCase() === b.replace(/\s+/g, ' ').trim().toLowerCase();
+
+/** A name for the class's screen: "Maya Ruiz" becomes "Maya R.". */
+export function screenName(fullName: string): string {
+  const parts = fullName.replace(/\s+/g, ' ').trim().split(' ');
+  if (parts.length < 2) return parts[0] ?? '';
+  const last = parts[parts.length - 1];
+  return `${parts.slice(0, -1).join(' ')} ${last[0]}.`;
+}
