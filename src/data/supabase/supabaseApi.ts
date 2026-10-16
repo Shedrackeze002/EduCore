@@ -36,6 +36,8 @@ import type {
   LessonPrefs,
   LiveAnswer,
   LiveQuestion,
+  Presentation,
+  ClassQuestion,
   Submission,
 } from '../types.ts';
 import {
@@ -60,6 +62,8 @@ import {
   toBoard,
   toLiveAnswer,
   toLiveQuestion,
+  toPresentation,
+  toClassQuestion,
   toSubmission,
 } from './mappers.ts';
 import { STUDENT_EMAIL_DOMAIN } from '@/config.ts';
@@ -488,6 +492,65 @@ export class SupabaseApi implements DataApi {
       .channel(`live:${classId}:${Math.random().toString(36).slice(2)}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'live_questions', filter: `class_id=eq.${classId}` }, () => cb())
       .on('postgres_changes', { event: '*', schema: 'public', table: 'live_answers', filter: `class_id=eq.${classId}` }, () => cb())
+      .subscribe();
+    return () => {
+      void this.client.removeChannel(channel);
+    };
+  }
+
+  // ------------------------------------------------------------------ students' questions during a presentation
+
+  async startPresenting(classId: string, lessonId: string): Promise<Presentation> {
+    const { data, error } = await this.client.rpc('start_presenting', { p_class_id: classId, p_lesson_id: lessonId });
+    fail(error);
+    return { classId, lessonId, startedAt: data as string };
+  }
+
+  async stopPresenting(classId: string) {
+    const { error } = await this.client.rpc('stop_presenting', { p_class_id: classId });
+    fail(error);
+  }
+
+  async currentPresentation(classId: string): Promise<Presentation | null> {
+    // A presentation without a heartbeat for five minutes was left open in a closed tab.
+    const since = new Date(Date.now() - 5 * 60_000).toISOString();
+    const { data, error } = await this.client.from('class_presentations').select('*').eq('class_id', classId).is('ended_at', null).gte('seen_at', since).maybeSingle();
+    fail(error);
+    return data ? toPresentation(data) : null;
+  }
+
+  async askQuestion(input: { classId: string; body: string; anonymous: boolean }): Promise<ClassQuestion> {
+    const { data, error } = await this.client.rpc('ask_class_question', { p_class_id: input.classId, p_body: input.body, p_anonymous: input.anonymous });
+    fail(error);
+    const me = await this.loadProfile(await this.uid());
+    return toClassQuestion({ ...(data as Record<string, unknown>), student: me ? { full_name: me.fullName } : null });
+  }
+
+  async listClassQuestions(classId: string, filter: { lessonId?: string; presentedAt?: string } = {}): Promise<ClassQuestion[]> {
+    // Row-level security returns every question to the teacher and only their own to a student.
+    let q = this.client.from('class_questions').select('*, student:profiles!class_questions_student_id_fkey(full_name)').eq('class_id', classId);
+    if (filter.lessonId) q = q.eq('lesson_id', filter.lessonId);
+    if (filter.presentedAt) q = q.eq('presented_at', filter.presentedAt);
+    const { data, error } = await q.order('created_at', { ascending: false }).limit(200);
+    fail(error);
+    return (data ?? []).map(toClassQuestion);
+  }
+
+  async setQuestionStatus(id: string, status: 'answered' | 'skipped') {
+    const { error } = await this.client.from('class_questions').update({ status, decided_at: new Date().toISOString() }).eq('id', id);
+    fail(error);
+  }
+
+  async deleteQuestion(id: string) {
+    const { error } = await this.client.from('class_questions').delete().eq('id', id);
+    fail(error);
+  }
+
+  subscribeQuestions(classId: string, cb: () => void) {
+    const channel = this.client
+      .channel(`questions:${classId}:${Math.random().toString(36).slice(2)}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'class_presentations', filter: `class_id=eq.${classId}` }, () => cb())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'class_questions', filter: `class_id=eq.${classId}` }, () => cb())
       .subscribe();
     return () => {
       void this.client.removeChannel(channel);

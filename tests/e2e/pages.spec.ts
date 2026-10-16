@@ -255,6 +255,63 @@ test('the teacher asks the class a live question and students answer on their ow
   expect([...teacherErrors, ...studentErrors]).toEqual([]);
 });
 
+test('students ask questions while the teacher presents; they pop up, and a Questions slide lists them', async ({ context }) => {
+  const teacher = await context.newPage();
+  const student = await context.newPage();
+  const teacherErrors = trackErrors(teacher);
+  const studentErrors = trackErrors(student);
+  await signInDemo(teacher, 'Teacher');
+  await teacher.goto('/present/c_math10a/m10c-2-1');
+  await expect(teacher.locator('[aria-roledescription="slide"]')).toHaveAttribute('aria-label', /^Slide 1 of/);
+  // Nobody has asked anything yet, so the deck has no Questions slide.
+  await teacher.keyboard.press('o');
+  const overview = teacher.getByRole('dialog', { name: 'All slides' });
+  await expect(overview.getByRole('button', { name: /^Questions/ })).toHaveCount(0);
+  await teacher.keyboard.press('Escape');
+
+  const question = 'Why is the hypotenuse always the longest side?';
+  await signInDemo(student, 'Student');
+  await expect(student.getByText(/Your teacher is presenting Lesson 2\.1/)).toBeVisible();
+  await student.getByRole('button', { name: 'Ask a question' }).click();
+  await student.getByLabel('Your question').fill(question);
+  await student.getByRole('button', { name: 'Send question' }).click();
+  await expect(student.getByText('You asked one question.')).toBeVisible();
+
+  // It pops up on the teacher's screen, without the student's name.
+  const popup = teacher.getByRole('alertdialog', { name: 'A question from the class' });
+  await expect(popup.getByText(question)).toBeVisible();
+  await expect(popup.getByText('A student asks')).toBeVisible();
+  await expect(teacher.getByRole('button', { name: '1 new question' })).toBeVisible();
+  await popup.getByRole('button', { name: 'Answer' }).click();
+  const answering = teacher.getByRole('dialog', { name: 'Answering a question from the class' });
+  await expect(answering.getByText(question)).toBeVisible();
+  await answering.getByRole('button', { name: 'Back to the slide' }).click();
+  await expect(popup).toHaveCount(0);
+
+  // The student sees it was answered.
+  await student.getByRole('button', { name: 'Ask a question' }).click();
+  await expect(student.getByRole('dialog').getByText('Answered')).toBeVisible();
+  await student.keyboard.press('Escape');
+
+  // The Questions slide comes before the end and lists what the class asked.
+  await teacher.keyboard.press('o');
+  await overview.getByRole('button', { name: /^Questions/ }).click();
+  await expect(teacher.locator('[aria-roledescription="slide"]')).toHaveAttribute('aria-label', /: Questions$/);
+  await expect(teacher.getByText(question)).toBeVisible();
+  await teacher.keyboard.press('ArrowRight');
+  await expect(teacher.locator('[aria-roledescription="slide"]')).toHaveAttribute('aria-label', /Lesson complete$/);
+
+  // The lesson page keeps the questions, with who asked them.
+  await teacher.getByRole('button', { name: 'Exit presentation' }).click();
+  await expect(teacher.getByText('Questions from the class')).toBeVisible();
+  await expect(teacher.getByText(question)).toBeVisible();
+  await expect(teacher.getByText(/name kept off the class/)).toBeVisible();
+
+  // Once the teacher stops presenting, the student can no longer ask.
+  await expect(student.getByRole('button', { name: 'Ask a question' })).toHaveCount(0);
+  expect([...teacherErrors, ...studentErrors]).toEqual([]);
+});
+
 test('a student signs up without a class code, is placed in a course and studies on their own', async ({ page }) => {
   const errors = trackErrors(page);
   await page.goto('/signup');

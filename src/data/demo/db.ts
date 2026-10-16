@@ -11,6 +11,8 @@ import type {
   LessonPrefs,
   LiveAnswer,
   LiveQuestion,
+  Presentation,
+  ClassQuestion,
   PlatformSettings,
   Profile,
   Publication,
@@ -61,6 +63,9 @@ export interface DemoDB {
   lessonPrefs?: LessonPrefs[];
   liveQuestions?: LiveQuestion[];
   liveAnswers?: LiveAnswer[];
+  /** Students' questions during a presentation (added later). */
+  presentations?: Array<Presentation & { seenAt: string; endedAt: string | null }>;
+  classQuestions?: Array<Omit<ClassQuestion, 'studentName'> & { decidedAt: string | null }>;
   /** Requests to join classes that ask for approval (added later). */
   joinRequests?: DemoJoinRequest[];
   /** Requests for courses or topics Gradileo does not have yet (added later). */

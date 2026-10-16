@@ -757,6 +757,108 @@ select _assert(not exists (select 1 from profiles where id = '00000000-0000-0000
 select _assert(exists (select 1 from profiles where id = '00000000-0000-0000-0000-0000000000c1') and exists (select 1 from profiles where id = '00000000-0000-0000-0000-0000000000c2'), 'the class member and the matched device stay');
 select _assert(not has_function_privilege('authenticated', 'public.prune_name_only_accounts()', 'execute'), 'users cannot prune accounts');
 
+-- ---------------------------------------------------------------- students' questions during a presentation
+create temp table pres (started_at timestamptz);
+grant select, insert, delete on pres to authenticated;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select ask_class_question((select class_id from ctx), 'Why?', true)$$, 'no questions while nobody presents');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select start_presenting((select class_id from ctx), 'm10c-1-1')$$, 'other teachers cannot present to the class');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+insert into pres select start_presenting((select class_id from ctx), 'm10c-1-1');
+select _assert(start_presenting((select class_id from ctx), 'm10c-1-1') = (select started_at from pres), 'the heartbeat keeps the start time');
+select _fails($$select start_presenting((select class_id from ctx), repeat('x', 41))$$, 'lesson ids are short');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select lesson_id from class_presentations where ended_at is null) = 'm10c-1-1', 'students see what is being presented');
+select _assert((select body from ask_class_question((select class_id from ctx), '  Why is the square root of 2 irrational?  ', true)) = 'Why is the square root of 2 irrational?', 'questions are trimmed');
+select ask_class_question((select class_id from ctx), 'Can you show the second step again?', false);
+select _assert((select count(*) from class_questions) = 2, 'a student sees their own questions');
+select _assert((select bool_and(presented_at = (select started_at from pres) and lesson_id = 'm10c-1-1' and status = 'new') from class_questions), 'questions belong to the presentation');
+select _assert((select count(*) from class_questions where anonymous) = 1, 'the student chooses whether the class sees their name');
+select _fails($$select ask_class_question((select class_id from ctx), '   ', true)$$, 'empty questions are refused');
+select _fails($$select ask_class_question((select class_id from ctx), repeat('x', 301), true)$$, 'long questions are refused');
+select _fails($$insert into class_questions (class_id, lesson_id, student_id, body, presented_at) select class_id, 'm10c-1-1', '00000000-0000-0000-0000-0000000000b1', 'Hi', now() from ctx$$, 'students cannot add questions directly');
+-- Row-level security hides the questions from a student's update, so nothing changes.
+update class_questions set status = 'answered';
+select ask_class_question((select class_id from ctx), q, true) from unnest(array['Three?', 'Four?', 'Five?']) q;
+select _fails($$select ask_class_question((select class_id from ctx), 'Six?', true)$$, 'five questions in ten minutes at most');
+select _fails($$select stop_presenting((select class_id from ctx))$$, 'students cannot stop the presentation');
+select _fails($$select start_presenting((select class_id from ctx), 'm10c-1-1')$$, 'students cannot present');
+reset role;
+select _assert((select count(*) from class_questions where status = 'new') = 5, 'students cannot mark their own questions');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b2","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from class_questions) = 0, 'students do not see classmates'' questions');
+select ask_class_question((select class_id from ctx), 'Is this on the test?', true);
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from class_questions) = 0, 'other teachers see no questions');
+select _assert((select count(*) from class_presentations) = 0, 'other teachers do not see the presentation');
+update class_questions set status = 'skipped';
+reset role;
+select _assert((select count(*) from class_questions where status = 'skipped') = 0, 'other teachers cannot mark questions');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert((select count(*) from class_questions) = 6, 'the teacher sees every question');
+select _assert((select count(distinct student_id) from class_questions) = 2, 'the teacher sees who asked');
+update class_questions set status = 'answered', decided_at = now() where body = 'Can you show the second step again?';
+update class_questions set status = 'skipped', decided_at = now() where body = 'Is this on the test?';
+select _fails($$update class_questions set body = 'Changed' where body = 'Four?'$$, 'nobody rewrites a student''s question');
+delete from class_questions where body = 'Five?';
+select stop_presenting((select class_id from ctx));
+reset role;
+select _assert((select count(*) filter (where status = 'answered') = 1 and count(*) filter (where status = 'skipped') = 1 and count(*) = 5 from class_questions), 'the teacher answers, skips and removes questions');
+select _assert((select ended_at is not null from class_presentations), 'stopping ends the presentation');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select ask_class_question((select class_id from ctx), 'Still there?', true)$$, 'no questions after the presentation ends');
+reset role;
+
+-- The same lesson picked up again within ten minutes keeps its questions together. A presentation
+-- left open in a closed tab ends by itself after five minutes without a heartbeat.
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert(start_presenting((select class_id from ctx), 'm10c-1-1') = (select started_at from pres), 'presenting the lesson again soon after stopping carries on');
+reset role;
+update class_presentations set seen_at = now() - interval '6 minutes';
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b2","role":"authenticated"}', false);
+set role authenticated;
+select _fails($$select ask_class_question((select class_id from ctx), 'Hello?', true)$$, 'a presentation without a heartbeat ends by itself');
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+select _assert(start_presenting((select class_id from ctx), 'm10c-1-1') = (select started_at from pres), 'the same lesson picked up soon keeps its start');
+select _assert(start_presenting((select class_id from ctx), 'm10c-1-2') > (select started_at from pres), 'another lesson starts afresh');
+select stop_presenting((select class_id from ctx));
+reset role;
+update class_presentations set ended_at = now() - interval '11 minutes';
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', false);
+set role authenticated;
+delete from pres;
+insert into pres select started_at from class_presentations;
+select _assert(start_presenting((select class_id from ctx), 'm10c-1-2') > (select started_at from pres), 'the same lesson after a long break starts afresh');
+reset role;
+select _assert(not has_function_privilege('anon', 'public.ask_class_question(uuid, text, boolean)', 'execute'), 'anon cannot ask questions');
+select _assert(not has_function_privilege('anon', 'public.start_presenting(uuid, text)', 'execute'), 'anon cannot present');
+
 -- ---------------------------------------------------------------- anon
 select set_config('request.jwt.claims', '{"role":"anon"}', false);
 set role anon;

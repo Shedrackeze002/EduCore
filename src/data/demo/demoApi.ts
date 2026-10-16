@@ -48,6 +48,8 @@ import type {
   LessonPrefs,
   LiveAnswer,
   LiveQuestion,
+  Presentation,
+  ClassQuestion,
   NewStudentCredential,
   NotificationKind,
   Profile,
@@ -93,6 +95,15 @@ function sessionSet(id: string | null) {
 }
 
 const nowIso = () => new Date().toISOString();
+/** Questions a class might ask, for trying students' questions in demo mode. */
+const SAMPLE_QUESTIONS = [
+  'Can you show the second step again?',
+  'Why do we divide both sides there and not subtract?',
+  'Does this work for negative numbers too?',
+  'Is there a quicker way to check the answer?',
+  'Where would we use this outside of school?',
+  'Could you go over the example one more time, a bit slower?',
+];
 const delay = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 export class DemoApi implements DataApi {
@@ -102,6 +113,7 @@ export class DemoApi implements DataApi {
   private authListeners = new Set<(u: Profile | null) => void>();
   private notifListeners = new Set<(n: AppNotification) => void>();
   private liveListeners = new Set<() => void>();
+  private questionListeners = new Set<() => void>();
   private seenNotifications = new Set<string>();
 
   constructor() {
@@ -113,8 +125,10 @@ export class DemoApi implements DataApi {
         if (!fresh) return;
         this.db = fresh;
         this.emitNewNotifications();
-        // Another tab (a student's, or the teacher's) may have changed a live question.
+        // Another tab (a student's, or the teacher's) may have changed a live question, or a
+        // presentation and its questions.
         this.liveListeners.forEach((l) => l());
+        this.questionListeners.forEach((l) => l());
       });
     }
   }
@@ -135,6 +149,8 @@ export class DemoApi implements DataApi {
     this.db.lessonPrefs ??= [];
     this.db.liveQuestions ??= [];
     this.db.liveAnswers ??= [];
+    this.db.presentations ??= [];
+    this.db.classQuestions ??= [];
     this.db.joinRequests ??= [];
     this.db.courseRequests ??= [];
     this.db.lessonEdits ??= [];
@@ -149,7 +165,7 @@ export class DemoApi implements DataApi {
   /** Erase all demo data and rebuild the sample class. */
   async reset(): Promise<void> {
     clearDb();
-    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], joinRequests: [], courseRequests: [], lessonEdits: [], videoLinks: {} };
+    this.db = { ...(await buildSeed()), settings: { teacherSignup: 'open' }, audit: [], boards: [], lessonPrefs: [], liveQuestions: [], liveAnswers: [], presentations: [], classQuestions: [], joinRequests: [], courseRequests: [], lessonEdits: [], videoLinks: {} };
     saveDb(this.db);
     sessionSet(null);
     this.authListeners.forEach((l) => l(null));
@@ -795,6 +811,136 @@ export class DemoApi implements DataApi {
     }
     this.liveChanged();
     return added;
+  }
+
+  // ------------------------------------------------------------------ students' questions during a presentation
+
+  private questionsChanged() {
+    this.persist();
+    this.questionListeners.forEach((l) => l());
+  }
+
+  /** The class's presentation, if it is live: stopped ones and ones without a heartbeat for five minutes are not. */
+  private livePresentation(classId: string) {
+    const p = this.db.presentations!.find((x) => x.classId === classId);
+    return p && !p.endedAt && Date.parse(p.seenAt) > Date.now() - 5 * 60_000 ? p : undefined;
+  }
+
+  private toClassQuestion(q: Omit<ClassQuestion, 'studentName'> & { decidedAt: string | null }): ClassQuestion {
+    const { decidedAt: _decided, ...rest } = q;
+    return { ...rest, studentName: this.db.users.find((u) => u.id === q.studentId)?.fullName ?? null };
+  }
+
+  async startPresenting(classId: string, lessonId: string): Promise<Presentation> {
+    await this.ready;
+    this.requireTeacherOf(classId);
+    if (!lessonId || lessonId.length > 40) throw new Error('That lesson was not found.');
+    const now = nowIso();
+    const p = this.db.presentations!.find((x) => x.classId === classId);
+    // The same lesson keeps its start while it is live and when the teacher comes back to it within
+    // ten minutes, so its questions stay together.
+    const keep = p && p.lessonId === lessonId && Date.parse(p.endedAt ?? p.seenAt) > Date.now() - 10 * 60_000;
+    const next = { classId, lessonId, startedAt: keep ? p.startedAt : now, seenAt: now, endedAt: null };
+    this.db.presentations = [...this.db.presentations!.filter((x) => x.classId !== classId), next];
+    // A heartbeat that changes nothing for the class does not need to wake every tab.
+    if (keep && !p.endedAt) this.persist();
+    else this.questionsChanged();
+    return { classId, lessonId, startedAt: next.startedAt };
+  }
+
+  async stopPresenting(classId: string) {
+    this.requireTeacherOf(classId);
+    const p = this.db.presentations!.find((x) => x.classId === classId && !x.endedAt);
+    if (!p) return;
+    p.endedAt = nowIso();
+    this.questionsChanged();
+  }
+
+  async currentPresentation(classId: string): Promise<Presentation | null> {
+    await this.ready;
+    const me = this.me();
+    const allowed = this.db.classes.some((c) => c.id === classId && c.teacherId === me.id) || this.db.enrollments.some((e) => e.classId === classId && e.studentId === me.id);
+    const p = allowed ? this.livePresentation(classId) : undefined;
+    return p ? { classId: p.classId, lessonId: p.lessonId, startedAt: p.startedAt } : null;
+  }
+
+  async askQuestion(input: { classId: string; body: string; anonymous: boolean }): Promise<ClassQuestion> {
+    await this.ready;
+    const me = this.me();
+    if (!this.db.enrollments.some((e) => e.classId === input.classId && e.studentId === me.id)) throw new Error('You can only ask questions in your own class.');
+    const body = (input.body ?? '').trim();
+    if (!body) throw new Error('Type your question first.');
+    if (body.length > 300) throw new Error('Keep your question under 300 characters.');
+    const p = this.livePresentation(input.classId);
+    if (!p) throw new Error('Your teacher is not presenting right now.');
+    const recent = this.db.classQuestions!.filter((q) => q.studentId === me.id && q.classId === input.classId && Date.parse(q.createdAt) > Date.now() - 10 * 60_000);
+    if (recent.length >= 5) throw new Error('You have asked five questions in the last ten minutes. Wait a little before asking another.');
+    const q = { id: uid('cq'), classId: input.classId, lessonId: p.lessonId, studentId: me.id, body, anonymous: input.anonymous, status: 'new' as const, presentedAt: p.startedAt, createdAt: nowIso(), decidedAt: null };
+    this.db.classQuestions!.push(q);
+    // Keep the demo's storage small.
+    if (this.db.classQuestions!.length > 200) this.db.classQuestions = this.db.classQuestions!.slice(-200);
+    this.questionsChanged();
+    return this.toClassQuestion(q);
+  }
+
+  async listClassQuestions(classId: string, filter: { lessonId?: string; presentedAt?: string } = {}): Promise<ClassQuestion[]> {
+    await this.ready;
+    const me = this.me();
+    const teacher = this.db.classes.some((c) => c.id === classId && c.teacherId === me.id);
+    return this.db
+      .classQuestions!.filter((q) => q.classId === classId && (teacher || q.studentId === me.id))
+      .filter((q) => (!filter.lessonId || q.lessonId === filter.lessonId) && (!filter.presentedAt || q.presentedAt === filter.presentedAt))
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .map((q) => this.toClassQuestion(q));
+  }
+
+  async setQuestionStatus(id: string, status: 'answered' | 'skipped') {
+    const q = this.db.classQuestions!.find((x) => x.id === id);
+    if (!q) return;
+    this.requireTeacherOf(q.classId);
+    q.status = status;
+    q.decidedAt = nowIso();
+    this.questionsChanged();
+  }
+
+  async deleteQuestion(id: string) {
+    const q = this.db.classQuestions!.find((x) => x.id === id);
+    if (!q) return;
+    this.requireTeacherOf(q.classId);
+    this.db.classQuestions = this.db.classQuestions!.filter((x) => x.id !== id);
+    this.questionsChanged();
+  }
+
+  subscribeQuestions(_classId: string, cb: () => void) {
+    this.questionListeners.add(cb);
+    return () => {
+      this.questionListeners.delete(cb);
+    };
+  }
+
+  /** Demo only: a question from a student in the sample class, so the teacher can try the pop-up. */
+  async simulateClassQuestion(classId: string): Promise<ClassQuestion | null> {
+    this.requireTeacherOf(classId);
+    const p = this.livePresentation(classId);
+    const students = this.rosterIds(classId);
+    if (!p || !students.length) return null;
+    const asked = this.db.classQuestions!.filter((q) => q.classId === classId && q.presentedAt === p.startedAt);
+    const rng = new Rng(`${p.startedAt}:${asked.length}`);
+    const q = {
+      id: uid('cq'),
+      classId,
+      lessonId: p.lessonId,
+      studentId: students[rng.int(0, students.length - 1)],
+      body: SAMPLE_QUESTIONS[asked.length % SAMPLE_QUESTIONS.length],
+      anonymous: rng.next() < 0.6,
+      status: 'new' as const,
+      presentedAt: p.startedAt,
+      createdAt: nowIso(),
+      decidedAt: null,
+    };
+    this.db.classQuestions!.push(q);
+    this.questionsChanged();
+    return this.toClassQuestion(q);
   }
 
   // ------------------------------------------------------------------ assignments

@@ -33,6 +33,8 @@ import type {
   LessonPrefs,
   LiveAnswer,
   LiveQuestion,
+  Presentation,
+  ClassQuestion,
   NewStudentCredential,
   Profile,
   ProposedAction,
@@ -134,6 +136,21 @@ export interface DataApi {
   submitLiveAnswer(questionId: string, responses: string[]): Promise<void>;
   /** Calls back when a live question or answer in the class changes. */
   subscribeLive(classId: string, cb: () => void): () => void;
+
+  // Students' questions during a presentation
+  /** Starts presenting a lesson to the class, or keeps it going: present mode calls it every minute. */
+  startPresenting(classId: string, lessonId: string): Promise<Presentation>;
+  stopPresenting(classId: string): Promise<void>;
+  /** The lesson the teacher is presenting to the class now, if any. */
+  currentPresentation(classId: string): Promise<Presentation | null>;
+  /** A student's question to the teacher while they present: at most five in ten minutes. */
+  askQuestion(input: { classId: string; body: string; anonymous: boolean }): Promise<ClassQuestion>;
+  /** Newest first. Teachers get every question in the class; students only their own. */
+  listClassQuestions(classId: string, filter?: { lessonId?: string; presentedAt?: string }): Promise<ClassQuestion[]>;
+  setQuestionStatus(id: string, status: 'answered' | 'skipped'): Promise<void>;
+  deleteQuestion(id: string): Promise<void>;
+  /** Calls back when the class's presentation or its questions change. */
+  subscribeQuestions(classId: string, cb: () => void): () => void;
 
   // Assignments
   listAssignments(classId: string): Promise<Assignment[]>;

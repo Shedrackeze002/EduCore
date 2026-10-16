@@ -97,6 +97,21 @@ student cannot claim a right answer by editing a request. Updates arrive through
 Realtime (in the demo, through `localStorage` events between tabs), with a slow poll as a
 fallback.
 
+## Students' questions during a presentation (`src/features/live/AskQuestion.tsx`, `src/features/lessons/deck/ClassQuestions.tsx`)
+
+Present mode tells the class what it is presenting (`class_presentations`, one row per class,
+through `start_presenting`) when it opens and again every minute; leaving present mode calls
+`stop_presenting`, and a presentation without a heartbeat for five minutes counts as over, so a
+closed tab ends it by itself. Coming back to the same lesson within ten minutes carries on the same
+presentation, so its questions stay together. While a presentation is live, students see a banner
+with "Ask a question"; `ask_class_question` checks the student is in the class, trims the question
+(at most 300 characters), allows five in ten minutes, and ties it to the presentation
+(`presented_at`). Each new question pops up on the teacher's screen (Answer shows it large; Skip
+moves on), and a "Questions" slide before the end lists them, left out when nobody asked anything.
+A student chooses whether the class's screen shows their name (hidden by default); the teacher's
+lesson page lists every question with the student's name. The teacher can turn questions off in
+present mode's settings, for example to prepare at home without the class seeing.
+
 ## Self-paced study and course placement (`engine/placement.ts`, `src/features/student/`)
 
 Students who sign up without a class code go to onboarding (`/s/welcome`). They give their
@@ -219,7 +234,10 @@ before the video plays again.
   `boards` are visible to the teacher, and to enrolled students only when the teacher shares one.
   Only the teacher opens and closes `live_questions` (at most one open per class); a student
   writes only their own `live_answers`, only in their class and only while the question is open,
-  and reads only their own answers.
+  and reads only their own answers. Only the teacher starts and stops `class_presentations`; the
+  class can read it. Students add `class_questions` only through `ask_class_question` and read only
+  their own; only the teacher sees everyone's, marks them answered or skipped, or deletes them, and
+  nobody can change a question's text.
 - **Self-paced sections.** A class has a teacher exactly when `kind = 'teacher'` (a check
   constraint). Only `start_self_paced` creates self-paced sections, for the calling student only;
   their join codes do not work, the student cannot rename them, and they are left out of the

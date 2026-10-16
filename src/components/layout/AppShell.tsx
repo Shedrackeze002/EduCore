@@ -44,6 +44,7 @@ import { setItem } from '@/lib/storage.ts';
 const LAST_CLASS_KEY = 'educore-last-class';
 import { NotificationBell, NotificationsBridge } from './NotificationBell.tsx';
 import { LiveBanner } from '@/features/live/LiveBanner.tsx';
+import { PresentingBanner } from '@/features/live/AskQuestion.tsx';
 import { chooseStudentClass, studentClassName, useStudentClass } from '@/features/shared/useStudentClass.ts';
 import { Logo } from './Logo.tsx';
 
@@ -150,7 +151,12 @@ export function AppShell({ role }: { role: ShellRole }) {
           </div>
         </header>
         <main className={cn('mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8', role === 'student' && 'pb-28 lg:pb-8')}>
-          {role === 'student' && <LiveBanner />}
+          {role === 'student' && (
+            <>
+              <LiveBanner />
+              <PresentingBanner />
+            </>
+          )}
           <Outlet />
         </main>
       </div>

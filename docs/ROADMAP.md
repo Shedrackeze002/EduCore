@@ -316,8 +316,14 @@ items ship or decisions change.
 4. **Students' questions during a presentation** (the owner's idea, 15 October 2026). While the
    teacher presents, students send questions about the lesson from their own devices. Each one
    pops up on the teacher's screen to answer or skip; at the end, a "Questions" slide lists them,
-   and it is left out when nobody asked anything. Proposed: a student may ask anonymously to
-   classmates (the teacher always sees the name).
+   and it is left out when nobody asked anything.
+   - Built: the "Ask a question" banner on every student page while the teacher presents (at most
+     300 characters, five in ten minutes), the pop-up on the teacher's screen (Answer shows the
+     question large; Skip moves on; "Later" tucks it away until the next one), the "Questions"
+     slide before the end, and the questions with students' names on the teacher's lesson page.
+     The class's screen shows "A student asks" unless the student ticks "Show my name to the
+     class" (first name and last initial); the teacher always sees who asked. Present mode's
+     settings can turn questions off, for example while preparing at home.
 5. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;

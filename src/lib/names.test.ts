@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { capitalize, cleanNamePart, sameName } from './names.ts';
+import { capitalize, cleanNamePart, sameName, screenName } from './names.ts';
 
 describe('names typed to join a class', () => {
   it('keeps letters from any alphabet, with spaces, hyphens and apostrophes', () => {
@@ -22,5 +22,13 @@ describe('names typed to join a class', () => {
   it('treats names differing only in capitals and spaces as the same', () => {
     expect(sameName('Ama  Mensah', ' ama mensah')).toBe(true);
     expect(sameName('Ama Mensah', 'Ama Mensa')).toBe(false);
+  });
+});
+
+describe('names on the class screen', () => {
+  it('shortens the last name to its first letter', () => {
+    expect(screenName('Maya Ruiz')).toBe('Maya R.');
+    expect(screenName('  Mary Ann   de Souza ')).toBe('Mary Ann de S.');
+    expect(screenName('Cher')).toBe('Cher');
   });
 });
