@@ -20842,33 +20842,33 @@
       },
       {
         "title": "Two plans",
-        "t": 20.277
+        "t": 20.105
       },
       {
         "title": "The break-even point",
-        "t": 65.793
+        "t": 65.621
       },
       {
         "title": "Finding it without a table",
-        "t": 102.243
+        "t": 102.068
       },
       {
         "title": "Forgetting the included transactions",
-        "t": 141.733
+        "t": 141.688
       },
       {
         "title": "Your turn",
-        "t": 157.563
+        "t": 157.518
       },
       {
         "title": "Summary",
-        "t": 203.421
+        "t": 203.627
       }
     ],
     "cues": [
       {
         "id": "m203-6-2-b:q",
-        "t": 176.92,
+        "t": 177.126,
         "prompt": "Plan A costs \\$2.50 a month, includes $6$ transactions, and charges \\$0.75 for each extra. Plan B costs \\$8.50 a month with unlimited transactions. What is the break-even point?",
         "choices": [
           "$14$ transactions",
@@ -21400,6 +21400,900 @@
         ],
         "answer": 0,
         "working": "$600 \\times 0.1899 \\div 365 \\times 31 \\approx 9.68$. B uses $18.99$ instead of $0.1899$, and C is the interest for a whole year."
+      }
+    ]
+  },
+  "m203-7-3-b": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 2: The New Balance and the Minimum Payment",
+    "duration": 210,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The minimum payment",
+        "t": 16.645
+      },
+      {
+        "title": "Next month’s statement",
+        "t": 29.407
+      },
+      {
+        "title": "Step by step",
+        "t": 63.127
+      },
+      {
+        "title": "Cash advances",
+        "t": 116.609
+      },
+      {
+        "title": "Your turn",
+        "t": 135.095
+      },
+      {
+        "title": "Summary",
+        "t": 185.904
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-b:q",
+        "t": 157.505,
+        "prompt": "A statement balance is \\$900.00, and \\$300.00 is paid. Interest is charged on the unpaid amount at $19.99\\%$ per year for $30$ days, and there are \\$75.50 in new purchases. What is the new balance?",
+        "choices": [
+          "\\$685.36",
+          "\\$690.29",
+          "\\$609.86",
+          "\\$990.29"
+        ],
+        "answer": 0,
+        "working": "Unpaid: $900 - 300 = 600$. Interest: $600 \\times 0.1999 \\div 365 \\times 30 \\approx 9.86$. New balance: $600 + 9.86 + 75.50 = 685.36$. B charges interest on the whole \\$900, and C leaves out the new purchases."
+      }
+    ]
+  },
+  "m203-7-3-c": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 3: The Cost of Carrying a Balance",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Interest on interest",
+        "t": 16.013
+      },
+      {
+        "title": "Two months on the card",
+        "t": 32.065
+      },
+      {
+        "title": "Choosing a card",
+        "t": 99.457
+      },
+      {
+        "title": "Your turn",
+        "t": 157.431
+      },
+      {
+        "title": "Summary",
+        "t": 208.31
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-c:q",
+        "t": 179.471,
+        "prompt": "You expect to carry an average balance of \\$1,000 for a year. Card A charges $21.99\\%$ with no fee. Card B charges $11.99\\%$ with a \\$79 annual fee. Which costs less, and by how much?",
+        "choices": [
+          "Card B, by \\$21.00",
+          "Card A, by \\$21.00",
+          "Card B, by \\$100.00",
+          "Card A, by \\$79.00"
+        ],
+        "answer": 0,
+        "working": "Card A: $1{,}000 \\times 0.2199 = 219.90$. Card B: $1{,}000 \\times 0.1199 + 79 = 198.90$. Card B costs \\$21.00 less. C forgets the fee."
+      }
+    ]
+  },
+  "m203-7-3-d": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 4: The Cost of a Loan",
+    "duration": 195,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Loans and terms",
+        "t": 15.666
+      },
+      {
+        "title": "A truck loan",
+        "t": 35.302
+      },
+      {
+        "title": "Mixing months and years",
+        "t": 80.176
+      },
+      {
+        "title": "As a percent",
+        "t": 100.541
+      },
+      {
+        "title": "Your turn",
+        "t": 125.791
+      },
+      {
+        "title": "Summary",
+        "t": 170.731
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-d:q",
+        "t": 139.501,
+        "prompt": "A car loan of \\$15,000 has payments of \\$295.50 a month for $5$ years. What is the finance charge?",
+        "choices": [
+          "\\$2,730.00",
+          "\\$17,730.00",
+          "\\$1,477.50",
+          "\\$3,546.00"
+        ],
+        "answer": 0,
+        "working": "$5 \\times 12 = 60$ payments, and $295.50 \\times 60 = 17{,}730.00$. Finance charge: $17{,}730.00 - 15{,}000 = 2{,}730.00$. B is the total paid."
+      }
+    ]
+  },
+  "m203-7-3-e": {
+    "lessonId": "m203-7-3",
+    "title": "Credit Cards and Loans, Part 5: Comparing Credit Options",
+    "duration": 233,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Dealer or bank?",
+        "t": 16.681
+      },
+      {
+        "title": "Rent-to-own",
+        "t": 72.319
+      },
+      {
+        "title": "A rent-to-own TV",
+        "t": 88.998
+      },
+      {
+        "title": "Saving up instead",
+        "t": 135.676
+      },
+      {
+        "title": "Your turn",
+        "t": 161.699
+      },
+      {
+        "title": "Summary",
+        "t": 208.693
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-7-3-e:q",
+        "t": 177.901,
+        "prompt": "A laptop has a cash price of \\$649.99, or $52$ weekly rent-to-own payments of \\$21.99. What is the finance charge?",
+        "choices": [
+          "\\$493.49",
+          "\\$1,143.48",
+          "\\$1,793.47",
+          "\\$405.53"
+        ],
+        "answer": 0,
+        "working": "$21.99 \\times 52 = 1{,}143.48$, and $1{,}143.48 - 649.99 = 493.49$. B is the total of the payments, and C adds the cash price instead of subtracting it."
+      }
+    ]
+  },
+  "m203-8-1": {
+    "lessonId": "m203-8-1",
+    "title": "Bar Graphs, Histograms and Circle Graphs, Part 1: Bar Graphs",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Bar graphs",
+        "t": 24.703
+      },
+      {
+        "title": "Totals and fractions",
+        "t": 71.845
+      },
+      {
+        "title": "Check the scale",
+        "t": 104.489
+      },
+      {
+        "title": "Your turn",
+        "t": 124.664
+      },
+      {
+        "title": "Summary",
+        "t": 171.517
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-1:q",
+        "t": 144.488,
+        "prompt": "On a bar graph of seed sales, the grid lines go up by $50$. The Canola bar stops halfway between $300$ and $350$, and the Barley bar stops on $200$. How many more bags of canola than barley were sold?",
+        "choices": [
+          "$125$",
+          "$150$",
+          "$100$",
+          "$2.5$"
+        ],
+        "answer": 0,
+        "working": "Halfway between $300$ and $350$ is $325$, and $325 - 200 = 125$. B reads the Canola bar as $350$, and C reads it as $300$."
+      }
+    ]
+  },
+  "m203-8-1-b": {
+    "lessonId": "m203-8-1",
+    "title": "Bar Graphs, Histograms and Circle Graphs, Part 2: Circle Graphs",
+    "duration": 209,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Circle graphs",
+        "t": 18.064
+      },
+      {
+        "title": "From a percent to an amount",
+        "t": 53.298
+      },
+      {
+        "title": "The angle of a sector",
+        "t": 78.387
+      },
+      {
+        "title": "Checking the angles",
+        "t": 118.82
+      },
+      {
+        "title": "Your turn",
+        "t": 143.479
+      },
+      {
+        "title": "Summary",
+        "t": 184.02
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-1-b:q",
+        "t": 158.793,
+        "prompt": "A circle graph shows how $600$ students get to school, and the Bus sector is $30\\%$. How many students take the bus, and what is the angle of the Bus sector?",
+        "choices": [
+          "$180$ students, $108^\\circ$",
+          "$180$ students, $30^\\circ$",
+          "$200$ students, $108^\\circ$",
+          "$18$ students, $10.8^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$0.30 \\times 600 = 180$ students, and $0.30 \\times 360 = 108^\\circ$. B uses the percent as the angle."
+      }
+    ]
+  },
+  "m203-8-1-c": {
+    "lessonId": "m203-8-1",
+    "title": "Bar Graphs, Histograms and Circle Graphs, Part 3: From Counts to a Circle Graph",
+    "duration": 215,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Part over total",
+        "t": 18.542
+      },
+      {
+        "title": "Dead batteries",
+        "t": 35.817
+      },
+      {
+        "title": "All the calls",
+        "t": 64.668
+      },
+      {
+        "title": "The circle graph",
+        "t": 101.585
+      },
+      {
+        "title": "The whole total",
+        "t": 129.755
+      },
+      {
+        "title": "Your turn",
+        "t": 148.729
+      },
+      {
+        "title": "Summary",
+        "t": 190.78
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-1-c:q",
+        "t": 162.841,
+        "prompt": "A farm supply store sold $120$ bags of seed, and $45$ were canola. What angle would the Canola sector have on a circle graph?",
+        "choices": [
+          "$135^\\circ$",
+          "$37.5^\\circ$",
+          "$45^\\circ$",
+          "$225^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{45}{120} = 0.375$, and $0.375 \\times 360 = 135^\\circ$. B is the percent, not the angle, and D is the angle for the other bags."
+      }
+    ]
+  },
+  "m203-8-1-d": {
+    "lessonId": "m203-8-1",
+    "title": "Bar Graphs, Histograms and Circle Graphs, Part 4: Histograms",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Histograms",
+        "t": 19.263
+      },
+      {
+        "title": "Reading a histogram",
+        "t": 68.45
+      },
+      {
+        "title": "Sorting data into intervals",
+        "t": 103.397
+      },
+      {
+        "title": "Values on a boundary",
+        "t": 136.576
+      },
+      {
+        "title": "Your turn",
+        "t": 158.388
+      },
+      {
+        "title": "Summary",
+        "t": 189.271
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-1-d:q",
+        "t": 167.451,
+        "prompt": "Ages: $18,\\ 25,\\ 20,\\ 31,\\ 29,\\ 40,\\ 22,\\ 19,\\ 35,\\ 20$. What is the frequency of the $20$–$29$ interval?",
+        "choices": [
+          "$5$",
+          "$3$",
+          "$4$",
+          "$6$"
+        ],
+        "answer": 0,
+        "working": "The ages from $20$ to $29$ are $20,\\ 20,\\ 22,\\ 25,\\ 29$, so the frequency is $5$. B leaves out the two $20$s on the boundary."
+      }
+    ]
+  },
+  "m203-8-1-e": {
+    "lessonId": "m203-8-1",
+    "title": "Bar Graphs, Histograms and Circle Graphs, Part 5: Using a Histogram",
+    "duration": 181,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The total",
+        "t": 18.532
+      },
+      {
+        "title": "A percent",
+        "t": 36.635
+      },
+      {
+        "title": "The median interval",
+        "t": 70.883
+      },
+      {
+        "title": "Your turn",
+        "t": 119.583
+      },
+      {
+        "title": "Summary",
+        "t": 157.708
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-1-e:q",
+        "t": 131.169,
+        "prompt": "What percent of these customers were $50$ or older, to the nearest tenth of a percent?",
+        "choices": [
+          "$19.0\\%$",
+          "$8.0\\%$",
+          "$42.9\\%$",
+          "$23.8\\%$"
+        ],
+        "answer": 0,
+        "working": "$6 + 2 = 8$ customers, and $\\dfrac{8}{42} \\times 100 \\approx 19.0\\%$. B gives the count, not the percent, and C is the percent aged $40$ or older."
+      }
+    ]
+  },
+  "m203-8-2": {
+    "lessonId": "m203-8-2",
+    "title": "Line Graphs and Choosing a Graph, Part 1: Reading a Line Graph",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Line graphs",
+        "t": 22.415
+      },
+      {
+        "title": "Reading a value",
+        "t": 46.179
+      },
+      {
+        "title": "Describing the trend",
+        "t": 93.677
+      },
+      {
+        "title": "Your turn",
+        "t": 119.287
+      },
+      {
+        "title": "Summary",
+        "t": 152.975
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-2:q",
+        "t": 129.636,
+        "prompt": "The table gives the points of a line graph of the water in a dugout. Which describes the trend?",
+        "choices": [
+          "down from May to August, then up in September",
+          "down the whole time",
+          "up from May to August, then down",
+          "about the same the whole time"
+        ],
+        "answer": 0,
+        "working": "The depth falls from $240$ to $150$ cm by August, then rises to $160$ cm in September. B misses the change of direction."
+      }
+    ]
+  },
+  "m203-8-2-b": {
+    "lessonId": "m203-8-2",
+    "title": "Line Graphs and Choosing a Graph, Part 2: Rate of Change on a Line Graph",
+    "duration": 190,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How fast did it warm up?",
+        "t": 15.96
+      },
+      {
+        "title": "Counting points instead of time",
+        "t": 54.488
+      },
+      {
+        "title": "Cooling down",
+        "t": 72.481
+      },
+      {
+        "title": "Steeper means faster",
+        "t": 100.583
+      },
+      {
+        "title": "Your turn",
+        "t": 123.693
+      },
+      {
+        "title": "Summary",
+        "t": 163.896
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-2-b:q",
+        "t": 139.767,
+        "prompt": "On a line graph, the water in a dugout is $240$ cm deep on June 1 and $180$ cm deep on August 1. What is the average rate of change?",
+        "choices": [
+          "$-30$ cm per month",
+          "$-60$ cm per month",
+          "$30$ cm per month",
+          "$-20$ cm per month"
+        ],
+        "answer": 0,
+        "working": "Change in depth: $180 - 240 = -60$ cm, over $2$ months, so $-60 \\div 2 = -30$ cm per month. B forgets to divide by the time."
+      }
+    ]
+  },
+  "m203-8-2-c": {
+    "lessonId": "m203-8-2",
+    "title": "Line Graphs and Choosing a Graph, Part 3: Predicting from a Steady Trend",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Diesel for a generator",
+        "t": 20.262
+      },
+      {
+        "title": "Predictions and the trend",
+        "t": 71.441
+      },
+      {
+        "title": "Your turn",
+        "t": 103.822
+      },
+      {
+        "title": "Summary",
+        "t": 149.172
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-2-c:q",
+        "t": 122.124,
+        "prompt": "In this example, a line graph shows a calf’s mass rising steadily from $250$ kg, by $1.2$ kg a day. If the trend continues, what will its mass be after $30$ days?",
+        "choices": [
+          "$286$ kg",
+          "$280$ kg",
+          "$36$ kg",
+          "$322$ kg"
+        ],
+        "answer": 0,
+        "working": "$30 \\times 1.2 = 36$ kg gained, and $250 + 36 = 286$ kg. B adds $30$ instead of $30 \\times 1.2$, and C is only the gain."
+      }
+    ]
+  },
+  "m203-8-2-d": {
+    "lessonId": "m203-8-2",
+    "title": "Line Graphs and Choosing a Graph, Part 4: Choosing the Best Graph",
+    "duration": 192,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four graphs",
+        "t": 18.045
+      },
+      {
+        "title": "Which graph?",
+        "t": 50.984
+      },
+      {
+        "title": "Three more",
+        "t": 82.434
+      },
+      {
+        "title": "Two questions",
+        "t": 111.031
+      },
+      {
+        "title": "Your turn",
+        "t": 137.87
+      },
+      {
+        "title": "Summary",
+        "t": 168.369
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-2-d:q",
+        "t": 150.81,
+        "prompt": "Ty recorded the depth of the water in a dugout on the first day of every month for a year. Which graph best shows how the depth changed?",
+        "choices": [
+          "a line graph",
+          "a circle graph",
+          "a histogram",
+          "none of these"
+        ],
+        "answer": 0,
+        "working": "The depth changes over time, so a line graph is best. A circle graph is for parts of one whole."
+      }
+    ]
+  },
+  "m203-8-2-e": {
+    "lessonId": "m203-8-2",
+    "title": "Line Graphs and Choosing a Graph, Part 5: Misleading Graphs",
+    "duration": 207,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A cut-off axis",
+        "t": 20.251
+      },
+      {
+        "title": "How big was the change?",
+        "t": 46.063
+      },
+      {
+        "title": "Uneven years",
+        "t": 83.487
+      },
+      {
+        "title": "Questions to ask",
+        "t": 124.851
+      },
+      {
+        "title": "Your turn",
+        "t": 143.602
+      },
+      {
+        "title": "Summary",
+        "t": 183.728
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-2-e:q",
+        "t": 160.383,
+        "prompt": "A bar graph’s vertical axis starts at $200$. Its bars show $210$ and $230$, so the second bar looks $3$ times as tall. What was the real percent increase?",
+        "choices": [
+          "about $9.5\\%$",
+          "$200\\%$",
+          "$300\\%$",
+          "$20\\%$"
+        ],
+        "answer": 0,
+        "working": "$230 - 210 = 20$, and $\\dfrac{20}{210} \\times 100 \\approx 9.5\\%$. B trusts the cut-off bars, and D is the increase, not a percent."
+      }
+    ]
+  },
+  "m203-8-3": {
+    "lessonId": "m203-8-3",
+    "title": "Numerical Puzzles and Games, Part 1: Number Patterns",
+    "duration": 201,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pattern rules",
+        "t": 19.214
+      },
+      {
+        "title": "Toothpick squares",
+        "t": 53.779
+      },
+      {
+        "title": "Counting shared sides twice",
+        "t": 94.262
+      },
+      {
+        "title": "Running the rule backward",
+        "t": 110.817
+      },
+      {
+        "title": "Your turn",
+        "t": 135.758
+      },
+      {
+        "title": "Summary",
+        "t": 174.116
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-3:q",
+        "t": 151.444,
+        "prompt": "Triangles in a row are made of toothpicks. Figure $1$ uses $3$ toothpicks, figure $2$ uses $5$ and figure $3$ uses $7$. How many does figure $15$ use?",
+        "choices": [
+          "$31$",
+          "$45$",
+          "$30$",
+          "$33$"
+        ],
+        "answer": 0,
+        "working": "Each figure adds $2$. From figure $1$ to figure $15$ there are $14$ steps: $3 + 14 \\times 2 = 31$. B counts $15$ separate triangles."
+      }
+    ]
+  },
+  "m203-8-3-b": {
+    "lessonId": "m203-8-3",
+    "title": "Numerical Puzzles and Games, Part 2: Magic Squares",
+    "duration": 197,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Magic squares",
+        "t": 17.637
+      },
+      {
+        "title": "Filling in a magic square",
+        "t": 48.852
+      },
+      {
+        "title": "The centre number",
+        "t": 109.721
+      },
+      {
+        "title": "Your turn",
+        "t": 136.162
+      },
+      {
+        "title": "Summary",
+        "t": 173.449
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-3-b:q",
+        "t": 150.477,
+        "prompt": "A $3$ by $3$ magic square has a top row of $10,\\ 3,\\ 8$. Its left column is $10,\\ 5$ and a missing number. What is the missing number?",
+        "choices": [
+          "$6$",
+          "$21$",
+          "$7$",
+          "$15$"
+        ],
+        "answer": 0,
+        "working": "The magic sum is $10 + 3 + 8 = 21$, so the missing number is $21 - (10 + 5) = 6$. C is the centre number, $21 \\div 3$."
+      }
+    ]
+  },
+  "m203-8-3-c": {
+    "lessonId": "m203-8-3",
+    "title": "Numerical Puzzles and Games, Part 3: Cage Puzzles and Logic Puzzles",
+    "duration": 208,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Cage puzzles",
+        "t": 16.478
+      },
+      {
+        "title": "Solving a cage puzzle",
+        "t": 35.313
+      },
+      {
+        "title": "A mystery number",
+        "t": 95.301
+      },
+      {
+        "title": "Your turn",
+        "t": 141.177
+      },
+      {
+        "title": "Summary",
+        "t": 179.319
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-3-c:q",
+        "t": 155.373,
+        "prompt": "I am a two-digit number. My digits add up to $9$. I am a multiple of $4$. My tens digit is less than my ones digit. What number am I?",
+        "choices": [
+          "$36$",
+          "$72$",
+          "$18$",
+          "$45$"
+        ],
+        "answer": 0,
+        "working": "Digits adding to $9$: $18, 27, 36, 45, 54, 63, 72, 81, 90$. Multiples of $4$: $36$ and $72$. Tens digit less than ones digit: $36$. B breaks the last clue."
+      }
+    ]
+  },
+  "m203-8-3-d": {
+    "lessonId": "m203-8-3",
+    "title": "Numerical Puzzles and Games, Part 4: Winning Strategies",
+    "duration": 216,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A take-away game",
+        "t": 14.853
+      },
+      {
+        "title": "Working backward",
+        "t": 34.096
+      },
+      {
+        "title": "Twenty-one counters",
+        "t": 70.293
+      },
+      {
+        "title": "Grabbing as many as you can",
+        "t": 111.307
+      },
+      {
+        "title": "Change the rules",
+        "t": 128.625
+      },
+      {
+        "title": "Your turn",
+        "t": 159.065
+      },
+      {
+        "title": "Summary",
+        "t": 194.081
+      }
+    ],
+    "cues": [
+      {
+        "id": "m203-8-3-d:q",
+        "t": 173.157,
+        "prompt": "Players take $1$, $2$ or $3$ counters, and whoever takes the last counter wins. There are $15$ counters, and it is your turn. How many should you take?",
+        "choices": [
+          "$3$",
+          "$1$",
+          "$2$",
+          "It does not matter."
+        ],
+        "answer": 0,
+        "working": "Leave a multiple of $4$: $15 - 3 = 12$. Taking $1$ leaves $14$, and taking $2$ leaves $13$, neither a multiple of $4$."
       }
     ]
   }
