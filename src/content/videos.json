@@ -26819,5 +26819,875 @@
         "working": "Map total: $2.4 + 1.8 + 3.3 = 7.5$ cm. Real: $7.5 \\times 4 = 30$ km. B leaves out the middle leg, and C is the map length."
       }
     ]
+  },
+  "m204-8-2-c": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 3: Grid Locations",
+    "duration": 158,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A grid",
+        "t": 17.693
+      },
+      {
+        "title": "Finding places",
+        "t": 48
+      },
+      {
+        "title": "Letter first",
+        "t": 86.637
+      },
+      {
+        "title": "Your turn",
+        "t": 108.265
+      },
+      {
+        "title": "Summary",
+        "t": 135.847
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2-c:q",
+        "t": 117.636,
+        "prompt": "On a grid map, a place is in column D and row $3$. How is its square named?",
+        "choices": [
+          "D3",
+          "3D",
+          "C3",
+          "D4"
+        ],
+        "answer": 0,
+        "working": "Letter first, then number: D3. B writes the number first, and C and D are one square off."
+      }
+    ]
+  },
+  "m204-8-2-d": {
+    "lessonId": "m204-8-2",
+    "title": "Maps, Part 4: Compass Directions",
+    "duration": 179,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The compass",
+        "t": 16.597
+      },
+      {
+        "title": "Directions to the arena",
+        "t": 42.612
+      },
+      {
+        "title": "From where?",
+        "t": 76.268
+      },
+      {
+        "title": "Distance on the grid",
+        "t": 92.037
+      },
+      {
+        "title": "Your turn",
+        "t": 118.207
+      },
+      {
+        "title": "Summary",
+        "t": 155.929
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-2-d:q",
+        "t": 131.889,
+        "prompt": "On a grid map, the Library is in B5 and the Gas station is in E1. Which direction is the Gas station from the Library?",
+        "choices": [
+          "southeast (SE)",
+          "northwest (NW)",
+          "northeast (NE)",
+          "southwest (SW)"
+        ],
+        "answer": 0,
+        "working": "Start at the Library (B5). E is to the right (east) and row 1 is down (south): southeast. B is the way back."
+      }
+    ]
+  },
+  "m204-8-3": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 1: Speed and Distance",
+    "duration": 183,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Speed",
+        "t": 19.368
+      },
+      {
+        "title": "A delivery run",
+        "t": 44.598
+      },
+      {
+        "title": "Part of an hour",
+        "t": 75.907
+      },
+      {
+        "title": "Three forms",
+        "t": 102.25
+      },
+      {
+        "title": "Your turn",
+        "t": 130.002
+      },
+      {
+        "title": "Summary",
+        "t": 162.568
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3:q",
+        "t": 141.265,
+        "prompt": "A bus travels for $4$ hours at an average speed of $75$ km/h. How far does it go?",
+        "choices": [
+          "$300$ km",
+          "$79$ km",
+          "$18.75$ km",
+          "$71$ km"
+        ],
+        "answer": 0,
+        "working": "$\\text{distance} = 75 \\times 4 = 300$ km. B adds, C divides, and D subtracts."
+      }
+    ]
+  },
+  "m204-8-3-b": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 2: Finding the Time or the Speed",
+    "duration": 184,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Travel time",
+        "t": 17.696
+      },
+      {
+        "title": "Average speed",
+        "t": 63.699
+      },
+      {
+        "title": "Which way to divide?",
+        "t": 99.805
+      },
+      {
+        "title": "Your turn",
+        "t": 123.507
+      },
+      {
+        "title": "Summary",
+        "t": 161.744
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3-b:q",
+        "t": 136,
+        "prompt": "A truck drives $360$ km at an average speed of $90$ km/h. How long does the trip take?",
+        "choices": [
+          "$4$ h",
+          "$0.25$ h",
+          "$32\\,400$ h",
+          "$270$ h"
+        ],
+        "answer": 0,
+        "working": "$\\text{time} = 360 \\div 90 = 4$ h. Check: $90 \\times 4 = 360$. B divides the wrong way, and C multiplies."
+      }
+    ]
+  },
+  "m204-8-3-c": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 3: Hours and Minutes",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A two-hour-something trip",
+        "t": 18.86
+      },
+      {
+        "title": "Not minutes",
+        "t": 63.218
+      },
+      {
+        "title": "Minutes to a decimal",
+        "t": 95.709
+      },
+      {
+        "title": "Your turn",
+        "t": 131.967
+      },
+      {
+        "title": "Summary",
+        "t": 172.835
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3-c:q",
+        "t": 145.925,
+        "prompt": "A driver goes $150$ km at an average speed of $60$ km/h. How long does the trip take, in hours and minutes?",
+        "choices": [
+          "$2$ h $30$ min",
+          "$2$ h $50$ min",
+          "$2$ h $5$ min",
+          "$3$ h $30$ min"
+        ],
+        "answer": 0,
+        "working": "$150 \\div 60 = 2.5$ h. $0.5 \\times 60 = 30$ min, so $2$ h $30$ min. B reads $0.5$ as $50$ minutes, and C as $5$ minutes."
+      }
+    ]
+  },
+  "m204-8-3-d": {
+    "lessonId": "m204-8-3",
+    "title": "Travel Time, Part 4: Planning a Trip",
+    "duration": 175,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Arrival time",
+        "t": 20.283
+      },
+      {
+        "title": "Kiona’s drive",
+        "t": 34.604
+      },
+      {
+        "title": "Estimate first",
+        "t": 84.027
+      },
+      {
+        "title": "Your turn",
+        "t": 111.891
+      },
+      {
+        "title": "Summary",
+        "t": 152.648
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-8-3-d:q",
+        "t": 127.224,
+        "prompt": "Omar leaves at 9:15 a.m., drives $240$ km at $80$ km/h, and stops for $20$ minutes for fuel. When does Omar arrive?",
+        "choices": [
+          "12:35 p.m.",
+          "12:15 p.m.",
+          "12:55 p.m.",
+          "11:35 a.m."
+        ],
+        "answer": 0,
+        "working": "Driving: $240 \\div 80 = 3$ h. 9:15 a.m. $+ 3$ h $=$ 12:15 p.m., then $+ 20$ min $=$ 12:35 p.m. B forgets the stop."
+      }
+    ]
+  },
+  "m204-9-1": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 1: Line Graphs",
+    "duration": 160,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A line graph",
+        "t": 17.643
+      },
+      {
+        "title": "Reading a change",
+        "t": 45.974
+      },
+      {
+        "title": "Straight up, straight across",
+        "t": 82.881
+      },
+      {
+        "title": "Your turn",
+        "t": 101.427
+      },
+      {
+        "title": "Summary",
+        "t": 136.331
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1:q",
+        "t": 114.819,
+        "prompt": "On a line graph, the grid lines go up by $20$. A point is halfway between the $60$ line and the $80$ line. What value does it show?",
+        "choices": [
+          "$70$",
+          "$65$",
+          "$75$",
+          "$60$"
+        ],
+        "answer": 0,
+        "working": "Halfway between $60$ and $80$ is $(60 + 80) \\div 2 = 70$. D reads the line below."
+      }
+    ]
+  },
+  "m204-9-1-b": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 2: Circle Graphs and Percents",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A circle graph",
+        "t": 16.481
+      },
+      {
+        "title": "Percents into dollars",
+        "t": 49.255
+      },
+      {
+        "title": "A shortcut",
+        "t": 97.482
+      },
+      {
+        "title": "Your turn",
+        "t": 132.393
+      },
+      {
+        "title": "Summary",
+        "t": 172.879
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1-b:q",
+        "t": 147.565,
+        "prompt": "Jordan takes home \\$2,400 a month. Transport is $15\\%$ and Phone is $5\\%$. How much more goes to Transport than to Phone?",
+        "choices": [
+          "\\$240",
+          "\\$360",
+          "\\$120",
+          "\\$10"
+        ],
+        "answer": 0,
+        "working": "$15\\% - 5\\% = 10\\%$, and $0.10 \\times 2400 = 240$. B is the Transport amount, C is the Phone amount, and D is the percent, not dollars."
+      }
+    ]
+  },
+  "m204-9-1-c": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 3: Finding a Percent",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Part over whole",
+        "t": 16.965
+      },
+      {
+        "title": "Part by whole",
+        "t": 60.035
+      },
+      {
+        "title": "Which graph?",
+        "t": 79.666
+      },
+      {
+        "title": "Your turn",
+        "t": 105.246
+      },
+      {
+        "title": "Summary",
+        "t": 142.425
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1-c:q",
+        "t": 115.943,
+        "prompt": "A store had $60$ customers in an hour. $45$ paid by card. What percent paid by card?",
+        "choices": [
+          "$75\\%$",
+          "$133\\%$",
+          "$45\\%$",
+          "$25\\%$"
+        ],
+        "answer": 0,
+        "working": "$45 \\div 60 = 0.75$, and $0.75 \\times 100 = 75\\%$. B divides the wrong way, and D is the percent who did not pay by card."
+      }
+    ]
+  },
+  "m204-9-1-d": {
+    "lessonId": "m204-9-1",
+    "title": "Data Displays, Part 4: Making a Circle Graph",
+    "duration": 193,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Slice angles",
+        "t": 13.093
+      },
+      {
+        "title": "Car washes sold",
+        "t": 39.511
+      },
+      {
+        "title": "Check the total",
+        "t": 107.742
+      },
+      {
+        "title": "Your turn",
+        "t": 134.879
+      },
+      {
+        "title": "Summary",
+        "t": 167.952
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-1-d:q",
+        "t": 145.125,
+        "prompt": "In a survey of $60$ people, $15$ chose hockey. What angle should the hockey slice have?",
+        "choices": [
+          "$90^\\circ$",
+          "$25^\\circ$",
+          "$15^\\circ$",
+          "$144^\\circ$"
+        ],
+        "answer": 0,
+        "working": "$\\tfrac{15}{60} \\times 360 = 90^\\circ$. B is the percent, $25\\%$, and C is the count."
+      }
+    ]
+  },
+  "m204-9-2": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 1: Comparing Two Data Sets",
+    "duration": 167,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Measures of data",
+        "t": 16.761
+      },
+      {
+        "title": "Two servers’ tips",
+        "t": 38.245
+      },
+      {
+        "title": "What it means",
+        "t": 80.361
+      },
+      {
+        "title": "Your turn",
+        "t": 110.626
+      },
+      {
+        "title": "Summary",
+        "t": 145.944
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2:q",
+        "t": 123.67,
+        "prompt": "Set A is $10, 12, 14$. Set B is $2, 12, 22$. Both have a mean of $12$. What is the range of set B?",
+        "choices": [
+          "$20$",
+          "$4$",
+          "$12$",
+          "$24$"
+        ],
+        "answer": 0,
+        "working": "Range of B: $22 - 2 = 20$. B is the range of set A, and C is the mean. Set B is much more spread out."
+      }
+    ]
+  },
+  "m204-9-2-b": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 2: Outliers and the Best Measure",
+    "duration": 176,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Outliers",
+        "t": 15.505
+      },
+      {
+        "title": "With and without the outlier",
+        "t": 40.09
+      },
+      {
+        "title": "Which measure?",
+        "t": 97.282
+      },
+      {
+        "title": "Your turn",
+        "t": 117.246
+      },
+      {
+        "title": "Summary",
+        "t": 155.176
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2-b:q",
+        "t": 131.169,
+        "prompt": "Five workers earn \\$15, \\$16, \\$17, \\$18 and \\$64 an hour. Which measure best describes a typical wage?",
+        "choices": [
+          "the median, \\$17",
+          "the mean, \\$26",
+          "the range, \\$49",
+          "the highest, \\$64"
+        ],
+        "answer": 0,
+        "working": "\\$64 is an outlier, so use the median: \\$17. The mean, $130 \\div 5 = 26$, is higher than four of the five wages."
+      }
+    ]
+  },
+  "m204-9-2-c": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 3: Misleading Graphs",
+    "duration": 174,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A graph in an ad",
+        "t": 14.987
+      },
+      {
+        "title": "The real change",
+        "t": 46.248
+      },
+      {
+        "title": "Other tricks",
+        "t": 82.192
+      },
+      {
+        "title": "Your turn",
+        "t": 113.753
+      },
+      {
+        "title": "Summary",
+        "t": 153.937
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2-c:q",
+        "t": 129.29,
+        "prompt": "A graph’s axis starts at $50$. The bars show $52$ and $60$, so the second bar looks $5$ times as tall. By about what percent did the value really grow?",
+        "choices": [
+          "about $15\\%$",
+          "$5$ times",
+          "$8\\%$",
+          "$500\\%$"
+        ],
+        "answer": 0,
+        "working": "Increase: $60 - 52 = 8$. Percent: $8 \\div 52 \\times 100 \\approx 15\\%$. B and D believe the bars, and C forgets to divide by $52$."
+      }
+    ]
+  },
+  "m204-9-2-d": {
+    "lessonId": "m204-9-2",
+    "title": "Analyzing Data, Part 4: Misleading Claims",
+    "duration": 168,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Ask three questions",
+        "t": 17.736
+      },
+      {
+        "title": "A misleading average",
+        "t": 60.563
+      },
+      {
+        "title": "Trusting “average”",
+        "t": 102.708
+      },
+      {
+        "title": "Your turn",
+        "t": 116.561
+      },
+      {
+        "title": "Summary",
+        "t": 145.735
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-2-d:q",
+        "t": 125.878,
+        "prompt": "A town wants to know if people want a new swimming pool. Which survey is **biased**?",
+        "choices": [
+          "asking only people at the old pool",
+          "asking every 10th name on the voters’ list",
+          "asking 500 people at random",
+          "asking people at many different places in town"
+        ],
+        "answer": 0,
+        "working": "People at the pool already swim, so they are likely to want a new one. The other surveys reach a fair mix of the town."
+      }
+    ]
+  },
+  "m204-9-3": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 1: Theoretical Probability",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Theoretical probability",
+        "t": 19.937
+      },
+      {
+        "title": "A spinner",
+        "t": 39.129
+      },
+      {
+        "title": "From 0 to 1",
+        "t": 69.86
+      },
+      {
+        "title": "A bag of marbles",
+        "t": 96.509
+      },
+      {
+        "title": "Your turn",
+        "t": 121.231
+      },
+      {
+        "title": "Summary",
+        "t": 153.172
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3:q",
+        "t": 132.334,
+        "prompt": "A regular die is rolled once. What is the theoretical probability of rolling a number greater than $4$?",
+        "choices": [
+          "$\\dfrac{1}{3}$",
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{2}{3}$",
+          "$\\dfrac{1}{6}$"
+        ],
+        "answer": 0,
+        "working": "Favourable: $5$ and $6$, so $2$. Total: $6$. $P = \\dfrac{2}{6} = \\dfrac{1}{3}$. C counts the numbers $4$ or less, and D counts only one number."
+      }
+    ]
+  },
+  "m204-9-3-b": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 2: Experimental Probability",
+    "duration": 177,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Experimental probability",
+        "t": 16.114
+      },
+      {
+        "title": "Drink sizes",
+        "t": 33.513
+      },
+      {
+        "title": "More trials, better results",
+        "t": 82.762
+      },
+      {
+        "title": "Your turn",
+        "t": 113.282
+      },
+      {
+        "title": "Summary",
+        "t": 152.699
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3-b:q",
+        "t": 126.72,
+        "prompt": "Use the coffee shop data: $84$ of $200$ customers ordered a medium. What is the experimental probability of a medium?",
+        "choices": [
+          "$42\\%$",
+          "$84\\%$",
+          "$25\\%$",
+          "$58\\%$"
+        ],
+        "answer": 0,
+        "working": "$\\dfrac{84}{200} = 0.42 = 42\\%$. B forgets to divide by $200$, C assumes the four sizes are equally likely, and D is the percent who did not order a medium."
+      }
+    ]
+  },
+  "m204-9-3-c": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 3: Making Predictions",
+    "duration": 194,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Predictions",
+        "t": 18.012
+      },
+      {
+        "title": "Rolling a die",
+        "t": 33.726
+      },
+      {
+        "title": "Ordering cups",
+        "t": 56.89
+      },
+      {
+        "title": "Not a promise",
+        "t": 90.903
+      },
+      {
+        "title": "Planning staff",
+        "t": 108.573
+      },
+      {
+        "title": "Your turn",
+        "t": 133.981
+      },
+      {
+        "title": "Summary",
+        "t": 169.976
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3-c:q",
+        "t": 147.512,
+        "prompt": "The coffee shop’s records show $P(\\text{small}) = 23\\%$. About how many of $300$ customers will order a small?",
+        "choices": [
+          "about $69$",
+          "about $23$",
+          "about $230$",
+          "about $75$"
+        ],
+        "answer": 0,
+        "working": "$0.23 \\times 300 = 69$. B is the percent, C multiplies by $10$, and D assumes the four sizes are equally likely."
+      }
+    ]
+  },
+  "m204-9-3-d": {
+    "lessonId": "m204-9-3",
+    "title": "Probability, Part 4: Comparing Predictions with Results",
+    "duration": 185,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Real rolls",
+        "t": 13.999
+      },
+      {
+        "title": "As percents",
+        "t": 40.024
+      },
+      {
+        "title": "Is that normal?",
+        "t": 67.724
+      },
+      {
+        "title": "A fair coin?",
+        "t": 97.154
+      },
+      {
+        "title": "Your turn",
+        "t": 128.439
+      },
+      {
+        "title": "Summary",
+        "t": 161.788
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-9-3-d:q",
+        "t": 141.535,
+        "prompt": "In Kai’s $120$ rolls, a $5$ came up $17$ times. The prediction was $20$. How does the real result compare?",
+        "choices": [
+          "$3$ fewer than predicted",
+          "$3$ more than predicted",
+          "$17$ fewer than predicted",
+          "exactly as predicted"
+        ],
+        "answer": 0,
+        "working": "$20 - 17 = 3$, so $3$ fewer than predicted. That is normal for $120$ rolls."
+      }
+    ]
   }
 }
