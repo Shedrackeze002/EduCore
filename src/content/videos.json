@@ -24129,25 +24129,25 @@
       },
       {
         "title": "Net pay",
-        "t": 66.721
+        "t": 66.508
       },
       {
         "title": "Gross pay first",
-        "t": 102.744
+        "t": 102.531
       },
       {
         "title": "Your turn",
-        "t": 119.535
+        "t": 119.322
       },
       {
         "title": "Summary",
-        "t": 174.248
+        "t": 174.06
       }
     ],
     "cues": [
       {
         "id": "m204-3-3-c:q",
-        "t": 139.063,
+        "t": 138.875,
         "prompt": "Sam works $30$ hours at \\$18.00 per hour. Suppose $5\\%$ is taken for CPP, $2\\%$ for EI and $10\\%$ for income tax, and union dues are \\$10.00. What is the net pay?",
         "choices": [
           "\\$438.20",
@@ -24411,21 +24411,21 @@
       },
       {
         "title": "Change the percent",
-        "t": 103.98
+        "t": 104.132
       },
       {
         "title": "Your turn",
-        "t": 138.245
+        "t": 138.397
       },
       {
         "title": "Summary",
-        "t": 178.588
+        "t": 178.74
       }
     ],
     "cues": [
       {
         "id": "m204-4-2-b:q",
-        "t": 151.612,
+        "t": 151.764,
         "prompt": "A loan of \\$1,800 charges $5\\%$ per year simple interest. How much interest is charged in $4$ years?",
         "choices": [
           "\\$360",
@@ -24766,7 +24766,7 @@
   "m204-4-4-b": {
     "lessonId": "m204-4-4",
     "title": "Cars and Homes, Part 2: Fuel Costs",
-    "duration": 209,
+    "duration": 210,
     "voice": "af_heart",
     "chapters": [
       {
@@ -25144,6 +25144,100 @@
         ],
         "answer": 0,
         "working": "To undo $-\\ 9$, add $9$ to both sides: $y = 14 + 9 = 23$. Check: $23 - 9 = 14$. B subtracts instead of adding."
+      }
+    ]
+  },
+  "m204-5-2-b": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 2: Two-Step Equations",
+    "duration": 188,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reverse order",
+        "t": 20.019
+      },
+      {
+        "title": "Bowling",
+        "t": 64.427
+      },
+      {
+        "title": "Undo the adding first",
+        "t": 110.832
+      },
+      {
+        "title": "Your turn",
+        "t": 133.101
+      },
+      {
+        "title": "Summary",
+        "t": 168.625
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2-b:q",
+        "t": 140.324,
+        "prompt": "Solve $4x - 3 = 25$.",
+        "choices": [
+          "$x = 7$",
+          "$x = 5.5$",
+          "$x = 112$",
+          "$x = 3.25$"
+        ],
+        "answer": 0,
+        "working": "Add $3$ to both sides: $4x = 28$. Divide by $4$: $x = 7$. Check: $4 \\times 7 - 3 = 25$. B subtracts $3$ instead of adding, and D divides first."
+      }
+    ]
+  },
+  "m204-5-2-c": {
+    "lessonId": "m204-5-2",
+    "title": "Solving Equations, Part 3: Using a Formula Backwards",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "How many hours?",
+        "t": 19.654
+      },
+      {
+        "title": "How far was the taxi ride?",
+        "t": 74.562
+      },
+      {
+        "title": "Fahrenheit to Celsius",
+        "t": 125.25
+      },
+      {
+        "title": "Your turn",
+        "t": 163.702
+      },
+      {
+        "title": "Summary",
+        "t": 204.829
+      }
+    ],
+    "cues": [
+      {
+        "id": "m204-5-2-c:q",
+        "t": 176.981,
+        "prompt": "Use $E = rh$. Jada earned \\$504.00 at \\$16.80 per hour. How many hours did Jada work?",
+        "choices": [
+          "$30$ hours",
+          "$8{,}467.20$ hours",
+          "$487.20$ hours",
+          "$3$ hours"
+        ],
+        "answer": 0,
+        "working": "$504.00 = 16.80h$, so $h = 504.00 \\div 16.80 = 30$. B multiplies instead of dividing, and C subtracts."
       }
     ]
   }
