@@ -24022,7 +24022,7 @@
   "m204-3-3": {
     "lessonId": "m204-3-3",
     "title": "Deductions and Net Pay, Part 1: Reading a Pay Stub",
-    "duration": 186,
+    "duration": 187,
     "voice": "af_heart",
     "chapters": [
       {
@@ -24039,21 +24039,21 @@
       },
       {
         "title": "Net pay from a pay stub",
-        "t": 70.051
+        "t": 70.252
       },
       {
         "title": "Your turn",
-        "t": 113.983
+        "t": 114.21
       },
       {
         "title": "Summary",
-        "t": 161.005
+        "t": 161.381
       }
     ],
     "cues": [
       {
         "id": "m204-3-3:q",
-        "t": 134.047,
+        "t": 134.423,
         "prompt": "A pay stub shows gross pay of \\$960.00. The deductions are CPP \\$48.00, EI \\$16.00, income tax \\$96.00 and union dues \\$12.00. What is the net pay?",
         "choices": [
           "\\$788.00",
@@ -24069,7 +24069,7 @@
   "m204-3-3-b": {
     "lessonId": "m204-3-3",
     "title": "Deductions and Net Pay, Part 2: Deductions from Percents",
-    "duration": 219,
+    "duration": 220,
     "voice": "af_heart",
     "chapters": [
       {
@@ -24082,25 +24082,25 @@
       },
       {
         "title": "Three percent deductions",
-        "t": 38.951
+        "t": 39.098
       },
       {
         "title": "Net pay",
-        "t": 94.113
+        "t": 94.593
       },
       {
         "title": "Your turn",
-        "t": 142.659
+        "t": 143.14
       },
       {
         "title": "Summary",
-        "t": 195.274
+        "t": 195.757
       }
     ],
     "cues": [
       {
         "id": "m204-3-3-b:q",
-        "t": 159.096,
+        "t": 159.627,
         "prompt": "Gross pay is \\$850.00. Suppose $5\\%$ is taken for CPP, $2\\%$ for EI and $10\\%$ for income tax. What is the net pay?",
         "choices": [
           "\\$705.50",
