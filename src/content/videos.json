@@ -27689,5 +27689,56 @@
         "working": "$20 - 17 = 3$, so $3$ fewer than predicted. That is normal for $120$ rolls."
       }
     ]
+  },
+  "m301-1-1": {
+    "lessonId": "m301-1-1",
+    "title": "Horizontal and Vertical Translations, Part 1: Sliding a Graph",
+    "duration": 289,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a translation is",
+        "t": 22.331
+      },
+      {
+        "title": "Why x − h moves right",
+        "t": 78.465
+      },
+      {
+        "title": "Translating y = x²",
+        "t": 127.606
+      },
+      {
+        "title": "Reading h and k",
+        "t": 176.71
+      },
+      {
+        "title": "Your turn",
+        "t": 216.61
+      },
+      {
+        "title": "Summary",
+        "t": 251.878
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-1:q",
+        "t": 229.323,
+        "prompt": "The graph of $y = x^2$ is translated 4 units right and 1 unit down. Which is the equation of the image?",
+        "choices": [
+          "$y = (x - 4)^2 + 1$",
+          "$y = (x + 4)^2 - 1$",
+          "$y = (x - 4)^2 - 1$",
+          "$y = (x - 1)^2 + 4$"
+        ],
+        "answer": 2,
+        "working": "Right 4: $h = 4$, so replace $x$ with $x - 4$. Down 1: $k = -1$, so subtract 1."
+      }
+    ]
   }
 }
