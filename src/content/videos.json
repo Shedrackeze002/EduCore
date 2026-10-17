@@ -32680,25 +32680,25 @@
       },
       {
         "title": "Combine, then evaluate",
-        "t": 107.756
+        "t": 106.813
       },
       {
         "title": "A common mistake",
-        "t": 142.115
+        "t": 141.172
       },
       {
         "title": "Your turn",
-        "t": 177.998
+        "t": 177.055
       },
       {
         "title": "Summary",
-        "t": 210.343
+        "t": 209.4
       }
     ],
     "cues": [
       {
         "id": "m301-7-6:q",
-        "t": 186.972,
+        "t": 186.029,
         "prompt": "Evaluate $\\log_{3} 54 - \\log_{3} 2$.",
         "choices": [
           "$27$",
@@ -33499,7 +33499,7 @@
   "m301-8-3-d": {
     "lessonId": "m301-8-3",
     "title": "Connecting Graphs and Rational Equations, Part 4: Sharing a Job",
-    "duration": 264,
+    "duration": 265,
     "voice": "af_heart",
     "chapters": [
       {
@@ -33508,33 +33508,33 @@
       },
       {
         "title": "Rates of work",
-        "t": 21.186
+        "t": 21.554
       },
       {
         "title": "Solving",
-        "t": 63.811
+        "t": 64.35
       },
       {
         "title": "Rejecting roots in context",
-        "t": 109.627
+        "t": 110.166
       },
       {
         "title": "Checking with a graph",
-        "t": 152.916
+        "t": 153.628
       },
       {
         "title": "Your turn",
-        "t": 189.45
+        "t": 190.436
       },
       {
         "title": "Summary",
-        "t": 237.493
+        "t": 238.479
       }
     ],
     "cues": [
       {
         "id": "m301-8-3-d:q",
-        "t": 205.777,
+        "t": 206.763,
         "prompt": "Working alone, Ava takes $8$ h longer than Ben to paint a fence. Together they take $3$ h. If Ben takes $t$ hours alone, which equation models the situation?",
         "choices": [
           "$\\dfrac{1}{t} + \\dfrac{1}{t + 8} = 3$",
@@ -33952,6 +33952,108 @@
         ],
         "answer": 1,
         "working": "First $5x - 1$ is calculated, so $g(x) = 5x - 1$. Then the square root is taken and $4$ is added, so $f(x) = \\sqrt{x} + 4$. Check: $f(g(x)) = \\sqrt{5x - 1} + 4$ ✓"
+      }
+    ]
+  },
+  "m301-9-1": {
+    "lessonId": "m301-9-1",
+    "title": "The Fundamental Counting Principle, Part 1: Tree Diagrams and Multiplying Choices",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A tree diagram",
+        "t": 23.331
+      },
+      {
+        "title": "The counting principle",
+        "t": 73.745
+      },
+      {
+        "title": "A three-course meal",
+        "t": 116.314
+      },
+      {
+        "title": "Watch out",
+        "t": 166.046
+      },
+      {
+        "title": "Your turn",
+        "t": 191.908
+      },
+      {
+        "title": "Summary",
+        "t": 232.625
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-1:q",
+        "t": 208.517,
+        "prompt": "A café makes drinks in 4 sizes, with 3 flavours and 2 kinds of milk. Each drink has one size, one flavour and one kind of milk. How many different drinks are possible?",
+        "choices": [
+          "$9$",
+          "$24$",
+          "$12$",
+          "$48$"
+        ],
+        "answer": 1,
+        "working": "A drink is a size **and** a flavour **and** a kind of milk: $4 \\times 3 \\times 2 = 24$."
+      }
+    ]
+  },
+  "m301-9-1-b": {
+    "lessonId": "m301-9-1",
+    "title": "The Fundamental Counting Principle, Part 2: Repetition and Restricted Boxes",
+    "duration": 300,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Repetition allowed",
+        "t": 19.277
+      },
+      {
+        "title": "No repetition",
+        "t": 69.392
+      },
+      {
+        "title": "Watch out",
+        "t": 112.741
+      },
+      {
+        "title": "Fill the restricted box first",
+        "t": 161.899
+      },
+      {
+        "title": "Your turn",
+        "t": 229.183
+      },
+      {
+        "title": "Summary",
+        "t": 268.615
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-1-b:q",
+        "t": 236.724,
+        "prompt": "How many 3-digit numbers have no repeated digits?",
+        "choices": [
+          "$720$",
+          "$900$",
+          "$504$",
+          "$648$"
+        ],
+        "answer": 3,
+        "working": "First digit: 1 to 9, so $9$ choices. Second: any digit except the first (0 is allowed now), so $9$. Third: $8$. So $9 \\times 9 \\times 8 = 648$."
       }
     ]
   }
