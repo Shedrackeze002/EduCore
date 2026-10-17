@@ -105,14 +105,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'What is the domain of $y = \\sqrt{x^2 - 9}$?',
-          choices: ['$\\{x \\mid x \\le -3 \\text{ or } x \\ge 3,\\ x \\in \\mathbb{R}\\}$', '$\\{x \\mid -3 \\le x \\le 3,\\ x \\in \\mathbb{R}\\}$', '$\\{x \\mid x \\ge 3,\\ x \\in \\mathbb{R}\\}$', '$\\{x \\mid x \\in \\mathbb{R}\\}$'],
-          answer: 0,
+          choices: ['$\\{x \\mid -3 \\le x \\le 3,\\ x \\in \\mathbb{R}\\}$', '$\\{x \\mid x \\le -3 \\text{ or } x \\ge 3,\\ x \\in \\mathbb{R}\\}$', '$\\{x \\mid x \\ge 3,\\ x \\in \\mathbb{R}\\}$', '$\\{x \\mid x \\in \\mathbb{R}\\}$'],
+          answer: 1,
           working: '$x^2 - 9 = (x + 3)(x - 3)$ has zeros $-3$ and $3$, and the parabola opens up, so $x^2 - 9 \\ge 0$ outside the zeros: $x \\le -3$ or $x \\ge 3$.',
         },
       ],
       lines: [
         { say: 'Your turn. What is the domain of y equals the square root of x squared minus nine? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. x squared minus nine has zeros at negative three and three, and the parabola opens up, so it is not negative outside the zeros. B is the interval between the zeros, where the parabola is below the x-axis: the part that the square root removes.', show: 'q.answer' },
+        { say: 'The answer is B. x squared minus nine has zeros at negative three and three, and the parabola opens up, so it is not negative outside the zeros. Choice A is the interval between the zeros, where the parabola is below the x-axis: the part that the square root removes.', show: 'q.answer' },
       ],
     },
     {

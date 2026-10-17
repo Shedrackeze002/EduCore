@@ -95,14 +95,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'A function $f$ has domain $\\{x \\mid x \\ge 2\\}$ and range $\\{y \\mid y \\le 5\\}$. What is the domain of $f^{-1}$?',
-          choices: ['$\\{x \\mid x \\le 5\\}$', '$\\{x \\mid x \\ge 2\\}$', '$\\{x \\mid x \\ge 5\\}$', '$\\{x \\mid x \\le 2\\}$'],
-          answer: 0,
+          choices: ['$\\{x \\mid x \\le 2\\}$', '$\\{x \\mid x \\ge 2\\}$', '$\\{x \\mid x \\ge 5\\}$', '$\\{x \\mid x \\le 5\\}$'],
+          answer: 3,
           working: 'The domain of $f^{-1}$ is the range of $f$: all values at most $5$.',
         },
       ],
       lines: [
         { say: 'Your turn. A function f has domain x greater than or equal to two, and range y less than or equal to five. What is the domain of f inverse? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. The domain of the inverse is the range of the original: all values less than or equal to five. B is the domain of f itself.', show: 'q.answer' },
+        { say: 'The answer is D. The domain of the inverse is the range of the original: all values less than or equal to five. B is the domain of f itself.', show: 'q.answer' },
       ],
     },
     {

@@ -192,6 +192,11 @@ Lessons learned while scripting (the script check does not catch these):
   and a comma would make it a quantity.
 - Do not give invented people a pronoun unless the lesson does; use their name again.
 - Keep a "Your turn" question in a `center` scene: in a `split` scene it is cut off.
+- Spread the correct "Your turn" answer over A, B, C and D from video to video: the lesson player
+  asks the question with the choices in the video's order, so an answer that is always A gives
+  itself away (Math 10C to 20-4 mostly have A; from Math 30-1 on it varies). Name the right
+  letters in the answer line, and write "Choice A" when a sentence starts with it, or the voice
+  reads it as the word "a".
 - Chapter titles cannot contain `$`.
 - Keep bar graph category labels to a word or two, or they overlap.
 - Break long maths over several lines (or narrow `leftWidth`) so it fits its column; give a

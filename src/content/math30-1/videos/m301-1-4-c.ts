@@ -131,14 +131,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'Let $f(x) = (x + 1)^2 - 4$ with $x \\le -1$. Which is $f^{-1}(x)$?',
-          choices: ['$-\\sqrt{x + 4} - 1$', '$\\sqrt{x + 4} - 1$', '$-\\sqrt{x - 4} + 1$', '$\\sqrt{x - 1} + 4$'],
-          answer: 0,
+          choices: ['$-\\sqrt{x - 4} + 1$', '$\\sqrt{x + 4} - 1$', '$-\\sqrt{x + 4} - 1$', '$\\sqrt{x - 1} + 4$'],
+          answer: 2,
           working: 'Interchange: $(y + 1)^2 = x + 4$, so $y = -1 \\pm \\sqrt{x + 4}$. The left half ($x \\le -1$) means the inverse needs $y \\le -1$: the negative root.',
         },
       ],
       lines: [
         { say: 'Your turn. Let f of x equal x plus one, all squared, minus four, with x less than or equal to negative one. Which is f inverse of x? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Interchanging gives y plus one, all squared, equals x plus four. The restriction keeps the left half, so the inverse needs y at most negative one: the negative root. B uses the positive root, which belongs to the right half.', show: 'q.answer' },
+        { say: 'The answer is C. Interchanging gives y plus one, all squared, equals x plus four. The restriction keeps the left half, so the inverse needs y at most negative one: the negative root. B uses the positive root, which belongs to the right half.', show: 'q.answer' },
       ],
     },
     {

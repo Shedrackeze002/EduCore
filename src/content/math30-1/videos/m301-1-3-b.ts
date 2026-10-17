@@ -84,14 +84,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'What is the horizontal translation in $y = f(3x + 12)$?',
-          choices: ['$4$ units left', '$12$ units left', '$4$ units right', '$12$ units right'],
-          answer: 0,
+          choices: ['$4$ units right', '$12$ units left', '$4$ units left', '$12$ units right'],
+          answer: 2,
           working: '$3x + 12 = 3(x + 4) = 3(x - (-4))$, so $h = -4$: 4 units left.',
         },
       ],
       lines: [
         { say: 'Your turn. What is the horizontal translation in y equals f of three x, plus twelve? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Factor out three: three x plus twelve is three times x plus four. So h is negative four: four units left. B reads h before factoring.', show: 'q.answer' },
+        { say: 'The answer is C. Factor out three: three x plus twelve is three times x plus four. So h is negative four: four units left. B reads h before factoring.', show: 'q.answer' },
       ],
     },
     {

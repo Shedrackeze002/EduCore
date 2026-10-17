@@ -100,14 +100,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'The time $t$, in seconds, for a stone to fall $d$ metres is modelled by $t = \\sqrt{\\dfrac{d}{4.9}}$. A stone falls for $2$ s. How far does it fall?',
-          choices: ['$19.6$ m', '$9.8$ m', '$0.41$ m', '$96.04$ m'],
-          answer: 0,
+          choices: ['$9.8$ m', '$19.6$ m', '$0.41$ m', '$96.04$ m'],
+          answer: 1,
           working: 'Square both sides of $\\sqrt{\\dfrac{d}{4.9}} = 2$: $\\dfrac{d}{4.9} = 4$, so $d = 4 \\times 4.9 = 19.6$ m. Check: $\\sqrt{\\dfrac{19.6}{4.9}} = \\sqrt{4} = 2$.',
         },
       ],
       lines: [
         { say: 'Your turn. The time t, in seconds, for a stone to fall d metres is modelled by t equals the square root of d over 4.9. A stone falls for two seconds. How far does it fall? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Square both sides: d over 4.9 equals four, so d is four times 4.9, which is 19.6 metres. B multiplies two by 4.9 without squaring the two first.', show: 'q.answer' },
+        { say: 'The answer is B. Square both sides: d over 4.9 equals four, so d is four times 4.9, which is 19.6 metres. Choice A multiplies two by 4.9 without squaring the two first.', show: 'q.answer' },
       ],
     },
     {

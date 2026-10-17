@@ -99,14 +99,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: '$y = f(x)$ has domain $\\{x \\mid 0 \\le x \\le 6,\\ x \\in \\mathbb{R}\\}$ and range $\\{y \\mid 1 \\le y \\le 3,\\ y \\in \\mathbb{R}\\}$. What is the range of $y = f(x - 2) + 5$?',
-          choices: ['$6 \\le y \\le 8$', '$3 \\le y \\le 5$', '$-4 \\le y \\le -2$', '$1 \\le y \\le 3$'],
-          answer: 0,
+          choices: ['$1 \\le y \\le 3$', '$3 \\le y \\le 5$', '$-4 \\le y \\le -2$', '$6 \\le y \\le 8$'],
+          answer: 3,
           working: '$k = 5$, so the range moves up 5: $1 + 5 = 6$ and $3 + 5 = 8$. The horizontal shift, $h = 2$, changes only the domain.',
         },
       ],
       lines: [
         { say: 'Your turn. y equals f of x has domain zero to six, and range one to three. What is the range of y equals f of x minus two, plus five? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. k is five, so the range moves up five: one plus five is six, and three plus five is eight. B shifts the range by h, but h changes only the domain.', show: 'q.answer' },
+        { say: 'The answer is D. k is five, so the range moves up five: one plus five is six, and three plus five is eight. B shifts the range by h, but h changes only the domain.', show: 'q.answer' },
       ],
     },
     {

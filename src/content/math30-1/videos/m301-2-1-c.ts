@@ -95,14 +95,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'State the domain and range of $y = 2\\sqrt{8 - 2x} - 1$.',
-          choices: ['Domain $x \\le 4$; range $y \\ge -1$', 'Domain $x \\ge 4$; range $y \\ge -1$', 'Domain $x \\le 8$; range $y \\ge -1$', 'Domain $x \\le 4$; range $y \\le -1$'],
-          answer: 0,
+          choices: ['Domain $x \\le 4$; range $y \\le -1$', 'Domain $x \\ge 4$; range $y \\ge -1$', 'Domain $x \\le 8$; range $y \\ge -1$', 'Domain $x \\le 4$; range $y \\ge -1$'],
+          answer: 3,
           working: '$8 - 2x = -2(x - 4)$, so the endpoint is $(4, -1)$. $b = -2 < 0$: domain $\\{x \\mid x \\le 4,\\ x \\in \\mathbb{R}\\}$. $a = 2 > 0$: range $\\{y \\mid y \\ge -1,\\ y \\in \\mathbb{R}\\}$.',
         },
       ],
       lines: [
         { say: 'Your turn. State the domain and range of y equals two times the square root of eight minus two x, minus one. Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Factor the radicand: eight minus two x is negative two times x minus four, so the endpoint is four, negative one. b is negative, so the domain is x at most four. "a" is positive, so the range is y at least negative one. B misses the hidden reflection.', show: 'q.answer' },
+        { say: 'The answer is D. Factor the radicand: eight minus two x is negative two times x minus four, so the endpoint is four, negative one. b is negative, so the domain is x at most four. "a" is positive, so the range is y at least negative one. B misses the hidden reflection.', show: 'q.answer' },
       ],
     },
     {

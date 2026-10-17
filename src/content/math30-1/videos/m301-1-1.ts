@@ -116,14 +116,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'The graph of $y = x^2$ is translated 4 units right and 1 unit down. Which is the equation of the image?',
-          choices: ['$y = (x - 4)^2 - 1$', '$y = (x + 4)^2 - 1$', '$y = (x - 4)^2 + 1$', '$y = (x - 1)^2 + 4$'],
-          answer: 0,
+          choices: ['$y = (x - 4)^2 + 1$', '$y = (x + 4)^2 - 1$', '$y = (x - 4)^2 - 1$', '$y = (x - 1)^2 + 4$'],
+          answer: 2,
           working: 'Right 4: $h = 4$, so replace $x$ with $x - 4$. Down 1: $k = -1$, so subtract 1.',
         },
       ],
       lines: [
         { say: 'Your turn. The graph of y equals x squared is translated four units right and one unit down. Which is the equation of the image? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Right four means h is four, so x becomes x minus four. Down one means k is negative one, so subtract one. B moves the graph left instead of right.', show: 'q.answer' },
+        { say: 'The answer is C. Right four means h is four, so x becomes x minus four. Down one means k is negative one, so subtract one. B moves the graph left instead of right.', show: 'q.answer' },
       ],
     },
     {

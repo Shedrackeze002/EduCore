@@ -100,14 +100,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'Solve $\\sqrt{x + 5} = x - 1$.',
-          choices: ['$x = 4$', '$x = -1$ or $x = 4$', '$x = -1$', 'No solution'],
-          answer: 0,
+          choices: ['$x = -1$', '$x = -1$ or $x = 4$', '$x = 4$', 'No solution'],
+          answer: 2,
           working: 'Squaring gives $x + 5 = x^2 - 2x + 1$, so $x^2 - 3x - 4 = 0$ and $(x - 4)(x + 1) = 0$. $x = 4$: $\\sqrt{9} = 3 = 4 - 1$ ✓. $x = -1$: $\\sqrt{4} = 2$, but $-1 - 1 = -2$, so $x = -1$ is extraneous.',
         },
       ],
       lines: [
         { say: 'Your turn. Solve the square root of x plus five equals x minus one. Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Squaring gives x squared minus three x minus four equals zero, so x is four or negative one. Four works: the square root of nine is three, and four minus one is three. Negative one makes the right side negative two, so it is extraneous. B forgets the check.', show: 'q.answer' },
+        { say: 'The answer is C. Squaring gives x squared minus three x minus four equals zero, so x is four or negative one. Four works: the square root of nine is three, and four minus one is three. Negative one makes the right side negative two, so it is extraneous. B forgets the check.', show: 'q.answer' },
       ],
     },
     {

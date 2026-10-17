@@ -114,14 +114,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'The point $(-1, 5)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = -4f(x)$?',
-          choices: ['$(-1, -20)$', '$(-1, 20)$', '$(4, 5)$', '$(-1, -\\tfrac{5}{4})$'],
-          answer: 0,
+          choices: ['$(4, 5)$', '$(-1, 20)$', '$(-1, -20)$', '$(-1, -\\tfrac{5}{4})$'],
+          answer: 2,
           working: '$(x, y) \\to (x, -4y)$: $-4(5) = -20$, and $x$ does not change.',
         },
       ],
       lines: [
         { say: 'Your turn. The point at negative one, five, is on the graph of y equals f of x. Which point is on the graph of y equals negative four f of x? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Multiply the y-coordinate by negative four: negative four times five is negative twenty, and x stays negative one. B forgets the reflection that comes with the negative sign.', show: 'q.answer' },
+        { say: 'The answer is C. Multiply the y-coordinate by negative four: negative four times five is negative twenty, and x stays negative one. B forgets the reflection that comes with the negative sign.', show: 'q.answer' },
       ],
     },
     {

@@ -89,14 +89,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'Let $f(x) = x^2 + 2x - 8 = (x + 4)(x - 2)$. Which points are invariant for $y = -3f(x)$?',
-          choices: ['$(-4, 0)$ and $(2, 0)$', '$(0, -8)$ only', '$(4, 0)$ and $(-2, 0)$', '$(0, 24)$ only'],
-          answer: 0,
+          choices: ['$(0, 24)$ only', '$(0, -8)$ only', '$(4, 0)$ and $(-2, 0)$', '$(-4, 0)$ and $(2, 0)$'],
+          answer: 3,
           working: '$y = -3f(x)$ is a vertical stretch and a reflection in the $x$-axis, so the points with $y = 0$ stay put: the $x$-intercepts $(-4, 0)$ and $(2, 0)$.',
         },
       ],
       lines: [
         { say: 'Your turn. Let f of x equal x squared, plus two x, minus eight, which factors as x plus four, times x minus two. Which points are invariant for y equals negative three f of x? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Negative three f of x is a vertical stretch and a reflection in the x-axis, so the x-intercepts stay put: negative four, zero, and two, zero. B is the invariant point of a horizontal stretch.', show: 'q.answer' },
+        { say: 'The answer is D. Negative three f of x is a vertical stretch and a reflection in the x-axis, so the x-intercepts stay put: negative four, zero, and two, zero. B is the invariant point of a horizontal stretch.', show: 'q.answer' },
       ],
     },
     {

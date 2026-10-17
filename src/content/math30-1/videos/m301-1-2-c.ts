@@ -94,14 +94,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'The point $(8, 3)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = f(4x)$?',
-          choices: ['$(2, 3)$', '$(32, 3)$', '$(8, 12)$', '$(2, 12)$'],
-          answer: 0,
+          choices: ['$(32, 3)$', '$(2, 3)$', '$(8, 12)$', '$(2, 12)$'],
+          answer: 1,
           working: '$(x, y) \\to \\left(\\frac{x}{4},\\ y\\right)$: $\\frac{8}{4} = 2$, and $y$ does not change.',
         },
       ],
       lines: [
         { say: 'Your turn. The point at eight, three, is on the graph of y equals f of x. Which point is on the graph of y equals f of four x? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Divide x by four: eight over four is two, and y stays three. B multiplies x by four instead of dividing, and C stretches vertically instead.', show: 'q.answer' },
+        { say: 'The answer is B. Divide x by four: eight over four is two, and y stays three. Choice A multiplies x by four instead of dividing, and C stretches vertically instead.', show: 'q.answer' },
       ],
     },
     {

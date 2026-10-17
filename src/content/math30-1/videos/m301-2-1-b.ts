@@ -119,14 +119,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'The point $(4, 2)$ is on $y = \\sqrt{x}$. Where is its image on the graph of $y = 3\\sqrt{x + 1} - 2$?',
-          choices: ['$(3, 4)$', '$(5, 4)$', '$(3, 0)$', '$(5, 0)$'],
-          answer: 0,
+          choices: ['$(5, 4)$', '$(3, 4)$', '$(3, 0)$', '$(5, 0)$'],
+          answer: 1,
           working: '$a = 3$, $b = 1$, $h = -1$ and $k = -2$, so $(x, y) \\to (x - 1,\\ 3y - 2)$ and $(4, 2) \\to (4 - 1,\\ 3(2) - 2) = (3, 4)$.',
         },
       ],
       lines: [
         { say: 'Your turn. The point at four, two is on y equals the square root of x. Where is its image on the graph of y equals three times the square root of x plus one, minus two? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. Here "a" is three, h is negative one, and k is negative two, so x, y goes to x minus one, three y minus two. Four, two goes to three, four. B moves the point right instead of left: x plus one means h is negative one.', show: 'q.answer' },
+        { say: 'The answer is B. Here "a" is three, h is negative one, and k is negative two, so x, y goes to x minus one, three y minus two. Four, two goes to three, four. Choice A moves the point right instead of left: x plus one means h is negative one.', show: 'q.answer' },
       ],
     },
     {

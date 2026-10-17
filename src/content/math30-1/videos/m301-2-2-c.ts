@@ -109,14 +109,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'What is the range of $y = \\sqrt{16 - x^2}$?',
-          choices: ['$\\{y \\mid 0 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$', '$\\{y \\mid 0 \\le y \\le 16,\\ y \\in \\mathbb{R}\\}$', '$\\{y \\mid -4 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$', '$\\{y \\mid y \\ge 0,\\ y \\in \\mathbb{R}\\}$'],
-          answer: 0,
+          choices: ['$\\{y \\mid y \\ge 0,\\ y \\in \\mathbb{R}\\}$', '$\\{y \\mid 0 \\le y \\le 16,\\ y \\in \\mathbb{R}\\}$', '$\\{y \\mid -4 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$', '$\\{y \\mid 0 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$'],
+          answer: 3,
           working: 'The maximum of $16 - x^2$ is $16$, at $x = 0$, so the maximum of $\\sqrt{16 - x^2}$ is $\\sqrt{16} = 4$. The smallest value is $0$, at $x = \\pm 4$.',
         },
       ],
       lines: [
         { say: 'Your turn. What is the range of y equals the square root of sixteen minus x squared? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. The maximum of sixteen minus x squared is sixteen, at x equals zero, so the maximum of its square root is four. The smallest value is zero, at x equals plus or minus four. B forgets to take the square root of the maximum.', show: 'q.answer' },
+        { say: 'The answer is D. The maximum of sixteen minus x squared is sixteen, at x equals zero, so the maximum of its square root is four. The smallest value is zero, at x equals plus or minus four. B forgets to take the square root of the maximum.', show: 'q.answer' },
       ],
     },
     {

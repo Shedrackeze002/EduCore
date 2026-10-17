@@ -98,14 +98,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'Let $f(x) = x + 3$. What are the invariant points of the graph of $y = \\sqrt{f(x)}$?',
-          choices: ['$(-3, 0)$ and $(-2, 1)$', '$(-3, 0)$ only', '$(0, 3)$ and $(1, 4)$', '$(3, 0)$ and $(4, 1)$'],
-          answer: 0,
+          choices: ['$(0, 3)$ and $(1, 4)$', '$(-3, 0)$ only', '$(-3, 0)$ and $(-2, 1)$', '$(3, 0)$ and $(4, 1)$'],
+          answer: 2,
           working: '$f(x) = 0$ when $x = -3$, and $f(x) = 1$ when $x = -2$. At those $x$-values, $\\sqrt{f(x)} = f(x)$.',
         },
       ],
       lines: [
         { say: 'Your turn. Let f of x equal x plus three. What are the invariant points of the graph of y equals the square root of f of x? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. f of x is zero when x is negative three, and one when x is negative two, so the invariant points are negative three, zero, and negative two, one. B forgets that a height of one is invariant too.', show: 'q.answer' },
+        { say: 'The answer is C. f of x is zero when x is negative three, and one when x is negative two, so the invariant points are negative three, zero, and negative two, one. B forgets that a height of one is invariant too.', show: 'q.answer' },
       ],
     },
     {

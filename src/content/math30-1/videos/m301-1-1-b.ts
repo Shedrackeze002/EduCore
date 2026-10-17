@@ -95,14 +95,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'The point $(-2, 6)$ is on the graph of $y = f(x)$. What is the corresponding point on the graph of $y = f(x + 4) - 1$?',
-          choices: ['$(-6, 5)$', '$(2, 5)$', '$(-6, 7)$', '$(2, 7)$'],
-          answer: 0,
+          choices: ['$(2, 5)$', '$(-6, 5)$', '$(-6, 7)$', '$(2, 7)$'],
+          answer: 1,
           working: '$h = -4$ and $k = -1$, so $(x, y) \\to (x - 4,\\ y - 1)$: $(-2, 6) \\to (-6, 5)$.',
         },
       ],
       lines: [
         { say: 'Your turn. The point at negative two, six, is on the graph of y equals f of x. What is the corresponding point on the graph of y equals f of x plus four, minus one? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. x plus four gives h equals negative four, and minus one gives k equals negative one. So subtract four from x and one from y: negative six, five. B moves the point right instead of left.', show: 'q.answer' },
+        { say: 'The answer is B. x plus four gives h equals negative four, and minus one gives k equals negative one. So subtract four from x and one from y: negative six, five. Choice A moves the point right instead of left.', show: 'q.answer' },
       ],
     },
     {

@@ -96,14 +96,14 @@ const video: Explainer = {
           kind: 'try',
           id: 'q',
           prompt: 'The graph of $y = x^2$ is stretched vertically by a factor of $2$, reflected in the $x$-axis, and translated 1 unit left and 3 units up. Which is its equation?',
-          choices: ['$y = -2(x + 1)^2 + 3$', '$y = -2(x - 1)^2 + 3$', '$y = 2(x + 1)^2 + 3$', '$y = -\\tfrac{1}{2}(x + 1)^2 + 3$'],
-          answer: 0,
+          choices: ['$y = -2(x - 1)^2 + 3$', '$y = -2(x + 1)^2 + 3$', '$y = 2(x + 1)^2 + 3$', '$y = -\\tfrac{1}{2}(x + 1)^2 + 3$'],
+          answer: 1,
           working: '$a = -2$ (a stretch by $2$ and a reflection in the $x$-axis), $h = -1$ and $k = 3$.',
         },
       ],
       lines: [
         { say: 'Your turn. The graph of y equals x squared is stretched vertically by a factor of two, reflected in the x-axis, and translated one unit left and three units up. Which is its equation? Pause the video and try it.', show: 'q', wait: 6 },
-        { say: 'The answer is A. The stretch and the reflection give "a" equals negative two, one unit left gives h equals negative one, and three up gives k equals three. B moves the graph right instead of left.', show: 'q.answer' },
+        { say: 'The answer is B. The stretch and the reflection give "a" equals negative two, one unit left gives h equals negative one, and three up gives k equals three. Choice A moves the graph right instead of left.', show: 'q.answer' },
       ],
     },
     {
