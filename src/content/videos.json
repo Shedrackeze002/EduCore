@@ -33903,5 +33903,56 @@
         "working": "$f(g(x)) = \\sqrt{x + 5}$. The input of $f$ must not be negative: $x + 5 \\ge 0$, so $x \\ge -5$."
       }
     ]
+  },
+  "m301-8-5-e": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 5: Decomposing a Function",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What is done first?",
+        "t": 21.084
+      },
+      {
+        "title": "Finding f and g",
+        "t": 43.515
+      },
+      {
+        "title": "More than one answer",
+        "t": 98.44
+      },
+      {
+        "title": "A rational function",
+        "t": 133.996
+      },
+      {
+        "title": "Your turn",
+        "t": 166.802
+      },
+      {
+        "title": "Summary",
+        "t": 206.449
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-e:q",
+        "t": 178.193,
+        "prompt": "Write $h(x) = \\sqrt{5x - 1} + 4$ as $f(g(x))$.",
+        "choices": [
+          "$f(x) = 5x - 1$ and $g(x) = \\sqrt{x} + 4$",
+          "$f(x) = \\sqrt{x} + 4$ and $g(x) = 5x - 1$",
+          "$f(x) = \\sqrt{x}$ and $g(x) = 5x + 3$",
+          "$f(x) = \\sqrt{x} + 4$ and $g(x) = 5x$"
+        ],
+        "answer": 1,
+        "working": "First $5x - 1$ is calculated, so $g(x) = 5x - 1$. Then the square root is taken and $4$ is added, so $f(x) = \\sqrt{x} + 4$. Check: $f(g(x)) = \\sqrt{5x - 1} + 4$ ✓"
+      }
+    ]
   }
 }
