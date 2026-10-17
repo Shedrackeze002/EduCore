@@ -287,8 +287,18 @@ items ship or decisions change.
      m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The Math 10-3 and 10-4 ones keep
      their course's old pace (`video/build.ts --pace old`); every one came out the same length
      as before, and the check now hears "GST" and "EI" in all of them.
-   - Next: script and render the other courses in order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
-     and 9), explaining each lesson as simply as possible, with parts split by idea.
+   - In progress: Math 30-1. Units 1 to 7 and 9 are scripted (118 videos), with new figure
+     helpers for π axes and the unit circle; Unit 8 is being written. Then the course renders
+     unit by unit into Drive. From Math 30-1 on, the right "Your turn" answer is spread over A to
+     D, because the lesson player shows the choices in the video's order and an answer that is
+     always A gives itself away. "Cosecant" is now voiced as "co-secant" (it came out
+     "co-second").
+   - Waiting for the owner: in the courses already made (Math 10C to 20-4), the right "Your turn"
+     answer is almost always A. The choices are: leave them as they are (recommended for now),
+     re-render about 600 videos (about 50 hours, cheaper before they go on YouTube), or have the
+     player shuffle the choices (the letters on screen and in the narration would then not match).
+   - Next: script and render the other courses in order (Math 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
+     explaining each lesson as simply as possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
    has no social pages yet. Open them, then post three times a week across all of them, with
    Claude coordinating: preparing each week's posts, keeping the schedule and reporting. It runs
