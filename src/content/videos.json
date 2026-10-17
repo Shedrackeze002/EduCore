@@ -32025,17 +32025,17 @@
       },
       {
         "title": "Your turn",
-        "t": 190.756
+        "t": 191.077
       },
       {
         "title": "Summary",
-        "t": 226.337
+        "t": 226.658
       }
     ],
     "cues": [
       {
         "id": "m301-7-1-c:q",
-        "t": 202.173,
+        "t": 202.494,
         "prompt": "An exponential function $y = a(c)^{x}$ passes through $(1, 8)$ and $(3, 32)$. Find its equation.",
         "choices": [
           "$y = 2(4)^{x}$",
