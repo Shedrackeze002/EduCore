@@ -30937,5 +30937,472 @@
         "working": "$\\tan^{-1} 3 \\approx 1.2490$, which is in the domain. Adding $\\pi$ gives $\\approx 4.3906$; adding $2\\pi$ gives $\\approx 7.5322$, which is past $2\\pi$."
       }
     ]
+  },
+  "m301-5-4": {
+    "lessonId": "m301-5-4",
+    "title": "Equations and Graphs of Trigonometric Functions, Part 1: Building a Model",
+    "duration": 322,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four features",
+        "t": 18.053
+      },
+      {
+        "title": "Where the cycle starts",
+        "t": 58.361
+      },
+      {
+        "title": "A Ferris wheel",
+        "t": 76.28
+      },
+      {
+        "title": "The graph",
+        "t": 129.797
+      },
+      {
+        "title": "The height after 25 s",
+        "t": 158.029
+      },
+      {
+        "title": "Degree mode",
+        "t": 207.081
+      },
+      {
+        "title": "Your turn",
+        "t": 238.845
+      },
+      {
+        "title": "Summary",
+        "t": 289.929
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-4:q",
+        "t": 259.544,
+        "prompt": "A Ferris wheel has a radius of $15$ m, its centre is $17$ m above the ground, and it makes one rotation every $40$ s. A rider boards at the lowest point at $t = 0$. Which equation models the rider’s height?",
+        "choices": [
+          "$h(t) = -15\\cos\\left(\\frac{\\pi}{20}t\\right) + 17$",
+          "$h(t) = 15\\cos\\left(\\frac{\\pi}{20}t\\right) + 17$",
+          "$h(t) = -15\\cos\\left(\\frac{\\pi}{40}t\\right) + 17$",
+          "$h(t) = -17\\cos\\left(\\frac{\\pi}{20}t\\right) + 15$"
+        ],
+        "answer": 0,
+        "working": "$|a| = 15$ (the radius) and $d = 17$ (the centre). The rider starts at a minimum, so use $-\\cos$: $a = -15$. $b = \\frac{2\\pi}{40} = \\frac{\\pi}{20}$."
+      }
+    ]
+  },
+  "m301-5-4-b": {
+    "lessonId": "m301-5-4",
+    "title": "Equations and Graphs of Trigonometric Functions, Part 2: When Does It Reach a Value?",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Use the graph first",
+        "t": 21.547
+      },
+      {
+        "title": "Solve for the angle",
+        "t": 57.769
+      },
+      {
+        "title": "Solve for the time",
+        "t": 103.012
+      },
+      {
+        "title": "Only one time",
+        "t": 155.801
+      },
+      {
+        "title": "Your turn",
+        "t": 179.459
+      },
+      {
+        "title": "Summary",
+        "t": 230.33
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-4-b:q",
+        "t": 194.977,
+        "prompt": "For $h(t) = -20\\cos\\left(\\frac{\\pi}{30}t\\right) + 22$, when during the first rotation ($0 \\le t \\le 60$) is the rider $12$ m above the ground?",
+        "choices": [
+          "$t = 10$ s only",
+          "$t = 10$ s and $t = 20$ s",
+          "$t = 20$ s and $t = 40$ s",
+          "$t = 10$ s and $t = 50$ s"
+        ],
+        "answer": 3,
+        "working": "$\\cos\\left(\\frac{\\pi}{30}t\\right) = \\frac{12 - 22}{-20} = 0.5$, so $\\theta = \\frac{\\pi}{3}$ or $2\\pi - \\frac{\\pi}{3} = \\frac{5\\pi}{3}$. Then $t = \\frac{30\\theta}{\\pi}$ gives $t = 10$ or $t = 50$."
+      }
+    ]
+  },
+  "m301-5-4-c": {
+    "lessonId": "m301-5-4",
+    "title": "Equations and Graphs of Trigonometric Functions, Part 3: Daylight in Edmonton",
+    "duration": 328,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The model",
+        "t": 19.822
+      },
+      {
+        "title": "A winter day",
+        "t": 90.56
+      },
+      {
+        "title": "Long days",
+        "t": 142.854
+      },
+      {
+        "title": "Check with a graph",
+        "t": 213.625
+      },
+      {
+        "title": "Your turn",
+        "t": 248.044
+      },
+      {
+        "title": "Summary",
+        "t": 301.512
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-4-c:q",
+        "t": 266.387,
+        "prompt": "Use $L(t) = 4.9\\sin\\left(\\frac{2\\pi}{365}(t - 80)\\right) + 12.2$ to estimate the hours of daylight on day $200$.",
+        "choices": [
+          "$12.4$ hours",
+          "$16.5$ hours",
+          "$7.9$ hours",
+          "$17.1$ hours"
+        ],
+        "answer": 1,
+        "working": "$\\frac{2\\pi}{365}(200 - 80) \\approx 2.0657$, and $\\sin 2.0657 \\approx 0.8803$ in radian mode, so $L(200) \\approx 4.9(0.8803) + 12.2 \\approx 16.5$."
+      }
+    ]
+  },
+  "m301-6-1": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 1: Identities and Non-Permissible Values",
+    "duration": 310,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What is an identity?",
+        "t": 27.038
+      },
+      {
+        "title": "Non-permissible values",
+        "t": 74.869
+      },
+      {
+        "title": "Finding non-permissible values",
+        "t": 130.738
+      },
+      {
+        "title": "Hidden denominators",
+        "t": 198.356
+      },
+      {
+        "title": "Your turn",
+        "t": 231.242
+      },
+      {
+        "title": "Summary",
+        "t": 271.54
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1:q",
+        "t": 244.52,
+        "prompt": "Which gives **all** the non-permissible values of $\\dfrac{\\tan x}{1 + \\sin x}$ for $0 \\le x < 2\\pi$?",
+        "choices": [
+          "$\\dfrac{3\\pi}{2}$ only",
+          "$\\dfrac{\\pi}{2}$ and $\\dfrac{3\\pi}{2}$",
+          "$0$ and $\\pi$",
+          "$0,\\ \\dfrac{\\pi}{2},\\ \\pi$ and $\\dfrac{3\\pi}{2}$"
+        ],
+        "answer": 1,
+        "working": "$1 + \\sin x = 0$ when $\\sin x = -1$: $x = \\dfrac{3\\pi}{2}$. And $\\tan x = \\dfrac{\\sin x}{\\cos x}$ is undefined when $\\cos x = 0$: $x = \\dfrac{\\pi}{2},\\ \\dfrac{3\\pi}{2}$."
+      }
+    ]
+  },
+  "m301-6-1-b": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 2: Reciprocal and Quotient Identities",
+    "duration": 273,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the unit circle",
+        "t": 20.168
+      },
+      {
+        "title": "The identities",
+        "t": 69.391
+      },
+      {
+        "title": "Simplifying",
+        "t": 109.125
+      },
+      {
+        "title": "Why sin x over tan x is cos x",
+        "t": 169.853
+      },
+      {
+        "title": "Your turn",
+        "t": 199.841
+      },
+      {
+        "title": "Summary",
+        "t": 234.506
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1-b:q",
+        "t": 206.994,
+        "prompt": "Simplify $\\sec x\\cot x$.",
+        "choices": [
+          "$\\tan x$",
+          "$1$",
+          "$\\sin x$",
+          "$\\csc x$"
+        ],
+        "answer": 3,
+        "working": "$\\sec x\\cot x = \\dfrac{1}{\\cos x}\\cdot\\dfrac{\\cos x}{\\sin x} = \\dfrac{1}{\\sin x} = \\csc x$"
+      }
+    ]
+  },
+  "m301-6-1-c": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 3: The Pythagorean Identities",
+    "duration": 328,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The unit circle",
+        "t": 18.021
+      },
+      {
+        "title": "Two more identities",
+        "t": 56.219
+      },
+      {
+        "title": "The Pythagorean identities",
+        "t": 103.598
+      },
+      {
+        "title": "Using a Pythagorean identity",
+        "t": 157.067
+      },
+      {
+        "title": "What the square applies to",
+        "t": 221.011
+      },
+      {
+        "title": "Your turn",
+        "t": 251.447
+      },
+      {
+        "title": "Summary",
+        "t": 291.905
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1-c:q",
+        "t": 261.742,
+        "prompt": "Simplify $\\dfrac{1 - \\cos^2 x}{\\sin x\\cos x}$.",
+        "choices": [
+          "$\\tan x$",
+          "$\\cot x$",
+          "$\\sin x$",
+          "$1$"
+        ],
+        "answer": 0,
+        "working": "$1 - \\cos^2 x = \\sin^2 x$, so $\\dfrac{\\sin^2 x}{\\sin x\\cos x} = \\dfrac{\\sin x}{\\cos x} = \\tan x$."
+      }
+    ]
+  },
+  "m301-6-1-d": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 4: Simplifying Harder Expressions",
+    "duration": 261,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A strategy",
+        "t": 19.281
+      },
+      {
+        "title": "Combining fractions",
+        "t": 49.584
+      },
+      {
+        "title": "Replace and divide out",
+        "t": 97.72
+      },
+      {
+        "title": "Non-permissible values",
+        "t": 127.403
+      },
+      {
+        "title": "Your turn",
+        "t": 189.178
+      },
+      {
+        "title": "Summary",
+        "t": 232.102
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1-d:q",
+        "t": 198.177,
+        "prompt": "Simplify $\\dfrac{1}{\\cos x} - \\sin x\\tan x$.",
+        "choices": [
+          "$\\sec x$",
+          "$\\sin x$",
+          "$\\cos x$",
+          "$1$"
+        ],
+        "answer": 2,
+        "working": "$\\dfrac{1}{\\cos x} - \\dfrac{\\sin^2 x}{\\cos x} = \\dfrac{1 - \\sin^2 x}{\\cos x} = \\dfrac{\\cos^2 x}{\\cos x} = \\cos x$"
+      }
+    ]
+  },
+  "m301-6-2": {
+    "lessonId": "m301-6-2",
+    "title": "Sum, Difference and Double-Angle Identities, Part 1: The Sum and Difference Identities",
+    "duration": 345,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The identities",
+        "t": 31.55
+      },
+      {
+        "title": "Where they come from",
+        "t": 91.806
+      },
+      {
+        "title": "Functions do not distribute",
+        "t": 173.16
+      },
+      {
+        "title": "Writing an expansion as one function",
+        "t": 209.848
+      },
+      {
+        "title": "Your turn",
+        "t": 268.314
+      },
+      {
+        "title": "Summary",
+        "t": 313.042
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-2:q",
+        "t": 281.628,
+        "prompt": "Determine the exact value of $\\sin 80^\\circ\\cos 20^\\circ - \\cos 80^\\circ\\sin 20^\\circ$.",
+        "choices": [
+          "$\\dfrac{1}{2}$",
+          "$\\sin 100^\\circ$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$1$"
+        ],
+        "answer": 2,
+        "working": "This is $\\sin A\\cos B - \\cos A\\sin B = \\sin(A - B)$ with $A = 80^\\circ$ and $B = 20^\\circ$: $\\sin 60^\\circ = \\dfrac{\\sqrt{3}}{2}$."
+      }
+    ]
+  },
+  "m301-6-2-b": {
+    "lessonId": "m301-6-2",
+    "title": "Sum, Difference and Double-Angle Identities, Part 2: Exact Values",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Special angles",
+        "t": 23.793
+      },
+      {
+        "title": "The sine of 75°",
+        "t": 61.391
+      },
+      {
+        "title": "A tangent in radians",
+        "t": 116.049
+      },
+      {
+        "title": "Your turn",
+        "t": 189.306
+      },
+      {
+        "title": "Summary",
+        "t": 231.046
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-2-b:q",
+        "t": 197.097,
+        "prompt": "Determine the exact value of $\\cos 15^\\circ$.",
+        "choices": [
+          "$\\dfrac{\\sqrt{6} + \\sqrt{2}}{4}$",
+          "$\\dfrac{\\sqrt{6} - \\sqrt{2}}{4}$",
+          "$\\dfrac{\\sqrt{3} - 1}{2}$",
+          "$\\dfrac{\\sqrt{2} - \\sqrt{3}}{2}$"
+        ],
+        "answer": 0,
+        "working": "$\\cos(45^\\circ - 30^\\circ) = \\cos 45^\\circ\\cos 30^\\circ + \\sin 45^\\circ\\sin 30^\\circ = \\dfrac{\\sqrt{6}}{4} + \\dfrac{\\sqrt{2}}{4} = \\dfrac{\\sqrt{6} + \\sqrt{2}}{4}$"
+      }
+    ]
   }
 }
