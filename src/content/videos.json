@@ -33393,5 +33393,213 @@
         "working": "$x \\ne 2$. Multiply by $x - 2$: $x + 7 = 4x - 8$, so $15 = 3x$ and $x = 5$. Check: $\\dfrac{12}{3} = 4$."
       }
     ]
+  },
+  "m301-8-3-b": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 2: Extraneous Roots",
+    "duration": 273,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Extraneous roots",
+        "t": 23.856
+      },
+      {
+        "title": "Clearing the fractions",
+        "t": 59.841
+      },
+      {
+        "title": "Reject and check",
+        "t": 122.656
+      },
+      {
+        "title": "Skipping the check",
+        "t": 166.422
+      },
+      {
+        "title": "Your turn",
+        "t": 210.458
+      },
+      {
+        "title": "Summary",
+        "t": 244.855
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3-b:q",
+        "t": 219.27,
+        "prompt": "Solve $\\dfrac{x^2}{x + 3} = \\dfrac{9}{x + 3}$.",
+        "choices": [
+          "$x = 3$",
+          "$x = -3$",
+          "$x = 3$ or $x = -3$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "$x \\ne -3$. Multiply by $x + 3$: $x^2 = 9$, so $x = \\pm 3$. $x = -3$ is non-permissible, so it is extraneous. Check $x = 3$: $\\dfrac{9}{6} = \\dfrac{9}{6}$ ✓."
+      }
+    ]
+  },
+  "m301-8-3-c": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 3: Solving Graphically",
+    "duration": 253,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The related function",
+        "t": 18.376
+      },
+      {
+        "title": "Reading the x-intercept",
+        "t": 67.604
+      },
+      {
+        "title": "Where two graphs meet",
+        "t": 92.519
+      },
+      {
+        "title": "Extraneous roots as holes",
+        "t": 117.394
+      },
+      {
+        "title": "Your turn",
+        "t": 175.977
+      },
+      {
+        "title": "Summary",
+        "t": 222.431
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3-c:q",
+        "t": 192.755,
+        "prompt": "The equation $\\dfrac{x^2 - 9}{x - 3} = 0$ has the related function $y = \\dfrac{x^2 - 9}{x - 3}$. What does its graph show?",
+        "choices": [
+          "An $x$-intercept at $3$ and a hole at $(-3, 0)$, so $x = 3$",
+          "An $x$-intercept at $-3$ and a hole at $(3, 0)$, so $x = \\pm 3$",
+          "Two $x$-intercepts, so $x = \\pm 3$",
+          "An $x$-intercept at $-3$ and a hole at $(3, 6)$, so $x = -3$"
+        ],
+        "answer": 3,
+        "working": "$y = \\dfrac{(x - 3)(x + 3)}{x - 3} = x + 3$, $x \\ne 3$: a line with a hole at $(3, 6)$. It crosses the $x$-axis only at $x = -3$; the root $x = 3$ is extraneous."
+      }
+    ]
+  },
+  "m301-8-3-d": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 4: Sharing a Job",
+    "duration": 264,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rates of work",
+        "t": 21.186
+      },
+      {
+        "title": "Solving",
+        "t": 63.811
+      },
+      {
+        "title": "Rejecting roots in context",
+        "t": 109.627
+      },
+      {
+        "title": "Checking with a graph",
+        "t": 152.916
+      },
+      {
+        "title": "Your turn",
+        "t": 189.45
+      },
+      {
+        "title": "Summary",
+        "t": 237.493
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3-d:q",
+        "t": 205.777,
+        "prompt": "Working alone, Ava takes $8$ h longer than Ben to paint a fence. Together they take $3$ h. If Ben takes $t$ hours alone, which equation models the situation?",
+        "choices": [
+          "$\\dfrac{1}{t} + \\dfrac{1}{t + 8} = 3$",
+          "$t + (t + 8) = 3$",
+          "$\\dfrac{1}{t} + \\dfrac{1}{t + 8} = \\dfrac{1}{3}$",
+          "$\\dfrac{1}{t} + \\dfrac{1}{8} = \\dfrac{1}{3}$"
+        ],
+        "answer": 2,
+        "working": "Ben does $\\dfrac{1}{t}$ of the job each hour, Ava $\\dfrac{1}{t + 8}$, and together $\\dfrac{1}{3}$. Solving gives $t^2 + 2t - 24 = 0$, so $t = 4$ (Ben takes $4$ h, Ava $12$ h); $t = -6$ is rejected."
+      }
+    ]
+  },
+  "m301-8-4": {
+    "lessonId": "m301-8-4",
+    "title": "Sums, Differences, Products and Quotients of Functions, Part 1: Combining Functions",
+    "duration": 277,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four operations",
+        "t": 23.354
+      },
+      {
+        "title": "The sum",
+        "t": 58.824
+      },
+      {
+        "title": "The difference",
+        "t": 93.742
+      },
+      {
+        "title": "The product and the quotient",
+        "t": 123.004
+      },
+      {
+        "title": "Subtract every term",
+        "t": 166.651
+      },
+      {
+        "title": "Your turn",
+        "t": 205.743
+      },
+      {
+        "title": "Summary",
+        "t": 244.811
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-4:q",
+        "t": 218.731,
+        "prompt": "For $f(x) = x^2 - 5$ and $g(x) = 3x - 2$, what is $(f - g)(x)$?",
+        "choices": [
+          "$x^2 + 3x - 7$",
+          "$x^2 - 3x - 7$",
+          "$-x^2 + 3x + 3$",
+          "$x^2 - 3x - 3$"
+        ],
+        "answer": 3,
+        "working": "$(f - g)(x) = (x^2 - 5) - (3x - 2) = x^2 - 5 - 3x + 2 = x^2 - 3x - 3$"
+      }
+    ]
   }
 }

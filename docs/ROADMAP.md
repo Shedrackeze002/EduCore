@@ -295,6 +295,17 @@ items ship or decisions change.
      "co-second").
    - Decided (the owner, 17 October 2026): the courses already made (Math 10C to 20-4), where the
      right "Your turn" answer is almost always A, stay as they are. Only new courses spread it.
+   - Decision (the owner, 17 October 2026): videos are for learners anywhere, not only Alberta.
+     From Math 30-2 on, the title card leads with the topic, not the Alberta course and lesson
+     number, and the YouTube title, description and tags of every video (finished ones included)
+     lead with the topic and give the level in terms used around the world. The 680 finished
+     videos keep their title cards; only their YouTube text changes, which needs no re-render.
+   - YouTube by API (the owner would like it automated): the YouTube Data API can rename videos
+     (about 200 a day on the default quota) and upload them with captions and thumbnails. Uploads
+     from an API project that Google has not audited stay private, so automatic uploading waits
+     for Google's YouTube API audit and a larger quota. The owner enables the API on the Google
+     Cloud project the Drive uploads use and signs in once as the channel's account; the refresh
+     token goes in the environment's secrets.
    - Next: script and render the other courses in order (Math 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      explaining each lesson as simply as possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
@@ -365,7 +376,21 @@ items ship or decisions change.
      "Hide my name from the class" (then "A student asks"; the owner's decision, 16 October 2026,
      that names show by default); the teacher always sees who asked. Present mode's settings can
      turn questions off, for example while preparing at home.
-5. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+5. **Gradileo for every English-speaking learner** (the owner's decision, 17 October 2026).
+   Gradileo is for students anywhere who need help with mathematics, in the US, the UK, Africa
+   and every other English-speaking country, and is sold to anyone, not only Alberta schools.
+   - Topics first: lessons organized by plain topic names and levels (for example "Functions and
+     transformations", about Grade 11–12 or Year 12–13); the Alberta courses stay as one way of
+     grouping them.
+   - Curriculum maps: a learner picks their system and sees the same lessons in its order and
+     with its names: US Common Core (Algebra I, Geometry, Algebra II, Precalculus), the UK (GCSE,
+     A level), African systems (for example WAEC in West Africa, KCSE in Kenya and CAPS in South
+     Africa), IB, Cambridge IGCSE and others. Fill the gaps each map shows.
+   - Placement and sign-up ask for the country or curriculum and the age or year first; the
+     landing page speaks to learners everywhere.
+   - Local details: units, currency and spelling to suit the learner where it matters; examples
+     tied to one country (Canadian GST and EI) say so in the question.
+6. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
    for example "Draft with AI") and the AI drafts the questions from the course curriculum and
@@ -384,18 +409,18 @@ items ship or decisions change.
      marking guides. The teacher who asked for them previews everything, regenerates or edits
      single questions, and publishes; nothing reaches students without that teacher's approval
      (no administrator review in between).
-6. **AI report cards** (the owner's idea, 15 October 2026). For each student, from their mastery
+7. **AI report cards** (the owner's idea, 15 October 2026). For each student, from their mastery
    and work: how they are doing, strengths, next steps, tips for the student and for parents, and
    feedback. The teacher who asks for it reviews and edits it before it reaches the student or a
    parent (not an administrator: the review is the teacher's), and shares it on request as a PDF
    or a private link.
-7. **Class forum** (the owner's idea, 15 October 2026). Students post questions for their class
+8. **Class forum** (the owner's idea, 15 October 2026). Students post questions for their class
    and choose who sees each one: private to the teacher, the whole class, or the whole class
    without their name shown to classmates (the owner agreed, 17 October 2026). The teacher can
    always see and moderate every post (the students are children), with notifications for new
    posts and replies.
-8. **Other subjects**, once mathematics is complete.
-9. **An introduction video for Gradileo** (the owner's idea, 15 October 2026), made when the
+9. **Other subjects**, once mathematics is complete.
+10. **An introduction video for Gradileo** (the owner's idea, 15 October 2026), made when the
    platform is about 80% ready: why students, teachers and parents should use it, covering every
    feature, in the same style as the explainer videos.
 
@@ -438,10 +463,12 @@ items ship or decisions change.
 
 ## Technical follow-ups
 
-- Check the K&E, Math 10-3, Grade 11 and Grade 12 outcome wording word for word against Alberta's
+- Lower priority since Gradileo is no longer aimed at Alberta first (17 October 2026): check the
+  K&E, Math 10-3, Grade 11 and Grade 12 outcome wording word for word against Alberta's
   program of studies and *Outcomes with Assessment Standards*. Their hosts are now reachable from
   the build environment (Grades 5 to 9 were checked this way).
-- Update Math 7, 8 and 9 to Alberta's new Grades 7–9 curriculum before it becomes mandatory in
+- Still worth doing, as topics most countries teach at these ages: update Math 7, 8 and 9 to
+  Alberta's new Grades 7–9 curriculum before it becomes mandatory in
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
 - Done: the *Deploy Supabase backend* workflow works. Its secrets (`SUPABASE_ACCESS_TOKEN`,
