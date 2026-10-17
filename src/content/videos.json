@@ -28093,7 +28093,7 @@
   "m301-1-3-b": {
     "lessonId": "m301-1-3",
     "title": "Combining Transformations, Part 2: Describing and Factoring",
-    "duration": 250,
+    "duration": 254,
     "voice": "af_heart",
     "chapters": [
       {
@@ -28118,13 +28118,13 @@
       },
       {
         "title": "Summary",
-        "t": 214.814
+        "t": 218.707
       }
     ],
     "cues": [
       {
         "id": "m301-1-3-b:q",
-        "t": 193.12,
+        "t": 197.013,
         "prompt": "What is the horizontal translation in $y = f(3x + 12)$?",
         "choices": [
           "$4$ units right",
@@ -29624,6 +29624,222 @@
         ],
         "answer": 1,
         "working": "The zeros $-1$, $2$ and $4$ split the line. $P(-2) = -24$, $P(0) = 8$, $P(3) = -4$ and $P(5) = 18$, so $P(x) < 0$ on $(-\\infty, -1)$ and $(2, 4)$. The zeros are not included."
+      }
+    ]
+  },
+  "m301-4-1": {
+    "lessonId": "m301-4-1",
+    "title": "Angles and Angle Measure, Part 1: Radian Measure",
+    "duration": 380,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One radian",
+        "t": 29.342
+      },
+      {
+        "title": "A full turn",
+        "t": 67.976
+      },
+      {
+        "title": "Degrees to radians",
+        "t": 127.659
+      },
+      {
+        "title": "Radians to degrees",
+        "t": 194.559
+      },
+      {
+        "title": "Upside-down factor",
+        "t": 264.037
+      },
+      {
+        "title": "Your turn",
+        "t": 304.934
+      },
+      {
+        "title": "Summary",
+        "t": 342.637
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-1:q",
+        "t": 313.658,
+        "prompt": "Convert $150^\\circ$ to radians. Give an exact answer.",
+        "choices": [
+          "$\\dfrac{6\\pi}{5}$",
+          "$\\dfrac{5\\pi}{6}$",
+          "$\\dfrac{5\\pi}{3}$",
+          "$\\dfrac{27\\,000}{\\pi}$"
+        ],
+        "answer": 1,
+        "working": "$150^\\circ \\times \\dfrac{\\pi}{180^\\circ} = \\dfrac{150\\pi}{180} = \\dfrac{5\\pi}{6}$, dividing the numerator and denominator by $30$."
+      }
+    ]
+  },
+  "m301-4-1-b": {
+    "lessonId": "m301-4-1",
+    "title": "Angles and Angle Measure, Part 2: Coterminal Angles",
+    "duration": 294,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Standard position",
+        "t": 22.4
+      },
+      {
+        "title": "Coterminal angles",
+        "t": 67.132
+      },
+      {
+        "title": "In radians",
+        "t": 129.462
+      },
+      {
+        "title": "Mixing units",
+        "t": 187.073
+      },
+      {
+        "title": "Your turn",
+        "t": 222.386
+      },
+      {
+        "title": "Summary",
+        "t": 258.582
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-1-b:q",
+        "t": 229.735,
+        "prompt": "Which angle is coterminal with $\\dfrac{5\\pi}{3}$?",
+        "choices": [
+          "$\\dfrac{2\\pi}{3}$",
+          "$-\\dfrac{5\\pi}{3}$",
+          "$-\\dfrac{\\pi}{3}$",
+          "$\\dfrac{8\\pi}{3}$"
+        ],
+        "answer": 2,
+        "working": "Subtract a full turn, $2\\pi = \\dfrac{6\\pi}{3}$: $\\dfrac{5\\pi}{3} - \\dfrac{6\\pi}{3} = -\\dfrac{\\pi}{3}$."
+      }
+    ]
+  },
+  "m301-4-1-c": {
+    "lessonId": "m301-4-1",
+    "title": "Angles and Angle Measure, Part 3: Arc Length",
+    "duration": 330,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formula",
+        "t": 22.935
+      },
+      {
+        "title": "An arc of a circle",
+        "t": 68.713
+      },
+      {
+        "title": "Angle in degrees",
+        "t": 98.672
+      },
+      {
+        "title": "Degrees in the formula",
+        "t": 142.658
+      },
+      {
+        "title": "Finding the angle",
+        "t": 171.574
+      },
+      {
+        "title": "Rotations in radians",
+        "t": 223.926
+      },
+      {
+        "title": "Your turn",
+        "t": 261.584
+      },
+      {
+        "title": "Summary",
+        "t": 302.475
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-1-c:q",
+        "t": 276.612,
+        "prompt": "A circle has a radius of $10$ cm. How long is the arc subtended by a central angle of $\\dfrac{\\pi}{5}$, to the nearest tenth of a centimetre?",
+        "choices": [
+          "$15.9$ cm",
+          "$360$ cm",
+          "$0.1$ cm",
+          "$6.3$ cm"
+        ],
+        "answer": 3,
+        "working": "$a = r\\theta = 10 \\times \\dfrac{\\pi}{5} = 2\\pi \\approx 6.28$, so about $6.3$ cm."
+      }
+    ]
+  },
+  "m301-4-2": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 1: The Equation of the Unit Circle",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The equation",
+        "t": 23.473
+      },
+      {
+        "title": "Is the point on the circle?",
+        "t": 78.025
+      },
+      {
+        "title": "A missing coordinate",
+        "t": 122.3
+      },
+      {
+        "title": "Dropping the sign",
+        "t": 181.263
+      },
+      {
+        "title": "Your turn",
+        "t": 213.97
+      },
+      {
+        "title": "Summary",
+        "t": 249.446
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2:q",
+        "t": 224.114,
+        "prompt": "The point $\\left(\\dfrac{3}{5}, y\\right)$ is on the unit circle in quadrant IV. Determine $y$.",
+        "choices": [
+          "$-\\dfrac{4}{5}$",
+          "$\\dfrac{4}{5}$",
+          "$-\\dfrac{2}{5}$",
+          "$\\dfrac{16}{25}$"
+        ],
+        "answer": 0,
+        "working": "$y^2 = 1 - \\dfrac{9}{25} = \\dfrac{16}{25}$, so $y = \\pm\\dfrac{4}{5}$. In quadrant IV, $y < 0$: $y = -\\dfrac{4}{5}$."
       }
     ]
   }
