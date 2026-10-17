@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getCourse } from '../../engine/curriculum/index.ts';
-import { levelOf, youtubeText } from './youtube-text.ts';
+import { levelOf, youtubeFields, youtubeText } from './youtube-text.ts';
 
 const video = { title: 'Percents of Money, Part 1: Percent of an Amount and Tips', summary: 'Finding a percent of an amount.', lessonId: 'm104-3-3' };
 const chapters = [
@@ -40,6 +40,21 @@ describe('youtubeText', () => {
     const long = youtubeText({ ...video, title: 'A'.repeat(95) }, null);
     expect(long.split('\n')[1]).toBe('A'.repeat(95));
     expect(long).not.toContain('Chapters');
+  });
+});
+
+describe('youtubeFields', () => {
+  it('gives the same title, description and tags as the text file', () => {
+    const f = youtubeFields(video, chapters);
+    const text = youtubeText(video, chapters);
+    expect(text).toContain(`${f.title}\n\nDESCRIPTION\n${f.description}\n\nTAGS\n${f.tags.join(', ')}`);
+  });
+
+  it('swaps the "<" and ">" that YouTube refuses for full-width signs', () => {
+    const f = youtubeFields({ ...video, title: 'When x < 2', summary: 'Solve 0° ≤ θ < 360° and |r| > 1.' }, null);
+    expect(f.title).toBe('When x ＜ 2 | Gradileo');
+    expect(f.description).toContain('Solve 0° ≤ θ ＜ 360° and |r| ＞ 1.');
+    expect(f.description).not.toMatch(/[<>]/);
   });
 });
 

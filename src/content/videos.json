@@ -33801,5 +33801,56 @@
         "working": "Inside first: $g(1) = 3$. Then $f(3) = 4$, so $f(g(1)) = 4$."
       }
     ]
+  },
+  "m301-8-5-c": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 3: Writing f(g(x))",
+    "duration": 219,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Substitute the inner function",
+        "t": 18.846
+      },
+      {
+        "title": "Simplify",
+        "t": 56.6
+      },
+      {
+        "title": "The other order",
+        "t": 93.548
+      },
+      {
+        "title": "Composition is not multiplication",
+        "t": 122.733
+      },
+      {
+        "title": "Your turn",
+        "t": 153.045
+      },
+      {
+        "title": "Summary",
+        "t": 193.552
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-c:q",
+        "t": 165.033,
+        "prompt": "For $f(x) = x^2 - 1$ and $g(x) = x + 3$, write $f(g(x))$.",
+        "choices": [
+          "$x^2 + 2$",
+          "$x^2 + 6x + 8$",
+          "$x^3 + 3x^2 - x - 3$",
+          "$x^2 + 8$"
+        ],
+        "answer": 1,
+        "working": "$f(g(x)) = (x + 3)^2 - 1 = x^2 + 6x + 9 - 1 = x^2 + 6x + 8$"
+      }
+    ]
   }
 }

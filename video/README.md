@@ -231,8 +231,25 @@ and replace it in Drive, with no rendering, even for courses already cleared fro
 
     npx tsx video/tools/drive-upload.ts --text-only math-10c math-20-1 …
 
-For a video already on YouTube, paste the new title, description and tags in YouTube Studio
-(**Content → the video → Details**).
+For videos already on YouTube, `video/tools/youtube-update.ts` brings their title, description
+and tags up to date through the YouTube API (no uploading again). It finds each video's script by
+its title, and by the course in its description when two scripts share a title, and changes only
+what differs; `--dry-run` lists the changes first:
+
+    npx tsx video/tools/youtube-update.ts --dry-run
+    npx tsx video/tools/youtube-update.ts
+
+### YouTube API
+
+`youtube-update.ts` signs in with `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET` and
+`YOUTUBE_REFRESH_TOKEN`, set in the environment's settings like the Drive ones (a session started
+after they were added sees them). They come from a Google Cloud project with the YouTube Data
+API v3 enabled, the `youtube.force-ssl` scope on its consent screen (published **In production**,
+or the sign-in lapses after 7 days; it does not need Google's verification, since only the
+channel's own account signs in), and a Web application OAuth client whose refresh token was made
+in the OAuth 2.0 Playground while signed in as the channel. The API allows 10,000 units a day; an
+update costs 50, so about 200 videos a day. Uploading through the API is possible too, but videos
+uploaded by a project Google has not audited stay private.
 
 1. Upload `<id>.mp4` to the Gradileo channel.
 2. Copy the title, description and tags from `youtube.txt`.

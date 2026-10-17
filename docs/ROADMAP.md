@@ -306,6 +306,11 @@ items ship or decisions change.
      for Google's YouTube API audit and a larger quota. The owner enables the API on the Google
      Cloud project the Drive uploads use and signs in once as the channel's account; the refresh
      token goes in the environment's secrets.
+   - Done (17 October 2026): the owner set up the API and saved `YOUTUBE_CLIENT_ID`,
+     `YOUTUBE_CLIENT_SECRET` and `YOUTUBE_REFRESH_TOKEN`; every finished video's YouTube text in
+     Drive leads with the topic; `video/tools/youtube-update.ts` renames the videos on the channel.
+     Next: run it on the 16 Math 10C videos already on YouTube, from a session that sees the new
+     variables.
    - Next: script and render the other courses in order (Math 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      explaining each lesson as simply as possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo

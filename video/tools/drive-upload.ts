@@ -16,18 +16,15 @@
 // GDRIVE_REFRESH_TOKEN (an OAuth client with the drive.file scope, which can only see the files
 // and folders this tool creates). Their values are never printed.
 import { createHash } from 'node:crypto';
-import { existsSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { COURSES } from '../../engine/curriculum/index.ts';
 import type { CourseMeta, UnitMeta } from '../../engine/types.ts';
-import type { Explainer } from '../../src/video/script.ts';
-import { youtubeChapters, type Timeline } from '../../src/video/timeline.ts';
-import { youtubeText } from '../../src/video/youtube-text.ts';
+import { MANIFEST, SCRIPT_FILES, youtubeTextFor } from '../lib/catalog.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');
 const OUT = path.join(ROOT, 'video/out');
-const CONTENT = path.join(ROOT, 'src/content');
 const ROOT_FOLDER = 'Gradileo videos';
 const FOLDER = 'application/vnd.google-apps.folder';
 const FILES: [file: (id: string) => string, mime: string][] = [
@@ -44,24 +41,7 @@ interface Planned {
   folder: string;
 }
 
-/** Every video script, src/content/<course>/videos/<id>.ts, by id. */
-const SCRIPT_FILES = new Map(
-  readdirSync(CONTENT).flatMap((dir) => {
-    const videos = path.join(CONTENT, dir, 'videos');
-    return existsSync(videos)
-      ? readdirSync(videos)
-          .filter((f) => f.endsWith('.ts'))
-          .map((f): [string, string] => [f.slice(0, -3), path.join(videos, f)])
-      : [];
-  }),
-);
 const SCRIPTS = [...SCRIPT_FILES.keys()];
-
-/** The lesson player's record of every rendered video: its length and chapters. */
-const MANIFEST = JSON.parse(readFileSync(path.join(CONTENT, 'videos.json'), 'utf8')) as Record<
-  string,
-  { duration: number; chapters: Array<{ title: string; t: number }> }
->;
 
 /** Every video id of a lesson, part 1 first (m104-1-1, m104-1-1-b, m104-1-1-c, …). */
 function lessonVideos(lessonId: string): string[] {
@@ -207,14 +187,10 @@ async function upload(file: string, name: string, mime: string, parent: string):
  */
 let scratch: string | undefined;
 async function writeYoutubeText(id: string): Promise<string> {
-  const file = SCRIPT_FILES.get(id);
-  const entry = MANIFEST[id];
-  if (!file || !entry) throw new Error(`${id}: no script or no entry in src/content/videos.json`);
-  const x = (await import(file)).default as Explainer;
-  const chapters = youtubeChapters({ chapters: entry.chapters, duration: entry.duration } as Timeline);
+  const text = await youtubeTextFor(id);
   const dir = existsSync(path.join(OUT, id)) ? path.join(OUT, id) : (scratch ??= mkdtempSync(path.join(os.tmpdir(), 'youtube-text-')));
   const out = path.join(dir, dir === path.join(OUT, id) ? 'youtube.txt' : `${id}.txt`);
-  writeFileSync(out, `${youtubeText(x, chapters)}\n`);
+  writeFileSync(out, `${text}\n`);
   return out;
 }
 
