@@ -33754,5 +33754,52 @@
         "working": "Inside first: $f(3) = 6 - 5 = 1$. Then $g(1) = 1 + 1 = 2$."
       }
     ]
+  },
+  "m301-8-5-b": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 2: From Tables and Graphs",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a table",
+        "t": 18.519
+      },
+      {
+        "title": "From graphs",
+        "t": 64.313
+      },
+      {
+        "title": "The other order",
+        "t": 105.296
+      },
+      {
+        "title": "Your turn",
+        "t": 138.035
+      },
+      {
+        "title": "Summary",
+        "t": 172.835
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-b:q",
+        "t": 152.979,
+        "prompt": "Given $g(1) = 3$, $g(3) = -2$, $f(1) = 0$ and $f(3) = 4$, find $f(g(1))$.",
+        "choices": [
+          "$4$",
+          "$0$",
+          "$-2$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "Inside first: $g(1) = 3$. Then $f(3) = 4$, so $f(g(1)) = 4$."
+      }
+    ]
   }
 }
