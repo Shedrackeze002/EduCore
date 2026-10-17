@@ -31890,5 +31890,413 @@
         "working": "In one revolution: $x = 0,\\ \\dfrac{\\pi}{2},\\ \\pi$. $0$ and $\\pi$ are a half-turn apart: $\\pi n$. $\\dfrac{\\pi}{2}$ repeats every $2\\pi$: $\\dfrac{\\pi}{2} + 2\\pi n$."
       }
     ]
+  },
+  "m301-7-1": {
+    "lessonId": "m301-7-1",
+    "title": "Characteristics of Exponential Functions, Part 1: What an Exponential Function Is",
+    "duration": 291,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The same factor each step",
+        "t": 22.982
+      },
+      {
+        "title": "Exponential functions",
+        "t": 61.108
+      },
+      {
+        "title": "A table of values",
+        "t": 103.276
+      },
+      {
+        "title": "Evaluating",
+        "t": 142.277
+      },
+      {
+        "title": "A common mistake",
+        "t": 178.199
+      },
+      {
+        "title": "Your turn",
+        "t": 217.338
+      },
+      {
+        "title": "Summary",
+        "t": 252.005
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-1:q",
+        "t": 226.825,
+        "prompt": "For $f(x) = 9^{x}$, find $f\\left(-\\frac{1}{2}\\right)$.",
+        "choices": [
+          "$\\frac{1}{3}$",
+          "$-3$",
+          "$-\\frac{9}{2}$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "$9^{-\\frac{1}{2}} = \\dfrac{1}{9^{\\frac{1}{2}}} = \\dfrac{1}{\\sqrt{9}} = \\dfrac{1}{3}$. The negative sign makes a reciprocal; the one half makes a square root."
+      }
+    ]
+  },
+  "m301-7-1-b": {
+    "lessonId": "m301-7-1",
+    "title": "Characteristics of Exponential Functions, Part 2: Growth, Decay and Key Features",
+    "duration": 274,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Growth and decay",
+        "t": 24.326
+      },
+      {
+        "title": "Mirror images",
+        "t": 64.309
+      },
+      {
+        "title": "Key characteristics",
+        "t": 118.05
+      },
+      {
+        "title": "The asymptote",
+        "t": 169.889
+      },
+      {
+        "title": "Your turn",
+        "t": 199.644
+      },
+      {
+        "title": "Summary",
+        "t": 230.372
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-1-b:q",
+        "t": 206.083,
+        "prompt": "Which function shows exponential **growth**?",
+        "choices": [
+          "$y = 0.9^{x}$",
+          "$y = 4^{-x}$",
+          "$y = \\left(\\frac{1}{5}\\right)^{-x}$",
+          "$y = \\left(\\frac{2}{3}\\right)^{x}$"
+        ],
+        "answer": 2,
+        "working": "$\\left(\\frac{1}{5}\\right)^{-x} = 5^{x}$, and $5 > 1$. The others are decay: $0.9$ and $\\frac{2}{3}$ are between $0$ and $1$, and $4^{-x} = \\left(\\frac{1}{4}\\right)^{x}$."
+      }
+    ]
+  },
+  "m301-7-1-c": {
+    "lessonId": "m301-7-1",
+    "title": "Characteristics of Exponential Functions, Part 3: Finding an Exponential Equation",
+    "duration": 263,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a and c mean",
+        "t": 23.296
+      },
+      {
+        "title": "Equation through two points",
+        "t": 53.112
+      },
+      {
+        "title": "Reading a model",
+        "t": 119.895
+      },
+      {
+        "title": "Growth and decay rates",
+        "t": 159.691
+      },
+      {
+        "title": "Your turn",
+        "t": 190.756
+      },
+      {
+        "title": "Summary",
+        "t": 226.337
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-1-c:q",
+        "t": 202.173,
+        "prompt": "An exponential function $y = a(c)^{x}$ passes through $(1, 8)$ and $(3, 32)$. Find its equation.",
+        "choices": [
+          "$y = 2(4)^{x}$",
+          "$y = 4(2)^{x}$",
+          "$y = 8(2)^{x}$",
+          "$y = 4(-2)^{x}$"
+        ],
+        "answer": 1,
+        "working": "$\\dfrac{ac^{3}}{ac} = \\dfrac{32}{8}$, so $c^{2} = 4$ and $c = 2$ (the base is positive). Then $8 = 2a$, so $a = 4$."
+      }
+    ]
+  },
+  "m301-7-2": {
+    "lessonId": "m301-7-2",
+    "title": "Transformations of Exponential Functions, Part 1: The Transformation Equation",
+    "duration": 279,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The four parameters",
+        "t": 26.291
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 85.329
+      },
+      {
+        "title": "The graph",
+        "t": 124.168
+      },
+      {
+        "title": "A common mistake",
+        "t": 173.859
+      },
+      {
+        "title": "Your turn",
+        "t": 201.26
+      },
+      {
+        "title": "Summary",
+        "t": 237.1
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-2:q",
+        "t": 212.196,
+        "prompt": "State the range of $y = -4(3)^{x - 1} + 2$.",
+        "choices": [
+          "$\\{y \\mid y > 2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y < -2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y > -4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y < 2,\\ y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 3,
+        "working": "$k = 2$, so the asymptote is $y = 2$. Because $a = -4 < 0$, the graph is reflected in the $x$-axis and lies below the asymptote: $y < 2$."
+      }
+    ]
+  },
+  "m301-7-2-b": {
+    "lessonId": "m301-7-2",
+    "title": "Transformations of Exponential Functions, Part 2: Image Points",
+    "duration": 257,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The mapping rule",
+        "t": 23.003
+      },
+      {
+        "title": "Find an image point",
+        "t": 50.026
+      },
+      {
+        "title": "Graphing from key points",
+        "t": 109.297
+      },
+      {
+        "title": "A common mistake",
+        "t": 150.597
+      },
+      {
+        "title": "Your turn",
+        "t": 184.116
+      },
+      {
+        "title": "Summary",
+        "t": 223.028
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-2-b:q",
+        "t": 200.232,
+        "prompt": "The point $(1, 3)$ is on $y = 3^{x}$. Find its image on $y = 2(3)^{\\frac{1}{3}(x - 2)} - 1$.",
+        "choices": [
+          "$\\left(\\frac{7}{3}, 5\\right)$",
+          "$(5, 7)$",
+          "$(5, 5)$",
+          "$(1, 5)$"
+        ],
+        "answer": 2,
+        "working": "$a = 2$, $b = \\frac{1}{3}$, $h = 2$, $k = -1$. $x$: $\\dfrac{1}{\\frac{1}{3}} + 2 = 3 + 2 = 5$. $y$: $2(3) - 1 = 5$."
+      }
+    ]
+  },
+  "m301-7-2-c": {
+    "lessonId": "m301-7-2",
+    "title": "Transformations of Exponential Functions, Part 3: Writing the Equation",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a description",
+        "t": 21.58
+      },
+      {
+        "title": "From a graph",
+        "t": 72.226
+      },
+      {
+        "title": "More than one equation",
+        "t": 133.458
+      },
+      {
+        "title": "Your turn",
+        "t": 170.664
+      },
+      {
+        "title": "Summary",
+        "t": 210.405
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-2-c:q",
+        "t": 187.478,
+        "prompt": "The graph of $y = 2^{x}$ is reflected in the $x$-axis, stretched horizontally by a factor of $\\frac{1}{3}$ and translated $5$ units right. Write the equation.",
+        "choices": [
+          "$y = -2^{3(x - 5)}$",
+          "$y = -2^{\\frac{1}{3}(x - 5)}$",
+          "$y = -2^{3(x + 5)}$",
+          "$y = 2^{-3(x - 5)}$"
+        ],
+        "answer": 0,
+        "working": "Reflection in the $x$-axis: $a = -1$. Horizontal stretch by $\\frac{1}{3}$: $b = \\dfrac{1}{\\frac{1}{3}} = 3$. Right $5$: $h = 5$."
+      }
+    ]
+  },
+  "m301-7-3": {
+    "lessonId": "m301-7-3",
+    "title": "Solving Exponential Equations, Part 1: Equal Powers, Equal Exponents",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exponential equations",
+        "t": 24.363
+      },
+      {
+        "title": "Why the exponents match",
+        "t": 64.543
+      },
+      {
+        "title": "Write one side as a power",
+        "t": 97.623
+      },
+      {
+        "title": "A reciprocal",
+        "t": 129.556
+      },
+      {
+        "title": "Your turn",
+        "t": 160.153
+      },
+      {
+        "title": "Summary",
+        "t": 195.241
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-3:q",
+        "t": 168.448,
+        "prompt": "Solve $2^{x + 3} = \\dfrac{1}{16}$.",
+        "choices": [
+          "$x = -1$",
+          "$x = -7$",
+          "$x = 1$",
+          "$x = -\\frac{4}{3}$"
+        ],
+        "answer": 1,
+        "working": "$\\dfrac{1}{16} = \\dfrac{1}{2^{4}} = 2^{-4}$, so $x + 3 = -4$ and $x = -7$."
+      }
+    ]
+  },
+  "m301-7-3-b": {
+    "lessonId": "m301-7-3",
+    "title": "Solving Exponential Equations, Part 2: Rewriting Both Sides with a Common Base",
+    "duration": 253,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 20.842
+      },
+      {
+        "title": "Two different bases",
+        "t": 57.699
+      },
+      {
+        "title": "A fractional base",
+        "t": 114.271
+      },
+      {
+        "title": "A common mistake",
+        "t": 161.247
+      },
+      {
+        "title": "Your turn",
+        "t": 188
+      },
+      {
+        "title": "Summary",
+        "t": 226.923
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-3-b:q",
+        "t": 196.694,
+        "prompt": "Solve $4^{x} = 8^{x - 1}$.",
+        "choices": [
+          "$x = 1$",
+          "$x = -3$",
+          "$x = \\frac{3}{5}$",
+          "$x = 3$"
+        ],
+        "answer": 3,
+        "working": "$4^{x} = 2^{2x}$ and $8^{x - 1} = 2^{3(x - 1)} = 2^{3x - 3}$. So $2x = 3x - 3$, and $x = 3$."
+      }
+    ]
   }
 }
