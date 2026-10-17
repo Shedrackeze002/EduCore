@@ -90,7 +90,7 @@ const video: Explainer = {
         },
       ],
       lines: [
-        { say: 'Your turn. What is the horizontal translation in y equals f of three x, plus twelve? Pause the video and try it.', show: 'q', wait: 6 },
+        { say: 'Your turn. What is the horizontal translation in y equals f of three x plus twelve, with all of three x plus twelve inside the brackets? Pause the video and try it.', show: 'q', wait: 6 },
         { say: 'The answer is C. Factor out three: three x plus twelve is three times x plus four. So h is negative four: four units left. B reads h before factoring.', show: 'q.answer' },
       ],
     },

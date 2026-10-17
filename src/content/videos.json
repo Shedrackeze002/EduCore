@@ -28230,5 +28230,456 @@
         "working": "The domain of $f^{-1}$ is the range of $f$: all values at most $5$."
       }
     ]
+  },
+  "m301-1-4-b": {
+    "lessonId": "m301-1-4",
+    "title": "Inverse of a Relation, Part 2: Finding an Inverse Algebraically",
+    "duration": 259,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three steps",
+        "t": 25.243
+      },
+      {
+        "title": "Checking the inverse",
+        "t": 69.537
+      },
+      {
+        "title": "Not a reciprocal",
+        "t": 112.264
+      },
+      {
+        "title": "A cubic function",
+        "t": 144.04
+      },
+      {
+        "title": "Your turn",
+        "t": 195.043
+      },
+      {
+        "title": "Summary",
+        "t": 228.132
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-4-b:q",
+        "t": 203.206,
+        "prompt": "Find the inverse of $f(x) = 5x + 2$.",
+        "choices": [
+          "$f^{-1}(x) = \\dfrac{x - 2}{5}$",
+          "$f^{-1}(x) = \\dfrac{x + 2}{5}$",
+          "$f^{-1}(x) = \\dfrac{1}{5x + 2}$",
+          "$f^{-1}(x) = 5x - 2$"
+        ],
+        "answer": 0,
+        "working": "Interchange: $x = 5y + 2$. Then $5y = x - 2$, so $y = \\dfrac{x - 2}{5}$."
+      }
+    ]
+  },
+  "m301-1-4-c": {
+    "lessonId": "m301-1-4",
+    "title": "Inverse of a Relation, Part 3: The Horizontal Line Test",
+    "duration": 287,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The horizontal line test",
+        "t": 23.065
+      },
+      {
+        "title": "Restricting the domain",
+        "t": 76.131
+      },
+      {
+        "title": "A restricted quadratic",
+        "t": 114.374
+      },
+      {
+        "title": "Domain, range and the sign",
+        "t": 165.557
+      },
+      {
+        "title": "Your turn",
+        "t": 217.381
+      },
+      {
+        "title": "Summary",
+        "t": 258.326
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-4-c:q",
+        "t": 231.24,
+        "prompt": "Let $f(x) = (x + 1)^2 - 4$ with $x \\le -1$. Which is $f^{-1}(x)$?",
+        "choices": [
+          "$-\\sqrt{x - 4} + 1$",
+          "$\\sqrt{x + 4} - 1$",
+          "$-\\sqrt{x + 4} - 1$",
+          "$\\sqrt{x - 1} + 4$"
+        ],
+        "answer": 2,
+        "working": "Interchange: $(y + 1)^2 = x + 4$, so $y = -1 \\pm \\sqrt{x + 4}$. The left half ($x \\le -1$) means the inverse needs $y \\le -1$: the negative root."
+      }
+    ]
+  },
+  "m301-2-1": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 1: The Square Root Function",
+    "duration": 260,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Radical functions",
+        "t": 29.86
+      },
+      {
+        "title": "Key points",
+        "t": 67.771
+      },
+      {
+        "title": "Domain and range",
+        "t": 112.225
+      },
+      {
+        "title": "A common mistake",
+        "t": 159.593
+      },
+      {
+        "title": "Your turn",
+        "t": 188.515
+      },
+      {
+        "title": "Summary",
+        "t": 225.288
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1:q",
+        "t": 196.898,
+        "prompt": "Which point is **not** on the graph of $y = \\sqrt{x}$?",
+        "choices": [
+          "$(16, 4)$",
+          "$(0.25, 0.5)$",
+          "$(4, -2)$",
+          "$(0, 0)$"
+        ],
+        "answer": 2,
+        "working": "$\\sqrt{4}$ is the principal square root, $2$, never $-2$: the range is $y \\ge 0$. The others work: $\\sqrt{16} = 4$, $\\sqrt{0.25} = 0.5$ and $\\sqrt{0} = 0$."
+      }
+    ]
+  },
+  "m301-2-1-b": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 2: Mapping the Key Points",
+    "duration": 302,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The four parameters",
+        "t": 21.994
+      },
+      {
+        "title": "The mapping rule",
+        "t": 70.106
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 107.848
+      },
+      {
+        "title": "Plotting the image",
+        "t": 149.624
+      },
+      {
+        "title": "A common mistake",
+        "t": 194.981
+      },
+      {
+        "title": "Your turn",
+        "t": 225.59
+      },
+      {
+        "title": "Summary",
+        "t": 270.201
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1-b:q",
+        "t": 241.247,
+        "prompt": "The point $(4, 2)$ is on $y = \\sqrt{x}$. Where is its image on the graph of $y = 3\\sqrt{x + 1} - 2$?",
+        "choices": [
+          "$(5, 4)$",
+          "$(3, 4)$",
+          "$(3, 0)$",
+          "$(5, 0)$"
+        ],
+        "answer": 1,
+        "working": "$a = 3$, $b = 1$, $h = -1$ and $k = -2$, so $(x, y) \\to (x - 1,\\ 3y - 2)$ and $(4, 2) \\to (4 - 1,\\ 3(2) - 2) = (3, 4)$."
+      }
+    ]
+  },
+  "m301-2-1-c": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 3: Domain and Range",
+    "duration": 276,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four directions",
+        "t": 20.293
+      },
+      {
+        "title": "Reading domain and range",
+        "t": 79.709
+      },
+      {
+        "title": "A hidden reflection",
+        "t": 137.692
+      },
+      {
+        "title": "Your turn",
+        "t": 198.086
+      },
+      {
+        "title": "Summary",
+        "t": 239.976
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1-c:q",
+        "t": 209.566,
+        "prompt": "State the domain and range of $y = 2\\sqrt{8 - 2x} - 1$.",
+        "choices": [
+          "Domain $x \\le 4$; range $y \\le -1$",
+          "Domain $x \\ge 4$; range $y \\ge -1$",
+          "Domain $x \\le 8$; range $y \\ge -1$",
+          "Domain $x \\le 4$; range $y \\ge -1$"
+        ],
+        "answer": 3,
+        "working": "$8 - 2x = -2(x - 4)$, so the endpoint is $(4, -1)$. $b = -2 < 0$: domain $\\{x \\mid x \\le 4,\\ x \\in \\mathbb{R}\\}$. $a = 2 > 0$: range $\\{y \\mid y \\ge -1,\\ y \\in \\mathbb{R}\\}$."
+      }
+    ]
+  },
+  "m301-2-1-d": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 4: Equations from Graphs",
+    "duration": 288,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The method",
+        "t": 18.65
+      },
+      {
+        "title": "A graph that opens right",
+        "t": 56.132
+      },
+      {
+        "title": "A graph that opens left",
+        "t": 117.423
+      },
+      {
+        "title": "More than one equation",
+        "t": 167.827
+      },
+      {
+        "title": "Your turn",
+        "t": 211.622
+      },
+      {
+        "title": "Summary",
+        "t": 256.811
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1-d:q",
+        "t": 227.076,
+        "prompt": "The graph of a radical function has its endpoint at $(1, -2)$, opens to the right, and passes through $(5, 4)$. Which is its equation?",
+        "choices": [
+          "$y = 3\\sqrt{x - 1} - 2$",
+          "$y = 3\\sqrt{x + 1} - 2$",
+          "$y = 2\\sqrt{x - 1} - 2$",
+          "$y = 3\\sqrt{x - 1} + 2$"
+        ],
+        "answer": 0,
+        "working": "$h = 1$, $k = -2$ and $b = 1$: $y = a\\sqrt{x - 1} - 2$. Substitute $(5, 4)$: $4 = a\\sqrt{4} - 2$, so $2a = 6$ and $a = 3$."
+      }
+    ]
+  },
+  "m301-2-2": {
+    "lessonId": "m301-2-2",
+    "title": "Square Root of a Function, Part 1: Invariant Points",
+    "duration": 250,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square roots of the outputs",
+        "t": 25.676
+      },
+      {
+        "title": "Above, below or gone",
+        "t": 67.563
+      },
+      {
+        "title": "A linear function",
+        "t": 109.482
+      },
+      {
+        "title": "Your turn",
+        "t": 173.805
+      },
+      {
+        "title": "Summary",
+        "t": 212.807
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-2:q",
+        "t": 186.741,
+        "prompt": "Let $f(x) = x + 3$. What are the invariant points of the graph of $y = \\sqrt{f(x)}$?",
+        "choices": [
+          "$(0, 3)$ and $(1, 4)$",
+          "$(-3, 0)$ only",
+          "$(-3, 0)$ and $(-2, 1)$",
+          "$(3, 0)$ and $(4, 1)$"
+        ],
+        "answer": 2,
+        "working": "$f(x) = 0$ when $x = -3$, and $f(x) = 1$ when $x = -2$. At those $x$-values, $\\sqrt{f(x)} = f(x)$."
+      }
+    ]
+  },
+  "m301-2-2-b": {
+    "lessonId": "m301-2-2",
+    "title": "Square Root of a Function, Part 2: Domain, Range and Quadratics",
+    "duration": 273,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range",
+        "t": 22.1
+      },
+      {
+        "title": "A parabola that opens up",
+        "t": 74.333
+      },
+      {
+        "title": "Not the absolute value",
+        "t": 147.44
+      },
+      {
+        "title": "Your turn",
+        "t": 196.586
+      },
+      {
+        "title": "Summary",
+        "t": 234.028
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-2-b:q",
+        "t": 205.487,
+        "prompt": "What is the domain of $y = \\sqrt{x^2 - 9}$?",
+        "choices": [
+          "$\\{x \\mid -3 \\le x \\le 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\le -3 \\text{ or } x \\ge 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 1,
+        "working": "$x^2 - 9 = (x + 3)(x - 3)$ has zeros $-3$ and $3$, and the parabola opens up, so $x^2 - 9 \\ge 0$ outside the zeros: $x \\le -3$ or $x \\ge 3$."
+      }
+    ]
+  },
+  "m301-2-2-c": {
+    "lessonId": "m301-2-2",
+    "title": "Square Root of a Function, Part 3: Arches and Quick Sketches",
+    "duration": 258,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An arch",
+        "t": 21.097
+      },
+      {
+        "title": "A common mistake",
+        "t": 75.366
+      },
+      {
+        "title": "Invariant points",
+        "t": 95.558
+      },
+      {
+        "title": "Sketching quickly",
+        "t": 147.74
+      },
+      {
+        "title": "Your turn",
+        "t": 193.549
+      },
+      {
+        "title": "Summary",
+        "t": 230.201
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-2-c:q",
+        "t": 202.705,
+        "prompt": "What is the range of $y = \\sqrt{16 - x^2}$?",
+        "choices": [
+          "$\\{y \\mid y \\ge 0,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid 0 \\le y \\le 16,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid -4 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid 0 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 3,
+        "working": "The maximum of $16 - x^2$ is $16$, at $x = 0$, so the maximum of $\\sqrt{16 - x^2}$ is $\\sqrt{16} = 4$. The smallest value is $0$, at $x = \\pm 4$."
+      }
+    ]
   }
 }
