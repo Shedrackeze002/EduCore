@@ -34688,5 +34688,56 @@
         "working": "The 3rd term is $t_{2 + 1}$, so $k = 2$: $t_3 = {}_{5}C_{2}\\,x^{3}(2)^{2} = 10 \\times x^3 \\times 4 = 40x^3$."
       }
     ]
+  },
+  "m302-1-1": {
+    "lessonId": "m302-1-1",
+    "title": "Sets and Subsets, Part 1: Sets and Elements",
+    "duration": 286,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Sets and elements",
+        "t": 26.704
+      },
+      {
+        "title": "Three ways to describe a set",
+        "t": 90.675
+      },
+      {
+        "title": "Listing and counting",
+        "t": 145.794
+      },
+      {
+        "title": "Watch out",
+        "t": 186.267
+      },
+      {
+        "title": "Your turn",
+        "t": 219.352
+      },
+      {
+        "title": "Summary",
+        "t": 253.869
+      }
+    ],
+    "cues": [
+      {
+        "id": "m302-1-1:q",
+        "t": 228.676,
+        "prompt": "Let $D$ be the set of even numbers between 1 and 15. Find $n(D)$.",
+        "choices": [
+          "$15$",
+          "$8$",
+          "$7$",
+          "$6$"
+        ],
+        "answer": 2,
+        "working": "$D = \\{2, 4, 6, 8, 10, 12, 14\\}$, so $n(D) = 7$."
+      }
+    ]
   }
 }
