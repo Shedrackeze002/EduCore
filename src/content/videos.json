@@ -34056,5 +34056,582 @@
         "working": "First digit: 1 to 9, so $9$ choices. Second: any digit except the first (0 is allowed now), so $9$. Third: $8$. So $9 \\times 9 \\times 8 = 648$."
       }
     ]
+  },
+  "m301-9-1-c": {
+    "lessonId": "m301-9-1",
+    "title": "The Fundamental Counting Principle, Part 3: Counting in Cases",
+    "duration": 270,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "And versus or",
+        "t": 19.816
+      },
+      {
+        "title": "Even numbers in two cases",
+        "t": 49.085
+      },
+      {
+        "title": "Routes between towns",
+        "t": 127.195
+      },
+      {
+        "title": "Watch out",
+        "t": 171.525
+      },
+      {
+        "title": "Your turn",
+        "t": 198.134
+      },
+      {
+        "title": "Summary",
+        "t": 244.952
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-1-c:q",
+        "t": 214.526,
+        "prompt": "From a school, 3 trails lead directly to a lake. There are also 2 trails from the school to a lookout, and 5 trails from the lookout to the lake. How many routes go from the school to the lake?",
+        "choices": [
+          "$13$",
+          "$30$",
+          "$10$",
+          "$25$"
+        ],
+        "answer": 0,
+        "working": "Through the lookout: $2 \\times 5 = 10$ routes (\"and\"). Directly: $3$ routes. Directly **or** through the lookout: $3 + 10 = 13$."
+      }
+    ]
+  },
+  "m301-9-2": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 1: Factorial Notation",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Arranging objects in a row",
+        "t": 26.952
+      },
+      {
+        "title": "Factorial notation",
+        "t": 79.225
+      },
+      {
+        "title": "Cancelling factorials",
+        "t": 133.218
+      },
+      {
+        "title": "Watch out",
+        "t": 184.433
+      },
+      {
+        "title": "Your turn",
+        "t": 215.27
+      },
+      {
+        "title": "Summary",
+        "t": 249.785
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2:q",
+        "t": 222.67,
+        "prompt": "Simplify $\\dfrac{9!}{7!}$.",
+        "choices": [
+          "$2$",
+          "$504$",
+          "$72$",
+          "$63$"
+        ],
+        "answer": 2,
+        "working": "$9! = 9 \\times 8 \\times 7!$, so $\\dfrac{9 \\times 8 \\times 7!}{7!} = 9 \\times 8 = 72$."
+      }
+    ]
+  },
+  "m301-9-2-b": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 2: Permutations of n Objects Taken r at a Time",
+    "duration": 287,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Medals in a race",
+        "t": 21.546
+      },
+      {
+        "title": "The permutation formula",
+        "t": 69.795
+      },
+      {
+        "title": "Solving for n",
+        "t": 128.126
+      },
+      {
+        "title": "Watch out",
+        "t": 182.945
+      },
+      {
+        "title": "Your turn",
+        "t": 209.475
+      },
+      {
+        "title": "Summary",
+        "t": 251.549
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2-b:q",
+        "t": 224.914,
+        "prompt": "A club of 9 members elects a president, a vice-president and a treasurer. No member can hold two positions. In how many ways can the three positions be filled?",
+        "choices": [
+          "$84$",
+          "$504$",
+          "$729$",
+          "$27$"
+        ],
+        "answer": 1,
+        "working": "The positions are different, so order matters: ${}_{9}P_{3} = \\dfrac{9!}{6!} = 9 \\times 8 \\times 7 = 504$."
+      }
+    ]
+  },
+  "m301-9-2-c": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 3: Arrangements with Identical Objects",
+    "duration": 288,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why we divide",
+        "t": 22.922
+      },
+      {
+        "title": "Permutations with identical objects",
+        "t": 68.891
+      },
+      {
+        "title": "MISSISSIPPI",
+        "t": 101.419
+      },
+      {
+        "title": "Routes on a grid",
+        "t": 149.427
+      },
+      {
+        "title": "Watch out",
+        "t": 193.094
+      },
+      {
+        "title": "Your turn",
+        "t": 219.953
+      },
+      {
+        "title": "Summary",
+        "t": 259.092
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2-c:q",
+        "t": 230.857,
+        "prompt": "How many different arrangements are there of the letters of the word CANADA?",
+        "choices": [
+          "$720$",
+          "$240$",
+          "$20$",
+          "$120$"
+        ],
+        "answer": 3,
+        "working": "6 letters, with A appearing 3 times: $\\dfrac{6!}{3!} = \\dfrac{720}{6} = 120$."
+      }
+    ]
+  },
+  "m301-9-2-d": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 4: Arrangements with Restrictions",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Handle the restriction first",
+        "t": 21.117
+      },
+      {
+        "title": "Together: use a block",
+        "t": 49.857
+      },
+      {
+        "title": "Apart: subtract",
+        "t": 93.365
+      },
+      {
+        "title": "Watch out",
+        "t": 142.194
+      },
+      {
+        "title": "Your turn",
+        "t": 167.986
+      },
+      {
+        "title": "Summary",
+        "t": 214.518
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2-d:q",
+        "t": 181.129,
+        "prompt": "Five people, including Ava and Ben, stand in a line for a photo. In how many ways can they stand with Ava and Ben **not** together?",
+        "choices": [
+          "$72$",
+          "$48$",
+          "$96$",
+          "$24$"
+        ],
+        "answer": 0,
+        "working": "All: $5! = 120$. Together: the block and 3 others make 4 units, $4! = 24$, times $2!$ inside the block: $48$. Apart: $120 - 48 = 72$."
+      }
+    ]
+  },
+  "m301-9-3": {
+    "lessonId": "m301-9-3",
+    "title": "Combinations, Part 1: When Order Does Not Matter",
+    "duration": 290,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pairs from four letters",
+        "t": 23.193
+      },
+      {
+        "title": "The combination formula",
+        "t": 55.724
+      },
+      {
+        "title": "Choosing lab activities",
+        "t": 100.773
+      },
+      {
+        "title": "Choosing is leaving out",
+        "t": 139.587
+      },
+      {
+        "title": "Watch out",
+        "t": 170.624
+      },
+      {
+        "title": "Your turn",
+        "t": 216.208
+      },
+      {
+        "title": "Summary",
+        "t": 258.054
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-3:q",
+        "t": 227.602,
+        "prompt": "A pizza place offers 8 toppings. How many different pizzas with exactly 3 different toppings can be made?",
+        "choices": [
+          "$336$",
+          "$24$",
+          "$56$",
+          "$512$"
+        ],
+        "answer": 2,
+        "working": "The order of the toppings does not matter: ${}_{8}C_{3} = \\dfrac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1} = \\dfrac{336}{6} = 56$."
+      }
+    ]
+  },
+  "m301-9-3-b": {
+    "lessonId": "m301-9-3",
+    "title": "Combinations, Part 2: Card Hands and Equations",
+    "duration": 262,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A standard deck",
+        "t": 19.409
+      },
+      {
+        "title": "Hands from one group",
+        "t": 51.792
+      },
+      {
+        "title": "Choosing from two groups",
+        "t": 89.312
+      },
+      {
+        "title": "Solving for n",
+        "t": 126.485
+      },
+      {
+        "title": "Your turn",
+        "t": 185.524
+      },
+      {
+        "title": "Summary",
+        "t": 229.945
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-3-b:q",
+        "t": 196.963,
+        "prompt": "How many 5-card hands from a standard 52-card deck contain exactly 3 hearts and 2 spades?",
+        "choices": [
+          "$364$",
+          "$1287$",
+          "$2\\,598\\,960$",
+          "$22\\,308$"
+        ],
+        "answer": 3,
+        "working": "Hearts: ${}_{13}C_{3} = 286$. Spades: ${}_{13}C_{2} = 78$. A hand needs both, so multiply: $286 \\times 78 = 22\\,308$."
+      }
+    ]
+  },
+  "m301-9-3-c": {
+    "lessonId": "m301-9-3",
+    "title": "Combinations, Part 3: Exactly, At Least and At Most",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three kinds of condition",
+        "t": 21.667
+      },
+      {
+        "title": "Exactly two women",
+        "t": 45.71
+      },
+      {
+        "title": "At least one woman",
+        "t": 80.939
+      },
+      {
+        "title": "Check with cases",
+        "t": 120.599
+      },
+      {
+        "title": "Watch out",
+        "t": 156.117
+      },
+      {
+        "title": "Your turn",
+        "t": 189.573
+      },
+      {
+        "title": "Summary",
+        "t": 229.409
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-3-c:q",
+        "t": 200.855,
+        "prompt": "A 3-person team is chosen from 4 seniors and 5 juniors. How many teams have at least one senior?",
+        "choices": [
+          "$84$",
+          "$74$",
+          "$112$",
+          "$40$"
+        ],
+        "answer": 1,
+        "working": "All teams: ${}_{9}C_{3} = 84$. Teams with no seniors: ${}_{5}C_{3} = 10$. At least one senior: $84 - 10 = 74$."
+      }
+    ]
+  },
+  "m301-9-4": {
+    "lessonId": "m301-9-4",
+    "title": "The Binomial Theorem, Part 1: Pascal’s Triangle",
+    "duration": 237,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Building the triangle",
+        "t": 23.273
+      },
+      {
+        "title": "Two patterns",
+        "t": 76.295
+      },
+      {
+        "title": "The next row",
+        "t": 120.726
+      },
+      {
+        "title": "Your turn",
+        "t": 166.958
+      },
+      {
+        "title": "Summary",
+        "t": 207.921
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-4:q",
+        "t": 184.659,
+        "prompt": "The row of Pascal’s triangle that begins $1,\\ 7$ is $1,\\ 7,\\ 21,\\ 35,\\ 35,\\ 21,\\ 7,\\ 1$. What is the 5th number in the row that begins $1,\\ 8$?",
+        "choices": [
+          "$70$",
+          "$56$",
+          "$35$",
+          "$28$"
+        ],
+        "answer": 0,
+        "working": "Add neighbours: $1,\\ 8,\\ 28,\\ 56,\\ 70,\\ \\ldots$ The 5th number is $35 + 35 = 70$."
+      }
+    ]
+  },
+  "m301-9-4-b": {
+    "lessonId": "m301-9-4",
+    "title": "The Binomial Theorem, Part 2: Pascal’s Triangle and Combinations",
+    "duration": 338,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The entries are combinations",
+        "t": 19.313
+      },
+      {
+        "title": "An entry from a combination",
+        "t": 61.425
+      },
+      {
+        "title": "Pascal’s identity",
+        "t": 104.908
+      },
+      {
+        "title": "Routes on a grid",
+        "t": 157.085
+      },
+      {
+        "title": "Check by subtracting",
+        "t": 228.15
+      },
+      {
+        "title": "Your turn",
+        "t": 269.472
+      },
+      {
+        "title": "Summary",
+        "t": 303.638
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-4-b:q",
+        "t": 278.53,
+        "prompt": "What is the 3rd number in the row of Pascal’s triangle that begins $1,\\ 10$?",
+        "choices": [
+          "$120$",
+          "$10$",
+          "$45$",
+          "$90$"
+        ],
+        "answer": 2,
+        "working": "The row is ${}_{10}C_{0},\\ {}_{10}C_{1},\\ {}_{10}C_{2},\\ \\ldots$, so the 3rd number is ${}_{10}C_{2} = \\dfrac{10 \\times 9}{2 \\times 1} = 45$."
+      }
+    ]
+  },
+  "m301-9-4-c": {
+    "lessonId": "m301-9-4",
+    "title": "The Binomial Theorem, Part 3: Expanding a Binomial",
+    "duration": 340,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Coefficients from the triangle",
+        "t": 24.899
+      },
+      {
+        "title": "Why combinations appear",
+        "t": 74.54
+      },
+      {
+        "title": "The binomial theorem",
+        "t": 122.829
+      },
+      {
+        "title": "A negative term",
+        "t": 163.864
+      },
+      {
+        "title": "Watch out",
+        "t": 227.471
+      },
+      {
+        "title": "Your turn",
+        "t": 262.692
+      },
+      {
+        "title": "Summary",
+        "t": 303.852
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-4-c:q",
+        "t": 269.023,
+        "prompt": "Expand $(x - 3)^3$.",
+        "choices": [
+          "$x^3 + 9x^2 + 27x + 27$",
+          "$x^3 - 9x^2 + 27x + 27$",
+          "$x^3 - 3x^2 + 3x - 27$",
+          "$x^3 - 9x^2 + 27x - 27$"
+        ],
+        "answer": 3,
+        "working": "Row $1,\\ 3,\\ 3,\\ 1$ with $y = -3$: $x^3 + 3x^2(-3) + 3x(-3)^2 + (-3)^3 = x^3 - 9x^2 + 27x - 27$."
+      }
+    ]
   }
 }
