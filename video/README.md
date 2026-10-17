@@ -207,7 +207,9 @@ Lessons learned while scripting (the script check does not catch these):
 - Break long maths over several lines (or narrow `leftWidth`) so it fits its column; give a
   crowded figure its own scene.
 - The voice blurs a few phrases into other words: "In proofs" (heard as "Improves"), "Congruent
-  figures" ("Congrant") and "prove congruence," ("Congress"). When a key term is blurred, reword
+  figures" ("Congrant"), "prove congruence," ("Congress"), "the rate r" ("the radar"), "Rewrite"
+  at the start of a sentence ("We're right") and the name Rhea ("Rhea takes" came out "retakes";
+  Maya is clear). When a key term is blurred, reword
   the line ("Figures that are congruent…") and check it with `video/tools/hear.ts`.
 - Use `\dfrac` for fractions in Math 20-4 maths lines, and state every rate, tax or rule inside
   the question (see `CLAUDE.md`).
