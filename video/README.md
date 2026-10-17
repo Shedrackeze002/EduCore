@@ -140,6 +140,11 @@ See `src/video/script.ts` for every element and option. In short:
   part 2, and so on.
 - Start with a title scene, give each later scene a `chapter` (these become YouTube chapters),
   end with a "Your turn" question and a summary.
+- Gradileo is for learners in every English-speaking country, not only Alberta. From Math 30-2
+  on, the title scene's kicker names the topic, not the Alberta course: the unit's title and the
+  part, `kicker: 'Trigonometric Identities · Part 2'` (Math 10C to 30-1 keep
+  `'Math 30-1 · Lesson 6.2 · Part 2'`). Say "this lesson" or "the next part", never a course name
+  or lesson number, in the narration.
 - Colours have fixed meanings: `[[theta:…]]`, `[[opp:…]]`, `[[adj:…]]` and `[[hyp:…]]` in text,
   `\thc{}`, `\opp{}`, `\adj{}` and `\hyp{}` in maths (θ yellow, opposite orange, adjacent blue,
   hypotenuse pink). Colour is never the only cue: sides are always named too.
@@ -217,6 +222,17 @@ the variables in the environment's settings (not in the repository, which is pub
 started after they were added sees them. The tool never prints their values.
 
 ## Uploading to YouTube
+
+`youtube.txt` leads with the topic: the title is the video's own title and the brand, and the
+description gives the topic, the level in terms used around the world ("Grade 12 / Year 13 ·
+pre-calculus"), the chapters and, last, the curriculum it follows (Alberta Math 30-1, lesson 1.1).
+When that wording changes (`src/video/youtube-text.ts`), write it again for every finished video
+and replace it in Drive, with no rendering, even for courses already cleared from the session:
+
+    npx tsx video/tools/drive-upload.ts --text-only math-10c math-20-1 …
+
+For a video already on YouTube, paste the new title, description and tags in YouTube Studio
+(**Content → the video → Details**).
 
 1. Upload `<id>.mp4` to the Gradileo channel.
 2. Copy the title, description and tags from `youtube.txt`.

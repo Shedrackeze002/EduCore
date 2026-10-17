@@ -33601,5 +33601,107 @@
         "working": "$(f - g)(x) = (x^2 - 5) - (3x - 2) = x^2 - 5 - 3x + 2 = x^2 - 3x - 3$"
       }
     ]
+  },
+  "m301-8-4-b": {
+    "lessonId": "m301-8-4",
+    "title": "Sums, Differences, Products and Quotients of Functions, Part 2: Evaluating from Tables and Graphs",
+    "duration": 245,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One value at a time",
+        "t": 18.005
+      },
+      {
+        "title": "From a table",
+        "t": 65.041
+      },
+      {
+        "title": "From graphs",
+        "t": 116.415
+      },
+      {
+        "title": "Your turn",
+        "t": 174.231
+      },
+      {
+        "title": "Summary",
+        "t": 212.263
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-4-b:q",
+        "t": 187.172,
+        "prompt": "For $f(x) = x^2 - 1$ and $g(x) = 2x + 5$, find $(fg)(-2)$.",
+        "choices": [
+          "$-5$",
+          "$3$",
+          "$4$",
+          "$-6$"
+        ],
+        "answer": 1,
+        "working": "$f(-2) = 4 - 1 = 3$ and $g(-2) = -4 + 5 = 1$, so $(fg)(-2) = 3 \\times 1 = 3$."
+      }
+    ]
+  },
+  "m301-8-4-c": {
+    "lessonId": "m301-8-4",
+    "title": "Sums, Differences, Products and Quotients of Functions, Part 3: The Domain of a Combined Function",
+    "duration": 247,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Where both are defined",
+        "t": 21.858
+      },
+      {
+        "title": "A square root",
+        "t": 53.118
+      },
+      {
+        "title": "Quotients",
+        "t": 88.692
+      },
+      {
+        "title": "Simplifying hides restrictions",
+        "t": 120.833
+      },
+      {
+        "title": "The graph shows the hole",
+        "t": 158.62
+      },
+      {
+        "title": "Your turn",
+        "t": 181.015
+      },
+      {
+        "title": "Summary",
+        "t": 221.177
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-4-c:q",
+        "t": 195.327,
+        "prompt": "Let $f(x) = \\sqrt{x + 2}$ and $g(x) = x - 3$. What is the domain of $\\left(\\dfrac{f}{g}\\right)(x)$?",
+        "choices": [
+          "$\\{x \\mid x \\ge -2,\\ x \\ne 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge -2,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x > -2,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ne 3,\\ x \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "$f$ needs $x + 2 \\ge 0$, so $x \\ge -2$. The denominator $g(x) = x - 3$ is $0$ at $x = 3$, so $3$ is excluded too."
+      }
+    ]
   }
 }

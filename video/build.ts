@@ -23,11 +23,11 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { chromium, type Browser, type Page } from '@playwright/test';
 import { createServer } from 'vite';
-import { courseOfLesson, lessonById } from '../engine/curriculum/index.ts';
 import { captions, toSrt, toVtt } from '../src/video/captions.ts';
-import { BRAND, checkScript, type Explainer } from '../src/video/script.ts';
+import { checkScript, type Explainer } from '../src/video/script.ts';
 import { speechText } from '../src/video/words.ts';
 import { clock, compile, OLD_PACE, TIMING, youtubeChapters, type Timeline } from '../src/video/timeline.ts';
+import { youtubeText } from '../src/video/youtube-text.ts';
 import { narrate, useCache, type Voice } from './lib/narrate.ts';
 import { normalise, transcribe, wer } from './lib/qa.ts';
 import { writeWav, type Pcm } from './lib/wav.ts';
@@ -37,7 +37,6 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'video/out');
 const CACHE = path.join(ROOT, 'video/.cache');
 const MANIFEST = path.join(ROOT, 'src/content/videos.json');
-const SITE = 'https://gradileo.com/';
 
 const args = process.argv.slice(2);
 const flag = (name: string) => args.includes(`--${name}`);
@@ -144,31 +143,6 @@ async function renderVideo(page: Page, tl: Timeline, wav: string, file: string) 
   log(`  ${frames} frames, ${shots} drawn, in ${Math.round((Date.now() - started) / 1000)} s`);
 }
 
-function youtubeText(x: Explainer, tl: Timeline): string {
-  const lesson = lessonById(x.lessonId);
-  const course = courseOfLesson(x.lessonId);
-  const where = lesson && course ? `${course.shortTitle} · Lesson ${lesson.number}` : x.lessonId;
-  const chapters = youtubeChapters(tl);
-  const title = `${x.title} | ${where} | ${BRAND}`;
-  return [
-    `TITLE (${title.length}/100 characters)`,
-    title,
-    '',
-    'DESCRIPTION',
-    `${x.summary}`,
-    '',
-    `This explainer goes with ${where}${lesson ? `, "${lesson.title}"` : ''}, on ${BRAND}.`,
-    ...(chapters ? ['', 'Chapters', ...chapters.map((c) => `${clock(c.t)} ${c.title}`)] : []),
-    '',
-    `Practise this lesson with instant feedback on ${BRAND}: ${SITE}`,
-    '',
-    'TAGS',
-    [BRAND, 'math', course?.shortTitle, 'Alberta math', lesson?.title, 'explainer'].filter(Boolean).join(', '),
-    '',
-    'Upload the captions (captions.srt, English) and the thumbnail (thumbnail.png) with the video.',
-  ].join('\n');
-}
-
 async function qa(x: Explainer, tl: Timeline, clips: Record<string, Pcm>, file: string) {
   const rows: string[] = [];
   let flagged = 0;
@@ -248,7 +222,7 @@ async function main() {
         const cs = captions(tl.lines);
         writeFileSync(path.join(dir, 'captions.vtt'), toVtt(cs));
         writeFileSync(path.join(dir, 'captions.srt'), toSrt(cs));
-        writeFileSync(path.join(dir, 'youtube.txt'), `${youtubeText(x, tl)}\n`);
+        writeFileSync(path.join(dir, 'youtube.txt'), `${youtubeText(x, youtubeChapters(tl))}\n`);
         updateManifest(x, tl);
         if (!flag('no-qa')) await qa(x, tl, clips, path.join(dir, 'pronunciation.txt'));
       }
