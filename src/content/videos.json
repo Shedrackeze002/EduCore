@@ -28681,5 +28681,154 @@
         "working": "The maximum of $16 - x^2$ is $16$, at $x = 0$, so the maximum of $\\sqrt{16 - x^2}$ is $\\sqrt{16} = 4$. The smallest value is $0$, at $x = \\pm 4$."
       }
     ]
+  },
+  "m301-2-3": {
+    "lessonId": "m301-2-3",
+    "title": "Solving Radical Equations Graphically, Part 1: Two Graphical Methods",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Method 1: intersection",
+        "t": 24.4
+      },
+      {
+        "title": "Method 2: related function",
+        "t": 58.582
+      },
+      {
+        "title": "Checking the answer",
+        "t": 94.157
+      },
+      {
+        "title": "No solution",
+        "t": 128.542
+      },
+      {
+        "title": "Your turn",
+        "t": 154.944
+      },
+      {
+        "title": "Summary",
+        "t": 196.577
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-3:q",
+        "t": 167.582,
+        "prompt": "To solve $\\sqrt{x + 6} = 3$ with the related function, which function do you graph, and what is the solution?",
+        "choices": [
+          "$y = \\sqrt{x + 6} - 3$; $x = 3$",
+          "$y = \\sqrt{x + 6} + 3$; $x = 3$",
+          "$y = \\sqrt{x + 6} - 3$; $x = 9$",
+          "$y = \\sqrt{x + 6} - 3$; $x = -3$"
+        ],
+        "answer": 0,
+        "working": "Subtract $3$: $\\sqrt{x + 6} - 3 = 0$. The graph of $y = \\sqrt{x + 6} - 3$ crosses the $x$-axis at $x = 3$. Check: $\\sqrt{3 + 6} = \\sqrt{9} = 3$."
+      }
+    ]
+  },
+  "m301-2-3-b": {
+    "lessonId": "m301-2-3",
+    "title": "Solving Radical Equations Graphically, Part 2: Extraneous Roots",
+    "duration": 255,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Squaring both sides",
+        "t": 20.112
+      },
+      {
+        "title": "Check every root",
+        "t": 57.222
+      },
+      {
+        "title": "What the graph shows",
+        "t": 105.077
+      },
+      {
+        "title": "Skipping the check",
+        "t": 158.316
+      },
+      {
+        "title": "Your turn",
+        "t": 188.302
+      },
+      {
+        "title": "Summary",
+        "t": 226.624
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-3-b:q",
+        "t": 196.614,
+        "prompt": "Solve $\\sqrt{x + 5} = x - 1$.",
+        "choices": [
+          "$x = -1$",
+          "$x = -1$ or $x = 4$",
+          "$x = 4$",
+          "No solution"
+        ],
+        "answer": 2,
+        "working": "Squaring gives $x + 5 = x^2 - 2x + 1$, so $x^2 - 3x - 4 = 0$ and $(x - 4)(x + 1) = 0$. $x = 4$: $\\sqrt{9} = 3 = 4 - 1$ ✓. $x = -1$: $\\sqrt{4} = 2$, but $-1 - 1 = -2$, so $x = -1$ is extraneous."
+      }
+    ]
+  },
+  "m301-2-3-c": {
+    "lessonId": "m301-2-3",
+    "title": "Solving Radical Equations Graphically, Part 3: Approximate Solutions and Applications",
+    "duration": 259,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Count the solutions first",
+        "t": 21.458
+      },
+      {
+        "title": "The quadratic formula",
+        "t": 60.599
+      },
+      {
+        "title": "The falling stone",
+        "t": 127.506
+      },
+      {
+        "title": "Your turn",
+        "t": 189.439
+      },
+      {
+        "title": "Summary",
+        "t": 231.945
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-3-c:q",
+        "t": 206.116,
+        "prompt": "The time $t$, in seconds, for a stone to fall $d$ metres is modelled by $t = \\sqrt{\\dfrac{d}{4.9}}$. A stone falls for $2$ s. How far does it fall?",
+        "choices": [
+          "$9.8$ m",
+          "$19.6$ m",
+          "$0.41$ m",
+          "$96.04$ m"
+        ],
+        "answer": 1,
+        "working": "Square both sides of $\\sqrt{\\dfrac{d}{4.9}} = 2$: $\\dfrac{d}{4.9} = 4$, so $d = 4 \\times 4.9 = 19.6$ m. Check: $\\sqrt{\\dfrac{19.6}{4.9}} = \\sqrt{4} = 2$."
+      }
+    ]
   }
 }
