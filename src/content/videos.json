@@ -29842,5 +29842,531 @@
         "working": "$y^2 = 1 - \\dfrac{9}{25} = \\dfrac{16}{25}$, so $y = \\pm\\dfrac{4}{5}$. In quadrant IV, $y < 0$: $y = -\\dfrac{4}{5}$."
       }
     ]
+  },
+  "m301-4-2-b": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 2: Points for Special Angles",
+    "duration": 319,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "P of theta",
+        "t": 23.321
+      },
+      {
+        "title": "The angle π/4",
+        "t": 74.933
+      },
+      {
+        "title": "The angles π/6 and π/3",
+        "t": 123.295
+      },
+      {
+        "title": "Quadrant I",
+        "t": 172.322
+      },
+      {
+        "title": "Swapping the coordinates",
+        "t": 211.684
+      },
+      {
+        "title": "Your turn",
+        "t": 250.343
+      },
+      {
+        "title": "Summary",
+        "t": 280.923
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2-b:q",
+        "t": 258.293,
+        "prompt": "What is the exact value of $\\cos\\dfrac{\\pi}{6}$?",
+        "choices": [
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{\\sqrt{2}}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$\\sqrt{3}$"
+        ],
+        "answer": 2,
+        "working": "$P\\left(\\dfrac{\\pi}{6}\\right) = \\left(\\dfrac{\\sqrt{3}}{2}, \\dfrac{1}{2}\\right)$, and $\\cos\\theta$ is the $x$-coordinate: $\\dfrac{\\sqrt{3}}{2}$."
+      }
+    ]
+  },
+  "m301-4-2-c": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 3: Points in Every Quadrant",
+    "duration": 291,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One reference angle, four points",
+        "t": 18.007
+      },
+      {
+        "title": "A quadrant III point",
+        "t": 58.806
+      },
+      {
+        "title": "A negative angle",
+        "t": 106.024
+      },
+      {
+        "title": "From a point to the angle",
+        "t": 152.134
+      },
+      {
+        "title": "Forgetting the signs",
+        "t": 192.933
+      },
+      {
+        "title": "Your turn",
+        "t": 221.756
+      },
+      {
+        "title": "Summary",
+        "t": 261.245
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2-c:q",
+        "t": 230.143,
+        "prompt": "Determine the exact coordinates of $P\\left(\\dfrac{5\\pi}{6}\\right)$.",
+        "choices": [
+          "$\\left(\\dfrac{\\sqrt{3}}{2}, -\\dfrac{1}{2}\\right)$",
+          "$\\left(-\\dfrac{\\sqrt{3}}{2}, \\dfrac{1}{2}\\right)$",
+          "$\\left(-\\dfrac{1}{2}, \\dfrac{\\sqrt{3}}{2}\\right)$",
+          "$\\left(-\\dfrac{\\sqrt{3}}{2}, -\\dfrac{1}{2}\\right)$"
+        ],
+        "answer": 1,
+        "working": "$\\dfrac{5\\pi}{6}$ is in quadrant II with reference angle $\\pi - \\dfrac{5\\pi}{6} = \\dfrac{\\pi}{6}$. $P\\left(\\dfrac{\\pi}{6}\\right) = \\left(\\dfrac{\\sqrt{3}}{2}, \\dfrac{1}{2}\\right)$; in quadrant II, $x < 0$ and $y > 0$."
+      }
+    ]
+  },
+  "m301-4-2-d": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 4: Symmetry and Larger Circles",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Symmetry",
+        "t": 18.219
+      },
+      {
+        "title": "Using symmetry",
+        "t": 60.227
+      },
+      {
+        "title": "A circle of radius 4",
+        "t": 97.742
+      },
+      {
+        "title": "Forgetting the radius",
+        "t": 149.31
+      },
+      {
+        "title": "Your turn",
+        "t": 185.195
+      },
+      {
+        "title": "Summary",
+        "t": 224.113
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2-d:q",
+        "t": 196.281,
+        "prompt": "$P(\\theta) = \\left(-\\dfrac{8}{17}, \\dfrac{15}{17}\\right)$. Determine $P(-\\theta)$.",
+        "choices": [
+          "$\\left(\\dfrac{8}{17}, \\dfrac{15}{17}\\right)$",
+          "$\\left(\\dfrac{8}{17}, -\\dfrac{15}{17}\\right)$",
+          "$\\left(-\\dfrac{15}{17}, \\dfrac{8}{17}\\right)$",
+          "$\\left(-\\dfrac{8}{17}, -\\dfrac{15}{17}\\right)$"
+        ],
+        "answer": 3,
+        "working": "$-\\theta$ reflects $P(\\theta)$ in the $x$-axis: $x$ stays the same and $y$ changes sign."
+      }
+    ]
+  },
+  "m301-4-3": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 1: The Six Ratios",
+    "duration": 277,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three ratios",
+        "t": 19.087
+      },
+      {
+        "title": "The reciprocal ratios",
+        "t": 44.894
+      },
+      {
+        "title": "A point at distance r",
+        "t": 88.395
+      },
+      {
+        "title": "All six from a point",
+        "t": 133.531
+      },
+      {
+        "title": "Pairing the wrong reciprocals",
+        "t": 183.023
+      },
+      {
+        "title": "Your turn",
+        "t": 207.07
+      },
+      {
+        "title": "Summary",
+        "t": 244.284
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3:q",
+        "t": 217.536,
+        "prompt": "$P(\\theta) = \\left(\\dfrac{5}{13}, -\\dfrac{12}{13}\\right)$. What is $\\csc\\theta$?",
+        "choices": [
+          "$-\\dfrac{13}{12}$",
+          "$\\dfrac{13}{5}$",
+          "$-\\dfrac{12}{13}$",
+          "$-\\dfrac{5}{12}$"
+        ],
+        "answer": 0,
+        "working": "$\\sin\\theta = y = -\\dfrac{12}{13}$, so $\\csc\\theta = \\dfrac{1}{y} = -\\dfrac{13}{12}$."
+      }
+    ]
+  },
+  "m301-4-3-b": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 2: Exact Values for Special Angles",
+    "duration": 249,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A reciprocal ratio",
+        "t": 23.065
+      },
+      {
+        "title": "A negative angle",
+        "t": 72.304
+      },
+      {
+        "title": "A quadrantal angle",
+        "t": 112.224
+      },
+      {
+        "title": "Combining values",
+        "t": 147.009
+      },
+      {
+        "title": "Your turn",
+        "t": 184.344
+      },
+      {
+        "title": "Summary",
+        "t": 220.612
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3-b:q",
+        "t": 193.083,
+        "prompt": "Determine the exact value of $\\csc\\dfrac{2\\pi}{3}$.",
+        "choices": [
+          "$-2$",
+          "$\\dfrac{2\\sqrt{3}}{3}$",
+          "$-\\dfrac{2\\sqrt{3}}{3}$",
+          "$\\dfrac{\\sqrt{3}}{2}$"
+        ],
+        "answer": 1,
+        "working": "$P\\left(\\dfrac{2\\pi}{3}\\right) = \\left(-\\dfrac{1}{2}, \\dfrac{\\sqrt{3}}{2}\\right)$, so $\\csc\\dfrac{2\\pi}{3} = \\dfrac{1}{y} = \\dfrac{2}{\\sqrt{3}} = \\dfrac{2\\sqrt{3}}{3}$."
+      }
+    ]
+  },
+  "m301-4-3-c": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 3: From One Ratio to the Others",
+    "duration": 270,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The method",
+        "t": 21.876
+      },
+      {
+        "title": "Given cosecant",
+        "t": 52.52
+      },
+      {
+        "title": "r is always positive",
+        "t": 117.519
+      },
+      {
+        "title": "Given tangent",
+        "t": 145.904
+      },
+      {
+        "title": "Your turn",
+        "t": 194.527
+      },
+      {
+        "title": "Summary",
+        "t": 239.852
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3-c:q",
+        "t": 206.298,
+        "prompt": "$\\cot\\theta = \\dfrac{3}{4}$ and $\\theta$ terminates in quadrant III. Determine $\\sin\\theta$.",
+        "choices": [
+          "$\\dfrac{4}{5}$",
+          "$-\\dfrac{3}{5}$",
+          "$-\\dfrac{5}{4}$",
+          "$-\\dfrac{4}{5}$"
+        ],
+        "answer": 3,
+        "working": "In quadrant III, $x < 0$ and $y < 0$: $\\cot\\theta = \\dfrac{x}{y} = \\dfrac{-3}{-4}$. Then $r = \\sqrt{9 + 16} = 5$, so $\\sin\\theta = \\dfrac{y}{r} = -\\dfrac{4}{5}$."
+      }
+    ]
+  },
+  "m301-4-3-d": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 4: Calculator Values and Angles",
+    "duration": 269,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "No reciprocal keys",
+        "t": 22.595
+      },
+      {
+        "title": "Check your mode",
+        "t": 70.82
+      },
+      {
+        "title": "Finding an angle",
+        "t": 100.322
+      },
+      {
+        "title": "Inverse secant",
+        "t": 165.582
+      },
+      {
+        "title": "Your turn",
+        "t": 199.052
+      },
+      {
+        "title": "Summary",
+        "t": 235.738
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3-d:q",
+        "t": 206.623,
+        "prompt": "Determine $\\cot 5$ to the nearest thousandth.",
+        "choices": [
+          "$-3.381$",
+          "$11.430$",
+          "$-0.296$",
+          "$1.373$"
+        ],
+        "answer": 2,
+        "working": "Radian mode: $\\tan 5 \\approx -3.38052$, so $\\cot 5 = \\dfrac{1}{\\tan 5} \\approx -0.296$."
+      }
+    ]
+  },
+  "m301-4-4": {
+    "lessonId": "m301-4-4",
+    "title": "Introduction to Trigonometric Equations, Part 1: Solving Over One Rotation",
+    "duration": 314,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 27.254
+      },
+      {
+        "title": "In degrees",
+        "t": 67.537
+      },
+      {
+        "title": "In radians",
+        "t": 127.797
+      },
+      {
+        "title": "On the graph",
+        "t": 186.402
+      },
+      {
+        "title": "Stopping at one answer",
+        "t": 213.651
+      },
+      {
+        "title": "Your turn",
+        "t": 242.37
+      },
+      {
+        "title": "Summary",
+        "t": 283.736
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-4:q",
+        "t": 253.105,
+        "prompt": "Solve $2\\sin\\theta - \\sqrt{3} = 0$ for $0 \\le \\theta < 2\\pi$.",
+        "choices": [
+          "$\\theta = \\dfrac{\\pi}{3}$ or $\\theta = \\dfrac{2\\pi}{3}$",
+          "$\\theta = \\dfrac{\\pi}{3}$ only",
+          "$\\theta = \\dfrac{\\pi}{6}$ or $\\theta = \\dfrac{5\\pi}{6}$",
+          "$\\theta = \\dfrac{4\\pi}{3}$ or $\\theta = \\dfrac{5\\pi}{3}$"
+        ],
+        "answer": 0,
+        "working": "$\\sin\\theta = \\dfrac{\\sqrt{3}}{2}$, so $\\theta_R = \\dfrac{\\pi}{3}$. Sine is positive in quadrants I and II: $\\theta = \\dfrac{\\pi}{3}$ or $\\theta = \\pi - \\dfrac{\\pi}{3} = \\dfrac{2\\pi}{3}$."
+      }
+    ]
+  },
+  "m301-4-4-b": {
+    "lessonId": "m301-4-4",
+    "title": "Introduction to Trigonometric Equations, Part 2: When the Value Is Not Special",
+    "duration": 278,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "With a calculator",
+        "t": 21.563
+      },
+      {
+        "title": "A negative calculator angle",
+        "t": 94.524
+      },
+      {
+        "title": "One solution, or none",
+        "t": 136.844
+      },
+      {
+        "title": "Your turn",
+        "t": 191.871
+      },
+      {
+        "title": "Summary",
+        "t": 240.699
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-4-b:q",
+        "t": 204.381,
+        "prompt": "Solve $4\\cos\\theta - 1 = 0$ for $0 \\le \\theta < 2\\pi$, to the nearest hundredth.",
+        "choices": [
+          "$\\theta \\approx 1.32$ only",
+          "$\\theta \\approx 1.32$ or $\\theta \\approx 1.82$",
+          "$\\theta \\approx 75.52$ or $\\theta \\approx 284.48$",
+          "$\\theta \\approx 1.32$ or $\\theta \\approx 4.97$"
+        ],
+        "answer": 3,
+        "working": "$\\cos\\theta = 0.25$, so $\\theta_R = \\cos^{-1}(0.25) \\approx 1.3181$. Cosine is positive in quadrants I and IV: $\\theta \\approx 1.32$ or $\\theta = 2\\pi - 1.3181 \\approx 4.97$."
+      }
+    ]
+  },
+  "m301-4-4-c": {
+    "lessonId": "m301-4-4",
+    "title": "Introduction to Trigonometric Equations, Part 3: Larger Domains and the General Solution",
+    "duration": 315,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two rotations",
+        "t": 21.46
+      },
+      {
+        "title": "On the graph",
+        "t": 85.025
+      },
+      {
+        "title": "The general solution",
+        "t": 118.504
+      },
+      {
+        "title": "Half a turn apart",
+        "t": 168.411
+      },
+      {
+        "title": "When to use πn",
+        "t": 210.347
+      },
+      {
+        "title": "Your turn",
+        "t": 238.676
+      },
+      {
+        "title": "Summary",
+        "t": 282.34
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-4-c:q",
+        "t": 248.763,
+        "prompt": "Write the general solution of $\\sqrt{3}\\tan\\theta - 1 = 0$, where $n \\in \\mathbb{I}$.",
+        "choices": [
+          "$\\theta = \\dfrac{\\pi}{6} + 2\\pi n$",
+          "$\\theta = \\dfrac{\\pi}{6} + \\pi n$",
+          "$\\theta = \\dfrac{\\pi}{3} + \\pi n$",
+          "$\\theta = \\dfrac{\\pi}{6} + 2\\pi n$ or $\\dfrac{5\\pi}{6} + 2\\pi n$"
+        ],
+        "answer": 1,
+        "working": "$\\tan\\theta = \\dfrac{1}{\\sqrt{3}}$, so $\\theta_R = \\dfrac{\\pi}{6}$. Tangent is positive in quadrants I and III: $\\dfrac{\\pi}{6}$ and $\\dfrac{7\\pi}{6}$, which are $\\pi$ apart."
+      }
+    ]
   }
 }
