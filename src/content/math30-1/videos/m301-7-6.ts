@@ -39,7 +39,7 @@ const video: Explainer = {
         { say: 'Here is the proof. Let m be log base c of M, and n be log base c of N.', show: 'm.0', focus: 'm.0' },
         { say: 'In exponential form, M is c to the power m, and N is c to the power n.', show: 'm.1', focus: 'm.1' },
         { say: 'Multiply them. To multiply powers with the same base, add the exponents: M N is c to the power m plus n.', show: 'm.2', focus: 'm.2' },
-        { say: 'Now write that in logarithmic form: log base c of M N is m plus n, which is log base c of M, plus log base c of N.', show: 'm.3', focus: 'm.3' },
+        { say: 'In logarithmic form, log base c of M N equals m plus n, which is log base c of M, plus log base c of N.', show: 'm.3', focus: 'm.3' },
         { say: 'Dividing works the same way, by subtracting exponents. So the laws of logarithms are just the exponent laws, written in logarithmic form.', show: 'm.4', focus: 'm.4' },
       ],
     },

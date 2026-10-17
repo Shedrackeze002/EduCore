@@ -64,7 +64,7 @@ const video: Explainer = {
         { kind: 'math', id: 'm', size: 'md', lines: ['0.86 = 1 - 0.14 \\;\\to\\; 14\\%\\text{ decrease per period}'] },
       ],
       lines: [
-        { say: 'In general, a factor of one plus r means growth at the rate r. A factor of one minus r means decay at the rate r.', show: 'tip' },
+        { say: 'In general, a factor of one plus r means growth at a rate of r. A factor of one minus r means decay at a rate of r.', show: 'tip' },
         { say: 'Be careful here. A factor of 0.86 does not mean a decrease of 86 percent. It is one minus 0.14, so the quantity decreases by 14 percent per period. It keeps 86 percent, and loses 14 percent.', show: 'm.0', focus: 'm.0' },
       ],
     },
