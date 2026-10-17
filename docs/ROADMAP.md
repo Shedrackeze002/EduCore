@@ -281,10 +281,12 @@ items ship or decisions change.
      eighty", "out of 100", "the litres used", "less interest later", a swallowed sentence about
      borrowing, "use C equals", "Use one mile is about", "put both lengths"). Every Math 20 course
      is now rendered and in Drive (376 videos).
-   - Waiting on the owner: whether to re-render ten finished videos from earlier courses that say
-     "GST" or "EI" (Math 10-3: m103-1-3, m103-1-3-b, m103-2-4, m103-2-4-b, m103-4-4-b,
-     m103-5-4-b; Math 10-4: m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The check
-     heard "GSD" or "I" in some of their lines; about an hour to redo and replace in Drive.
+   - Done (the owner said yes, 16 October 2026): the ten finished videos from earlier courses that
+     say "GST" or "EI" were made again with them voiced letter by letter, and replaced in Drive
+     (Math 10-3: m103-1-3, m103-1-3-b, m103-2-4, m103-2-4-b, m103-4-4-b, m103-5-4-b; Math 10-4:
+     m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The Math 10-3 and 10-4 ones keep
+     their course's old pace (`video/build.ts --pace old`); every one came out the same length
+     as before, and the check now hears "GST" and "EI" in all of them.
    - Next: script and render the other courses in order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
      and 9), explaining each lesson as simply as possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo

@@ -7930,29 +7930,29 @@
       },
       {
         "title": "Discounts",
-        "t": 11.977
+        "t": 12.053
       },
       {
         "title": "GST",
-        "t": 54.262
+        "t": 54.338
       },
       {
         "title": "Sale price, then GST",
-        "t": 90.936
+        "t": 91.012
       },
       {
         "title": "Your turn",
-        "t": 128.18
+        "t": 128.256
       },
       {
         "title": "Summary",
-        "t": 161.792
+        "t": 161.868
       }
     ],
     "cues": [
       {
         "id": "m104-3-3-b:q",
-        "t": 138.906,
+        "t": 138.982,
         "prompt": "A shirt costs \\$40 and is $25\\%$ off. Then $5\\%$ GST is added. What is the total?",
         "choices": [
           "\\$31.50",
@@ -20536,21 +20536,21 @@
       },
       {
         "title": "Parts or a kit?",
-        "t": 115.603
+        "t": 115.98
       },
       {
         "title": "Your turn",
-        "t": 139.462
+        "t": 139.839
       },
       {
         "title": "Summary",
-        "t": 166.528
+        "t": 166.905
       }
     ],
     "cues": [
       {
         "id": "m203-5-3-c:q",
-        "t": 145.824,
+        "t": 146.201,
         "prompt": "Which part of a garden shed goes on **last**?",
         "choices": [
           "the roof shingles",
