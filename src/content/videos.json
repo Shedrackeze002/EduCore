@@ -30525,5 +30525,370 @@
         "working": "$a = -4$, so the amplitude is $\\lvert -4 \\rvert = 4$, and the graph is reflected in the $x$-axis. It goes from $-4$ to $4$: the range is $\\{y \\mid -4 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$."
       }
     ]
+  },
+  "m301-5-1-d": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 4: Period, the Effect of b",
+    "duration": 301,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One cycle of bx",
+        "t": 21.891
+      },
+      {
+        "title": "Squeezed sideways",
+        "t": 84.221
+      },
+      {
+        "title": "The period formula",
+        "t": 118.461
+      },
+      {
+        "title": "From the period to b",
+        "t": 175.486
+      },
+      {
+        "title": "Multiplying instead of dividing",
+        "t": 210.465
+      },
+      {
+        "title": "Your turn",
+        "t": 237.825
+      },
+      {
+        "title": "Summary",
+        "t": 270.142
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1-d:q",
+        "t": 245.684,
+        "prompt": "Determine the period of $y = 5\\sin 4x$.",
+        "choices": [
+          "$\\dfrac{\\pi}{2}$",
+          "$8\\pi$",
+          "$\\dfrac{2\\pi}{5}$",
+          "$4$"
+        ],
+        "answer": 0,
+        "working": "$b = 4$, so the period is $\\frac{2\\pi}{4} = \\frac{\\pi}{2}$. The $5$ is the amplitude; it does not change the period."
+      }
+    ]
+  },
+  "m301-5-2": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 1: The Four Parameters",
+    "duration": 317,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The general form",
+        "t": 25.025
+      },
+      {
+        "title": "All four on one graph",
+        "t": 78.667
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 131.295
+      },
+      {
+        "title": "The sign of the shift",
+        "t": 194.232
+      },
+      {
+        "title": "Your turn",
+        "t": 230.994
+      },
+      {
+        "title": "Summary",
+        "t": 275.387
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2:q",
+        "t": 242.307,
+        "prompt": "State the phase shift and range of $y = 5\\cos\\left(x + \\frac{\\pi}{4}\\right) - 2$.",
+        "choices": [
+          "$\\frac{\\pi}{4}$ right; $-7 \\le y \\le 3$",
+          "$\\frac{\\pi}{4}$ left; $-5 \\le y \\le 5$",
+          "$\\frac{\\pi}{4}$ left; $-7 \\le y \\le 3$",
+          "$\\frac{\\pi}{4}$ left; $-3 \\le y \\le 7$"
+        ],
+        "answer": 2,
+        "working": "$x + \\frac{\\pi}{4} = x - \\left(-\\frac{\\pi}{4}\\right)$, so the graph moves $\\frac{\\pi}{4}$ left. The midline is $y = -2$ and the amplitude is $5$: from $-2 - 5 = -7$ to $-2 + 5 = 3$."
+      }
+    ]
+  },
+  "m301-5-2-b": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 2: Factor b First",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A hidden phase shift",
+        "t": 19.731
+      },
+      {
+        "title": "In degrees",
+        "t": 87.799
+      },
+      {
+        "title": "Reading the shift before factoring",
+        "t": 125.935
+      },
+      {
+        "title": "Your turn",
+        "t": 163.339
+      },
+      {
+        "title": "Summary",
+        "t": 196.391
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2-b:q",
+        "t": 172.58,
+        "prompt": "What is the phase shift of $y = \\sin\\left(2x - \\frac{\\pi}{2}\\right)$?",
+        "choices": [
+          "$\\frac{\\pi}{2}$ to the right",
+          "$\\frac{\\pi}{4}$ to the left",
+          "$\\frac{\\pi}{2}$ to the left",
+          "$\\frac{\\pi}{4}$ to the right"
+        ],
+        "answer": 3,
+        "working": "Factor out $2$: $2x - \\frac{\\pi}{2} = 2\\left(x - \\frac{\\pi}{4}\\right)$, so $c = \\frac{\\pi}{4}$: a shift of $\\frac{\\pi}{4}$ to the right."
+      }
+    ]
+  },
+  "m301-5-2-c": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 3: Writing an Equation from a Graph",
+    "duration": 285,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The steps",
+        "t": 19.315
+      },
+      {
+        "title": "Amplitude and midline",
+        "t": 65.154
+      },
+      {
+        "title": "The period",
+        "t": 95.128
+      },
+      {
+        "title": "Cosine or sine",
+        "t": 121.139
+      },
+      {
+        "title": "Many right answers",
+        "t": 166.765
+      },
+      {
+        "title": "Your turn",
+        "t": 203.865
+      },
+      {
+        "title": "Summary",
+        "t": 253.627
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2-c:q",
+        "t": 220.62,
+        "prompt": "A sinusoidal graph has a maximum of $5$ at $x = \\frac{\\pi}{2}$, and its next minimum, $-1$, at $x = \\frac{3\\pi}{2}$. Which equation fits the graph?",
+        "choices": [
+          "$y = 3\\cos\\left(x + \\frac{\\pi}{2}\\right) + 2$",
+          "$y = 3\\cos\\left(x - \\frac{\\pi}{2}\\right) + 2$",
+          "$y = 6\\cos\\left(x - \\frac{\\pi}{2}\\right) + 2$",
+          "$y = 3\\cos 2\\left(x - \\frac{\\pi}{2}\\right) + 2$"
+        ],
+        "answer": 1,
+        "working": "$a = \\frac{5 - (-1)}{2} = 3$ and $d = \\frac{5 + (-1)}{2} = 2$. From a maximum to the next minimum is half a period, so the period is $2\\pi$ and $b = 1$. A maximum at $x = \\frac{\\pi}{2}$ gives $c = \\frac{\\pi}{2}$."
+      }
+    ]
+  },
+  "m301-5-2-d": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 4: Writing an Equation from a Description",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From characteristics",
+        "t": 17.647
+      },
+      {
+        "title": "Check with a sketch",
+        "t": 65.141
+      },
+      {
+        "title": "Typing it, and a mistake",
+        "t": 122.862
+      },
+      {
+        "title": "Your turn",
+        "t": 152.286
+      },
+      {
+        "title": "Summary",
+        "t": 195.863
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2-d:q",
+        "t": 168.86,
+        "prompt": "A cosine function has an amplitude of $2$, a period of $\\pi$, a phase shift of $\\frac{\\pi}{3}$ to the left and a vertical displacement of $1$ down. Which is its equation?",
+        "choices": [
+          "$y = 2\\cos 2\\left(x + \\frac{\\pi}{3}\\right) - 1$",
+          "$y = 2\\cos \\pi\\left(x + \\frac{\\pi}{3}\\right) - 1$",
+          "$y = 2\\cos 2\\left(x - \\frac{\\pi}{3}\\right) - 1$",
+          "$y = 2\\cos \\frac{1}{2}\\left(x + \\frac{\\pi}{3}\\right) - 1$"
+        ],
+        "answer": 0,
+        "working": "$a = 2$ and $d = -1$. $b = \\frac{2\\pi}{\\pi} = 2$. A shift of $\\frac{\\pi}{3}$ to the left means $c = -\\frac{\\pi}{3}$, so the bracket is $\\left(x + \\frac{\\pi}{3}\\right)$."
+      }
+    ]
+  },
+  "m301-5-3": {
+    "lessonId": "m301-5-3",
+    "title": "The Tangent Function, Part 1: Tangent on the Unit Circle",
+    "duration": 280,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Tangent as a slope",
+        "t": 21.853
+      },
+      {
+        "title": "Zero and undefined",
+        "t": 61.328
+      },
+      {
+        "title": "An example",
+        "t": 126.617
+      },
+      {
+        "title": "Asymptotes",
+        "t": 164.787
+      },
+      {
+        "title": "Your turn",
+        "t": 208.415
+      },
+      {
+        "title": "Summary",
+        "t": 243.092
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-3:q",
+        "t": 221.305,
+        "prompt": "The terminal arm of $\\theta$ meets the unit circle at $P\\left(\\frac{3}{5}, -\\frac{4}{5}\\right)$. Determine $\\tan\\theta$.",
+        "choices": [
+          "$-\\dfrac{3}{4}$",
+          "$\\dfrac{4}{3}$",
+          "$-\\dfrac{4}{5}$",
+          "$-\\dfrac{4}{3}$"
+        ],
+        "answer": 3,
+        "working": "$\\tan\\theta = \\dfrac{y}{x} = \\dfrac{-4/5}{3/5} = -\\dfrac{4}{3}$, the slope of the terminal arm."
+      }
+    ]
+  },
+  "m301-5-3-b": {
+    "lessonId": "m301-5-3",
+    "title": "The Tangent Function, Part 2: The Graph of y = tan x",
+    "duration": 311,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One branch",
+        "t": 20.617
+      },
+      {
+        "title": "Many branches",
+        "t": 73.93
+      },
+      {
+        "title": "Why the period is pi",
+        "t": 113.086
+      },
+      {
+        "title": "The features",
+        "t": 150.499
+      },
+      {
+        "title": "Asymptotes and zeros in an interval",
+        "t": 189.299
+      },
+      {
+        "title": "Treating tangent like sine",
+        "t": 225.992
+      },
+      {
+        "title": "Your turn",
+        "t": 244.851
+      },
+      {
+        "title": "Summary",
+        "t": 277.538
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-3-b:q",
+        "t": 252.711,
+        "prompt": "State the period and range of $y = \\tan x$.",
+        "choices": [
+          "Period $2\\pi$; range all real numbers",
+          "Period $\\pi$; range all real numbers",
+          "Period $\\pi$; range $-1 \\le y \\le 1$",
+          "Period $2\\pi$; range $-1 \\le y \\le 1$"
+        ],
+        "answer": 1,
+        "working": "The arms at $\\theta$ and $\\theta + \\pi$ lie on the same line, so they have the same slope: the period is $\\pi$. A slope can be any real number, so the range is all real numbers."
+      }
+    ]
   }
 }
