@@ -28,6 +28,27 @@ export interface Plane extends Part {
 const show = (v: number) => String(Number(v.toFixed(6)));
 
 /**
+ * A number of radians as a multiple of π in TeX, for numbering an axis in radians: `piTex(Math.PI
+ * / 2)` is `\frac{\pi}{2}`, `piTex(-2 * Math.PI)` is `-2\pi`. A number that is not a multiple of π
+ * over 1, 2, 3, 4 or 6 is written as a decimal.
+ */
+export function piTex(v: number): string {
+  if (Math.abs(v) < 1e-9) return '0';
+  for (const d of [1, 2, 3, 4, 6]) {
+    const k = Math.round((v * d) / Math.PI);
+    if (Math.abs((v * d) / Math.PI - k) > 1e-6) continue;
+    const g = gcd(Math.abs(k), d);
+    const [num, den] = [k / g, d / g];
+    const sign = num < 0 ? '-' : '';
+    const top = Math.abs(num) === 1 ? '\\pi' : `${Math.abs(num)}\\pi`;
+    return den === 1 ? `${sign}${top}` : `${sign}\\frac{${top}}{${den}}`;
+  }
+  return show(v);
+}
+
+const gcd = (a: number, b: number): number => (b ? gcd(b, a % b) : a);
+
+/**
  * A coordinate plane over `x` and `y` (each [min, max]), with grid lines every `xStep` and
  * `yStep` and the axes numbered every `every` grid lines (1 by default; 0 for no numbers). One
  * unit is the same length on both axes unless `width` or `height` (in diagram units) stretches
@@ -48,6 +69,9 @@ export function plane(o: {
   titles?: { x?: string; y?: string };
   /** Where the plane's origin goes in the diagram, to put two planes side by side. */
   at?: P;
+  /** How to number each axis (TeX), instead of as decimals: `piTex` numbers an axis in radians. */
+  xTex?: (x: number) => string;
+  yTex?: (y: number) => string;
 }): Plane {
   const n = namer(o.name);
   const [x0, x1] = o.x;
@@ -74,13 +98,13 @@ export function plane(o: {
     if (Math.abs(x - ax) < 1e-9) return;
     Object.assign(points, { [n(`gx${i}a`)]: map(x, y0), [n(`gx${i}b`)]: map(x, y1), [n(`nx${i}`)]: map(x, ay) });
     items.push({ kind: 'line', id: n(`gx${i}`), from: n(`gx${i}a`), to: n(`gx${i}b`), tone: 'muted', weight: 1, group: n('grid') });
-    if (every > 0 && Math.round((x - ax) / xStep) % every === 0) items.push({ kind: 'label', id: n(`numx${i}`), at: n(`nx${i}`), tex: show(x), tone: 'muted', place: 'below', group: n('axes') });
+    if (every > 0 && Math.round((x - ax) / xStep) % every === 0) items.push({ kind: 'label', id: n(`numx${i}`), at: n(`nx${i}`), tex: (o.xTex ?? show)(x), tone: 'muted', place: 'below', group: n('axes') });
   });
   ticks(y0, y1, yStep).forEach((y, j) => {
     if (Math.abs(y - ay) < 1e-9) return;
     Object.assign(points, { [n(`gy${j}a`)]: map(x0, y), [n(`gy${j}b`)]: map(x1, y), [n(`ny${j}`)]: map(ax, y) });
     items.push({ kind: 'line', id: n(`gy${j}`), from: n(`gy${j}a`), to: n(`gy${j}b`), tone: 'muted', weight: 1, group: n('grid') });
-    if (every > 0 && Math.round((y - ay) / yStep) % every === 0) items.push({ kind: 'label', id: n(`numy${j}`), at: n(`ny${j}`), tex: show(y), tone: 'muted', place: 'left', group: n('axes') });
+    if (every > 0 && Math.round((y - ay) / yStep) % every === 0) items.push({ kind: 'label', id: n(`numy${j}`), at: n(`ny${j}`), tex: (o.yTex ?? show)(y), tone: 'muted', place: 'left', group: n('axes') });
   });
   Object.assign(points, {
     [n('xa')]: map(x0, ay),

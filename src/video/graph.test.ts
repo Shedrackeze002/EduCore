@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { arrowDiagram, dots, plane, plot, polyline } from './graph.ts';
+import { arrowDiagram, dots, piTex, plane, plot, polyline } from './graph.ts';
 import { itemPoints } from './script.ts';
 import type { Part } from './solids.ts';
 
@@ -62,5 +62,12 @@ describe('graphs', () => {
     if (arrow?.kind !== 'line') throw new Error('no arrow');
     expect(a.points[arrow.from][1]).toBeCloseTo(a.points.left0[1]);
     expect(a.points[arrow.to][1]).toBeCloseTo(a.points.right1[1]);
+  });
+
+  it('numbers an axis in multiples of π', () => {
+    expect([0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2, -2 * Math.PI, (5 * Math.PI) / 6, -Math.PI / 4, 1.5].map(piTex)).toEqual(['0', '\\frac{\\pi}{2}', '\\pi', '\\frac{3\\pi}{2}', '-2\\pi', '\\frac{5\\pi}{6}', '-\\frac{\\pi}{4}', '1.5']);
+    const g = plane({ x: [0, 2 * Math.PI], y: [-1, 1], xStep: Math.PI / 2, yStep: 0.5, width: 8, xTex: piTex });
+    const labels = g.items.filter((i) => i.kind === 'label' && i.id.startsWith('numx')).map((i) => (i as { tex: string }).tex);
+    expect(labels).toEqual(['\\frac{\\pi}{2}', '\\pi', '\\frac{3\\pi}{2}', '2\\pi']);
   });
 });
