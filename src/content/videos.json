@@ -31553,7 +31553,7 @@
   "m301-6-3-b": {
     "lessonId": "m301-6-3",
     "title": "Proving Identities, Part 2: Proving an Identity with Algebra",
-    "duration": 297,
+    "duration": 298,
     "voice": "af_heart",
     "chapters": [
       {
@@ -31566,29 +31566,29 @@
       },
       {
         "title": "Multiplying by a conjugate",
-        "t": 76.111
+        "t": 76.917
       },
       {
         "title": "Where it is true",
-        "t": 143.009
+        "t": 143.815
       },
       {
         "title": "Treating it as an equation",
-        "t": 174.512
+        "t": 175.318
       },
       {
         "title": "Your turn",
-        "t": 219.793
+        "t": 220.599
       },
       {
         "title": "Summary",
-        "t": 264.877
+        "t": 265.683
       }
     ],
     "cues": [
       {
         "id": "m301-6-3-b:q",
-        "t": 232.568,
+        "t": 233.374,
         "prompt": "To prove $\\dfrac{\\cos x}{1 + \\sin x} = \\dfrac{1 - \\sin x}{\\cos x}$, which first step is valid?",
         "choices": [
           "Cross-multiply: $\\cos^2 x = (1 + \\sin x)(1 - \\sin x)$",
@@ -31813,25 +31813,25 @@
       },
       {
         "title": "A double angle with sine",
-        "t": 69.526
+        "t": 70.29
       },
       {
         "title": "A Pythagorean substitution",
-        "t": 127.524
+        "t": 128.288
       },
       {
         "title": "Your turn",
-        "t": 191.565
+        "t": 192.329
       },
       {
         "title": "Summary",
-        "t": 238.045
+        "t": 238.809
       }
     ],
     "cues": [
       {
         "id": "m301-6-4-c:q",
-        "t": 202.562,
+        "t": 203.326,
         "prompt": "Solve $\\sin 2x = \\cos x$ for $0^\\circ \\le x < 360^\\circ$.",
         "choices": [
           "$30^\\circ,\\ 150^\\circ$",
