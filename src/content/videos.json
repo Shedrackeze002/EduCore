@@ -33130,5 +33130,166 @@
         "working": "Both have degree $2$, so the asymptote is the ratio of the leading coefficients: $y = \\dfrac{6}{3} = 2$."
       }
     ]
+  },
+  "m301-8-1-d": {
+    "lessonId": "m301-8-1",
+    "title": "Exploring Rational Functions, Part 4: Intercepts, Domain and Every Feature",
+    "duration": 313,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Intercepts and domain",
+        "t": 22.584
+      },
+      {
+        "title": "Factor and find the domain",
+        "t": 52.367
+      },
+      {
+        "title": "Hole, asymptotes and intercepts",
+        "t": 102.61
+      },
+      {
+        "title": "The graph",
+        "t": 157.499
+      },
+      {
+        "title": "A cancelled zero is not an intercept",
+        "t": 202.553
+      },
+      {
+        "title": "Your turn",
+        "t": 239.782
+      },
+      {
+        "title": "Summary",
+        "t": 280.206
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-1-d:q",
+        "t": 251.495,
+        "prompt": "What are the intercepts of $f(x) = \\dfrac{x^2 - 1}{x^2 - 4x + 3}$?",
+        "choices": [
+          "$x$-intercepts $-1$ and $1$; $y$-intercept $-\\tfrac{1}{3}$",
+          "$x$-intercept $-1$; $y$-intercept $\\tfrac{1}{3}$",
+          "$x$-intercept $-1$; $y$-intercept $-\\tfrac{1}{3}$",
+          "$x$-intercept $1$; $y$-intercept $-\\tfrac{1}{3}$"
+        ],
+        "answer": 2,
+        "working": "$f(x) = \\dfrac{(x - 1)(x + 1)}{(x - 1)(x - 3)} = \\dfrac{x + 1}{x - 3}$, $x \\ne 1$, so the only $x$-intercept is $-1$ (there is a hole at $x = 1$). $f(0) = \\dfrac{-1}{3} = -\\dfrac{1}{3}$."
+      }
+    ]
+  },
+  "m301-8-2": {
+    "lessonId": "m301-8-2",
+    "title": "Analyzing Rational Functions, Part 1: Sketching with a Hole",
+    "duration": 336,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A sketching checklist",
+        "t": 24.534
+      },
+      {
+        "title": "Factor, domain and hole",
+        "t": 62.545
+      },
+      {
+        "title": "Asymptotes and intercepts",
+        "t": 120.554
+      },
+      {
+        "title": "The sketch",
+        "t": 176.813
+      },
+      {
+        "title": "Holes are not asymptotes",
+        "t": 218.322
+      },
+      {
+        "title": "Your turn",
+        "t": 261.753
+      },
+      {
+        "title": "Summary",
+        "t": 304.97
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-2:q",
+        "t": 273.615,
+        "prompt": "Where is the hole in the graph of $f(x) = \\dfrac{x^2 - 9}{x^2 + x - 6}$?",
+        "choices": [
+          "$\\left(-3, \\tfrac{6}{5}\\right)$",
+          "$(3, 0)$",
+          "$\\left(-3, -\\tfrac{6}{5}\\right)$",
+          "$(-3, 0)$"
+        ],
+        "answer": 0,
+        "working": "$f(x) = \\dfrac{(x - 3)(x + 3)}{(x + 3)(x - 2)} = \\dfrac{x - 3}{x - 2}$, $x \\ne -3$. At $x = -3$: $\\dfrac{-3 - 3}{-3 - 2} = \\dfrac{-6}{-5} = \\dfrac{6}{5}$."
+      }
+    ]
+  },
+  "m301-8-2-b": {
+    "lessonId": "m301-8-2",
+    "title": "Analyzing Rational Functions, Part 2: Two Vertical Asymptotes",
+    "duration": 279,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The features",
+        "t": 18.22
+      },
+      {
+        "title": "A sign chart",
+        "t": 62.745
+      },
+      {
+        "title": "Sketching the branches",
+        "t": 117.484
+      },
+      {
+        "title": "Where the sign changes",
+        "t": 166.038
+      },
+      {
+        "title": "Your turn",
+        "t": 207.096
+      },
+      {
+        "title": "Summary",
+        "t": 250.889
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-2-b:q",
+        "t": 219.8,
+        "prompt": "For $f(x) = \\dfrac{x + 1}{(x - 3)(x + 4)}$, where is the graph above the $x$-axis?",
+        "choices": [
+          "$x < -4$ and $-1 < x < 3$",
+          "$-4 < x < 3$",
+          "$-4 < x < -1$ and $x > 3$",
+          "$x > 3$ only"
+        ],
+        "answer": 2,
+        "working": "Split at $-4$, $-1$ and $3$. $f(-5) = -0.5 < 0$, $f(-2) = 0.1 > 0$, $f(0) = -\\tfrac{1}{12} < 0$ and $f(4) = \\tfrac{5}{8} > 0$."
+      }
+    ]
   }
 }
