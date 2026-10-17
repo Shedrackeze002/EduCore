@@ -30368,5 +30368,162 @@
         "working": "$\\tan\\theta = \\dfrac{1}{\\sqrt{3}}$, so $\\theta_R = \\dfrac{\\pi}{6}$. Tangent is positive in quadrants I and III: $\\dfrac{\\pi}{6}$ and $\\dfrac{7\\pi}{6}$, which are $\\pi$ apart."
       }
     ]
+  },
+  "m301-5-1": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 1: From the Unit Circle to the Graphs",
+    "duration": 306,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The height of a point",
+        "t": 28.718
+      },
+      {
+        "title": "A table of values",
+        "t": 94.333
+      },
+      {
+        "title": "The two graphs",
+        "t": 147.134
+      },
+      {
+        "title": "Periodic functions",
+        "t": 195.784
+      },
+      {
+        "title": "Your turn",
+        "t": 240.202
+      },
+      {
+        "title": "Summary",
+        "t": 274.879
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1:q",
+        "t": 251.338,
+        "prompt": "For $0 \\le x \\le 2\\pi$, at which value of $x$ does $y = \\sin x$ reach its minimum?",
+        "choices": [
+          "$x = \\pi$",
+          "$x = 2\\pi$",
+          "$x = \\frac{3\\pi}{2}$",
+          "$x = \\frac{\\pi}{2}$"
+        ],
+        "answer": 2,
+        "working": "$\\sin x$ is the height of $P(x)$ on the unit circle. $P$ is lowest, at $(0, -1)$, when $x = \\frac{3\\pi}{2}$, so the minimum value $-1$ is at $x = \\frac{3\\pi}{2}$."
+      }
+    ]
+  },
+  "m301-5-1-b": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 2: Domain, Range, Zeros and Maximums",
+    "duration": 337,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range",
+        "t": 24.278
+      },
+      {
+        "title": "Amplitude",
+        "t": 73.723
+      },
+      {
+        "title": "Zeros and maximums of sine",
+        "t": 118.871
+      },
+      {
+        "title": "Zeros and maximums of cosine",
+        "t": 158.417
+      },
+      {
+        "title": "All the features",
+        "t": 191.52
+      },
+      {
+        "title": "Zeros in an interval",
+        "t": 218.432
+      },
+      {
+        "title": "Your turn",
+        "t": 263.063
+      },
+      {
+        "title": "Summary",
+        "t": 298.304
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1-b:q",
+        "t": 274.615,
+        "prompt": "Determine the $x$-values of the maximums of $y = \\cos x$ for $0 \\le x \\le 4\\pi$.",
+        "choices": [
+          "$x = \\pi,\\ 3\\pi$",
+          "$x = 0,\\ 2\\pi,\\ 4\\pi$",
+          "$x = \\frac{\\pi}{2},\\ \\frac{5\\pi}{2}$",
+          "$x = 0,\\ \\pi,\\ 2\\pi,\\ 3\\pi,\\ 4\\pi$"
+        ],
+        "answer": 1,
+        "working": "The maximums of $y = \\cos x$ are at $x = 2\\pi n$, where $P(x)$ is at $(1, 0)$. From $0$ to $4\\pi$ that gives $x = 0$, $2\\pi$ and $4\\pi$."
+      }
+    ]
+  },
+  "m301-5-1-c": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 3: Amplitude, the Effect of a",
+    "duration": 243,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A vertical stretch",
+        "t": 23.775
+      },
+      {
+        "title": "A negative value of a",
+        "t": 82.406
+      },
+      {
+        "title": "A negative amplitude",
+        "t": 139.375
+      },
+      {
+        "title": "Your turn",
+        "t": 169.96
+      },
+      {
+        "title": "Summary",
+        "t": 204.473
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1-c:q",
+        "t": 179.068,
+        "prompt": "State the amplitude and range of $y = -4\\sin x$.",
+        "choices": [
+          "Amplitude $-4$; range $-4 \\le y \\le 4$",
+          "Amplitude $4$; range $0 \\le y \\le 4$",
+          "Amplitude $8$; range $-4 \\le y \\le 4$",
+          "Amplitude $4$; range $-4 \\le y \\le 4$"
+        ],
+        "answer": 3,
+        "working": "$a = -4$, so the amplitude is $\\lvert -4 \\rvert = 4$, and the graph is reflected in the $x$-axis. It goes from $-4$ to $4$: the range is $\\{y \\mid -4 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$."
+      }
+    ]
   }
 }
