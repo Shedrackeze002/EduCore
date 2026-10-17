@@ -29375,5 +29375,256 @@
         "working": "$P(3) = 27 - 18 + 3k + 6 = 3k + 15$. Set $3k + 15 = 0$: $k = -5$."
       }
     ]
+  },
+  "m301-3-4": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 1: Solving by Factoring",
+    "duration": 255,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three names, one number",
+        "t": 23.391
+      },
+      {
+        "title": "Solving a cubic",
+        "t": 72.783
+      },
+      {
+        "title": "Watch out",
+        "t": 157.82
+      },
+      {
+        "title": "Your turn",
+        "t": 186.496
+      },
+      {
+        "title": "Summary",
+        "t": 226.746
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4:q",
+        "t": 196.034,
+        "prompt": "Solve $x^3 - 4x^2 + x + 6 = 0$.",
+        "choices": [
+          "$x = 1,\\ -2$ or $-3$",
+          "$x = -1,\\ 2$ or $3$",
+          "$x = -1,\\ -2$ or $3$",
+          "$x = 1,\\ 2$ or $3$"
+        ],
+        "answer": 1,
+        "working": "$P(-1) = -1 - 4 - 1 + 6 = 0$. Dividing by $x + 1$ leaves $x^2 - 5x + 6 = (x - 2)(x - 3)$, so $(x + 1)(x - 2)(x - 3) = 0$."
+      }
+    ]
+  },
+  "m301-3-4-b": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 2: Multiplicity",
+    "duration": 264,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplicity",
+        "t": 21.155
+      },
+      {
+        "title": "Three shapes",
+        "t": 64.886
+      },
+      {
+        "title": "Why",
+        "t": 100.951
+      },
+      {
+        "title": "Two examples",
+        "t": 137.508
+      },
+      {
+        "title": "Watch out",
+        "t": 174.037
+      },
+      {
+        "title": "Your turn",
+        "t": 200.133
+      },
+      {
+        "title": "Summary",
+        "t": 236.865
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-b:q",
+        "t": 213.195,
+        "prompt": "At which zero does $y = (x - 4)^2(x + 1)$ touch the $x$-axis?",
+        "choices": [
+          "$x = 1$",
+          "$x = -4$",
+          "$x = -1$",
+          "$x = 4$"
+        ],
+        "answer": 3,
+        "working": "$(x - 4)^2$ gives the zero $4$ with multiplicity $2$, so the graph touches there. At $-1$ the multiplicity is $1$, so it crosses."
+      }
+    ]
+  },
+  "m301-3-4-c": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 3: Sketching from Factored Form",
+    "duration": 233,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 17.772
+      },
+      {
+        "title": "Sketching a cubic",
+        "t": 65.02
+      },
+      {
+        "title": "Watch out",
+        "t": 123.342
+      },
+      {
+        "title": "Your turn",
+        "t": 160.045
+      },
+      {
+        "title": "Summary",
+        "t": 202.682
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-c:q",
+        "t": 171.683,
+        "prompt": "Find the $y$-intercept and the end behaviour of $y = (x - 2)^2(x + 3)$.",
+        "choices": [
+          "$12$; quadrant III to I",
+          "$12$; quadrant II to I",
+          "$-12$; quadrant III to I",
+          "$-6$; quadrant III to I"
+        ],
+        "answer": 0,
+        "working": "$y$-intercept: $(0 - 2)^2(0 + 3) = 4 \\times 3 = 12$. Degree $2 + 1 = 3$, odd, and leading coefficient $1$: from quadrant III to quadrant I."
+      }
+    ]
+  },
+  "m301-3-4-d": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 4: Equations from Graphs",
+    "duration": 249,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading the graph",
+        "t": 20.324
+      },
+      {
+        "title": "Least degree",
+        "t": 87.776
+      },
+      {
+        "title": "A flattened crossing",
+        "t": 118.603
+      },
+      {
+        "title": "Your turn",
+        "t": 170.391
+      },
+      {
+        "title": "Summary",
+        "t": 216.811
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-d:q",
+        "t": 188.242,
+        "prompt": "A cubic function has a zero of multiplicity $2$ at $x = 3$, a zero of multiplicity $1$ at $x = -1$, and a $y$-intercept of $18$. Which is its equation?",
+        "choices": [
+          "$y = 18(x - 3)^2(x + 1)$",
+          "$y = 2(x + 3)^2(x - 1)$",
+          "$y = 2(x - 3)^2(x + 1)$",
+          "$y = 2(x - 3)(x + 1)^2$"
+        ],
+        "answer": 2,
+        "working": "$y = a(x - 3)^2(x + 1)$. At $(0, 18)$: $18 = a(9)(1) = 9a$, so $a = 2$."
+      }
+    ]
+  },
+  "m301-3-4-e": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 5: Inequalities and Applications",
+    "duration": 321,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Factor and find the zeros",
+        "t": 22.091
+      },
+      {
+        "title": "Testing each interval",
+        "t": 57.689
+      },
+      {
+        "title": "A box with a given volume",
+        "t": 104.954
+      },
+      {
+        "title": "The only real solution",
+        "t": 166.534
+      },
+      {
+        "title": "Watch out",
+        "t": 216.154
+      },
+      {
+        "title": "Your turn",
+        "t": 252.393
+      },
+      {
+        "title": "Summary",
+        "t": 292.385
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-e:q",
+        "t": 262.881,
+        "prompt": "Solve $(x + 1)(x - 2)(x - 4) < 0$.",
+        "choices": [
+          "$x \\in (-1, 2) \\cup (4, \\infty)$",
+          "$x \\in (-\\infty, -1) \\cup (2, 4)$",
+          "$x \\in (-\\infty, -1] \\cup [2, 4]$",
+          "$x \\in (2, 4)$"
+        ],
+        "answer": 1,
+        "working": "The zeros $-1$, $2$ and $4$ split the line. $P(-2) = -24$, $P(0) = 8$, $P(3) = -4$ and $P(5) = 18$, so $P(x) < 0$ on $(-\\infty, -1)$ and $(2, 4)$. The zeros are not included."
+      }
+    ]
   }
 }
