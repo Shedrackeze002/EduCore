@@ -29,7 +29,7 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Treat the two sides as separate expressions. Work on one side, usually the more complicated one, until it looks exactly like the other side. Or simplify each side separately until both reach the same expression.', show: 'key' },
-        { say: 'Here are the moves that help. Rewrite everything in terms of sine x and cosine x.', show: 'b.0', focus: 'b.0' },
+        { say: 'Here are the moves that help. First, rewrite everything in terms of sine x and cosine x.', show: 'b.0', focus: 'b.0' },
         { say: 'Use a common denominator, or split a single fraction into two.', show: 'b.1', focus: 'b.1' },
         { say: 'Replace a Pythagorean pattern or a double angle using an identity.', show: 'b.2', focus: 'b.2' },
         { say: 'And factor, expand, or multiply by a conjugate, such as one plus cosine x over one plus cosine x. That fraction equals one, so multiplying by it does not change the value.', show: 'b.3', focus: 'b.3' },

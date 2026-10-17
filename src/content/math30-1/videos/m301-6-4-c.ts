@@ -42,7 +42,7 @@ const video: Explainer = {
         { say: 'The goal is one function of one angle. Choose the identity that gets you there.', show: 't' },
         { say: 'If the equation has cosine two x and sine x, use cosine two x equals one minus two sine squared x. Then everything is in sine x.', focus: 't.0' },
         { say: 'If it has cosine two x and cosine x, use cosine two x equals two cosine squared x minus one.', focus: 't.1' },
-        { say: 'If it has sine two x, write it as two sine x cosine x, and then factor.', focus: 't.2' },
+        { say: 'If the equation has sine two x, write it as two sine x cosine x, and then factor.', focus: 't.2' },
         { say: 'If it has sine squared x and cosine x, use sine squared x equals one minus cosine squared x. And if it has secant squared x and tan x, use secant squared x equals one plus tan squared x.', focus: ['t.3', 't.4'] },
       ],
     },
