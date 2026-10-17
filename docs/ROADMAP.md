@@ -287,12 +287,17 @@ items ship or decisions change.
      m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The Math 10-3 and 10-4 ones keep
      their course's old pace (`video/build.ts --pace old`); every one came out the same length
      as before, and the check now hears "GST" and "EI" in all of them.
-   - In progress: Math 30-1. All nine units are scripted (137 videos), with new figure helpers
-     for π axes, the unit circle and rational functions. Next, the course renders unit by unit
-     into Drive. From Math 30-1 on, the right "Your turn" answer is spread over A to
-     D, because the lesson player shows the choices in the video's order and an answer that is
-     always A gives itself away. "Cosecant" is now voiced as "co-secant" (it came out
-     "co-second").
+   - Built: Math 30-1, all 137 videos at the calm pace (3:15 to 6:21, about 10.5 hours in all),
+     rendered unit by unit and uploaded to Drive (checked: Drive holds every file of all 137), with
+     new figure helpers for π axes, the unit circle and rational functions. From Math 30-1 on, the
+     right "Your turn" answer is spread over A to D, because the lesson player shows the choices in
+     the video's order and an answer that is always A gives itself away. The pronunciation check's
+     real slips were fixed and those videos rendered again: "cosecant" is now voiced as
+     "co-secant" for every course (it came out "co-second"); "f of three x, plus twelve", whose
+     pause read as f(3x) + 12, "Rewrite everything" ("We're right"), "If it has sine two x" ("If it
+     is"), "the rate r" ("the radar") and a swallowed "c" in "log base c of M N" were reworded; and
+     the job-sharing example's Rhea (heard as "re-") is now Maya, in the lesson as well. Every Math
+     10 to 30-1 course is rendered and in Drive (706 videos).
    - Decided (the owner, 17 October 2026): the courses already made (Math 10C to 20-4), where the
      right "Your turn" answer is almost always A, stay as they are. Only new courses spread it.
    - Decision (the owner, 17 October 2026): videos are for learners anywhere, not only Alberta.
