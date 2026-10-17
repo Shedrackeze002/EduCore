@@ -27740,5 +27740,205 @@
         "working": "Right 4: $h = 4$, so replace $x$ with $x - 4$. Down 1: $k = -1$, so subtract 1."
       }
     ]
+  },
+  "m301-1-1-b": {
+    "lessonId": "m301-1-1",
+    "title": "Horizontal and Vertical Translations, Part 2: Image Points and Equations",
+    "duration": 304,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mapping notation",
+        "t": 19.477
+      },
+      {
+        "title": "Finding an image point",
+        "t": 52.505
+      },
+      {
+        "title": "Writing the equation",
+        "t": 105.841
+      },
+      {
+        "title": "The sign of h",
+        "t": 183.94
+      },
+      {
+        "title": "Your turn",
+        "t": 226.206
+      },
+      {
+        "title": "Summary",
+        "t": 268.792
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-1-b:q",
+        "t": 242.417,
+        "prompt": "The point $(-2, 6)$ is on the graph of $y = f(x)$. What is the corresponding point on the graph of $y = f(x + 4) - 1$?",
+        "choices": [
+          "$(2, 5)$",
+          "$(-6, 5)$",
+          "$(-6, 7)$",
+          "$(2, 7)$"
+        ],
+        "answer": 1,
+        "working": "$h = -4$ and $k = -1$, so $(x, y) \\to (x - 4,\\ y - 1)$: $(-2, 6) \\to (-6, 5)$."
+      }
+    ]
+  },
+  "m301-1-1-c": {
+    "lessonId": "m301-1-1",
+    "title": "Horizontal and Vertical Translations, Part 3: Domain, Range and Graphs",
+    "duration": 241,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range move too",
+        "t": 17.893
+      },
+      {
+        "title": "Finding the domain and range",
+        "t": 73.661
+      },
+      {
+        "title": "Reading h and k from graphs",
+        "t": 127.327
+      },
+      {
+        "title": "Your turn",
+        "t": 178.194
+      },
+      {
+        "title": "Summary",
+        "t": 215.074
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-1-c:q",
+        "t": 193.1,
+        "prompt": "$y = f(x)$ has domain $\\{x \\mid 0 \\le x \\le 6,\\ x \\in \\mathbb{R}\\}$ and range $\\{y \\mid 1 \\le y \\le 3,\\ y \\in \\mathbb{R}\\}$. What is the range of $y = f(x - 2) + 5$?",
+        "choices": [
+          "$1 \\le y \\le 3$",
+          "$3 \\le y \\le 5$",
+          "$-4 \\le y \\le -2$",
+          "$6 \\le y \\le 8$"
+        ],
+        "answer": 3,
+        "working": "$k = 5$, so the range moves up 5: $1 + 5 = 6$ and $3 + 5 = 8$. The horizontal shift, $h = 2$, changes only the domain."
+      }
+    ]
+  },
+  "m301-1-2": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 1: Reflections in the Axes",
+    "duration": 313,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reflecting in the x-axis",
+        "t": 21.282
+      },
+      {
+        "title": "Reflecting in the y-axis",
+        "t": 80.099
+      },
+      {
+        "title": "Invariant points",
+        "t": 118.585
+      },
+      {
+        "title": "Reflecting points and equations",
+        "t": 170.182
+      },
+      {
+        "title": "Your turn",
+        "t": 244.49
+      },
+      {
+        "title": "Summary",
+        "t": 283.162
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2:q",
+        "t": 259.098,
+        "prompt": "The point $(3, -7)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = f(-x)$?",
+        "choices": [
+          "$(-3, -7)$",
+          "$(3, 7)$",
+          "$(-3, 7)$",
+          "$(-7, 3)$"
+        ],
+        "answer": 0,
+        "working": "$y = f(-x)$ is a reflection in the $y$-axis: $(x, y) \\to (-x, y)$, so $(3, -7) \\to (-3, -7)$."
+      }
+    ]
+  },
+  "m301-1-2-b": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 2: Vertical Stretches",
+    "duration": 282,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a stretch is",
+        "t": 21.585
+      },
+      {
+        "title": "Doubling every y-value",
+        "t": 65.676
+      },
+      {
+        "title": "Squeezing, and a negative a",
+        "t": 105.013
+      },
+      {
+        "title": "Finding image points",
+        "t": 159.279
+      },
+      {
+        "title": "Your turn",
+        "t": 209.287
+      },
+      {
+        "title": "Summary",
+        "t": 248.304
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2-b:q",
+        "t": 223.993,
+        "prompt": "The point $(-1, 5)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = -4f(x)$?",
+        "choices": [
+          "$(4, 5)$",
+          "$(-1, 20)$",
+          "$(-1, -20)$",
+          "$(-1, -\\tfrac{5}{4})$"
+        ],
+        "answer": 2,
+        "working": "$(x, y) \\to (x, -4y)$: $-4(5) = -20$, and $x$ does not change."
+      }
+    ]
   }
 }
