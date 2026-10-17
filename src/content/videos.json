@@ -27940,5 +27940,295 @@
         "working": "$(x, y) \\to (x, -4y)$: $-4(5) = -20$, and $x$ does not change."
       }
     ]
+  },
+  "m301-1-2-c": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 3: Horizontal Stretches",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The horizontal stretch",
+        "t": 23.057
+      },
+      {
+        "title": "Why the reciprocal",
+        "t": 63.773
+      },
+      {
+        "title": "Stretching a point",
+        "t": 115.485
+      },
+      {
+        "title": "The horizontal factor",
+        "t": 165.153
+      },
+      {
+        "title": "Your turn",
+        "t": 200.218
+      },
+      {
+        "title": "Summary",
+        "t": 235.836
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2-c:q",
+        "t": 213.53,
+        "prompt": "The point $(8, 3)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = f(4x)$?",
+        "choices": [
+          "$(32, 3)$",
+          "$(2, 3)$",
+          "$(8, 12)$",
+          "$(2, 12)$"
+        ],
+        "answer": 1,
+        "working": "$(x, y) \\to \\left(\\frac{x}{4},\\ y\\right)$: $\\frac{8}{4} = 2$, and $y$ does not change."
+      }
+    ]
+  },
+  "m301-1-2-d": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 4: Invariant Points",
+    "duration": 260,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Which points stay put",
+        "t": 19.29
+      },
+      {
+        "title": "Finding invariant points",
+        "t": 78.736
+      },
+      {
+        "title": "Checking with the equation",
+        "t": 144.477
+      },
+      {
+        "title": "Your turn",
+        "t": 189.891
+      },
+      {
+        "title": "Summary",
+        "t": 233.86
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2-d:q",
+        "t": 207.703,
+        "prompt": "Let $f(x) = x^2 + 2x - 8 = (x + 4)(x - 2)$. Which points are invariant for $y = -3f(x)$?",
+        "choices": [
+          "$(0, 24)$ only",
+          "$(0, -8)$ only",
+          "$(4, 0)$ and $(-2, 0)$",
+          "$(-4, 0)$ and $(2, 0)$"
+        ],
+        "answer": 3,
+        "working": "$y = -3f(x)$ is a vertical stretch and a reflection in the $x$-axis, so the points with $y = 0$ stay put: the $x$-intercepts $(-4, 0)$ and $(2, 0)$."
+      }
+    ]
+  },
+  "m301-1-3": {
+    "lessonId": "m301-1-3",
+    "title": "Combining Transformations, Part 1: The General Form",
+    "duration": 299,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One equation for everything",
+        "t": 23.796
+      },
+      {
+        "title": "The mapping",
+        "t": 78.317
+      },
+      {
+        "title": "Stretch first, then translate",
+        "t": 106.611
+      },
+      {
+        "title": "Applying the mapping",
+        "t": 164.96
+      },
+      {
+        "title": "Your turn",
+        "t": 218.097
+      },
+      {
+        "title": "Summary",
+        "t": 262.979
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-3:q",
+        "t": 234.405,
+        "prompt": "The point $(4, 3)$ is on the graph of $y = f(x)$. What is the corresponding point on the graph of $y = 2f(4(x + 1)) - 5$?",
+        "choices": [
+          "$(0, 1)$",
+          "$(2, 1)$",
+          "$(15, 1)$",
+          "$(0, -4)$"
+        ],
+        "answer": 0,
+        "working": "$a = 2$, $b = 4$, $h = -1$, $k = -5$. $x$: $\\frac{4}{4} - 1 = 0$. $y$: $2(3) - 5 = 1$."
+      }
+    ]
+  },
+  "m301-1-3-b": {
+    "lessonId": "m301-1-3",
+    "title": "Combining Transformations, Part 2: Describing and Factoring",
+    "duration": 250,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Describing the transformations",
+        "t": 20.587
+      },
+      {
+        "title": "Factor b first",
+        "t": 81.493
+      },
+      {
+        "title": "Reading h too early",
+        "t": 135.818
+      },
+      {
+        "title": "Your turn",
+        "t": 183.392
+      },
+      {
+        "title": "Summary",
+        "t": 214.814
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-3-b:q",
+        "t": 193.12,
+        "prompt": "What is the horizontal translation in $y = f(3x + 12)$?",
+        "choices": [
+          "$4$ units right",
+          "$12$ units left",
+          "$4$ units left",
+          "$12$ units right"
+        ],
+        "answer": 2,
+        "working": "$3x + 12 = 3(x + 4) = 3(x - (-4))$, so $h = -4$: 4 units left."
+      }
+    ]
+  },
+  "m301-1-3-c": {
+    "lessonId": "m301-1-3",
+    "title": "Combining Transformations, Part 3: Writing Equations",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a description",
+        "t": 21.004
+      },
+      {
+        "title": "From a graph",
+        "t": 77.797
+      },
+      {
+        "title": "Check with two points",
+        "t": 149.698
+      },
+      {
+        "title": "Your turn",
+        "t": 191
+      },
+      {
+        "title": "Summary",
+        "t": 231.867
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-3-c:q",
+        "t": 207.768,
+        "prompt": "The graph of $y = x^2$ is stretched vertically by a factor of $2$, reflected in the $x$-axis, and translated 1 unit left and 3 units up. Which is its equation?",
+        "choices": [
+          "$y = -2(x - 1)^2 + 3$",
+          "$y = -2(x + 1)^2 + 3$",
+          "$y = 2(x + 1)^2 + 3$",
+          "$y = -\\tfrac{1}{2}(x + 1)^2 + 3$"
+        ],
+        "answer": 1,
+        "working": "$a = -2$ (a stretch by $2$ and a reflection in the $x$-axis), $h = -1$ and $k = 3$."
+      }
+    ]
+  },
+  "m301-1-4": {
+    "lessonId": "m301-1-4",
+    "title": "Inverse of a Relation, Part 1: Interchanging x and y",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What an inverse is",
+        "t": 24.283
+      },
+      {
+        "title": "A set of points",
+        "t": 59.619
+      },
+      {
+        "title": "Domain and range swap",
+        "t": 112.048
+      },
+      {
+        "title": "Your turn",
+        "t": 151.224
+      },
+      {
+        "title": "Summary",
+        "t": 185.768
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-4:q",
+        "t": 165.204,
+        "prompt": "A function $f$ has domain $\\{x \\mid x \\ge 2\\}$ and range $\\{y \\mid y \\le 5\\}$. What is the domain of $f^{-1}$?",
+        "choices": [
+          "$\\{x \\mid x \\le 2\\}$",
+          "$\\{x \\mid x \\ge 2\\}$",
+          "$\\{x \\mid x \\ge 5\\}$",
+          "$\\{x \\mid x \\le 5\\}$"
+        ],
+        "answer": 3,
+        "working": "The domain of $f^{-1}$ is the range of $f$: all values at most $5$."
+      }
+    ]
   }
 }
