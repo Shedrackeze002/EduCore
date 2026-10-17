@@ -390,9 +390,10 @@ items ship or decisions change.
    parent (not an administrator: the review is the teacher's), and shares it on request as a PDF
    or a private link.
 7. **Class forum** (the owner's idea, 15 October 2026). Students post questions for their class
-   and choose who sees each one. Proposed choices: private to the teacher, the whole class, or the
-   whole class without their name shown to classmates. The teacher can always see and moderate
-   every post (the students are children), with notifications for new posts and replies.
+   and choose who sees each one: private to the teacher, the whole class, or the whole class
+   without their name shown to classmates (the owner agreed, 17 October 2026). The teacher can
+   always see and moderate every post (the students are children), with notifications for new
+   posts and replies.
 8. **Other subjects**, once mathematics is complete.
 9. **An introduction video for Gradileo** (the owner's idea, 15 October 2026), made when the
    platform is about 80% ready: why students, teachers and parents should use it, covering every

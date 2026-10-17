@@ -33342,5 +33342,56 @@
         "working": "$x = 3$ gives $(x - 3)$ in the denominator, the intercept $-2$ gives $(x + 2)$ in the numerator, and equal degrees give the horizontal asymptote $y = a$, so $a = -1$."
       }
     ]
+  },
+  "m301-8-3": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 1: Solving Algebraically",
+    "duration": 246,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 22.546
+      },
+      {
+        "title": "One solution",
+        "t": 57.621
+      },
+      {
+        "title": "A quadratic",
+        "t": 103.876
+      },
+      {
+        "title": "Multiply every term",
+        "t": 158.33
+      },
+      {
+        "title": "Your turn",
+        "t": 185
+      },
+      {
+        "title": "Summary",
+        "t": 222.833
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3:q",
+        "t": 192.966,
+        "prompt": "Solve $\\dfrac{x + 7}{x - 2} = 4$.",
+        "choices": [
+          "$x = 3$",
+          "$x = 5$",
+          "$x = 2$",
+          "$x = -5$"
+        ],
+        "answer": 1,
+        "working": "$x \\ne 2$. Multiply by $x - 2$: $x + 7 = 4x - 8$, so $15 = 3x$ and $x = 5$. Check: $\\dfrac{12}{3} = 4$."
+      }
+    ]
   }
 }
