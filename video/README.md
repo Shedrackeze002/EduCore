@@ -62,7 +62,7 @@ In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, 
 or KaTeX sets it as subtraction ("− 3"); the script check asks for that too. On screen, write
 money in text as `\$4`, as in the lessons, and keep it out of `$...$` maths.
 Words the voice gets wrong are respelled for it in `speechText` (`src/video/words.ts`): "biweekly"
-is voiced as "bi-weekly", "deci" as "dessy", "break-even" as "break even" (it came out "Bray-Keevan"), "GST", "HST" and "EI" letter by letter (the voice often made "GST" sound like "GSD", and "EI" like "I"), hyphenated sizes ("eight-by-twelve") as
+is voiced as "bi-weekly", "deci" as "dessy", "break-even" as "break even" (it came out "Bray-Keevan"), "cosecant" as "co-secant" (it came out "co-second"), "GST", "HST" and "EI" letter by letter (the voice often made "GST" sound like "GSD", and "EI" like "I"), hyphenated sizes ("eight-by-twelve") as
 separate words, and a lone letter with 's ("Route B's", which came out "Route B to Cast") by the
 letter's name ("Bee's"); the captions keep the script's spelling. Add a word there when a check finds one.
 After each build, listen to the lines that `pronunciation.txt` marks CHECK.
