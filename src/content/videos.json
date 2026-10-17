@@ -32298,5 +32298,570 @@
         "working": "$4^{x} = 2^{2x}$ and $8^{x - 1} = 2^{3(x - 1)} = 2^{3x - 3}$. So $2x = 3x - 3$, and $x = 3$."
       }
     ]
+  },
+  "m301-7-3-c": {
+    "lessonId": "m301-7-3",
+    "title": "Solving Exponential Equations, Part 3: Products, Quotients, Radicals and Half-Life",
+    "duration": 284,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The exponent laws",
+        "t": 22.572
+      },
+      {
+        "title": "A quotient",
+        "t": 39.717
+      },
+      {
+        "title": "A radical",
+        "t": 90.361
+      },
+      {
+        "title": "A quadratic exponent",
+        "t": 119.986
+      },
+      {
+        "title": "Half-life",
+        "t": 160.393
+      },
+      {
+        "title": "Your turn",
+        "t": 212.382
+      },
+      {
+        "title": "Summary",
+        "t": 254.055
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-3-c:q",
+        "t": 229.493,
+        "prompt": "An isotope has a half-life of $5$ days, so the mass left from a $96\\text{ mg}$ sample is $A = 96\\left(\\frac{1}{2}\\right)^{\\frac{t}{5}}$. When will $3\\text{ mg}$ remain?",
+        "choices": [
+          "$25$ days",
+          "$5$ days",
+          "$32$ days",
+          "$160$ days"
+        ],
+        "answer": 0,
+        "working": "$\\left(\\frac{1}{2}\\right)^{\\frac{t}{5}} = \\frac{3}{96} = \\frac{1}{32} = \\left(\\frac{1}{2}\\right)^{5}$, so $\\frac{t}{5} = 5$ and $t = 25$ days."
+      }
+    ]
+  },
+  "m301-7-4": {
+    "lessonId": "m301-7-4",
+    "title": "Understanding Logarithms, Part 1: Logarithms Are Exponents",
+    "duration": 250,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a logarithm is",
+        "t": 24.481
+      },
+      {
+        "title": "Two forms",
+        "t": 74.169
+      },
+      {
+        "title": "The common logarithm",
+        "t": 100.253
+      },
+      {
+        "title": "Converting between forms",
+        "t": 137.564
+      },
+      {
+        "title": "Your turn",
+        "t": 183.292
+      },
+      {
+        "title": "Summary",
+        "t": 219.457
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-4:q",
+        "t": 193.789,
+        "prompt": "Write $5^{-2} = \\frac{1}{25}$ in logarithmic form.",
+        "choices": [
+          "$\\log_{5} (-2) = \\frac{1}{25}$",
+          "$\\log_{\\frac{1}{25}} 5 = -2$",
+          "$\\log_{5} \\frac{1}{25} = -2$",
+          "$\\log_{-2} \\frac{1}{25} = 5$"
+        ],
+        "answer": 2,
+        "working": "The base $5$ stays the base, and the exponent $-2$ becomes the value of the logarithm: $\\log_{5} \\frac{1}{25} = -2$."
+      }
+    ]
+  },
+  "m301-7-4-b": {
+    "lessonId": "m301-7-4",
+    "title": "Understanding Logarithms, Part 2: Evaluating and Estimating Logarithms",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four facts",
+        "t": 22.776
+      },
+      {
+        "title": "Evaluating",
+        "t": 58.314
+      },
+      {
+        "title": "A fractional value",
+        "t": 98.977
+      },
+      {
+        "title": "A common mistake",
+        "t": 129.847
+      },
+      {
+        "title": "Estimating",
+        "t": 161.305
+      },
+      {
+        "title": "Your turn",
+        "t": 211.982
+      },
+      {
+        "title": "Summary",
+        "t": 244.722
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-4-b:q",
+        "t": 218.88,
+        "prompt": "Evaluate $\\log_{9} 27$.",
+        "choices": [
+          "$3$",
+          "$\\frac{1}{3}$",
+          "$\\frac{2}{3}$",
+          "$\\frac{3}{2}$"
+        ],
+        "answer": 3,
+        "working": "If $9^{y} = 27$, then $3^{2y} = 3^{3}$, so $2y = 3$ and $y = \\frac{3}{2}$."
+      }
+    ]
+  },
+  "m301-7-4-c": {
+    "lessonId": "m301-7-4",
+    "title": "Understanding Logarithms, Part 3: Solving Equations by Converting",
+    "duration": 195,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An unknown argument",
+        "t": 19.529
+      },
+      {
+        "title": "An unknown base",
+        "t": 57.955
+      },
+      {
+        "title": "A logarithm inside a logarithm",
+        "t": 97.541
+      },
+      {
+        "title": "Your turn",
+        "t": 130.677
+      },
+      {
+        "title": "Summary",
+        "t": 168.404
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-4-c:q",
+        "t": 138.471,
+        "prompt": "Solve $\\log_{x} 16 = -2$.",
+        "choices": [
+          "$x = \\pm\\frac{1}{4}$",
+          "$x = \\frac{1}{4}$",
+          "$x = -8$",
+          "$x = 4$"
+        ],
+        "answer": 1,
+        "working": "$x^{-2} = 16$, so $x^{2} = \\frac{1}{16}$ and $x = \\pm\\frac{1}{4}$. The base must be positive, so $x = \\frac{1}{4}$."
+      }
+    ]
+  },
+  "m301-7-5": {
+    "lessonId": "m301-7-5",
+    "title": "Transformations of Logarithmic Functions, Part 1: The Inverse of an Exponential Function",
+    "duration": 272,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The inverse",
+        "t": 26.292
+      },
+      {
+        "title": "Reflecting in y = x",
+        "t": 66.018
+      },
+      {
+        "title": "Features swap",
+        "t": 112.211
+      },
+      {
+        "title": "Inverse and points",
+        "t": 168.582
+      },
+      {
+        "title": "Your turn",
+        "t": 206.697
+      },
+      {
+        "title": "Summary",
+        "t": 236.119
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-5:q",
+        "t": 214.93,
+        "prompt": "Which point is on the graph of $y = \\log_{3} x$?",
+        "choices": [
+          "$(9, 2)$",
+          "$(2, 9)$",
+          "$(0, 1)$",
+          "$(3, 0)$"
+        ],
+        "answer": 0,
+        "working": "$\\log_{3} 9 = 2$, because $3^{2} = 9$. The point $(2, 9)$ is on the inverse, $y = 3^{x}$."
+      }
+    ]
+  },
+  "m301-7-5-b": {
+    "lessonId": "m301-7-5",
+    "title": "Transformations of Logarithmic Functions, Part 2: Transforming Logarithmic Graphs",
+    "duration": 257,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The transformed function",
+        "t": 21.413
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 72.711
+      },
+      {
+        "title": "The graph",
+        "t": 103.639
+      },
+      {
+        "title": "A common mistake",
+        "t": 141.019
+      },
+      {
+        "title": "Your turn",
+        "t": 181.031
+      },
+      {
+        "title": "Summary",
+        "t": 222.796
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-5-b:q",
+        "t": 192.949,
+        "prompt": "State the vertical asymptote and the domain of $y = 3\\log\\left(-(x + 2)\\right) - 1$.",
+        "choices": [
+          "$x = -2$; $x > -2$",
+          "$x = 2$; $x < 2$",
+          "$x = -2$; $x < -2$",
+          "$x = -1$; $x < -1$"
+        ],
+        "answer": 2,
+        "working": "The argument must be positive: $-(x + 2) > 0$, so $x + 2 < 0$ and $x < -2$. The asymptote is $x = h = -2$."
+      }
+    ]
+  },
+  "m301-7-5-c": {
+    "lessonId": "m301-7-5",
+    "title": "Transformations of Logarithmic Functions, Part 3: Intercepts, Domains and Inverses",
+    "duration": 254,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An x-intercept",
+        "t": 26.917
+      },
+      {
+        "title": "A domain",
+        "t": 67.964
+      },
+      {
+        "title": "An inverse",
+        "t": 102.534
+      },
+      {
+        "title": "Asymptotes swap",
+        "t": 145.617
+      },
+      {
+        "title": "Your turn",
+        "t": 181.008
+      },
+      {
+        "title": "Summary",
+        "t": 215.949
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-5-c:q",
+        "t": 191.446,
+        "prompt": "Find the $x$-intercept of $y = 3\\log_{2}(x + 1) - 6$.",
+        "choices": [
+          "$x = 1$",
+          "$x = 63$",
+          "$x = 7$",
+          "$x = 3$"
+        ],
+        "answer": 3,
+        "working": "$0 = 3\\log_{2}(x + 1) - 6$, so $\\log_{2}(x + 1) = 2$. Then $x + 1 = 2^{2} = 4$, and $x = 3$."
+      }
+    ]
+  },
+  "m301-7-6": {
+    "lessonId": "m301-7-6",
+    "title": "Laws of Logarithms, Part 1: The Product and Quotient Laws",
+    "duration": 239,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The two laws",
+        "t": 22.835
+      },
+      {
+        "title": "Why they work",
+        "t": 60.151
+      },
+      {
+        "title": "Combine, then evaluate",
+        "t": 107.756
+      },
+      {
+        "title": "A common mistake",
+        "t": 142.115
+      },
+      {
+        "title": "Your turn",
+        "t": 177.998
+      },
+      {
+        "title": "Summary",
+        "t": 210.343
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-6:q",
+        "t": 186.972,
+        "prompt": "Evaluate $\\log_{3} 54 - \\log_{3} 2$.",
+        "choices": [
+          "$27$",
+          "$3$",
+          "$\\log_{3} 52$",
+          "$2$"
+        ],
+        "answer": 1,
+        "working": "$\\log_{3} 54 - \\log_{3} 2 = \\log_{3} \\dfrac{54}{2} = \\log_{3} 27 = 3$, because $3^{3} = 27$."
+      }
+    ]
+  },
+  "m301-7-6-b": {
+    "lessonId": "m301-7-6",
+    "title": "Laws of Logarithms, Part 2: The Power Law and Change of Base",
+    "duration": 252,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The power law",
+        "t": 20.965
+      },
+      {
+        "title": "Use the power law first",
+        "t": 64.093
+      },
+      {
+        "title": "Change of base",
+        "t": 98.953
+      },
+      {
+        "title": "Evaluate with a calculator",
+        "t": 141.493
+      },
+      {
+        "title": "Your turn",
+        "t": 181.514
+      },
+      {
+        "title": "Summary",
+        "t": 214.731
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-6-b:q",
+        "t": 189.363,
+        "prompt": "Evaluate $\\log_{2} 20$ to the nearest hundredth.",
+        "choices": [
+          "$4.32$",
+          "$1.00$",
+          "$0.23$",
+          "$10$"
+        ],
+        "answer": 0,
+        "working": "$\\log_{2} 20 = \\dfrac{\\log 20}{\\log 2} \\approx \\dfrac{1.3010}{0.3010} \\approx 4.32$. Check: $2^{4} = 16 < 20 < 32 = 2^{5}$."
+      }
+    ]
+  },
+  "m301-7-6-c": {
+    "lessonId": "m301-7-6",
+    "title": "Laws of Logarithms, Part 3: Expanding and Condensing",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Expanding",
+        "t": 24.865
+      },
+      {
+        "title": "Condensing",
+        "t": 62.576
+      },
+      {
+        "title": "In terms of given values",
+        "t": 100.65
+      },
+      {
+        "title": "Your turn",
+        "t": 153.257
+      },
+      {
+        "title": "Summary",
+        "t": 192.527
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-6-c:q",
+        "t": 166.867,
+        "prompt": "Given $\\log_{5} 2 = p$ and $\\log_{5} 3 = q$, write $\\log_{5} 60$ in terms of $p$ and $q$.",
+        "choices": [
+          "$2p + q$",
+          "$p^{2}q + 1$",
+          "$2p + q + 1$",
+          "$2p + q + 5$"
+        ],
+        "answer": 2,
+        "working": "$60 = 2^{2} \\times 3 \\times 5$, so $\\log_{5} 60 = 2\\log_{5} 2 + \\log_{5} 3 + \\log_{5} 5 = 2p + q + 1$."
+      }
+    ]
+  },
+  "m301-7-7": {
+    "lessonId": "m301-7-7",
+    "title": "Logarithmic and Exponential Equations, Part 1: Solving Logarithmic Equations",
+    "duration": 299,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 22.56
+      },
+      {
+        "title": "A root to reject",
+        "t": 64.954
+      },
+      {
+        "title": "Checking the roots",
+        "t": 107.546
+      },
+      {
+        "title": "A quotient",
+        "t": 153.861
+      },
+      {
+        "title": "A common mistake",
+        "t": 199.318
+      },
+      {
+        "title": "Your turn",
+        "t": 235.47
+      },
+      {
+        "title": "Summary",
+        "t": 271.689
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-7:q",
+        "t": 245.234,
+        "prompt": "Solve $\\log_{6} x + \\log_{6}(x - 5) = 2$.",
+        "choices": [
+          "$x = -4$",
+          "$x = 9$ or $x = -4$",
+          "$x = 4$",
+          "$x = 9$"
+        ],
+        "answer": 3,
+        "working": "$x(x - 5) = 6^{2} = 36$, so $x^{2} - 5x - 36 = 0$ and $(x - 9)(x + 4) = 0$. $x = -4$ makes $\\log_{6} x$ undefined, so it is extraneous."
+      }
+    ]
   }
 }
