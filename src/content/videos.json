@@ -33852,5 +33852,56 @@
         "working": "$f(g(x)) = (x + 3)^2 - 1 = x^2 + 6x + 9 - 1 = x^2 + 6x + 8$"
       }
     ]
+  },
+  "m301-8-5-d": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 4: The Domain of a Composite Function",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two conditions",
+        "t": 20.729
+      },
+      {
+        "title": "Square roots",
+        "t": 45.66
+      },
+      {
+        "title": "A hidden restriction",
+        "t": 100.61
+      },
+      {
+        "title": "Find the domain first",
+        "t": 144.973
+      },
+      {
+        "title": "Your turn",
+        "t": 163.768
+      },
+      {
+        "title": "Summary",
+        "t": 202.621
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-d:q",
+        "t": 176.67,
+        "prompt": "Let $f(x) = \\sqrt{x}$ and $g(x) = x + 5$. What is the domain of $f(g(x))$?",
+        "choices": [
+          "$\\{x \\mid x \\ge 0,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge 5,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge -5,\\ x \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 3,
+        "working": "$f(g(x)) = \\sqrt{x + 5}$. The input of $f$ must not be negative: $x + 5 \\ge 0$, so $x \\ge -5$."
+      }
+    ]
   }
 }
