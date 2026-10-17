@@ -210,7 +210,8 @@ Lessons learned while scripting (the script check does not catch these):
 - The voice blurs a few phrases into other words: "In proofs" (heard as "Improves"), "Congruent
   figures" ("Congrant"), "prove congruence," ("Congress"), "the rate r" ("the radar"), "Rewrite"
   at the start of a sentence ("We're right") and the name Rhea ("Rhea takes" came out "retakes";
-  Maya is clear). When a key term is blurred, reword
+  Maya is clear). A set or point named "A" that starts a sentence before a lowercase word ("A
+  equals…") is read as the word "a": write "Set A equals…". When a key term is blurred, reword
   the line ("Figures that are congruent…") and check it with `video/tools/hear.ts`.
 - Use `\dfrac` for fractions in Math 20-4 maths lines, and state every rate, tax or rule inside
   the question (see `CLAUDE.md`).
