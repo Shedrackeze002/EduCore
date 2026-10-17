@@ -33703,5 +33703,56 @@
         "working": "$f$ needs $x + 2 \\ge 0$, so $x \\ge -2$. The denominator $g(x) = x - 3$ is $0$ at $x = 3$, so $3$ is excluded too."
       }
     ]
+  },
+  "m301-8-5": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 1: A Function of a Function",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a composite function is",
+        "t": 23.306
+      },
+      {
+        "title": "Fahrenheit to kelvins",
+        "t": 56.725
+      },
+      {
+        "title": "Order matters",
+        "t": 103.521
+      },
+      {
+        "title": "Inside first",
+        "t": 151.239
+      },
+      {
+        "title": "Your turn",
+        "t": 168.557
+      },
+      {
+        "title": "Summary",
+        "t": 203.588
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5:q",
+        "t": 181.353,
+        "prompt": "For $f(x) = 2x - 5$ and $g(x) = x^2 + 1$, evaluate $g(f(3))$.",
+        "choices": [
+          "$15$",
+          "$10$",
+          "$2$",
+          "$1$"
+        ],
+        "answer": 2,
+        "working": "Inside first: $f(3) = 6 - 5 = 1$. Then $g(1) = 1 + 1 = 2$."
+      }
+    ]
   }
 }
