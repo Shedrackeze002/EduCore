@@ -287,9 +287,9 @@ items ship or decisions change.
      m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The Math 10-3 and 10-4 ones keep
      their course's old pace (`video/build.ts --pace old`); every one came out the same length
      as before, and the check now hears "GST" and "EI" in all of them.
-   - In progress: Math 30-1. Units 1 to 7 and 9 are scripted (118 videos), with new figure
-     helpers for π axes and the unit circle; Unit 8 is being written. Then the course renders
-     unit by unit into Drive. From Math 30-1 on, the right "Your turn" answer is spread over A to
+   - In progress: Math 30-1. All nine units are scripted (137 videos), with new figure helpers
+     for π axes, the unit circle and rational functions. Next, the course renders unit by unit
+     into Drive. From Math 30-1 on, the right "Your turn" answer is spread over A to
      D, because the lesson player shows the choices in the video's order and an answer that is
      always A gives itself away. "Cosecant" is now voiced as "co-secant" (it came out
      "co-second").
