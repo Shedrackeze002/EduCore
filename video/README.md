@@ -49,7 +49,8 @@ The voice is Kokoro (82M parameters, Apache 2.0), which runs on the CPU, so narr
 nothing however many videos we make. The default voice is `af_heart` at speed 0.85, about 150 to
 155 spoken words a minute, with pauses between lines and after each new step so a viewer can read
 it (`TIMING` in `src/video/timeline.ts`). The owner chose this calm pace on 14 October 2026 after
-comparing it with speed 1, which was too fast. Kokoro reads numbers,
+comparing it with speed 1, which was too fast. Math 10C, 10-3 and 10-4 were made at the old pace and keep
+it, so a video of theirs made again uses `--pace old` (speed 1, shorter pauses). Kokoro reads numbers,
 decimals and units as written ("9.4 cm", "0.75"); write maths in words ("tan theta equals x over
 fifteen") and spell out letters with spaces ("triangle A B C"). Write four-digit whole numbers
 with a comma ("5,280"): without one, Kokoro reads them like years ("fifty-two eighty"), and the
@@ -61,7 +62,7 @@ In maths, put a minus that follows a space or a label in braces (`\qquad {-3}`, 
 or KaTeX sets it as subtraction ("− 3"); the script check asks for that too. On screen, write
 money in text as `\$4`, as in the lessons, and keep it out of `$...$` maths.
 Words the voice gets wrong are respelled for it in `speechText` (`src/video/words.ts`): "biweekly"
-is voiced as "bi-weekly", "deci" as "dessy", "break-even" as "break even" (it came out "Bray-Keevan"), "GST", "HST" and "EI" letter by letter (the voice often made "GST" sound like "GSD", and "EI" like "I"), hyphenated sizes ("eight-by-twelve") as
+is voiced as "bi-weekly", "deci" as "dessy", "break-even" as "break even" (it came out "Bray-Keevan"), "cosecant" as "co-secant" (it came out "co-second"), "GST", "HST" and "EI" letter by letter (the voice often made "GST" sound like "GSD", and "EI" like "I"), hyphenated sizes ("eight-by-twelve") as
 separate words, and a lone letter with 's ("Route B's", which came out "Route B to Cast") by the
 letter's name ("Bee's"); the captions keep the script's spelling. Add a word there when a check finds one.
 After each build, listen to the lines that `pronunciation.txt` marks CHECK.
@@ -139,6 +140,11 @@ See `src/video/script.ts` for every element and option. In short:
   part 2, and so on.
 - Start with a title scene, give each later scene a `chapter` (these become YouTube chapters),
   end with a "Your turn" question and a summary.
+- Gradileo is for learners in every English-speaking country, not only Alberta. From Math 30-2
+  on, the title scene's kicker names the topic, not the Alberta course: the unit's title and the
+  part, `kicker: 'Trigonometric Identities · Part 2'` (Math 10C to 30-1 keep
+  `'Math 30-1 · Lesson 6.2 · Part 2'`). Say "this lesson" or "the next part", never a course name
+  or lesson number, in the narration.
 - Colours have fixed meanings: `[[theta:…]]`, `[[opp:…]]`, `[[adj:…]]` and `[[hyp:…]]` in text,
   `\thc{}`, `\opp{}`, `\adj{}` and `\hyp{}` in maths (θ yellow, opposite orange, adjacent blue,
   hypotenuse pink). Colour is never the only cue: sides are always named too.
@@ -191,12 +197,19 @@ Lessons learned while scripting (the script check does not catch these):
   and a comma would make it a quantity.
 - Do not give invented people a pronoun unless the lesson does; use their name again.
 - Keep a "Your turn" question in a `center` scene: in a `split` scene it is cut off.
+- Spread the correct "Your turn" answer over A, B, C and D from video to video: the lesson player
+  asks the question with the choices in the video's order, so an answer that is always A gives
+  itself away (Math 10C to 20-4 mostly have A; from Math 30-1 on it varies). Name the right
+  letters in the answer line, and write "Choice A" when a sentence starts with it, or the voice
+  reads it as the word "a".
 - Chapter titles cannot contain `$`.
 - Keep bar graph category labels to a word or two, or they overlap.
 - Break long maths over several lines (or narrow `leftWidth`) so it fits its column; give a
   crowded figure its own scene.
 - The voice blurs a few phrases into other words: "In proofs" (heard as "Improves"), "Congruent
-  figures" ("Congrant") and "prove congruence," ("Congress"). When a key term is blurred, reword
+  figures" ("Congrant"), "prove congruence," ("Congress"), "the rate r" ("the radar"), "Rewrite"
+  at the start of a sentence ("We're right") and the name Rhea ("Rhea takes" came out "retakes";
+  Maya is clear). When a key term is blurred, reword
   the line ("Figures that are congruent…") and check it with `video/tools/hear.ts`.
 - Use `\dfrac` for fractions in Math 20-4 maths lines, and state every rate, tax or rule inside
   the question (see `CLAUDE.md`).
@@ -211,6 +224,34 @@ the variables in the environment's settings (not in the repository, which is pub
 started after they were added sees them. The tool never prints their values.
 
 ## Uploading to YouTube
+
+`youtube.txt` leads with the topic: the title is the video's own title and the brand, and the
+description gives the topic, the level in terms used around the world ("Grade 12 / Year 13 ·
+pre-calculus"), the chapters and, last, the curriculum it follows (Alberta Math 30-1, lesson 1.1).
+When that wording changes (`src/video/youtube-text.ts`), write it again for every finished video
+and replace it in Drive, with no rendering, even for courses already cleared from the session:
+
+    npx tsx video/tools/drive-upload.ts --text-only math-10c math-20-1 …
+
+For videos already on YouTube, `video/tools/youtube-update.ts` brings their title, description
+and tags up to date through the YouTube API (no uploading again). It finds each video's script by
+its title, and by the course in its description when two scripts share a title, and changes only
+what differs; `--dry-run` lists the changes first:
+
+    npx tsx video/tools/youtube-update.ts --dry-run
+    npx tsx video/tools/youtube-update.ts
+
+### YouTube API
+
+`youtube-update.ts` signs in with `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET` and
+`YOUTUBE_REFRESH_TOKEN`, set in the environment's settings like the Drive ones (a session started
+after they were added sees them). They come from a Google Cloud project with the YouTube Data
+API v3 enabled, the `youtube.force-ssl` scope on its consent screen (published **In production**,
+or the sign-in lapses after 7 days; it does not need Google's verification, since only the
+channel's own account signs in), and a Web application OAuth client whose refresh token was made
+in the OAuth 2.0 Playground while signed in as the channel. The API allows 10,000 units a day; an
+update costs 50, so about 200 videos a day. Uploading through the API is possible too, but videos
+uploaded by a project Google has not audited stay private.
 
 1. Upload `<id>.mp4` to the Gradileo channel.
 2. Copy the title, description and tags from `youtube.txt`.

@@ -281,23 +281,54 @@ items ship or decisions change.
      eighty", "out of 100", "the litres used", "less interest later", a swallowed sentence about
      borrowing, "use C equals", "Use one mile is about", "put both lengths"). Every Math 20 course
      is now rendered and in Drive (376 videos).
-   - Waiting on the owner: whether to re-render ten finished videos from earlier courses that say
-     "GST" or "EI" (Math 10-3: m103-1-3, m103-1-3-b, m103-2-4, m103-2-4-b, m103-4-4-b,
-     m103-5-4-b; Math 10-4: m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The check
-     heard "GSD" or "I" in some of their lines; about an hour to redo and replace in Drive.
-   - Next: script and render the other courses in order (Math 30-1, 30-2, 30-3, 31, 5, 6, 7, 8
-     and 9), explaining each lesson as simply as possible, with parts split by idea.
+   - Done (the owner said yes, 16 October 2026): the ten finished videos from earlier courses that
+     say "GST" or "EI" were made again with them voiced letter by letter, and replaced in Drive
+     (Math 10-3: m103-1-3, m103-1-3-b, m103-2-4, m103-2-4-b, m103-4-4-b, m103-5-4-b; Math 10-4:
+     m104-3-3, m104-3-3-b; Math 20-3: m203-5-3-c, m203-6-1). The Math 10-3 and 10-4 ones keep
+     their course's old pace (`video/build.ts --pace old`); every one came out the same length
+     as before, and the check now hears "GST" and "EI" in all of them.
+   - Built: Math 30-1, all 137 videos at the calm pace (3:15 to 6:21, about 10.5 hours in all),
+     rendered unit by unit and uploaded to Drive (checked: Drive holds every file of all 137), with
+     new figure helpers for π axes, the unit circle and rational functions. From Math 30-1 on, the
+     right "Your turn" answer is spread over A to D, because the lesson player shows the choices in
+     the video's order and an answer that is always A gives itself away. The pronunciation check's
+     real slips were fixed and those videos rendered again: "cosecant" is now voiced as
+     "co-secant" for every course (it came out "co-second"); "f of three x, plus twelve", whose
+     pause read as f(3x) + 12, "Rewrite everything" ("We're right"), "If it has sine two x" ("If it
+     is"), "the rate r" ("the radar") and a swallowed "c" in "log base c of M N" were reworded; and
+     the job-sharing example's Rhea (heard as "re-") is now Maya, in the lesson as well. Every Math
+     10 to 30-1 course is rendered and in Drive (706 videos).
+   - Decided (the owner, 17 October 2026): the courses already made (Math 10C to 20-4), where the
+     right "Your turn" answer is almost always A, stay as they are. Only new courses spread it.
+   - Decision (the owner, 17 October 2026): videos are for learners anywhere, not only Alberta.
+     From Math 30-2 on, the title card leads with the topic, not the Alberta course and lesson
+     number, and the YouTube title, description and tags of every video (finished ones included)
+     lead with the topic and give the level in terms used around the world. The 680 finished
+     videos keep their title cards; only their YouTube text changes, which needs no re-render.
+   - YouTube by API (the owner would like it automated): the YouTube Data API can rename videos
+     (about 200 a day on the default quota) and upload them with captions and thumbnails. Uploads
+     from an API project that Google has not audited stay private, so automatic uploading waits
+     for Google's YouTube API audit and a larger quota. The owner enables the API on the Google
+     Cloud project the Drive uploads use and signs in once as the channel's account; the refresh
+     token goes in the environment's secrets.
+   - Done (17 October 2026): the owner set up the API and saved `YOUTUBE_CLIENT_ID`,
+     `YOUTUBE_CLIENT_SECRET` and `YOUTUBE_REFRESH_TOKEN`; every finished video's YouTube text in
+     Drive leads with the topic; `video/tools/youtube-update.ts` renames the videos on the channel.
+     Next: run it on the 16 Math 10C videos already on YouTube, from a session that sees the new
+     variables.
+   - Next: script and render the other courses in order (Math 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
+     explaining each lesson as simply as possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
    has no social pages yet. Open them, then post three times a week across all of them, with
    Claude coordinating: preparing each week's posts, keeping the schedule and reporting. It runs
    alongside the explainer videos, which render in the background.
-   - Pages (to confirm with the owner): Instagram, TikTok, Facebook, LinkedIn and YouTube Shorts on
-     the YouTube channel, all with the same handle (`@gradileo`, or `@gradileomath` if taken). The
+   - Pages (the owner's choice, 16 October 2026): Facebook, Instagram, LinkedIn and TikTok, with
+     the same handle on each where it is free (`@gradileo`, or `@gradileomath` if taken). The
      audience is high-school students (the platforms are for ages 13 and up), parents and
      teachers; posts about the Grade 5 to 9 courses speak to parents and teachers, not to children.
-   - The owner opens the accounts (sign-up needs a person, a phone and acceptance of each
-     platform's terms), with admin@gradileo.com as the email and two-step sign-in on. Claude never
-     handles the passwords.
+   - The owner opens the accounts this weekend (sign-up needs a person, a phone and acceptance of
+     each platform's terms), with admin@gradileo.com as the email and two-step sign-in on, and
+     shares the links. Claude never handles the passwords.
    - Profile kit, by Claude: profile picture (`video/out/channel/profile-800x800.png`), a cover
      or banner in each platform's size, a bio within each platform's limit, and the link to
      gradileo.com, in Drive under `Gradileo social/`.
@@ -306,11 +337,27 @@ items ship or decisions change.
      comments), a worked example or study tip as an image or carousel, and news about Gradileo
      for students, parents and teachers. Each post links to the full video or lesson. Show the
      owner a sample week before the first one goes out.
-   - Scheduling (to settle with the owner): each platform's own free scheduler (Meta Business
-     Suite for Facebook and Instagram, TikTok's web scheduler, YouTube Studio, LinkedIn), or one
-     tool for all of them such as Buffer. Each week Claude puts the next week's posts in Drive
-     (media, caption for each platform and posting time) for scheduling; where a tool can be
-     connected to Claude, Claude schedules them directly. A weekly scheduled task keeps it going.
+   - Posting by API (the owner would like it automated; checked 16 October 2026, to confirm in
+     each developer site):
+     - Facebook and Instagram: one Meta developer app. Its own admins' Page and Instagram
+       professional account (Business or Creator, linked to the Page) can post through the Graph
+       API without App Review, since the app only acts on our accounts. Facebook can schedule a
+       post 10 minutes to 30 days ahead; Instagram allows 100 posts a day. Feasible now.
+     - TikTok: the Content Posting API works at once, but an app that has not passed TikTok's audit
+       can only post privately. The audit asks for a demo video, the privacy policy and the
+       verified domain (gradileo.com has both), a few weeks. Until then the API can put each video
+       in the account's drafts, and the owner taps Post in the app.
+     - LinkedIn: posting as a company page needs the Community Management API, which LinkedIn
+       grants after reviewing the app, and only for a verified company page.
+     - Simplest overall: a scheduling service with apps already approved (Buffer and others post
+       to all four), at a monthly cost. Otherwise our own scheduled task posts to Facebook and
+       Instagram from the start, TikTok goes to drafts until the audit, and LinkedIn waits for its
+       review.
+     - Keys: the access tokens go in the environment's secrets (never in chat or the repository);
+       Claude names them only.
+   - Each week Claude prepares the next week's posts (media, a caption for each platform and the
+     posting time) in Drive, and posts or schedules them where an API or tool allows. A weekly
+     scheduled task keeps it going.
 3. **Join a class by link, with just a name** (the owner's decision, 15 October 2026: collect as
    little as possible, and adjust later if needed). The teacher shares the class link; a student
    opens it and types a first and last name, nothing else: no email, username or password.
@@ -339,7 +386,21 @@ items ship or decisions change.
      "Hide my name from the class" (then "A student asks"; the owner's decision, 16 October 2026,
      that names show by default); the teacher always sees who asked. Present mode's settings can
      turn questions off, for example while preparing at home.
-5. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
+5. **Gradileo for every English-speaking learner** (the owner's decision, 17 October 2026).
+   Gradileo is for students anywhere who need help with mathematics, in the US, the UK, Africa
+   and every other English-speaking country, and is sold to anyone, not only Alberta schools.
+   - Topics first: lessons organized by plain topic names and levels (for example "Functions and
+     transformations", about Grade 11–12 or Year 12–13); the Alberta courses stay as one way of
+     grouping them.
+   - Curriculum maps: a learner picks their system and sees the same lessons in its order and
+     with its names: US Common Core (Algebra I, Geometry, Algebra II, Precalculus), the UK (GCSE,
+     A level), African systems (for example WAEC in West Africa, KCSE in Kenya and CAPS in South
+     Africa), IB, Cambridge IGCSE and others. Fill the gaps each map shows.
+   - Placement and sign-up ask for the country or curriculum and the age or year first; the
+     landing page speaks to learners everywhere.
+   - Local details: units, currency and spelling to suit the learner where it matters; examples
+     tied to one country (Canadian GST and EI) say so in the question.
+6. **AI question builder for quizzes, exams and assignments.** In the assignment builder the
    teacher chooses the kind of work (quiz, exam, homework, exercise, activity, classwork and so
    on), the question formats and every other setting, then presses one button (name to settle;
    for example "Draft with AI") and the AI drafts the questions from the course curriculum and
@@ -358,17 +419,18 @@ items ship or decisions change.
      marking guides. The teacher who asked for them previews everything, regenerates or edits
      single questions, and publishes; nothing reaches students without that teacher's approval
      (no administrator review in between).
-6. **AI report cards** (the owner's idea, 15 October 2026). For each student, from their mastery
+7. **AI report cards** (the owner's idea, 15 October 2026). For each student, from their mastery
    and work: how they are doing, strengths, next steps, tips for the student and for parents, and
    feedback. The teacher who asks for it reviews and edits it before it reaches the student or a
    parent (not an administrator: the review is the teacher's), and shares it on request as a PDF
    or a private link.
-7. **Class forum** (the owner's idea, 15 October 2026). Students post questions for their class
-   and choose who sees each one. Proposed choices: private to the teacher, the whole class, or the
-   whole class without their name shown to classmates. The teacher can always see and moderate
-   every post (the students are children), with notifications for new posts and replies.
-8. **Other subjects**, once mathematics is complete.
-9. **An introduction video for Gradileo** (the owner's idea, 15 October 2026), made when the
+8. **Class forum** (the owner's idea, 15 October 2026). Students post questions for their class
+   and choose who sees each one: private to the teacher, the whole class, or the whole class
+   without their name shown to classmates (the owner agreed, 17 October 2026). The teacher can
+   always see and moderate every post (the students are children), with notifications for new
+   posts and replies.
+9. **Other subjects**, once mathematics is complete.
+10. **An introduction video for Gradileo** (the owner's idea, 15 October 2026), made when the
    platform is about 80% ready: why students, teachers and parents should use it, covering every
    feature, in the same style as the explainer videos.
 
@@ -411,10 +473,12 @@ items ship or decisions change.
 
 ## Technical follow-ups
 
-- Check the K&E, Math 10-3, Grade 11 and Grade 12 outcome wording word for word against Alberta's
+- Lower priority since Gradileo is no longer aimed at Alberta first (17 October 2026): check the
+  K&E, Math 10-3, Grade 11 and Grade 12 outcome wording word for word against Alberta's
   program of studies and *Outcomes with Assessment Standards*. Their hosts are now reachable from
   the build environment (Grades 5 to 9 were checked this way).
-- Update Math 7, 8 and 9 to Alberta's new Grades 7–9 curriculum before it becomes mandatory in
+- Still worth doing, as topics most countries teach at these ages: update Math 7, 8 and 9 to
+  Alberta's new Grades 7–9 curriculum before it becomes mandatory in
   September 2027 (functions, irrational numbers, scientific notation, quadratic equations and
   more). Optional classroom piloting runs in 2026–27.
 - Done: the *Deploy Supabase backend* workflow works. Its secrets (`SUPABASE_ACCESS_TOKEN`,

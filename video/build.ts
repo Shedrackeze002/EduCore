@@ -2,7 +2,7 @@
  * Builds explainer videos from their scripts (src/content/<course>/videos/<id>.ts):
  *
  *   npx tsx video/build.ts m10c-2-1 [more ids] [--voice af_heart] [--speed 1] [--fps 30]
- *                                   [--stills] [--quick] [--no-qa] [--thumbnail]
+ *                                   [--pace old] [--stills] [--quick] [--no-qa] [--thumbnail]
  *
  * For each video it voices every line (Kokoro, cached in video/.cache), lays out the timeline from
  * the narration, renders every frame of video/stage.html in Chromium, and writes to video/out/<id>/:
@@ -14,6 +14,8 @@
  * --quick   estimates the narration from the words instead of voicing it (with --stills).
  * --no-qa   skips the Whisper pronunciation check.
  * --thumbnail  makes only the thumbnail (after a change to the script's figures or the design).
+ * --pace old   the faster pace of Math 10C, 10-3 and 10-4 (voice speed 1, shorter pauses), to make
+ *              one of their videos again so it matches the rest of its course.
  */
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
@@ -21,11 +23,11 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { chromium, type Browser, type Page } from '@playwright/test';
 import { createServer } from 'vite';
-import { courseOfLesson, lessonById } from '../engine/curriculum/index.ts';
 import { captions, toSrt, toVtt } from '../src/video/captions.ts';
-import { BRAND, checkScript, type Explainer } from '../src/video/script.ts';
+import { checkScript, type Explainer } from '../src/video/script.ts';
 import { speechText } from '../src/video/words.ts';
-import { clock, compile, youtubeChapters, type Timeline } from '../src/video/timeline.ts';
+import { clock, compile, OLD_PACE, TIMING, youtubeChapters, type Timeline } from '../src/video/timeline.ts';
+import { youtubeText } from '../src/video/youtube-text.ts';
 import { narrate, useCache, type Voice } from './lib/narrate.ts';
 import { normalise, transcribe, wer } from './lib/qa.ts';
 import { writeWav, type Pcm } from './lib/wav.ts';
@@ -35,7 +37,6 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'video/out');
 const CACHE = path.join(ROOT, 'video/.cache');
 const MANIFEST = path.join(ROOT, 'src/content/videos.json');
-const SITE = 'https://gradileo.com/';
 
 const args = process.argv.slice(2);
 const flag = (name: string) => args.includes(`--${name}`);
@@ -43,10 +44,12 @@ const option = (name: string, fallback: string) => {
   const i = args.indexOf(`--${name}`);
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 };
-const ids = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--voice', '--speed', '--fps'].includes(args[i - 1])));
+const ids = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--voice', '--speed', '--fps', '--pace'].includes(args[i - 1])));
 // Speed 0.85 gives about 150 to 155 spoken words a minute on plain sentences, a calm teaching pace
 // (Kokoro's speed is not proportional: 1 gave about 175, which felt rushed, and 0.9 only about 165).
-const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('speed', '0.85')) };
+const oldPace = option('pace', 'calm') === 'old';
+if (oldPace) Object.assign(TIMING, OLD_PACE);
+const voice: Voice = { name: option('voice', 'af_heart'), speed: Number(option('speed', oldPace ? '1' : '0.85')) };
 const FPS = Number(option('fps', '30'));
 /** Every video runs at least two minutes; a shorter one needs more in its script. */
 const MIN_SECONDS = 120;
@@ -140,31 +143,6 @@ async function renderVideo(page: Page, tl: Timeline, wav: string, file: string) 
   log(`  ${frames} frames, ${shots} drawn, in ${Math.round((Date.now() - started) / 1000)} s`);
 }
 
-function youtubeText(x: Explainer, tl: Timeline): string {
-  const lesson = lessonById(x.lessonId);
-  const course = courseOfLesson(x.lessonId);
-  const where = lesson && course ? `${course.shortTitle} · Lesson ${lesson.number}` : x.lessonId;
-  const chapters = youtubeChapters(tl);
-  const title = `${x.title} | ${where} | ${BRAND}`;
-  return [
-    `TITLE (${title.length}/100 characters)`,
-    title,
-    '',
-    'DESCRIPTION',
-    `${x.summary}`,
-    '',
-    `This explainer goes with ${where}${lesson ? `, "${lesson.title}"` : ''}, on ${BRAND}.`,
-    ...(chapters ? ['', 'Chapters', ...chapters.map((c) => `${clock(c.t)} ${c.title}`)] : []),
-    '',
-    `Practise this lesson with instant feedback on ${BRAND}: ${SITE}`,
-    '',
-    'TAGS',
-    [BRAND, 'math', course?.shortTitle, 'Alberta math', lesson?.title, 'explainer'].filter(Boolean).join(', '),
-    '',
-    'Upload the captions (captions.srt, English) and the thumbnail (thumbnail.png) with the video.',
-  ].join('\n');
-}
-
 async function qa(x: Explainer, tl: Timeline, clips: Record<string, Pcm>, file: string) {
   const rows: string[] = [];
   let flagged = 0;
@@ -244,7 +222,7 @@ async function main() {
         const cs = captions(tl.lines);
         writeFileSync(path.join(dir, 'captions.vtt'), toVtt(cs));
         writeFileSync(path.join(dir, 'captions.srt'), toSrt(cs));
-        writeFileSync(path.join(dir, 'youtube.txt'), `${youtubeText(x, tl)}\n`);
+        writeFileSync(path.join(dir, 'youtube.txt'), `${youtubeText(x, youtubeChapters(tl))}\n`);
         updateManifest(x, tl);
         if (!flag('no-qa')) await qa(x, tl, clips, path.join(dir, 'pronunciation.txt'));
       }

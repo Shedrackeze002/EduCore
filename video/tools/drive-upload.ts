@@ -1,4 +1,4 @@
-// Usage: npx tsx video/tools/drive-upload.ts [--dry-run] <video id | unit id | course id> ...
+// Usage: npx tsx video/tools/drive-upload.ts [--dry-run] [--text-only] <video id | unit id | course id> ...
 //
 // Uploads rendered videos from video/out/<id>/ to the owner's Google Drive, into
 //   Gradileo videos/<course>/Unit <n> – <title>/<NN>-<id>/
@@ -7,18 +7,24 @@
 // uploaded. A unit id (m104-u1) or course id (math-10-4) stands for every video in it that has
 // been rendered. Files already in Drive with the same contents are skipped, so a run can be repeated.
 //
+// --text-only writes each video's YouTube text again from its script and the chapters in
+// src/content/videos.json, and uploads only youtube.txt: a change to the YouTube wording reaches
+// every finished video without rendering it again, even after its course was cleared from the
+// session. A unit or course then stands for every video in videos.json.
+//
 // It signs in with the environment variables GDRIVE_CLIENT_ID, GDRIVE_CLIENT_SECRET and
 // GDRIVE_REFRESH_TOKEN (an OAuth client with the drive.file scope, which can only see the files
 // and folders this tool creates). Their values are never printed.
 import { createHash } from 'node:crypto';
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { COURSES } from '../../engine/curriculum/index.ts';
 import type { CourseMeta, UnitMeta } from '../../engine/types.ts';
+import { MANIFEST, SCRIPT_FILES, youtubeTextFor } from '../lib/catalog.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');
 const OUT = path.join(ROOT, 'video/out');
-const CONTENT = path.join(ROOT, 'src/content');
 const ROOT_FOLDER = 'Gradileo videos';
 const FOLDER = 'application/vnd.google-apps.folder';
 const FILES: [file: (id: string) => string, mime: string][] = [
@@ -35,11 +41,7 @@ interface Planned {
   folder: string;
 }
 
-/** Every scripted video id, from src/content/<course>/videos/<id>.ts. */
-const SCRIPTS = readdirSync(CONTENT).flatMap((dir) => {
-  const videos = path.join(CONTENT, dir, 'videos');
-  return existsSync(videos) ? readdirSync(videos).filter((f) => f.endsWith('.ts')).map((f) => f.slice(0, -3)) : [];
-});
+const SCRIPTS = [...SCRIPT_FILES.keys()];
 
 /** Every video id of a lesson, part 1 first (m104-1-1, m104-1-1-b, m104-1-1-c, …). */
 function lessonVideos(lessonId: string): string[] {
@@ -65,9 +67,12 @@ function plan(id: string): Planned {
   throw new Error(`${id}: no script for this video in src/content/*/videos/`);
 }
 
-/** Video ids for the arguments: video ids as given, units and courses as their rendered videos. */
-function expand(args: string[]): string[] {
-  const rendered = (id: string) => existsSync(path.join(OUT, id, `${id}.mp4`));
+/**
+ * Video ids for the arguments: video ids as given, units and courses as their rendered videos (with
+ * --text-only, every video in videos.json).
+ */
+function expand(args: string[], textOnly: boolean): string[] {
+  const rendered = (id: string) => (textOnly ? id in MANIFEST : existsSync(path.join(OUT, id, `${id}.mp4`)));
   const ids: string[] = [];
   for (const arg of args) {
     const course = COURSES.find((c) => c.id === arg);
@@ -176,14 +181,28 @@ async function upload(file: string, name: string, mime: string, parent: string):
 
 // ---------------------------------------------------------------- main
 
+/**
+ * Writes a video's YouTube text again, from its script and its chapters in videos.json, into
+ * video/out/<id>/ when the video is still in the session, or else a temporary folder; returns the file.
+ */
+let scratch: string | undefined;
+async function writeYoutubeText(id: string): Promise<string> {
+  const text = await youtubeTextFor(id);
+  const dir = existsSync(path.join(OUT, id)) ? path.join(OUT, id) : (scratch ??= mkdtempSync(path.join(os.tmpdir(), 'youtube-text-')));
+  const out = path.join(dir, dir === path.join(OUT, id) ? 'youtube.txt' : `${id}.txt`);
+  writeFileSync(out, `${text}\n`);
+  return out;
+}
+
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
-const targets = args.filter((a) => a !== '--dry-run');
+const textOnly = args.includes('--text-only');
+const targets = args.filter((a) => a !== '--dry-run' && a !== '--text-only');
 if (!targets.length) {
-  console.error('Usage: npx tsx video/tools/drive-upload.ts [--dry-run] <video id | unit id | course id> ...');
+  console.error('Usage: npx tsx video/tools/drive-upload.ts [--dry-run] [--text-only] <video id | unit id | course id> ...');
   process.exit(1);
 }
-const ids = expand(targets);
+const ids = expand(targets, textOnly);
 if (!ids.length) {
   console.error(`Nothing rendered for ${targets.join(' ')} in video/out/`);
   process.exit(1);
@@ -202,7 +221,7 @@ for (const id of ids) {
 const unitLinks = new Map<string, string>();
 for (const p of planned) {
   const where = `${ROOT_FOLDER}/${p.course.shortTitle}/${unitFolder(p.unit)}/${p.folder}`;
-  const missing = FILES.map(([f]) => f(p.id)).filter((f) => !existsSync(path.join(OUT, p.id, f)));
+  const missing = textOnly ? [] : FILES.map(([f]) => f(p.id)).filter((f) => !existsSync(path.join(OUT, p.id, f)));
   if (missing.length) {
     console.error(`${p.id}: not rendered (missing ${missing.join(', ')}); skipped`);
     failed++;
@@ -219,7 +238,8 @@ for (const p of planned) {
     const video = await ensureFolder(p.folder, unit);
     unitLinks.set(`${p.course.shortTitle}/${unitFolder(p.unit)}`, `https://drive.google.com/drive/folders/${unit}`);
     const results = [];
-    for (const [f, mime] of FILES) results.push(`${f(p.id)} ${await upload(path.join(OUT, p.id, f(p.id)), f(p.id), mime, video)}`);
+    if (textOnly) results.push(`youtube.txt ${await upload(await writeYoutubeText(p.id), 'youtube.txt', 'text/plain', video)}`);
+    else for (const [f, mime] of FILES) results.push(`${f(p.id)} ${await upload(path.join(OUT, p.id, f(p.id)), f(p.id), mime, video)}`);
     console.log(`${p.id} -> ${where}/: ${results.join(', ')}`);
   } catch (e) {
     console.error(`${p.id}: ${(e as Error).message}`);

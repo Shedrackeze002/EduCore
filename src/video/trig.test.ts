@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { itemPoints } from './script.ts';
 import type { Part } from './solids.ts';
-import { cast, referenceAngle, standardAngle } from './trig.ts';
+import { cast, referenceAngle, standardAngle, unitCircle } from './trig.ts';
 
 const figures: Record<string, Part> = {
   plain: standardAngle({ deg: 135, label: '135^\\circ', quadrants: true }),
   bare: standardAngle({ name: 'b', deg: 140, ref: '40^\\circ', axes: false, arc: false }),
   cast: cast(),
+  circle: unitCircle({ name: 'u', points: [{ deg: 30, tex: '\\left(\\tfrac{\\sqrt{3}}{2}, \\tfrac{1}{2}\\right)' }, { deg: 90 }, { deg: 225 }], arm: 225, armLabel: '\\tfrac{5\\pi}{4}', drop: true, sides: { x: '\\cos\\theta', y: '\\sin\\theta' } }),
   full: standardAngle({ name: 's', deg: 210, label: '210^\\circ', ref: '30^\\circ', drop: true, point: 'P', sides: { x: '-\\sqrt{3}', y: '-1', r: '2' } }),
 };
 
@@ -78,5 +79,16 @@ describe('trigonometry figures', () => {
     expect(f.points.q1[0]).toBeLessThan(0);
     expect(f.points.q1[1]).toBeGreaterThan(0);
     expect(part(f, 'qIII')).toMatchObject({ tex: '\\text{III}', group: 'quads' });
+  });
+
+  it('puts the unit circle\'s points on the circle, labelled outside it', () => {
+    const u = figures.circle;
+    expect(u.points['u-p30'][0]).toBeCloseTo(4 * Math.cos(Math.PI / 6));
+    expect(u.points['u-p30'][1]).toBeCloseTo(2);
+    expect(Math.hypot(...u.points['u-c40'])).toBeCloseTo(4);
+    expect(part(u, 'u-p30')).toMatchObject({ place: 'above right', dot: true });
+    expect(part(u, 'u-p90')).toMatchObject({ place: 'above' });
+    expect(part(u, 'u-p225')).toMatchObject({ place: 'below left' });
+    expect(u.points['u-P'][0]).toBeCloseTo(-4 * Math.SQRT1_2);
   });
 });

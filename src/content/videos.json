@@ -7930,29 +7930,29 @@
       },
       {
         "title": "Discounts",
-        "t": 11.977
+        "t": 12.053
       },
       {
         "title": "GST",
-        "t": 54.262
+        "t": 54.338
       },
       {
         "title": "Sale price, then GST",
-        "t": 90.936
+        "t": 91.012
       },
       {
         "title": "Your turn",
-        "t": 128.18
+        "t": 128.256
       },
       {
         "title": "Summary",
-        "t": 161.792
+        "t": 161.868
       }
     ],
     "cues": [
       {
         "id": "m104-3-3-b:q",
-        "t": 138.906,
+        "t": 138.982,
         "prompt": "A shirt costs \\$40 and is $25\\%$ off. Then $5\\%$ GST is added. What is the total?",
         "choices": [
           "\\$31.50",
@@ -20536,21 +20536,21 @@
       },
       {
         "title": "Parts or a kit?",
-        "t": 115.603
+        "t": 115.98
       },
       {
         "title": "Your turn",
-        "t": 139.462
+        "t": 139.839
       },
       {
         "title": "Summary",
-        "t": 166.528
+        "t": 166.905
       }
     ],
     "cues": [
       {
         "id": "m203-5-3-c:q",
-        "t": 145.824,
+        "t": 146.201,
         "prompt": "Which part of a garden shed goes on **last**?",
         "choices": [
           "the roof shingles",
@@ -27687,6 +27687,7005 @@
         ],
         "answer": 0,
         "working": "$20 - 17 = 3$, so $3$ fewer than predicted. That is normal for $120$ rolls."
+      }
+    ]
+  },
+  "m301-1-1": {
+    "lessonId": "m301-1-1",
+    "title": "Horizontal and Vertical Translations, Part 1: Sliding a Graph",
+    "duration": 289,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a translation is",
+        "t": 22.331
+      },
+      {
+        "title": "Why x − h moves right",
+        "t": 78.465
+      },
+      {
+        "title": "Translating y = x²",
+        "t": 127.606
+      },
+      {
+        "title": "Reading h and k",
+        "t": 176.71
+      },
+      {
+        "title": "Your turn",
+        "t": 216.61
+      },
+      {
+        "title": "Summary",
+        "t": 251.878
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-1:q",
+        "t": 229.323,
+        "prompt": "The graph of $y = x^2$ is translated 4 units right and 1 unit down. Which is the equation of the image?",
+        "choices": [
+          "$y = (x - 4)^2 + 1$",
+          "$y = (x + 4)^2 - 1$",
+          "$y = (x - 4)^2 - 1$",
+          "$y = (x - 1)^2 + 4$"
+        ],
+        "answer": 2,
+        "working": "Right 4: $h = 4$, so replace $x$ with $x - 4$. Down 1: $k = -1$, so subtract 1."
+      }
+    ]
+  },
+  "m301-1-1-b": {
+    "lessonId": "m301-1-1",
+    "title": "Horizontal and Vertical Translations, Part 2: Image Points and Equations",
+    "duration": 304,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Mapping notation",
+        "t": 19.477
+      },
+      {
+        "title": "Finding an image point",
+        "t": 52.505
+      },
+      {
+        "title": "Writing the equation",
+        "t": 105.841
+      },
+      {
+        "title": "The sign of h",
+        "t": 183.94
+      },
+      {
+        "title": "Your turn",
+        "t": 226.206
+      },
+      {
+        "title": "Summary",
+        "t": 268.792
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-1-b:q",
+        "t": 242.417,
+        "prompt": "The point $(-2, 6)$ is on the graph of $y = f(x)$. What is the corresponding point on the graph of $y = f(x + 4) - 1$?",
+        "choices": [
+          "$(2, 5)$",
+          "$(-6, 5)$",
+          "$(-6, 7)$",
+          "$(2, 7)$"
+        ],
+        "answer": 1,
+        "working": "$h = -4$ and $k = -1$, so $(x, y) \\to (x - 4,\\ y - 1)$: $(-2, 6) \\to (-6, 5)$."
+      }
+    ]
+  },
+  "m301-1-1-c": {
+    "lessonId": "m301-1-1",
+    "title": "Horizontal and Vertical Translations, Part 3: Domain, Range and Graphs",
+    "duration": 241,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range move too",
+        "t": 17.893
+      },
+      {
+        "title": "Finding the domain and range",
+        "t": 73.661
+      },
+      {
+        "title": "Reading h and k from graphs",
+        "t": 127.327
+      },
+      {
+        "title": "Your turn",
+        "t": 178.194
+      },
+      {
+        "title": "Summary",
+        "t": 215.074
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-1-c:q",
+        "t": 193.1,
+        "prompt": "$y = f(x)$ has domain $\\{x \\mid 0 \\le x \\le 6,\\ x \\in \\mathbb{R}\\}$ and range $\\{y \\mid 1 \\le y \\le 3,\\ y \\in \\mathbb{R}\\}$. What is the range of $y = f(x - 2) + 5$?",
+        "choices": [
+          "$1 \\le y \\le 3$",
+          "$3 \\le y \\le 5$",
+          "$-4 \\le y \\le -2$",
+          "$6 \\le y \\le 8$"
+        ],
+        "answer": 3,
+        "working": "$k = 5$, so the range moves up 5: $1 + 5 = 6$ and $3 + 5 = 8$. The horizontal shift, $h = 2$, changes only the domain."
+      }
+    ]
+  },
+  "m301-1-2": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 1: Reflections in the Axes",
+    "duration": 313,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reflecting in the x-axis",
+        "t": 21.282
+      },
+      {
+        "title": "Reflecting in the y-axis",
+        "t": 80.099
+      },
+      {
+        "title": "Invariant points",
+        "t": 118.585
+      },
+      {
+        "title": "Reflecting points and equations",
+        "t": 170.182
+      },
+      {
+        "title": "Your turn",
+        "t": 244.49
+      },
+      {
+        "title": "Summary",
+        "t": 283.162
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2:q",
+        "t": 259.098,
+        "prompt": "The point $(3, -7)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = f(-x)$?",
+        "choices": [
+          "$(-3, -7)$",
+          "$(3, 7)$",
+          "$(-3, 7)$",
+          "$(-7, 3)$"
+        ],
+        "answer": 0,
+        "working": "$y = f(-x)$ is a reflection in the $y$-axis: $(x, y) \\to (-x, y)$, so $(3, -7) \\to (-3, -7)$."
+      }
+    ]
+  },
+  "m301-1-2-b": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 2: Vertical Stretches",
+    "duration": 282,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a stretch is",
+        "t": 21.585
+      },
+      {
+        "title": "Doubling every y-value",
+        "t": 65.676
+      },
+      {
+        "title": "Squeezing, and a negative a",
+        "t": 105.013
+      },
+      {
+        "title": "Finding image points",
+        "t": 159.279
+      },
+      {
+        "title": "Your turn",
+        "t": 209.287
+      },
+      {
+        "title": "Summary",
+        "t": 248.304
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2-b:q",
+        "t": 223.993,
+        "prompt": "The point $(-1, 5)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = -4f(x)$?",
+        "choices": [
+          "$(4, 5)$",
+          "$(-1, 20)$",
+          "$(-1, -20)$",
+          "$(-1, -\\tfrac{5}{4})$"
+        ],
+        "answer": 2,
+        "working": "$(x, y) \\to (x, -4y)$: $-4(5) = -20$, and $x$ does not change."
+      }
+    ]
+  },
+  "m301-1-2-c": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 3: Horizontal Stretches",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The horizontal stretch",
+        "t": 23.057
+      },
+      {
+        "title": "Why the reciprocal",
+        "t": 63.773
+      },
+      {
+        "title": "Stretching a point",
+        "t": 115.485
+      },
+      {
+        "title": "The horizontal factor",
+        "t": 165.153
+      },
+      {
+        "title": "Your turn",
+        "t": 200.218
+      },
+      {
+        "title": "Summary",
+        "t": 235.836
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2-c:q",
+        "t": 213.53,
+        "prompt": "The point $(8, 3)$ is on the graph of $y = f(x)$. Which point is on the graph of $y = f(4x)$?",
+        "choices": [
+          "$(32, 3)$",
+          "$(2, 3)$",
+          "$(8, 12)$",
+          "$(2, 12)$"
+        ],
+        "answer": 1,
+        "working": "$(x, y) \\to \\left(\\frac{x}{4},\\ y\\right)$: $\\frac{8}{4} = 2$, and $y$ does not change."
+      }
+    ]
+  },
+  "m301-1-2-d": {
+    "lessonId": "m301-1-2",
+    "title": "Reflections and Stretches, Part 4: Invariant Points",
+    "duration": 260,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Which points stay put",
+        "t": 19.29
+      },
+      {
+        "title": "Finding invariant points",
+        "t": 78.736
+      },
+      {
+        "title": "Checking with the equation",
+        "t": 144.477
+      },
+      {
+        "title": "Your turn",
+        "t": 189.891
+      },
+      {
+        "title": "Summary",
+        "t": 233.86
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-2-d:q",
+        "t": 207.703,
+        "prompt": "Let $f(x) = x^2 + 2x - 8 = (x + 4)(x - 2)$. Which points are invariant for $y = -3f(x)$?",
+        "choices": [
+          "$(0, 24)$ only",
+          "$(0, -8)$ only",
+          "$(4, 0)$ and $(-2, 0)$",
+          "$(-4, 0)$ and $(2, 0)$"
+        ],
+        "answer": 3,
+        "working": "$y = -3f(x)$ is a vertical stretch and a reflection in the $x$-axis, so the points with $y = 0$ stay put: the $x$-intercepts $(-4, 0)$ and $(2, 0)$."
+      }
+    ]
+  },
+  "m301-1-3": {
+    "lessonId": "m301-1-3",
+    "title": "Combining Transformations, Part 1: The General Form",
+    "duration": 299,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One equation for everything",
+        "t": 23.796
+      },
+      {
+        "title": "The mapping",
+        "t": 78.317
+      },
+      {
+        "title": "Stretch first, then translate",
+        "t": 106.611
+      },
+      {
+        "title": "Applying the mapping",
+        "t": 164.96
+      },
+      {
+        "title": "Your turn",
+        "t": 218.097
+      },
+      {
+        "title": "Summary",
+        "t": 262.979
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-3:q",
+        "t": 234.405,
+        "prompt": "The point $(4, 3)$ is on the graph of $y = f(x)$. What is the corresponding point on the graph of $y = 2f(4(x + 1)) - 5$?",
+        "choices": [
+          "$(0, 1)$",
+          "$(2, 1)$",
+          "$(15, 1)$",
+          "$(0, -4)$"
+        ],
+        "answer": 0,
+        "working": "$a = 2$, $b = 4$, $h = -1$, $k = -5$. $x$: $\\frac{4}{4} - 1 = 0$. $y$: $2(3) - 5 = 1$."
+      }
+    ]
+  },
+  "m301-1-3-b": {
+    "lessonId": "m301-1-3",
+    "title": "Combining Transformations, Part 2: Describing and Factoring",
+    "duration": 254,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Describing the transformations",
+        "t": 20.587
+      },
+      {
+        "title": "Factor b first",
+        "t": 81.493
+      },
+      {
+        "title": "Reading h too early",
+        "t": 135.818
+      },
+      {
+        "title": "Your turn",
+        "t": 183.392
+      },
+      {
+        "title": "Summary",
+        "t": 218.707
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-3-b:q",
+        "t": 197.013,
+        "prompt": "What is the horizontal translation in $y = f(3x + 12)$?",
+        "choices": [
+          "$4$ units right",
+          "$12$ units left",
+          "$4$ units left",
+          "$12$ units right"
+        ],
+        "answer": 2,
+        "working": "$3x + 12 = 3(x + 4) = 3(x - (-4))$, so $h = -4$: 4 units left."
+      }
+    ]
+  },
+  "m301-1-3-c": {
+    "lessonId": "m301-1-3",
+    "title": "Combining Transformations, Part 3: Writing Equations",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a description",
+        "t": 21.004
+      },
+      {
+        "title": "From a graph",
+        "t": 77.797
+      },
+      {
+        "title": "Check with two points",
+        "t": 149.698
+      },
+      {
+        "title": "Your turn",
+        "t": 191
+      },
+      {
+        "title": "Summary",
+        "t": 231.867
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-3-c:q",
+        "t": 207.768,
+        "prompt": "The graph of $y = x^2$ is stretched vertically by a factor of $2$, reflected in the $x$-axis, and translated 1 unit left and 3 units up. Which is its equation?",
+        "choices": [
+          "$y = -2(x - 1)^2 + 3$",
+          "$y = -2(x + 1)^2 + 3$",
+          "$y = 2(x + 1)^2 + 3$",
+          "$y = -\\tfrac{1}{2}(x + 1)^2 + 3$"
+        ],
+        "answer": 1,
+        "working": "$a = -2$ (a stretch by $2$ and a reflection in the $x$-axis), $h = -1$ and $k = 3$."
+      }
+    ]
+  },
+  "m301-1-4": {
+    "lessonId": "m301-1-4",
+    "title": "Inverse of a Relation, Part 1: Interchanging x and y",
+    "duration": 214,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What an inverse is",
+        "t": 24.283
+      },
+      {
+        "title": "A set of points",
+        "t": 59.619
+      },
+      {
+        "title": "Domain and range swap",
+        "t": 112.048
+      },
+      {
+        "title": "Your turn",
+        "t": 151.224
+      },
+      {
+        "title": "Summary",
+        "t": 185.768
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-4:q",
+        "t": 165.204,
+        "prompt": "A function $f$ has domain $\\{x \\mid x \\ge 2\\}$ and range $\\{y \\mid y \\le 5\\}$. What is the domain of $f^{-1}$?",
+        "choices": [
+          "$\\{x \\mid x \\le 2\\}$",
+          "$\\{x \\mid x \\ge 2\\}$",
+          "$\\{x \\mid x \\ge 5\\}$",
+          "$\\{x \\mid x \\le 5\\}$"
+        ],
+        "answer": 3,
+        "working": "The domain of $f^{-1}$ is the range of $f$: all values at most $5$."
+      }
+    ]
+  },
+  "m301-1-4-b": {
+    "lessonId": "m301-1-4",
+    "title": "Inverse of a Relation, Part 2: Finding an Inverse Algebraically",
+    "duration": 259,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three steps",
+        "t": 25.243
+      },
+      {
+        "title": "Checking the inverse",
+        "t": 69.537
+      },
+      {
+        "title": "Not a reciprocal",
+        "t": 112.264
+      },
+      {
+        "title": "A cubic function",
+        "t": 144.04
+      },
+      {
+        "title": "Your turn",
+        "t": 195.043
+      },
+      {
+        "title": "Summary",
+        "t": 228.132
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-4-b:q",
+        "t": 203.206,
+        "prompt": "Find the inverse of $f(x) = 5x + 2$.",
+        "choices": [
+          "$f^{-1}(x) = \\dfrac{x - 2}{5}$",
+          "$f^{-1}(x) = \\dfrac{x + 2}{5}$",
+          "$f^{-1}(x) = \\dfrac{1}{5x + 2}$",
+          "$f^{-1}(x) = 5x - 2$"
+        ],
+        "answer": 0,
+        "working": "Interchange: $x = 5y + 2$. Then $5y = x - 2$, so $y = \\dfrac{x - 2}{5}$."
+      }
+    ]
+  },
+  "m301-1-4-c": {
+    "lessonId": "m301-1-4",
+    "title": "Inverse of a Relation, Part 3: The Horizontal Line Test",
+    "duration": 287,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The horizontal line test",
+        "t": 23.065
+      },
+      {
+        "title": "Restricting the domain",
+        "t": 76.131
+      },
+      {
+        "title": "A restricted quadratic",
+        "t": 114.374
+      },
+      {
+        "title": "Domain, range and the sign",
+        "t": 165.557
+      },
+      {
+        "title": "Your turn",
+        "t": 217.381
+      },
+      {
+        "title": "Summary",
+        "t": 258.326
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-1-4-c:q",
+        "t": 231.24,
+        "prompt": "Let $f(x) = (x + 1)^2 - 4$ with $x \\le -1$. Which is $f^{-1}(x)$?",
+        "choices": [
+          "$-\\sqrt{x - 4} + 1$",
+          "$\\sqrt{x + 4} - 1$",
+          "$-\\sqrt{x + 4} - 1$",
+          "$\\sqrt{x - 1} + 4$"
+        ],
+        "answer": 2,
+        "working": "Interchange: $(y + 1)^2 = x + 4$, so $y = -1 \\pm \\sqrt{x + 4}$. The left half ($x \\le -1$) means the inverse needs $y \\le -1$: the negative root."
+      }
+    ]
+  },
+  "m301-2-1": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 1: The Square Root Function",
+    "duration": 260,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Radical functions",
+        "t": 29.86
+      },
+      {
+        "title": "Key points",
+        "t": 67.771
+      },
+      {
+        "title": "Domain and range",
+        "t": 112.225
+      },
+      {
+        "title": "A common mistake",
+        "t": 159.593
+      },
+      {
+        "title": "Your turn",
+        "t": 188.515
+      },
+      {
+        "title": "Summary",
+        "t": 225.288
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1:q",
+        "t": 196.898,
+        "prompt": "Which point is **not** on the graph of $y = \\sqrt{x}$?",
+        "choices": [
+          "$(16, 4)$",
+          "$(0.25, 0.5)$",
+          "$(4, -2)$",
+          "$(0, 0)$"
+        ],
+        "answer": 2,
+        "working": "$\\sqrt{4}$ is the principal square root, $2$, never $-2$: the range is $y \\ge 0$. The others work: $\\sqrt{16} = 4$, $\\sqrt{0.25} = 0.5$ and $\\sqrt{0} = 0$."
+      }
+    ]
+  },
+  "m301-2-1-b": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 2: Mapping the Key Points",
+    "duration": 302,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The four parameters",
+        "t": 21.994
+      },
+      {
+        "title": "The mapping rule",
+        "t": 70.106
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 107.848
+      },
+      {
+        "title": "Plotting the image",
+        "t": 149.624
+      },
+      {
+        "title": "A common mistake",
+        "t": 194.981
+      },
+      {
+        "title": "Your turn",
+        "t": 225.59
+      },
+      {
+        "title": "Summary",
+        "t": 270.201
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1-b:q",
+        "t": 241.247,
+        "prompt": "The point $(4, 2)$ is on $y = \\sqrt{x}$. Where is its image on the graph of $y = 3\\sqrt{x + 1} - 2$?",
+        "choices": [
+          "$(5, 4)$",
+          "$(3, 4)$",
+          "$(3, 0)$",
+          "$(5, 0)$"
+        ],
+        "answer": 1,
+        "working": "$a = 3$, $b = 1$, $h = -1$ and $k = -2$, so $(x, y) \\to (x - 1,\\ 3y - 2)$ and $(4, 2) \\to (4 - 1,\\ 3(2) - 2) = (3, 4)$."
+      }
+    ]
+  },
+  "m301-2-1-c": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 3: Domain and Range",
+    "duration": 276,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four directions",
+        "t": 20.293
+      },
+      {
+        "title": "Reading domain and range",
+        "t": 79.709
+      },
+      {
+        "title": "A hidden reflection",
+        "t": 137.692
+      },
+      {
+        "title": "Your turn",
+        "t": 198.086
+      },
+      {
+        "title": "Summary",
+        "t": 239.976
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1-c:q",
+        "t": 209.566,
+        "prompt": "State the domain and range of $y = 2\\sqrt{8 - 2x} - 1$.",
+        "choices": [
+          "Domain $x \\le 4$; range $y \\le -1$",
+          "Domain $x \\ge 4$; range $y \\ge -1$",
+          "Domain $x \\le 8$; range $y \\ge -1$",
+          "Domain $x \\le 4$; range $y \\ge -1$"
+        ],
+        "answer": 3,
+        "working": "$8 - 2x = -2(x - 4)$, so the endpoint is $(4, -1)$. $b = -2 < 0$: domain $\\{x \\mid x \\le 4,\\ x \\in \\mathbb{R}\\}$. $a = 2 > 0$: range $\\{y \\mid y \\ge -1,\\ y \\in \\mathbb{R}\\}$."
+      }
+    ]
+  },
+  "m301-2-1-d": {
+    "lessonId": "m301-2-1",
+    "title": "Radical Functions and Transformations, Part 4: Equations from Graphs",
+    "duration": 288,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The method",
+        "t": 18.65
+      },
+      {
+        "title": "A graph that opens right",
+        "t": 56.132
+      },
+      {
+        "title": "A graph that opens left",
+        "t": 117.423
+      },
+      {
+        "title": "More than one equation",
+        "t": 167.827
+      },
+      {
+        "title": "Your turn",
+        "t": 211.622
+      },
+      {
+        "title": "Summary",
+        "t": 256.811
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-1-d:q",
+        "t": 227.076,
+        "prompt": "The graph of a radical function has its endpoint at $(1, -2)$, opens to the right, and passes through $(5, 4)$. Which is its equation?",
+        "choices": [
+          "$y = 3\\sqrt{x - 1} - 2$",
+          "$y = 3\\sqrt{x + 1} - 2$",
+          "$y = 2\\sqrt{x - 1} - 2$",
+          "$y = 3\\sqrt{x - 1} + 2$"
+        ],
+        "answer": 0,
+        "working": "$h = 1$, $k = -2$ and $b = 1$: $y = a\\sqrt{x - 1} - 2$. Substitute $(5, 4)$: $4 = a\\sqrt{4} - 2$, so $2a = 6$ and $a = 3$."
+      }
+    ]
+  },
+  "m301-2-2": {
+    "lessonId": "m301-2-2",
+    "title": "Square Root of a Function, Part 1: Invariant Points",
+    "duration": 250,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square roots of the outputs",
+        "t": 25.676
+      },
+      {
+        "title": "Above, below or gone",
+        "t": 67.563
+      },
+      {
+        "title": "A linear function",
+        "t": 109.482
+      },
+      {
+        "title": "Your turn",
+        "t": 173.805
+      },
+      {
+        "title": "Summary",
+        "t": 212.807
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-2:q",
+        "t": 186.741,
+        "prompt": "Let $f(x) = x + 3$. What are the invariant points of the graph of $y = \\sqrt{f(x)}$?",
+        "choices": [
+          "$(0, 3)$ and $(1, 4)$",
+          "$(-3, 0)$ only",
+          "$(-3, 0)$ and $(-2, 1)$",
+          "$(3, 0)$ and $(4, 1)$"
+        ],
+        "answer": 2,
+        "working": "$f(x) = 0$ when $x = -3$, and $f(x) = 1$ when $x = -2$. At those $x$-values, $\\sqrt{f(x)} = f(x)$."
+      }
+    ]
+  },
+  "m301-2-2-b": {
+    "lessonId": "m301-2-2",
+    "title": "Square Root of a Function, Part 2: Domain, Range and Quadratics",
+    "duration": 273,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range",
+        "t": 22.1
+      },
+      {
+        "title": "A parabola that opens up",
+        "t": 74.333
+      },
+      {
+        "title": "Not the absolute value",
+        "t": 147.44
+      },
+      {
+        "title": "Your turn",
+        "t": 196.586
+      },
+      {
+        "title": "Summary",
+        "t": 234.028
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-2-b:q",
+        "t": 205.487,
+        "prompt": "What is the domain of $y = \\sqrt{x^2 - 9}$?",
+        "choices": [
+          "$\\{x \\mid -3 \\le x \\le 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\le -3 \\text{ or } x \\ge 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 1,
+        "working": "$x^2 - 9 = (x + 3)(x - 3)$ has zeros $-3$ and $3$, and the parabola opens up, so $x^2 - 9 \\ge 0$ outside the zeros: $x \\le -3$ or $x \\ge 3$."
+      }
+    ]
+  },
+  "m301-2-2-c": {
+    "lessonId": "m301-2-2",
+    "title": "Square Root of a Function, Part 3: Arches and Quick Sketches",
+    "duration": 258,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An arch",
+        "t": 21.097
+      },
+      {
+        "title": "A common mistake",
+        "t": 75.366
+      },
+      {
+        "title": "Invariant points",
+        "t": 95.558
+      },
+      {
+        "title": "Sketching quickly",
+        "t": 147.74
+      },
+      {
+        "title": "Your turn",
+        "t": 193.549
+      },
+      {
+        "title": "Summary",
+        "t": 230.201
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-2-c:q",
+        "t": 202.705,
+        "prompt": "What is the range of $y = \\sqrt{16 - x^2}$?",
+        "choices": [
+          "$\\{y \\mid y \\ge 0,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid 0 \\le y \\le 16,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid -4 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid 0 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 3,
+        "working": "The maximum of $16 - x^2$ is $16$, at $x = 0$, so the maximum of $\\sqrt{16 - x^2}$ is $\\sqrt{16} = 4$. The smallest value is $0$, at $x = \\pm 4$."
+      }
+    ]
+  },
+  "m301-2-3": {
+    "lessonId": "m301-2-3",
+    "title": "Solving Radical Equations Graphically, Part 1: Two Graphical Methods",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Method 1: intersection",
+        "t": 24.4
+      },
+      {
+        "title": "Method 2: related function",
+        "t": 58.582
+      },
+      {
+        "title": "Checking the answer",
+        "t": 94.157
+      },
+      {
+        "title": "No solution",
+        "t": 128.542
+      },
+      {
+        "title": "Your turn",
+        "t": 154.944
+      },
+      {
+        "title": "Summary",
+        "t": 196.577
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-3:q",
+        "t": 167.582,
+        "prompt": "To solve $\\sqrt{x + 6} = 3$ with the related function, which function do you graph, and what is the solution?",
+        "choices": [
+          "$y = \\sqrt{x + 6} - 3$; $x = 3$",
+          "$y = \\sqrt{x + 6} + 3$; $x = 3$",
+          "$y = \\sqrt{x + 6} - 3$; $x = 9$",
+          "$y = \\sqrt{x + 6} - 3$; $x = -3$"
+        ],
+        "answer": 0,
+        "working": "Subtract $3$: $\\sqrt{x + 6} - 3 = 0$. The graph of $y = \\sqrt{x + 6} - 3$ crosses the $x$-axis at $x = 3$. Check: $\\sqrt{3 + 6} = \\sqrt{9} = 3$."
+      }
+    ]
+  },
+  "m301-2-3-b": {
+    "lessonId": "m301-2-3",
+    "title": "Solving Radical Equations Graphically, Part 2: Extraneous Roots",
+    "duration": 255,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Squaring both sides",
+        "t": 20.112
+      },
+      {
+        "title": "Check every root",
+        "t": 57.222
+      },
+      {
+        "title": "What the graph shows",
+        "t": 105.077
+      },
+      {
+        "title": "Skipping the check",
+        "t": 158.316
+      },
+      {
+        "title": "Your turn",
+        "t": 188.302
+      },
+      {
+        "title": "Summary",
+        "t": 226.624
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-3-b:q",
+        "t": 196.614,
+        "prompt": "Solve $\\sqrt{x + 5} = x - 1$.",
+        "choices": [
+          "$x = -1$",
+          "$x = -1$ or $x = 4$",
+          "$x = 4$",
+          "No solution"
+        ],
+        "answer": 2,
+        "working": "Squaring gives $x + 5 = x^2 - 2x + 1$, so $x^2 - 3x - 4 = 0$ and $(x - 4)(x + 1) = 0$. $x = 4$: $\\sqrt{9} = 3 = 4 - 1$ ✓. $x = -1$: $\\sqrt{4} = 2$, but $-1 - 1 = -2$, so $x = -1$ is extraneous."
+      }
+    ]
+  },
+  "m301-2-3-c": {
+    "lessonId": "m301-2-3",
+    "title": "Solving Radical Equations Graphically, Part 3: Approximate Solutions and Applications",
+    "duration": 259,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Count the solutions first",
+        "t": 21.458
+      },
+      {
+        "title": "The quadratic formula",
+        "t": 60.599
+      },
+      {
+        "title": "The falling stone",
+        "t": 127.506
+      },
+      {
+        "title": "Your turn",
+        "t": 189.439
+      },
+      {
+        "title": "Summary",
+        "t": 231.945
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-2-3-c:q",
+        "t": 206.116,
+        "prompt": "The time $t$, in seconds, for a stone to fall $d$ metres is modelled by $t = \\sqrt{\\dfrac{d}{4.9}}$. A stone falls for $2$ s. How far does it fall?",
+        "choices": [
+          "$9.8$ m",
+          "$19.6$ m",
+          "$0.41$ m",
+          "$96.04$ m"
+        ],
+        "answer": 1,
+        "working": "Square both sides of $\\sqrt{\\dfrac{d}{4.9}} = 2$: $\\dfrac{d}{4.9} = 4$, so $d = 4 \\times 4.9 = 19.6$ m. Check: $\\sqrt{\\dfrac{19.6}{4.9}} = \\sqrt{4} = 2$."
+      }
+    ]
+  },
+  "m301-3-1": {
+    "lessonId": "m301-3-1",
+    "title": "Characteristics of Polynomial Functions, Part 1: Degree and Leading Coefficient",
+    "duration": 257,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Polynomial functions",
+        "t": 25.836
+      },
+      {
+        "title": "Naming by degree",
+        "t": 78.678
+      },
+      {
+        "title": "Reading the features",
+        "t": 102.857
+      },
+      {
+        "title": "Watch out",
+        "t": 155.944
+      },
+      {
+        "title": "Your turn",
+        "t": 181.056
+      },
+      {
+        "title": "Summary",
+        "t": 223.105
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-1:q",
+        "t": 194.974,
+        "prompt": "State the degree and the leading coefficient of $g(x) = 5x + 2x^3 - 4x^4 + 9$.",
+        "choices": [
+          "Degree $3$; $a_n = 2$",
+          "Degree $1$; $a_n = 5$",
+          "Degree $4$; $a_n = 4$",
+          "Degree $4$; $a_n = -4$"
+        ],
+        "answer": 3,
+        "working": "In descending order, $g(x) = -4x^4 + 2x^3 + 5x + 9$: the degree is $4$ and the leading coefficient is $-4$."
+      }
+    ]
+  },
+  "m301-3-1-b": {
+    "lessonId": "m301-3-1",
+    "title": "Characteristics of Polynomial Functions, Part 2: End Behaviour",
+    "duration": 330,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The leading term wins",
+        "t": 20.406
+      },
+      {
+        "title": "Four cases",
+        "t": 79.805
+      },
+      {
+        "title": "Two graphs",
+        "t": 147.698
+      },
+      {
+        "title": "Describing end behaviour",
+        "t": 194.824
+      },
+      {
+        "title": "Watch out",
+        "t": 242.074
+      },
+      {
+        "title": "Your turn",
+        "t": 264.685
+      },
+      {
+        "title": "Summary",
+        "t": 302.269
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-1-b:q",
+        "t": 275.679,
+        "prompt": "Describe the end behaviour of $y = -2x^3 + x^2 + 5$.",
+        "choices": [
+          "Quadrant II to IV",
+          "Quadrant III to IV",
+          "Quadrant III to I",
+          "Quadrant II to I"
+        ],
+        "answer": 0,
+        "working": "The leading term is $-2x^3$. The degree is odd, so the ends go opposite ways; the leading coefficient is negative, so the right end falls. It rises to the left and falls to the right."
+      }
+    ]
+  },
+  "m301-3-1-c": {
+    "lessonId": "m301-3-1",
+    "title": "Characteristics of Polynomial Functions, Part 3: Intercepts and Turning Points",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Turning points",
+        "t": 23.135
+      },
+      {
+        "title": "What the degree allows",
+        "t": 58.263
+      },
+      {
+        "title": "Counting",
+        "t": 100.689
+      },
+      {
+        "title": "Matching graphs and equations",
+        "t": 154.354
+      },
+      {
+        "title": "Your turn",
+        "t": 208.707
+      },
+      {
+        "title": "Summary",
+        "t": 238.322
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-1-c:q",
+        "t": 217.259,
+        "prompt": "A polynomial function has degree $4$. Which statement must be true?",
+        "choices": [
+          "At least one $x$-intercept",
+          "Exactly $4$ $x$-intercepts",
+          "At most $3$ turning points",
+          "At most $4$ turning points"
+        ],
+        "answer": 2,
+        "working": "Degree $4$ allows at most $4 - 1 = 3$ turning points and at most $4$ $x$-intercepts. The degree is even, so it may have no $x$-intercepts at all."
+      }
+    ]
+  },
+  "m301-3-2": {
+    "lessonId": "m301-3-2",
+    "title": "The Remainder Theorem, Part 1: Polynomial Long Division",
+    "duration": 298,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The division statement",
+        "t": 22.113
+      },
+      {
+        "title": "Long division",
+        "t": 70.319
+      },
+      {
+        "title": "Writing and checking the result",
+        "t": 159.995
+      },
+      {
+        "title": "Your turn",
+        "t": 222.918
+      },
+      {
+        "title": "Summary",
+        "t": 260.016
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-2:q",
+        "t": 235.284,
+        "prompt": "Divide $x^3 + 3x^2 - x + 4$ by $x + 2$. Find the quotient and the remainder.",
+        "choices": [
+          "$x^2 + 5x + 9$, remainder $22$",
+          "$x^2 + x - 3$, remainder $10$",
+          "$x^2 + x - 3$, remainder $-2$",
+          "$x^2 + x + 1$, remainder $2$"
+        ],
+        "answer": 1,
+        "working": "$x^3 \\div x = x^2$; subtract $x^3 + 2x^2$ to get $x^2 - x$. $x^2 \\div x = x$; subtract $x^2 + 2x$ to get $-3x + 4$. $-3x \\div x = -3$; subtract $-3x - 6$ to get $10$."
+      }
+    ]
+  },
+  "m301-3-2-b": {
+    "lessonId": "m301-3-2",
+    "title": "The Remainder Theorem, Part 2: Synthetic Division",
+    "duration": 263,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The steps",
+        "t": 23.591
+      },
+      {
+        "title": "A missing term",
+        "t": 86.549
+      },
+      {
+        "title": "Watch out",
+        "t": 152.774
+      },
+      {
+        "title": "Your turn",
+        "t": 191.344
+      },
+      {
+        "title": "Summary",
+        "t": 227.662
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-2-b:q",
+        "t": 202.31,
+        "prompt": "Use synthetic division to divide $x^3 - 4x + 5$ by $x - 3$.",
+        "choices": [
+          "$x^3 + 3x^2 + 5x$, remainder $20$",
+          "$x - 1$, remainder $2$",
+          "$x^2 - 3x + 5$, remainder $-10$",
+          "$x^2 + 3x + 5$, remainder $20$"
+        ],
+        "answer": 3,
+        "working": "Coefficients $1, 0, -4, 5$ and $a = 3$: bring down $1$; $0 + 3 = 3$; $-4 + 9 = 5$; $5 + 15 = 20$. The quotient starts at $x^2$."
+      }
+    ]
+  },
+  "m301-3-2-c": {
+    "lessonId": "m301-3-2",
+    "title": "The Remainder Theorem, Part 3: Remainders Without Dividing",
+    "duration": 252,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The theorem",
+        "t": 27.343
+      },
+      {
+        "title": "Checking it",
+        "t": 68.528
+      },
+      {
+        "title": "Using the theorem",
+        "t": 104.734
+      },
+      {
+        "title": "Which method?",
+        "t": 147.81
+      },
+      {
+        "title": "Your turn",
+        "t": 179.685
+      },
+      {
+        "title": "Summary",
+        "t": 219.604
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-2-c:q",
+        "t": 193.474,
+        "prompt": "Find the remainder when $P(x) = 2x^3 - x^2 + 3x - 4$ is divided by $x + 2$.",
+        "choices": [
+          "$-30$",
+          "$14$",
+          "$-22$",
+          "$30$"
+        ],
+        "answer": 0,
+        "working": "$x + 2 = x - (-2)$, so $R = P(-2) = 2(-8) - 4 + 3(-2) - 4 = -16 - 4 - 6 - 4 = -30$."
+      }
+    ]
+  },
+  "m301-3-2-d": {
+    "lessonId": "m301-3-2",
+    "title": "The Remainder Theorem, Part 4: Unknown Coefficients",
+    "duration": 252,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One unknown",
+        "t": 23.233
+      },
+      {
+        "title": "Two unknowns",
+        "t": 73.699
+      },
+      {
+        "title": "Rebuilding a polynomial",
+        "t": 128.709
+      },
+      {
+        "title": "Your turn",
+        "t": 183.486
+      },
+      {
+        "title": "Summary",
+        "t": 224.348
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-2-d:q",
+        "t": 198.246,
+        "prompt": "When $P(x) = 2x^3 + kx^2 - x + 5$ is divided by $x + 1$, the remainder is $8$. Find $k$.",
+        "choices": [
+          "$k = 6$",
+          "$k = 2$",
+          "$k = 4$",
+          "$k = 12$"
+        ],
+        "answer": 2,
+        "working": "$R = P(-1) = -2 + k + 1 + 5 = k + 4$, and $k + 4 = 8$, so $k = 4$."
+      }
+    ]
+  },
+  "m301-3-3": {
+    "lessonId": "m301-3-3",
+    "title": "The Factor Theorem, Part 1: A Remainder of Zero",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A remainder of zero",
+        "t": 21.946
+      },
+      {
+        "title": "Four ways to say it",
+        "t": 76.619
+      },
+      {
+        "title": "Testing a factor",
+        "t": 105.341
+      },
+      {
+        "title": "Your turn",
+        "t": 159.855
+      },
+      {
+        "title": "Summary",
+        "t": 194.45
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-3:q",
+        "t": 171.103,
+        "prompt": "Which binomial is a factor of $P(x) = x^3 + 2x^2 - x - 2$?",
+        "choices": [
+          "$x - 2$",
+          "$x + 2$",
+          "$x + 3$",
+          "$x - 3$"
+        ],
+        "answer": 1,
+        "working": "$P(-2) = -8 + 8 + 2 - 2 = 0$, so $x + 2$ is a factor. $P(2) = 12$, $P(-3) = -8$ and $P(3) = 40$ are not zero."
+      }
+    ]
+  },
+  "m301-3-3-b": {
+    "lessonId": "m301-3-3",
+    "title": "The Factor Theorem, Part 2: The Integral Zero Theorem",
+    "duration": 307,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The theorem",
+        "t": 23.244
+      },
+      {
+        "title": "Possible integral zeros",
+        "t": 68.124
+      },
+      {
+        "title": "Watch out",
+        "t": 115.081
+      },
+      {
+        "title": "Factoring completely",
+        "t": 136.724
+      },
+      {
+        "title": "The graph",
+        "t": 208.751
+      },
+      {
+        "title": "Your turn",
+        "t": 227.077
+      },
+      {
+        "title": "Summary",
+        "t": 270.311
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-3-b:q",
+        "t": 240.372,
+        "prompt": "Which of these is **not** a possible integral zero of $P(x) = x^3 + 4x^2 - 3x - 10$?",
+        "choices": [
+          "$-2$",
+          "$-5$",
+          "$10$",
+          "$4$"
+        ],
+        "answer": 3,
+        "working": "The constant term is $-10$, so the possible integral zeros are $\\pm 1, \\pm 2, \\pm 5, \\pm 10$. $4$ does not divide $-10$."
+      }
+    ]
+  },
+  "m301-3-3-c": {
+    "lessonId": "m301-3-3",
+    "title": "The Factor Theorem, Part 3: Factoring Higher Degrees",
+    "duration": 324,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The first division",
+        "t": 20.09
+      },
+      {
+        "title": "The second division",
+        "t": 89.71
+      },
+      {
+        "title": "Other leading coefficients",
+        "t": 159.521
+      },
+      {
+        "title": "Your turn",
+        "t": 248.578
+      },
+      {
+        "title": "Summary",
+        "t": 290.473
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-3-c:q",
+        "t": 258.053,
+        "prompt": "Factor $P(x) = x^3 - 7x - 6$ completely.",
+        "choices": [
+          "$(x + 1)(x + 2)(x - 3)$",
+          "$(x - 1)(x - 2)(x + 3)$",
+          "$(x + 1)(x^2 - x - 6)$",
+          "$(x + 1)(x - 2)(x + 3)$"
+        ],
+        "answer": 0,
+        "working": "$P(-1) = -1 + 7 - 6 = 0$. Dividing $1, 0, -7, -6$ by $x + 1$ leaves $x^2 - x - 6 = (x - 3)(x + 2)$."
+      }
+    ]
+  },
+  "m301-3-3-d": {
+    "lessonId": "m301-3-3",
+    "title": "The Factor Theorem, Part 4: Grouping and Unknown Coefficients",
+    "duration": 254,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Factoring by grouping",
+        "t": 24.29
+      },
+      {
+        "title": "Factored completely",
+        "t": 79.401
+      },
+      {
+        "title": "Finding k",
+        "t": 123.511
+      },
+      {
+        "title": "Your turn",
+        "t": 180.665
+      },
+      {
+        "title": "Summary",
+        "t": 225.094
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-3-d:q",
+        "t": 193.783,
+        "prompt": "Find $k$ so that $x - 3$ is a factor of $P(x) = x^3 - 2x^2 + kx + 6$.",
+        "choices": [
+          "$k = -13$",
+          "$k = 5$",
+          "$k = -5$",
+          "$k = -3$"
+        ],
+        "answer": 2,
+        "working": "$P(3) = 27 - 18 + 3k + 6 = 3k + 15$. Set $3k + 15 = 0$: $k = -5$."
+      }
+    ]
+  },
+  "m301-3-4": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 1: Solving by Factoring",
+    "duration": 255,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three names, one number",
+        "t": 23.391
+      },
+      {
+        "title": "Solving a cubic",
+        "t": 72.783
+      },
+      {
+        "title": "Watch out",
+        "t": 157.82
+      },
+      {
+        "title": "Your turn",
+        "t": 186.496
+      },
+      {
+        "title": "Summary",
+        "t": 226.746
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4:q",
+        "t": 196.034,
+        "prompt": "Solve $x^3 - 4x^2 + x + 6 = 0$.",
+        "choices": [
+          "$x = 1,\\ -2$ or $-3$",
+          "$x = -1,\\ 2$ or $3$",
+          "$x = -1,\\ -2$ or $3$",
+          "$x = 1,\\ 2$ or $3$"
+        ],
+        "answer": 1,
+        "working": "$P(-1) = -1 - 4 - 1 + 6 = 0$. Dividing by $x + 1$ leaves $x^2 - 5x + 6 = (x - 2)(x - 3)$, so $(x + 1)(x - 2)(x - 3) = 0$."
+      }
+    ]
+  },
+  "m301-3-4-b": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 2: Multiplicity",
+    "duration": 264,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Multiplicity",
+        "t": 21.155
+      },
+      {
+        "title": "Three shapes",
+        "t": 64.886
+      },
+      {
+        "title": "Why",
+        "t": 100.951
+      },
+      {
+        "title": "Two examples",
+        "t": 137.508
+      },
+      {
+        "title": "Watch out",
+        "t": 174.037
+      },
+      {
+        "title": "Your turn",
+        "t": 200.133
+      },
+      {
+        "title": "Summary",
+        "t": 236.865
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-b:q",
+        "t": 213.195,
+        "prompt": "At which zero does $y = (x - 4)^2(x + 1)$ touch the $x$-axis?",
+        "choices": [
+          "$x = 1$",
+          "$x = -4$",
+          "$x = -1$",
+          "$x = 4$"
+        ],
+        "answer": 3,
+        "working": "$(x - 4)^2$ gives the zero $4$ with multiplicity $2$, so the graph touches there. At $-1$ the multiplicity is $1$, so it crosses."
+      }
+    ]
+  },
+  "m301-3-4-c": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 3: Sketching from Factored Form",
+    "duration": 233,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 17.772
+      },
+      {
+        "title": "Sketching a cubic",
+        "t": 65.02
+      },
+      {
+        "title": "Watch out",
+        "t": 123.342
+      },
+      {
+        "title": "Your turn",
+        "t": 160.045
+      },
+      {
+        "title": "Summary",
+        "t": 202.682
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-c:q",
+        "t": 171.683,
+        "prompt": "Find the $y$-intercept and the end behaviour of $y = (x - 2)^2(x + 3)$.",
+        "choices": [
+          "$12$; quadrant III to I",
+          "$12$; quadrant II to I",
+          "$-12$; quadrant III to I",
+          "$-6$; quadrant III to I"
+        ],
+        "answer": 0,
+        "working": "$y$-intercept: $(0 - 2)^2(0 + 3) = 4 \\times 3 = 12$. Degree $2 + 1 = 3$, odd, and leading coefficient $1$: from quadrant III to quadrant I."
+      }
+    ]
+  },
+  "m301-3-4-d": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 4: Equations from Graphs",
+    "duration": 249,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Reading the graph",
+        "t": 20.324
+      },
+      {
+        "title": "Least degree",
+        "t": 87.776
+      },
+      {
+        "title": "A flattened crossing",
+        "t": 118.603
+      },
+      {
+        "title": "Your turn",
+        "t": 170.391
+      },
+      {
+        "title": "Summary",
+        "t": 216.811
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-d:q",
+        "t": 188.242,
+        "prompt": "A cubic function has a zero of multiplicity $2$ at $x = 3$, a zero of multiplicity $1$ at $x = -1$, and a $y$-intercept of $18$. Which is its equation?",
+        "choices": [
+          "$y = 18(x - 3)^2(x + 1)$",
+          "$y = 2(x + 3)^2(x - 1)$",
+          "$y = 2(x - 3)^2(x + 1)$",
+          "$y = 2(x - 3)(x + 1)^2$"
+        ],
+        "answer": 2,
+        "working": "$y = a(x - 3)^2(x + 1)$. At $(0, 18)$: $18 = a(9)(1) = 9a$, so $a = 2$."
+      }
+    ]
+  },
+  "m301-3-4-e": {
+    "lessonId": "m301-3-4",
+    "title": "Equations and Graphs of Polynomial Functions, Part 5: Inequalities and Applications",
+    "duration": 321,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Factor and find the zeros",
+        "t": 22.091
+      },
+      {
+        "title": "Testing each interval",
+        "t": 57.689
+      },
+      {
+        "title": "A box with a given volume",
+        "t": 104.954
+      },
+      {
+        "title": "The only real solution",
+        "t": 166.534
+      },
+      {
+        "title": "Watch out",
+        "t": 216.154
+      },
+      {
+        "title": "Your turn",
+        "t": 252.393
+      },
+      {
+        "title": "Summary",
+        "t": 292.385
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-3-4-e:q",
+        "t": 262.881,
+        "prompt": "Solve $(x + 1)(x - 2)(x - 4) < 0$.",
+        "choices": [
+          "$x \\in (-1, 2) \\cup (4, \\infty)$",
+          "$x \\in (-\\infty, -1) \\cup (2, 4)$",
+          "$x \\in (-\\infty, -1] \\cup [2, 4]$",
+          "$x \\in (2, 4)$"
+        ],
+        "answer": 1,
+        "working": "The zeros $-1$, $2$ and $4$ split the line. $P(-2) = -24$, $P(0) = 8$, $P(3) = -4$ and $P(5) = 18$, so $P(x) < 0$ on $(-\\infty, -1)$ and $(2, 4)$. The zeros are not included."
+      }
+    ]
+  },
+  "m301-4-1": {
+    "lessonId": "m301-4-1",
+    "title": "Angles and Angle Measure, Part 1: Radian Measure",
+    "duration": 380,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One radian",
+        "t": 29.342
+      },
+      {
+        "title": "A full turn",
+        "t": 67.976
+      },
+      {
+        "title": "Degrees to radians",
+        "t": 127.659
+      },
+      {
+        "title": "Radians to degrees",
+        "t": 194.559
+      },
+      {
+        "title": "Upside-down factor",
+        "t": 264.037
+      },
+      {
+        "title": "Your turn",
+        "t": 304.934
+      },
+      {
+        "title": "Summary",
+        "t": 342.637
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-1:q",
+        "t": 313.658,
+        "prompt": "Convert $150^\\circ$ to radians. Give an exact answer.",
+        "choices": [
+          "$\\dfrac{6\\pi}{5}$",
+          "$\\dfrac{5\\pi}{6}$",
+          "$\\dfrac{5\\pi}{3}$",
+          "$\\dfrac{27\\,000}{\\pi}$"
+        ],
+        "answer": 1,
+        "working": "$150^\\circ \\times \\dfrac{\\pi}{180^\\circ} = \\dfrac{150\\pi}{180} = \\dfrac{5\\pi}{6}$, dividing the numerator and denominator by $30$."
+      }
+    ]
+  },
+  "m301-4-1-b": {
+    "lessonId": "m301-4-1",
+    "title": "Angles and Angle Measure, Part 2: Coterminal Angles",
+    "duration": 294,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Standard position",
+        "t": 22.4
+      },
+      {
+        "title": "Coterminal angles",
+        "t": 67.132
+      },
+      {
+        "title": "In radians",
+        "t": 129.462
+      },
+      {
+        "title": "Mixing units",
+        "t": 187.073
+      },
+      {
+        "title": "Your turn",
+        "t": 222.386
+      },
+      {
+        "title": "Summary",
+        "t": 258.582
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-1-b:q",
+        "t": 229.735,
+        "prompt": "Which angle is coterminal with $\\dfrac{5\\pi}{3}$?",
+        "choices": [
+          "$\\dfrac{2\\pi}{3}$",
+          "$-\\dfrac{5\\pi}{3}$",
+          "$-\\dfrac{\\pi}{3}$",
+          "$\\dfrac{8\\pi}{3}$"
+        ],
+        "answer": 2,
+        "working": "Subtract a full turn, $2\\pi = \\dfrac{6\\pi}{3}$: $\\dfrac{5\\pi}{3} - \\dfrac{6\\pi}{3} = -\\dfrac{\\pi}{3}$."
+      }
+    ]
+  },
+  "m301-4-1-c": {
+    "lessonId": "m301-4-1",
+    "title": "Angles and Angle Measure, Part 3: Arc Length",
+    "duration": 330,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The formula",
+        "t": 22.935
+      },
+      {
+        "title": "An arc of a circle",
+        "t": 68.713
+      },
+      {
+        "title": "Angle in degrees",
+        "t": 98.672
+      },
+      {
+        "title": "Degrees in the formula",
+        "t": 142.658
+      },
+      {
+        "title": "Finding the angle",
+        "t": 171.574
+      },
+      {
+        "title": "Rotations in radians",
+        "t": 223.926
+      },
+      {
+        "title": "Your turn",
+        "t": 261.584
+      },
+      {
+        "title": "Summary",
+        "t": 302.475
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-1-c:q",
+        "t": 276.612,
+        "prompt": "A circle has a radius of $10$ cm. How long is the arc subtended by a central angle of $\\dfrac{\\pi}{5}$, to the nearest tenth of a centimetre?",
+        "choices": [
+          "$15.9$ cm",
+          "$360$ cm",
+          "$0.1$ cm",
+          "$6.3$ cm"
+        ],
+        "answer": 3,
+        "working": "$a = r\\theta = 10 \\times \\dfrac{\\pi}{5} = 2\\pi \\approx 6.28$, so about $6.3$ cm."
+      }
+    ]
+  },
+  "m301-4-2": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 1: The Equation of the Unit Circle",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The equation",
+        "t": 23.473
+      },
+      {
+        "title": "Is the point on the circle?",
+        "t": 78.025
+      },
+      {
+        "title": "A missing coordinate",
+        "t": 122.3
+      },
+      {
+        "title": "Dropping the sign",
+        "t": 181.263
+      },
+      {
+        "title": "Your turn",
+        "t": 213.97
+      },
+      {
+        "title": "Summary",
+        "t": 249.446
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2:q",
+        "t": 224.114,
+        "prompt": "The point $\\left(\\dfrac{3}{5}, y\\right)$ is on the unit circle in quadrant IV. Determine $y$.",
+        "choices": [
+          "$-\\dfrac{4}{5}$",
+          "$\\dfrac{4}{5}$",
+          "$-\\dfrac{2}{5}$",
+          "$\\dfrac{16}{25}$"
+        ],
+        "answer": 0,
+        "working": "$y^2 = 1 - \\dfrac{9}{25} = \\dfrac{16}{25}$, so $y = \\pm\\dfrac{4}{5}$. In quadrant IV, $y < 0$: $y = -\\dfrac{4}{5}$."
+      }
+    ]
+  },
+  "m301-4-2-b": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 2: Points for Special Angles",
+    "duration": 319,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "P of theta",
+        "t": 23.321
+      },
+      {
+        "title": "The angle π/4",
+        "t": 74.933
+      },
+      {
+        "title": "The angles π/6 and π/3",
+        "t": 123.295
+      },
+      {
+        "title": "Quadrant I",
+        "t": 172.322
+      },
+      {
+        "title": "Swapping the coordinates",
+        "t": 211.684
+      },
+      {
+        "title": "Your turn",
+        "t": 250.343
+      },
+      {
+        "title": "Summary",
+        "t": 280.923
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2-b:q",
+        "t": 258.293,
+        "prompt": "What is the exact value of $\\cos\\dfrac{\\pi}{6}$?",
+        "choices": [
+          "$\\dfrac{1}{2}$",
+          "$\\dfrac{\\sqrt{2}}{2}$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$\\sqrt{3}$"
+        ],
+        "answer": 2,
+        "working": "$P\\left(\\dfrac{\\pi}{6}\\right) = \\left(\\dfrac{\\sqrt{3}}{2}, \\dfrac{1}{2}\\right)$, and $\\cos\\theta$ is the $x$-coordinate: $\\dfrac{\\sqrt{3}}{2}$."
+      }
+    ]
+  },
+  "m301-4-2-c": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 3: Points in Every Quadrant",
+    "duration": 291,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One reference angle, four points",
+        "t": 18.007
+      },
+      {
+        "title": "A quadrant III point",
+        "t": 58.806
+      },
+      {
+        "title": "A negative angle",
+        "t": 106.024
+      },
+      {
+        "title": "From a point to the angle",
+        "t": 152.134
+      },
+      {
+        "title": "Forgetting the signs",
+        "t": 192.933
+      },
+      {
+        "title": "Your turn",
+        "t": 221.756
+      },
+      {
+        "title": "Summary",
+        "t": 261.245
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2-c:q",
+        "t": 230.143,
+        "prompt": "Determine the exact coordinates of $P\\left(\\dfrac{5\\pi}{6}\\right)$.",
+        "choices": [
+          "$\\left(\\dfrac{\\sqrt{3}}{2}, -\\dfrac{1}{2}\\right)$",
+          "$\\left(-\\dfrac{\\sqrt{3}}{2}, \\dfrac{1}{2}\\right)$",
+          "$\\left(-\\dfrac{1}{2}, \\dfrac{\\sqrt{3}}{2}\\right)$",
+          "$\\left(-\\dfrac{\\sqrt{3}}{2}, -\\dfrac{1}{2}\\right)$"
+        ],
+        "answer": 1,
+        "working": "$\\dfrac{5\\pi}{6}$ is in quadrant II with reference angle $\\pi - \\dfrac{5\\pi}{6} = \\dfrac{\\pi}{6}$. $P\\left(\\dfrac{\\pi}{6}\\right) = \\left(\\dfrac{\\sqrt{3}}{2}, \\dfrac{1}{2}\\right)$; in quadrant II, $x < 0$ and $y > 0$."
+      }
+    ]
+  },
+  "m301-4-2-d": {
+    "lessonId": "m301-4-2",
+    "title": "The Unit Circle, Part 4: Symmetry and Larger Circles",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Symmetry",
+        "t": 18.219
+      },
+      {
+        "title": "Using symmetry",
+        "t": 60.227
+      },
+      {
+        "title": "A circle of radius 4",
+        "t": 97.742
+      },
+      {
+        "title": "Forgetting the radius",
+        "t": 149.31
+      },
+      {
+        "title": "Your turn",
+        "t": 185.195
+      },
+      {
+        "title": "Summary",
+        "t": 224.113
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-2-d:q",
+        "t": 196.281,
+        "prompt": "$P(\\theta) = \\left(-\\dfrac{8}{17}, \\dfrac{15}{17}\\right)$. Determine $P(-\\theta)$.",
+        "choices": [
+          "$\\left(\\dfrac{8}{17}, \\dfrac{15}{17}\\right)$",
+          "$\\left(\\dfrac{8}{17}, -\\dfrac{15}{17}\\right)$",
+          "$\\left(-\\dfrac{15}{17}, \\dfrac{8}{17}\\right)$",
+          "$\\left(-\\dfrac{8}{17}, -\\dfrac{15}{17}\\right)$"
+        ],
+        "answer": 3,
+        "working": "$-\\theta$ reflects $P(\\theta)$ in the $x$-axis: $x$ stays the same and $y$ changes sign."
+      }
+    ]
+  },
+  "m301-4-3": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 1: The Six Ratios",
+    "duration": 277,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three ratios",
+        "t": 19.087
+      },
+      {
+        "title": "The reciprocal ratios",
+        "t": 44.894
+      },
+      {
+        "title": "A point at distance r",
+        "t": 88.395
+      },
+      {
+        "title": "All six from a point",
+        "t": 133.531
+      },
+      {
+        "title": "Pairing the wrong reciprocals",
+        "t": 183.023
+      },
+      {
+        "title": "Your turn",
+        "t": 207.07
+      },
+      {
+        "title": "Summary",
+        "t": 244.284
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3:q",
+        "t": 217.536,
+        "prompt": "$P(\\theta) = \\left(\\dfrac{5}{13}, -\\dfrac{12}{13}\\right)$. What is $\\csc\\theta$?",
+        "choices": [
+          "$-\\dfrac{13}{12}$",
+          "$\\dfrac{13}{5}$",
+          "$-\\dfrac{12}{13}$",
+          "$-\\dfrac{5}{12}$"
+        ],
+        "answer": 0,
+        "working": "$\\sin\\theta = y = -\\dfrac{12}{13}$, so $\\csc\\theta = \\dfrac{1}{y} = -\\dfrac{13}{12}$."
+      }
+    ]
+  },
+  "m301-4-3-b": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 2: Exact Values for Special Angles",
+    "duration": 249,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A reciprocal ratio",
+        "t": 23.065
+      },
+      {
+        "title": "A negative angle",
+        "t": 72.304
+      },
+      {
+        "title": "A quadrantal angle",
+        "t": 112.224
+      },
+      {
+        "title": "Combining values",
+        "t": 147.009
+      },
+      {
+        "title": "Your turn",
+        "t": 184.344
+      },
+      {
+        "title": "Summary",
+        "t": 220.612
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3-b:q",
+        "t": 193.083,
+        "prompt": "Determine the exact value of $\\csc\\dfrac{2\\pi}{3}$.",
+        "choices": [
+          "$-2$",
+          "$\\dfrac{2\\sqrt{3}}{3}$",
+          "$-\\dfrac{2\\sqrt{3}}{3}$",
+          "$\\dfrac{\\sqrt{3}}{2}$"
+        ],
+        "answer": 1,
+        "working": "$P\\left(\\dfrac{2\\pi}{3}\\right) = \\left(-\\dfrac{1}{2}, \\dfrac{\\sqrt{3}}{2}\\right)$, so $\\csc\\dfrac{2\\pi}{3} = \\dfrac{1}{y} = \\dfrac{2}{\\sqrt{3}} = \\dfrac{2\\sqrt{3}}{3}$."
+      }
+    ]
+  },
+  "m301-4-3-c": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 3: From One Ratio to the Others",
+    "duration": 270,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The method",
+        "t": 21.876
+      },
+      {
+        "title": "Given cosecant",
+        "t": 52.52
+      },
+      {
+        "title": "r is always positive",
+        "t": 117.519
+      },
+      {
+        "title": "Given tangent",
+        "t": 145.904
+      },
+      {
+        "title": "Your turn",
+        "t": 194.527
+      },
+      {
+        "title": "Summary",
+        "t": 239.852
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3-c:q",
+        "t": 206.298,
+        "prompt": "$\\cot\\theta = \\dfrac{3}{4}$ and $\\theta$ terminates in quadrant III. Determine $\\sin\\theta$.",
+        "choices": [
+          "$\\dfrac{4}{5}$",
+          "$-\\dfrac{3}{5}$",
+          "$-\\dfrac{5}{4}$",
+          "$-\\dfrac{4}{5}$"
+        ],
+        "answer": 3,
+        "working": "In quadrant III, $x < 0$ and $y < 0$: $\\cot\\theta = \\dfrac{x}{y} = \\dfrac{-3}{-4}$. Then $r = \\sqrt{9 + 16} = 5$, so $\\sin\\theta = \\dfrac{y}{r} = -\\dfrac{4}{5}$."
+      }
+    ]
+  },
+  "m301-4-3-d": {
+    "lessonId": "m301-4-3",
+    "title": "Trigonometric Ratios, Part 4: Calculator Values and Angles",
+    "duration": 269,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "No reciprocal keys",
+        "t": 22.595
+      },
+      {
+        "title": "Check your mode",
+        "t": 70.82
+      },
+      {
+        "title": "Finding an angle",
+        "t": 100.322
+      },
+      {
+        "title": "Inverse secant",
+        "t": 165.582
+      },
+      {
+        "title": "Your turn",
+        "t": 199.052
+      },
+      {
+        "title": "Summary",
+        "t": 235.738
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-3-d:q",
+        "t": 206.623,
+        "prompt": "Determine $\\cot 5$ to the nearest thousandth.",
+        "choices": [
+          "$-3.381$",
+          "$11.430$",
+          "$-0.296$",
+          "$1.373$"
+        ],
+        "answer": 2,
+        "working": "Radian mode: $\\tan 5 \\approx -3.38052$, so $\\cot 5 = \\dfrac{1}{\\tan 5} \\approx -0.296$."
+      }
+    ]
+  },
+  "m301-4-4": {
+    "lessonId": "m301-4-4",
+    "title": "Introduction to Trigonometric Equations, Part 1: Solving Over One Rotation",
+    "duration": 314,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 27.254
+      },
+      {
+        "title": "In degrees",
+        "t": 67.537
+      },
+      {
+        "title": "In radians",
+        "t": 127.797
+      },
+      {
+        "title": "On the graph",
+        "t": 186.402
+      },
+      {
+        "title": "Stopping at one answer",
+        "t": 213.651
+      },
+      {
+        "title": "Your turn",
+        "t": 242.37
+      },
+      {
+        "title": "Summary",
+        "t": 283.736
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-4:q",
+        "t": 253.105,
+        "prompt": "Solve $2\\sin\\theta - \\sqrt{3} = 0$ for $0 \\le \\theta < 2\\pi$.",
+        "choices": [
+          "$\\theta = \\dfrac{\\pi}{3}$ or $\\theta = \\dfrac{2\\pi}{3}$",
+          "$\\theta = \\dfrac{\\pi}{3}$ only",
+          "$\\theta = \\dfrac{\\pi}{6}$ or $\\theta = \\dfrac{5\\pi}{6}$",
+          "$\\theta = \\dfrac{4\\pi}{3}$ or $\\theta = \\dfrac{5\\pi}{3}$"
+        ],
+        "answer": 0,
+        "working": "$\\sin\\theta = \\dfrac{\\sqrt{3}}{2}$, so $\\theta_R = \\dfrac{\\pi}{3}$. Sine is positive in quadrants I and II: $\\theta = \\dfrac{\\pi}{3}$ or $\\theta = \\pi - \\dfrac{\\pi}{3} = \\dfrac{2\\pi}{3}$."
+      }
+    ]
+  },
+  "m301-4-4-b": {
+    "lessonId": "m301-4-4",
+    "title": "Introduction to Trigonometric Equations, Part 2: When the Value Is Not Special",
+    "duration": 278,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "With a calculator",
+        "t": 21.563
+      },
+      {
+        "title": "A negative calculator angle",
+        "t": 94.524
+      },
+      {
+        "title": "One solution, or none",
+        "t": 136.844
+      },
+      {
+        "title": "Your turn",
+        "t": 191.871
+      },
+      {
+        "title": "Summary",
+        "t": 240.699
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-4-b:q",
+        "t": 204.381,
+        "prompt": "Solve $4\\cos\\theta - 1 = 0$ for $0 \\le \\theta < 2\\pi$, to the nearest hundredth.",
+        "choices": [
+          "$\\theta \\approx 1.32$ only",
+          "$\\theta \\approx 1.32$ or $\\theta \\approx 1.82$",
+          "$\\theta \\approx 75.52$ or $\\theta \\approx 284.48$",
+          "$\\theta \\approx 1.32$ or $\\theta \\approx 4.97$"
+        ],
+        "answer": 3,
+        "working": "$\\cos\\theta = 0.25$, so $\\theta_R = \\cos^{-1}(0.25) \\approx 1.3181$. Cosine is positive in quadrants I and IV: $\\theta \\approx 1.32$ or $\\theta = 2\\pi - 1.3181 \\approx 4.97$."
+      }
+    ]
+  },
+  "m301-4-4-c": {
+    "lessonId": "m301-4-4",
+    "title": "Introduction to Trigonometric Equations, Part 3: Larger Domains and the General Solution",
+    "duration": 315,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two rotations",
+        "t": 21.46
+      },
+      {
+        "title": "On the graph",
+        "t": 85.025
+      },
+      {
+        "title": "The general solution",
+        "t": 118.504
+      },
+      {
+        "title": "Half a turn apart",
+        "t": 168.411
+      },
+      {
+        "title": "When to use πn",
+        "t": 210.347
+      },
+      {
+        "title": "Your turn",
+        "t": 238.676
+      },
+      {
+        "title": "Summary",
+        "t": 282.34
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-4-4-c:q",
+        "t": 248.763,
+        "prompt": "Write the general solution of $\\sqrt{3}\\tan\\theta - 1 = 0$, where $n \\in \\mathbb{I}$.",
+        "choices": [
+          "$\\theta = \\dfrac{\\pi}{6} + 2\\pi n$",
+          "$\\theta = \\dfrac{\\pi}{6} + \\pi n$",
+          "$\\theta = \\dfrac{\\pi}{3} + \\pi n$",
+          "$\\theta = \\dfrac{\\pi}{6} + 2\\pi n$ or $\\dfrac{5\\pi}{6} + 2\\pi n$"
+        ],
+        "answer": 1,
+        "working": "$\\tan\\theta = \\dfrac{1}{\\sqrt{3}}$, so $\\theta_R = \\dfrac{\\pi}{6}$. Tangent is positive in quadrants I and III: $\\dfrac{\\pi}{6}$ and $\\dfrac{7\\pi}{6}$, which are $\\pi$ apart."
+      }
+    ]
+  },
+  "m301-5-1": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 1: From the Unit Circle to the Graphs",
+    "duration": 306,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The height of a point",
+        "t": 28.718
+      },
+      {
+        "title": "A table of values",
+        "t": 94.333
+      },
+      {
+        "title": "The two graphs",
+        "t": 147.134
+      },
+      {
+        "title": "Periodic functions",
+        "t": 195.784
+      },
+      {
+        "title": "Your turn",
+        "t": 240.202
+      },
+      {
+        "title": "Summary",
+        "t": 274.879
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1:q",
+        "t": 251.338,
+        "prompt": "For $0 \\le x \\le 2\\pi$, at which value of $x$ does $y = \\sin x$ reach its minimum?",
+        "choices": [
+          "$x = \\pi$",
+          "$x = 2\\pi$",
+          "$x = \\frac{3\\pi}{2}$",
+          "$x = \\frac{\\pi}{2}$"
+        ],
+        "answer": 2,
+        "working": "$\\sin x$ is the height of $P(x)$ on the unit circle. $P$ is lowest, at $(0, -1)$, when $x = \\frac{3\\pi}{2}$, so the minimum value $-1$ is at $x = \\frac{3\\pi}{2}$."
+      }
+    ]
+  },
+  "m301-5-1-b": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 2: Domain, Range, Zeros and Maximums",
+    "duration": 337,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Domain and range",
+        "t": 24.278
+      },
+      {
+        "title": "Amplitude",
+        "t": 73.723
+      },
+      {
+        "title": "Zeros and maximums of sine",
+        "t": 118.871
+      },
+      {
+        "title": "Zeros and maximums of cosine",
+        "t": 158.417
+      },
+      {
+        "title": "All the features",
+        "t": 191.52
+      },
+      {
+        "title": "Zeros in an interval",
+        "t": 218.432
+      },
+      {
+        "title": "Your turn",
+        "t": 263.063
+      },
+      {
+        "title": "Summary",
+        "t": 298.304
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1-b:q",
+        "t": 274.615,
+        "prompt": "Determine the $x$-values of the maximums of $y = \\cos x$ for $0 \\le x \\le 4\\pi$.",
+        "choices": [
+          "$x = \\pi,\\ 3\\pi$",
+          "$x = 0,\\ 2\\pi,\\ 4\\pi$",
+          "$x = \\frac{\\pi}{2},\\ \\frac{5\\pi}{2}$",
+          "$x = 0,\\ \\pi,\\ 2\\pi,\\ 3\\pi,\\ 4\\pi$"
+        ],
+        "answer": 1,
+        "working": "The maximums of $y = \\cos x$ are at $x = 2\\pi n$, where $P(x)$ is at $(1, 0)$. From $0$ to $4\\pi$ that gives $x = 0$, $2\\pi$ and $4\\pi$."
+      }
+    ]
+  },
+  "m301-5-1-c": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 3: Amplitude, the Effect of a",
+    "duration": 243,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A vertical stretch",
+        "t": 23.775
+      },
+      {
+        "title": "A negative value of a",
+        "t": 82.406
+      },
+      {
+        "title": "A negative amplitude",
+        "t": 139.375
+      },
+      {
+        "title": "Your turn",
+        "t": 169.96
+      },
+      {
+        "title": "Summary",
+        "t": 204.473
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1-c:q",
+        "t": 179.068,
+        "prompt": "State the amplitude and range of $y = -4\\sin x$.",
+        "choices": [
+          "Amplitude $-4$; range $-4 \\le y \\le 4$",
+          "Amplitude $4$; range $0 \\le y \\le 4$",
+          "Amplitude $8$; range $-4 \\le y \\le 4$",
+          "Amplitude $4$; range $-4 \\le y \\le 4$"
+        ],
+        "answer": 3,
+        "working": "$a = -4$, so the amplitude is $\\lvert -4 \\rvert = 4$, and the graph is reflected in the $x$-axis. It goes from $-4$ to $4$: the range is $\\{y \\mid -4 \\le y \\le 4,\\ y \\in \\mathbb{R}\\}$."
+      }
+    ]
+  },
+  "m301-5-1-d": {
+    "lessonId": "m301-5-1",
+    "title": "Graphing Sine and Cosine Functions, Part 4: Period, the Effect of b",
+    "duration": 301,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One cycle of bx",
+        "t": 21.891
+      },
+      {
+        "title": "Squeezed sideways",
+        "t": 84.221
+      },
+      {
+        "title": "The period formula",
+        "t": 118.461
+      },
+      {
+        "title": "From the period to b",
+        "t": 175.486
+      },
+      {
+        "title": "Multiplying instead of dividing",
+        "t": 210.465
+      },
+      {
+        "title": "Your turn",
+        "t": 237.825
+      },
+      {
+        "title": "Summary",
+        "t": 270.142
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-1-d:q",
+        "t": 245.684,
+        "prompt": "Determine the period of $y = 5\\sin 4x$.",
+        "choices": [
+          "$\\dfrac{\\pi}{2}$",
+          "$8\\pi$",
+          "$\\dfrac{2\\pi}{5}$",
+          "$4$"
+        ],
+        "answer": 0,
+        "working": "$b = 4$, so the period is $\\frac{2\\pi}{4} = \\frac{\\pi}{2}$. The $5$ is the amplitude; it does not change the period."
+      }
+    ]
+  },
+  "m301-5-2": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 1: The Four Parameters",
+    "duration": 317,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The general form",
+        "t": 25.025
+      },
+      {
+        "title": "All four on one graph",
+        "t": 78.667
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 131.295
+      },
+      {
+        "title": "The sign of the shift",
+        "t": 194.232
+      },
+      {
+        "title": "Your turn",
+        "t": 230.994
+      },
+      {
+        "title": "Summary",
+        "t": 275.387
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2:q",
+        "t": 242.307,
+        "prompt": "State the phase shift and range of $y = 5\\cos\\left(x + \\frac{\\pi}{4}\\right) - 2$.",
+        "choices": [
+          "$\\frac{\\pi}{4}$ right; $-7 \\le y \\le 3$",
+          "$\\frac{\\pi}{4}$ left; $-5 \\le y \\le 5$",
+          "$\\frac{\\pi}{4}$ left; $-7 \\le y \\le 3$",
+          "$\\frac{\\pi}{4}$ left; $-3 \\le y \\le 7$"
+        ],
+        "answer": 2,
+        "working": "$x + \\frac{\\pi}{4} = x - \\left(-\\frac{\\pi}{4}\\right)$, so the graph moves $\\frac{\\pi}{4}$ left. The midline is $y = -2$ and the amplitude is $5$: from $-2 - 5 = -7$ to $-2 + 5 = 3$."
+      }
+    ]
+  },
+  "m301-5-2-b": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 2: Factor b First",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A hidden phase shift",
+        "t": 19.731
+      },
+      {
+        "title": "In degrees",
+        "t": 87.799
+      },
+      {
+        "title": "Reading the shift before factoring",
+        "t": 125.935
+      },
+      {
+        "title": "Your turn",
+        "t": 163.339
+      },
+      {
+        "title": "Summary",
+        "t": 196.391
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2-b:q",
+        "t": 172.58,
+        "prompt": "What is the phase shift of $y = \\sin\\left(2x - \\frac{\\pi}{2}\\right)$?",
+        "choices": [
+          "$\\frac{\\pi}{2}$ to the right",
+          "$\\frac{\\pi}{4}$ to the left",
+          "$\\frac{\\pi}{2}$ to the left",
+          "$\\frac{\\pi}{4}$ to the right"
+        ],
+        "answer": 3,
+        "working": "Factor out $2$: $2x - \\frac{\\pi}{2} = 2\\left(x - \\frac{\\pi}{4}\\right)$, so $c = \\frac{\\pi}{4}$: a shift of $\\frac{\\pi}{4}$ to the right."
+      }
+    ]
+  },
+  "m301-5-2-c": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 3: Writing an Equation from a Graph",
+    "duration": 285,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The steps",
+        "t": 19.315
+      },
+      {
+        "title": "Amplitude and midline",
+        "t": 65.154
+      },
+      {
+        "title": "The period",
+        "t": 95.128
+      },
+      {
+        "title": "Cosine or sine",
+        "t": 121.139
+      },
+      {
+        "title": "Many right answers",
+        "t": 166.765
+      },
+      {
+        "title": "Your turn",
+        "t": 203.865
+      },
+      {
+        "title": "Summary",
+        "t": 253.627
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2-c:q",
+        "t": 220.62,
+        "prompt": "A sinusoidal graph has a maximum of $5$ at $x = \\frac{\\pi}{2}$, and its next minimum, $-1$, at $x = \\frac{3\\pi}{2}$. Which equation fits the graph?",
+        "choices": [
+          "$y = 3\\cos\\left(x + \\frac{\\pi}{2}\\right) + 2$",
+          "$y = 3\\cos\\left(x - \\frac{\\pi}{2}\\right) + 2$",
+          "$y = 6\\cos\\left(x - \\frac{\\pi}{2}\\right) + 2$",
+          "$y = 3\\cos 2\\left(x - \\frac{\\pi}{2}\\right) + 2$"
+        ],
+        "answer": 1,
+        "working": "$a = \\frac{5 - (-1)}{2} = 3$ and $d = \\frac{5 + (-1)}{2} = 2$. From a maximum to the next minimum is half a period, so the period is $2\\pi$ and $b = 1$. A maximum at $x = \\frac{\\pi}{2}$ gives $c = \\frac{\\pi}{2}$."
+      }
+    ]
+  },
+  "m301-5-2-d": {
+    "lessonId": "m301-5-2",
+    "title": "Transformations of Sinusoidal Functions, Part 4: Writing an Equation from a Description",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From characteristics",
+        "t": 17.647
+      },
+      {
+        "title": "Check with a sketch",
+        "t": 65.141
+      },
+      {
+        "title": "Typing it, and a mistake",
+        "t": 122.862
+      },
+      {
+        "title": "Your turn",
+        "t": 152.286
+      },
+      {
+        "title": "Summary",
+        "t": 195.863
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-2-d:q",
+        "t": 168.86,
+        "prompt": "A cosine function has an amplitude of $2$, a period of $\\pi$, a phase shift of $\\frac{\\pi}{3}$ to the left and a vertical displacement of $1$ down. Which is its equation?",
+        "choices": [
+          "$y = 2\\cos 2\\left(x + \\frac{\\pi}{3}\\right) - 1$",
+          "$y = 2\\cos \\pi\\left(x + \\frac{\\pi}{3}\\right) - 1$",
+          "$y = 2\\cos 2\\left(x - \\frac{\\pi}{3}\\right) - 1$",
+          "$y = 2\\cos \\frac{1}{2}\\left(x + \\frac{\\pi}{3}\\right) - 1$"
+        ],
+        "answer": 0,
+        "working": "$a = 2$ and $d = -1$. $b = \\frac{2\\pi}{\\pi} = 2$. A shift of $\\frac{\\pi}{3}$ to the left means $c = -\\frac{\\pi}{3}$, so the bracket is $\\left(x + \\frac{\\pi}{3}\\right)$."
+      }
+    ]
+  },
+  "m301-5-3": {
+    "lessonId": "m301-5-3",
+    "title": "The Tangent Function, Part 1: Tangent on the Unit Circle",
+    "duration": 280,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Tangent as a slope",
+        "t": 21.853
+      },
+      {
+        "title": "Zero and undefined",
+        "t": 61.328
+      },
+      {
+        "title": "An example",
+        "t": 126.617
+      },
+      {
+        "title": "Asymptotes",
+        "t": 164.787
+      },
+      {
+        "title": "Your turn",
+        "t": 208.415
+      },
+      {
+        "title": "Summary",
+        "t": 243.092
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-3:q",
+        "t": 221.305,
+        "prompt": "The terminal arm of $\\theta$ meets the unit circle at $P\\left(\\frac{3}{5}, -\\frac{4}{5}\\right)$. Determine $\\tan\\theta$.",
+        "choices": [
+          "$-\\dfrac{3}{4}$",
+          "$\\dfrac{4}{3}$",
+          "$-\\dfrac{4}{5}$",
+          "$-\\dfrac{4}{3}$"
+        ],
+        "answer": 3,
+        "working": "$\\tan\\theta = \\dfrac{y}{x} = \\dfrac{-4/5}{3/5} = -\\dfrac{4}{3}$, the slope of the terminal arm."
+      }
+    ]
+  },
+  "m301-5-3-b": {
+    "lessonId": "m301-5-3",
+    "title": "The Tangent Function, Part 2: The Graph of y = tan x",
+    "duration": 311,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One branch",
+        "t": 20.617
+      },
+      {
+        "title": "Many branches",
+        "t": 73.93
+      },
+      {
+        "title": "Why the period is pi",
+        "t": 113.086
+      },
+      {
+        "title": "The features",
+        "t": 150.499
+      },
+      {
+        "title": "Asymptotes and zeros in an interval",
+        "t": 189.299
+      },
+      {
+        "title": "Treating tangent like sine",
+        "t": 225.992
+      },
+      {
+        "title": "Your turn",
+        "t": 244.851
+      },
+      {
+        "title": "Summary",
+        "t": 277.538
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-3-b:q",
+        "t": 252.711,
+        "prompt": "State the period and range of $y = \\tan x$.",
+        "choices": [
+          "Period $2\\pi$; range all real numbers",
+          "Period $\\pi$; range all real numbers",
+          "Period $\\pi$; range $-1 \\le y \\le 1$",
+          "Period $2\\pi$; range $-1 \\le y \\le 1$"
+        ],
+        "answer": 1,
+        "working": "The arms at $\\theta$ and $\\theta + \\pi$ lie on the same line, so they have the same slope: the period is $\\pi$. A slope can be any real number, so the range is all real numbers."
+      }
+    ]
+  },
+  "m301-5-3-c": {
+    "lessonId": "m301-5-3",
+    "title": "The Tangent Function, Part 3: Solving tan x = k",
+    "duration": 247,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Solving tan x = −2",
+        "t": 24.131
+      },
+      {
+        "title": "The method",
+        "t": 100.816
+      },
+      {
+        "title": "The period of y = tan bx",
+        "t": 128.575
+      },
+      {
+        "title": "Your turn",
+        "t": 172.376
+      },
+      {
+        "title": "Summary",
+        "t": 217.076
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-3-c:q",
+        "t": 182.69,
+        "prompt": "Solve $\\tan x = 3$ for $0 \\le x \\le 2\\pi$, to the nearest hundredth.",
+        "choices": [
+          "$x \\approx 1.25$ only",
+          "$x \\approx 1.25$ or $x \\approx 1.89$",
+          "$x \\approx 1.25$ or $x \\approx 4.39$",
+          "$x \\approx 1.25$ or $x \\approx 7.53$"
+        ],
+        "answer": 2,
+        "working": "$\\tan^{-1} 3 \\approx 1.2490$, which is in the domain. Adding $\\pi$ gives $\\approx 4.3906$; adding $2\\pi$ gives $\\approx 7.5322$, which is past $2\\pi$."
+      }
+    ]
+  },
+  "m301-5-4": {
+    "lessonId": "m301-5-4",
+    "title": "Equations and Graphs of Trigonometric Functions, Part 1: Building a Model",
+    "duration": 322,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four features",
+        "t": 18.053
+      },
+      {
+        "title": "Where the cycle starts",
+        "t": 58.361
+      },
+      {
+        "title": "A Ferris wheel",
+        "t": 76.28
+      },
+      {
+        "title": "The graph",
+        "t": 129.797
+      },
+      {
+        "title": "The height after 25 s",
+        "t": 158.029
+      },
+      {
+        "title": "Degree mode",
+        "t": 207.081
+      },
+      {
+        "title": "Your turn",
+        "t": 238.845
+      },
+      {
+        "title": "Summary",
+        "t": 289.929
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-4:q",
+        "t": 259.544,
+        "prompt": "A Ferris wheel has a radius of $15$ m, its centre is $17$ m above the ground, and it makes one rotation every $40$ s. A rider boards at the lowest point at $t = 0$. Which equation models the rider’s height?",
+        "choices": [
+          "$h(t) = -15\\cos\\left(\\frac{\\pi}{20}t\\right) + 17$",
+          "$h(t) = 15\\cos\\left(\\frac{\\pi}{20}t\\right) + 17$",
+          "$h(t) = -15\\cos\\left(\\frac{\\pi}{40}t\\right) + 17$",
+          "$h(t) = -17\\cos\\left(\\frac{\\pi}{20}t\\right) + 15$"
+        ],
+        "answer": 0,
+        "working": "$|a| = 15$ (the radius) and $d = 17$ (the centre). The rider starts at a minimum, so use $-\\cos$: $a = -15$. $b = \\frac{2\\pi}{40} = \\frac{\\pi}{20}$."
+      }
+    ]
+  },
+  "m301-5-4-b": {
+    "lessonId": "m301-5-4",
+    "title": "Equations and Graphs of Trigonometric Functions, Part 2: When Does It Reach a Value?",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Use the graph first",
+        "t": 21.547
+      },
+      {
+        "title": "Solve for the angle",
+        "t": 57.769
+      },
+      {
+        "title": "Solve for the time",
+        "t": 103.012
+      },
+      {
+        "title": "Only one time",
+        "t": 155.801
+      },
+      {
+        "title": "Your turn",
+        "t": 179.459
+      },
+      {
+        "title": "Summary",
+        "t": 230.33
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-4-b:q",
+        "t": 194.977,
+        "prompt": "For $h(t) = -20\\cos\\left(\\frac{\\pi}{30}t\\right) + 22$, when during the first rotation ($0 \\le t \\le 60$) is the rider $12$ m above the ground?",
+        "choices": [
+          "$t = 10$ s only",
+          "$t = 10$ s and $t = 20$ s",
+          "$t = 20$ s and $t = 40$ s",
+          "$t = 10$ s and $t = 50$ s"
+        ],
+        "answer": 3,
+        "working": "$\\cos\\left(\\frac{\\pi}{30}t\\right) = \\frac{12 - 22}{-20} = 0.5$, so $\\theta = \\frac{\\pi}{3}$ or $2\\pi - \\frac{\\pi}{3} = \\frac{5\\pi}{3}$. Then $t = \\frac{30\\theta}{\\pi}$ gives $t = 10$ or $t = 50$."
+      }
+    ]
+  },
+  "m301-5-4-c": {
+    "lessonId": "m301-5-4",
+    "title": "Equations and Graphs of Trigonometric Functions, Part 3: Daylight in Edmonton",
+    "duration": 328,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The model",
+        "t": 19.822
+      },
+      {
+        "title": "A winter day",
+        "t": 90.56
+      },
+      {
+        "title": "Long days",
+        "t": 142.854
+      },
+      {
+        "title": "Check with a graph",
+        "t": 213.625
+      },
+      {
+        "title": "Your turn",
+        "t": 248.044
+      },
+      {
+        "title": "Summary",
+        "t": 301.512
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-5-4-c:q",
+        "t": 266.387,
+        "prompt": "Use $L(t) = 4.9\\sin\\left(\\frac{2\\pi}{365}(t - 80)\\right) + 12.2$ to estimate the hours of daylight on day $200$.",
+        "choices": [
+          "$12.4$ hours",
+          "$16.5$ hours",
+          "$7.9$ hours",
+          "$17.1$ hours"
+        ],
+        "answer": 1,
+        "working": "$\\frac{2\\pi}{365}(200 - 80) \\approx 2.0657$, and $\\sin 2.0657 \\approx 0.8803$ in radian mode, so $L(200) \\approx 4.9(0.8803) + 12.2 \\approx 16.5$."
+      }
+    ]
+  },
+  "m301-6-1": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 1: Identities and Non-Permissible Values",
+    "duration": 310,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What is an identity?",
+        "t": 27.038
+      },
+      {
+        "title": "Non-permissible values",
+        "t": 74.869
+      },
+      {
+        "title": "Finding non-permissible values",
+        "t": 130.738
+      },
+      {
+        "title": "Hidden denominators",
+        "t": 198.356
+      },
+      {
+        "title": "Your turn",
+        "t": 231.242
+      },
+      {
+        "title": "Summary",
+        "t": 271.54
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1:q",
+        "t": 244.52,
+        "prompt": "Which gives **all** the non-permissible values of $\\dfrac{\\tan x}{1 + \\sin x}$ for $0 \\le x < 2\\pi$?",
+        "choices": [
+          "$\\dfrac{3\\pi}{2}$ only",
+          "$\\dfrac{\\pi}{2}$ and $\\dfrac{3\\pi}{2}$",
+          "$0$ and $\\pi$",
+          "$0,\\ \\dfrac{\\pi}{2},\\ \\pi$ and $\\dfrac{3\\pi}{2}$"
+        ],
+        "answer": 1,
+        "working": "$1 + \\sin x = 0$ when $\\sin x = -1$: $x = \\dfrac{3\\pi}{2}$. And $\\tan x = \\dfrac{\\sin x}{\\cos x}$ is undefined when $\\cos x = 0$: $x = \\dfrac{\\pi}{2},\\ \\dfrac{3\\pi}{2}$."
+      }
+    ]
+  },
+  "m301-6-1-b": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 2: Reciprocal and Quotient Identities",
+    "duration": 273,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From the unit circle",
+        "t": 20.168
+      },
+      {
+        "title": "The identities",
+        "t": 69.391
+      },
+      {
+        "title": "Simplifying",
+        "t": 109.125
+      },
+      {
+        "title": "Why sin x over tan x is cos x",
+        "t": 169.853
+      },
+      {
+        "title": "Your turn",
+        "t": 199.841
+      },
+      {
+        "title": "Summary",
+        "t": 234.506
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1-b:q",
+        "t": 206.994,
+        "prompt": "Simplify $\\sec x\\cot x$.",
+        "choices": [
+          "$\\tan x$",
+          "$1$",
+          "$\\sin x$",
+          "$\\csc x$"
+        ],
+        "answer": 3,
+        "working": "$\\sec x\\cot x = \\dfrac{1}{\\cos x}\\cdot\\dfrac{\\cos x}{\\sin x} = \\dfrac{1}{\\sin x} = \\csc x$"
+      }
+    ]
+  },
+  "m301-6-1-c": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 3: The Pythagorean Identities",
+    "duration": 328,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The unit circle",
+        "t": 18.021
+      },
+      {
+        "title": "Two more identities",
+        "t": 56.219
+      },
+      {
+        "title": "The Pythagorean identities",
+        "t": 103.598
+      },
+      {
+        "title": "Using a Pythagorean identity",
+        "t": 157.067
+      },
+      {
+        "title": "What the square applies to",
+        "t": 221.011
+      },
+      {
+        "title": "Your turn",
+        "t": 251.447
+      },
+      {
+        "title": "Summary",
+        "t": 291.905
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1-c:q",
+        "t": 261.742,
+        "prompt": "Simplify $\\dfrac{1 - \\cos^2 x}{\\sin x\\cos x}$.",
+        "choices": [
+          "$\\tan x$",
+          "$\\cot x$",
+          "$\\sin x$",
+          "$1$"
+        ],
+        "answer": 0,
+        "working": "$1 - \\cos^2 x = \\sin^2 x$, so $\\dfrac{\\sin^2 x}{\\sin x\\cos x} = \\dfrac{\\sin x}{\\cos x} = \\tan x$."
+      }
+    ]
+  },
+  "m301-6-1-d": {
+    "lessonId": "m301-6-1",
+    "title": "Reciprocal, Quotient and Pythagorean Identities, Part 4: Simplifying Harder Expressions",
+    "duration": 261,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A strategy",
+        "t": 19.281
+      },
+      {
+        "title": "Combining fractions",
+        "t": 49.584
+      },
+      {
+        "title": "Replace and divide out",
+        "t": 97.72
+      },
+      {
+        "title": "Non-permissible values",
+        "t": 127.403
+      },
+      {
+        "title": "Your turn",
+        "t": 189.178
+      },
+      {
+        "title": "Summary",
+        "t": 232.102
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-1-d:q",
+        "t": 198.177,
+        "prompt": "Simplify $\\dfrac{1}{\\cos x} - \\sin x\\tan x$.",
+        "choices": [
+          "$\\sec x$",
+          "$\\sin x$",
+          "$\\cos x$",
+          "$1$"
+        ],
+        "answer": 2,
+        "working": "$\\dfrac{1}{\\cos x} - \\dfrac{\\sin^2 x}{\\cos x} = \\dfrac{1 - \\sin^2 x}{\\cos x} = \\dfrac{\\cos^2 x}{\\cos x} = \\cos x$"
+      }
+    ]
+  },
+  "m301-6-2": {
+    "lessonId": "m301-6-2",
+    "title": "Sum, Difference and Double-Angle Identities, Part 1: The Sum and Difference Identities",
+    "duration": 345,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The identities",
+        "t": 31.55
+      },
+      {
+        "title": "Where they come from",
+        "t": 91.806
+      },
+      {
+        "title": "Functions do not distribute",
+        "t": 173.16
+      },
+      {
+        "title": "Writing an expansion as one function",
+        "t": 209.848
+      },
+      {
+        "title": "Your turn",
+        "t": 268.314
+      },
+      {
+        "title": "Summary",
+        "t": 313.042
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-2:q",
+        "t": 281.628,
+        "prompt": "Determine the exact value of $\\sin 80^\\circ\\cos 20^\\circ - \\cos 80^\\circ\\sin 20^\\circ$.",
+        "choices": [
+          "$\\dfrac{1}{2}$",
+          "$\\sin 100^\\circ$",
+          "$\\dfrac{\\sqrt{3}}{2}$",
+          "$1$"
+        ],
+        "answer": 2,
+        "working": "This is $\\sin A\\cos B - \\cos A\\sin B = \\sin(A - B)$ with $A = 80^\\circ$ and $B = 20^\\circ$: $\\sin 60^\\circ = \\dfrac{\\sqrt{3}}{2}$."
+      }
+    ]
+  },
+  "m301-6-2-b": {
+    "lessonId": "m301-6-2",
+    "title": "Sum, Difference and Double-Angle Identities, Part 2: Exact Values",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Special angles",
+        "t": 23.793
+      },
+      {
+        "title": "The sine of 75°",
+        "t": 61.391
+      },
+      {
+        "title": "A tangent in radians",
+        "t": 116.049
+      },
+      {
+        "title": "Your turn",
+        "t": 189.306
+      },
+      {
+        "title": "Summary",
+        "t": 231.046
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-2-b:q",
+        "t": 197.097,
+        "prompt": "Determine the exact value of $\\cos 15^\\circ$.",
+        "choices": [
+          "$\\dfrac{\\sqrt{6} + \\sqrt{2}}{4}$",
+          "$\\dfrac{\\sqrt{6} - \\sqrt{2}}{4}$",
+          "$\\dfrac{\\sqrt{3} - 1}{2}$",
+          "$\\dfrac{\\sqrt{2} - \\sqrt{3}}{2}$"
+        ],
+        "answer": 0,
+        "working": "$\\cos(45^\\circ - 30^\\circ) = \\cos 45^\\circ\\cos 30^\\circ + \\sin 45^\\circ\\sin 30^\\circ = \\dfrac{\\sqrt{6}}{4} + \\dfrac{\\sqrt{2}}{4} = \\dfrac{\\sqrt{6} + \\sqrt{2}}{4}$"
+      }
+    ]
+  },
+  "m301-6-2-c": {
+    "lessonId": "m301-6-2",
+    "title": "Sum, Difference and Double-Angle Identities, Part 3: Double-Angle Identities",
+    "duration": 326,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Deriving the identities",
+        "t": 22.616
+      },
+      {
+        "title": "The double-angle identities",
+        "t": 79.57
+      },
+      {
+        "title": "From one ratio and a quadrant",
+        "t": 143.629
+      },
+      {
+        "title": "Doubling the ratio",
+        "t": 210.077
+      },
+      {
+        "title": "Your turn",
+        "t": 237.928
+      },
+      {
+        "title": "Summary",
+        "t": 285.238
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-2-c:q",
+        "t": 251.863,
+        "prompt": "Given $\\cos\\theta = \\dfrac{5}{13}$ with $\\dfrac{3\\pi}{2} < \\theta < 2\\pi$, determine $\\sin 2\\theta$.",
+        "choices": [
+          "$\\dfrac{120}{169}$",
+          "$\\dfrac{10}{13}$",
+          "$-\\dfrac{24}{13}$",
+          "$-\\dfrac{120}{169}$"
+        ],
+        "answer": 3,
+        "working": "In quadrant IV, $y = -\\sqrt{13^2 - 5^2} = -12$, so $\\sin\\theta = -\\dfrac{12}{13}$. Then $\\sin 2\\theta = 2\\left(-\\dfrac{12}{13}\\right)\\left(\\dfrac{5}{13}\\right) = -\\dfrac{120}{169}$."
+      }
+    ]
+  },
+  "m301-6-2-d": {
+    "lessonId": "m301-6-2",
+    "title": "Sum, Difference and Double-Angle Identities, Part 4: Two Angles from Given Ratios",
+    "duration": 241,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The angle A",
+        "t": 19.491
+      },
+      {
+        "title": "The angle B",
+        "t": 69.6
+      },
+      {
+        "title": "The cosine of A minus B",
+        "t": 106.119
+      },
+      {
+        "title": "Your turn",
+        "t": 162.529
+      },
+      {
+        "title": "Summary",
+        "t": 215.688
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-2-d:q",
+        "t": 178.783,
+        "prompt": "With $\\sin A = \\dfrac{4}{5}$, $A$ in quadrant II, and $\\cos B = \\dfrac{5}{13}$, $B$ in quadrant IV, as before, determine $\\sin(A - B)$.",
+        "choices": [
+          "$\\dfrac{56}{65}$",
+          "$-\\dfrac{16}{65}$",
+          "$\\dfrac{16}{65}$",
+          "$-\\dfrac{63}{65}$"
+        ],
+        "answer": 1,
+        "working": "Use $\\sin(A - B) = \\sin A\\cos B - \\cos A\\sin B$: $\\left(\\dfrac{4}{5}\\right)\\left(\\dfrac{5}{13}\\right) - \\left(-\\dfrac{3}{5}\\right)\\left(-\\dfrac{12}{13}\\right)$, which is $\\dfrac{20}{65} - \\dfrac{36}{65} = -\\dfrac{16}{65}$."
+      }
+    ]
+  },
+  "m301-6-3": {
+    "lessonId": "m301-6-3",
+    "title": "Proving Identities, Part 1: Checking with Numbers and Graphs",
+    "duration": 257,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A numerical check",
+        "t": 25.382
+      },
+      {
+        "title": "A graphical check",
+        "t": 90.592
+      },
+      {
+        "title": "When the graphs differ",
+        "t": 135.412
+      },
+      {
+        "title": "Your turn",
+        "t": 183.219
+      },
+      {
+        "title": "Summary",
+        "t": 226.216
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-3:q",
+        "t": 196.453,
+        "prompt": "Which value of $x$ is a counterexample that shows $\\cos 2x = 2\\cos x - 1$ is **not** an identity?",
+        "choices": [
+          "$0^\\circ$",
+          "$90^\\circ$",
+          "$360^\\circ$",
+          "$60^\\circ$"
+        ],
+        "answer": 3,
+        "working": "At $x = 60^\\circ$: $\\cos 120^\\circ = -\\dfrac{1}{2}$, but $2\\cos 60^\\circ - 1 = 0$. At $0^\\circ$, $90^\\circ$ and $360^\\circ$ the two sides are equal, so they cannot show it."
+      }
+    ]
+  },
+  "m301-6-3-b": {
+    "lessonId": "m301-6-3",
+    "title": "Proving Identities, Part 2: Proving an Identity with Algebra",
+    "duration": 298,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Strategies",
+        "t": 23.998
+      },
+      {
+        "title": "Multiplying by a conjugate",
+        "t": 76.917
+      },
+      {
+        "title": "Where it is true",
+        "t": 143.815
+      },
+      {
+        "title": "Treating it as an equation",
+        "t": 175.318
+      },
+      {
+        "title": "Your turn",
+        "t": 220.599
+      },
+      {
+        "title": "Summary",
+        "t": 265.683
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-3-b:q",
+        "t": 233.374,
+        "prompt": "To prove $\\dfrac{\\cos x}{1 + \\sin x} = \\dfrac{1 - \\sin x}{\\cos x}$, which first step is valid?",
+        "choices": [
+          "Cross-multiply: $\\cos^2 x = (1 + \\sin x)(1 - \\sin x)$",
+          "Multiply the left side by $\\dfrac{1 - \\sin x}{1 - \\sin x}$",
+          "Square both sides",
+          "Cancel the $1$s on the left: $\\dfrac{\\cos x}{\\sin x}$"
+        ],
+        "answer": 1,
+        "working": "Left side $= \\dfrac{\\cos x(1 - \\sin x)}{1 - \\sin^2 x} = \\dfrac{\\cos x(1 - \\sin x)}{\\cos^2 x} = \\dfrac{1 - \\sin x}{\\cos x}$, the right side."
+      }
+    ]
+  },
+  "m301-6-3-c": {
+    "lessonId": "m301-6-3",
+    "title": "Proving Identities, Part 3: Double Angles and Non-Permissible Values",
+    "duration": 251,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Choosing the form",
+        "t": 23.148
+      },
+      {
+        "title": "A proof with a double angle",
+        "t": 65.976
+      },
+      {
+        "title": "Restrictions from both sides",
+        "t": 125.777
+      },
+      {
+        "title": "Your turn",
+        "t": 180.111
+      },
+      {
+        "title": "Summary",
+        "t": 222.108
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-3-c:q",
+        "t": 193.75,
+        "prompt": "What are the non-permissible values of the identity $\\dfrac{\\sin x}{1 + \\cos x} = \\csc x - \\cot x$?",
+        "choices": [
+          "$x \\ne \\pi n,\\ n \\in \\mathrm{I}$",
+          "$x \\ne \\pi + 2\\pi n,\\ n \\in \\mathrm{I}$",
+          "$x \\ne \\dfrac{\\pi}{2} + \\pi n,\\ n \\in \\mathrm{I}$",
+          "$x \\ne \\dfrac{\\pi}{2}n,\\ n \\in \\mathrm{I}$"
+        ],
+        "answer": 0,
+        "working": "Left side: $1 + \\cos x \\ne 0$, so $x \\ne \\pi + 2\\pi n$. Right side: $\\csc x$ and $\\cot x$ need $\\sin x \\ne 0$, so $x \\ne \\pi n$. Together: $x \\ne \\pi n$."
+      }
+    ]
+  },
+  "m301-6-3-d": {
+    "lessonId": "m301-6-3",
+    "title": "Proving Identities, Part 4: Finding the Error in a Proof",
+    "duration": 274,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The usual culprits",
+        "t": 21.684
+      },
+      {
+        "title": "A proof that goes wrong",
+        "t": 74.042
+      },
+      {
+        "title": "Test the suspicious line",
+        "t": 108.183
+      },
+      {
+        "title": "The correct proof",
+        "t": 153.373
+      },
+      {
+        "title": "Your turn",
+        "t": 190.7
+      },
+      {
+        "title": "Summary",
+        "t": 241.431
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-3-d:q",
+        "t": 210.918,
+        "prompt": "A student works on the left side of $\\sec^2 x - \\tan^2 x + \\cot^2 x = \\csc^2 x$, gets $\\sec^2 x$, and decides it is not an identity. Which step has the first error?",
+        "choices": [
+          "Step 1: $(1 + \\tan^2 x) - \\tan^2 x + \\cot^2 x$",
+          "Step 2: $1 + \\cot^2 x$",
+          "Step 3: $\\sec^2 x$",
+          "No error: it is not an identity."
+        ],
+        "answer": 2,
+        "working": "$1 + \\cot^2 x = \\csc^2 x$, not $\\sec^2 x$: Step 3 uses the wrong Pythagorean identity. The left side does equal $\\csc^2 x$, so it is an identity."
+      }
+    ]
+  },
+  "m301-6-4": {
+    "lessonId": "m301-6-4",
+    "title": "Solving Trigonometric Equations Using Identities, Part 1: Quadratic Equations in One Function",
+    "duration": 260,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A quadratic in sin x",
+        "t": 26.833
+      },
+      {
+        "title": "Solve each factor",
+        "t": 76.065
+      },
+      {
+        "title": "Dividing by a trigonometric function",
+        "t": 130.685
+      },
+      {
+        "title": "Your turn",
+        "t": 178.302
+      },
+      {
+        "title": "Summary",
+        "t": 224.833
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-4:q",
+        "t": 191.807,
+        "prompt": "Solve $2\\cos^2 x + \\cos x - 1 = 0$ for $0 \\le x < 2\\pi$.",
+        "choices": [
+          "$\\dfrac{\\pi}{3},\\ \\pi,\\ \\dfrac{5\\pi}{3}$",
+          "$\\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3}$",
+          "$0,\\ \\dfrac{2\\pi}{3},\\ \\dfrac{4\\pi}{3}$",
+          "$\\dfrac{\\pi}{3},\\ \\dfrac{2\\pi}{3},\\ \\pi$"
+        ],
+        "answer": 0,
+        "working": "$(2\\cos x - 1)(\\cos x + 1) = 0$. $\\cos x = \\dfrac{1}{2}$: $x = \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3}$. $\\cos x = -1$: $x = \\pi$."
+      }
+    ]
+  },
+  "m301-6-4-b": {
+    "lessonId": "m301-6-4",
+    "title": "Solving Trigonometric Equations Using Identities, Part 2: Square Roots, Impossible Values and Calculator Values",
+    "duration": 312,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Square roots: keep both signs",
+        "t": 20.502
+      },
+      {
+        "title": "A factor with no solution",
+        "t": 70.998
+      },
+      {
+        "title": "Using the inverse sine",
+        "t": 113.896
+      },
+      {
+        "title": "Two launch angles",
+        "t": 152.619
+      },
+      {
+        "title": "Your turn",
+        "t": 231.21
+      },
+      {
+        "title": "Summary",
+        "t": 272.509
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-4-b:q",
+        "t": 243.042,
+        "prompt": "Solve $2\\sin^2 x - 1 = 0$ for $0^\\circ \\le x < 360^\\circ$.",
+        "choices": [
+          "$45^\\circ,\\ 135^\\circ$",
+          "$45^\\circ,\\ 315^\\circ$",
+          "$45^\\circ,\\ 135^\\circ,\\ 225^\\circ,\\ 315^\\circ$",
+          "$30^\\circ,\\ 150^\\circ,\\ 210^\\circ,\\ 330^\\circ$"
+        ],
+        "answer": 2,
+        "working": "$\\sin^2 x = \\dfrac{1}{2}$, so $\\sin x = \\pm\\dfrac{\\sqrt{2}}{2}$. Positive: $45^\\circ,\\ 135^\\circ$. Negative: $225^\\circ,\\ 315^\\circ$."
+      }
+    ]
+  },
+  "m301-6-4-c": {
+    "lessonId": "m301-6-4",
+    "title": "Solving Trigonometric Equations Using Identities, Part 3: Using an Identity First",
+    "duration": 278,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Choosing an identity",
+        "t": 19.997
+      },
+      {
+        "title": "A double angle with sine",
+        "t": 70.29
+      },
+      {
+        "title": "A Pythagorean substitution",
+        "t": 128.288
+      },
+      {
+        "title": "Your turn",
+        "t": 192.329
+      },
+      {
+        "title": "Summary",
+        "t": 238.809
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-4-c:q",
+        "t": 203.326,
+        "prompt": "Solve $\\sin 2x = \\cos x$ for $0^\\circ \\le x < 360^\\circ$.",
+        "choices": [
+          "$30^\\circ,\\ 150^\\circ$",
+          "$30^\\circ,\\ 90^\\circ,\\ 150^\\circ,\\ 270^\\circ$",
+          "$90^\\circ,\\ 270^\\circ$",
+          "$60^\\circ,\\ 90^\\circ,\\ 270^\\circ,\\ 300^\\circ$"
+        ],
+        "answer": 1,
+        "working": "$2\\sin x\\cos x - \\cos x = 0$, so $\\cos x(2\\sin x - 1) = 0$. $\\cos x = 0$: $90^\\circ,\\ 270^\\circ$. $\\sin x = \\dfrac{1}{2}$: $30^\\circ,\\ 150^\\circ$."
+      }
+    ]
+  },
+  "m301-6-4-d": {
+    "lessonId": "m301-6-4",
+    "title": "Solving Trigonometric Equations Using Identities, Part 4: General Solutions",
+    "duration": 226,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Periods",
+        "t": 21.427
+      },
+      {
+        "title": "Writing the general solution",
+        "t": 53.48
+      },
+      {
+        "title": "Evenly spaced solutions",
+        "t": 97.95
+      },
+      {
+        "title": "Your turn",
+        "t": 149.314
+      },
+      {
+        "title": "Summary",
+        "t": 192.51
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-6-4-d:q",
+        "t": 159.674,
+        "prompt": "Which is the general solution of $\\sin^2 x = \\sin x$, with $n \\in \\mathrm{I}$?",
+        "choices": [
+          "$x = 2\\pi n,\\ \\dfrac{\\pi}{2} + 2\\pi n$",
+          "$x = \\pi n,\\ \\dfrac{\\pi}{2} + \\pi n$",
+          "$x = \\dfrac{\\pi}{2}n$",
+          "$x = \\pi n,\\ \\dfrac{\\pi}{2} + 2\\pi n$"
+        ],
+        "answer": 3,
+        "working": "In one revolution: $x = 0,\\ \\dfrac{\\pi}{2},\\ \\pi$. $0$ and $\\pi$ are a half-turn apart: $\\pi n$. $\\dfrac{\\pi}{2}$ repeats every $2\\pi$: $\\dfrac{\\pi}{2} + 2\\pi n$."
+      }
+    ]
+  },
+  "m301-7-1": {
+    "lessonId": "m301-7-1",
+    "title": "Characteristics of Exponential Functions, Part 1: What an Exponential Function Is",
+    "duration": 291,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The same factor each step",
+        "t": 22.982
+      },
+      {
+        "title": "Exponential functions",
+        "t": 61.108
+      },
+      {
+        "title": "A table of values",
+        "t": 103.276
+      },
+      {
+        "title": "Evaluating",
+        "t": 142.277
+      },
+      {
+        "title": "A common mistake",
+        "t": 178.199
+      },
+      {
+        "title": "Your turn",
+        "t": 217.338
+      },
+      {
+        "title": "Summary",
+        "t": 252.005
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-1:q",
+        "t": 226.825,
+        "prompt": "For $f(x) = 9^{x}$, find $f\\left(-\\frac{1}{2}\\right)$.",
+        "choices": [
+          "$\\frac{1}{3}$",
+          "$-3$",
+          "$-\\frac{9}{2}$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "$9^{-\\frac{1}{2}} = \\dfrac{1}{9^{\\frac{1}{2}}} = \\dfrac{1}{\\sqrt{9}} = \\dfrac{1}{3}$. The negative sign makes a reciprocal; the one half makes a square root."
+      }
+    ]
+  },
+  "m301-7-1-b": {
+    "lessonId": "m301-7-1",
+    "title": "Characteristics of Exponential Functions, Part 2: Growth, Decay and Key Features",
+    "duration": 274,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Growth and decay",
+        "t": 24.326
+      },
+      {
+        "title": "Mirror images",
+        "t": 64.309
+      },
+      {
+        "title": "Key characteristics",
+        "t": 118.05
+      },
+      {
+        "title": "The asymptote",
+        "t": 169.889
+      },
+      {
+        "title": "Your turn",
+        "t": 199.644
+      },
+      {
+        "title": "Summary",
+        "t": 230.372
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-1-b:q",
+        "t": 206.083,
+        "prompt": "Which function shows exponential **growth**?",
+        "choices": [
+          "$y = 0.9^{x}$",
+          "$y = 4^{-x}$",
+          "$y = \\left(\\frac{1}{5}\\right)^{-x}$",
+          "$y = \\left(\\frac{2}{3}\\right)^{x}$"
+        ],
+        "answer": 2,
+        "working": "$\\left(\\frac{1}{5}\\right)^{-x} = 5^{x}$, and $5 > 1$. The others are decay: $0.9$ and $\\frac{2}{3}$ are between $0$ and $1$, and $4^{-x} = \\left(\\frac{1}{4}\\right)^{x}$."
+      }
+    ]
+  },
+  "m301-7-1-c": {
+    "lessonId": "m301-7-1",
+    "title": "Characteristics of Exponential Functions, Part 3: Finding an Exponential Equation",
+    "duration": 263,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a and c mean",
+        "t": 23.296
+      },
+      {
+        "title": "Equation through two points",
+        "t": 53.112
+      },
+      {
+        "title": "Reading a model",
+        "t": 119.895
+      },
+      {
+        "title": "Growth and decay rates",
+        "t": 159.691
+      },
+      {
+        "title": "Your turn",
+        "t": 191.077
+      },
+      {
+        "title": "Summary",
+        "t": 226.658
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-1-c:q",
+        "t": 202.494,
+        "prompt": "An exponential function $y = a(c)^{x}$ passes through $(1, 8)$ and $(3, 32)$. Find its equation.",
+        "choices": [
+          "$y = 2(4)^{x}$",
+          "$y = 4(2)^{x}$",
+          "$y = 8(2)^{x}$",
+          "$y = 4(-2)^{x}$"
+        ],
+        "answer": 1,
+        "working": "$\\dfrac{ac^{3}}{ac} = \\dfrac{32}{8}$, so $c^{2} = 4$ and $c = 2$ (the base is positive). Then $8 = 2a$, so $a = 4$."
+      }
+    ]
+  },
+  "m301-7-2": {
+    "lessonId": "m301-7-2",
+    "title": "Transformations of Exponential Functions, Part 1: The Transformation Equation",
+    "duration": 279,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The four parameters",
+        "t": 26.291
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 85.329
+      },
+      {
+        "title": "The graph",
+        "t": 124.168
+      },
+      {
+        "title": "A common mistake",
+        "t": 173.859
+      },
+      {
+        "title": "Your turn",
+        "t": 201.26
+      },
+      {
+        "title": "Summary",
+        "t": 237.1
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-2:q",
+        "t": 212.196,
+        "prompt": "State the range of $y = -4(3)^{x - 1} + 2$.",
+        "choices": [
+          "$\\{y \\mid y > 2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y < -2,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y > -4,\\ y \\in \\mathbb{R}\\}$",
+          "$\\{y \\mid y < 2,\\ y \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 3,
+        "working": "$k = 2$, so the asymptote is $y = 2$. Because $a = -4 < 0$, the graph is reflected in the $x$-axis and lies below the asymptote: $y < 2$."
+      }
+    ]
+  },
+  "m301-7-2-b": {
+    "lessonId": "m301-7-2",
+    "title": "Transformations of Exponential Functions, Part 2: Image Points",
+    "duration": 257,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The mapping rule",
+        "t": 23.003
+      },
+      {
+        "title": "Find an image point",
+        "t": 50.026
+      },
+      {
+        "title": "Graphing from key points",
+        "t": 109.297
+      },
+      {
+        "title": "A common mistake",
+        "t": 150.597
+      },
+      {
+        "title": "Your turn",
+        "t": 184.116
+      },
+      {
+        "title": "Summary",
+        "t": 223.028
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-2-b:q",
+        "t": 200.232,
+        "prompt": "The point $(1, 3)$ is on $y = 3^{x}$. Find its image on $y = 2(3)^{\\frac{1}{3}(x - 2)} - 1$.",
+        "choices": [
+          "$\\left(\\frac{7}{3}, 5\\right)$",
+          "$(5, 7)$",
+          "$(5, 5)$",
+          "$(1, 5)$"
+        ],
+        "answer": 2,
+        "working": "$a = 2$, $b = \\frac{1}{3}$, $h = 2$, $k = -1$. $x$: $\\dfrac{1}{\\frac{1}{3}} + 2 = 3 + 2 = 5$. $y$: $2(3) - 1 = 5$."
+      }
+    ]
+  },
+  "m301-7-2-c": {
+    "lessonId": "m301-7-2",
+    "title": "Transformations of Exponential Functions, Part 3: Writing the Equation",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a description",
+        "t": 21.58
+      },
+      {
+        "title": "From a graph",
+        "t": 72.226
+      },
+      {
+        "title": "More than one equation",
+        "t": 133.458
+      },
+      {
+        "title": "Your turn",
+        "t": 170.664
+      },
+      {
+        "title": "Summary",
+        "t": 210.405
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-2-c:q",
+        "t": 187.478,
+        "prompt": "The graph of $y = 2^{x}$ is reflected in the $x$-axis, stretched horizontally by a factor of $\\frac{1}{3}$ and translated $5$ units right. Write the equation.",
+        "choices": [
+          "$y = -2^{3(x - 5)}$",
+          "$y = -2^{\\frac{1}{3}(x - 5)}$",
+          "$y = -2^{3(x + 5)}$",
+          "$y = 2^{-3(x - 5)}$"
+        ],
+        "answer": 0,
+        "working": "Reflection in the $x$-axis: $a = -1$. Horizontal stretch by $\\frac{1}{3}$: $b = \\dfrac{1}{\\frac{1}{3}} = 3$. Right $5$: $h = 5$."
+      }
+    ]
+  },
+  "m301-7-3": {
+    "lessonId": "m301-7-3",
+    "title": "Solving Exponential Equations, Part 1: Equal Powers, Equal Exponents",
+    "duration": 225,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Exponential equations",
+        "t": 24.363
+      },
+      {
+        "title": "Why the exponents match",
+        "t": 64.543
+      },
+      {
+        "title": "Write one side as a power",
+        "t": 97.623
+      },
+      {
+        "title": "A reciprocal",
+        "t": 129.556
+      },
+      {
+        "title": "Your turn",
+        "t": 160.153
+      },
+      {
+        "title": "Summary",
+        "t": 195.241
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-3:q",
+        "t": 168.448,
+        "prompt": "Solve $2^{x + 3} = \\dfrac{1}{16}$.",
+        "choices": [
+          "$x = -1$",
+          "$x = -7$",
+          "$x = 1$",
+          "$x = -\\frac{4}{3}$"
+        ],
+        "answer": 1,
+        "working": "$\\dfrac{1}{16} = \\dfrac{1}{2^{4}} = 2^{-4}$, so $x + 3 = -4$ and $x = -7$."
+      }
+    ]
+  },
+  "m301-7-3-b": {
+    "lessonId": "m301-7-3",
+    "title": "Solving Exponential Equations, Part 2: Rewriting Both Sides with a Common Base",
+    "duration": 253,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 20.842
+      },
+      {
+        "title": "Two different bases",
+        "t": 57.699
+      },
+      {
+        "title": "A fractional base",
+        "t": 114.271
+      },
+      {
+        "title": "A common mistake",
+        "t": 161.247
+      },
+      {
+        "title": "Your turn",
+        "t": 188
+      },
+      {
+        "title": "Summary",
+        "t": 226.923
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-3-b:q",
+        "t": 196.694,
+        "prompt": "Solve $4^{x} = 8^{x - 1}$.",
+        "choices": [
+          "$x = 1$",
+          "$x = -3$",
+          "$x = \\frac{3}{5}$",
+          "$x = 3$"
+        ],
+        "answer": 3,
+        "working": "$4^{x} = 2^{2x}$ and $8^{x - 1} = 2^{3(x - 1)} = 2^{3x - 3}$. So $2x = 3x - 3$, and $x = 3$."
+      }
+    ]
+  },
+  "m301-7-3-c": {
+    "lessonId": "m301-7-3",
+    "title": "Solving Exponential Equations, Part 3: Products, Quotients, Radicals and Half-Life",
+    "duration": 284,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The exponent laws",
+        "t": 22.572
+      },
+      {
+        "title": "A quotient",
+        "t": 39.717
+      },
+      {
+        "title": "A radical",
+        "t": 90.361
+      },
+      {
+        "title": "A quadratic exponent",
+        "t": 119.986
+      },
+      {
+        "title": "Half-life",
+        "t": 160.393
+      },
+      {
+        "title": "Your turn",
+        "t": 212.382
+      },
+      {
+        "title": "Summary",
+        "t": 254.055
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-3-c:q",
+        "t": 229.493,
+        "prompt": "An isotope has a half-life of $5$ days, so the mass left from a $96\\text{ mg}$ sample is $A = 96\\left(\\frac{1}{2}\\right)^{\\frac{t}{5}}$. When will $3\\text{ mg}$ remain?",
+        "choices": [
+          "$25$ days",
+          "$5$ days",
+          "$32$ days",
+          "$160$ days"
+        ],
+        "answer": 0,
+        "working": "$\\left(\\frac{1}{2}\\right)^{\\frac{t}{5}} = \\frac{3}{96} = \\frac{1}{32} = \\left(\\frac{1}{2}\\right)^{5}$, so $\\frac{t}{5} = 5$ and $t = 25$ days."
+      }
+    ]
+  },
+  "m301-7-4": {
+    "lessonId": "m301-7-4",
+    "title": "Understanding Logarithms, Part 1: Logarithms Are Exponents",
+    "duration": 250,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a logarithm is",
+        "t": 24.481
+      },
+      {
+        "title": "Two forms",
+        "t": 74.169
+      },
+      {
+        "title": "The common logarithm",
+        "t": 100.253
+      },
+      {
+        "title": "Converting between forms",
+        "t": 137.564
+      },
+      {
+        "title": "Your turn",
+        "t": 183.292
+      },
+      {
+        "title": "Summary",
+        "t": 219.457
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-4:q",
+        "t": 193.789,
+        "prompt": "Write $5^{-2} = \\frac{1}{25}$ in logarithmic form.",
+        "choices": [
+          "$\\log_{5} (-2) = \\frac{1}{25}$",
+          "$\\log_{\\frac{1}{25}} 5 = -2$",
+          "$\\log_{5} \\frac{1}{25} = -2$",
+          "$\\log_{-2} \\frac{1}{25} = 5$"
+        ],
+        "answer": 2,
+        "working": "The base $5$ stays the base, and the exponent $-2$ becomes the value of the logarithm: $\\log_{5} \\frac{1}{25} = -2$."
+      }
+    ]
+  },
+  "m301-7-4-b": {
+    "lessonId": "m301-7-4",
+    "title": "Understanding Logarithms, Part 2: Evaluating and Estimating Logarithms",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four facts",
+        "t": 22.776
+      },
+      {
+        "title": "Evaluating",
+        "t": 58.314
+      },
+      {
+        "title": "A fractional value",
+        "t": 98.977
+      },
+      {
+        "title": "A common mistake",
+        "t": 129.847
+      },
+      {
+        "title": "Estimating",
+        "t": 161.305
+      },
+      {
+        "title": "Your turn",
+        "t": 211.982
+      },
+      {
+        "title": "Summary",
+        "t": 244.722
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-4-b:q",
+        "t": 218.88,
+        "prompt": "Evaluate $\\log_{9} 27$.",
+        "choices": [
+          "$3$",
+          "$\\frac{1}{3}$",
+          "$\\frac{2}{3}$",
+          "$\\frac{3}{2}$"
+        ],
+        "answer": 3,
+        "working": "If $9^{y} = 27$, then $3^{2y} = 3^{3}$, so $2y = 3$ and $y = \\frac{3}{2}$."
+      }
+    ]
+  },
+  "m301-7-4-c": {
+    "lessonId": "m301-7-4",
+    "title": "Understanding Logarithms, Part 3: Solving Equations by Converting",
+    "duration": 195,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An unknown argument",
+        "t": 19.529
+      },
+      {
+        "title": "An unknown base",
+        "t": 57.955
+      },
+      {
+        "title": "A logarithm inside a logarithm",
+        "t": 97.541
+      },
+      {
+        "title": "Your turn",
+        "t": 130.677
+      },
+      {
+        "title": "Summary",
+        "t": 168.404
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-4-c:q",
+        "t": 138.471,
+        "prompt": "Solve $\\log_{x} 16 = -2$.",
+        "choices": [
+          "$x = \\pm\\frac{1}{4}$",
+          "$x = \\frac{1}{4}$",
+          "$x = -8$",
+          "$x = 4$"
+        ],
+        "answer": 1,
+        "working": "$x^{-2} = 16$, so $x^{2} = \\frac{1}{16}$ and $x = \\pm\\frac{1}{4}$. The base must be positive, so $x = \\frac{1}{4}$."
+      }
+    ]
+  },
+  "m301-7-5": {
+    "lessonId": "m301-7-5",
+    "title": "Transformations of Logarithmic Functions, Part 1: The Inverse of an Exponential Function",
+    "duration": 272,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The inverse",
+        "t": 26.292
+      },
+      {
+        "title": "Reflecting in y = x",
+        "t": 66.018
+      },
+      {
+        "title": "Features swap",
+        "t": 112.211
+      },
+      {
+        "title": "Inverse and points",
+        "t": 168.582
+      },
+      {
+        "title": "Your turn",
+        "t": 206.697
+      },
+      {
+        "title": "Summary",
+        "t": 236.119
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-5:q",
+        "t": 214.93,
+        "prompt": "Which point is on the graph of $y = \\log_{3} x$?",
+        "choices": [
+          "$(9, 2)$",
+          "$(2, 9)$",
+          "$(0, 1)$",
+          "$(3, 0)$"
+        ],
+        "answer": 0,
+        "working": "$\\log_{3} 9 = 2$, because $3^{2} = 9$. The point $(2, 9)$ is on the inverse, $y = 3^{x}$."
+      }
+    ]
+  },
+  "m301-7-5-b": {
+    "lessonId": "m301-7-5",
+    "title": "Transformations of Logarithmic Functions, Part 2: Transforming Logarithmic Graphs",
+    "duration": 257,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The transformed function",
+        "t": 21.413
+      },
+      {
+        "title": "Reading the parameters",
+        "t": 72.711
+      },
+      {
+        "title": "The graph",
+        "t": 103.639
+      },
+      {
+        "title": "A common mistake",
+        "t": 141.019
+      },
+      {
+        "title": "Your turn",
+        "t": 181.031
+      },
+      {
+        "title": "Summary",
+        "t": 222.796
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-5-b:q",
+        "t": 192.949,
+        "prompt": "State the vertical asymptote and the domain of $y = 3\\log\\left(-(x + 2)\\right) - 1$.",
+        "choices": [
+          "$x = -2$; $x > -2$",
+          "$x = 2$; $x < 2$",
+          "$x = -2$; $x < -2$",
+          "$x = -1$; $x < -1$"
+        ],
+        "answer": 2,
+        "working": "The argument must be positive: $-(x + 2) > 0$, so $x + 2 < 0$ and $x < -2$. The asymptote is $x = h = -2$."
+      }
+    ]
+  },
+  "m301-7-5-c": {
+    "lessonId": "m301-7-5",
+    "title": "Transformations of Logarithmic Functions, Part 3: Intercepts, Domains and Inverses",
+    "duration": 254,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "An x-intercept",
+        "t": 26.917
+      },
+      {
+        "title": "A domain",
+        "t": 67.964
+      },
+      {
+        "title": "An inverse",
+        "t": 102.534
+      },
+      {
+        "title": "Asymptotes swap",
+        "t": 145.617
+      },
+      {
+        "title": "Your turn",
+        "t": 181.008
+      },
+      {
+        "title": "Summary",
+        "t": 215.949
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-5-c:q",
+        "t": 191.446,
+        "prompt": "Find the $x$-intercept of $y = 3\\log_{2}(x + 1) - 6$.",
+        "choices": [
+          "$x = 1$",
+          "$x = 63$",
+          "$x = 7$",
+          "$x = 3$"
+        ],
+        "answer": 3,
+        "working": "$0 = 3\\log_{2}(x + 1) - 6$, so $\\log_{2}(x + 1) = 2$. Then $x + 1 = 2^{2} = 4$, and $x = 3$."
+      }
+    ]
+  },
+  "m301-7-6": {
+    "lessonId": "m301-7-6",
+    "title": "Laws of Logarithms, Part 1: The Product and Quotient Laws",
+    "duration": 239,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The two laws",
+        "t": 22.835
+      },
+      {
+        "title": "Why they work",
+        "t": 60.151
+      },
+      {
+        "title": "Combine, then evaluate",
+        "t": 106.813
+      },
+      {
+        "title": "A common mistake",
+        "t": 141.172
+      },
+      {
+        "title": "Your turn",
+        "t": 177.055
+      },
+      {
+        "title": "Summary",
+        "t": 209.4
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-6:q",
+        "t": 186.029,
+        "prompt": "Evaluate $\\log_{3} 54 - \\log_{3} 2$.",
+        "choices": [
+          "$27$",
+          "$3$",
+          "$\\log_{3} 52$",
+          "$2$"
+        ],
+        "answer": 1,
+        "working": "$\\log_{3} 54 - \\log_{3} 2 = \\log_{3} \\dfrac{54}{2} = \\log_{3} 27 = 3$, because $3^{3} = 27$."
+      }
+    ]
+  },
+  "m301-7-6-b": {
+    "lessonId": "m301-7-6",
+    "title": "Laws of Logarithms, Part 2: The Power Law and Change of Base",
+    "duration": 252,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The power law",
+        "t": 20.965
+      },
+      {
+        "title": "Use the power law first",
+        "t": 64.093
+      },
+      {
+        "title": "Change of base",
+        "t": 98.953
+      },
+      {
+        "title": "Evaluate with a calculator",
+        "t": 141.493
+      },
+      {
+        "title": "Your turn",
+        "t": 181.514
+      },
+      {
+        "title": "Summary",
+        "t": 214.731
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-6-b:q",
+        "t": 189.363,
+        "prompt": "Evaluate $\\log_{2} 20$ to the nearest hundredth.",
+        "choices": [
+          "$4.32$",
+          "$1.00$",
+          "$0.23$",
+          "$10$"
+        ],
+        "answer": 0,
+        "working": "$\\log_{2} 20 = \\dfrac{\\log 20}{\\log 2} \\approx \\dfrac{1.3010}{0.3010} \\approx 4.32$. Check: $2^{4} = 16 < 20 < 32 = 2^{5}$."
+      }
+    ]
+  },
+  "m301-7-6-c": {
+    "lessonId": "m301-7-6",
+    "title": "Laws of Logarithms, Part 3: Expanding and Condensing",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Expanding",
+        "t": 24.865
+      },
+      {
+        "title": "Condensing",
+        "t": 62.576
+      },
+      {
+        "title": "In terms of given values",
+        "t": 100.65
+      },
+      {
+        "title": "Your turn",
+        "t": 153.257
+      },
+      {
+        "title": "Summary",
+        "t": 192.527
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-6-c:q",
+        "t": 166.867,
+        "prompt": "Given $\\log_{5} 2 = p$ and $\\log_{5} 3 = q$, write $\\log_{5} 60$ in terms of $p$ and $q$.",
+        "choices": [
+          "$2p + q$",
+          "$p^{2}q + 1$",
+          "$2p + q + 1$",
+          "$2p + q + 5$"
+        ],
+        "answer": 2,
+        "working": "$60 = 2^{2} \\times 3 \\times 5$, so $\\log_{5} 60 = 2\\log_{5} 2 + \\log_{5} 3 + \\log_{5} 5 = 2p + q + 1$."
+      }
+    ]
+  },
+  "m301-7-7": {
+    "lessonId": "m301-7-7",
+    "title": "Logarithmic and Exponential Equations, Part 1: Solving Logarithmic Equations",
+    "duration": 299,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 22.56
+      },
+      {
+        "title": "A root to reject",
+        "t": 64.954
+      },
+      {
+        "title": "Checking the roots",
+        "t": 107.546
+      },
+      {
+        "title": "A quotient",
+        "t": 153.861
+      },
+      {
+        "title": "A common mistake",
+        "t": 199.318
+      },
+      {
+        "title": "Your turn",
+        "t": 235.47
+      },
+      {
+        "title": "Summary",
+        "t": 271.689
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-7:q",
+        "t": 245.234,
+        "prompt": "Solve $\\log_{6} x + \\log_{6}(x - 5) = 2$.",
+        "choices": [
+          "$x = -4$",
+          "$x = 9$ or $x = -4$",
+          "$x = 4$",
+          "$x = 9$"
+        ],
+        "answer": 3,
+        "working": "$x(x - 5) = 6^{2} = 36$, so $x^{2} - 5x - 36 = 0$ and $(x - 9)(x + 4) = 0$. $x = -4$ makes $\\log_{6} x$ undefined, so it is extraneous."
+      }
+    ]
+  },
+  "m301-7-7-b": {
+    "lessonId": "m301-7-7",
+    "title": "Logarithmic and Exponential Equations, Part 2: Exponential Equations with Logarithms",
+    "duration": 297,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One power",
+        "t": 23.458
+      },
+      {
+        "title": "On the graph",
+        "t": 68.355
+      },
+      {
+        "title": "Different bases",
+        "t": 94.496
+      },
+      {
+        "title": "Quadratic form",
+        "t": 144.686
+      },
+      {
+        "title": "A common mistake",
+        "t": 193.449
+      },
+      {
+        "title": "Your turn",
+        "t": 232.848
+      },
+      {
+        "title": "Summary",
+        "t": 267.179
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-7-b:q",
+        "t": 242.39,
+        "prompt": "Solve $5(2)^{x} = 35$. Round to the nearest hundredth.",
+        "choices": [
+          "$x \\approx 1.54$",
+          "$x \\approx 2.81$",
+          "$x = 3.5$",
+          "$x \\approx 0.36$"
+        ],
+        "answer": 1,
+        "working": "$2^{x} = 7$, so $x\\log 2 = \\log 7$ and $x = \\dfrac{\\log 7}{\\log 2} \\approx \\dfrac{0.8451}{0.3010} \\approx 2.81$."
+      }
+    ]
+  },
+  "m301-7-7-c": {
+    "lessonId": "m301-7-7",
+    "title": "Logarithmic and Exponential Equations, Part 3: Applications",
+    "duration": 325,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Doubling time",
+        "t": 23.321
+      },
+      {
+        "title": "Half-life",
+        "t": 69.256
+      },
+      {
+        "title": "Logarithmic scales",
+        "t": 137.041
+      },
+      {
+        "title": "Comparing earthquakes",
+        "t": 193.676
+      },
+      {
+        "title": "Your turn",
+        "t": 248.233
+      },
+      {
+        "title": "Summary",
+        "t": 289.73
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-7-7-c:q",
+        "t": 262.476,
+        "prompt": "Sound level is $\\beta = 10\\log \\dfrac{I}{I_0}$ decibels. How many times as intense as a $60$ dB sound is a $90$ dB sound?",
+        "choices": [
+          "$30$",
+          "$3$",
+          "$1.5$",
+          "$1000$"
+        ],
+        "answer": 3,
+        "working": "$\\beta_1 - \\beta_2 = 10\\log \\dfrac{I_1}{I_2}$, so $30 = 10\\log \\dfrac{I_1}{I_2}$, $\\log \\dfrac{I_1}{I_2} = 3$ and $\\dfrac{I_1}{I_2} = 10^{3} = 1000$."
+      }
+    ]
+  },
+  "m301-8-1": {
+    "lessonId": "m301-8-1",
+    "title": "Exploring Rational Functions, Part 1: The Graph of y = a/(x − h) + k",
+    "duration": 381,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a rational function is",
+        "t": 32.249
+      },
+      {
+        "title": "The graph of y = 1/x",
+        "t": 67.004
+      },
+      {
+        "title": "Moving the asymptotes",
+        "t": 133.492
+      },
+      {
+        "title": "Domain, range and intercept",
+        "t": 191.141
+      },
+      {
+        "title": "Rewriting in this form",
+        "t": 254.053
+      },
+      {
+        "title": "Your turn",
+        "t": 302.111
+      },
+      {
+        "title": "Summary",
+        "t": 341.944
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-1:q",
+        "t": 311.378,
+        "prompt": "What are the asymptotes of $y = \\dfrac{4}{x + 2} - 1$?",
+        "choices": [
+          "$x = 2$ and $y = -1$",
+          "$x = -2$ and $y = -1$",
+          "$x = -2$ and $y = 4$",
+          "$x = -1$ and $y = -2$"
+        ],
+        "answer": 1,
+        "working": "$x + 2 = x - (-2)$, so $h = -2$: the vertical asymptote is $x = -2$. $k = -1$, so the horizontal asymptote is $y = -1$."
+      }
+    ]
+  },
+  "m301-8-1-b": {
+    "lessonId": "m301-8-1",
+    "title": "Exploring Rational Functions, Part 2: Vertical Asymptotes and Holes",
+    "duration": 299,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Points of discontinuity",
+        "t": 25.308
+      },
+      {
+        "title": "A hole and an asymptote",
+        "t": 74.444
+      },
+      {
+        "title": "The graph",
+        "t": 134.978
+      },
+      {
+        "title": "Not every zero gives an asymptote",
+        "t": 178.026
+      },
+      {
+        "title": "Your turn",
+        "t": 216.917
+      },
+      {
+        "title": "Summary",
+        "t": 265.834
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-1-b:q",
+        "t": 228.981,
+        "prompt": "Which describes the graph of $f(x) = \\dfrac{x^2 - 1}{x^2 + 2x - 3}$?",
+        "choices": [
+          "Vertical asymptotes $x = 1$ and $x = -3$",
+          "A hole at $x = -3$ and a vertical asymptote $x = 1$",
+          "A hole at $\\left(1, \\tfrac{1}{2}\\right)$ and a vertical asymptote $x = 3$",
+          "A hole at $\\left(1, \\tfrac{1}{2}\\right)$ and a vertical asymptote $x = -3$"
+        ],
+        "answer": 3,
+        "working": "$f(x) = \\dfrac{(x - 1)(x + 1)}{(x + 3)(x - 1)} = \\dfrac{x + 1}{x + 3}$, $x \\ne 1$. The hole is at $x = 1$, $y = \\dfrac{1 + 1}{1 + 3} = \\dfrac{1}{2}$; $x + 3$ remains, so $x = -3$ is a vertical asymptote."
+      }
+    ]
+  },
+  "m301-8-1-c": {
+    "lessonId": "m301-8-1",
+    "title": "Exploring Rational Functions, Part 3: Horizontal Asymptotes",
+    "duration": 347,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "End behaviour",
+        "t": 25.439
+      },
+      {
+        "title": "Comparing degrees",
+        "t": 91.446
+      },
+      {
+        "title": "Two examples",
+        "t": 138.976
+      },
+      {
+        "title": "Asymptotes in context",
+        "t": 180.396
+      },
+      {
+        "title": "Crossing a horizontal asymptote",
+        "t": 226.308
+      },
+      {
+        "title": "Your turn",
+        "t": 267.812
+      },
+      {
+        "title": "Summary",
+        "t": 305.323
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-1-c:q",
+        "t": 280.41,
+        "prompt": "What is the horizontal asymptote of $f(x) = \\dfrac{6x^2 + 1}{3x^2 - 2x}$?",
+        "choices": [
+          "$y = 2$",
+          "$y = 0$",
+          "$y = 6$",
+          "There is none."
+        ],
+        "answer": 0,
+        "working": "Both have degree $2$, so the asymptote is the ratio of the leading coefficients: $y = \\dfrac{6}{3} = 2$."
+      }
+    ]
+  },
+  "m301-8-1-d": {
+    "lessonId": "m301-8-1",
+    "title": "Exploring Rational Functions, Part 4: Intercepts, Domain and Every Feature",
+    "duration": 313,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Intercepts and domain",
+        "t": 22.584
+      },
+      {
+        "title": "Factor and find the domain",
+        "t": 52.367
+      },
+      {
+        "title": "Hole, asymptotes and intercepts",
+        "t": 102.61
+      },
+      {
+        "title": "The graph",
+        "t": 157.499
+      },
+      {
+        "title": "A cancelled zero is not an intercept",
+        "t": 202.553
+      },
+      {
+        "title": "Your turn",
+        "t": 239.782
+      },
+      {
+        "title": "Summary",
+        "t": 280.206
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-1-d:q",
+        "t": 251.495,
+        "prompt": "What are the intercepts of $f(x) = \\dfrac{x^2 - 1}{x^2 - 4x + 3}$?",
+        "choices": [
+          "$x$-intercepts $-1$ and $1$; $y$-intercept $-\\tfrac{1}{3}$",
+          "$x$-intercept $-1$; $y$-intercept $\\tfrac{1}{3}$",
+          "$x$-intercept $-1$; $y$-intercept $-\\tfrac{1}{3}$",
+          "$x$-intercept $1$; $y$-intercept $-\\tfrac{1}{3}$"
+        ],
+        "answer": 2,
+        "working": "$f(x) = \\dfrac{(x - 1)(x + 1)}{(x - 1)(x - 3)} = \\dfrac{x + 1}{x - 3}$, $x \\ne 1$, so the only $x$-intercept is $-1$ (there is a hole at $x = 1$). $f(0) = \\dfrac{-1}{3} = -\\dfrac{1}{3}$."
+      }
+    ]
+  },
+  "m301-8-2": {
+    "lessonId": "m301-8-2",
+    "title": "Analyzing Rational Functions, Part 1: Sketching with a Hole",
+    "duration": 336,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A sketching checklist",
+        "t": 24.534
+      },
+      {
+        "title": "Factor, domain and hole",
+        "t": 62.545
+      },
+      {
+        "title": "Asymptotes and intercepts",
+        "t": 120.554
+      },
+      {
+        "title": "The sketch",
+        "t": 176.813
+      },
+      {
+        "title": "Holes are not asymptotes",
+        "t": 218.322
+      },
+      {
+        "title": "Your turn",
+        "t": 261.753
+      },
+      {
+        "title": "Summary",
+        "t": 304.97
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-2:q",
+        "t": 273.615,
+        "prompt": "Where is the hole in the graph of $f(x) = \\dfrac{x^2 - 9}{x^2 + x - 6}$?",
+        "choices": [
+          "$\\left(-3, \\tfrac{6}{5}\\right)$",
+          "$(3, 0)$",
+          "$\\left(-3, -\\tfrac{6}{5}\\right)$",
+          "$(-3, 0)$"
+        ],
+        "answer": 0,
+        "working": "$f(x) = \\dfrac{(x - 3)(x + 3)}{(x + 3)(x - 2)} = \\dfrac{x - 3}{x - 2}$, $x \\ne -3$. At $x = -3$: $\\dfrac{-3 - 3}{-3 - 2} = \\dfrac{-6}{-5} = \\dfrac{6}{5}$."
+      }
+    ]
+  },
+  "m301-8-2-b": {
+    "lessonId": "m301-8-2",
+    "title": "Analyzing Rational Functions, Part 2: Two Vertical Asymptotes",
+    "duration": 279,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The features",
+        "t": 18.22
+      },
+      {
+        "title": "A sign chart",
+        "t": 62.745
+      },
+      {
+        "title": "Sketching the branches",
+        "t": 117.484
+      },
+      {
+        "title": "Where the sign changes",
+        "t": 166.038
+      },
+      {
+        "title": "Your turn",
+        "t": 207.096
+      },
+      {
+        "title": "Summary",
+        "t": 250.889
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-2-b:q",
+        "t": 219.8,
+        "prompt": "For $f(x) = \\dfrac{x + 1}{(x - 3)(x + 4)}$, where is the graph above the $x$-axis?",
+        "choices": [
+          "$x < -4$ and $-1 < x < 3$",
+          "$-4 < x < 3$",
+          "$-4 < x < -1$ and $x > 3$",
+          "$x > 3$ only"
+        ],
+        "answer": 2,
+        "working": "Split at $-4$, $-1$ and $3$. $f(-5) = -0.5 < 0$, $f(-2) = 0.1 > 0$, $f(0) = -\\tfrac{1}{12} < 0$ and $f(4) = \\tfrac{5}{8} > 0$."
+      }
+    ]
+  },
+  "m301-8-2-c": {
+    "lessonId": "m301-8-2",
+    "title": "Analyzing Rational Functions, Part 3: Writing an Equation from a Graph",
+    "duration": 269,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Features into factors",
+        "t": 20.207
+      },
+      {
+        "title": "Reading the graph",
+        "t": 58.943
+      },
+      {
+        "title": "Building the equation",
+        "t": 82.048
+      },
+      {
+        "title": "Forgetting the constant",
+        "t": 156.812
+      },
+      {
+        "title": "Your turn",
+        "t": 187.575
+      },
+      {
+        "title": "Summary",
+        "t": 237.369
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-2-c:q",
+        "t": 204.834,
+        "prompt": "A graph has a vertical asymptote $x = 3$, a horizontal asymptote $y = -1$, an $x$-intercept of $-2$ and no holes. Which equation fits?",
+        "choices": [
+          "$f(x) = \\dfrac{x + 2}{x - 3}$",
+          "$f(x) = \\dfrac{-(x - 2)}{x + 3}$",
+          "$f(x) = \\dfrac{-(x + 3)}{x - 2}$",
+          "$f(x) = \\dfrac{-(x + 2)}{x - 3}$"
+        ],
+        "answer": 3,
+        "working": "$x = 3$ gives $(x - 3)$ in the denominator, the intercept $-2$ gives $(x + 2)$ in the numerator, and equal degrees give the horizontal asymptote $y = a$, so $a = -1$."
+      }
+    ]
+  },
+  "m301-8-3": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 1: Solving Algebraically",
+    "duration": 246,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four steps",
+        "t": 22.546
+      },
+      {
+        "title": "One solution",
+        "t": 57.621
+      },
+      {
+        "title": "A quadratic",
+        "t": 103.876
+      },
+      {
+        "title": "Multiply every term",
+        "t": 158.33
+      },
+      {
+        "title": "Your turn",
+        "t": 185
+      },
+      {
+        "title": "Summary",
+        "t": 222.833
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3:q",
+        "t": 192.966,
+        "prompt": "Solve $\\dfrac{x + 7}{x - 2} = 4$.",
+        "choices": [
+          "$x = 3$",
+          "$x = 5$",
+          "$x = 2$",
+          "$x = -5$"
+        ],
+        "answer": 1,
+        "working": "$x \\ne 2$. Multiply by $x - 2$: $x + 7 = 4x - 8$, so $15 = 3x$ and $x = 5$. Check: $\\dfrac{12}{3} = 4$."
+      }
+    ]
+  },
+  "m301-8-3-b": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 2: Extraneous Roots",
+    "duration": 273,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Extraneous roots",
+        "t": 23.856
+      },
+      {
+        "title": "Clearing the fractions",
+        "t": 59.841
+      },
+      {
+        "title": "Reject and check",
+        "t": 122.656
+      },
+      {
+        "title": "Skipping the check",
+        "t": 166.422
+      },
+      {
+        "title": "Your turn",
+        "t": 210.458
+      },
+      {
+        "title": "Summary",
+        "t": 244.855
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3-b:q",
+        "t": 219.27,
+        "prompt": "Solve $\\dfrac{x^2}{x + 3} = \\dfrac{9}{x + 3}$.",
+        "choices": [
+          "$x = 3$",
+          "$x = -3$",
+          "$x = 3$ or $x = -3$",
+          "No solution"
+        ],
+        "answer": 0,
+        "working": "$x \\ne -3$. Multiply by $x + 3$: $x^2 = 9$, so $x = \\pm 3$. $x = -3$ is non-permissible, so it is extraneous. Check $x = 3$: $\\dfrac{9}{6} = \\dfrac{9}{6}$ ✓."
+      }
+    ]
+  },
+  "m301-8-3-c": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 3: Solving Graphically",
+    "duration": 253,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The related function",
+        "t": 18.376
+      },
+      {
+        "title": "Reading the x-intercept",
+        "t": 67.604
+      },
+      {
+        "title": "Where two graphs meet",
+        "t": 92.519
+      },
+      {
+        "title": "Extraneous roots as holes",
+        "t": 117.394
+      },
+      {
+        "title": "Your turn",
+        "t": 175.977
+      },
+      {
+        "title": "Summary",
+        "t": 222.431
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3-c:q",
+        "t": 192.755,
+        "prompt": "The equation $\\dfrac{x^2 - 9}{x - 3} = 0$ has the related function $y = \\dfrac{x^2 - 9}{x - 3}$. What does its graph show?",
+        "choices": [
+          "An $x$-intercept at $3$ and a hole at $(-3, 0)$, so $x = 3$",
+          "An $x$-intercept at $-3$ and a hole at $(3, 0)$, so $x = \\pm 3$",
+          "Two $x$-intercepts, so $x = \\pm 3$",
+          "An $x$-intercept at $-3$ and a hole at $(3, 6)$, so $x = -3$"
+        ],
+        "answer": 3,
+        "working": "$y = \\dfrac{(x - 3)(x + 3)}{x - 3} = x + 3$, $x \\ne 3$: a line with a hole at $(3, 6)$. It crosses the $x$-axis only at $x = -3$; the root $x = 3$ is extraneous."
+      }
+    ]
+  },
+  "m301-8-3-d": {
+    "lessonId": "m301-8-3",
+    "title": "Connecting Graphs and Rational Equations, Part 4: Sharing a Job",
+    "duration": 265,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Rates of work",
+        "t": 21.554
+      },
+      {
+        "title": "Solving",
+        "t": 64.35
+      },
+      {
+        "title": "Rejecting roots in context",
+        "t": 110.166
+      },
+      {
+        "title": "Checking with a graph",
+        "t": 153.628
+      },
+      {
+        "title": "Your turn",
+        "t": 190.436
+      },
+      {
+        "title": "Summary",
+        "t": 238.479
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-3-d:q",
+        "t": 206.763,
+        "prompt": "Working alone, Ava takes $8$ h longer than Ben to paint a fence. Together they take $3$ h. If Ben takes $t$ hours alone, which equation models the situation?",
+        "choices": [
+          "$\\dfrac{1}{t} + \\dfrac{1}{t + 8} = 3$",
+          "$t + (t + 8) = 3$",
+          "$\\dfrac{1}{t} + \\dfrac{1}{t + 8} = \\dfrac{1}{3}$",
+          "$\\dfrac{1}{t} + \\dfrac{1}{8} = \\dfrac{1}{3}$"
+        ],
+        "answer": 2,
+        "working": "Ben does $\\dfrac{1}{t}$ of the job each hour, Ava $\\dfrac{1}{t + 8}$, and together $\\dfrac{1}{3}$. Solving gives $t^2 + 2t - 24 = 0$, so $t = 4$ (Ben takes $4$ h, Ava $12$ h); $t = -6$ is rejected."
+      }
+    ]
+  },
+  "m301-8-4": {
+    "lessonId": "m301-8-4",
+    "title": "Sums, Differences, Products and Quotients of Functions, Part 1: Combining Functions",
+    "duration": 277,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Four operations",
+        "t": 23.354
+      },
+      {
+        "title": "The sum",
+        "t": 58.824
+      },
+      {
+        "title": "The difference",
+        "t": 93.742
+      },
+      {
+        "title": "The product and the quotient",
+        "t": 123.004
+      },
+      {
+        "title": "Subtract every term",
+        "t": 166.651
+      },
+      {
+        "title": "Your turn",
+        "t": 205.743
+      },
+      {
+        "title": "Summary",
+        "t": 244.811
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-4:q",
+        "t": 218.731,
+        "prompt": "For $f(x) = x^2 - 5$ and $g(x) = 3x - 2$, what is $(f - g)(x)$?",
+        "choices": [
+          "$x^2 + 3x - 7$",
+          "$x^2 - 3x - 7$",
+          "$-x^2 + 3x + 3$",
+          "$x^2 - 3x - 3$"
+        ],
+        "answer": 3,
+        "working": "$(f - g)(x) = (x^2 - 5) - (3x - 2) = x^2 - 5 - 3x + 2 = x^2 - 3x - 3$"
+      }
+    ]
+  },
+  "m301-8-4-b": {
+    "lessonId": "m301-8-4",
+    "title": "Sums, Differences, Products and Quotients of Functions, Part 2: Evaluating from Tables and Graphs",
+    "duration": 245,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "One value at a time",
+        "t": 18.005
+      },
+      {
+        "title": "From a table",
+        "t": 65.041
+      },
+      {
+        "title": "From graphs",
+        "t": 116.415
+      },
+      {
+        "title": "Your turn",
+        "t": 174.231
+      },
+      {
+        "title": "Summary",
+        "t": 212.263
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-4-b:q",
+        "t": 187.172,
+        "prompt": "For $f(x) = x^2 - 1$ and $g(x) = 2x + 5$, find $(fg)(-2)$.",
+        "choices": [
+          "$-5$",
+          "$3$",
+          "$4$",
+          "$-6$"
+        ],
+        "answer": 1,
+        "working": "$f(-2) = 4 - 1 = 3$ and $g(-2) = -4 + 5 = 1$, so $(fg)(-2) = 3 \\times 1 = 3$."
+      }
+    ]
+  },
+  "m301-8-4-c": {
+    "lessonId": "m301-8-4",
+    "title": "Sums, Differences, Products and Quotients of Functions, Part 3: The Domain of a Combined Function",
+    "duration": 247,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Where both are defined",
+        "t": 21.858
+      },
+      {
+        "title": "A square root",
+        "t": 53.118
+      },
+      {
+        "title": "Quotients",
+        "t": 88.692
+      },
+      {
+        "title": "Simplifying hides restrictions",
+        "t": 120.833
+      },
+      {
+        "title": "The graph shows the hole",
+        "t": 158.62
+      },
+      {
+        "title": "Your turn",
+        "t": 181.015
+      },
+      {
+        "title": "Summary",
+        "t": 221.177
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-4-c:q",
+        "t": 195.327,
+        "prompt": "Let $f(x) = \\sqrt{x + 2}$ and $g(x) = x - 3$. What is the domain of $\\left(\\dfrac{f}{g}\\right)(x)$?",
+        "choices": [
+          "$\\{x \\mid x \\ge -2,\\ x \\ne 3,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge -2,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x > -2,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ne 3,\\ x \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 0,
+        "working": "$f$ needs $x + 2 \\ge 0$, so $x \\ge -2$. The denominator $g(x) = x - 3$ is $0$ at $x = 3$, so $3$ is excluded too."
+      }
+    ]
+  },
+  "m301-8-5": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 1: A Function of a Function",
+    "duration": 231,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What a composite function is",
+        "t": 23.306
+      },
+      {
+        "title": "Fahrenheit to kelvins",
+        "t": 56.725
+      },
+      {
+        "title": "Order matters",
+        "t": 103.521
+      },
+      {
+        "title": "Inside first",
+        "t": 151.239
+      },
+      {
+        "title": "Your turn",
+        "t": 168.557
+      },
+      {
+        "title": "Summary",
+        "t": 203.588
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5:q",
+        "t": 181.353,
+        "prompt": "For $f(x) = 2x - 5$ and $g(x) = x^2 + 1$, evaluate $g(f(3))$.",
+        "choices": [
+          "$15$",
+          "$10$",
+          "$2$",
+          "$1$"
+        ],
+        "answer": 2,
+        "working": "Inside first: $f(3) = 6 - 5 = 1$. Then $g(1) = 1 + 1 = 2$."
+      }
+    ]
+  },
+  "m301-8-5-b": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 2: From Tables and Graphs",
+    "duration": 198,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "From a table",
+        "t": 18.519
+      },
+      {
+        "title": "From graphs",
+        "t": 64.313
+      },
+      {
+        "title": "The other order",
+        "t": 105.296
+      },
+      {
+        "title": "Your turn",
+        "t": 138.035
+      },
+      {
+        "title": "Summary",
+        "t": 172.835
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-b:q",
+        "t": 152.979,
+        "prompt": "Given $g(1) = 3$, $g(3) = -2$, $f(1) = 0$ and $f(3) = 4$, find $f(g(1))$.",
+        "choices": [
+          "$4$",
+          "$0$",
+          "$-2$",
+          "$3$"
+        ],
+        "answer": 0,
+        "working": "Inside first: $g(1) = 3$. Then $f(3) = 4$, so $f(g(1)) = 4$."
+      }
+    ]
+  },
+  "m301-8-5-c": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 3: Writing f(g(x))",
+    "duration": 219,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Substitute the inner function",
+        "t": 18.846
+      },
+      {
+        "title": "Simplify",
+        "t": 56.6
+      },
+      {
+        "title": "The other order",
+        "t": 93.548
+      },
+      {
+        "title": "Composition is not multiplication",
+        "t": 122.733
+      },
+      {
+        "title": "Your turn",
+        "t": 153.045
+      },
+      {
+        "title": "Summary",
+        "t": 193.552
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-c:q",
+        "t": 165.033,
+        "prompt": "For $f(x) = x^2 - 1$ and $g(x) = x + 3$, write $f(g(x))$.",
+        "choices": [
+          "$x^2 + 2$",
+          "$x^2 + 6x + 8$",
+          "$x^3 + 3x^2 - x - 3$",
+          "$x^2 + 8$"
+        ],
+        "answer": 1,
+        "working": "$f(g(x)) = (x + 3)^2 - 1 = x^2 + 6x + 9 - 1 = x^2 + 6x + 8$"
+      }
+    ]
+  },
+  "m301-8-5-d": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 4: The Domain of a Composite Function",
+    "duration": 227,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Two conditions",
+        "t": 20.729
+      },
+      {
+        "title": "Square roots",
+        "t": 45.66
+      },
+      {
+        "title": "A hidden restriction",
+        "t": 100.61
+      },
+      {
+        "title": "Find the domain first",
+        "t": 144.973
+      },
+      {
+        "title": "Your turn",
+        "t": 163.768
+      },
+      {
+        "title": "Summary",
+        "t": 202.621
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-d:q",
+        "t": 176.67,
+        "prompt": "Let $f(x) = \\sqrt{x}$ and $g(x) = x + 5$. What is the domain of $f(g(x))$?",
+        "choices": [
+          "$\\{x \\mid x \\ge 0,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge 5,\\ x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\in \\mathbb{R}\\}$",
+          "$\\{x \\mid x \\ge -5,\\ x \\in \\mathbb{R}\\}$"
+        ],
+        "answer": 3,
+        "working": "$f(g(x)) = \\sqrt{x + 5}$. The input of $f$ must not be negative: $x + 5 \\ge 0$, so $x \\ge -5$."
+      }
+    ]
+  },
+  "m301-8-5-e": {
+    "lessonId": "m301-8-5",
+    "title": "Composite Functions, Part 5: Decomposing a Function",
+    "duration": 232,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "What is done first?",
+        "t": 21.084
+      },
+      {
+        "title": "Finding f and g",
+        "t": 43.515
+      },
+      {
+        "title": "More than one answer",
+        "t": 98.44
+      },
+      {
+        "title": "A rational function",
+        "t": 133.996
+      },
+      {
+        "title": "Your turn",
+        "t": 166.802
+      },
+      {
+        "title": "Summary",
+        "t": 206.449
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-8-5-e:q",
+        "t": 178.193,
+        "prompt": "Write $h(x) = \\sqrt{5x - 1} + 4$ as $f(g(x))$.",
+        "choices": [
+          "$f(x) = 5x - 1$ and $g(x) = \\sqrt{x} + 4$",
+          "$f(x) = \\sqrt{x} + 4$ and $g(x) = 5x - 1$",
+          "$f(x) = \\sqrt{x}$ and $g(x) = 5x + 3$",
+          "$f(x) = \\sqrt{x} + 4$ and $g(x) = 5x$"
+        ],
+        "answer": 1,
+        "working": "First $5x - 1$ is calculated, so $g(x) = 5x - 1$. Then the square root is taken and $4$ is added, so $f(x) = \\sqrt{x} + 4$. Check: $f(g(x)) = \\sqrt{5x - 1} + 4$ ✓"
+      }
+    ]
+  },
+  "m301-9-1": {
+    "lessonId": "m301-9-1",
+    "title": "The Fundamental Counting Principle, Part 1: Tree Diagrams and Multiplying Choices",
+    "duration": 267,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A tree diagram",
+        "t": 23.331
+      },
+      {
+        "title": "The counting principle",
+        "t": 73.745
+      },
+      {
+        "title": "A three-course meal",
+        "t": 116.314
+      },
+      {
+        "title": "Watch out",
+        "t": 166.046
+      },
+      {
+        "title": "Your turn",
+        "t": 191.908
+      },
+      {
+        "title": "Summary",
+        "t": 232.625
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-1:q",
+        "t": 208.517,
+        "prompt": "A café makes drinks in 4 sizes, with 3 flavours and 2 kinds of milk. Each drink has one size, one flavour and one kind of milk. How many different drinks are possible?",
+        "choices": [
+          "$9$",
+          "$24$",
+          "$12$",
+          "$48$"
+        ],
+        "answer": 1,
+        "working": "A drink is a size **and** a flavour **and** a kind of milk: $4 \\times 3 \\times 2 = 24$."
+      }
+    ]
+  },
+  "m301-9-1-b": {
+    "lessonId": "m301-9-1",
+    "title": "The Fundamental Counting Principle, Part 2: Repetition and Restricted Boxes",
+    "duration": 300,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Repetition allowed",
+        "t": 19.277
+      },
+      {
+        "title": "No repetition",
+        "t": 69.392
+      },
+      {
+        "title": "Watch out",
+        "t": 112.741
+      },
+      {
+        "title": "Fill the restricted box first",
+        "t": 161.899
+      },
+      {
+        "title": "Your turn",
+        "t": 229.183
+      },
+      {
+        "title": "Summary",
+        "t": 268.615
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-1-b:q",
+        "t": 236.724,
+        "prompt": "How many 3-digit numbers have no repeated digits?",
+        "choices": [
+          "$720$",
+          "$900$",
+          "$504$",
+          "$648$"
+        ],
+        "answer": 3,
+        "working": "First digit: 1 to 9, so $9$ choices. Second: any digit except the first (0 is allowed now), so $9$. Third: $8$. So $9 \\times 9 \\times 8 = 648$."
+      }
+    ]
+  },
+  "m301-9-1-c": {
+    "lessonId": "m301-9-1",
+    "title": "The Fundamental Counting Principle, Part 3: Counting in Cases",
+    "duration": 270,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "And versus or",
+        "t": 19.816
+      },
+      {
+        "title": "Even numbers in two cases",
+        "t": 49.085
+      },
+      {
+        "title": "Routes between towns",
+        "t": 127.195
+      },
+      {
+        "title": "Watch out",
+        "t": 171.525
+      },
+      {
+        "title": "Your turn",
+        "t": 198.134
+      },
+      {
+        "title": "Summary",
+        "t": 244.952
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-1-c:q",
+        "t": 214.526,
+        "prompt": "From a school, 3 trails lead directly to a lake. There are also 2 trails from the school to a lookout, and 5 trails from the lookout to the lake. How many routes go from the school to the lake?",
+        "choices": [
+          "$13$",
+          "$30$",
+          "$10$",
+          "$25$"
+        ],
+        "answer": 0,
+        "working": "Through the lookout: $2 \\times 5 = 10$ routes (\"and\"). Directly: $3$ routes. Directly **or** through the lookout: $3 + 10 = 13$."
+      }
+    ]
+  },
+  "m301-9-2": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 1: Factorial Notation",
+    "duration": 283,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Arranging objects in a row",
+        "t": 26.952
+      },
+      {
+        "title": "Factorial notation",
+        "t": 79.225
+      },
+      {
+        "title": "Cancelling factorials",
+        "t": 133.218
+      },
+      {
+        "title": "Watch out",
+        "t": 184.433
+      },
+      {
+        "title": "Your turn",
+        "t": 215.27
+      },
+      {
+        "title": "Summary",
+        "t": 249.785
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2:q",
+        "t": 222.67,
+        "prompt": "Simplify $\\dfrac{9!}{7!}$.",
+        "choices": [
+          "$2$",
+          "$504$",
+          "$72$",
+          "$63$"
+        ],
+        "answer": 2,
+        "working": "$9! = 9 \\times 8 \\times 7!$, so $\\dfrac{9 \\times 8 \\times 7!}{7!} = 9 \\times 8 = 72$."
+      }
+    ]
+  },
+  "m301-9-2-b": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 2: Permutations of n Objects Taken r at a Time",
+    "duration": 287,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Medals in a race",
+        "t": 21.546
+      },
+      {
+        "title": "The permutation formula",
+        "t": 69.795
+      },
+      {
+        "title": "Solving for n",
+        "t": 128.126
+      },
+      {
+        "title": "Watch out",
+        "t": 182.945
+      },
+      {
+        "title": "Your turn",
+        "t": 209.475
+      },
+      {
+        "title": "Summary",
+        "t": 251.549
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2-b:q",
+        "t": 224.914,
+        "prompt": "A club of 9 members elects a president, a vice-president and a treasurer. No member can hold two positions. In how many ways can the three positions be filled?",
+        "choices": [
+          "$84$",
+          "$504$",
+          "$729$",
+          "$27$"
+        ],
+        "answer": 1,
+        "working": "The positions are different, so order matters: ${}_{9}P_{3} = \\dfrac{9!}{6!} = 9 \\times 8 \\times 7 = 504$."
+      }
+    ]
+  },
+  "m301-9-2-c": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 3: Arrangements with Identical Objects",
+    "duration": 288,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Why we divide",
+        "t": 22.922
+      },
+      {
+        "title": "Permutations with identical objects",
+        "t": 68.891
+      },
+      {
+        "title": "MISSISSIPPI",
+        "t": 101.419
+      },
+      {
+        "title": "Routes on a grid",
+        "t": 149.427
+      },
+      {
+        "title": "Watch out",
+        "t": 193.094
+      },
+      {
+        "title": "Your turn",
+        "t": 219.953
+      },
+      {
+        "title": "Summary",
+        "t": 259.092
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2-c:q",
+        "t": 230.857,
+        "prompt": "How many different arrangements are there of the letters of the word CANADA?",
+        "choices": [
+          "$720$",
+          "$240$",
+          "$20$",
+          "$120$"
+        ],
+        "answer": 3,
+        "working": "6 letters, with A appearing 3 times: $\\dfrac{6!}{3!} = \\dfrac{720}{6} = 120$."
+      }
+    ]
+  },
+  "m301-9-2-d": {
+    "lessonId": "m301-9-2",
+    "title": "Permutations, Part 4: Arrangements with Restrictions",
+    "duration": 242,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Handle the restriction first",
+        "t": 21.117
+      },
+      {
+        "title": "Together: use a block",
+        "t": 49.857
+      },
+      {
+        "title": "Apart: subtract",
+        "t": 93.365
+      },
+      {
+        "title": "Watch out",
+        "t": 142.194
+      },
+      {
+        "title": "Your turn",
+        "t": 167.986
+      },
+      {
+        "title": "Summary",
+        "t": 214.518
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-2-d:q",
+        "t": 181.129,
+        "prompt": "Five people, including Ava and Ben, stand in a line for a photo. In how many ways can they stand with Ava and Ben **not** together?",
+        "choices": [
+          "$72$",
+          "$48$",
+          "$96$",
+          "$24$"
+        ],
+        "answer": 0,
+        "working": "All: $5! = 120$. Together: the block and 3 others make 4 units, $4! = 24$, times $2!$ inside the block: $48$. Apart: $120 - 48 = 72$."
+      }
+    ]
+  },
+  "m301-9-3": {
+    "lessonId": "m301-9-3",
+    "title": "Combinations, Part 1: When Order Does Not Matter",
+    "duration": 290,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Pairs from four letters",
+        "t": 23.193
+      },
+      {
+        "title": "The combination formula",
+        "t": 55.724
+      },
+      {
+        "title": "Choosing lab activities",
+        "t": 100.773
+      },
+      {
+        "title": "Choosing is leaving out",
+        "t": 139.587
+      },
+      {
+        "title": "Watch out",
+        "t": 170.624
+      },
+      {
+        "title": "Your turn",
+        "t": 216.208
+      },
+      {
+        "title": "Summary",
+        "t": 258.054
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-3:q",
+        "t": 227.602,
+        "prompt": "A pizza place offers 8 toppings. How many different pizzas with exactly 3 different toppings can be made?",
+        "choices": [
+          "$336$",
+          "$24$",
+          "$56$",
+          "$512$"
+        ],
+        "answer": 2,
+        "working": "The order of the toppings does not matter: ${}_{8}C_{3} = \\dfrac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1} = \\dfrac{336}{6} = 56$."
+      }
+    ]
+  },
+  "m301-9-3-b": {
+    "lessonId": "m301-9-3",
+    "title": "Combinations, Part 2: Card Hands and Equations",
+    "duration": 262,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "A standard deck",
+        "t": 19.409
+      },
+      {
+        "title": "Hands from one group",
+        "t": 51.792
+      },
+      {
+        "title": "Choosing from two groups",
+        "t": 89.312
+      },
+      {
+        "title": "Solving for n",
+        "t": 126.485
+      },
+      {
+        "title": "Your turn",
+        "t": 185.524
+      },
+      {
+        "title": "Summary",
+        "t": 229.945
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-3-b:q",
+        "t": 196.963,
+        "prompt": "How many 5-card hands from a standard 52-card deck contain exactly 3 hearts and 2 spades?",
+        "choices": [
+          "$364$",
+          "$1287$",
+          "$2\\,598\\,960$",
+          "$22\\,308$"
+        ],
+        "answer": 3,
+        "working": "Hearts: ${}_{13}C_{3} = 286$. Spades: ${}_{13}C_{2} = 78$. A hand needs both, so multiply: $286 \\times 78 = 22\\,308$."
+      }
+    ]
+  },
+  "m301-9-3-c": {
+    "lessonId": "m301-9-3",
+    "title": "Combinations, Part 3: Exactly, At Least and At Most",
+    "duration": 256,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Three kinds of condition",
+        "t": 21.667
+      },
+      {
+        "title": "Exactly two women",
+        "t": 45.71
+      },
+      {
+        "title": "At least one woman",
+        "t": 80.939
+      },
+      {
+        "title": "Check with cases",
+        "t": 120.599
+      },
+      {
+        "title": "Watch out",
+        "t": 156.117
+      },
+      {
+        "title": "Your turn",
+        "t": 189.573
+      },
+      {
+        "title": "Summary",
+        "t": 229.409
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-3-c:q",
+        "t": 200.855,
+        "prompt": "A 3-person team is chosen from 4 seniors and 5 juniors. How many teams have at least one senior?",
+        "choices": [
+          "$84$",
+          "$74$",
+          "$112$",
+          "$40$"
+        ],
+        "answer": 1,
+        "working": "All teams: ${}_{9}C_{3} = 84$. Teams with no seniors: ${}_{5}C_{3} = 10$. At least one senior: $84 - 10 = 74$."
+      }
+    ]
+  },
+  "m301-9-4": {
+    "lessonId": "m301-9-4",
+    "title": "The Binomial Theorem, Part 1: Pascal’s Triangle",
+    "duration": 237,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Building the triangle",
+        "t": 23.273
+      },
+      {
+        "title": "Two patterns",
+        "t": 76.295
+      },
+      {
+        "title": "The next row",
+        "t": 120.726
+      },
+      {
+        "title": "Your turn",
+        "t": 166.958
+      },
+      {
+        "title": "Summary",
+        "t": 207.921
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-4:q",
+        "t": 184.659,
+        "prompt": "The row of Pascal’s triangle that begins $1,\\ 7$ is $1,\\ 7,\\ 21,\\ 35,\\ 35,\\ 21,\\ 7,\\ 1$. What is the 5th number in the row that begins $1,\\ 8$?",
+        "choices": [
+          "$70$",
+          "$56$",
+          "$35$",
+          "$28$"
+        ],
+        "answer": 0,
+        "working": "Add neighbours: $1,\\ 8,\\ 28,\\ 56,\\ 70,\\ \\ldots$ The 5th number is $35 + 35 = 70$."
+      }
+    ]
+  },
+  "m301-9-4-b": {
+    "lessonId": "m301-9-4",
+    "title": "The Binomial Theorem, Part 2: Pascal’s Triangle and Combinations",
+    "duration": 338,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The entries are combinations",
+        "t": 19.313
+      },
+      {
+        "title": "An entry from a combination",
+        "t": 61.425
+      },
+      {
+        "title": "Pascal’s identity",
+        "t": 104.908
+      },
+      {
+        "title": "Routes on a grid",
+        "t": 157.085
+      },
+      {
+        "title": "Check by subtracting",
+        "t": 228.15
+      },
+      {
+        "title": "Your turn",
+        "t": 269.472
+      },
+      {
+        "title": "Summary",
+        "t": 303.638
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-4-b:q",
+        "t": 278.53,
+        "prompt": "What is the 3rd number in the row of Pascal’s triangle that begins $1,\\ 10$?",
+        "choices": [
+          "$120$",
+          "$10$",
+          "$45$",
+          "$90$"
+        ],
+        "answer": 2,
+        "working": "The row is ${}_{10}C_{0},\\ {}_{10}C_{1},\\ {}_{10}C_{2},\\ \\ldots$, so the 3rd number is ${}_{10}C_{2} = \\dfrac{10 \\times 9}{2 \\times 1} = 45$."
+      }
+    ]
+  },
+  "m301-9-4-c": {
+    "lessonId": "m301-9-4",
+    "title": "The Binomial Theorem, Part 3: Expanding a Binomial",
+    "duration": 340,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "Coefficients from the triangle",
+        "t": 24.899
+      },
+      {
+        "title": "Why combinations appear",
+        "t": 74.54
+      },
+      {
+        "title": "The binomial theorem",
+        "t": 122.829
+      },
+      {
+        "title": "A negative term",
+        "t": 163.864
+      },
+      {
+        "title": "Watch out",
+        "t": 227.471
+      },
+      {
+        "title": "Your turn",
+        "t": 262.692
+      },
+      {
+        "title": "Summary",
+        "t": 303.852
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-4-c:q",
+        "t": 269.023,
+        "prompt": "Expand $(x - 3)^3$.",
+        "choices": [
+          "$x^3 + 9x^2 + 27x + 27$",
+          "$x^3 - 9x^2 + 27x + 27$",
+          "$x^3 - 3x^2 + 3x - 27$",
+          "$x^3 - 9x^2 + 27x - 27$"
+        ],
+        "answer": 3,
+        "working": "Row $1,\\ 3,\\ 3,\\ 1$ with $y = -3$: $x^3 + 3x^2(-3) + 3x(-3)^2 + (-3)^3 = x^3 - 9x^2 + 27x - 27$."
+      }
+    ]
+  },
+  "m301-9-4-d": {
+    "lessonId": "m301-9-4",
+    "title": "The Binomial Theorem, Part 4: Finding One Term",
+    "duration": 319,
+    "voice": "af_heart",
+    "chapters": [
+      {
+        "title": "Introduction",
+        "t": 0
+      },
+      {
+        "title": "The general term",
+        "t": 23.796
+      },
+      {
+        "title": "The fourth term",
+        "t": 63.221
+      },
+      {
+        "title": "Watch out",
+        "t": 119.487
+      },
+      {
+        "title": "A constant term",
+        "t": 149.134
+      },
+      {
+        "title": "An unknown constant",
+        "t": 210.327
+      },
+      {
+        "title": "Your turn",
+        "t": 250.043
+      },
+      {
+        "title": "Summary",
+        "t": 286.897
+      }
+    ],
+    "cues": [
+      {
+        "id": "m301-9-4-d:q",
+        "t": 260.459,
+        "prompt": "Find the 3rd term of $(x + 2)^5$, written in descending powers of $x$.",
+        "choices": [
+          "$80x^2$",
+          "$40x^3$",
+          "$20x^3$",
+          "$10x^3$"
+        ],
+        "answer": 1,
+        "working": "The 3rd term is $t_{2 + 1}$, so $k = 2$: $t_3 = {}_{5}C_{2}\\,x^{3}(2)^{2} = 10 \\times x^3 \\times 4 = 40x^3$."
       }
     ]
   }

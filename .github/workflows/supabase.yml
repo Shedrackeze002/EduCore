@@ -49,10 +49,12 @@ jobs:
         if: steps.cfg.outputs.skip != 'true'
         with:
           ref: ${{ github.event_name == 'pull_request_target' && 'main' || github.ref }}
+      # A fixed version: "latest" asks GitHub's API which release that is, and a run failed when
+      # that request hit the rate limit (16 October 2026).
       - uses: supabase/setup-cli@v1
         if: steps.cfg.outputs.skip != 'true'
         with:
-          version: latest
+          version: 2.121.0
       # `supabase link` asks for the project's secret API keys, which a scoped token is not given,
       # so the migrations go straight to the database. GitHub's runners cannot reach the database's
       # own host (IPv6 only), so they connect through the session pooler, whose address comes
