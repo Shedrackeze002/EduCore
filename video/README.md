@@ -143,8 +143,9 @@ See `src/video/script.ts` for every element and option. In short:
 - Gradileo is for learners in every English-speaking country, not only Alberta. From Math 30-2
   on, the title scene's kicker names the topic, not the Alberta course: the unit's title and the
   part, `kicker: 'Trigonometric Identities · Part 2'` (Math 10C to 30-1 keep
-  `'Math 30-1 · Lesson 6.2 · Part 2'`). Say "this lesson" or "the next part", never a course name
-  or lesson number, in the narration.
+  `'Math 30-1 · Lesson 6.2 · Part 2'`). The header on every frame and the thumbnail's label name
+  the unit too (`labelOf` in `src/video/stage/main.tsx`). Say "this lesson" or "the next part",
+  never a course name or lesson number, in the narration.
 - Colours have fixed meanings: `[[theta:…]]`, `[[opp:…]]`, `[[adj:…]]` and `[[hyp:…]]` in text,
   `\thc{}`, `\opp{}`, `\adj{}` and `\hyp{}` in maths (θ yellow, opposite orange, adjacent blue,
   hypotenuse pink). Colour is never the only cue: sides are always named too.
