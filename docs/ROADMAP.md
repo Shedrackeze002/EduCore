@@ -293,10 +293,8 @@ items ship or decisions change.
      D, because the lesson player shows the choices in the video's order and an answer that is
      always A gives itself away. "Cosecant" is now voiced as "co-secant" (it came out
      "co-second").
-   - Waiting for the owner: in the courses already made (Math 10C to 20-4), the right "Your turn"
-     answer is almost always A. The choices are: leave them as they are (recommended for now),
-     re-render about 600 videos (about 50 hours, cheaper before they go on YouTube), or have the
-     player shuffle the choices (the letters on screen and in the narration would then not match).
+   - Decided (the owner, 17 October 2026): the courses already made (Math 10C to 20-4), where the
+     right "Your turn" answer is almost always A, stay as they are. Only new courses spread it.
    - Next: script and render the other courses in order (Math 30-2, 30-3, 31, 5, 6, 7, 8 and 9),
      explaining each lesson as simply as possible, with parts split by idea.
 2. **Social media pages and a posting schedule** (the owner's request, 15 October 2026). Gradileo
