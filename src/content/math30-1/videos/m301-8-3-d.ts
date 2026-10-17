@@ -18,8 +18,8 @@ const video: Explainer = {
       layout: 'center',
       main: [{ kind: 'title', id: 'title', kicker: 'Math 30-1 · Lesson 8.3 · Part 4', title: 'Sharing a Job', subtitle: 'Rational equations in context' }],
       lines: [
-        { say: 'Working alone, Jonah takes three hours longer than Rhea to flood the outdoor rink. Together, they take two hours.', show: 'title' },
-        { say: 'How long does Rhea take alone? In this video, you will turn the problem into a rational equation, solve it, and reject roots that make no sense.' },
+        { say: 'Working alone, Jonah takes three hours longer than Maya to flood the outdoor rink. Together, they take two hours.', show: 'title' },
+        { say: 'How long does Maya take alone? In this video, you will turn the problem into a rational equation, solve it, and reject roots that make no sense.' },
       ],
     },
     {
@@ -31,7 +31,7 @@ const video: Explainer = {
           id: 'm',
           size: 'md',
           lines: [
-            '\\text{Rhea: } t \\text{ hours, so } \\dfrac{1}{t} \\text{ of the job each hour}',
+            '\\text{Maya: } t \\text{ hours, so } \\dfrac{1}{t} \\text{ of the job each hour}',
             '\\text{Jonah: } t + 3 \\text{ hours, so } \\dfrac{1}{t + 3} \\text{ of the job each hour}',
             '\\text{together: } 2 \\text{ hours, so } \\dfrac{1}{2} \\text{ of the job each hour}',
             '\\dfrac{1}{t} + \\dfrac{1}{t + 3} = \\dfrac{1}{2}',
@@ -39,8 +39,8 @@ const video: Explainer = {
         },
       ],
       lines: [
-        { say: 'Let t be Rhea’s time alone, in hours. Jonah takes three hours longer, so Jonah’s time is t plus three.' },
-        { say: 'Think about how much of the job gets done each hour. If a job takes four hours, you do one quarter of it each hour. In the same way, Rhea does one over t of the job each hour.', show: 'm.0', focus: 'm.0' },
+        { say: 'Let t be Maya’s time alone, in hours. Jonah takes three hours longer, so Jonah’s time is t plus three.' },
+        { say: 'Think about how much of the job gets done each hour. If a job takes four hours, you do one quarter of it each hour. In the same way, Maya does one over t of the job each hour.', show: 'm.0', focus: 'm.0' },
         { say: 'Jonah does one over t plus three of the job each hour.', show: 'm.1', focus: 'm.1' },
         { say: 'Together, they take two hours, so together they do one half of the job each hour.', show: 'm.2', focus: 'm.2' },
         { say: 'Working together, their rates add: one over t, plus one over t plus three, equals one half.', show: 'm.3', focus: 'm.3' },
@@ -88,8 +88,8 @@ const video: Explainer = {
       ],
       lines: [
         { say: 'Negative two is permissible, but a time cannot be negative, so reject it too.', show: 'm.0', focus: 'm.0' },
-        { say: 'Check t equals three. Rhea does one third of the job each hour. Jonah takes six hours, so Jonah does one sixth. One third plus one sixth is two sixths plus one sixth: three sixths, which is one half. It works.', show: 'm.1', focus: 'm.1' },
-        { say: 'So Rhea takes three hours alone, and Jonah takes six.' },
+        { say: 'Check t equals three. Maya does one third of the job each hour. Jonah takes six hours, so Jonah does one sixth. One third plus one sixth is two sixths plus one sixth: three sixths, which is one half. It works.', show: 'm.1', focus: 'm.1' },
+        { say: 'So Maya takes three hours alone, and Jonah takes six.' },
         { say: 'Besides non-permissible values, always reject roots that make no sense in the situation: negative times, speeds below the speed of the current, or negative resistances.', show: 'tip' },
       ],
     },
@@ -114,10 +114,10 @@ const video: Explainer = {
       ],
       right: [{ kind: 'math', id: 'm', size: 'md', align: 'left', lines: ['y = \\dfrac{1}{x} + \\dfrac{1}{x + 3} - \\dfrac{1}{2}', 'x\\text{-intercepts: } {-2} \\text{ and } 3', '\\text{a time: } x = 3'] }],
       lines: [
-        { say: 'A graph checks the algebra. Here is the related function: y equals one over x, plus one over x plus three, minus one half, with x standing for Rhea’s time.', show: ['job.grid', 'job.axes', 'job.va', 'job.ha', 'job.va-name', 'job.ha-name', 'job.c', 'm.0'], focus: 'm.0' },
+        { say: 'A graph checks the algebra. Here is the related function: y equals one over x, plus one over x plus three, minus one half, with x standing for Maya’s time.', show: ['job.grid', 'job.axes', 'job.va', 'job.ha', 'job.va-name', 'job.ha-name', 'job.c', 'm.0'], focus: 'm.0' },
         { say: 'Its vertical asymptotes are x equals negative three and the y-axis, x equals zero, and it has three branches.' },
         { say: 'It crosses the x-axis at negative two and at three, the same two roots.', show: ['job.N', 'job.S', 'm.1'], focus: ['job.N', 'job.S', 'm.1'] },
-        { say: 'Only the intercept at three makes sense as a time. So Rhea takes three hours.', show: 'm.2', focus: ['job.S', 'm.2'] },
+        { say: 'Only the intercept at three makes sense as a time. So Maya takes three hours.', show: 'm.2', focus: ['job.S', 'm.2'] },
       ],
     },
     {
